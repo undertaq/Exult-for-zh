@@ -85,6 +85,12 @@ class Usecode_internal : public Usecode_machine {
 	Tile_coord saved_pos       = {-1, -1, -1};    // For a couple SI intrinsics.
 	int        saved_map       = -1;              // Improvements for these intrinsics.
 	char*      String          = nullptr;         // The single string register.
+
+	// Voice acting: tracks how the String register was built via addsi/addsv.
+	// Each entry is either an addsi offset (>= 0) or a special marker for addsv.
+	static constexpr int VOICE_TRACE_ADDSV = -1;    // Marker for variable insertion.
+	std::vector<int>     voice_string_trace;         // Sequence of addsi offsets / addsv markers.
+
 	int        telekenesis_fun = -1;              // For next Usecode call from spell.
 
 	void append_string(const uint8* txt) {

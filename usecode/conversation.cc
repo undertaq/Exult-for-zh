@@ -366,14 +366,8 @@ void Conversation::show_npc_message(const char* msg) {
 	if (last_face_shown == -1) {
 		return;
 	}
-
-	// [Test] Prepend a UTF-8 string to all NPC messages
-	// "\xE6\xB8\xAC\xE8\xA9\xA6\xE4\xB8\xAD\xE6\x96\x87\xEF\xBC\x9A" is "測試中文：" in UTF-8
-	// static std::string test_msg;
-	// test_msg = "\xE6\xB8\xAC\xE8\xA9\xA6\xE4\xB8\xAD\xE6\x96\x87\xEF\xBC\x9A";
-	// test_msg += msg;
-	// msg = test_msg.c_str();
-
+	// Voice playback is now triggered from say_string() in ucinternal.cc
+	// using usecode function ID + segment index as the key.
 	// Wait for any sprite effects to finish before showing text.
 	Effects_manager* eman = gwin->get_effects();
 	if (eman->has_active_sprites()) {

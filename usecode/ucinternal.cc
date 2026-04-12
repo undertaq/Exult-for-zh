@@ -25,6 +25,7 @@
 #endif
 
 #include "Audio.h"
+#include "VoiceActingManager.h"
 #include "Face_stats.h"
 #include "Gump.h"
 #include "Gump_manager.h"
@@ -598,7 +599,25 @@ void Usecode_internal::say_string() {
 		return;
 	}
 	show_pending_text();    // Make sure prev. text was seen.
-	char* str = String;
+	const int voice_func_id = frame ? frame->function->id : -1;
+
+	// Build the offset key from addsi trace (only static string offsets).
+	std::string voice_offset_key;
+	for (int off : voice_string_trace) {
+		if (off == VOICE_TRACE_ADDSV) {
+			continue;    // Skip variable insertions.
+		}
+		if (!voice_offset_key.empty()) {
+			voice_offset_key += "_";
+		}
+		char hexbuf[16];
+		std::snprintf(hexbuf, sizeof(hexbuf), "%x", off);
+		voice_offset_key += hexbuf;
+	}
+	voice_string_trace.clear();
+
+	int  segment = 0;
+	char* str    = String;
 	while (*str) {            // Look for stopping points ("~~").
 		if (*str == '*') {    // Just gets an extra click.
 			click_to_continue();
@@ -607,11 +626,15 @@ void Usecode_internal::say_string() {
 		}
 		char* eol = strchr(str, '~');
 		if (!eol) {    // Not found?
+			VoiceActingManager::play_for_conversation(
+					voice_func_id, voice_offset_key, segment++, str);
 			conv->show_npc_message(str);
 			click_to_continue();
 			break;
 		}
 		*eol = 0;
+		VoiceActingManager::play_for_conversation(
+				voice_func_id, voice_offset_key, segment++, str);
 		conv->show_npc_message(str);
 		click_to_continue();
 		str = eol + 1;
@@ -1626,6 +1649,8 @@ void Usecode_internal::click_to_continue() {
 		gwin->paint();    // Repaint scenery.
 		Get_click(xx, yy, Mouse::hand, &c, false, conv, true);
 	}
+	// Stop any voice audio when the player clicks to advance.
+	VoiceActingManager::stop();
 	conv->clear_text_pending();
 	//  user_choice = 0;        // Clear it.
 }
@@ -2294,6 +2319,7 @@ int Usecode_internal::run() {
 					break;
 				}
 				append_string(frame->data + offset);
+				voice_string_trace.push_back(offset);
 				break;
 			case UC_PUSHS:      // PUSHS.
 			case UC_PUSHS32:    // PUSHS32
@@ -2630,6 +2656,7 @@ int Usecode_internal::run() {
 					LOCAL_VAR_ERROR(offset);
 					break;
 				}
+				voice_string_trace.push_back(VOICE_TRACE_ADDSV);
 
 				const char* str = frame->locals[offset].get_str_value();
 				if (str) {

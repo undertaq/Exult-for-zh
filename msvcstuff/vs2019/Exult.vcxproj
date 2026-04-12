@@ -395,6 +395,7 @@ for /f "tokens=* delims=" %%u in ('git ls-remote --get-url') do echo #define GIT
     <ClCompile Include="..\..\audio\RawAudioSample.cc" />
     <ClCompile Include="..\..\audio\soundtest.cc" />
     <ClCompile Include="..\..\audio\VocAudioSample.cc" />
+    <ClCompile Include="..\..\audio\VoiceActingManager.cc" />
     <ClCompile Include="..\..\audio\WavAudioSample.cc" />
     <ClCompile Include="..\..\browser.cc" />
     <ClCompile Include="..\..\cheat.cc" />
@@ -619,6 +620,7 @@ for /f "tokens=* delims=" %%u in ('git ls-remote --get-url') do echo #define GIT
     <ClInclude Include="..\..\audio\RawAudioSample.h" />
     <ClInclude Include="..\..\audio\soundtest.h" />
     <ClInclude Include="..\..\audio\VocAudioSample.h" />
+    <ClInclude Include="..\..\audio\VoiceActingManager.h" />
     <ClInclude Include="..\..\audio\WavAudioSample.h" />
     <ClInclude Include="..\..\browser.h" />
     <ClInclude Include="..\..\cheat.h" />
