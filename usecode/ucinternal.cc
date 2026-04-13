@@ -601,6 +601,35 @@ void Usecode_internal::say_string() {
 	show_pending_text();    // Make sure prev. text was seen.
 	const int voice_func_id = frame ? frame->function->id : -1;
 
+	// Determine the caller NPC from the call stack (who initiated the conversation).
+	// NPC numbers are stored as negative values to match usecode convention
+	// (e.g., -1 = Iolo, -12 = Finnigan, 0 = Avatar).
+	int voice_caller_npc = 0;
+	if (caller_item) {
+		Actor* act = caller_item->as_actor();
+		if (act) {
+			int num = act->get_npc_num();
+			voice_caller_npc = num > 0 ? -num : num;
+		}
+	}
+	if (voice_caller_npc == 0) {
+		// Try the call stack for the original caller.
+		for (auto it = call_stack.rbegin(); it != call_stack.rend(); ++it) {
+			if (*it && (*it)->caller_item) {
+				Actor* act = (*it)->caller_item->as_actor();
+				if (act && act->get_npc_num() > 0) {
+					voice_caller_npc = -act->get_npc_num();
+					break;
+				}
+			}
+		}
+	}
+	// Use the current face NPC as the speaker (tracks show_npc_face calls).
+	// Falls back to caller_npc if no face has been set.
+	const int voice_speaker_npc = voice_current_face_npc != VOICE_NO_FACE
+	                            ? voice_current_face_npc
+	                            : voice_caller_npc;
+
 	// Build the offset key from addsi trace (only static string offsets).
 	std::string voice_offset_key;
 	for (int off : voice_string_trace) {
@@ -627,14 +656,16 @@ void Usecode_internal::say_string() {
 		char* eol = strchr(str, '~');
 		if (!eol) {    // Not found?
 			VoiceActingManager::play_for_conversation(
-					voice_func_id, voice_offset_key, segment++, str);
+					voice_func_id, voice_offset_key, segment++, str,
+					voice_speaker_npc, voice_caller_npc);
 			conv->show_npc_message(str);
 			click_to_continue();
 			break;
 		}
 		*eol = 0;
 		VoiceActingManager::play_for_conversation(
-				voice_func_id, voice_offset_key, segment++, str);
+				voice_func_id, voice_offset_key, segment++, str,
+				voice_speaker_npc, voice_caller_npc);
 		conv->show_npc_message(str);
 		click_to_continue();
 		str = eol + 1;
@@ -709,6 +740,10 @@ void Usecode_internal::show_npc_face(
 		int            slot     // 0, 1, or -1 to find free spot.
 ) {
 	show_pending_text();
+	// Track the current face NPC for voice acting logging.
+	if (arg1.is_int()) {
+		voice_current_face_npc = arg1.get_int_value();
+	}
 	Actor*    npc;
 	int       frame = arg2.get_int_value();
 	const int shape = get_face_shape(arg1, npc, frame);

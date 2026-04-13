@@ -19,6 +19,7 @@
 #ifndef VOICEACTINGMANAGER_H
 #define VOICEACTINGMANAGER_H
 
+#include <fstream>
 #include <string>
 
 /*
@@ -29,15 +30,19 @@
  *
  *  Naming convention:
  *    <PATCH>/voice_acting/<funcID>_<offsets>_<segment>.wav  (conversation text)
- *    <PATCH>/voice_acting/t_<hash>.wav                     (say-text fallback)
+ *
+ *  Also maintains a runtime log at <PATCH>/voice_acting/voice_acting_log.csv
+ *  that records every conversation line encountered for auditing.
  */
 class VoiceActingManager {
 public:
 	// Play voice for conversation text, keyed by function_id + addsi offset key + segment.
-	// offset_key is e.g. "af_151_254" built from the addsi offsets in the say() call.
+	// speaker_npc is the NPC currently speaking (from show_npc_face tracking).
+	// caller_npc is the NPC that originated the conversation (from call stack).
 	static bool play_for_conversation(
 			int function_id, const std::string& offset_key,
-			int segment, const char* text = nullptr);
+			int segment, const char* text = nullptr,
+			int speaker_npc = -1, int caller_npc = -1);
 
 	// Stop any currently playing voice line.
 	static void stop();
@@ -48,6 +53,20 @@ public:
 private:
 	// Try to play a voice file at the given path.
 	static bool try_play(const std::string& path);
+
+	// Write an entry to the runtime log.
+	static void log_entry(
+			const std::string& filename, int function_id,
+			const std::string& offset_key, int segment,
+			const char* text, const std::string& status,
+			int speaker_npc, int caller_npc);
+
+	// Ensure the log file is open and has a header if needed.
+	static void ensure_log_open();
+
+	static std::ofstream log_file;
+	static std::string   session_id;
+	static bool          log_initialized;
 };
 
 #endif

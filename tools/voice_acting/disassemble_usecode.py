@@ -29,41 +29,7 @@ def read4s(data, offset):
     return struct.unpack_from("<i", data, offset)[0]
 
 
-# NPC name lookup: function_id -> NPC name
-# Function IDs for NPCs are 0x400 + abs(npc_number)
-# Built from content/bgkeyring/src/headers/bg/bg_npcs.uc
-BG_NPC_NAMES = {
-    0x400: "Avatar",       # -356 -> special case, mapped to 0x400
-    0x401: "Iolo",         # -1
-    0x402: "Spark",        # -2
-    0x403: "Shamino",      # -3
-    0x404: "Dupre",        # -4
-    0x405: "Jaana",        # -5
-    0x407: "Sentri",       # -7
-    0x408: "Julia",        # -8
-    0x409: "Katrina",      # -9
-    0x40A: "Tseramed",     # -10
-    0x40B: "Petre",        # -11
-    0x40C: "Finnigan",     # -12
-    0x40D: "Gilberto",     # -13
-    0x40E: "Johnson",      # -14
-    0x410: "Klog",         # -16
-    0x411: "Chantu",       # -17
-    0x412: "Dell",         # -18
-    0x413: "Apollonia",    # -19
-    0x414: "Markus",       # -20
-    0x415: "Gargan",       # -21
-    0x416: "Caroline",     # -22
-    0x417: "Lord British", # -23
-    0x418: "Nystul",       # -24
-    0x419: "Chuckles",     # -25
-    0x41A: "Batlin",       # -26
-}
-
-
-def get_npc_name(func_id):
-    """Get NPC name for a function ID, or empty string if unknown."""
-    return BG_NPC_NAMES.get(func_id, "")
+from npc_data import get_npc_name_by_func as get_npc_name
 
 
 # Full opcode table with (name, param_format)
@@ -561,34 +527,94 @@ def extract_say_lines(func):
     return lines
 
 
-def format_csv(functions_data):
-    """Format extracted say-lines as CSV."""
-    import csv
-    import io
+def build_caller_map(all_functions):
+    """Build a map of function_id -> set of NPC function IDs that call it.
 
-    output = io.StringIO()
-    writer = csv.writer(output)
+    For each function, examine its externs list. If any extern references
+    a function, record that the current function calls that extern.
+    Then resolve callers to NPC names where possible.
+
+    Returns dict: func_id -> set of calling func_ids
+    """
+    callers_of = {}
+    for fid, func in all_functions.items():
+        for ext_fid in func['externs']:
+            if ext_fid not in callers_of:
+                callers_of[ext_fid] = set()
+            callers_of[ext_fid].add(fid)
+    return callers_of
+
+
+def infer_speaker_from_callers(func_id, callers_of, depth=0):
+    """Try to infer the NPC speaker for a non-NPC function by tracing
+    its callers. If all callers resolve to the same NPC, return that NPC name.
+
+    Recurses up to 3 levels to handle chains like:
+      NPC func -> utility1 -> utility2 -> target
+    """
+    if depth > 3:
+        return ""
+
+    # Direct NPC check
+    name = get_npc_name(func_id)
+    if name:
+        return name
+
+    callers = callers_of.get(func_id, set())
+    if not callers:
+        return ""
+
+    # Resolve each caller to an NPC
+    npc_names = set()
+    for caller_fid in callers:
+        caller_name = get_npc_name(caller_fid)
+        if caller_name:
+            npc_names.add(caller_name)
+        else:
+            # Recurse up the call chain
+            inferred = infer_speaker_from_callers(caller_fid, callers_of, depth + 1)
+            if inferred:
+                npc_names.add(inferred)
+
+    if len(npc_names) == 1:
+        return npc_names.pop()
+    elif len(npc_names) > 1:
+        # Multiple NPCs call this - return them all as a hint
+        return "|".join(sorted(npc_names))
+    return ""
+
+
+def write_csv(functions_data, outfile, callers_of=None):
+    """Write extracted say-lines as CSV to a file object."""
+    import csv
+
+    writer = csv.writer(outfile)
     writer.writerow([
-        'func_id', 'npc', 'speaker', 'offset_key', 'segment', 'total_segments',
-        'has_var', 'text'
+        'func_id', 'npc', 'speaker', 'caller_guess', 'offset_key',
+        'segment', 'total_segments', 'has_var', 'text'
     ])
 
     for func in functions_data:
         say_lines = extract_say_lines(func)
-        npc_name = get_npc_name(func['id'])
+        npc = get_npc_name(func['id'])
+
+        # Infer speaker from call graph for non-NPC functions
+        caller_guess = ""
+        if callers_of and not npc:
+            caller_guess = infer_speaker_from_callers(func['id'], callers_of)
+
         for line in say_lines:
             writer.writerow([
                 f"0x{line['func_id']:04X}",
-                npc_name,
+                npc,
                 line['speaker'],
+                caller_guess,
                 line['offset_key'],
                 line['segment'],
                 line['total_segments'],
                 line['has_var'],
                 line['text'],
             ])
-
-    return output.getvalue()
 
 
 def main():
@@ -632,14 +658,23 @@ def main():
         target_ids = {0x401, 0x40c, 0x885, 0x903}
 
     if args.format == "csv":
+        # Build caller map from ALL functions for speaker inference,
+        # even if we're only extracting a subset.
+        all_disassembled = {}
+        for fid, (fdata, extended) in functions.items():
+            all_disassembled[fid] = disassemble_function(fid, fdata, extended)
+        callers_of = build_caller_map(all_disassembled)
+
         funcs_data = []
         for fid in sorted(target_ids):
-            if fid not in functions:
+            if fid not in all_disassembled:
                 print(f"Function 0x{fid:04X} not found!", file=sys.stderr)
                 continue
-            fdata, extended = functions[fid]
-            funcs_data.append(disassemble_function(fid, fdata, extended))
-        print(format_csv(funcs_data), end="")
+            funcs_data.append(all_disassembled[fid])
+        import sys, os
+        # Prevent double \r\n on Windows by using binary mode stdout
+        sys.stdout.reconfigure(newline="")
+        write_csv(funcs_data, sys.stdout, callers_of)
     else:
         for fid in sorted(target_ids):
             if fid not in functions:

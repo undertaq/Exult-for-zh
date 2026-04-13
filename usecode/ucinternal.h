@@ -90,6 +90,8 @@ class Usecode_internal : public Usecode_machine {
 	// Each entry is either an addsi offset (>= 0) or a special marker for addsv.
 	static constexpr int VOICE_TRACE_ADDSV = -1;    // Marker for variable insertion.
 	std::vector<int>     voice_string_trace;         // Sequence of addsi offsets / addsv markers.
+	static constexpr int VOICE_NO_FACE = -999;          // Sentinel: no face has been set yet.
+	int                  voice_current_face_npc = VOICE_NO_FACE; // NPC whose face is currently shown (via show_npc_face).
 
 	int        telekenesis_fun = -1;              // For next Usecode call from spell.
 

@@ -25,13 +25,100 @@
 #include "Audio.h"
 #include "utils.h"
 
-#include <cstdint>
+#include <chrono>
 #include <cstdio>
-#include <iostream>
+#include <ctime>
+#include <iomanip>
+#include <sstream>
 
-using std::cerr;
-using std::endl;
 using std::string;
+
+// Static members.
+std::ofstream VoiceActingManager::log_file;
+std::string   VoiceActingManager::session_id;
+bool          VoiceActingManager::log_initialized = false;
+
+/*
+ *  Escape a string for CSV: double any quotes and wrap in quotes.
+ */
+static string csv_escape(const string& s) {
+	string result = "\"";
+	for (char c : s) {
+		if (c == '"') {
+			result += "\"\"";
+		} else {
+			result += c;
+		}
+	}
+	result += "\"";
+	return result;
+}
+
+/*
+ *  Ensure the log file is open. Appends to existing file.
+ *  Writes CSV header only if the file is new/empty.
+ */
+void VoiceActingManager::ensure_log_open() {
+	if (log_initialized) {
+		return;
+	}
+	log_initialized = true;
+
+	// Generate a session ID from the current timestamp.
+	auto        now = std::chrono::system_clock::now();
+	std::time_t t   = std::chrono::system_clock::to_time_t(now);
+	std::tm     tm  = *std::localtime(&t);
+
+	std::ostringstream ss;
+	ss << std::put_time(&tm, "%Y%m%d_%H%M%S");
+	session_id = ss.str();
+
+	// Open the log file in append mode.
+	string log_path = get_system_path("<PATCH>/voice_acting/voice_acting_log.csv");
+	bool   is_new   = !U7exists(log_path.c_str());
+
+	log_file.open(log_path, std::ios::app);
+	if (!log_file.is_open()) {
+		return;
+	}
+
+	// Write header only if this is a new file.
+	if (is_new) {
+		log_file << "session,func_id,offset_key,segment,filename,"
+		         << "status,speaker_npc,caller_npc,text"
+		         << std::endl;
+	}
+}
+
+/*
+ *  Write an entry to the runtime log.
+ */
+void VoiceActingManager::log_entry(
+		const string& filename, int function_id,
+		const string& offset_key, int segment,
+		const char* text, const string& status,
+		int speaker_npc, int caller_npc) {
+	ensure_log_open();
+	if (!log_file.is_open()) {
+		return;
+	}
+
+	char func_hex[16];
+	std::snprintf(func_hex, sizeof(func_hex), "0x%04x", function_id);
+
+	string text_str = text ? text : "";
+
+	log_file << session_id << ","
+	         << func_hex << ","
+	         << offset_key << ","
+	         << segment << ","
+	         << filename << ","
+	         << status << ","
+	         << speaker_npc << ","
+	         << caller_npc << ","
+	         << csv_escape(text_str)
+	         << std::endl;
+}
 
 /*
  *  Try to play a voice acting file at the given path. Returns true if successful.
@@ -46,36 +133,64 @@ bool VoiceActingManager::try_play(const string& path) {
 		return false;
 	}
 
-	// Don't auto-stop previous voice here. For conversation text,
-	// click_to_continue() handles stopping when the player advances.
-	// For say-text, lines are short enough that overlap is acceptable.
 	return audio->play_voice_file(path);
 }
 
 /*
  *  Play voice acting for conversation text.
- *  Filename: <funcID>_<offset_key>_<segment>.wav
- *  e.g., 0401_af_151_254_0.wav
+ *  Tries NPC-specific file first, then falls back to generic:
+ *    1. <funcID>_<offset_key>_<segment>_npc<N>.wav  (per-NPC voice)
+ *    2. <funcID>_<offset_key>_<segment>.wav          (generic fallback)
  */
 bool VoiceActingManager::play_for_conversation(
 		int function_id, const string& offset_key,
-		int segment, const char* text) {
+		int segment, const char* text,
+		int speaker_npc, int caller_npc) {
 	char func_hex[16];
 	std::snprintf(func_hex, sizeof(func_hex), "%04x", function_id);
-	string filename = string(func_hex) + "_" + offset_key + "_"
-					  + std::to_string(segment) + ".wav";
-	string path = get_system_path("<PATCH>/voice_acting/" + filename);
+	string base = string(func_hex) + "_" + offset_key + "_"
+				  + std::to_string(segment);
 
-	// Log with the displayed text for verification.
-	string text_preview;
-	if (text) {
-		text_preview = string(text, std::min(strlen(text), size_t(50)));
-		if (strlen(text) > 50) text_preview += "..";
+	// Try NPC-specific file first (using absolute NPC number).
+	string filename;
+	string path;
+	bool   exists = false;
+
+	if (speaker_npc != 0) {
+		char npc_suffix[16];
+		std::snprintf(npc_suffix, sizeof(npc_suffix), "_npc%d",
+					  speaker_npc < 0 ? -speaker_npc : speaker_npc);
+		filename = base + npc_suffix + ".wav";
+		path     = get_system_path("<PATCH>/voice_acting/" + filename);
+		exists   = U7exists(path);
 	}
-	cerr << "VoiceActing: file=" << filename
-	     << " text=\"" << text_preview << "\"" << endl;
 
-	return try_play(path);
+	// Fall back to generic file.
+	if (!exists) {
+		filename = base + ".wav";
+		path     = get_system_path("<PATCH>/voice_acting/" + filename);
+		exists   = U7exists(path);
+	}
+
+	bool played = false;
+	if (exists) {
+		played = try_play(path);
+	}
+
+	// Determine status for the log.
+	string status;
+	if (!exists) {
+		status = "missing";
+	} else if (played) {
+		status = "played";
+	} else {
+		status = "error";
+	}
+
+	log_entry(filename, function_id, offset_key, segment, text, status,
+			  speaker_npc, caller_npc);
+
+	return played;
 }
 
 /*
@@ -95,4 +210,3 @@ bool VoiceActingManager::is_playing() {
 	Audio* audio = Audio::get_ptr();
 	return audio && audio->is_speech_playing();
 }
-
