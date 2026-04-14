@@ -14,6 +14,7 @@ Set ELEVENLABS_API_KEY in environment or in a .env file.
 
 import argparse
 import csv
+import datetime
 import os
 import shutil
 import struct
@@ -25,6 +26,9 @@ try:
 except ImportError:
     print("Error: 'requests' package required. Install with: pip install requests")
     sys.exit(1)
+
+from wav_metadata import (text_hash, make_artist_tag,
+                           write_wav_with_metadata)
 
 # ElevenLabs API
 API_BASE = "https://api.elevenlabs.io/v1"
@@ -40,7 +44,7 @@ VOICE_SETTINGS = {
 
 def generate_speech(api_key, voice_id, text, output_path,
                     previous_text=None, next_text=None):
-    """Call ElevenLabs TTS API and save as PCM WAV."""
+    """Call ElevenLabs TTS API and save as WAV with embedded metadata."""
     url = f"{API_BASE}/text-to-speech/{voice_id}?output_format=pcm_22050"
 
     headers = {
@@ -62,24 +66,11 @@ def generate_speech(api_key, voice_id, text, output_path,
     response = requests.post(url, json=payload, headers=headers, timeout=60)
 
     if response.status_code == 200:
-        pcm_data = response.content
-        with open(output_path, "wb") as f:
-            sample_rate = 22050
-            bits_per_sample = 16
-            num_channels = 1
-            byte_rate = sample_rate * num_channels * bits_per_sample // 8
-            block_align = num_channels * bits_per_sample // 8
-            data_size = len(pcm_data)
-            f.write(b"RIFF")
-            f.write(struct.pack("<I", 36 + data_size))
-            f.write(b"WAVE")
-            f.write(b"fmt ")
-            f.write(struct.pack("<IHHIIHH", 16, 1, num_channels,
-                                sample_rate, byte_rate, block_align,
-                                bits_per_sample))
-            f.write(b"data")
-            f.write(struct.pack("<I", data_size))
-            f.write(pcm_data)
+        write_wav_with_metadata(
+            output_path, response.content,
+            title=text_hash(text),
+            artist=make_artist_tag(voice_id),
+            comment=text)
         return True
     else:
         print(f"  API error {response.status_code}: {response.text[:200]}")
@@ -125,6 +116,8 @@ def main():
                         help="Regenerate files even if they already exist")
     parser.add_argument("--limit", type=int, default=0,
                         help="Max number of files to generate (0 = unlimited)")
+    parser.add_argument("--ledger", default=None,
+                        help="Path to generation ledger CSV (default: <output_dir>/generation_ledger.csv)")
     args = parser.parse_args()
 
     # Load manifest
@@ -178,6 +171,16 @@ def main():
 
     os.makedirs(args.output_dir, exist_ok=True)
 
+    # Open generation ledger (append mode)
+    ledger_path = args.ledger or os.path.join(args.output_dir, "generation_ledger.csv")
+    ledger_is_new = not os.path.exists(ledger_path)
+    ledger_file = open(ledger_path, "a", newline="", encoding="utf-8")
+    ledger_writer = csv.writer(ledger_file)
+    if ledger_is_new:
+        ledger_writer.writerow([
+            "timestamp", "filename", "voice_id", "voice_desc",
+            "speaker", "text_hash", "action", "text"])
+
     total = len(manifest)
     generated = 0
     copied = 0
@@ -193,9 +196,11 @@ def main():
         print(f"  Voice: {item['voice_desc']}")
         print(f"  Text: \"{item['text'][:70]}{'...' if len(item['text']) > 70 else ''}\"")
 
+        now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        thash = text_hash(item["text"])
+
         if not args.regenerate and os.path.exists(output_path):
             print("  -> Skipped (already exists)")
-            # Still register it for future copies
             if pair_key not in seen_pairs:
                 seen_pairs[pair_key] = output_path
             skipped += 1
@@ -212,6 +217,10 @@ def main():
             shutil.copy2(source_path, output_path)
             size_kb = os.path.getsize(output_path) / 1024
             print(f"  -> Copied from {os.path.basename(source_path)} ({size_kb:.1f} KB)")
+            ledger_writer.writerow([
+                now, item["filename"], item["voice_id"], item["voice_desc"],
+                item["speaker"], thash, "copied", item["text"]])
+            ledger_file.flush()
             copied += 1
             continue
 
@@ -224,16 +233,26 @@ def main():
             size_kb = os.path.getsize(output_path) / 1024
             print(f"  -> Generated ({size_kb:.1f} KB)")
             seen_pairs[pair_key] = output_path
+            ledger_writer.writerow([
+                now, item["filename"], item["voice_id"], item["voice_desc"],
+                item["speaker"], thash, "generated", item["text"]])
+            ledger_file.flush()
             generated += 1
         else:
             print("  -> FAILED")
+            ledger_writer.writerow([
+                now, item["filename"], item["voice_id"], item["voice_desc"],
+                item["speaker"], thash, "failed", item["text"]])
+            ledger_file.flush()
             failed += 1
 
         if i < total and generated < (args.limit or total):
             time.sleep(1)
 
+    ledger_file.close()
     print(f"\nDone: {generated} generated, {copied} copied, "
           f"{skipped} skipped, {failed} failed")
+    print(f"Ledger: {ledger_path}")
     if generated > 0:
         print(f"Voice files saved to: {args.output_dir}")
 

@@ -215,3 +215,22 @@ is recorded with:
 The log appends across multiple sessions, so you can play through the game multiple
 times (with different character names/genders) and build up a complete picture of
 all dialog lines encountered. Use the audit tool to compare against extracted data.
+
+## Known Limitations / Future Work
+
+- **Long text pagination**: When a single dialog line is too long to fit in the
+  conversation text box, the game paginates it with click-to-continue. Currently
+  the voice audio plays in full on the first page and subsequent pages are silent.
+  A future improvement could use the ElevenLabs
+  [timestamps API](https://elevenlabs.io/docs/api-reference/text-to-speech/convert-with-timestamps)
+  to get per-character timing data, then seek the audio to the correct position
+  when the text advances to a new page.
+
+- **Branch-dependent dialog**: The usecode disassembler uses linear scanning and
+  may miss dialog lines that are only reachable through specific code branches.
+  These can be added manually via the overrides CSV, or discovered through
+  runtime log auditing.
+
+- **Say-text bubbles**: Voice acting is currently limited to conversation text
+  (the `say` opcode). Floating text bubbles above character sprites are not
+  voiced.
