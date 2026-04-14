@@ -198,6 +198,9 @@ VOICE_MAP = {
     "Lucky":       (STOCK_VOICES["Charlie"],      "Charlie"),
     "Danag":       (STOCK_VOICES["Eric"],         "Eric"),
 
+    # --- Paws ---
+    "Morfin":      ("QzTKubutNn9TjrB7Xb2Q",      "Morfin (custom)"),
+
     # --- Misc ---
     "Bradman":     (STOCK_VOICES["Callum"],       "Callum"),
     "Chad":        (STOCK_VOICES["Liam"],         "Liam"),

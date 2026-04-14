@@ -630,9 +630,13 @@ void Usecode_internal::say_string() {
 	                            ? voice_current_face_npc
 	                            : voice_caller_npc;
 
-	// Build the offset key from addsi trace (only static string offsets).
+	// Build the offset key from addsi trace, filtering to only entries
+	// from the current function (ignoring offsets from parent callers).
 	std::string voice_offset_key;
-	for (int off : voice_string_trace) {
+	for (const auto& [fid, off] : voice_string_trace) {
+		if (fid != voice_func_id) {
+			continue;    // Skip entries from other functions.
+		}
 		if (off == VOICE_TRACE_ADDSV) {
 			continue;    // Skip variable insertions.
 		}
@@ -2354,7 +2358,7 @@ int Usecode_internal::run() {
 					break;
 				}
 				append_string(frame->data + offset);
-				voice_string_trace.push_back(offset);
+				voice_string_trace.push_back({frame->function->id, offset});
 				break;
 			case UC_PUSHS:      // PUSHS.
 			case UC_PUSHS32:    // PUSHS32
@@ -2691,7 +2695,7 @@ int Usecode_internal::run() {
 					LOCAL_VAR_ERROR(offset);
 					break;
 				}
-				voice_string_trace.push_back(VOICE_TRACE_ADDSV);
+				voice_string_trace.push_back({frame->function->id, VOICE_TRACE_ADDSV});
 
 				const char* str = frame->locals[offset].get_str_value();
 				if (str) {

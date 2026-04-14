@@ -32,61 +32,93 @@ def read4s(data, offset):
 from npc_data import get_npc_name_by_func as get_npc_name
 
 
-# Full opcode table with (name, param_format)
-# param_format: 'w'=word, 's'=signed word, 'b'=byte, 'n'=none
-# Special: 'si'=string index, 'vi'=variable index, 'ji'=jump offset,
-#          'ci'=callis (word+byte), 'li'=sloop complex
+# Full opcode table: opcode -> (name, param_format, [extra])
+# param_format: 'n'=none, 'w'=word, 's'=signed word, 'ji'=jump offset,
+#               'si'=string index, 'ci'=callis (word+byte),
+#               'lt'=looptop (5 words), 'cs'=cmps (word+signed word)
+# Derived from usecode/opcodes.h and usecode/ucinternal.cc
 OPCODES = {
-    0x04: ("jne_f", "ji"),     # Jump if false (for flags)
+    # Loop
+    0x02: ("looptop", "lt"),        # 5 words: local1,local2,local3,local4,offset
+    # Conversation
+    0x04: ("converse", "ji"),       # jump offset (to end of converse block)
+    # Jumps
     0x05: ("jne", "ji"),
     0x06: ("jmp", "ji"),
+    # String compare (conversation topic matching)
+    0x07: ("cmps", "cs"),           # word count + signed word offset
+    # Arithmetic
     0x09: ("add", "n"),
     0x0a: ("sub", "n"),
     0x0b: ("div", "n"),
     0x0c: ("mul", "n"),
     0x0d: ("mod", "n"),
+    # Logic
     0x0e: ("and", "n"),
     0x0f: ("or", "n"),
     0x10: ("not", "n"),
+    # Variables
     0x12: ("pop", "w"),
-    0x13: ("push", "n", "true"),   # push true
-    0x14: ("push", "n", "false"),  # push false
+    0x13: ("push", "n", "true"),
+    0x14: ("push", "n", "false"),
+    # Comparisons
     0x16: ("cmpgt", "n"),
     0x17: ("cmplt", "n"),
     0x18: ("cmpge", "n"),
     0x19: ("cmple", "n"),
     0x1a: ("cmpne", "n"),
-    0x1c: ("addsi", "si"),
-    0x1d: ("pushs", "si"),
-    0x1e: ("arrc", "w"),
-    0x1f: ("pushi", "s"),
-    0x21: ("push", "w"),
+    # String operations
+    0x1c: ("addsi", "si"),          # Add string from data segment
+    0x1d: ("pushs", "si"),          # Push string from data segment
+    0x1e: ("arrc", "w"),            # Create array
+    0x1f: ("pushi", "s"),           # Push immediate
+    0x21: ("push", "w"),            # Push local var
     0x22: ("cmpeq", "n"),
-    0x24: ("call", "w"),
+    # Calls
+    0x24: ("call", "w"),            # Call extern
     0x25: ("ret", "n"),
-    0x26: ("aidx", "n"),       # Array index
-    0x2d: ("setr", "n"),
-    0x2e: ("sloop", "n"),
-    0x2f: ("addsv", "w"),
-    0x30: ("in", "n"),
-    0x31: ("smth31", "w"),
-    0x32: ("rts", "n"),
-    0x33: ("say", "n"),
-    0x38: ("callis", "ci"),
-    0x39: ("calli", "ci"),
+    0x26: ("aidx", "w"),            # Array index (reads local var index)
+    0x2c: ("ret2", "n"),            # Identical to ret
+    0x2d: ("retv", "n"),            # Return value from stack
+    0x2e: ("loop", "n"),            # Loop init (no params - peeks next byte)
+    0x2f: ("addsv", "w"),           # Add string from variable
+    0x30: ("in", "n"),              # Is value in array
+    0x31: ("default", "ji"),        # Conversation default branch
+    0x32: ("retz", "n"),            # Return zero
+    0x33: ("say", "n"),             # Say string register
+    0x38: ("callis", "ci"),         # Call intrinsic (static)
+    0x39: ("calli", "ci"),          # Call intrinsic
     0x3e: ("push", "n", "itemref"),
     0x3f: ("abrt", "n"),
-    0x40: ("end_conv", "n"),
-    0x42: ("pushf", "w"),
-    0x43: ("popf", "w"),
-    0x44: ("pushw", "b"),      # Actually reads a signed word after the byte... complex
-    0x46: ("cmpgt", "n"),
-    0x47: ("calle", "w"),
+    0x40: ("converseloc", "n"),     # Converse jump target
+    0x42: ("pushf", "w"),           # Push flag
+    0x43: ("popf", "w"),            # Pop flag
+    0x44: ("pushb", "b"),           # Push single byte
+    0x46: ("poparr", "w"),          # Pop into array element
+    0x47: ("calle", "w"),           # Call extern by index
     0x48: ("push", "n", "eventid"),
-    0x4a: ("arra", "n"),       # Array append
-    0x4b: ("pop_res", "n"),
-    0x4d: ("flg_eq", "n"),
-    0x50: ("addsv_32", "w"),   # 32-bit variant
+    0x4a: ("arra", "n"),            # Array append
+    0x4b: ("popeventid", "n"),      # Pop event ID
+    0x4c: ("dbgline", "w"),         # Debug line number
+    0x50: ("pushstatic", "w"),      # Push static var
+    0x51: ("popstatic", "w"),       # Pop static var
+    0x52: ("callo", "w"),           # Call original
+    0x53: ("callind", "n"),         # Call indirect (addr on stack)
+    0x54: ("pushthv", "w"),         # Push this->var
+    0x55: ("popthv", "w"),          # Pop this->var
+    0x56: ("callm", "w"),           # Call method
+    0x57: ("callms", "ww"),         # Call method (2 words: index, vtable)
+    0x58: ("clscreate", "w"),       # Create class instance
+    0x59: ("classdel", "n"),        # Delete class instance
+    0x5a: ("aidxs", "w"),           # Static array index
+    0x5b: ("poparrs", "w"),         # Pop into static array
+    0x5c: ("looptops", "lt"),       # Loop with static array
+    0x5d: ("aidxthv", "w"),         # This->var array index
+    0x5e: ("poparrthv", "w"),       # Pop this->var array
+    0x5f: ("looptopthv", "lt"),     # Loop with this->var array
+    0x60: ("pushchoice", "n"),      # Push last user choice
+    0x61: ("trystart", "ww"),       # Try/catch start (offset, local var)
+    0x62: ("tryend", "n"),          # Try/catch end
 }
 
 
@@ -227,15 +259,10 @@ def disassemble_function(func_id, func_data, extended):
                 val = read2s(code_data, ip)
                 raw_bytes.extend(code_data[ip:ip+2]); ip += 2
                 params = [val]
-            elif fmt == "b":  # byte param (pushw is special - reads signed word)
-                if name == "pushw":
-                    val = read2s(code_data, ip)
-                    raw_bytes.extend(code_data[ip:ip+2]); ip += 2
-                    params = [val]
-                else:
-                    val = code_data[ip]
-                    raw_bytes.append(val); ip += 1
-                    params = [val]
+            elif fmt == "b":  # single byte param
+                val = code_data[ip]
+                raw_bytes.append(val); ip += 1
+                params = [val]
             elif fmt == "ji":  # jump offset
                 rel = read2s(code_data, ip)
                 raw_bytes.extend(code_data[ip:ip+2]); ip += 2
@@ -247,6 +274,29 @@ def disassemble_function(func_id, func_data, extended):
                 nargs = code_data[ip]
                 raw_bytes.append(nargs); ip += 1
                 params = [intrinsic, nargs]
+            elif fmt == "cs":  # cmps: word count + signed word offset
+                cnt = read2(code_data, ip)
+                raw_bytes.extend(code_data[ip:ip+2]); ip += 2
+                rel = read2s(code_data, ip)
+                raw_bytes.extend(code_data[ip:ip+2]); ip += 2
+                target = ip + rel
+                params = [cnt, target]
+            elif fmt == "lt":  # looptop: 5 words
+                p = []
+                for _ in range(4):
+                    val = read2(code_data, ip)
+                    raw_bytes.extend(code_data[ip:ip+2]); ip += 2
+                    p.append(val)
+                rel = read2s(code_data, ip)
+                raw_bytes.extend(code_data[ip:ip+2]); ip += 2
+                p.append(ip + rel)
+                params = p
+            elif fmt == "ww":  # two words
+                val1 = read2(code_data, ip)
+                raw_bytes.extend(code_data[ip:ip+2]); ip += 2
+                val2 = read2(code_data, ip)
+                raw_bytes.extend(code_data[ip:ip+2]); ip += 2
+                params = [val1, val2]
         except (IndexError, struct.error):
             pass
 
@@ -425,6 +475,24 @@ def analyze_variables(func):
                     _, _, n2, p2, _ = instructions[j]
                     if n2 == 'pop' and p2:
                         var_labels[p2[0]] = "<PRONOUN>"
+                        break
+
+    # Propagate labels through variable copies.
+    # Pattern: push [V1] -> pop [V2] where V1 has a known label.
+    # Repeat until no new labels are found (handles copy chains).
+    changed = True
+    while changed:
+        changed = False
+        for i, (addr, raw_bytes, name, params, comment) in enumerate(instructions):
+            if name == 'push' and params and params[0] in var_labels:
+                src_label = var_labels[params[0]]
+                # Look for pop [V] after this push
+                for j in range(i + 1, min(i + 3, len(instructions))):
+                    _, _, n2, p2, _ = instructions[j]
+                    if n2 == 'pop' and p2:
+                        if p2[0] not in var_labels:
+                            var_labels[p2[0]] = src_label
+                            changed = True
                         break
 
     return var_labels
