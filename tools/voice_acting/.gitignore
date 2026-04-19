@@ -9,3 +9,6 @@ csvs/
 
 # temporary storage of downloaded transcripts for verification.
 transcripts/
+
+# misc files that we might need again, but probably won't.
+audio_backup/

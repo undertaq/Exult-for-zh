@@ -73,10 +73,10 @@ function parseInfoSubchunks(
     const fieldName = tagMap[tag];
     if (fieldName) {
       let value = data.slice(valueStart, valueEnd);
-      // Strip null terminator if present
-      if (value.length > 0 && value[value.length - 1] === 0) {
-        value = value.slice(0, -1);
-      }
+      // Strip the null terminator and any even-alignment padding nulls.
+      let endByte = value.length;
+      while (endByte > 0 && value[endByte - 1] === 0) endByte--;
+      value = value.slice(0, endByte);
       (result as any)[fieldName] = value.toString('utf-8');
     }
     pos = valueEnd;

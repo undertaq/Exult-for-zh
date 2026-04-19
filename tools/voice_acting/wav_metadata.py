@@ -113,9 +113,8 @@ def _parse_info_subchunks(data, start, end, result):
 
         if tag in tag_map:
             value = data[value_start:value_end]
-            # Strip null terminator
-            if value.endswith(b"\x00"):
-                value = value[:-1]
+            # Strip the null terminator and any even-alignment padding nulls.
+            value = value.rstrip(b"\x00")
             result[tag_map[tag]] = value.decode("utf-8", errors="replace")
 
         # Word-align
