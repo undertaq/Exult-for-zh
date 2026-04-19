@@ -1,0 +1,12 @@
+{
+  "npc_name": "Neno",
+  "url": "https://wiki.ultimacodex.com/wiki/Neno",
+  "title": "Neno",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Neno</b> is a musician living in <a href=\"/wiki/Britain\" title=\"Britain\">Britain</a> in <i><a href=\"/wiki/Ultima_VII\" class=\"mw-redirect\" title=\"Ultima VII\">Ultima VII</a></i>.\n</p>",
+  "summary_text": "Neno is a musician living in Britain in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Britain"
+  },
+  "fetched_at": "2026-04-18T20:33:15.313825+00:00"
+}

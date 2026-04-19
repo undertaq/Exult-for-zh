@@ -1,0 +1,12 @@
+{
+  "npc_name": "Effrem",
+  "url": "https://wiki.ultimacodex.com/wiki/Effrem",
+  "title": "Effrem",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Effrem</b> is a homemaker living in <a href=\"/wiki/Moonglow\" title=\"Moonglow\">Moonglow</a> during <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>",
+  "summary_text": "Effrem is a homemaker living in Moonglow during Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Moonglow"
+  },
+  "fetched_at": "2026-04-18T20:31:51.708045+00:00"
+}

@@ -1,0 +1,12 @@
+{
+  "npc_name": "Addom",
+  "url": "https://wiki.ultimacodex.com/wiki/Addom",
+  "title": "Addom",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Addom</b> is a wandering merchant who travels through the world in search of curiosities and rare items to sell to museums. During the <a href=\"/wiki/Avatar%27s\" class=\"mw-redirect\" title=\"Avatar&#39;s\">Avatar's</a> adventures in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i> he can be found in <a href=\"/wiki/Moonglow\" title=\"Moonglow\">Moonglow</a>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Addom is a wandering merchant who travels through the world in search of curiosities and rare items to sell to museums. During the Avatar's adventures in Ultima VII he can be found in Moonglow.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Moonglow"
+  },
+  "fetched_at": "2026-04-18T20:31:03.306980+00:00"
+}

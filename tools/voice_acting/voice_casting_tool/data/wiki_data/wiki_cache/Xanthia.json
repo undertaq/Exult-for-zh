@@ -1,0 +1,12 @@
+{
+  "npc_name": "Xanthia",
+  "url": "https://wiki.ultimacodex.com/wiki/Xanthia",
+  "title": "Xanthia",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Xanthia</b> is an artist specializing in the creation of candelabras. She is also an active participant in the <a href=\"/wiki/Artisan%27s_Guild\" title=\"Artisan&#39;s Guild\">Artisan's Guild</a> of <a href=\"/wiki/Minoc\" title=\"Minoc\">Minoc</a> during <i><a href=\"/wiki/Ultima_VII\" class=\"mw-redirect\" title=\"Ultima VII\">Ultima VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Xanthia is an artist specializing in the creation of candelabras. She is also an active participant in the Artisan's Guild of Minoc during Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Minoc"
+  },
+  "fetched_at": "2026-04-18T20:34:13.437963+00:00"
+}

@@ -1,0 +1,12 @@
+{
+  "npc_name": "Smith",
+  "url": "https://wiki.ultimacodex.com/wiki/Smith_the_Horse",
+  "title": "Smith the Horse",
+  "summary_html": "<div class=\"mw-parser-output\">\n\n\n\n\n\n\n\n</td></tr></tbody></table>\n<p><b>Smith the Horse</b> is a recurring character in the <i>Ultima</i> series. A sapient <a href=\"/wiki/Horses\" title=\"Horses\"> equine</a> who is capable of speech, Smith may often be found near <a href=\"/wiki/Iolo%27s_hut\" title=\"Iolo&#39;s hut\">Iolo's hut</a> in the <a href=\"/wiki/Deep_Forest\" title=\"Deep Forest\">Deep Forest</a>, although whether or not the stallion <i>belongs</i> to <a href=\"/wiki/Iolo\" title=\"Iolo\">Iolo</a> in any capacity has never been made clear. While he has a predilection for sarcasm, Smith nevertheless tries to provide vital information to the <a href=\"/wiki/Avatar\" title=\"Avatar\">Avatar</a> when asked. However, this advice, while crucial within the context of the conversation, always relates to the hero's <i>previous</i> adventure.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Smith the Horse is a recurring character in the Ultima series. A sapient equine who is capable of speech, Smith may often be found near Iolo's hut in the Deep Forest, although whether or not the stallion belongs to Iolo in any capacity has never been made clear. While he has a predilection for sarcasm, Smith nevertheless tries to provide vital information to the Avatar when asked. However, this advice, while crucial within the context of the conversation, always relates to the hero's previous adventure.",
+  "infobox": {
+    "Species": "horse",
+    "Location": "Iolo's hut"
+  },
+  "fetched_at": "2026-04-18T20:33:52.198776+00:00"
+}

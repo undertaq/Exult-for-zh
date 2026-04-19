@@ -1,0 +1,12 @@
+{
+  "npc_name": "Erethian",
+  "url": "https://wiki.ultimacodex.com/wiki/Erethian",
+  "title": "Erethian",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Erethian</b> is a blind <a href=\"/wiki/Mage\" title=\"Mage\">mage</a> who appears in the <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i> expansion pack, <i><a href=\"/wiki/Forge_of_Virtue\" class=\"mw-redirect\" title=\"Forge of Virtue\">Forge of Virtue</a></i>. He may be found upon the resurfaced <a href=\"/wiki/Isle_of_Fire\" title=\"Isle of Fire\">Isle of Fire</a> where he is attempting to study the <a href=\"/wiki/Dark_Core\" title=\"Dark Core\">Dark Core</a> of <a href=\"/wiki/Exodus\" title=\"Exodus\">Exodus</a>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Erethian is a blind mage who appears in the Ultima VII expansion pack, Forge of Virtue. He may be found upon the resurfaced Isle of Fire where he is attempting to study the Dark Core of Exodus.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Isle of Fire"
+  },
+  "fetched_at": "2026-04-18T20:31:57.518104+00:00"
+}

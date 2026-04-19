@@ -1,0 +1,12 @@
+{
+  "npc_name": "Gregor",
+  "url": "https://wiki.ultimacodex.com/wiki/Gregor",
+  "title": "Gregor",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Gregor</b> is the director of the <a href=\"/wiki/Minoc\" title=\"Minoc\"> Minoxian</a> branch of the <a href=\"/wiki/Britannian_Mining_Company\" title=\"Britannian Mining Company\">Britannian Mining Company</a> (BMC). He appears in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>",
+  "summary_text": "Gregor is the director of the Minoxian branch of the Britannian Mining Company (BMC). He appears in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Minoc"
+  },
+  "fetched_at": "2026-04-18T20:32:19.174392+00:00"
+}

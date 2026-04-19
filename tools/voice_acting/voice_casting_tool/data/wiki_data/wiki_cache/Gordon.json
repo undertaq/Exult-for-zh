@@ -1,0 +1,13 @@
+{
+  "npc_name": "Gordon",
+  "url": "https://wiki.ultimacodex.com/wiki/Gordon",
+  "title": "Gordon",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Gordon</b> is a fish and chips vendor working at the <a href=\"/wiki/Farmer%27s_Market\" title=\"Farmer&#39;s Market\">Farmer's Market</a> on Park Square in <a href=\"/wiki/Britain\" title=\"Britain\">Britain</a> during <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Gordon is a fish and chips vendor working at the Farmer's Market on Park Square in Britain during Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "street vendor",
+    "Location": "Britain"
+  },
+  "fetched_at": "2026-04-18T20:32:14.774042+00:00"
+}

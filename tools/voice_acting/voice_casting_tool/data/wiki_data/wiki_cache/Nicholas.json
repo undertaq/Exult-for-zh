@@ -1,0 +1,12 @@
+{
+  "npc_name": "Nicholas",
+  "url": "https://wiki.ultimacodex.com/wiki/Nicholas",
+  "title": "Nicholas",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Nicholas</b> is a foundling child, living in the nursery of <a href=\"/wiki/Castle_Britannia\" title=\"Castle Britannia\">Castle Britannia</a> during <i><a href=\"/wiki/Ultima_VII\" class=\"mw-redirect\" title=\"Ultima VII\">Ultima VII</a></i>.\n</p>",
+  "summary_text": "Nicholas is a foundling child, living in the nursery of Castle Britannia during Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Castle Britannia"
+  },
+  "fetched_at": "2026-04-18T20:33:16.017892+00:00"
+}

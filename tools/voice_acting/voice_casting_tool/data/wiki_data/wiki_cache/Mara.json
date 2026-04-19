@@ -1,0 +1,13 @@
+{
+  "npc_name": "Mara",
+  "url": "https://wiki.ultimacodex.com/wiki/Mara",
+  "title": "Mara",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Mara</b> is a miner working in the <a href=\"/wiki/Vesper_mine\" title=\"Vesper mine\">Vesper mine</a>, in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Mara is a miner working in the Vesper mine, in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "miner",
+    "Location": "Vesper"
+  },
+  "fetched_at": "2026-04-18T20:32:59.269688+00:00"
+}

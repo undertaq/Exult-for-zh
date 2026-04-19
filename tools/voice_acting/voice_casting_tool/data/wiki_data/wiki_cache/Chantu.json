@@ -1,0 +1,13 @@
+{
+  "npc_name": "Chantu",
+  "url": "https://wiki.ultimacodex.com/wiki/Chantu",
+  "title": "Chantu",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Chantu</b> is the town <a href=\"/wiki/Healer\" title=\"Healer\">healer</a> of <a href=\"/wiki/Trinsic\" title=\"Trinsic\">Trinsic</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>, running a practice at the end of Paladin's Path.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Chantu is the town healer of Trinsic in Ultima VII, running a practice at the end of Paladin's Path.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "healer",
+    "Location": "Trinsic"
+  },
+  "fetched_at": "2026-04-18T20:31:34.822943+00:00"
+}

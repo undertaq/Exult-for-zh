@@ -1,0 +1,13 @@
+{
+  "npc_name": "Zella",
+  "url": "https://wiki.ultimacodex.com/wiki/Zella",
+  "title": "Zella",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Zella</b> is a boxing instructor and <a href=\"/wiki/Trainer_for_the_Art_of_Fighting\" class=\"mw-redirect\" title=\"Trainer for the Art of Fighting\"> trainer</a> working in <a href=\"/wiki/Britain\" title=\"Britain\">Britain</a> during <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Zella is a boxing instructor and trainer working in Britain during Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "trainer",
+    "Location": "Britain"
+  },
+  "fetched_at": "2026-04-18T20:34:17.953434+00:00"
+}

@@ -1,0 +1,12 @@
+{
+  "npc_name": "Alagner",
+  "url": "https://wiki.ultimacodex.com/wiki/Alagner",
+  "title": "Alagner",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Alagner</b> is a scholar living in <a href=\"/wiki/New_Magincia\" title=\"New Magincia\">New Magincia</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>. \n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Alagner is a scholar living in New Magincia in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "New Magincia"
+  },
+  "fetched_at": "2026-04-18T20:31:05.509317+00:00"
+}

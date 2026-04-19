@@ -1,0 +1,12 @@
+{
+  "npc_name": "Battles",
+  "url": "https://wiki.ultimacodex.com/wiki/Battles",
+  "title": "Battles",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Battles</b> is a ruffian traveling in the company of <a href=\"/wiki/Robin\" title=\"Robin\">Robin</a> and <a href=\"/wiki/Leavell\" title=\"Leavell\">Leavell</a>. In <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>, he could be found with his companions, stranded in <a href=\"/wiki/New_Magincia\" title=\"New Magincia\">New Magincia</a>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Battles is a ruffian traveling in the company of Robin and Leavell. In Ultima VII, he could be found with his companions, stranded in New Magincia.",
+  "infobox": {
+    "Species": "human",
+    "Location": "New Magincia"
+  },
+  "fetched_at": "2026-04-18T20:31:15.688166+00:00"
+}

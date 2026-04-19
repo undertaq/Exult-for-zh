@@ -1,0 +1,12 @@
+{
+  "npc_name": "Wayne",
+  "url": "https://wiki.ultimacodex.com/wiki/Wayne",
+  "title": "Wayne",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Wayne</b> is a monk belonging to the <a href=\"/wiki/Brotherhood_of_the_Rose\" title=\"Brotherhood of the Rose\">Brotherhood of the Rose</a> who has become lost in the Dungeon <a href=\"/wiki/Despise\" title=\"Despise\">Despise</a> in <i><a href=\"/wiki/Ultima_VII\" class=\"mw-redirect\" title=\"Ultima VII\">Ultima VII</a></i>. \n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Wayne is a monk belonging to the Brotherhood of the Rose who has become lost in the Dungeon Despise in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Despise"
+  },
+  "fetched_at": "2026-04-18T20:34:09.098558+00:00"
+}

@@ -1,0 +1,13 @@
+{
+  "npc_name": "Morfin",
+  "url": "https://wiki.ultimacodex.com/wiki/Morfin",
+  "title": "Morfin",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Morfin</b> is a slaughterer living in <a href=\"/wiki/Paws\" title=\"Paws\">Paws</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>, at which time he was one of the few prosperous individuals in the region.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Morfin is a slaughterer living in Paws in Ultima VII, at which time he was one of the few prosperous individuals in the region.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "butcher",
+    "Location": "Paws"
+  },
+  "fetched_at": "2026-04-18T20:33:10.969055+00:00"
+}

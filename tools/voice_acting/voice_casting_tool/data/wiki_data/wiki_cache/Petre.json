@@ -1,0 +1,12 @@
+{
+  "npc_name": "Petre",
+  "url": "https://wiki.ultimacodex.com/wiki/Petre",
+  "title": "Petre",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Petre</b> is the caretaker of the <a href=\"/wiki/Stables\" title=\"Stables\">stables</a> in <a href=\"/wiki/Trinsic\" title=\"Trinsic\">Trinsic</a>. He is notable as one of the first people to discover the body of the murdered blacksmith <a href=\"/wiki/Christopher\" title=\"Christopher\">Christopher</a> at the beginning of <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Petre is the caretaker of the stables in Trinsic. He is notable as one of the first people to discover the body of the murdered blacksmith Christopher at the beginning of Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Trinsic"
+  },
+  "fetched_at": "2026-04-18T20:33:27.122174+00:00"
+}

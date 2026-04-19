@@ -1,0 +1,12 @@
+{
+  "npc_name": "Henry",
+  "url": "https://wiki.ultimacodex.com/wiki/Henry",
+  "title": "Henry",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Henry</b> is a peddler living in <a href=\"/wiki/New_Magincia\" title=\"New Magincia\">New Magincia</a>. He appears in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Henry is a peddler living in New Magincia. He appears in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "New Magincia"
+  },
+  "fetched_at": "2026-04-18T20:32:21.422559+00:00"
+}

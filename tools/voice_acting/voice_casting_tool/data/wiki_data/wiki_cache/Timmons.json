@@ -1,0 +1,12 @@
+{
+  "npc_name": "Timmons",
+  "url": "https://wiki.ultimacodex.com/wiki/Timmons",
+  "title": "Timmons",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Timmons</b> is a young fighter in <a href=\"/wiki/Jhelom\" title=\"Jhelom\">Jhelom</a> who is attempting to gain admittance to the <a href=\"/wiki/Library_of_Scars\" title=\"Library of Scars\">Library of Scars</a>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Timmons is a young fighter in Jhelom who is attempting to gain admittance to the Library of Scars.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Jhelom"
+  },
+  "fetched_at": "2026-04-18T20:34:03.240258+00:00"
+}

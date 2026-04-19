@@ -1,0 +1,13 @@
+{
+  "npc_name": "Aimi",
+  "url": "https://wiki.ultimacodex.com/wiki/Aimi",
+  "title": "Aimi",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Aimi</b> is a monk living in <a href=\"/wiki/Empath_Abbey\" title=\"Empath Abbey\">Empath Abbey</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Aimi is a monk living in Empath Abbey in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "monk",
+    "Location": "Empath Abbey"
+  },
+  "fetched_at": "2026-04-18T20:31:04.757871+00:00"
+}

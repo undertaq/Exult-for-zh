@@ -1,0 +1,13 @@
+{
+  "npc_name": "Sarpling",
+  "url": "https://wiki.ultimacodex.com/wiki/Sarpling",
+  "title": "Sarpling",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table><p><b>Sarpling</b> is a wingless <a href=\"/wiki/Gargoyle\" class=\"mw-redirect\" title=\"Gargoyle\">gargoyle</a> who runs a jewelry and <a href=\"/wiki/Reagents\" title=\"Reagents\">reagent</a> shop on <a href=\"/wiki/Terfin\" title=\"Terfin\">Terfin</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p><div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Sarpling is a wingless gargoyle who runs a jewelry and reagent shop on Terfin in Ultima VII.",
+  "infobox": {
+    "Species": "gargoyle",
+    "Profession": "jeweler",
+    "Location": "Terfin"
+  },
+  "fetched_at": "2026-04-18T20:33:42.550118+00:00"
+}

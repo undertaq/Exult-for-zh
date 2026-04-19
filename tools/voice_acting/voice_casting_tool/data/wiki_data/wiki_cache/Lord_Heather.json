@@ -1,0 +1,12 @@
+{
+  "npc_name": "Lord Heather",
+  "url": "https://wiki.ultimacodex.com/wiki/Lord_Heather",
+  "title": "Lord Heather",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Lord Heather</b> is the mayor of <a href=\"/wiki/Cove\" title=\"Cove\">Cove</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Lord Heather is the mayor of Cove in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Cove"
+  },
+  "fetched_at": "2026-04-18T20:32:53.469018+00:00"
+}

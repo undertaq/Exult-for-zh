@@ -1,0 +1,12 @@
+{
+  "npc_name": "Kissme",
+  "url": "https://wiki.ultimacodex.com/wiki/Kissme",
+  "title": "Kissme",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Kissme </b> is an exuberant <a href=\"/wiki/Fairies\" title=\"Fairies\">fairy</a> inhabiting the forgotten land of <a href=\"/wiki/Ambrosia\" title=\"Ambrosia\">Ambrosia</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Kissme is an exuberant fairy inhabiting the forgotten land of Ambrosia in Ultima VII.",
+  "infobox": {
+    "Species": "fairy",
+    "Location": "Ambrosia"
+  },
+  "fetched_at": "2026-04-18T20:32:44.290343+00:00"
+}

@@ -1,0 +1,12 @@
+{
+  "npc_name": "Andrew",
+  "url": "https://wiki.ultimacodex.com/wiki/Andrew",
+  "title": "Andrew",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Andrew</b> is the owner of the dairy of <a href=\"/wiki/Paws\" title=\"Paws\">Paws</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>",
+  "summary_text": "Andrew is the owner of the dairy of Paws in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Paws"
+  },
+  "fetched_at": "2026-04-18T20:31:08.331332+00:00"
+}

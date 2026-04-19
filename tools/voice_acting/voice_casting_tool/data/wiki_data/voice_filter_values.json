@@ -1,0 +1,716 @@
+{
+  "scanned_voices": 6297,
+  "language_filter": "en",
+  "values": {
+    "accent": [
+      {
+        "value": "american",
+        "count": 3157
+      },
+      {
+        "value": "british",
+        "count": 913
+      },
+      {
+        "value": "indian",
+        "count": 625
+      },
+      {
+        "value": "australian",
+        "count": 236
+      },
+      {
+        "value": "canadian",
+        "count": 183
+      },
+      {
+        "value": "standard",
+        "count": 140
+      },
+      {
+        "value": "nigerian",
+        "count": 91
+      },
+      {
+        "value": "irish",
+        "count": 70
+      },
+      {
+        "value": "us southern",
+        "count": 61
+      },
+      {
+        "value": "south african",
+        "count": 50
+      },
+      {
+        "value": "filipino",
+        "count": 48
+      },
+      {
+        "value": "african american",
+        "count": 46
+      },
+      {
+        "value": "german",
+        "count": 42
+      },
+      {
+        "value": "us midwest",
+        "count": 39
+      },
+      {
+        "value": "spanish",
+        "count": 30
+      },
+      {
+        "value": "new zealand",
+        "count": 30
+      },
+      {
+        "value": "scottish",
+        "count": 30
+      },
+      {
+        "value": "received pronunciation",
+        "count": 27
+      },
+      {
+        "value": "french",
+        "count": 26
+      },
+      {
+        "value": "chinese",
+        "count": 24
+      },
+      {
+        "value": "singaporean",
+        "count": 24
+      },
+      {
+        "value": "new york",
+        "count": 24
+      },
+      {
+        "value": "russian",
+        "count": 22
+      },
+      {
+        "value": "arabic",
+        "count": 19
+      },
+      {
+        "value": "dutch",
+        "count": 19
+      },
+      {
+        "value": "peninsular",
+        "count": 19
+      },
+      {
+        "value": "brazilian",
+        "count": 17
+      },
+      {
+        "value": "polish",
+        "count": 15
+      },
+      {
+        "value": "turkish",
+        "count": 14
+      },
+      {
+        "value": "latin american",
+        "count": 13
+      },
+      {
+        "value": "swedish",
+        "count": 12
+      },
+      {
+        "value": "us northeast",
+        "count": 12
+      },
+      {
+        "value": "italian",
+        "count": 11
+      },
+      {
+        "value": "portuguese",
+        "count": 10
+      },
+      {
+        "value": "hindi",
+        "count": 9
+      },
+      {
+        "value": "croatian",
+        "count": 8
+      },
+      {
+        "value": "malay",
+        "count": 8
+      },
+      {
+        "value": "boston",
+        "count": 8
+      },
+      {
+        "value": "african",
+        "count": 6
+      },
+      {
+        "value": "quebec",
+        "count": 6
+      },
+      {
+        "value": "istanbul",
+        "count": 6
+      },
+      {
+        "value": "ukrainian",
+        "count": 5
+      },
+      {
+        "value": "japanese",
+        "count": 5
+      },
+      {
+        "value": "finnish",
+        "count": 5
+      },
+      {
+        "value": "jamaican",
+        "count": 5
+      },
+      {
+        "value": "yorkshire",
+        "count": 5
+      },
+      {
+        "value": "romanian",
+        "count": 5
+      },
+      {
+        "value": "korean",
+        "count": 3
+      },
+      {
+        "value": "chicago",
+        "count": 3
+      },
+      {
+        "value": "danish",
+        "count": 3
+      },
+      {
+        "value": "czech",
+        "count": 3
+      },
+      {
+        "value": "tamil",
+        "count": 3
+      },
+      {
+        "value": "mexican",
+        "count": 3
+      },
+      {
+        "value": "slovak",
+        "count": 2
+      },
+      {
+        "value": "welsh",
+        "count": 2
+      },
+      {
+        "value": "geordie",
+        "count": 2
+      },
+      {
+        "value": "en-american",
+        "count": 2
+      },
+      {
+        "value": "malaysian",
+        "count": 2
+      },
+      {
+        "value": "modern standard",
+        "count": 2
+      },
+      {
+        "value": "jordanian",
+        "count": 2
+      },
+      {
+        "value": "stockholm",
+        "count": 2
+      },
+      {
+        "value": "scouse",
+        "count": 1
+      },
+      {
+        "value": "greek",
+        "count": 1
+      },
+      {
+        "value": "en-filipino",
+        "count": 1
+      },
+      {
+        "value": "en-indian",
+        "count": 1
+      },
+      {
+        "value": "en-canadian",
+        "count": 1
+      },
+      {
+        "value": "en-british",
+        "count": 1
+      },
+      {
+        "value": "en-scottish",
+        "count": 1
+      },
+      {
+        "value": "en-singaporean",
+        "count": 1
+      },
+      {
+        "value": "cockney",
+        "count": 1
+      },
+      {
+        "value": "bulgarian",
+        "count": 1
+      },
+      {
+        "value": "indonesian",
+        "count": 1
+      },
+      {
+        "value": "British",
+        "count": 1
+      },
+      {
+        "value": "prague",
+        "count": 1
+      },
+      {
+        "value": "milanese",
+        "count": 1
+      },
+      {
+        "value": "southern",
+        "count": 1
+      },
+      {
+        "value": "taiwan mandarin",
+        "count": 1
+      },
+      {
+        "value": "bavarian",
+        "count": 1
+      },
+      {
+        "value": "beijing mandarin",
+        "count": 1
+      },
+      {
+        "value": "saxon",
+        "count": 1
+      },
+      {
+        "value": "athenian",
+        "count": 1
+      },
+      {
+        "value": "colombian",
+        "count": 1
+      },
+      {
+        "value": "javanese",
+        "count": 1
+      },
+      {
+        "value": "european",
+        "count": 1
+      },
+      {
+        "value": "levantine",
+        "count": 1
+      },
+      {
+        "value": "sofia",
+        "count": 1
+      },
+      {
+        "value": "mazovian",
+        "count": 1
+      },
+      {
+        "value": "central",
+        "count": 1
+      },
+      {
+        "value": "transylvanian",
+        "count": 1
+      },
+      {
+        "value": "helsinki",
+        "count": 1
+      },
+      {
+        "value": "egyptian",
+        "count": 1
+      },
+      {
+        "value": "parisian",
+        "count": 1
+      },
+      {
+        "value": "northern",
+        "count": 1
+      },
+      {
+        "value": "moroccan",
+        "count": 1
+      },
+      {
+        "value": "swiss",
+        "count": 1
+      },
+      {
+        "value": "jutlandic",
+        "count": 1
+      }
+    ],
+    "use_case": [
+      {
+        "value": "narrative_story",
+        "count": 2528
+      },
+      {
+        "value": "conversational",
+        "count": 1696
+      },
+      {
+        "value": "informative_educational",
+        "count": 798
+      },
+      {
+        "value": "social_media",
+        "count": 425
+      },
+      {
+        "value": "characters_animation",
+        "count": 399
+      },
+      {
+        "value": "entertainment_tv",
+        "count": 221
+      },
+      {
+        "value": "advertisement",
+        "count": 169
+      }
+    ],
+    "descriptive": [
+      {
+        "value": "calm",
+        "count": 1271
+      },
+      {
+        "value": "confident",
+        "count": 1016
+      },
+      {
+        "value": "casual",
+        "count": 874
+      },
+      {
+        "value": "professional",
+        "count": 428
+      },
+      {
+        "value": "deep",
+        "count": 319
+      },
+      {
+        "value": "pleasant",
+        "count": 317
+      },
+      {
+        "value": "upbeat",
+        "count": 173
+      },
+      {
+        "value": "excited",
+        "count": 158
+      },
+      {
+        "value": "chill",
+        "count": 149
+      },
+      {
+        "value": "classy",
+        "count": 136
+      },
+      {
+        "value": "gentle",
+        "count": 116
+      },
+      {
+        "value": "neutral",
+        "count": 107
+      },
+      {
+        "value": "crisp",
+        "count": 103
+      },
+      {
+        "value": "relaxed",
+        "count": 102
+      },
+      {
+        "value": "cute",
+        "count": 99
+      },
+      {
+        "value": "intense",
+        "count": 90
+      },
+      {
+        "value": "serious",
+        "count": 83
+      },
+      {
+        "value": "formal",
+        "count": 79
+      },
+      {
+        "value": "modulated",
+        "count": 78
+      },
+      {
+        "value": "mature",
+        "count": 67
+      },
+      {
+        "value": "soft",
+        "count": 67
+      },
+      {
+        "value": "meditative",
+        "count": 64
+      },
+      {
+        "value": "raspy",
+        "count": 55
+      },
+      {
+        "value": "wise",
+        "count": 51
+      },
+      {
+        "value": "sassy",
+        "count": 37
+      },
+      {
+        "value": "hyped",
+        "count": 34
+      },
+      {
+        "value": "husky",
+        "count": 34
+      },
+      {
+        "value": "whispery",
+        "count": 33
+      },
+      {
+        "value": "rough",
+        "count": 21
+      },
+      {
+        "value": "anxious",
+        "count": 19
+      },
+      {
+        "value": "robotic",
+        "count": 12
+      },
+      {
+        "value": "sad",
+        "count": 6
+      },
+      {
+        "value": "grumpy",
+        "count": 6
+      }
+    ],
+    "gender": [
+      {
+        "value": "male",
+        "count": 4221
+      },
+      {
+        "value": "female",
+        "count": 2010
+      },
+      {
+        "value": "neutral",
+        "count": 39
+      }
+    ],
+    "age": [
+      {
+        "value": "middle_aged",
+        "count": 3590
+      },
+      {
+        "value": "young",
+        "count": 2470
+      },
+      {
+        "value": "old",
+        "count": 160
+      },
+      {
+        "value": "middle-aged",
+        "count": 18
+      }
+    ],
+    "category": [
+      {
+        "value": "professional",
+        "count": 5231
+      },
+      {
+        "value": "high_quality",
+        "count": 1066
+      }
+    ],
+    "language": [
+      {
+        "value": "en",
+        "count": 6043
+      },
+      {
+        "value": "de",
+        "count": 54
+      },
+      {
+        "value": "es",
+        "count": 36
+      },
+      {
+        "value": "fr",
+        "count": 21
+      },
+      {
+        "value": "pt",
+        "count": 18
+      },
+      {
+        "value": "it",
+        "count": 12
+      },
+      {
+        "value": "hi",
+        "count": 11
+      },
+      {
+        "value": "tr",
+        "count": 9
+      },
+      {
+        "value": "fil",
+        "count": 8
+      },
+      {
+        "value": "pl",
+        "count": 8
+      },
+      {
+        "value": "ar",
+        "count": 7
+      },
+      {
+        "value": "cs",
+        "count": 5
+      },
+      {
+        "value": "ro",
+        "count": 5
+      },
+      {
+        "value": "nl",
+        "count": 5
+      },
+      {
+        "value": "ko",
+        "count": 4
+      },
+      {
+        "value": "id",
+        "count": 4
+      },
+      {
+        "value": "ru",
+        "count": 4
+      },
+      {
+        "value": "vi",
+        "count": 3
+      },
+      {
+        "value": "el",
+        "count": 3
+      },
+      {
+        "value": "hu",
+        "count": 3
+      },
+      {
+        "value": "zh",
+        "count": 3
+      },
+      {
+        "value": "sv",
+        "count": 3
+      },
+      {
+        "value": "ms",
+        "count": 2
+      },
+      {
+        "value": "ja",
+        "count": 2
+      },
+      {
+        "value": "da",
+        "count": 2
+      },
+      {
+        "value": "hr",
+        "count": 2
+      },
+      {
+        "value": "fi",
+        "count": 2
+      },
+      {
+        "value": "ta",
+        "count": 2
+      },
+      {
+        "value": "bg",
+        "count": 1
+      }
+    ]
+  }
+}

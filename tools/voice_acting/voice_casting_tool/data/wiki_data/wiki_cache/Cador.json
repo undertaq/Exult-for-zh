@@ -1,0 +1,12 @@
+{
+  "npc_name": "Cador",
+  "url": "https://wiki.ultimacodex.com/wiki/Cador",
+  "title": "Cador",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Cador</b> is the overseer of operations at the <a href=\"/wiki/Vesper_mine\" title=\"Vesper mine\"> Vesper branch</a> of the <a href=\"/wiki/Britannian_Mining_Company\" title=\"Britannian Mining Company\">Britannian Mining Company</a> (BMC) in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Cador is the overseer of operations at the Vesper branch of the Britannian Mining Company (BMC) in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Vesper"
+  },
+  "fetched_at": "2026-04-18T20:31:27.377975+00:00"
+}

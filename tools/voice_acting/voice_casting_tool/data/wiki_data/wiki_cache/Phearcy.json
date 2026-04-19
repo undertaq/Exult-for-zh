@@ -1,0 +1,12 @@
+{
+  "npc_name": "Phearcy",
+  "url": "https://wiki.ultimacodex.com/wiki/Phearcy",
+  "title": "Phearcy",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Phearcy</b> is the chatty tavernkeeper who owns and operates the <a href=\"/wiki/Friendly_Knave\" class=\"mw-redirect\" title=\"Friendly Knave\">Friendly Knave</a> in <a href=\"/wiki/Moonglow\" title=\"Moonglow\">Moonglow</a>. He appears in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Phearcy is the chatty tavernkeeper who owns and operates the Friendly Knave in Moonglow. He appears in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Moonglow"
+  },
+  "fetched_at": "2026-04-18T20:33:27.873771+00:00"
+}

@@ -1,0 +1,12 @@
+{
+  "npc_name": "Ellen",
+  "url": "https://wiki.ultimacodex.com/wiki/Ellen",
+  "title": "Ellen",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Ellen</b> is the wife of <a href=\"/wiki/Klog\" title=\"Klog\">Klog</a>, the branch leader of the <a href=\"/wiki/Fellowship\" title=\"Fellowship\">Fellowship</a> in <a href=\"/wiki/Trinsic\" title=\"Trinsic\">Trinsic</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Ellen is the wife of Klog, the branch leader of the Fellowship in Trinsic in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Trinsic"
+  },
+  "fetched_at": "2026-04-18T20:31:55.317426+00:00"
+}

@@ -1,0 +1,12 @@
+{
+  "npc_name": "Quaeven",
+  "url": "https://wiki.ultimacodex.com/wiki/Quaeven",
+  "title": "Quaeven",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Quaeven</b> is a wingless <a href=\"/wiki/Gargoyle\" class=\"mw-redirect\" title=\"Gargoyle\">gargoyle</a> who manages the Recreational Facility and Learning Center in <a href=\"/wiki/Terfin\" title=\"Terfin\">Terfin</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Quaeven is a wingless gargoyle who manages the Recreational Facility and Learning Center in Terfin in Ultima VII.",
+  "infobox": {
+    "Species": "gargoyle",
+    "Location": "Terfin"
+  },
+  "fetched_at": "2026-04-18T20:33:29.333618+00:00"
+}

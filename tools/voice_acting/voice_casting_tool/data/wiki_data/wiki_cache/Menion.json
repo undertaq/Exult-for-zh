@@ -1,0 +1,13 @@
+{
+  "npc_name": "Menion",
+  "url": "https://wiki.ultimacodex.com/wiki/Menion",
+  "title": "Menion",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Menion</b> is a <a href=\"/wiki/Trainers\" title=\"Trainers\"> trainer</a> and a weaponsmith in <a href=\"/wiki/Serpent%27s_Hold\" title=\"Serpent&#39;s Hold\">Serpent's Hold</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Menion is a trainer and a weaponsmith in Serpent's Hold in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "trainer & weaponsmith",
+    "Location": "Serpent's Hold"
+  },
+  "fetched_at": "2026-04-18T20:33:05.205662+00:00"
+}

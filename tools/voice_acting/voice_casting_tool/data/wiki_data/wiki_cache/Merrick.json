@@ -1,0 +1,12 @@
+{
+  "npc_name": "Merrick",
+  "url": "https://wiki.ultimacodex.com/wiki/Merrick",
+  "title": "Merrick",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Merrick</b> is a former <a href=\"/wiki/Beggar\" class=\"mw-redirect\" title=\"Beggar\">beggar</a> who has gained the succor of the <a href=\"/wiki/Fellowship\" title=\"Fellowship\">Fellowship</a> and resides in their <a href=\"/wiki/Homeless_shelter\" title=\"Homeless shelter\">homeless shelter</a> in <a href=\"/wiki/Paws\" title=\"Paws\">Paws</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>, working as a recruiter.\n</p>",
+  "summary_text": "Merrick is a former beggar who has gained the succor of the Fellowship and resides in their homeless shelter in Paws in Ultima VII, working as a recruiter.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Paws"
+  },
+  "fetched_at": "2026-04-18T20:33:05.905670+00:00"
+}

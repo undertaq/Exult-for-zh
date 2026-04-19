@@ -1,0 +1,13 @@
+{
+  "npc_name": "Seara",
+  "url": "https://wiki.ultimacodex.com/wiki/Seara",
+  "title": "Seara",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Seara</b> is a clockmaker working in a collective with other members of the <a href=\"/wiki/Artisan%27s_Guild\" title=\"Artisan&#39;s Guild\">Artisan's Guild</a> in <a href=\"/wiki/Minoc\" title=\"Minoc\">Minoc</a> during <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Seara is a clockmaker working in a collective with other members of the Artisan's Guild in Minoc during Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "clockmaker",
+    "Location": "Minoc"
+  },
+  "fetched_at": "2026-04-18T20:33:44.737685+00:00"
+}

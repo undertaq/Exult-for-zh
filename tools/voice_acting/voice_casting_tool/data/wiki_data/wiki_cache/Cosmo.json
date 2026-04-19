@@ -1,0 +1,12 @@
+{
+  "npc_name": "Cosmo",
+  "url": "https://wiki.ultimacodex.com/wiki/Cosmo",
+  "title": "Cosmo",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Cosmo</b> is an inexperienced warrior from <a href=\"/wiki/Jhelom\" title=\"Jhelom\">Jhelom</a> questing in Dungeon <a href=\"/wiki/Destard\" title=\"Destard\">Destard</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>",
+  "summary_text": "Cosmo is an inexperienced warrior from Jhelom questing in Dungeon Destard in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Destard"
+  },
+  "fetched_at": "2026-04-18T20:31:39.236311+00:00"
+}

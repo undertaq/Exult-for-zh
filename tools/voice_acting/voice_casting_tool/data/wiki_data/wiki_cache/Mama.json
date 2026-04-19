@@ -1,0 +1,13 @@
+{
+  "npc_name": "Mama",
+  "url": "https://wiki.ultimacodex.com/wiki/Mama",
+  "title": "Mama",
+  "summary_html": "<div class=\"mw-parser-output\">\n\n</td></tr></tbody></table>\n<p><b>Mama Cyclops</b> is a <a href=\"/wiki/Cyclops\" title=\"Cyclops\">cyclops</a> living in <a href=\"/wiki/Stonegate\" title=\"Stonegate\">Stonegate</a> in <i><a href=\"/wiki/Ultima_VI:_The_False_Prophet\" title=\"Ultima VI: The False Prophet\">Ultima&#160;VI</a></i>.\n</p>",
+  "summary_text": "Mama Cyclops is a cyclops living in Stonegate in Ultima VI.",
+  "infobox": {
+    "Species": "cyclops",
+    "Location": "Stonegate",
+    "Transcript": "Mama"
+  },
+  "fetched_at": "2026-04-18T20:32:57.835923+00:00"
+}

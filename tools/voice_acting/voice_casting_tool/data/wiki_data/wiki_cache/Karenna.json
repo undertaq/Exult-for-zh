@@ -1,0 +1,13 @@
+{
+  "npc_name": "Karenna",
+  "url": "https://wiki.ultimacodex.com/wiki/Karenna",
+  "title": "Karenna",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Karenna</b> is a <a href=\"/wiki/Trainer_for_the_Art_of_Fighting\" class=\"mw-redirect\" title=\"Trainer for the Art of Fighting\"> trainer</a> working in <a href=\"/wiki/Minoc\" title=\"Minoc\">Minoc</a>. She appears in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Karenna is a trainer working in Minoc. She appears in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "trainer",
+    "Location": "Minoc"
+  },
+  "fetched_at": "2026-04-18T20:32:40.583190+00:00"
+}

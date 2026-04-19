@@ -1,0 +1,12 @@
+{
+  "npc_name": "Rowena",
+  "url": "https://wiki.ultimacodex.com/wiki/Rowena",
+  "title": "Rowena",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Rowena</b> is the ghost of a woman who once lived in <a href=\"/wiki/Skara_Brae\" title=\"Skara Brae\">Skara Brae</a>. The <a href=\"/wiki/Avatar\" title=\"Avatar\">Avatar</a> encountered her in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Rowena is the ghost of a woman who once lived in Skara Brae. The Avatar encountered her in Ultima VII.",
+  "infobox": {
+    "Species": "ghost",
+    "Location": "Skara Brae"
+  },
+  "fetched_at": "2026-04-18T20:33:36.579835+00:00"
+}

@@ -1,0 +1,13 @@
+{
+  "npc_name": "Csil",
+  "url": "https://wiki.ultimacodex.com/wiki/Csil",
+  "title": "Csil",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Csil</b> is a <a href=\"/wiki/Healer\" title=\"Healer\">healer</a> operating in <a href=\"/wiki/Britain\" title=\"Britain\">Britain</a> during <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Csil is a healer operating in Britain during Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "healer",
+    "Location": "Britain"
+  },
+  "fetched_at": "2026-04-18T20:31:39.989857+00:00"
+}

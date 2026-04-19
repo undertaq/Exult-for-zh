@@ -1,0 +1,12 @@
+{
+  "npc_name": "Dustin",
+  "url": "https://wiki.ultimacodex.com/wiki/Dustin",
+  "title": "Dustin",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Dustin</b> is a member of an acting company encamped north of <a href=\"/wiki/Trinsic\" title=\"Trinsic\">Trinsic</a> during the time of <i><a href=\"/wiki/Ultima_VII\" class=\"mw-redirect\" title=\"Ultima VII\">Ultima VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Dustin is a member of an acting company encamped north of Trinsic during the time of Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Trinsic"
+  },
+  "fetched_at": "2026-04-18T20:31:51.014921+00:00"
+}

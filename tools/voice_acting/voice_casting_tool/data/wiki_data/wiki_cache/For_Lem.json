@@ -1,0 +1,12 @@
+{
+  "npc_name": "For Lem",
+  "url": "https://wiki.ultimacodex.com/wiki/For-Lem",
+  "title": "For-Lem",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table><p><b>For-Lem</b> is a wingless <a href=\"/wiki/Gargoyle\" class=\"mw-redirect\" title=\"Gargoyle\">gargoyle</a> working as a factorum in <a href=\"/wiki/Vesper\" title=\"Vesper\">Vesper</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p><div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "For-Lem is a wingless gargoyle working as a factorum in Vesper in Ultima VII.",
+  "infobox": {
+    "Species": "gargoyle",
+    "Location": "Vesper"
+  },
+  "fetched_at": "2026-04-18T20:32:02.554008+00:00"
+}

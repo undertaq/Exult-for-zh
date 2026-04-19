@@ -1,0 +1,13 @@
+{
+  "npc_name": "Thurston",
+  "url": "https://wiki.ultimacodex.com/wiki/Thurston",
+  "title": "Thurston",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Thurston</b> is the owner and operator of the <a href=\"/wiki/Flour_mill\" title=\"Flour mill\">flour mill</a> in <a href=\"/wiki/Paws\" title=\"Paws\">Paws</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Thurston is the owner and operator of the flour mill in Paws in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "miller",
+    "Location": "Paws"
+  },
+  "fetched_at": "2026-04-18T20:34:00.954321+00:00"
+}

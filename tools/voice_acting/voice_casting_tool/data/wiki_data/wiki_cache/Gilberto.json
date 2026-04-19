@@ -1,0 +1,13 @@
+{
+  "npc_name": "Gilberto",
+  "url": "https://wiki.ultimacodex.com/wiki/Gilberto",
+  "title": "Gilberto",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Gilberto</b> is a <a href=\"/wiki/Guard\" class=\"mw-redirect\" title=\"Guard\">guard</a> in <a href=\"/wiki/Trinsic\" title=\"Trinsic\">Trinsic</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>, assigned to the overnight shift at the east gate leading to the harbour.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Gilberto is a guard in Trinsic in Ultima VII, assigned to the overnight shift at the east gate leading to the harbour.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "guard",
+    "Location": "Trinsic"
+  },
+  "fetched_at": "2026-04-18T20:32:12.544647+00:00"
+}

@@ -1,0 +1,12 @@
+{
+  "npc_name": "Ferryman",
+  "url": "https://wiki.ultimacodex.com/wiki/Ferryman",
+  "title": "Ferryman",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p>The <b>Ferryman</b> is an undying entity who tends the <a href=\"/wiki/Ferry_Station\" class=\"mw-redirect\" title=\"Ferry Station\"> ferry</a> to the ruins of <a href=\"/wiki/Skara_Brae\" title=\"Skara Brae\">Skara Brae</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "The Ferryman is an undying entity who tends the ferry to the ruins of Skara Brae in Ultima VII.",
+  "infobox": {
+    "Species": "skeleton",
+    "Location": "Skara Brae"
+  },
+  "fetched_at": "2026-04-18T20:31:59.685024+00:00"
+}

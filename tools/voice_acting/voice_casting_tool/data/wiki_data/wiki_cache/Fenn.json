@@ -1,0 +1,12 @@
+{
+  "npc_name": "Fenn",
+  "url": "https://wiki.ultimacodex.com/wiki/Fenn",
+  "title": "Fenn",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Fenn</b> is a <a href=\"/wiki/Beggar\" class=\"mw-redirect\" title=\"Beggar\">beggar</a> living in <a href=\"/wiki/Paws\" title=\"Paws\">Paws</a>, who plies for alms along the town's dirt crossroads with his companion <a href=\"/wiki/Komor\" title=\"Komor\">Komor</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>",
+  "summary_text": "Fenn is a beggar living in Paws, who plies for alms along the town's dirt crossroads with his companion Komor in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Paws"
+  },
+  "fetched_at": "2026-04-18T20:31:58.219401+00:00"
+}

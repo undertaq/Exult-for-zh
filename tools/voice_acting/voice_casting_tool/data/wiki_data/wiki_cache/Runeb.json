@@ -1,0 +1,12 @@
+{
+  "npc_name": "Runeb",
+  "url": "https://wiki.ultimacodex.com/wiki/Runeb",
+  "title": "Runeb",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Runeb</b> is a winged <a href=\"/wiki/Gargoyle\" class=\"mw-redirect\" title=\"Gargoyle\">gargoyle</a> on <a href=\"/wiki/Terfin\" title=\"Terfin\">Terfin</a> who serves as clerk at the local branch of the <a href=\"/wiki/Fellowship\" title=\"Fellowship\">Fellowship</a> during <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Runeb is a winged gargoyle on Terfin who serves as clerk at the local branch of the Fellowship during Ultima VII.",
+  "infobox": {
+    "Species": "gargoyle",
+    "Location": "Terfin"
+  },
+  "fetched_at": "2026-04-18T20:33:38.089915+00:00"
+}

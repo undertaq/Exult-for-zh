@@ -1,0 +1,13 @@
+{
+  "npc_name": "Jehanne",
+  "url": "https://wiki.ultimacodex.com/wiki/Lady_Jehanne",
+  "title": "Lady Jehanne",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Lady Jehanne</b> is the <a href=\"/wiki/Provisioner\" title=\"Provisioner\">provisioner</a> of <a href=\"/wiki/Serpent%27s_Hold\" title=\"Serpent&#39;s Hold\">Serpent's Hold</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>, but also functions as a <a href=\"/wiki/Shipwright\" title=\"Shipwright\">shipwright</a>. She is the wife of <a href=\"/wiki/Sir_Pendaran\" title=\"Sir Pendaran\">Sir Pendaran</a>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Lady Jehanne is the provisioner of Serpent's Hold in Ultima VII, but also functions as a shipwright. She is the wife of Sir Pendaran.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "provisioner",
+    "Location": "Serpent's Hold"
+  },
+  "fetched_at": "2026-04-18T20:32:32.475490+00:00"
+}

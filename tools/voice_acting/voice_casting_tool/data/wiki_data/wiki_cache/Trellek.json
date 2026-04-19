@@ -1,0 +1,12 @@
+{
+  "npc_name": "Trellek",
+  "url": "https://wiki.ultimacodex.com/wiki/Trellek",
+  "title": "Trellek",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Trellek</b> is an <a href=\"/wiki/Emps\" title=\"Emps\">emp</a> living in a <a href=\"/wiki/Emp_Village\" class=\"mw-redirect\" title=\"Emp Village\"> communal village</a> amongst the <a href=\"/wiki/Silverleaf\" title=\"Silverleaf\">Silverleaf</a> trees of the <a href=\"/wiki/Deep_Forest\" title=\"Deep Forest\">Deep Forest</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Trellek is an emp living in a communal village amongst the Silverleaf trees of the Deep Forest in Ultima VII.",
+  "infobox": {
+    "Species": "emp",
+    "Location": "Emp Village"
+  },
+  "fetched_at": "2026-04-18T20:34:06.168630+00:00"
+}

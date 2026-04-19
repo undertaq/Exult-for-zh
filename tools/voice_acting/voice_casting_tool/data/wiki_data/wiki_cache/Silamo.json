@@ -1,0 +1,12 @@
+{
+  "npc_name": "Silamo",
+  "url": "https://wiki.ultimacodex.com/wiki/Silamo",
+  "title": "Silamo",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Silamo</b> is a wingless <a href=\"/wiki/Gargoyle\" class=\"mw-redirect\" title=\"Gargoyle\">gargoyle</a> working as the gardener in <a href=\"/wiki/Terfin\" title=\"Terfin\">Terfin</a> during <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Silamo is a wingless gargoyle working as the gardener in Terfin during Ultima VII.",
+  "infobox": {
+    "Species": "gargoyle",
+    "Location": "Terfin"
+  },
+  "fetched_at": "2026-04-18T20:33:49.963349+00:00"
+}

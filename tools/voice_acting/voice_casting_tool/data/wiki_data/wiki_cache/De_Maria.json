@@ -1,0 +1,12 @@
+{
+  "npc_name": "De Maria",
+  "url": "https://wiki.ultimacodex.com/wiki/De_Maria",
+  "title": "De Maria",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>De Maria</b> is a <a href=\"/wiki/Bard\" title=\"Bard\">bard</a> who frequents <a href=\"/wiki/The_Emerald\" title=\"The Emerald\">The Emerald</a> in <a href=\"/wiki/Cove\" title=\"Cove\">Cove</a>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "De Maria is a bard who frequents The Emerald in Cove.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Cove"
+  },
+  "fetched_at": "2026-04-18T20:31:44.329262+00:00"
+}

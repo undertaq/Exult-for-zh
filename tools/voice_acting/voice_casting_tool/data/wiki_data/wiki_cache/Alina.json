@@ -1,0 +1,12 @@
+{
+  "npc_name": "Alina",
+  "url": "https://wiki.ultimacodex.com/wiki/Alina",
+  "title": "Alina",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Alina</b> is an impoverished woman living in the <a href=\"/wiki/Fellowship\" title=\"Fellowship\">Fellowship</a>-run <a href=\"/wiki/Homeless_shelter\" title=\"Homeless shelter\">homeless shelter</a> in <a href=\"/wiki/Paws\" title=\"Paws\">Paws</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>. She is married to <a href=\"/wiki/Weston\" title=\"Weston\">Weston</a>, with whom she has a daughter named Cassie.\n</p>",
+  "summary_text": "Alina is an impoverished woman living in the Fellowship-run homeless shelter in Paws in Ultima VII. She is married to Weston, with whom she has a daughter named Cassie.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Paws"
+  },
+  "fetched_at": "2026-04-18T20:31:06.230632+00:00"
+}

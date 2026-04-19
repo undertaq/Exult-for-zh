@@ -1,0 +1,12 @@
+{
+  "npc_name": "Glenno",
+  "url": "https://wiki.ultimacodex.com/wiki/Glenno",
+  "title": "Glenno",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Glenno</b> is the master of the <a href=\"/wiki/The_Baths\" title=\"The Baths\"> Baths</a> in <a href=\"/wiki/Buccaneer%27s_Den\" title=\"Buccaneer&#39;s Den\">Buccaneer's Den</a>. He appears in <i><a href=\"/wiki/Ultima_VII\" class=\"mw-redirect\" title=\"Ultima VII\">Ultima VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Glenno is the master of the Baths in Buccaneer's Den. He appears in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Buccaneer's Den"
+  },
+  "fetched_at": "2026-04-18T20:32:14.029901+00:00"
+}

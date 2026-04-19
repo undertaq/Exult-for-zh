@@ -1,0 +1,12 @@
+{
+  "npc_name": "Thad",
+  "url": "https://wiki.ultimacodex.com/wiki/Thad",
+  "title": "Thad",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Thad</b> is a man engaged in a quixotic quest against the <a href=\"/wiki/Fellowship\" title=\"Fellowship\">Fellowship</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>. He can be found in the forests near <a href=\"/wiki/Yew\" title=\"Yew\">Yew</a>.\n</p>",
+  "summary_text": "Thad is a man engaged in a quixotic quest against the Fellowship in Ultima VII. He can be found in the forests near Yew.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Yew"
+  },
+  "fetched_at": "2026-04-18T20:34:00.221934+00:00"
+}

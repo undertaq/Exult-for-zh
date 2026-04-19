@@ -1,0 +1,12 @@
+{
+  "npc_name": "Gladstone",
+  "url": "https://wiki.ultimacodex.com/wiki/Gladstone",
+  "title": "Gladstone",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Gladstone</b> is a glassblower and sculptor who serves as the head of the <a href=\"/wiki/Minoc\" title=\"Minoc\"> Minoxian</a> <a href=\"/wiki/Artisan%27s_Guild\" title=\"Artisan&#39;s Guild\">Artisan's Guild</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Gladstone is a glassblower and sculptor who serves as the head of the Minoxian Artisan's Guild in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Minoc"
+  },
+  "fetched_at": "2026-04-18T20:32:13.283453+00:00"
+}

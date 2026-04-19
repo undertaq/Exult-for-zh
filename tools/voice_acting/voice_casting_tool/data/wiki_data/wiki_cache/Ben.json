@@ -1,0 +1,13 @@
+{
+  "npc_name": "Ben",
+  "url": "https://wiki.ultimacodex.com/wiki/Ben",
+  "title": "Ben",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<hr />\n<p><i>This article is about a character from </i>Ultima&#160;VII<i>.  For the </i>Ultima&#160;VI<i> character, see </i><a href=\"/wiki/Ben_(U6)\" title=\"Ben (U6)\"><i>Ben (</i>U6<i>)</i></a><i>.</i>\n</p>\n<hr />\n<p><b>Ben</b> is a woodcutter in <a href=\"/wiki/Yew\" title=\"Yew\">Yew</a> during <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "This article is about a character from Ultima VII. For the Ultima VI character, see Ben (U6). Ben is a woodcutter in Yew during Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "woodcutter",
+    "Location": "Yew"
+  },
+  "fetched_at": "2026-04-18T20:31:16.380986+00:00"
+}

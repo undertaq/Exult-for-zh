@@ -1,0 +1,13 @@
+{
+  "npc_name": "Eldroth",
+  "url": "https://wiki.ultimacodex.com/wiki/Eldroth",
+  "title": "Eldroth",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Eldroth</b> is a <a href=\"/wiki/Provisioner\" title=\"Provisioner\">provisioner</a> in <a href=\"/wiki/Vesper\" title=\"Vesper\">Vesper</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>, known for his mangled proverbs.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Eldroth is a provisioner in Vesper in Ultima VII, known for his mangled proverbs.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "provisioner",
+    "Location": "Vesper"
+  },
+  "fetched_at": "2026-04-18T20:31:53.861656+00:00"
+}

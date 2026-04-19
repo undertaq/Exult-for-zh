@@ -1,0 +1,12 @@
+{
+  "npc_name": "Danag",
+  "url": "https://wiki.ultimacodex.com/wiki/Danag",
+  "title": "Danag",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Danag</b> is the interim <a href=\"/wiki/Fellowship\" title=\"Fellowship\">Fellowship</a> branch leader in <a href=\"/wiki/Buccaneer%27s_Den\" title=\"Buccaneer&#39;s Den\">Buccaneer's Den</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Danag is the interim Fellowship branch leader in Buccaneer's Den in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Buccaneer's Den"
+  },
+  "fetched_at": "2026-04-18T20:31:42.890489+00:00"
+}

@@ -1,0 +1,12 @@
+{
+  "npc_name": "Teregus",
+  "url": "https://wiki.ultimacodex.com/wiki/Teregus",
+  "title": "Teregus",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Teregus</b> is a <a href=\"/wiki/Gargoyle\" class=\"mw-redirect\" title=\"Gargoyle\">gargoyle</a> sage who tends to the rebuilt <a href=\"/wiki/Shrines_of_the_Principles\" title=\"Shrines of the Principles\">Shrines of the Principles</a> on <a href=\"/wiki/Terfin\" title=\"Terfin\">Terfin</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Teregus is a gargoyle sage who tends to the rebuilt Shrines of the Principles on Terfin in Ultima VII.",
+  "infobox": {
+    "Species": "gargoyle",
+    "Location": "Terfin"
+  },
+  "fetched_at": "2026-04-18T20:33:59.523540+00:00"
+}

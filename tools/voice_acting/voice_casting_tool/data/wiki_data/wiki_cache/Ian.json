@@ -1,0 +1,12 @@
+{
+  "npc_name": "Ian",
+  "url": "https://wiki.ultimacodex.com/wiki/Ian",
+  "title": "Ian",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Ian</b> is the director of the <a href=\"/wiki/Fellowship%27s\" class=\"mw-redirect\" title=\"Fellowship&#39;s\">Fellowship's</a> <a href=\"/wiki/Meditation_Retreat\" title=\"Meditation Retreat\">Meditation Retreat</a> during <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Ian is the director of the Fellowship's Meditation Retreat during Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Meditation Retreat"
+  },
+  "fetched_at": "2026-04-18T20:32:24.350965+00:00"
+}

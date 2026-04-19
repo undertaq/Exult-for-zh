@@ -1,0 +1,12 @@
+{
+  "npc_name": "Coop",
+  "url": "https://wiki.ultimacodex.com/wiki/Coop",
+  "title": "Coop",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Coop</b> is the <a href=\"/wiki/Merchants\" title=\"Merchants\">merchant</a> tending to <a href=\"/wiki/Iolo%27s_Bows\" title=\"Iolo&#39;s Bows\">Iolo's Bows</a> in <a href=\"/wiki/Britain\" title=\"Britain\">Britain</a>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Coop is the merchant tending to Iolo's Bows in Britain.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Britain"
+  },
+  "fetched_at": "2026-04-18T20:31:38.547591+00:00"
+}

@@ -1,0 +1,12 @@
+{
+  "npc_name": "Frank",
+  "url": "https://wiki.ultimacodex.com/wiki/Frank_the_Fox",
+  "title": "Frank the Fox",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Frank the Fox</b> is a sapient talking <a href=\"/wiki/Fox\" class=\"mw-redirect\" title=\"Fox\">fox</a> who can be found outside of the <a href=\"/wiki/Lycaeum\" title=\"Lycaeum\">Lycaeum</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>. He looks similar to other foxes in the game, save that he appears to wear a green scarf or collar around his neck.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Frank the Fox is a sapient talking fox who can be found outside of the Lycaeum in Ultima VII. He looks similar to other foxes in the game, save that he appears to wear a green scarf or collar around his neck.",
+  "infobox": {
+    "Species": "fox",
+    "Location": "Lycaeum"
+  },
+  "fetched_at": "2026-04-18T20:32:06.532854+00:00"
+}

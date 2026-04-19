@@ -1,0 +1,12 @@
+{
+  "npc_name": "Fodus",
+  "url": "https://wiki.ultimacodex.com/wiki/Fodus",
+  "title": "Fodus",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Fodus</b> is a <a href=\"/wiki/Gargoyle\" class=\"mw-redirect\" title=\"Gargoyle\"> gargish</a> mine miner working in <a href=\"/wiki/Covetous\" title=\"Covetous\">Covetous</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>",
+  "summary_text": "Fodus is a gargish mine miner working in Covetous in Ultima VII.",
+  "infobox": {
+    "Species": "gargoyle",
+    "Location": "Covetous"
+  },
+  "fetched_at": "2026-04-18T20:32:01.865078+00:00"
+}
