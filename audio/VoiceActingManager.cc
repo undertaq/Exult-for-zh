@@ -137,23 +137,31 @@ bool VoiceActingManager::try_play(const string& path) {
 }
 
 /*
- *  Try to locate a voice file by filename, checking the primary directory
- *  first and the secondary source directory as a fallback. Used so that a
- *  second-source generation run can drop files into a sibling folder without
+ *  Try to locate a voice file by base name (without extension), checking
+ *  each source directory in order and preferring .ogg over .wav within each
+ *  directory. This lets a primary distribution ship compressed .ogg files
+ *  while still working if someone has loose .wav files handy, and lets a
+ *  second-source generation run drop files into a sibling folder without
  *  overwriting the primary set.
  *
- *  On hit, writes the resolved path into `out_path` and returns true.
+ *  `base_filename` is the filename without extension (e.g.
+ *  "0401_af_151_254_0"). On hit, writes the resolved path into `out_path`
+ *  and returns true.
  */
-static bool find_voice_file(const string& filename, string& out_path) {
+static bool find_voice_file(const string& base_filename, string& out_path) {
 	static const char* const search_dirs[] = {
 			"<PATCH>/voice_acting/",
 			"<PATCH>/voice_acting/second_source/",
 	};
+	static const char* const extensions[] = {".ogg", ".wav"};
 	for (const char* dir : search_dirs) {
-		string candidate = get_system_path(dir + filename);
-		if (U7exists(candidate)) {
-			out_path = candidate;
-			return true;
+		for (const char* ext : extensions) {
+			string candidate
+					= get_system_path(dir + base_filename + ext);
+			if (U7exists(candidate)) {
+				out_path = candidate;
+				return true;
+			}
 		}
 	}
 	return false;
@@ -162,10 +170,11 @@ static bool find_voice_file(const string& filename, string& out_path) {
 /*
  *  Play voice acting for conversation text.
  *  Tries NPC-specific file first, then falls back to generic:
- *    1. <funcID>_<offset_key>_<segment>_npc<N>.wav  (per-NPC voice)
- *    2. <funcID>_<offset_key>_<segment>.wav          (generic fallback)
- *  Each filename is searched first in <PATCH>/voice_acting/, then in
- *  <PATCH>/voice_acting/second_source/.
+ *    1. <funcID>_<offset_key>_<segment>_npc<N>  (per-NPC voice)
+ *    2. <funcID>_<offset_key>_<segment>         (generic fallback)
+ *  Each base name is searched in <PATCH>/voice_acting/ then in
+ *  <PATCH>/voice_acting/second_source/, and within each directory we prefer
+ *  .ogg over .wav.
  */
 bool VoiceActingManager::play_for_conversation(
 		int function_id, const string& offset_key,
@@ -185,14 +194,24 @@ bool VoiceActingManager::play_for_conversation(
 		char npc_suffix[16];
 		std::snprintf(npc_suffix, sizeof(npc_suffix), "_npc%d",
 					  speaker_npc < 0 ? -speaker_npc : speaker_npc);
-		filename = base + npc_suffix + ".wav";
-		exists   = find_voice_file(filename, path);
+		exists = find_voice_file(base + npc_suffix, path);
+		if (exists) {
+			// Reflect the actual extension resolved (.ogg or .wav) in the
+			// log, so auditing can distinguish compressed vs. raw builds.
+			filename = path.substr(path.find_last_of("/\\") + 1);
+		} else {
+			filename = base + npc_suffix + ".wav";
+		}
 	}
 
 	// Fall back to generic file.
 	if (!exists) {
-		filename = base + ".wav";
-		exists   = find_voice_file(filename, path);
+		exists = find_voice_file(base, path);
+		if (exists) {
+			filename = path.substr(path.find_last_of("/\\") + 1);
+		} else {
+			filename = base + ".wav";
+		}
 	}
 
 	bool played = false;
