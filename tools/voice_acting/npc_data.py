@@ -68,6 +68,16 @@ NPC_NUMBERS = {
     "Wis Sur": 216, "Xanthia": 86, "Xorinia": 256, "Yongi": 207,
     "Yvella": 212, "Zaksam": 205, "Zelda": 152, "Zella": 36,
     "Zinaida": 79, "Zorn": 87,
+    # Forge of Virtue expansion NPCs
+    "Erethian": 286, "Ferryman": 285, "Time Lord": 284,
+    "Stone Guardian": 277, "Shrine": 287,
+    "Bollux": 288, "Adjhar": 289, "Dark Core": 292,
+    "Dracothraxus": 293,
+    # Guards and misc NPCs (not in bgkeyring)
+    "Guard": 259, "Palace Guard": 258,
+    "Arcadion": 273,
+    # Hydra heads (Ambrosia)
+    "Shandu": 280, "Shando": 281, "Shanda": 282,
 }
 
 # Reverse lookup: NPC number -> name

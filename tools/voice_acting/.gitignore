@@ -1,3 +1,11 @@
+# Secrets
 .env
+
+# Python cache
 __pycache__/
-*.csv
+
+# Generated / regenerable artifacts
+csvs/
+
+# temporary storage of downloaded transcripts for verification.
+transcripts/

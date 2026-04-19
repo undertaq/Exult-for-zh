@@ -65,18 +65,10 @@ def load_extracted(path):
     return extracted
 
 
-# NPC number -> name mapping
-# Negative NPC numbers as used in usecode / runtime log
-NPC_NAMES = {
-    0: "Avatar",
-    -1: "Iolo", -2: "Spark", -3: "Shamino", -4: "Dupre",
-    -5: "Jaana", -6: "Trellek", -7: "Sentri", -8: "Julia",
-    -9: "Katrina", -10: "Tseramed", -11: "Petre", -12: "Finnigan",
-    -13: "Gilberto", -14: "Johnson", -15: "Eiko", -16: "Klog",
-    -17: "Chantu", -18: "Dell", -19: "Apollonia", -20: "Markus",
-    -21: "Gargan", -22: "Caroline", -23: "Lord British",
-    -24: "Nystul", -25: "Chuckles", -26: "Batlin",
-}
+# NPC number -> name mapping (from shared npc_data module)
+from npc_data import NPC_NUMBERS
+NPC_NAMES = {0: "Avatar"}
+NPC_NAMES.update({-num: name for name, num in NPC_NUMBERS.items()})
 
 
 def npc_name(num):
@@ -210,10 +202,16 @@ def main():
 
         # Check speaker
         ext_speaker = ext.get("speaker", "")
+        ext_caller_guess = ext.get("caller_guess", "")
         if ext_speaker:
             speaker_ok = (runtime_speaker_name == ext_speaker)
+        elif ext_caller_guess:
+            # No direct speaker, but check if runtime speaker matches
+            # one of the caller_guess options (pipe-delimited)
+            guesses = [g.strip() for g in ext_caller_guess.split("|")]
+            speaker_ok = runtime_speaker_name in guesses
         else:
-            speaker_ok = False  # No extracted speaker - needs review
+            speaker_ok = False  # No speaker or caller_guess at all
 
         issues = []
         if not text_ok:
@@ -221,6 +219,8 @@ def main():
         if not speaker_ok:
             if ext_speaker:
                 issues.append("SPEAKER_MISMATCH")
+            elif ext_caller_guess:
+                issues.append("SPEAKER_NOT_IN_CALLER_GUESS")
             else:
                 issues.append("SPEAKER_UNKNOWN_IN_EXTRACTED")
 

@@ -1,70 +1,99 @@
 # Voice Acting Tools
 
-> **Work in progress.** This system is still in early development and is not yet
-> capable of providing complete voice acting for the game. Currently it is limited
-> to the initial conversations in Trinsic (Iolo's greeting, Finnigan's murder
-> investigation, and other NPCs in the area). The tooling, file format, and engine
-> integration are all subject to change.
+> **Work in progress.** The voice acting system is under active development. It
+> has been built out for (and tested against) Ultima VII: The Black Gate on the
+> GOG release. The tooling, file format, and engine integration are all still
+> subject to change.
 
 Tools for adding AI-generated voice acting to Exult dialog using text-to-speech.
-Currently targeting the GOG version of Ultima VII: The Black Gate.
 
 ## Overview
 
-The voice acting system works by:
+The pipeline has two halves:
 
-1. **Extracting dialog lines** from the compiled usecode binary using static analysis
-2. **Preparing a generation manifest** that resolves placeholders, assigns voices, and expands multi-NPC shared lines
-3. **Generating voice audio** via the ElevenLabs TTS API
-4. **Playing audio at runtime** matched to dialog by usecode function ID and data segment offsets
+1. **Static analysis and generation** (the Python tools in this directory). These
+   extract dialog lines from the compiled usecode, prepare a generation manifest,
+   and call the ElevenLabs TTS API to produce voice WAV files.
+2. **Voice casting** (the `voice_casting_tool/` web app). A local web UI for
+   browsing ElevenLabs voices, previewing samples, assigning voices to NPCs, and
+   exporting the canonical NPC-to-voice map as a CSV.
 
-Voice files are WAV files placed in `<game>/patch/voice_acting/`. The engine looks up
-files based on the usecode instruction trace, making the system immune to player name
-and gender variation in dialog text.
+At runtime, Exult looks up voice files keyed by a usecode instruction trace
+(function ID + data segment offsets), making playback immune to player name and
+gender variation in dialog text.
+
+## Directory layout
+
+```
+tools/voice_acting/
+├── .env                     Secrets (gitignored)
+├── *.py                     Pipeline scripts (see "Tools" below)
+├── overrides.csv            Hand-curated dialog corrections (committed)
+├── voice_assignments.csv    NPC -> voice map, exported from the casting tool (committed)
+├── csvs/                    Regenerable pipeline outputs (gitignored)
+├── transcripts/             Reference transcripts used for override curation
+└── voice_casting_tool/      Local web app for voice casting (see its README)
+```
 
 ## Paths
 
-For the GOG version of Ultima VII: The Black Gate on Windows:
+Default locations for the GOG release of Ultima VII on Windows:
 
 | Path | Description |
 |------|-------------|
-| `C:\Program Files (x86)\GOG Galaxy\Games\Ultima 7\static\usecode` | Compiled usecode binary (input for disassembler) |
-| `C:\Program Files (x86)\GOG Galaxy\Games\Ultima 7\patch\voice_acting\` | Voice acting WAV files (output directory) |
+| `C:\Program Files (x86)\GOG Galaxy\Games\Ultima 7\static\usecode` | Compiled usecode binary (disassembler input) |
+| `C:\Program Files (x86)\GOG Galaxy\Games\Ultima 7\patch\voice_acting\` | Generated voice WAV files (engine input) |
 
-The `patch` directory may need to be created if it doesn't already exist.
+The `patch` directory may need to be created if it does not already exist.
 
-## Pipeline
+## Setup
+
+1. Get an API key from [ElevenLabs](https://elevenlabs.io).
+2. Create `.env` in this directory:
+   ```
+   ELEVENLABS_API_KEY=sk_...
+   # Optional overrides used by the casting tool:
+   MANIFEST_CSV=/absolute/path/to/csvs/manifest.csv
+   VOICE_WAV_DIR=/absolute/path/to/patch/voice_acting
+   ```
+3. Install Python dependencies:
+   ```
+   pip install requests anthropic
+   ```
+   (`anthropic` is only needed for `voice_casting_tool/scripts/suggest_voices.py`.)
+
+## Pipeline at a glance
 
 ```
-disassemble_usecode.py ──► scope_voice_lines.csv (extracted dialog)
-                                    │
-prepare_voice_lines.py ◄── overrides.csv (manual corrections)
-         │
-         ▼
-    manifest.csv (generation-ready, all details resolved)
-         │
-  generate_voices.py ──► WAV files in patch/voice_acting/
+disassemble_usecode.py  ──►  csvs/voice_lines.csv          (extracted dialog)
+                                      │
+       prepare_voice_lines.py  ◄──  overrides.csv          (manual corrections)
+                │            ◄──  voice_assignments.csv    (voice map from casting tool)
+                ▼
+          csvs/manifest.csv  (generation-ready)
+                │
+         generate_voices.py  ──►  *.wav in patch/voice_acting/
 ```
 
-## Tools
+## Pipeline scripts
 
-### disassemble_usecode.py
+### `disassemble_usecode.py`
 
 Parses the compiled `usecode` binary and extracts dialog lines with metadata
 (speaker, function ID, offset key, variable placeholders).
 
 ```bash
-# Extract dialog lines for specific functions as CSV
-python disassemble_usecode.py \
-    "C:\Program Files (x86)\GOG Galaxy\Games\Ultima 7\static\usecode" \
-    --func 0x401 --func 0x40c --format csv > scope_voice_lines.csv
-
 # Extract all functions
 python disassemble_usecode.py \
     "C:\Program Files (x86)\GOG Galaxy\Games\Ultima 7\static\usecode" \
-    --all --format csv > all_voice_lines.csv
+    --all --format csv > csvs/voice_lines.csv
 
-# Disassemble in usecode.dis format (for diffing against docs/usecode.dis)
+# Or only specific functions
+python disassemble_usecode.py \
+    "C:\Program Files (x86)\GOG Galaxy\Games\Ultima 7\static\usecode" \
+    --func 0x401 --func 0x40c --format csv > csvs/voice_lines.csv
+
+# Usecode.dis format (for diffing against docs/usecode.dis)
 python disassemble_usecode.py \
     "C:\Program Files (x86)\GOG Galaxy\Games\Ultima 7\static\usecode" \
     --func 0x401 --format dis
@@ -74,113 +103,118 @@ python disassemble_usecode.py \
     "C:\Program Files (x86)\GOG Galaxy\Games\Ultima 7\static\usecode" --list
 ```
 
-The CSV output includes:
-- `func_id` - usecode function number
-- `npc` - NPC who owns the conversation
-- `speaker` - who is actually speaking (detected via show_npc_face intrinsic tracking)
-- `caller_guess` - inferred speaker from call graph analysis (pipe-delimited if multiple)
-- `offset_key` - stable voice file key from addsi offsets
-- `segment` - segment index within `~~` text splits
-- `has_var` - whether line contains dynamic text
-- `text` - dialog template with `<PLAYER_NAME>`, `<PRONOUN>`, `<HONORIFIC>` placeholders
+Key CSV columns: `func_id`, `npc`, `speaker`, `caller_guess`, `offset_key`,
+`segment`, `has_var`, `text`.
 
-### prepare_voice_lines.py
+### `prepare_voice_lines.py`
 
-Prepares a generation manifest from the extracted CSV. Resolves placeholders,
-applies manual overrides, assigns voices, and expands shared lines into per-NPC
-variants. Reports any issues (unresolved variables, missing speakers, missing
-voice assignments).
+Builds the generation manifest from the extracted CSV. Resolves placeholders,
+applies `overrides.csv`, looks up voices from `voice_assignments.csv`, and
+expands shared lines into per-NPC variants.
 
 ```bash
 python prepare_voice_lines.py \
-    --csv scope_voice_lines.csv \
+    --csv csvs/voice_lines.csv \
     --overrides overrides.csv \
-    --player-name Avatar --player-gender female \
-    -o manifest.csv
+    --voice-map voice_assignments.csv \
+    --player-name Helena --player-gender female \
+    -o csvs/manifest.csv
 ```
 
+`--voice-map` is required. Produce it by clicking **Export CSV** in the
+`voice_casting_tool` web app and committing the result as
+`voice_assignments.csv`.
+
 Outputs:
-- `manifest.csv` - generation-ready manifest with all details resolved
-- `manifest_issues.csv` - any lines that need attention
+- `csvs/manifest.csv` — generation-ready.
+- `csvs/manifest_issues.csv` — lines needing attention (unresolved vars, missing
+  speakers, missing voice assignments).
 
-### generate_voices.py
+### `generate_voices.py`
 
-Generates WAV voice files using the ElevenLabs TTS API, reading from the
-manifest produced by `prepare_voice_lines.py`.
+Generates WAV files with the ElevenLabs TTS API, reading from the manifest.
 
 ```bash
-# Preview what would be generated (no API calls)
-python generate_voices.py --manifest manifest.csv \
+# Preview with cost estimate, no API calls
+python generate_voices.py -m csvs/manifest.csv \
     -o "C:\Program Files (x86)\GOG Galaxy\Games\Ultima 7\patch\voice_acting" \
     --dry-run
 
-# Generate first 5 files to test
-python generate_voices.py --manifest manifest.csv \
+# Sample one line per NPC (skips NPCs already having any WAVs)
+python generate_voices.py -m csvs/manifest.csv \
     -o "C:\Program Files (x86)\GOG Galaxy\Games\Ultima 7\patch\voice_acting" \
-    --limit 5
+    --per-npc 1
 
-# Generate all files (skips existing by default)
-python generate_voices.py --manifest manifest.csv \
+# Full generation (skips fresh files, regenerates stale-metadata ones)
+python generate_voices.py -m csvs/manifest.csv \
     -o "C:\Program Files (x86)\GOG Galaxy\Games\Ultima 7\patch\voice_acting"
-
-# Regenerate all files (overwrites existing)
-python generate_voices.py --manifest manifest.csv \
-    -o "C:\Program Files (x86)\GOG Galaxy\Games\Ultima 7\patch\voice_acting" \
-    --regenerate
 ```
 
-### audit_voice_lines.py
+Each WAV embeds a LIST-INFO chunk with the `voice_id`, a text hash, and the
+full text. The script uses this to detect staleness:
 
-Compares the runtime game log against the statically extracted voice lines to
-verify that keys, text, and speaker assignments match.
+- `fresh`: voice_id and text match the manifest — skip.
+- `stale_voice` / `stale_text`: metadata differs from the manifest. The script
+  **refuses to run** until stale files are moved aside with
+  `backup_stale_voices.py` (or `--regenerate` is passed to force overwrite).
+
+### `backup_stale_voices.py`
+
+Safety tool used before regenerating. Scans the manifest, identifies any WAVs
+whose embedded metadata no longer matches, and moves them into a backup dir.
+
+```bash
+python backup_stale_voices.py \
+    --manifest csvs/manifest.csv \
+    --source "C:\Program Files (x86)\GOG Galaxy\Games\Ultima 7\patch\voice_acting" \
+    --dest "C:\Program Files (x86)\GOG Galaxy\Games\Ultima 7\patch\voice_acting\backup"
+```
+
+Pass `--dry-run` to preview. If you later want to restore a voice, copy files
+back from the backup dir.
+
+### `audit_voice_lines.py`
+
+Compares the runtime game log (see "Runtime log" below) against the statically
+extracted voice lines to verify keys, text, and speaker assignments match.
 
 ```bash
 python audit_voice_lines.py \
     --log "C:\Program Files (x86)\GOG Galaxy\Games\Ultima 7\patch\voice_acting\voice_acting_log.csv" \
-    --extracted voice_lines.csv \
+    --extracted csvs/voice_lines.csv \
     -o audit_report.csv
 ```
 
-## Configuration Files
+### `sync_voice_files.py`
 
-### overrides.csv
+Rename-by-metadata tool. If the manifest filename scheme ever changes, this
+reads each WAV's embedded metadata, matches it back against the current
+manifest, and renames the files accordingly.
 
-Manually maintained corrections and additions. Checked into the repo. Each row
-can override fields in the extracted CSV by matching on `func_id` + `offset_key` +
-`segment`. Blank `offset_key`/`segment` acts as a wildcard for all lines in a
-function.
+## Configuration files
+
+### `overrides.csv` (committed)
+
+Hand-curated corrections. Each row matches on `func_id` + `offset_key` +
+`segment`; blanks act as wildcards.
 
 Uses:
 - Fix unresolved `<VAR>` placeholders with actual text
-- Assign speakers to lines where static analysis couldn't determine them
-- Add lines that the disassembler missed (e.g., from dynamic code paths)
-- Set text to `SKIP` to exclude a line from generation
+- Assign speakers where static analysis could not
+- Add lines the disassembler missed (e.g., dynamic code paths)
+- Set text to `SKIP` to exclude a line
 
-### voice_assignments.py
+### `voice_assignments.csv` (committed)
 
-Maps NPC speaker names to ElevenLabs voice IDs. Edit this file to change which
-voice is used for each character. Supports both custom cloned voices and stock
-ElevenLabs voices.
+The canonical NPC-to-voice map. Exported from the casting tool's **Export CSV**
+button. Treat the casting tool's SQLite as the editing surface; this CSV is
+the commit artifact.
 
-### npc_data.py
+### `npc_data.py`
 
-Shared NPC name/number data used by the disassembler and other tools.
+Shared NPC name/number tables consumed by the disassembler and related tools.
 
-## Setup
-
-1. Get an API key from [ElevenLabs](https://elevenlabs.io)
-2. Create a `.env` file in this directory:
-   ```
-   ELEVENLABS_API_KEY=your_key_here
-   ```
-3. Install the `requests` Python package:
-   ```
-   pip install requests
-   ```
-
-## Voice File Naming
-
-Files are named by their usecode origin:
+## Voice file naming
 
 ```
 <funcID>_<offset_key>_<segment>.wav
@@ -189,48 +223,46 @@ Files are named by their usecode origin:
 
 For example, `0401_af_151_254_0.wav` means:
 - Function `0x0401` (Iolo's conversation)
-- Data segment offsets `0xAF`, `0x151`, `0x254` (the addsi instructions that built this string)
+- Data segment offsets `0xAF`, `0x151`, `0x254` (the addsi instructions that
+  built this string)
 - Segment `0` (first segment after splitting at `~~` boundaries)
 
 For shared dialog (e.g., Fellowship description said by multiple NPCs), per-NPC
-files use a `_npc<N>` suffix: `0919_0_0_npc16.wav` (Klog's version). The engine
-tries the NPC-specific file first, then falls back to the generic version.
+files use a `_npc<N>` suffix such as `0919_0_0_npc16.wav` (Klog's version).
+The engine tries the NPC-specific file first, then the generic fallback.
 
-## Runtime Log
+## Runtime log
 
-When running Exult with voice acting files installed, the engine writes a log to
-`<game>/patch/voice_acting/voice_acting_log.csv`. Each conversation line encountered
-is recorded with:
+When you run Exult with voice files installed, the engine appends to
+`<game>/patch/voice_acting/voice_acting_log.csv`. Each played/missing line is
+recorded with `session`, `func_id`, `offset_key`, `segment`, `filename`,
+`status`, `speaker_npc`, `caller_npc`, and `text`. The log is cumulative
+across sessions; use `audit_voice_lines.py` to compare against the extracted
+data and find gaps.
 
-- `session` - timestamp identifying the play session
-- `func_id` - usecode function ID
-- `offset_key` - addsi offset sequence
-- `segment` - segment index
-- `filename` - WAV filename looked up (including NPC-specific attempts)
-- `status` - `played`, `missing`, or `error`
-- `speaker_npc` - NPC whose face is displayed (from show_npc_face tracking)
-- `caller_npc` - NPC that initiated the conversation (from call stack)
-- `text` - the actual displayed text (including player name as-is)
+## Voice casting UI
 
-The log appends across multiple sessions, so you can play through the game multiple
-times (with different character names/genders) and build up a complete picture of
-all dialog lines encountered. Use the audit tool to compare against extracted data.
+See [`voice_casting_tool/README.md`](voice_casting_tool/README.md) for the
+local web app used to assign voices, preview the ElevenLabs library, and
+export the voice map.
 
-## Known Limitations / Future Work
+## Known limitations / future work
 
-- **Long text pagination**: When a single dialog line is too long to fit in the
-  conversation text box, the game paginates it with click-to-continue. Currently
-  the voice audio plays in full on the first page and subsequent pages are silent.
-  A future improvement could use the ElevenLabs
+- **Long text pagination.** When a single dialog line wraps across multiple
+  pages in the conversation box, the audio plays in full on the first page
+  and subsequent pages are silent. A future improvement could use the
+  ElevenLabs
   [timestamps API](https://elevenlabs.io/docs/api-reference/text-to-speech/convert-with-timestamps)
-  to get per-character timing data, then seek the audio to the correct position
-  when the text advances to a new page.
+  to seek the audio as the text advances.
 
-- **Branch-dependent dialog**: The usecode disassembler uses linear scanning and
-  may miss dialog lines that are only reachable through specific code branches.
-  These can be added manually via the overrides CSV, or discovered through
-  runtime log auditing.
+- **Branch-dependent dialog.** The disassembler does linear scanning and may
+  miss lines reachable only through specific branches. These can be added
+  manually via `overrides.csv` or discovered through runtime-log auditing.
 
-- **Say-text bubbles**: Voice acting is currently limited to conversation text
-  (the `say` opcode). Floating text bubbles above character sprites are not
-  voiced.
+- **Say-text bubbles.** Voice acting currently covers conversation text (the
+  `say` opcode). Floating text bubbles above sprites are not voiced.
+
+- **Disk footprint.** WAV PCM at 22050 Hz/16-bit is ~44 KB/s, so a full pass is
+  ~400 MB. The engine already supports Ogg Vorbis (via the built-in
+  `OggAudioSample`); switching the distribution format to Ogg would reduce the
+  patch size ~8× at no quality cost for speech.

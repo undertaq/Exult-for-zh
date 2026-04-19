@@ -498,6 +498,23 @@ def analyze_variables(func):
     return var_labels
 
 
+def detect_book_mode(func):
+    """Check if a function sets book mode (intrinsic 0x55) before any say opcode.
+    Also detects book mode set within the function at any point.
+
+    Returns True if the function displays book/scroll text rather than
+    conversation dialog.
+    """
+    for addr, raw_bytes, name, params, comment in func['instructions']:
+        # book_mode intrinsic (0x55) called via calli or callis
+        if name in ('calli', 'callis') and params and params[0] == 0x55:
+            return True
+        # If we hit a say before any book_mode, it's a conversation
+        if name == 'say':
+            return False
+    return False
+
+
 def extract_say_lines(func):
     """
     Extract all say-string lines from a function by tracing addsi/addsv -> say
@@ -507,7 +524,30 @@ def extract_say_lines(func):
     """
     lines = []
     accum = []
-    current_face_npc = func['id']
+    is_book = detect_book_mode(func)
+
+    # Determine the default face NPC for this function.
+    # If the function calls show_npc_face and all calls are for the same NPC,
+    # use that as the default speaker (even for lines before the first face call).
+    # Otherwise fall back to the function's own NPC ID.
+    face_npcs_in_func = set()
+    last_pushi_scan = []
+    for addr, raw_bytes, name, params, comment in func['instructions']:
+        if name == 'pushi' and params:
+            last_pushi_scan.append(params[0])
+            if len(last_pushi_scan) > 4:
+                last_pushi_scan.pop(0)
+        elif name == 'calli' and params and params[0] == 0x03 and params[1] == 2:
+            if len(last_pushi_scan) >= 2:
+                npc_num = last_pushi_scan[-1]
+                if npc_num < 0:
+                    face_npcs_in_func.add(0x400 + abs(npc_num))
+    if len(face_npcs_in_func) == 1:
+        default_face_npc = face_npcs_in_func.pop()
+    else:
+        default_face_npc = func['id']
+
+    current_face_npc = default_face_npc
     last_pushi_values = []
 
     # Analyze variables to label player name, pronouns, etc.
@@ -526,7 +566,9 @@ def extract_say_lines(func):
                 else:
                     current_face_npc = npc_num
         elif name == 'calli' and params and params[0] == 0x04:
-            current_face_npc = func['id']
+            # remove_npc_face: don't reset speaker, the same NPC
+            # typically continues speaking after their face is hidden.
+            pass
         elif name == 'addsi' and params:
             offset = params[0]
             text = func['strings'].get(offset, "")
@@ -582,6 +624,7 @@ def extract_say_lines(func):
                     'total_segments': len(segments),
                     'text': seg_text,
                     'has_var': has_var,
+                    'is_book': is_book,
                     'speaker': speaker_npc,
                     'speaker_func_id': current_face_npc,
                     'addsi_offsets': [e[1] for e in accum if e[0] == 'addsi'],
@@ -652,15 +695,19 @@ def infer_speaker_from_callers(func_id, callers_of, depth=0):
     return ""
 
 
-def write_csv(functions_data, outfile, callers_of=None):
+def write_csv(functions_data, outfile, callers_of=None, include_books=False):
     """Write extracted say-lines as CSV to a file object."""
     import csv
 
     writer = csv.writer(outfile)
-    writer.writerow([
+    header = [
         'func_id', 'npc', 'speaker', 'caller_guess', 'offset_key',
-        'segment', 'total_segments', 'has_var', 'text'
-    ])
+        'segment', 'total_segments', 'has_var',
+    ]
+    if include_books:
+        header.append('is_book')
+    header.append('text')
+    writer.writerow(header)
 
     for func in functions_data:
         say_lines = extract_say_lines(func)
@@ -672,7 +719,10 @@ def write_csv(functions_data, outfile, callers_of=None):
             caller_guess = infer_speaker_from_callers(func['id'], callers_of)
 
         for line in say_lines:
-            writer.writerow([
+            if line['is_book'] and not include_books:
+                continue
+
+            row = [
                 f"0x{line['func_id']:04X}",
                 npc,
                 line['speaker'],
@@ -681,8 +731,11 @@ def write_csv(functions_data, outfile, callers_of=None):
                 line['segment'],
                 line['total_segments'],
                 line['has_var'],
-                line['text'],
-            ])
+            ]
+            if include_books:
+                row.append(line['is_book'])
+            row.append(line['text'])
+            writer.writerow(row)
 
 
 def main():
@@ -694,6 +747,8 @@ def main():
     parser.add_argument("--list", action="store_true", help="Just list function IDs")
     parser.add_argument("--format", choices=["voice", "dis", "csv"], default="voice",
                         help="Output format: 'voice' (compact), 'dis' (usecode.dis style), or 'csv'")
+    parser.add_argument("--include-books", action="store_true",
+                        help="Include book/scroll text in CSV output (excluded by default)")
     args = parser.parse_args()
 
     with open(args.usecode_file, "rb") as f:
@@ -742,7 +797,8 @@ def main():
         import sys, os
         # Prevent double \r\n on Windows by using binary mode stdout
         sys.stdout.reconfigure(newline="")
-        write_csv(funcs_data, sys.stdout, callers_of)
+        write_csv(funcs_data, sys.stdout, callers_of,
+                  include_books=args.include_books)
     else:
         for fid in sorted(target_ids):
             if fid not in functions:

@@ -28,7 +28,88 @@ except ImportError:
     sys.exit(1)
 
 from wav_metadata import (text_hash, make_artist_tag,
-                           write_wav_with_metadata)
+                           write_wav_with_metadata, read_wav_metadata,
+                           parse_artist_tag)
+
+
+def select_per_npc_lines(manifest, output_dir, n_per_npc):
+    """Pick up to N lines per speaker for a sampling run.
+
+    Selection rules:
+    - Skip any speaker that already has at least one WAV matching one of
+      their manifest rows on disk. This lets the user re-run the sampling
+      command to pick up newly-added NPCs without regenerating existing
+      samples.
+    - For the remaining speakers, keep the longest N lines (by text length).
+      Longest lines tend to be the most vocally distinctive and give the
+      listener more character to judge the voice on.
+    - Multi-NPC variants of the same say() count separately: each NPC gets
+      their own N.
+
+    Returns the filtered manifest list in the original order, for stable
+    prev_text/next_text continuity where possible.
+    """
+    # Index by speaker
+    by_speaker = {}
+    for item in manifest:
+        by_speaker.setdefault(item.get("speaker", ""), []).append(item)
+
+    # Decide which speakers to include
+    chosen_keys = set()  # set of (speaker, filename) entries to keep
+    skipped_existing = []
+    newly_sampled = []
+    for speaker, items in by_speaker.items():
+        if not speaker:
+            continue
+        has_existing = any(
+            os.path.exists(os.path.join(output_dir, it["filename"]))
+            for it in items
+        )
+        if has_existing:
+            skipped_existing.append(speaker)
+            continue
+        # Pick longest N lines for this speaker
+        ranked = sorted(items, key=lambda x: -len(x.get("text", "")))
+        picks = ranked[:n_per_npc]
+        for p in picks:
+            chosen_keys.add((speaker, p["filename"]))
+        newly_sampled.append((speaker, len(picks)))
+
+    print(f"  Speakers skipped (already have WAVs): {len(skipped_existing)}")
+    print(f"  Speakers newly sampled: {len(newly_sampled)}")
+    if newly_sampled:
+        preview = ", ".join(f"{s}({n})" for s, n in newly_sampled[:10])
+        print(f"    e.g. {preview}"
+              f"{'...' if len(newly_sampled) > 10 else ''}")
+
+    return [it for it in manifest
+            if (it.get("speaker", ""), it["filename"]) in chosen_keys]
+
+
+def existing_file_state(output_path, voice_id, text):
+    """Classify an existing WAV file against the current manifest entry.
+
+    Returns one of:
+      - "missing"      - file does not exist
+      - "fresh"        - file matches current voice_id and text
+      - "stale_voice"  - file exists but was generated with a different voice
+      - "stale_text"   - file exists but was generated for different text
+      - "no_metadata"  - file exists but has no readable metadata
+                         (pre-metadata generation)
+    """
+    if not os.path.exists(output_path):
+        return "missing"
+    meta = read_wav_metadata(output_path)
+    if not meta.get("artist") and not meta.get("title"):
+        return "no_metadata"
+    if meta.get("artist"):
+        _, existing_vid = parse_artist_tag(meta["artist"])
+        if existing_vid and existing_vid != voice_id:
+            return "stale_voice"
+    if meta.get("title"):
+        if meta["title"] != text_hash(text):
+            return "stale_text"
+    return "fresh"
 
 # ElevenLabs API
 API_BASE = "https://api.elevenlabs.io/v1"
@@ -116,6 +197,11 @@ def main():
                         help="Regenerate files even if they already exist")
     parser.add_argument("--limit", type=int, default=0,
                         help="Max number of files to generate (0 = unlimited)")
+    parser.add_argument("--per-npc", type=int, default=0,
+                        help="If set, generate at most N lines per speaker "
+                             "(longest lines chosen first). Speakers that "
+                             "already have one or more generated WAV files "
+                             "in the output dir are skipped entirely.")
     parser.add_argument("--ledger", default=None,
                         help="Path to generation ledger CSV (default: <output_dir>/generation_ledger.csv)")
     args = parser.parse_args()
@@ -127,19 +213,33 @@ def main():
 
     print(f"Loaded {len(manifest)} lines from {args.manifest}")
 
+    # Optional sampling: restrict to N lines per speaker, skipping speakers
+    # that already have any WAV on disk. Used for the "get a sample voice
+    # line from everyone" workflow.
+    if args.per_npc > 0:
+        manifest = select_per_npc_lines(manifest, args.output_dir, args.per_npc)
+        print(f"Sampling: {len(manifest)} lines after --per-npc filter")
+
     if args.dry_run:
         would_generate = 0
         would_copy = 0
         would_skip = 0
+        would_refresh_voice = 0
+        would_refresh_text = 0
         total_chars = 0
         seen_pairs = {}  # (voice_id, text) -> filename
         for item in manifest:
             filepath = os.path.join(args.output_dir, item["filename"])
-            exists = os.path.exists(filepath)
             pair_key = (item["voice_id"], item["text"])
 
-            if not args.regenerate and exists:
-                status = "SKIP (exists)"
+            state = existing_file_state(
+                filepath, item["voice_id"], item["text"])
+            is_fresh = state in ("fresh", "no_metadata")
+            # Treat "no_metadata" as fresh-enough so we don't re-bill for old
+            # untagged files. Use --regenerate if you want to refresh those.
+
+            if not args.regenerate and is_fresh:
+                status = "SKIP (fresh)"
                 would_skip += 1
             elif args.limit and would_generate >= args.limit:
                 status = "SKIP (limit)"
@@ -148,7 +248,14 @@ def main():
                 status = f"COPY <- {seen_pairs[pair_key][:25]}"
                 would_copy += 1
             else:
-                status = "GENERATE"
+                if state == "stale_voice":
+                    status = "REGEN (voice changed)"
+                    would_refresh_voice += 1
+                elif state == "stale_text":
+                    status = "REGEN (text changed)"
+                    would_refresh_text += 1
+                else:
+                    status = "GENERATE"
                 seen_pairs[pair_key] = item["filename"]
                 would_generate += 1
                 total_chars += len(item["text"])
@@ -157,11 +264,57 @@ def main():
             print(f"  {status:<40} {item['filename']:<40} {item['speaker']:<12} "
                   f"{item['voice_desc']:<20} {text_preview}")
 
-        print(f"\nWould generate: {would_generate} (API calls)")
+        print(f"\nWould generate: {would_generate} "
+              f"(new: {would_generate - would_refresh_voice - would_refresh_text}, "
+              f"voice-changed: {would_refresh_voice}, "
+              f"text-changed: {would_refresh_text})")
         print(f"Would copy:     {would_copy} (duplicates)")
-        print(f"Would skip:     {would_skip} (existing)")
+        print(f"Would skip:     {would_skip} (fresh)")
         print(f"Total characters (API): {total_chars:,}")
         return
+
+    # Safety check: refuse to run if any existing files are stale (voice or
+    # text changed). Forces the user to back them up first, so regeneration
+    # never silently overwrites recoverable audio. Bypass with --regenerate
+    # if you intentionally want to rewrite everything.
+    if not args.regenerate:
+        stale_voice = []
+        stale_text = []
+        for item in manifest:
+            p = os.path.join(args.output_dir, item["filename"])
+            state = existing_file_state(p, item["voice_id"], item["text"])
+            if state == "stale_voice":
+                stale_voice.append(item)
+            elif state == "stale_text":
+                stale_text.append(item)
+
+        total_stale = len(stale_voice) + len(stale_text)
+        if total_stale > 0:
+            print()
+            print("=" * 70)
+            print(f"REFUSING TO GENERATE: {total_stale} files on disk are stale")
+            print("=" * 70)
+            print(f"  voice changed: {len(stale_voice)}")
+            print(f"  text changed:  {len(stale_text)}")
+            print()
+            preview = (stale_voice + stale_text)[:20]
+            for item in preview:
+                reason = ("voice" if item in stale_voice else "text")
+                print(f"  [{reason:5s}] {item['filename']:<40} "
+                      f"{item['speaker']:<15} {item['voice_desc']}")
+            if total_stale > len(preview):
+                print(f"  ...and {total_stale - len(preview)} more")
+            print()
+            print("These files would be overwritten without a chance to recover.")
+            print("Back them up first, then re-run generation:")
+            print()
+            print(f"  python backup_stale_voices.py \\")
+            print(f"    --manifest {args.manifest} \\")
+            print(f"    --source \"{args.output_dir}\" \\")
+            print(f"    --dest \"<your_backup_dir>\"")
+            print()
+            print("Or pass --regenerate to override this check and overwrite anyway.")
+            sys.exit(2)
 
     api_key = load_api_key()
     if not api_key:
@@ -199,12 +352,26 @@ def main():
         now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         thash = text_hash(item["text"])
 
-        if not args.regenerate and os.path.exists(output_path):
-            print("  -> Skipped (already exists)")
+        state = existing_file_state(
+            output_path, item["voice_id"], item["text"])
+
+        if not args.regenerate and state in ("fresh", "no_metadata"):
+            if state == "no_metadata":
+                print("  -> Skipped (exists, no metadata - use --regenerate "
+                      "to refresh)")
+            else:
+                print("  -> Skipped (fresh)")
             if pair_key not in seen_pairs:
                 seen_pairs[pair_key] = output_path
             skipped += 1
             continue
+
+        if state == "stale_voice":
+            print(f"  -> Regenerating: voice changed "
+                  f"(existing file has a different voice_id)")
+        elif state == "stale_text":
+            print(f"  -> Regenerating: text changed "
+                  f"(existing file has a different text hash)")
 
         if args.limit and generated >= args.limit:
             print("  -> Skipped (limit reached)")
@@ -233,9 +400,13 @@ def main():
             size_kb = os.path.getsize(output_path) / 1024
             print(f"  -> Generated ({size_kb:.1f} KB)")
             seen_pairs[pair_key] = output_path
+            action = {
+                "stale_voice": "regenerated_voice_changed",
+                "stale_text": "regenerated_text_changed",
+            }.get(state, "generated")
             ledger_writer.writerow([
                 now, item["filename"], item["voice_id"], item["voice_desc"],
-                item["speaker"], thash, "generated", item["text"]])
+                item["speaker"], thash, action, item["text"]])
             ledger_file.flush()
             generated += 1
         else:

@@ -20,14 +20,42 @@ import re
 import sys
 
 from npc_data import NPC_NUMBERS
-from voice_assignments import VOICE_MAP, get_voice
+
+# Placeholder voice used for NPCs without an assignment in the voice map.
+# Lines for these speakers still appear in the manifest (so you can see they
+# are missing) but will share a single generic voice.
+DEFAULT_VOICE_ID = ""
+DEFAULT_VOICE_DESC = "(unassigned)"
+
+
+def load_voice_map_csv(path):
+    """Load a voice-map CSV exported from the casting app.
+
+    Returns (voice_map, get_voice) where voice_map is {npc_name: (voice_id, voice_desc)}
+    and get_voice(name) -> (voice_id, voice_desc). Speakers missing from the
+    map receive a default placeholder so they remain visible in the manifest.
+    """
+    voice_map = {}
+    with open(path, newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            name = (row.get("npc_name") or "").strip()
+            vid = (row.get("voice_id") or "").strip()
+            vdesc = (row.get("voice_name") or "").strip()
+            if name and vid:
+                voice_map[name] = (vid, vdesc or name)
+
+    def get_voice(speaker_name):
+        return voice_map.get(speaker_name, (DEFAULT_VOICE_ID, DEFAULT_VOICE_DESC))
+
+    return voice_map, get_voice
 
 
 def resolve_placeholders(text, player_name, player_gender):
     """Replace labeled placeholders with actual values."""
     gender_map = {
-        "male": {"<PRONOUN>": "him", "<HONORIFIC>": "milord"},
-        "female": {"<PRONOUN>": "her", "<HONORIFIC>": "milady"},
+        "male": {"<PRONOUN>": "him", "<HONORIFIC>": "milord", "<GENDER_FLAG>": "man"},
+        "female": {"<PRONOUN>": "her", "<HONORIFIC>": "milady", "<GENDER_FLAG>": "woman"},
     }
     replacements = gender_map.get(player_gender, gender_map["male"])
     replacements["<PLAYER_NAME>"] = player_name
@@ -35,6 +63,17 @@ def resolve_placeholders(text, player_name, player_gender):
     result = text
     for placeholder, value in replacements.items():
         result = result.replace(placeholder, value)
+
+    # Auto-replacements for common <VAR> patterns that can't be
+    # resolved statically but have reasonable generic substitutions.
+    result = result.replace("<VAR> gold", "[cough] gold")
+    result = result.replace("<VAR> spell", "[clears throat] spell")
+
+    # Replace "^<VAR>" (caret prefix used in usecode for capitalization)
+    # and any remaining <VAR> with a cough placeholder.
+    result = result.replace("^<VAR>", "[cough]")
+    result = result.replace("<VAR>", "[cough]")
+
     return result
 
 
@@ -73,12 +112,23 @@ def main():
                         help="Output issues CSV path (default: <output>_issues.csv)")
     parser.add_argument("--overrides", default=None,
                         help="Path to overrides CSV (manual corrections)")
+    parser.add_argument("--voice-map", required=True,
+                        help="Path to voice map CSV (from casting app export).")
     parser.add_argument("--player-name", default="Avatar",
                         help="Player character name for <PLAYER_NAME>")
     parser.add_argument("--player-gender", choices=["male", "female"],
                         default="male",
                         help="Player gender for <PRONOUN> and <HONORIFIC>")
     args = parser.parse_args()
+
+    # The voice map CSV is required (exported from the casting app via its
+    # "Export CSV" button). The legacy voice_assignments.py has been removed.
+    if not args.voice_map:
+        print("error: --voice-map is required (export it from the casting app)",
+              file=sys.stderr)
+        sys.exit(1)
+    voice_map, get_voice = load_voice_map_csv(args.voice_map)
+    print(f"Using voice map: {args.voice_map} ({len(voice_map)} NPCs)")
 
     # Load extracted CSV
     with open(args.csv, newline="", encoding="utf-8") as f:
@@ -180,7 +230,7 @@ def main():
                 line_issues.append(("NO_SPEAKER", "no speaker or caller_guess"))
 
             # Check for missing voice assignment
-            if spk and spk not in VOICE_MAP:
+            if spk and spk not in voice_map:
                 line_issues.append(("NO_VOICE_ASSIGNED",
                                     f"using default voice for '{spk}'"))
 
@@ -319,8 +369,9 @@ def main():
 
         if "NO_VOICE_ASSIGNED" in by_type:
             print(f"\n--- NO_VOICE_ASSIGNED ({len(by_type['NO_VOICE_ASSIGNED'])}) ---")
-            print("Speakers without a dedicated voice in VOICE_MAP.")
-            print("These will use the default voice. Add entries to VOICE_MAP to fix.\n")
+            print("Speakers without a dedicated voice in the voice map.")
+            print("These will use the default voice. Assign a voice in the "
+                  "casting app and re-export to fix.\n")
             # Group by speaker to avoid repetition
             speakers_missing = {}
             for row, spk, detail in by_type["NO_VOICE_ASSIGNED"]:
