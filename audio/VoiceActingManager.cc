@@ -137,10 +137,35 @@ bool VoiceActingManager::try_play(const string& path) {
 }
 
 /*
+ *  Try to locate a voice file by filename, checking the primary directory
+ *  first and the secondary source directory as a fallback. Used so that a
+ *  second-source generation run can drop files into a sibling folder without
+ *  overwriting the primary set.
+ *
+ *  On hit, writes the resolved path into `out_path` and returns true.
+ */
+static bool find_voice_file(const string& filename, string& out_path) {
+	static const char* const search_dirs[] = {
+			"<PATCH>/voice_acting/",
+			"<PATCH>/voice_acting/second_source/",
+	};
+	for (const char* dir : search_dirs) {
+		string candidate = get_system_path(dir + filename);
+		if (U7exists(candidate)) {
+			out_path = candidate;
+			return true;
+		}
+	}
+	return false;
+}
+
+/*
  *  Play voice acting for conversation text.
  *  Tries NPC-specific file first, then falls back to generic:
  *    1. <funcID>_<offset_key>_<segment>_npc<N>.wav  (per-NPC voice)
  *    2. <funcID>_<offset_key>_<segment>.wav          (generic fallback)
+ *  Each filename is searched first in <PATCH>/voice_acting/, then in
+ *  <PATCH>/voice_acting/second_source/.
  */
 bool VoiceActingManager::play_for_conversation(
 		int function_id, const string& offset_key,
@@ -161,15 +186,13 @@ bool VoiceActingManager::play_for_conversation(
 		std::snprintf(npc_suffix, sizeof(npc_suffix), "_npc%d",
 					  speaker_npc < 0 ? -speaker_npc : speaker_npc);
 		filename = base + npc_suffix + ".wav";
-		path     = get_system_path("<PATCH>/voice_acting/" + filename);
-		exists   = U7exists(path);
+		exists   = find_voice_file(filename, path);
 	}
 
 	// Fall back to generic file.
 	if (!exists) {
 		filename = base + ".wav";
-		path     = get_system_path("<PATCH>/voice_acting/" + filename);
-		exists   = U7exists(path);
+		exists   = find_voice_file(filename, path);
 	}
 
 	bool played = false;
