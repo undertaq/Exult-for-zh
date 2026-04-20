@@ -28,7 +28,7 @@ import os
 import shutil
 import sys
 
-from generate_voices import existing_file_state
+from generate_voices import existing_file_state, normalize_output_filename
 
 
 def main():
@@ -56,7 +56,7 @@ def main():
     stale_voice = []
     stale_text = []
     for item in manifest:
-        src = os.path.join(args.source, item["filename"])
+        src = os.path.join(args.source, normalize_output_filename(item["filename"]))
         state = existing_file_state(src, item["voice_id"], item["text"])
         if state == "stale_voice":
             stale_voice.append(item)
@@ -101,8 +101,8 @@ def main():
     collided = 0
     missing = 0
     for item in stale_voice + stale_text:
-        src = os.path.join(args.source, item["filename"])
-        dst = os.path.join(args.dest, item["filename"])
+        src = os.path.join(args.source, normalize_output_filename(item["filename"]))
+        dst = os.path.join(args.dest, normalize_output_filename(item["filename"]))
         if not os.path.exists(src):
             # Shouldn't happen given the staleness check already confirmed
             # existence, but belt and suspenders.

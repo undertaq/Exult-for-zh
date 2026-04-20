@@ -27,9 +27,8 @@ except ImportError:
     print("Error: 'requests' package required. Install with: pip install requests")
     sys.exit(1)
 
-from wav_metadata import (text_hash, make_artist_tag,
-                           write_wav_with_metadata, read_wav_metadata,
-                           parse_artist_tag)
+from audio_metadata import (text_hash, make_artist_tag,
+                            read_audio_metadata, parse_artist_tag)
 
 
 def select_per_npc_lines(manifest, output_dir, n_per_npc):
@@ -62,7 +61,8 @@ def select_per_npc_lines(manifest, output_dir, n_per_npc):
         if not speaker:
             continue
         has_existing = any(
-            os.path.exists(os.path.join(output_dir, it["filename"]))
+            os.path.exists(os.path.join(output_dir,
+                                        normalize_output_filename(it["filename"])))
             for it in items
         )
         if has_existing:
@@ -86,8 +86,19 @@ def select_per_npc_lines(manifest, output_dir, n_per_npc):
             if (it.get("speaker", ""), it["filename"]) in chosen_keys]
 
 
+def normalize_output_filename(filename):
+    """Force the manifest's filename to .ogg. Old manifests produced before
+    the OGG switch have .wav entries; the generator always writes .ogg now
+    so callers only need to see .ogg names."""
+    if filename.lower().endswith(".wav"):
+        return filename[:-4] + ".ogg"
+    if filename.lower().endswith(".ogg"):
+        return filename
+    return filename + ".ogg"
+
+
 def existing_file_state(output_path, voice_id, text):
-    """Classify an existing WAV file against the current manifest entry.
+    """Classify an existing audio file against the current manifest entry.
 
     Returns one of:
       - "missing"      - file does not exist
@@ -99,7 +110,7 @@ def existing_file_state(output_path, voice_id, text):
     """
     if not os.path.exists(output_path):
         return "missing"
-    meta = read_wav_metadata(output_path)
+    meta = read_audio_metadata(output_path)
     if not meta.get("artist") and not meta.get("title"):
         return "no_metadata"
     if meta.get("artist"):
@@ -123,9 +134,42 @@ VOICE_SETTINGS = {
 }
 
 
+import shutil
+import subprocess
+
+FFMPEG_FALLBACK = (
+    r"C:\Users\markg\Downloads"
+    r"\ffmpeg-2026-04-16-git-5abc240a27-essentials_build"
+    r"\ffmpeg-2026-04-16-git-5abc240a27-essentials_build\bin\ffmpeg.exe")
+
+_ffmpeg_path = None
+
+
+def _find_ffmpeg():
+    global _ffmpeg_path
+    if _ffmpeg_path is not None:
+        return _ffmpeg_path
+    on_path = shutil.which("ffmpeg")
+    if on_path:
+        _ffmpeg_path = on_path
+    elif os.path.exists(FFMPEG_FALLBACK):
+        _ffmpeg_path = FFMPEG_FALLBACK
+    else:
+        print("Error: ffmpeg not found on PATH and fallback path is missing.",
+              file=sys.stderr)
+        sys.exit(1)
+    return _ffmpeg_path
+
+
 def generate_speech(api_key, voice_id, text, output_path,
-                    previous_text=None, next_text=None):
-    """Call ElevenLabs TTS API and save as WAV with embedded metadata."""
+                    previous_text=None, next_text=None, ogg_quality=4):
+    """Call ElevenLabs TTS API, pipe raw PCM through ffmpeg, and save as
+    Ogg Vorbis with embedded Vorbis comments (TITLE/ARTIST/DESCRIPTION).
+
+    Note: DESCRIPTION is used rather than COMMENT because ffmpeg's default
+    behaviour is to store passed-in COMMENT tags as DESCRIPTION in the Vorbis
+    container. We use DESCRIPTION directly for clarity.
+    """
     url = f"{API_BASE}/text-to-speech/{voice_id}?output_format=pcm_22050"
 
     headers = {
@@ -146,16 +190,35 @@ def generate_speech(api_key, voice_id, text, output_path,
 
     response = requests.post(url, json=payload, headers=headers, timeout=60)
 
-    if response.status_code == 200:
-        write_wav_with_metadata(
-            output_path, response.content,
-            title=text_hash(text),
-            artist=make_artist_tag(voice_id),
-            comment=text)
-        return True
-    else:
+    if response.status_code != 200:
         print(f"  API error {response.status_code}: {response.text[:200]}")
         return False
+
+    ffmpeg = _find_ffmpeg()
+    # ElevenLabs returns raw 16-bit little-endian mono PCM at 22050 Hz.
+    cmd = [
+        ffmpeg,
+        "-y", "-hide_banner", "-loglevel", "error",
+        "-f", "s16le", "-ar", "22050", "-ac", "1",
+        "-i", "pipe:0",
+        "-c:a", "libvorbis",
+        "-q:a", str(ogg_quality),
+        "-metadata", f"TITLE={text_hash(text)}",
+        "-metadata", f"ARTIST={make_artist_tag(voice_id)}",
+        "-metadata", f"DESCRIPTION={text}",
+        output_path,
+    ]
+    result = subprocess.run(cmd, input=response.content,
+                            capture_output=True)
+    if result.returncode != 0:
+        stderr = result.stderr.decode("utf-8", errors="replace").strip()
+        print(f"  ffmpeg error: {stderr[:300]}")
+        # Clean up partial output
+        if os.path.exists(output_path):
+            try: os.unlink(output_path)
+            except OSError: pass
+        return False
+    return True
 
 
 def load_api_key():
@@ -202,6 +265,14 @@ def main():
                              "(longest lines chosen first). Speakers that "
                              "already have one or more generated WAV files "
                              "in the output dir are skipped entirely.")
+    parser.add_argument("--only-stale", action="store_true",
+                        help="Only (re)generate files that already exist but "
+                             "are stale (voice_id or text changed). Skips "
+                             "lines with no file on disk - useful for "
+                             "correcting a known set of out-of-date files "
+                             "without adding new ones.")
+    parser.add_argument("--ogg-quality", type=int, default=4,
+                        help="Vorbis -q:a value, 0-10 (default 4).")
     parser.add_argument("--ledger", default=None,
                         help="Path to generation ledger CSV (default: <output_dir>/generation_ledger.csv)")
     args = parser.parse_args()
@@ -220,6 +291,23 @@ def main():
         manifest = select_per_npc_lines(manifest, args.output_dir, args.per_npc)
         print(f"Sampling: {len(manifest)} lines after --per-npc filter")
 
+    # Optional: restrict to stale lines (existing files whose voice_id or
+    # text no longer matches the manifest). This mode implies --regenerate
+    # because the whole point is to overwrite in place.
+    if args.only_stale:
+        stale = []
+        for item in manifest:
+            p = os.path.join(args.output_dir,
+                             normalize_output_filename(item["filename"]))
+            state = existing_file_state(p, item["voice_id"], item["text"])
+            if state in ("stale_voice", "stale_text"):
+                stale.append(item)
+        print(f"--only-stale: {len(stale)} files out of {len(manifest)} "
+              "are stale and will be regenerated")
+        manifest = stale
+        # Without this, the safety check we added earlier would refuse to run.
+        args.regenerate = True
+
     if args.dry_run:
         would_generate = 0
         would_copy = 0
@@ -229,7 +317,8 @@ def main():
         total_chars = 0
         seen_pairs = {}  # (voice_id, text) -> filename
         for item in manifest:
-            filepath = os.path.join(args.output_dir, item["filename"])
+            filepath = os.path.join(args.output_dir,
+                                    normalize_output_filename(item["filename"]))
             pair_key = (item["voice_id"], item["text"])
 
             state = existing_file_state(
@@ -281,7 +370,8 @@ def main():
         stale_voice = []
         stale_text = []
         for item in manifest:
-            p = os.path.join(args.output_dir, item["filename"])
+            p = os.path.join(args.output_dir,
+                             normalize_output_filename(item["filename"]))
             state = existing_file_state(p, item["voice_id"], item["text"])
             if state == "stale_voice":
                 stale_voice.append(item)
@@ -342,10 +432,11 @@ def main():
     seen_pairs = {}  # (voice_id, text) -> output_path of first generation
 
     for i, item in enumerate(manifest, 1):
-        output_path = os.path.join(args.output_dir, item["filename"])
+        out_filename = normalize_output_filename(item["filename"])
+        output_path = os.path.join(args.output_dir, out_filename)
         pair_key = (item["voice_id"], item["text"])
 
-        print(f"[{i}/{total}] {item['speaker']}: {item['filename']}")
+        print(f"[{i}/{total}] {item['speaker']}: {out_filename}")
         print(f"  Voice: {item['voice_desc']}")
         print(f"  Text: \"{item['text'][:70]}{'...' if len(item['text']) > 70 else ''}\"")
 
@@ -396,7 +487,8 @@ def main():
 
         if generate_speech(api_key, item["voice_id"], item["text"],
                            output_path, previous_text=prev_text,
-                           next_text=next_text):
+                           next_text=next_text,
+                           ogg_quality=args.ogg_quality):
             size_kb = os.path.getsize(output_path) / 1024
             print(f"  -> Generated ({size_kb:.1f} KB)")
             seen_pairs[pair_key] = output_path

@@ -88,8 +88,8 @@ def voice_filename(func_id, offset_key, segment, npc_num=None):
     okey = offset_key.replace("0x", "")
     base = f"{fid}_{okey}_{segment}"
     if npc_num is not None:
-        return f"{base}_npc{npc_num}.wav"
-    return f"{base}.wav"
+        return f"{base}_npc{npc_num}.ogg"
+    return f"{base}.ogg"
 
 
 MANIFEST_FIELDS = [

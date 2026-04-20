@@ -32,7 +32,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from wav_metadata import read_wav_metadata
+from audio_metadata import read_audio_metadata
 
 FFMPEG_FALLBACK = Path(
     r"C:\Users\markg\Downloads"
@@ -56,7 +56,7 @@ def find_ffmpeg() -> Path:
 def convert_one(ffmpeg: Path, src: Path, dst: Path, quality: int) -> bool:
     """Run ffmpeg to transcode src -> dst with Vorbis comments from the WAV's
     LIST-INFO metadata. Returns True on success."""
-    meta = read_wav_metadata(str(src))
+    meta = read_audio_metadata(str(src))
     cmd = [
         str(ffmpeg),
         "-y",                     # overwrite destination (we already handle
@@ -67,17 +67,19 @@ def convert_one(ffmpeg: Path, src: Path, dst: Path, quality: int) -> bool:
         "-c:a", "libvorbis",
         "-q:a", str(quality),
     ]
-    # Vorbis comment tags use capital keys. The standard comment fields we
-    # care about map from LIST-INFO as:
-    #   INAM (title)    -> TITLE       (sha256 prefix hash of text)
-    #   IART (artist)   -> ARTIST      ("elevenlabs:<voice_id>")
-    #   ICMT (comment)  -> COMMENT     (full text)
+    # Vorbis comment tags use capital keys. Mapping from LIST-INFO:
+    #   INAM (title)    -> TITLE        (sha256 prefix hash of text)
+    #   IART (artist)   -> ARTIST       ("elevenlabs:<voice_id>")
+    #   ICMT (comment)  -> DESCRIPTION  (full text)
+    # DESCRIPTION is the Vorbis standard long-form-text field. ffmpeg also
+    # maps its internal COMMENT tag to DESCRIPTION on Vorbis output, so we
+    # use DESCRIPTION directly.
     if meta["title"]:
         cmd += ["-metadata", f"TITLE={meta['title']}"]
     if meta["artist"]:
         cmd += ["-metadata", f"ARTIST={meta['artist']}"]
     if meta["comment"]:
-        cmd += ["-metadata", f"COMMENT={meta['comment']}"]
+        cmd += ["-metadata", f"DESCRIPTION={meta['comment']}"]
     cmd.append(str(dst))
 
     result = subprocess.run(cmd, capture_output=True, text=True)

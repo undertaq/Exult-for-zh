@@ -1,16 +1,21 @@
 """
-WAV file metadata utilities for voice acting files.
+Audio metadata utilities for voice acting files.
 
-Reads and writes LIST INFO chunks in WAV files to store:
-  - INAM (title): hash of the text for exact matching
-  - IART (artist): voice source identifier (e.g., "elevenlabs:<voice_id>")
-  - ICMT (comment): the full text sent to TTS
+Reads / writes the same three tags across WAV (RIFF LIST INFO) and Ogg
+Vorbis (Vorbis comments), so the rest of the pipeline can treat both
+formats interchangeably:
+  - title   - hash of the text for exact matching (INAM / TITLE)
+  - artist  - voice source identifier,
+              e.g. "elevenlabs:<voice_id>"        (IART / ARTIST)
+  - comment - the full text sent to TTS          (ICMT / COMMENT)
 
-The WAV parser in Exult safely skips unknown chunks, so this metadata
-does not affect playback.
+The `read_audio_metadata(path)` entry point dispatches based on file
+extension. Both readers return the same dict shape, so callers do not
+need to care which format they are dealing with.
 """
 
 import hashlib
+import os
 import struct
 
 
@@ -195,3 +200,117 @@ def write_wav_with_metadata(filepath, pcm_data, sample_rate=22050,
 
     with open(filepath, "wb") as f:
         f.write(b"RIFF" + struct.pack("<I", len(wave_body)) + wave_body)
+
+
+# ---------------------------------------------------------------------------
+# Ogg Vorbis metadata (reader only - writing is left to ffmpeg via -metadata)
+# ---------------------------------------------------------------------------
+
+
+def read_ogg_metadata(filepath):
+    """Extract TITLE / ARTIST / COMMENT Vorbis comments from an Ogg file.
+
+    Walks Ogg pages until it finds the Vorbis comment header (packet type
+    0x03). Case-insensitive on tag names per the Vorbis spec.
+
+    Returns dict with keys: title, artist, comment (empty string if not found).
+    """
+    result = {"title": "", "artist": "", "comment": ""}
+    try:
+        with open(filepath, "rb") as f:
+            data = f.read()
+    except (IOError, OSError):
+        return result
+
+    # Reassemble the logical stream (packets can span pages) by concatenating
+    # segments from each OggS page until we find a comment packet.
+    pos = 0
+    packets = bytearray()
+    # The comment header is part of the Vorbis setup at the start of the
+    # stream but can span several pages if the text is long. Keep reading
+    # pages until we have found the comment packet AND fully consumed it,
+    # or we have scanned enough of the file to be confident it is absent.
+    MAX_SETUP_BYTES = 256 * 1024
+    while pos + 27 <= len(data):
+        if data[pos:pos + 4] != b"OggS":
+            break
+        num_segs = data[pos + 26]
+        seg_table_end = pos + 27 + num_segs
+        if seg_table_end > len(data):
+            break
+        payload_size = sum(data[pos + 27:seg_table_end])
+        payload_start = seg_table_end
+        payload_end = payload_start + payload_size
+        if payload_end > len(data):
+            break
+        packets.extend(data[payload_start:payload_end])
+        pos = payload_end
+        if len(packets) >= MAX_SETUP_BYTES:
+            break
+
+    # Find the Vorbis comment packet by its magic: 0x03 "vorbis"
+    magic = b"\x03vorbis"
+    idx = packets.find(magic)
+    if idx < 0:
+        return result
+    p = idx + len(magic)
+
+    def _read_u32():
+        nonlocal p
+        if p + 4 > len(packets):
+            return None
+        val = struct.unpack_from("<I", packets, p)[0]
+        p += 4
+        return val
+
+    vendor_len = _read_u32()
+    if vendor_len is None or p + vendor_len > len(packets):
+        return result
+    p += vendor_len  # skip vendor string
+
+    num_comments = _read_u32()
+    if num_comments is None:
+        return result
+
+    # Map Vorbis comment field names to our three slots. "description" is
+    # the Vorbis standard field for long free-form text; ffmpeg writes
+    # COMMENT metadata out as DESCRIPTION, so we accept either.
+    tag_map = {
+        "title": "title",
+        "artist": "artist",
+        "comment": "comment",
+        "description": "comment",
+    }
+    for _ in range(num_comments):
+        clen = _read_u32()
+        if clen is None or p + clen > len(packets):
+            break
+        raw = bytes(packets[p:p + clen])
+        p += clen
+        if b"=" not in raw:
+            continue
+        key, _, val = raw.partition(b"=")
+        key_str = key.decode("ascii", errors="replace").lower()
+        if key_str in tag_map:
+            result[tag_map[key_str]] = val.decode("utf-8", errors="replace")
+
+    return result
+
+
+# ---------------------------------------------------------------------------
+# Format-dispatching entry point
+# ---------------------------------------------------------------------------
+
+
+def read_audio_metadata(filepath):
+    """Read metadata from a WAV or Ogg file, based on extension.
+
+    Returns the same dict shape as read_wav_metadata / read_ogg_metadata.
+    Unknown extensions return the empty-result dict.
+    """
+    ext = os.path.splitext(filepath)[1].lower()
+    if ext == ".ogg":
+        return read_ogg_metadata(filepath)
+    if ext == ".wav":
+        return read_wav_metadata(filepath)
+    return {"title": "", "artist": "", "comment": ""}

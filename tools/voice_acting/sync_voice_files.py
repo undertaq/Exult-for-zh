@@ -24,18 +24,18 @@ import os
 import shutil
 import sys
 
-from wav_metadata import (text_hash, make_artist_tag, parse_artist_tag,
-                           read_wav_metadata)
+from audio_metadata import (text_hash, make_artist_tag, parse_artist_tag,
+                            read_audio_metadata)
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Sync WAV filenames to match the manifest"
+        description="Sync OGG filenames to match the manifest"
     )
     parser.add_argument("--manifest", "-m", required=True,
                         help="Path to manifest CSV")
-    parser.add_argument("--wav-dir", "-d", required=True,
-                        help="Directory containing WAV files")
+    parser.add_argument("--audio-dir", "-d", required=True,
+                        help="Directory containing OGG files")
     parser.add_argument("--dry-run", "-n", action="store_true",
                         help="Show what would be done without modifying files")
     args = parser.parse_args()
@@ -56,12 +56,13 @@ def main():
     print(f"Loaded {len(manifest)} manifest entries "
           f"({len(manifest_by_key)} unique voice+text pairs)")
 
-    # Scan WAV files
-    wav_files = [f for f in os.listdir(args.wav_dir)
-                 if f.endswith(".wav") and not f.startswith("unknown_")]
-    unknown_files = [f for f in os.listdir(args.wav_dir)
-                     if f.startswith("unknown_") and f.endswith(".wav")]
-    print(f"Found {len(wav_files)} WAV files, {len(unknown_files)} unknown files")
+    # Scan OGG files
+    audio_files = [f for f in os.listdir(args.audio_dir)
+                   if f.endswith(".ogg") and not f.startswith("unknown_")]
+    unknown_files = [f for f in os.listdir(args.audio_dir)
+                     if f.startswith("unknown_") and f.endswith(".ogg")]
+    print(f"Found {len(audio_files)} OGG files, "
+          f"{len(unknown_files)} unknown files")
 
     renamed = 0
     correct = 0
@@ -70,13 +71,13 @@ def main():
     already_filled = set()  # filenames that already exist (avoid overwrites)
 
     # First pass: check which expected filenames already exist correctly
-    for filename in wav_files:
+    for filename in audio_files:
         if filename in expected_filenames:
             already_filled.add(filename)
 
-    for filename in sorted(wav_files):
-        filepath = os.path.join(args.wav_dir, filename)
-        meta = read_wav_metadata(filepath)
+    for filename in sorted(audio_files):
+        filepath = os.path.join(args.audio_dir, filename)
+        meta = read_audio_metadata(filepath)
 
         if not meta["title"] or not meta["artist"]:
             print(f"  NO METADATA: {filename}")
@@ -84,7 +85,7 @@ def main():
             # Rename to unknown_ prefix
             new_name = f"unknown_{filename}"
             if not args.dry_run:
-                new_path = os.path.join(args.wav_dir, new_name)
+                new_path = os.path.join(args.audio_dir, new_name)
                 if not os.path.exists(new_path):
                     os.rename(filepath, new_path)
                     print(f"    -> {new_name}")
@@ -103,7 +104,7 @@ def main():
             unmatched += 1
             new_name = f"unknown_{filename}"
             if not args.dry_run:
-                new_path = os.path.join(args.wav_dir, new_name)
+                new_path = os.path.join(args.audio_dir, new_name)
                 if not os.path.exists(new_path):
                     os.rename(filepath, new_path)
                     print(f"    -> {new_name}")
@@ -131,7 +132,7 @@ def main():
             print(f"  DUPLICATE: {filename} (all targets filled)")
             new_name = f"unknown_{filename}"
             if not args.dry_run:
-                new_path = os.path.join(args.wav_dir, new_name)
+                new_path = os.path.join(args.audio_dir, new_name)
                 if not os.path.exists(new_path):
                     os.rename(filepath, new_path)
             unmatched += 1
@@ -139,15 +140,15 @@ def main():
 
         print(f"  RENAME: {filename} -> {target_name}")
         if not args.dry_run:
-            target_path = os.path.join(args.wav_dir, target_name)
+            target_path = os.path.join(args.audio_dir, target_name)
             os.rename(filepath, target_path)
             already_filled.add(target_name)
         renamed += 1
 
     # Also check unknown_ files - they might now match the manifest
     for filename in sorted(unknown_files):
-        filepath = os.path.join(args.wav_dir, filename)
-        meta = read_wav_metadata(filepath)
+        filepath = os.path.join(args.audio_dir, filename)
+        meta = read_audio_metadata(filepath)
 
         if not meta["title"] or not meta["artist"]:
             continue
@@ -161,7 +162,7 @@ def main():
                 if name not in already_filled:
                     print(f"  RECOVER: {filename} -> {name}")
                     if not args.dry_run:
-                        target_path = os.path.join(args.wav_dir, name)
+                        target_path = os.path.join(args.audio_dir, name)
                         os.rename(filepath, target_path)
                         already_filled.add(name)
                     renamed += 1

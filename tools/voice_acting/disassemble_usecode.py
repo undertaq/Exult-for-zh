@@ -566,9 +566,20 @@ def extract_say_lines(func):
                 else:
                     current_face_npc = npc_num
         elif name == 'calli' and params and params[0] == 0x04:
-            # remove_npc_face: don't reset speaker, the same NPC
-            # typically continues speaking after their face is hidden.
-            pass
+            # remove_npc_face. Reset to default_face_npc only when that ID
+            # resolves to a known NPC - otherwise there is no useful owner
+            # to hand the mic to, and we prefer keeping the current face.
+            #
+            # - NPC function with guests (e.g. 0x40c = Finnigan hosting Iolo):
+            #   default_face_npc = func['id'] = 0x40c = "Finnigan". Reset
+            #   gives the line back to Finnigan. Correct.
+            # - General multi-face function (e.g. 0x9A, not an NPC face):
+            #   default_face_npc = func['id'] = 0x9A, no NPC mapping. Do not
+            #   reset; keep the current speaker.
+            # - Single-face function: default_face_npc is that NPC, reset is
+            #   a no-op.
+            if get_npc_name(default_face_npc):
+                current_face_npc = default_face_npc
         elif name == 'addsi' and params:
             offset = params[0]
             text = func['strings'].get(offset, "")

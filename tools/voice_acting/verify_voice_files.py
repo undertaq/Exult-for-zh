@@ -30,7 +30,7 @@ import os
 import sys
 from collections import Counter
 
-from generate_voices import existing_file_state
+from generate_voices import existing_file_state, normalize_output_filename
 
 
 def main():
@@ -70,7 +70,7 @@ def main():
     stale_rows = []
     referenced = set()
     for item in manifest:
-        filename = item["filename"]
+        filename = normalize_output_filename(item["filename"])
         referenced.add(filename)
         # Walk the source list, first non-missing wins.
         resolved_state = "missing"
@@ -146,7 +146,7 @@ def main():
     if args.orphans:
         for d in args.source:
             on_disk = {f for f in os.listdir(d)
-                       if f.lower().endswith(".wav")}
+                       if f.lower().endswith(".ogg")}
             orphans = sorted(on_disk - referenced)
             print(f"\n--- orphans in {d} ({len(orphans)}) ---")
             print("(files in this dir not referenced by manifest)")
