@@ -85,16 +85,46 @@ void VoiceActingManager::ensure_log_open() {
 	// Write header only if this is a new file.
 	if (is_new) {
 		log_file << "session,func_id,offset_key,segment,filename,"
-		         << "status,speaker_npc,caller_npc,text"
+		         << "source,status,speaker_npc,caller_npc,text"
 		         << std::endl;
 	}
+}
+
+/*
+ *  Extract the source tag for a resolved voice file - "primary",
+ *  "second_source", or "" for missing files. Used by the runtime log so we
+ *  can tell at a glance which directory served each line.
+ */
+static string source_tag_for(const string& path) {
+	if (path.empty()) {
+		return "";
+	}
+	// Match on the directory name just above the filename.
+	string normalized = path;
+	for (char& c : normalized) {
+		if (c == '\\') c = '/';
+	}
+	size_t last = normalized.find_last_of('/');
+	if (last == string::npos) {
+		return "";
+	}
+	size_t prev = normalized.find_last_of('/', last - 1);
+	string parent = normalized.substr(
+			prev == string::npos ? 0 : prev + 1, last - (prev + 1));
+	if (parent == "second_source") {
+		return "second_source";
+	}
+	if (parent == "voice_acting") {
+		return "primary";
+	}
+	return parent;
 }
 
 /*
  *  Write an entry to the runtime log.
  */
 void VoiceActingManager::log_entry(
-		const string& filename, int function_id,
+		const string& filename, const string& path, int function_id,
 		const string& offset_key, int segment,
 		const char* text, const string& status,
 		int speaker_npc, int caller_npc) {
@@ -107,12 +137,14 @@ void VoiceActingManager::log_entry(
 	std::snprintf(func_hex, sizeof(func_hex), "0x%04x", function_id);
 
 	string text_str = text ? text : "";
+	string source   = source_tag_for(path);
 
 	log_file << session_id << ","
 	         << func_hex << ","
 	         << offset_key << ","
 	         << segment << ","
 	         << filename << ","
+	         << source << ","
 	         << status << ","
 	         << speaker_npc << ","
 	         << caller_npc << ","
@@ -229,7 +261,7 @@ bool VoiceActingManager::play_for_conversation(
 		status = "error";
 	}
 
-	log_entry(filename, function_id, offset_key, segment, text, status,
+	log_entry(filename, path, function_id, offset_key, segment, text, status,
 			  speaker_npc, caller_npc);
 
 	return played;

@@ -54,9 +54,12 @@ private:
 	// Try to play a voice file at the given path.
 	static bool try_play(const std::string& path);
 
-	// Write an entry to the runtime log.
+	// Write an entry to the runtime log. `path` is the resolved full path
+	// on disk (used to infer the source directory for auditing); pass an
+	// empty string when the file was not found.
 	static void log_entry(
-			const std::string& filename, int function_id,
+			const std::string& filename, const std::string& path,
+			int function_id,
 			const std::string& offset_key, int segment,
 			const char* text, const std::string& status,
 			int speaker_npc, int caller_npc);
