@@ -1,0 +1,127 @@
+English entries for 0x0401: 59
+Chinese entries for 0x0401: 60
+
+--- ENGLISH ---
+    0 key=0xaf_0x151_0x254     seg=0 npc=Iolo   A rather large, familiar man looks up and sees you. The shock that is evident fr
+    1 key=0xaf_0x151_0x254     seg=1 npc=Iolo   "<PLAYER_NAME>! If I did not trust the infallibility of mine own eyes, I would n
+    2 key=0xaf_0x151_0x254     seg=2 npc=Iolo   "Lo and behold! Who says that magic is dying! Here is living proof that it is no
+    3 key=0xaf_0x151_0x254     seg=3 npc=Iolo    "Dost thou realize, <PLAYER_NAME>, that it hath been 200 Britannian years since
+    4 key=0x2b1                seg=0 npc=Iolo   Iolo winks conspiratorially. He whispers, "Due no doubt to the difference in the
+    5 key=0x2b1                seg=1 npc=Iolo   He resumes speaking aloud. "I have aged a little, as thou canst see. But of cour
+    6 key=0x2b1                seg=2 npc=Iolo   "Oh, but Avatar! Wait until I tell the others! They will be happy to see thee! W
+    7 key=0x437_0x466          seg=0 npc=Iolo   The distraught peasant interrupts Iolo. "Show <PRONOUN> the stables, milord. 'Ti
+    8 key=0x48d                seg=0 npc=Iolo   Iolo nods, his joy fading quickly as he is reminded of the reason he was standin
+    9 key=0x48d                seg=1 npc=Iolo    "Ah, yes. Our friend Petre here discovered something truly ghastly this morning
+   10 key=0x585                seg=0 npc=Iolo   Iolo takes you aside and whispers, "Avatar, for the sake of our mutual sanity, I
+   11 key=0x61a                seg=0 npc=Iolo   "I am sorry, I do not join thieves."
+   12 key=0x63f                seg=0 npc=Iolo   "All right, I suppose thou hast learned thy lesson. I shall rejoin."
+   13 key=0x6bf                seg=0 npc=Iolo   "Yes, my friend?" Iolo asks.
+   14 key=0x6e1_0x70e          seg=0 npc=Iolo   Your friend snorts. "What, art thou joking, <HONORIFIC>? Thou dost not know thin
+   15 key=0x748_0x765          seg=0 npc=Iolo   "Thou must see for thyself, <PLAYER_NAME>. Brace thyself, my friend. 'Tis truly 
+   16 key=0x7a4                seg=0 npc=Iolo   "Why, right now 'tis adventuring with that most courageous of all legendary hero
+   17 key=0x817_0x847          seg=0 npc=Iolo   "Why, there is no doubt -thou- art the Avatar, <PLAYER_NAME>! However, thou maye
+   18 key=0x817_0x847          seg=1 npc=Iolo   "Of course, thou -shouldst- be safe around thy friends!"
+   19 key=0x8f4                seg=0 npc=Iolo   "Well, after all, thou hast been gone for 200 years! Most of those who would rec
+   20 key=0x9a6                seg=0 npc=Iolo   "Ugly, is it not? From what I have heard, neither Christopher nor Inamo deserved
+   21 key=0xa54                seg=0 npc=Iolo   "I wish thee luck in determining what is going on. I haven't a clue!" Iolo grins
+   22 key=0xadb                seg=0 npc=Iolo   "Well, between thee and me, I think that he hath aged much more than I!"
+   23 key=0xb24                seg=0 npc=Iolo   "Full of information, that chap. But he never seems to leave Britain anymore."
+   24 key=0xb73                seg=0 npc=Iolo   "My liege will be enormously pleased to see thee. We should travel to Britain po
+   25 key=0xc84                seg=0 npc=Iolo   "Certainly. LB is always a repository of the most amazing facts, eh? Probably so
+   26 key=0xd0a                seg=0 npc=Iolo   "Right, Shamino?"
+   27 key=0xd0a                seg=1 npc=Iolo   Shamino grunts and turns away as Iolo grins mischievously.
+   28 key=0xd58                seg=0 npc=Iolo   "Speaking of information, reminds me of something! I have a little item which mi
+   29 key=0xe08                seg=0 npc=Iolo   "Thou must mean Shamino and Dupre."
+   30 key=0xe48_0xe62          seg=0 npc=Iolo   "Why, he is right there, <HONORIFIC>."
+   31 key=0xe66_0xe79          seg=0 npc=Iolo   "I am right here, <HONORIFIC>."
+   32 key=0xe7d                seg=0 npc=Iolo   "See? I told thee!"
+   33 key=0xe91                seg=0 npc=Iolo   "I am sure we shall find him somewhere. Last I heard, he was in Jhelom. Didst th
+   34 key=0xefb                seg=0 npc=Iolo   "Hard to believe, is it not?"
+   35 key=0xf19                seg=0 npc=Iolo   "It's true! Lord British knighted him recently. Why he did so, I cannot imagine!
+   36 key=0xf86_0xfa0          seg=0 npc=Iolo   "Why, he is right there, <HONORIFIC>."
+   37 key=0xfa4_0xfb7          seg=0 npc=Iolo   "I am right here, <HONORIFIC>."
+   38 key=0xfbb                seg=0 npc=Iolo   "See? I told thee!"
+   39 key=0xfcf                seg=0 npc=Iolo   "Thy best bet in finding that rascal is to look in Britain. He has a girlfriend 
+   40 key=0x1065               seg=0 npc=Iolo   "The town has changed little, has it not? Everyone seems a little defensive, tho
+   41 key=0x1140               seg=0 npc=Iolo   "I think it best for thee to speak with them thyself. There have been many chang
+   42 key=0x1209               seg=0 npc=Iolo   "It has grown since thou last saw it. Paws is now a virtual township of Britain!
+   43 key=0x1209               seg=1 npc=Iolo   "Lord British's castle is still the overwhelming feature."
+   44 key=0x12df               seg=0 npc=Iolo   "It still lies between Britain and Trinsic, but it has grown further into Britai
+   45 key=0x1348               seg=0 npc=Iolo   "He is a good man. The Mayor of Trinsic, he is. I have known him for years."
+   46 key=0x13aa_0x13c0        seg=0 npc=Iolo   "I did not know him, <HONORIFIC>."
+   47 key=0x13d5               seg=0 npc=Iolo   "I never spoke with him. It is truly a shame. There are not many gargoyles livin
+   48 key=0x1484               seg=0 npc=Iolo   Iolo looks hurt. "Thou dost really want me to leave?"
+   49 key=0x14ba               seg=0 npc=Iolo   "Dost thou want me to wait here or dost thou want me to go home to Yew?"
+   50 key=0x151f               seg=0 npc=Iolo   "Very well. I shall wait here until thou dost return and ask me to rejoin."
+   51 key=0x156c               seg=0 npc=Iolo   "Farewell, then. I shall always rejoin if thou dost so desire." Iolo turns away 
+   52 key=0x15c7               seg=0 npc=Iolo   "Whew. Thou didst frighten me!"
+   53 key=0x15ec               seg=0 npc=Iolo   "I was waiting until thou didst ask me!"
+   54 key=0x1620               seg=0 npc=Iolo   "It seems that thou hast enough members travelling with thee already! I shall wa
+   55 key=0x169e               seg=0 npc=Iolo   "Since thou wert last in Britannia, the Gargoyles have begun to integrate with t
+   56 key=0x1795               seg=0 npc=Iolo   "I do not know much about them, except that they originated about twenty Britann
+   57 key=0x18af               seg=0 npc=Iolo   "He is just an acquaintance."
+   58 key=0x18d7               seg=0 npc=Iolo   "'Tis always a pleasure to speak with thee, my friend."
+
+--- CHINESE ---
+    0 key=0xb4_0x139_0x1f3     seg=0 npc=       ä¸åå¥å£¯çèé ­æéèä½ ï¼ä»çèµ·ä¾æé»é¢çãä»åæ¯æ£ä½ï¼
+    1 key=0xb4_0x139_0x1f3     seg=1 npc=        åï¼ä½ å¯ç¥éï¼<PLAYER_NAME>ãå¾ä¸æ¬¡è¦é¢å°ç¾å¨ï¼Britannia å·²ç¶
+    2 key=0x24c                seg=0 npc=       Iolo å´è£¡åå¥èï¼ãçä¾å¤§æ¦ Britannia çæéçµæ§ä¸åï¼åï¼é
+    3 key=0x24c                seg=1 npc=       ä»æ¢å¾©äºæ­£å¸¸çé³éããå¥½å§ï¼æç¢ºå¯¦èäºä¸é»ãæ²è¾¦æ³ï¼é
+    4 key=0x24c                seg=2 npc=        ãä¸é...èèï¼ç­æåè¨´å¶ä»äººï¼ä»åä¸å®å¾é«èè¦å°ä½ ï¼æ
+    5 key=0x39d_0x3d6          seg=0 npc=       èæ¥çè¾²å¤«ææ· Ioloï¼ãåçï¼ä½ è¦ä¸è¦å¸¶<VAR> é¦¬å»å»ççï¼
+    6 key=0x3ff                seg=0 npc=       Iolo çµæ¼æ³èµ·çºä»ä»éº¼ä¾ Trinsicï¼èä¸çç¬å®¹æ²äºãä»é»äºé»é
+    7 key=0x3ff                seg=1 npc=        ãåå°ï¼éä½æå Petre ä»å¤©æ©ä¸çå°ä¸å¤ªå¥½çæ±è¥¿ãé¦¬å»è£¡
+    8 key=0x4c8                seg=0 npc=       Iolo æä½ æå°ä¸æä½è²èªªï¼ãèèï¼çºäºæåå±åççæºèæ³
+    9 key=0x55b                seg=0 npc=       ãæ±æ­ï¼æä¸è·å°å·çºä¼ãã
+   10 key=0x583                seg=0 npc=       ãå¥½å§ï¼ææ³ä½ å·²ç¶å­¸å°æè¨äºãææéæ°å å¥éä¼ãã
+   11 key=0x603                seg=0 npc=       ãæçèæåï¼ä½ éè¦ä»éº¼ï¼ã Iolo ééº¼åéã
+   12 key=0x650_0x681          seg=0 npc=       ä½ æåå¼äºä¸è²ããä½ å¨éç©ç¬åï¼<HONORIFIC>ï¼èªä¸åºä½ çè
+   13 key=0x6af                seg=0 npc=       ãå¤æè­¯æ¬ï¼æè½èªªä¸åé¡çæä¸æ¬ï¼éæ¯è½è®äººè¼é¬é±è®ç
+   14 key=0x71c                seg=0 npc=       ãèªªå¯¦è©±ï¼æå¹³æå¹¾ä¹æ²æå¨ä½¿ç¨éäºå¤æäºãç¾å¨åªæå¨ä¸
+   15 key=0x798                seg=0 npc=       ãé èªå·±æ¢æ¢è§£è®å¶å¯¦æé»ç´¯â¦ï¼æäºå®ï¼å¨ä¸åé¡å°¼äºçæ
+   16 key=0x808_0x830          seg=0 npc=       ãæè¦ºå¾ä½ æå¥½è¦ªèªå»ççï¼<PLAYER_NAME>ç¶å¾âè¦æé»å¿çæºå
+   17 key=0x86d                seg=0 npc=       ãåï¼ç¶ç¶æ¯åå³èªªä¸­çè±é ââ èèä¸èµ·åéªåï¼ã
+   18 key=0x8bf_0x8e7          seg=0 npc=       ãæ¯«ç¡çåï¼-ä½ - å°±æ¯èèï¼<PLAYER_NAME>ï¼ä¸éï¼ä½ å¯è½å¾é£è
+   19 key=0x8bf_0x8e7          seg=1 npc=       ãç¶ç¶ï¼åæååå¨ä¸èµ·ï¼ä½ -çµå°æ¯-å®å¨çï¼ã
+   20 key=0x981                seg=0 npc=       ãå¯ï¼ç¢ç«ä½ å·²ç¶é¢éå©ç¾å¹´äºï¼å¤§å¤æ¸èªå¾ä½ çäººæ©å°±ä¸å
+   21 key=0xa18                seg=0 npc=       ãççå¾æ½æï¼å°å§ï¼æåäººæ¯è¦ºå¾ Christopher å Inamo é½ä¸æ
+   22 key=0xac0                seg=0 npc=       ãééå¾é ä½ ææè¾¦æ³ï¼ææ¯æ²å¥é ­ç·ãã Iolo å§èå´ç¬ï¼æ
+   23 key=0xb31                seg=0 npc=       ãå¯ï¼éæåç§ä¸è¬ï¼ä»çèµ·ä¾æ¯æèå¤äºï¼ã
+   24 key=0xb71                seg=0 npc=       ãé£å¢ä¼ç¥éå¾å¤äºæãä½ä»ç¾å¨å¾å°ãå¹¾ä¹ä¸åºåäºãã
+   25 key=0xbc0                seg=0 npc=       ãLBçå°ä½ ä¸å®æ¨å£äºãæåå¾è¶å¿«å» Britain ä¸è¶ãä»ç¥éç
+   26 key=0xc6e                seg=0 npc=       ãç¶ç¶ãLB ç¸½æ¯æè¨±å¤é©äººçæå ±ï¼å°å§ï¼ä»è©±å¯è½ä¸å¤ï¼ä½
+   27 key=0xcff                seg=0 npc=       ãä½ èªªå°å§ï¼Shaminoï¼ã
+   28 key=0xcff                seg=1 npc=       Shamino ä¸èçåè½éé ­å»ï¼Iolo å¨ä¸æå·ç¬ã
+   29 key=0xd5b                seg=0 npc=       ãèªªå°æå ±ï¼åæ¯æéäºæä¸ä»¶äºï¼æåæ±è¥¿å¯è½å°ä½ æç¨â
+   30 key=0xdd7                seg=0 npc=       ãä½ æ¯èªª Shamino å Dupreå°å§ï¼ä¸å®æ¯ãã
+   31 key=0xe1c_0xe35          seg=0 npc=       ãååï¼ä»å¨åï¼<HONORIFIC>.ã
+   32 key=0xe3a_0xe59          seg=0 npc=       ãå°åï¼æäººå¨éå¦ï¼<HONORIFIC>ãã
+   33 key=0xe60                seg=0 npc=       ãçå§ï¼æå°±èªªï¼ã
+   34 key=0xe7c                seg=0 npc=       ãä»ä¸å®å¨æåå°æ¹ï¼æå¾ä¸æ¬¡è½èªªæ¯å¨ Jhelomãè©±èªªï¼ä½ ç¥é
+   35 key=0xef0                seg=0 npc=       ãæ¯ä¸æ¯é£ä»¥ç½®ä¿¡ï¼ã
+   36 key=0xf0f                seg=0 npc=       ãéæ¯ççï¼LBæè¿ççå°ä»ç¶é¨å£«äºãä¸ç¥éå¾çååº...å¨
+   37 key=0xf6c_0xe35          seg=0 npc=       ãååï¼ä»äººå°±å¨éï¼<HONORIFIC>.ã
+   38 key=0xf8b_0xe59          seg=0 npc=       ãå°åæå¨éï¼<HONORIFIC>ãã
+   39 key=0xfa1                seg=0 npc=       ãçå§ï¼æå°±è·ä½ è¬ï¼ã
+   40 key=0xfc3                seg=0 npc=       ãä½ è¦æ¾é£åå¢ä¼çè©±...å» Britain ççãä»å¥³æåå¨çå®¶åé
+   41 key=0x1024               seg=0 npc=       ãéè£¡è®åä¸å¤§ï¼ä¸ééç·å¼µæå»...å¤§å®¶é²åå¿æ¯è¼éãä½ å¾
+   42 key=0x10d1               seg=0 npc=       ãææ³æå¥½éæ¯ä½ èªå·±å»åææ°èèãä½ ä¸æ¬¡ä¾å°ç¾å¨å·²ç¶ç
+   43 key=0x117e               seg=0 npc=       ãå¾ä½ ä¸æ¬¡ä¾å°ç¾å¨ï¼å®åè®å¤§äºãPaws ç¾å¨å·²ç¶æ¯ãBritain å
+   44 key=0x117e               seg=1 npc=       ãä¸éLBçåå ¡ä»ç¶æ¯æå¼äººæ³¨ç®çå°æ¨ãã
+   45 key=0x125b               seg=0 npc=       ãå®åºæ¬ä¸éæ¯å¨ Britain å Trinsic ä¹éï¼ä½åå°ç¯åå·²ç¶æ´å
+   46 key=0x12c2               seg=0 npc=       ãä»æ¯åå¥½äººãèº«çº Trinsic çé®é·ï¼æèªè­ä»å¥½å¹¾å¹´äºãã
+   47 key=0x1311_0xe59         seg=0 npc=       ãæä¸èªè­ä»ï¼<HONORIFIC>ãã
+   48 key=0x1327               seg=0 npc=       ãææ²è·ä»è¬éè©±ãéçæ¯å¤ªéºæ¾äºãè·äººé¡çæ´»çç³åé¬¼æ
+   49 key=0x13aa               seg=0 npc=       Iolo çèµ·ä¾å¾åå·ããä½ ççè¦æé¢éåï¼ã
+   50 key=0x13e6               seg=0 npc=       ãä½ æ¯è¦æçå¨éè£¡ç­ä½ ï¼éæ¯è¦æå Yew çå®¶ï¼ã
+   51 key=0x143f               seg=0 npc=       ãå¾å¥½ãææå¨éè£¡ç­ä½ åä¾ï¼ä¸¦éè«æéæ°å å¥ãã
+   52 key=0x1488               seg=0 npc=       ãé£éº¼ï¼åæäºãåªè¦ä½ å¸æï¼æé¨æé½é¡æéæ°å å¥ãã I
+   53 key=0x14ed               seg=0 npc=       ãå¼ï¼ä½ å¯åæ­»æäºï¼ã
+   54 key=0x150f               seg=0 npc=       ãæä¸ç´å¨ç­ä½ éå£å¢ï¼ã
+   55 key=0x1534               seg=0 npc=       ãçä¾èä½ åè¡çæå¡å·²ç¶å¤ å¤äºï¼ææç­å°æäººé¢ééä¼æ
+   56 key=0x1595               seg=0 npc=       ãä½ ä¸æ¬¡é¢é Britannia å¾ï¼ç³åé¬¼ å·²ç¶éå§èäººé¡çæ´»å¨ä¸èµ
+   57 key=0x166a               seg=0 npc=       ãæè·ä»åä¸çãæç¥éæè©²æ¯æååé«ï¼æç«å¤§æ¦äºåå¹¾å¹
+   58 key=0x172d               seg=0 npc=       ãèªè­ï¼æ²å°éå¸¸çãã
+   59 key=0x174f               seg=0 npc=       ãè·ä½ èå¤©çæ¯æçæ¦®å¹¸ï¼æçæåãã
+
+--- SPECIFIC LOOKUPS ---

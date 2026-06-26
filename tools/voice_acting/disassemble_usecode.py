@@ -749,6 +749,36 @@ def write_csv(functions_data, outfile, callers_of=None, include_books=False):
             writer.writerow(row)
 
 
+def skip_symbol_table(data, offset):
+    """Skip the Exult symbol table if present at `offset`. Return offset after it."""
+    if offset + 8 > len(data):
+        return offset
+    magic0 = read4(data, offset)
+    magic1 = read4(data, offset + 4)
+    if magic0 != 0xFFFFFFFF or magic1 != 0x55435359:
+        return offset
+
+    def skip_scope(pos):
+        cnt = read4(data, pos); pos += 4
+        pos += 4  # version
+        for _ in range(cnt):
+            while pos < len(data) and data[pos] != 0:
+                pos += 1
+            pos += 1  # null terminator
+            kind = read2(data, pos); pos += 2
+            pos += 4  # value
+            if kind == 2:       # class_scope
+                pos = skip_scope(pos)
+                num_methods = read2(data, pos); pos += 2
+                pos += 2 * num_methods  # method IDs
+                pos += 2                # num_vars
+            elif kind == 3:     # shape_fun
+                pos += 4  # extra shape value
+        return pos
+
+    return skip_scope(offset + 8)
+
+
 def main():
     parser = argparse.ArgumentParser(description="Disassemble Ultima 7 usecode")
     parser.add_argument("usecode_file", help="Path to usecode binary file")
@@ -760,6 +790,8 @@ def main():
                         help="Output format: 'voice' (compact), 'dis' (usecode.dis style), or 'csv'")
     parser.add_argument("--include-books", action="store_true",
                         help="Include book/scroll text in CSV output (excluded by default)")
+    parser.add_argument("--no-symbol-table", action="store_true",
+                        help="Skip Exult symbol table even without detection (for raw offset)")
     args = parser.parse_args()
 
     with open(args.usecode_file, "rb") as f:
@@ -767,6 +799,8 @@ def main():
 
     functions = {}
     offset = 0
+    if not getattr(args, 'no_symbol_table', False):
+        offset = skip_symbol_table(data, offset)
     while offset < len(data):
         try:
             func_id, func_data, extended, next_offset = parse_function(data, offset)
@@ -795,8 +829,11 @@ def main():
         # Build caller map from ALL functions for speaker inference,
         # even if we're only extracting a subset.
         all_disassembled = {}
-        for fid, (fdata, extended) in functions.items():
-            all_disassembled[fid] = disassemble_function(fid, fdata, extended)
+        for fid, (fdata, extended) in list(functions.items()):
+            try:
+                all_disassembled[fid] = disassemble_function(fid, fdata, extended)
+            except (struct.error, IndexError, ValueError) as e:
+                print(f"Warning: skipping function 0x{fid:04X} ({e})", file=sys.stderr)
         callers_of = build_caller_map(all_disassembled)
 
         funcs_data = []
@@ -805,7 +842,6 @@ def main():
                 print(f"Function 0x{fid:04X} not found!", file=sys.stderr)
                 continue
             funcs_data.append(all_disassembled[fid])
-        import sys, os
         # Prevent double \r\n on Windows by using binary mode stdout
         sys.stdout.reconfigure(newline="")
         write_csv(funcs_data, sys.stdout, callers_of,
