@@ -23,6 +23,7 @@
 #include "VoiceActingManager.h"
 
 #include "Audio.h"
+#include "Configuration.h"
 #include "utils.h"
 
 #include <chrono>
@@ -37,6 +38,29 @@ using std::string;
 std::ofstream VoiceActingManager::log_file;
 std::string   VoiceActingManager::session_id;
 bool          VoiceActingManager::log_initialized = false;
+bool          VoiceActingManager::voice_enabled   = true;
+std::string   VoiceActingManager::voice_language  = "zh";
+
+/*
+ *  Read voice acting config: enabled flag and language.
+ */
+void VoiceActingManager::init() {
+	string s;
+	config->value("config/audio/speech/voice/enabled", s, "yes");
+	voice_enabled = (s != "no");
+	config->set("config/audio/speech/voice/enabled", voice_enabled ? "yes" : "no", false);
+
+	config->value("config/audio/speech/voice/language", voice_language, "zh");
+	config->set("config/audio/speech/voice/language", voice_language, false);
+}
+
+bool VoiceActingManager::is_voice_enabled() {
+	return voice_enabled;
+}
+
+const std::string& VoiceActingManager::get_voice_language() {
+	return voice_language;
+}
 
 /*
  *  Escape a string for CSV: double any quotes and wrap in quotes.
@@ -176,20 +200,23 @@ bool VoiceActingManager::try_play(const string& path) {
  *  second-source generation run drop files into a sibling folder without
  *  overwriting the primary set.
  *
+ *  The search directories include the configured language subdirectory,
+ *  e.g. <PATCH>/voice_acting/zh/ or <PATCH>/voice_acting/en/.
+ *
  *  `base_filename` is the filename without extension (e.g.
  *  "0401_af_151_254_0"). On hit, writes the resolved path into `out_path`
  *  and returns true.
  */
 static bool find_voice_file(const string& base_filename, string& out_path) {
-	static const char* const search_dirs[] = {
-			"<PATCH>/voice_acting/",
-			"<PATCH>/voice_acting/second_source/",
-	};
+	const string& lang   = VoiceActingManager::get_voice_language();
+	const string  dir1   = "<PATCH>/voice_acting/" + lang + "/";
+	const string  dir2   = "<PATCH>/voice_acting/" + lang + "/second_source/";
+	const char*   dirs[] = {dir1.c_str(), dir2.c_str()};
 	static const char* const extensions[] = {".ogg", ".wav"};
-	for (const char* dir : search_dirs) {
+	for (const char* dir : dirs) {
 		for (const char* ext : extensions) {
 			string candidate
-					= get_system_path(dir + base_filename + ext);
+					= get_system_path(string(dir) + base_filename + ext);
 			if (U7exists(candidate)) {
 				out_path = candidate;
 				return true;
@@ -212,6 +239,9 @@ bool VoiceActingManager::play_for_conversation(
 		int function_id, const string& offset_key,
 		int segment, const char* text,
 		int speaker_npc, int caller_npc) {
+	if (!voice_enabled) {
+		return false;
+	}
 	char func_hex[16];
 	std::snprintf(func_hex, sizeof(func_hex), "%04x", function_id);
 	string base = string(func_hex) + "_" + offset_key + "_"

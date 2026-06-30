@@ -21,6 +21,7 @@
 #include "Audio.h"
 
 #include "AudioMixer.h"
+#include "VoiceActingManager.h"
 #include "AudioSample.h"
 #include "Configuration.h"
 #include "Flex.h"
@@ -256,6 +257,9 @@ Audio::Audio() {
 	if (newval != s) {
 		config->set("config/audio/midi/looping", newval, false);
 	}
+
+	VoiceActingManager::init();
+
 	config->write_back();
 
 	mixer.reset();

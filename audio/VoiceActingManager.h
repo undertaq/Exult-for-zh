@@ -36,6 +36,9 @@
  */
 class VoiceActingManager {
 public:
+	// Read configuration for voice acting (enabled, language).
+	static void init();
+
 	// Play voice for conversation text, keyed by function_id + addsi offset key + segment.
 	// speaker_npc is the NPC currently speaking (from show_npc_face tracking).
 	// caller_npc is the NPC that originated the conversation (from call stack).
@@ -49,6 +52,12 @@ public:
 
 	// Check if voice is currently playing.
 	static bool is_playing();
+
+	// Check if voice acting is enabled in config.
+	static bool is_voice_enabled();
+
+	// Get configured voice language (e.g. "zh", "en").
+	static const std::string& get_voice_language();
 
 private:
 	// Try to play a voice file at the given path.
@@ -70,6 +79,9 @@ private:
 	static std::ofstream log_file;
 	static std::string   session_id;
 	static bool          log_initialized;
+
+	static bool        voice_enabled;
+	static std::string voice_language;
 };
 
 #endif
