@@ -59,6 +59,13 @@ public:
 	// Get configured voice language (e.g. "zh", "en").
 	static const std::string& get_voice_language();
 
+	// Get configured text language (e.g. "zh", "en").
+	static const std::string& get_text_language();
+
+	// Look up bilingual text translation for a conversation line.
+	static const std::string* lookup_text(
+			int func_id, const std::string& offset_key, int segment);
+
 private:
 	// Try to play a voice file at the given path.
 	static bool try_play(const std::string& path);
@@ -82,6 +89,7 @@ private:
 
 	static bool        voice_enabled;
 	static std::string voice_language;
+	static std::string text_language;
 };
 
 #endif

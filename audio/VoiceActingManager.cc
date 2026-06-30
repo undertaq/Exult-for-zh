@@ -23,6 +23,7 @@
 #include "VoiceActingManager.h"
 
 #include "Audio.h"
+#include "BilingualMapping.h"
 #include "Configuration.h"
 #include "pent_include.h"
 #include "utils.h"
@@ -41,6 +42,7 @@ std::string   VoiceActingManager::session_id;
 bool          VoiceActingManager::log_initialized = false;
 bool          VoiceActingManager::voice_enabled   = true;
 std::string   VoiceActingManager::voice_language  = "zh";
+std::string   VoiceActingManager::text_language   = "zh";
 
 /*
  *  Read voice acting config: enabled flag and language.
@@ -56,6 +58,15 @@ void VoiceActingManager::init() {
 		config->value("config/gameplay/language", voice_language, "zh");
 	}
 	config->set("config/audio/speech/voice/language", voice_language, false);
+
+	config->value("config/audio/speech/text/language", text_language, "");
+	if (text_language.empty()) {
+		text_language = voice_language;    // Default to voice language
+	}
+	config->set("config/audio/speech/text/language", text_language, false, true);
+
+	// Load bilingual mapping
+	BilingualMapping::load(get_system_path("<PATCH>/voice_acting/bilingual_map.dat"));
 }
 
 bool VoiceActingManager::is_voice_enabled() {
@@ -64,6 +75,15 @@ bool VoiceActingManager::is_voice_enabled() {
 
 const std::string& VoiceActingManager::get_voice_language() {
 	return voice_language;
+}
+
+const std::string& VoiceActingManager::get_text_language() {
+	return text_language;
+}
+
+const std::string* VoiceActingManager::lookup_text(
+		int func_id, const std::string& offset_key, int segment) {
+	return BilingualMapping::lookup(func_id, offset_key, segment);
 }
 
 /*
