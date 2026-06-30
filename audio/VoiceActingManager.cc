@@ -24,6 +24,7 @@
 
 #include "Audio.h"
 #include "Configuration.h"
+#include "pent_include.h"
 #include "utils.h"
 
 #include <chrono>
@@ -50,7 +51,10 @@ void VoiceActingManager::init() {
 	voice_enabled = (s != "no");
 	config->set("config/audio/speech/voice/enabled", voice_enabled ? "yes" : "no", false);
 
-	config->value("config/audio/speech/voice/language", voice_language, "zh");
+	config->value("config/audio/speech/voice/language", voice_language, "");
+	if (voice_language.empty()) {
+		config->value("config/gameplay/language", voice_language, "zh");
+	}
 	config->set("config/audio/speech/voice/language", voice_language, false);
 }
 
@@ -213,14 +217,18 @@ static bool find_voice_file(const string& base_filename, string& out_path) {
 	const string  dir2   = "<PATCH>/voice_acting/" + lang + "/second_source/";
 	const char*   dirs[] = {dir1.c_str(), dir2.c_str()};
 	static const char* const extensions[] = {".ogg", ".wav"};
+	pout << "[VoiceActing] Language: " << lang << std::endl;
 	for (const char* dir : dirs) {
 		for (const char* ext : extensions) {
 			string candidate
 					= get_system_path(string(dir) + base_filename + ext);
+			pout << "[VoiceActing] Checking: " << candidate;
 			if (U7exists(candidate)) {
+				pout << " - FOUND" << std::endl;
 				out_path = candidate;
 				return true;
 			}
+			pout << " - not found" << std::endl;
 		}
 	}
 	return false;
