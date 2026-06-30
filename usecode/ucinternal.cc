@@ -20,12 +20,14 @@
  */
 
 #include <limits>
+#include <iostream>
 #ifdef HAVE_CONFIG_H
 #	include <config.h>
 #endif
 
 #include "Audio.h"
 #include "VoiceActingManager.h"
+#include "pent_include.h"
 #include "Face_stats.h"
 #include "Gump.h"
 #include "Gump_manager.h"
@@ -649,6 +651,9 @@ void Usecode_internal::say_string() {
 	}
 	voice_string_trace.clear();
 
+	pout << "[say_string] func=0x" << std::hex << voice_func_id << std::dec
+	     << " offset_key=" << voice_offset_key << std::endl;
+
 	int  segment = 0;
 	char* str    = String;
 	while (*str) {            // Look for stopping points ("~~").
@@ -663,7 +668,16 @@ void Usecode_internal::say_string() {
 			if (VoiceActingManager::get_text_language() == "zh") {
 				const std::string* zh = VoiceActingManager::lookup_text(
 						voice_func_id, voice_offset_key, segment);
-				if (zh) display_text = zh->c_str();
+				if (zh) {
+					display_text = zh->c_str();
+					pout << "[say_string] seg=" << segment
+					     << " ZH OK (" << zh->size() << " bytes)" << std::endl;
+				} else {
+					pout << "[say_string] seg=" << segment
+					     << " ZH MISS" << std::endl;
+				}
+			} else {
+				pout << "[say_string] text_lang!=zh" << std::endl;
 			}
 			VoiceActingManager::play_for_conversation(
 					voice_func_id, voice_offset_key, segment++, display_text,
@@ -677,7 +691,16 @@ void Usecode_internal::say_string() {
 		if (VoiceActingManager::get_text_language() == "zh") {
 			const std::string* zh = VoiceActingManager::lookup_text(
 					voice_func_id, voice_offset_key, segment);
-			if (zh) display_text = zh->c_str();
+			if (zh) {
+				display_text = zh->c_str();
+				pout << "[say_string] seg=" << segment
+				     << " ZH OK (" << zh->size() << " bytes)" << std::endl;
+			} else {
+				pout << "[say_string] seg=" << segment
+				     << " ZH MISS" << std::endl;
+			}
+		} else {
+			pout << "[say_string] text_lang!=zh" << std::endl;
 		}
 		VoiceActingManager::play_for_conversation(
 				voice_func_id, voice_offset_key, segment++, display_text,
