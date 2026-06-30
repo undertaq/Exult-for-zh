@@ -48,8 +48,10 @@ private:
 		id_advanced,
 		id_sfx_enabled,
 		id_sfx_pack,
-		id_sfx_conv = id_sfx_pack,
 		id_speech_enabled,
+		id_voice_enabled,
+		id_voice_language,
+		id_text_language,
 		id_count
 	};
 
@@ -79,6 +81,9 @@ private:
 	int sfx_conversion;
 #endif
 	audio_speech_state speech_option;
+	int                voice_enabled_val  = 1;    // 0=off, 1=on
+	int                voice_language_val = 0;    // 0=English, 1=中文
+	int                text_language_val  = 0;    // 0=English, 1=中文
 
 	// Auxiliary variables for digital SFX packages:
 	int nsfxopts, nsfxpacks;
@@ -161,6 +166,18 @@ public:
 
 	void toggle_speech_enabled(int state) {
 		speech_option = static_cast<audio_speech_state>(state);
+	}
+
+	void toggle_voice_enabled(int state) {
+		voice_enabled_val = state;
+	}
+
+	void toggle_voice_language(int state) {
+		voice_language_val = state;
+	}
+
+	void toggle_text_language(int state) {
+		text_language_val = state;
 	}
 
 	Gump_button* on_button(int mx, int my) override;
