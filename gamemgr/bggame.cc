@@ -38,6 +38,7 @@
 #include "gamewin.h"
 #include "gump_utils.h"
 #include "imagewin/ArbScaler.h"
+#include "imagewin/deferred_text.h"
 #include "imagewin/imagewin.h"
 #include "deferred_text.h"
 #include "istring.h"
@@ -1655,6 +1656,7 @@ void BG_Game::end_game(bool success, bool within_game) {
 			for (unsigned int i = 150; i < 204; i++) {
 				next = fli1.play(win, i, i, next);
 				if (subtitles) {
+					Deferred_text_renderer::instance().clear();
 					endfont2->draw_text(ibuf, width, height, message);
 				}
 				win->ShowFillGuardBand();
@@ -1681,6 +1683,7 @@ void BG_Game::end_game(bool success, bool within_game) {
 			for (unsigned int i = 0; i < 100; i++) {
 				next = fli2.play(win, i, i, next);
 				if (subtitles) {
+					Deferred_text_renderer::instance().clear();
 					endfont2->draw_text(ibuf, width, height, message);
 				}
 				win->ShowFillGuardBand();
@@ -1711,14 +1714,18 @@ void BG_Game::end_game(bool success, bool within_game) {
 
 		// Paint backgound black
 		win->fill8(0);
+		Deferred_text_renderer::instance().clear();
 
 		// Paint text
 		{
 			const char* message = get_text_msg(blackgate_destroyed);
 			const int   height  = (gwin->get_height() - normal->get_rendered_line_height_for(message)) / 2;
 			const int   width   = (gwin->get_width() - normal->get_text_width(message)) / 2;
-
+			// force_not_book = true so get_chinese_ttf_style() picks the 'is_ending'
+			// branch for font_color_ending and hires_brightness_boost_ending config keys.
+			normal->set_force_not_book(true);
 			normal->draw_text(ibuf, width, height, message);
+			normal->set_force_not_book(false);
 		}
 
 		// Fade in for 1 sec (50 cycles)
@@ -1738,13 +1745,18 @@ void BG_Game::end_game(bool success, bool within_game) {
 
 		// Paint backgound black
 		win->fill8(0);
+		Deferred_text_renderer::instance().clear();
 
 		// Paint text
 		{
 			const char* message = get_text_msg(guardian_has_stopped);
 			const int   height  = (gwin->get_height() - normal->get_rendered_line_height_for(message)) / 2;
 			const int   width   = (gwin->get_width() - normal->get_text_width(message)) / 2;
+			// force_not_book = true so get_chinese_ttf_style() picks the 'is_ending'
+			// branch for font_color_ending and hires_brightness_boost_ending config keys.
+			normal->set_force_not_book(true);
 			normal->draw_text(ibuf, width, height, message);
+			normal->set_force_not_book(false);
 		}
 
 		// Fade in for 1 sec (50 cycles)
@@ -1793,6 +1805,7 @@ void BG_Game::end_game(bool success, bool within_game) {
 			for (unsigned int j = 0; j < static_cast<unsigned>(finfo.frames); j++) {
 				next = fli3.play(win, j, j, next);
 				if (subtitles) {
+					Deferred_text_renderer::instance().clear();
 					for (m = 0; m < 8; m++) {
 						endfont3->center_text(ibuf, centerx, starty + line_height * m, get_text_msg(txt_screen0 + m));
 					}
@@ -1824,6 +1837,7 @@ void BG_Game::end_game(bool success, bool within_game) {
 
 		// Paint backgound black
 		win->fill8(0);
+		Deferred_text_renderer::instance().clear();
 
 		line_height = exultendfont->get_rendered_line_height_for(get_text_msg(txt_screen1)) + exultendfont->get_ver_lead();
 		starty      = (gwin->get_height() - line_height * 11) / 2;
@@ -1854,6 +1868,7 @@ void BG_Game::end_game(bool success, bool within_game) {
 
 		// Paint backgound black
 		win->fill8(0);
+		Deferred_text_renderer::instance().clear();
 
 		starty = (gwin->get_height() - line_height * 9) / 2;
 
@@ -1883,6 +1898,7 @@ void BG_Game::end_game(bool success, bool within_game) {
 
 		// Paint backgound black
 		win->fill8(0);
+		Deferred_text_renderer::instance().clear();
 
 		starty = (gwin->get_height() - line_height * 8) / 2;
 
@@ -1912,6 +1928,7 @@ void BG_Game::end_game(bool success, bool within_game) {
 
 		// Paint backgound black
 		win->fill8(0);
+		Deferred_text_renderer::instance().clear();
 
 		starty = (gwin->get_height() - line_height * 5) / 2;
 
@@ -1941,6 +1958,7 @@ void BG_Game::end_game(bool success, bool within_game) {
 	} catch (const UserSkipException& /*x*/) {
 		pal->set_brightness(80);    // Set readable brightness
 		win->fill8(0);
+		Deferred_text_renderer::instance().clear();
 		win->ShowFillGuardBand();
 	}
 

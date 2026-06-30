@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "Gump.h"
 
+#include "Configuration.h"
 #include "Dynamic_button.h"
 #include "Dynamic_shape_widget.h"
 #include "Dynamic_slider.h"
@@ -42,7 +43,48 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <algorithm>
 #include <cctype>
 #include <charconv>
+#include <cmath>
 #include <sstream>
+
+// ---------------------------------------------------------------------------
+// Global UI scale factor (1.0 = no scaling).
+// Managed by Gump_scale_guard during paint() of scaled gumps.
+// Definition moved to font.cc to resolve exult_studio linker errors.
+// ---------------------------------------------------------------------------
+
+/*
+ *  Calculate the integer UI scale factor based on game resolution.
+ *  Formula: floor( min(game_width / 320, game_height / 200) )
+ *  Returns at least 1.
+ */
+float get_ui_scale() {
+	if (config) {
+		bool scale_ui = true;
+		config->value("config/video/scale_ui", scale_ui, true);
+		if (!scale_ui) {
+			return 1.0f;
+		}
+	}
+
+	Game_window* gwnd = Game_window::get_instance();
+	if (!gwnd) return 1.0f;
+	auto* win = gwnd->get_win();
+	if (!win) return 1.0f;
+	const int gw = win->get_game_width();
+	const int gh = win->get_game_height();
+	
+//	FILE* f = fopen("exult_debug.log", "a");
+//	if (f) {
+//		fprintf(f, "get_ui_scale: game_w=%d game_h=%d win_w=%d win_h=%d\n", gw, gh, win->get_display_width(), win->get_display_height());
+//		fclose(f);
+//	}
+
+	if (gw <= 0 || gh <= 0) return 1.0f;
+	const float sx = static_cast<float>(gw) / 320.0f;
+	const float sy = static_cast<float>(gh) / 200.0f;
+	const float s  = std::min(sx, sy);
+	return std::max(1.0f, std::floor(s));
+}
 
 /*
  *  Create a gump.
@@ -111,6 +153,11 @@ Gump::~Gump() {
  */
 
 void Gump::set_pos() {
+	int scale = get_gump_scale();
+	if (scale > 1) {
+		set_pos_scaled(scale);
+		return;
+	}
 	// reset coords to 0 while getting rect
 	x         = 0;
 	y         = 0;
@@ -188,13 +235,16 @@ void Gump::set_object_area(TileRect area, int checkx, int checky, bool set_check
  */
 
 TileRect Gump::get_shape_rect(const Game_object* obj) const {
-	const Shape_frame* s = obj->get_shape();
+	Shape_frame* s = obj->get_shape();
 	if (!s) {
 		return TileRect(0, 0, 0, 0);
 	}
-	return TileRect(
-			x + object_area.x + obj->get_tx() - s->get_xleft(), y + object_area.y + obj->get_ty() - s->get_yabove(), s->get_width(),
-			s->get_height());
+	int          ox;
+	int          oy;
+	get_shape_location(obj, ox, oy);
+	int scale = get_gump_scale();
+	return TileRect(ox - s->get_xleft() * scale, oy - s->get_yabove() * scale,
+			s->get_width() * scale, s->get_height() * scale);
 }
 
 /*
@@ -202,8 +252,9 @@ TileRect Gump::get_shape_rect(const Game_object* obj) const {
  */
 
 void Gump::get_shape_location(const Game_object* obj, int& ox, int& oy) const {
-	ox = x + object_area.x + obj->get_tx();
-	oy = y + object_area.y + obj->get_ty();
+	int scale = get_gump_scale();
+	ox = x + object_area.x * scale + obj->get_tx() * scale;
+	oy = y + object_area.y * scale + obj->get_ty() * scale;
 }
 
 /*
@@ -232,7 +283,8 @@ Game_object* Gump::find_object(
 		if (box.has_point(mx, my)) {
 			s = obj->get_shape();
 			get_shape_location(obj, ox, oy);
-			if (s->has_point(mx - ox, my - oy)) {
+			int scale = get_gump_scale();
+			if (s->has_point_scaled(mx - ox, my - oy, scale)) {
 				list[cnt++] = obj;
 			}
 		}
@@ -337,8 +389,9 @@ bool Gump::add(
 	// -2's mean tx, ty are already set.
 	else if (sx != -2 && sy != -2 && mx != -2 && my != -2) {
 		// Put it where desired.
-		sx -= x + object_area.x;    // Get point rel. to object_area.
-		sy -= y + object_area.y;
+		int scale = get_gump_scale();
+		sx = (sx - (x + object_area.x * scale)) / scale;    // Get point rel. to object_area and inverse-scale it.
+		sy = (sy - (y + object_area.y * scale)) / scale;
 		Shape_frame* shape = obj->get_shape();
 		// But shift within range.
 		if (sx - shape->get_xleft() < 0) {
@@ -424,7 +477,12 @@ void Gump::paint() {
 	}
 	// Paint the gump itself.
 	if (get_shape()) {
-		paint_shape(x, y);
+		int scale = get_gump_scale();
+		if (scale > 1) {
+			paint_shape_scaled(scale);
+		} else {
+			paint_shape(x, y);
+		}
 	}
 	gwin->set_painted();
 
@@ -478,7 +536,16 @@ void Gump::paint() {
 				}
 			}
 		}
-		obj->paint_shape(box.x + obj->get_tx(), box.y + obj->get_ty());
+		
+		int scale = get_gump_scale();
+		int draw_x = x + object_area.x * scale + obj->get_tx() * scale;
+		int draw_y = y + object_area.y * scale + obj->get_ty() * scale;
+		
+		if (scale > 1) {
+			obj->paint_shape_scaled(draw_x, draw_y, scale);
+		} else {
+			obj->paint_shape(draw_x, draw_y);
+		}
 	}
 	// Outline selections in this gump.
 	const Game_object_shared_vector& sel = cheat.get_selected();
@@ -508,8 +575,13 @@ void Gump::close() {
  */
 bool Gump::has_point(int sx, int sy) const {
 	Shape_frame* s = get_shape();
-	if (s && s->has_point(sx - x, sy - y)) {
-		return true;
+	if (s) {
+		int scale = get_gump_scale();
+		if (scale > 1) {
+			if (s->has_point_scaled(sx - x, sy - y, scale)) return true;
+		} else {
+			if (s->has_point(sx - x, sy - y)) return true;
+		}
 	}
 	// Check if any child widget covers this point.
 	for (const auto* w : elems) {
@@ -529,6 +601,11 @@ TileRect Gump::get_rect() const {
 
 	if (!s) {
 		return TileRect(0, 0, 0, 0);
+	}
+
+	int scale = get_gump_scale();
+	if (scale > 1) {
+		return TileRect(x - s->get_xleft() * scale, y - s->get_yabove() * scale, s->get_width() * scale, s->get_height() * scale);
 	}
 
 	return TileRect(x - s->get_xleft(), y - s->get_yabove(), s->get_width(), s->get_height());
@@ -581,4 +658,85 @@ void Container_gump::initialize(int shnum) {
 	} else {
 		set_object_area(TileRect(52, 22, 60, 40), 24, 52);
 	}
+}
+
+// ---------------------------------------------------------------------------
+// Scaled-gump helpers
+// ---------------------------------------------------------------------------
+
+/*
+ *  Returns the integer UI scale factor for this gump.
+ *  Returns 1 if is_scaled_gump() is false or if the resolution is 320x200.
+ */
+int Gump::get_gump_scale() const {
+	if (!is_scaled_gump()) return 1;
+	float s = get_ui_scale();
+	
+	if (config) {
+		std::string inv_str;
+		config->value("config/video/scale_inventory_mult", inv_str, "");
+		if (inv_str.empty()) {
+			config->value("config/video/chinese/scale_inventory_mult", inv_str, "");
+		}
+		if (!inv_str.empty()) {
+			size_t comma = inv_str.find(',');
+			if (comma != std::string::npos) inv_str[comma] = '.';
+			try {
+				s *= std::stof(inv_str);
+			} catch (...) {}
+		}
+	}
+	
+	return std::max(1, static_cast<int>(s));
+}
+
+/*
+ *  Paint the background shape at `scale` times its natural size.
+ *  The RLE shape's hot-spot stays at (x, y); surrounding pixels expand
+ *  outward so the shape is centred on the same screen position.
+ */
+void Gump::paint_shape_scaled(int scale) const {
+	if (scale <= 1) {
+		paint_shape(x, y);
+		return;
+	}
+	ShapeID::paint_shape_scaled(x, y, scale);
+}
+
+/*
+ *  Check whether screen-space point (sx, sy) is inside this gump
+ *  when painted at the given scale factor.
+ */
+bool Gump::has_point_scaled(int sx, int sy, int scale) const {
+	Shape_frame* s = get_shape();
+	if (!s) return false;
+	if (scale <= 1) return s->has_point(sx - x, sy - y);
+	return s->has_point_scaled(sx - x, sy - y, scale);
+}
+
+/*
+ *  Centre the gump on screen using the scaled dimensions.
+ *  The hotspot (x,y) is the shape's origin; we account for xleft/yabove
+ *  so the visual centre of the scaled shape sits at the window centre.
+ */
+void Gump::set_pos_scaled(int scale) {
+	Shape_frame* s = get_shape();
+	if (!s || scale <= 1) {
+		return;
+	}
+	const int sw = s->get_width()  * scale;
+	const int sh = s->get_height() * scale;
+	const int gw = gwin->get_width();
+	const int gh = gwin->get_height();
+	
+//	FILE* fp = fopen("exult_debug.log", "a");
+//	if (fp) {
+//		fprintf(fp, "set_pos_scaled: scale=%d s->width=%d sw=%d gw=%d xleft=%d\n", scale, s->get_width(), sw, gw, s->get_xleft());
+//		fclose(fp);
+//	}
+
+	// Hot-spot is at (xleft, yabove) from top-left of scaled shape
+	x = (gw - sw) / 2 + s->get_xleft() * scale;
+	y = (gh - sh) / 2 + s->get_yabove() * scale;
+	gwin->add_dirty(get_rect());
 }
