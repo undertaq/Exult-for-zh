@@ -66,6 +66,12 @@ public:
 	static const std::string* lookup_text(
 			int func_id, const std::string& offset_key, int segment);
 
+	// Set text language at runtime (called from Audio Options on Apply).
+	static void set_text_language(const std::string& lang);
+
+	// Set voice language at runtime (called from Audio Options on Apply).
+	static void set_voice_language(const std::string& lang);
+
 private:
 	// Try to play a voice file at the given path.
 	static bool try_play(const std::string& path);

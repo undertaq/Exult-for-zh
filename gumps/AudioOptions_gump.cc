@@ -37,6 +37,7 @@
 #include "AudioMixer.h"
 #include "AudioOptions_gump.h"
 #include "Configuration.h"
+#include "VoiceActingManager.h"
 #include "Enabled_button.h"
 #include "Gump_ToggleButton.h"
 #include "Gump_button.h"
@@ -728,6 +729,8 @@ void AudioOptions_gump::save_settings() {
 	config->set("config/audio/speech/voice/enabled", voice_enabled_val ? "yes" : "no", false);
 	config->set("config/audio/speech/voice/language", voice_language_val ? "zh" : "en", false);
 	config->set("config/audio/speech/text/language", text_language_val ? "zh" : "en", false);
+	VoiceActingManager::set_voice_language(voice_language_val ? "zh" : "en");
+	VoiceActingManager::set_text_language(text_language_val ? "zh" : "en");
 
 	const char* midi_looping_values[] = {"never", "limited", "auto", "endless"};
 	config->set("config/audio/midi/looping", midi_looping_values[static_cast<int>(midi_looping)], false);

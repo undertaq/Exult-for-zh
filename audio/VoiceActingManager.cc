@@ -68,7 +68,12 @@ void VoiceActingManager::init() {
 	// Load bilingual mapping (failure is non-fatal — falls back to English text).
 	if (!BilingualMapping::load(get_system_path("<PATCH>/voice_acting/bilingual_map.dat"))) {
 		pout << "[VoiceActing] Bilingual mapping not loaded; text display will be English-only" << std::endl;
+	} else {
+		pout << "[VoiceActing] Bilingual mapping loaded successfully" << std::endl;
 	}
+
+	pout << "[VoiceActing] Voice language: " << voice_language
+	     << ", Text language: " << text_language << std::endl;
 }
 
 bool VoiceActingManager::is_voice_enabled() {
@@ -86,6 +91,18 @@ const std::string& VoiceActingManager::get_text_language() {
 const std::string* VoiceActingManager::lookup_text(
 		int func_id, const std::string& offset_key, int segment) {
 	return BilingualMapping::lookup(func_id, offset_key, segment);
+}
+
+void VoiceActingManager::set_text_language(const std::string& lang) {
+	text_language = lang;
+	config->set("config/audio/speech/text/language", lang, false);
+	pout << "[VoiceActing] Text language set to: " << lang << std::endl;
+}
+
+void VoiceActingManager::set_voice_language(const std::string& lang) {
+	voice_language = lang;
+	config->set("config/audio/speech/voice/language", lang, false);
+	pout << "[VoiceActing] Voice language set to: " << lang << std::endl;
 }
 
 /*
