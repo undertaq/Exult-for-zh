@@ -505,7 +505,7 @@ fi
 # ---------------------------------------------------------------------
 
 if test x$enable_android_apk = xno -a x$enable_exult = xyes; then
-	PKG_CHECK_MODULES(OGG, ogg >= 1.0 vorbis >= 1.0.1 vorbisfile, , AC_MSG_ERROR([*** must have Ogg/Vorbis installed!]))
+	PKG_CHECK_MODULES(OGG, vorbisfile >= 1.0.1 vorbis >= 1.0.1 ogg >= 1.0, , AC_MSG_ERROR([*** must have Ogg/Vorbis installed!]))
 fi
 
 # ---------------------------------------------------------------------
@@ -768,6 +768,13 @@ if test x$enable_android_apk = xyes; then
 	enable_exult_studio=no
 fi
 
+# Freetype2 (used in shapes/font.cc via ttf_font.cc, and optionally in ExultStudio)
+PKG_CHECK_MODULES(FREETYPE2, freetype2, have_freetype=yes, have_freetype=no)
+if test x$have_freetype = xyes; then
+	AC_DEFINE(HAVE_FREETYPE2, 1, [Have freetype2])
+	FREETYPE2_LIBS="$FREETYPE2_LIBS"
+fi
+
 # library dependencies
 AC_MSG_CHECKING([if we want to build Exult Studio])
 if test x$enable_exult_studio = xyes; then
@@ -776,11 +783,6 @@ if test x$enable_exult_studio = xyes; then
 	PKG_CHECK_MODULES(ICU, icu-uc, have_icu=yes, have_icu=no)
 # Gtk
 	PKG_CHECK_MODULES(GTK, gtk+-3.0 >= 3.16, have_gtk=yes, have_gtk=no)
-# Freetype2 (optional, used in ExultStudio, shapes/fontgen.cc)
-	PKG_CHECK_MODULES(FREETYPE2, freetype2, have_freetype=yes, have_freetype=no)
-	if test x$have_freetype = xyes; then
-		AC_DEFINE(HAVE_FREETYPE2, 1, [Have freetype2])
-	fi
 else
 	AC_MSG_RESULT(no)
 fi

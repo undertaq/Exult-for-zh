@@ -339,3 +339,14 @@ vcpkg/
 
 # TrueType Font files
 *.ttf
+
+# Generated voice output (too large for git)
+voice/
+cosyvoice/
+*.log
+*.bak
+=== .gitignore additions ===
+voice/
+cosyvoice/
+*.log
+*.bak
