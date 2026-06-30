@@ -63,10 +63,12 @@ void VoiceActingManager::init() {
 	if (text_language.empty()) {
 		text_language = voice_language;    // Default to voice language
 	}
-	config->set("config/audio/speech/text/language", text_language, false, true);
+	config->set("config/audio/speech/text/language", text_language, false);
 
-	// Load bilingual mapping
-	BilingualMapping::load(get_system_path("<PATCH>/voice_acting/bilingual_map.dat"));
+	// Load bilingual mapping (failure is non-fatal — falls back to English text).
+	if (!BilingualMapping::load(get_system_path("<PATCH>/voice_acting/bilingual_map.dat"))) {
+		pout << "[VoiceActing] Bilingual mapping not loaded; text display will be English-only" << std::endl;
+	}
 }
 
 bool VoiceActingManager::is_voice_enabled() {
