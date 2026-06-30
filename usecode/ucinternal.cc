@@ -659,18 +659,30 @@ void Usecode_internal::say_string() {
 		}
 		char* eol = strchr(str, '~');
 		if (!eol) {    // Not found?
+			const char* display_text = str;
+			if (VoiceActingManager::get_text_language() == "zh") {
+				const std::string* zh = VoiceActingManager::lookup_text(
+						voice_func_id, voice_offset_key, segment);
+				if (zh) display_text = zh->c_str();
+			}
 			VoiceActingManager::play_for_conversation(
-					voice_func_id, voice_offset_key, segment++, str,
+					voice_func_id, voice_offset_key, segment++, display_text,
 					voice_speaker_npc, voice_caller_npc);
-			conv->show_npc_message(str);
+			conv->show_npc_message(display_text);
 			click_to_continue();
 			break;
 		}
 		*eol = 0;
+		const char* display_text = str;
+		if (VoiceActingManager::get_text_language() == "zh") {
+			const std::string* zh = VoiceActingManager::lookup_text(
+					voice_func_id, voice_offset_key, segment);
+			if (zh) display_text = zh->c_str();
+		}
 		VoiceActingManager::play_for_conversation(
-				voice_func_id, voice_offset_key, segment++, str,
+				voice_func_id, voice_offset_key, segment++, display_text,
 				voice_speaker_npc, voice_caller_npc);
-		conv->show_npc_message(str);
+		conv->show_npc_message(display_text);
 		click_to_continue();
 		str = eol + 1;
 		if (*str == '~') {
