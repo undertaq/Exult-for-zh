@@ -51,6 +51,7 @@
 #include "fnames.h"
 #include "utils.h"
 #include "effects.h"
+#include "bilingual_manager.h"
 
 const int REAGENTS = 842;    // Shape #.
 
@@ -74,19 +75,25 @@ const int REAGENTS = 842;    // Shape #.
 /*
  *  Custom spell names from patch/spellnames.txt
  */
-static std::vector<std::string> custom_spell_names;
-static bool spell_names_loaded = false;
+static std::vector<std::string> custom_spell_names[2];  // [0]=English, [1]=Chinese
+static bool spell_names_loaded[2] = {false, false};
 
-static void Load_spell_names() {
-	if (spell_names_loaded) {
+static void Load_spell_names(int lang_index = 0) {
+	if (lang_index < 0 || lang_index > 1) {
 		return;
 	}
-	spell_names_loaded = true;
-	custom_spell_names.resize(72);
-	if (!U7exists("<PATCH>/spellnames.txt")) {
+	if (spell_names_loaded[lang_index]) {
 		return;
 	}
-	auto in = U7open_in("<PATCH>/spellnames.txt");
+	spell_names_loaded[lang_index] = true;
+	custom_spell_names[lang_index].resize(72);
+
+	// Chinese: load from patch; English: no file, leave empty
+	const char* path = (lang_index == 1) ? "<PATCH>/spellnames.txt" : nullptr;
+	if (!path || !U7exists(path)) {
+		return;
+	}
+	auto in = U7open_in(path);
 	if (!in) {
 		return;
 	}
@@ -101,7 +108,7 @@ static void Load_spell_names() {
 				if (!name.empty() && name.back() == '\r') {
 					name.pop_back();
 				}
-				custom_spell_names[spell] = name;
+				custom_spell_names[lang_index][spell] = name;
 			}
 		}
 	}
@@ -554,10 +561,11 @@ void Spellbook_gump::paint() {
 		bookmark->paint();
 		
 		// Paint custom spell name at the bottom of the spellbook
-		Load_spell_names();
+		int lang = static_cast<int>(BilingualManager::get().get_text_language());
+		Load_spell_names(lang);
 		int spell = book->bookmark;
-		if (spell >= 0 && spell < 72 && !custom_spell_names[spell].empty()) {
-			const char* name_str = custom_spell_names[spell].c_str();
+		if (spell >= 0 && spell < 72 && !custom_spell_names[lang][spell].empty()) {
+			const char* name_str = custom_spell_names[lang][spell].c_str();
 			// Use font 0 (Normal Yellow) to match NPC dialogue/item names and use font_size_dialog
 			int text_w = sman->get_text_width(0, name_str);
 			int px = x + (object_area.x + object_area.w / 2) * scale - text_w / 2;
