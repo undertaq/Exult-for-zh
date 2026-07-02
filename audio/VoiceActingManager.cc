@@ -24,6 +24,7 @@
 
 #include "Audio.h"
 #include "Configuration.h"
+#include "bilingual_manager.h"
 #include "pent_include.h"
 #include "utils.h"
 
@@ -254,6 +255,28 @@ bool VoiceActingManager::play_for_conversation(
 	std::snprintf(func_hex, sizeof(func_hex), "%04x", function_id);
 	string base = string(func_hex) + "_" + offset_key + "_"
 				  + std::to_string(segment);
+
+	// Cross-language voice lookup: if voice is English but text is Chinese,
+	// translate the offset key so we find the correct English voice file.
+	const std::string& cur_voice_lang = get_voice_language();
+	if (cur_voice_lang == "en" && BilingualManager::get().is_bilingual_available()
+		&& BilingualManager::get().get_text_language() == TextLanguage::CHINESE) {
+		int				 en_func_id;
+		std::string		 en_offset_key;
+		if (BilingualManager::get().map_offset(TextLanguage::CHINESE, function_id,
+											   offset_key, en_func_id, en_offset_key)) {
+			char en_hex[16];
+			std::snprintf(en_hex, sizeof(en_hex), "%04x", en_func_id);
+			base = std::string(en_hex) + "_" + en_offset_key + "_" + std::to_string(segment);
+			pout << "[VoiceActing] Cross-language lookup: zh→en (func "
+				 << std::hex << function_id << " → " << en_func_id << std::dec
+				 << ", offset " << offset_key << " → " << en_offset_key << ")" << std::endl;
+		} else {
+			pout << "[VoiceActing] Cross-language lookup failed for func "
+				 << std::hex << function_id << std::dec
+				 << ", offset " << offset_key << std::endl;
+		}
+	}
 
 	// Try NPC-specific file first (using absolute NPC number).
 	string filename;
