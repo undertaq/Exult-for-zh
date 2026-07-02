@@ -29,6 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "items.h"
 
+#include "bilingual_manager.h"
 #include "databuf.h"
 #include "exceptions.h"
 #include "exult_flx.h"
@@ -53,11 +54,12 @@ using std::stringstream;
 using std::vector;
 
 // Names of U7 items.
-vector<string> item_names;
+vector<string> item_names[2];
 // Msgs. (0x400 - in text.flx).
-vector<string> text_msgs;
+vector<string> text_msgs[2];
 // Frames, etc (0x500 - 0x5ff/0x685 (BG/SI) in text.flx).
-vector<string> misc_names;
+vector<string> misc_names[2];
+static int loading_text_lang = 0;
 
 static inline int remap_index(bool remap, int index, bool sibeta) {
 	if (!remap) {
@@ -129,21 +131,24 @@ static inline void add_text_internal(vector<string>& src, unsigned num, const ch
  */
 
 int get_num_item_names() {
-	return item_names.size();
+	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	return item_names[lang].size();
 }
 
 /*
  *  Get an item name.
  */
 const char* get_item_name(unsigned num) {
-	return get_text_internal(item_names, num);
+	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	return get_text_internal(item_names[lang], num);
 }
 
 /*
  *  Create an item name.
  */
 void Set_item_name(unsigned num, const char* name) {
-	add_text_internal(item_names, num, name);
+	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	add_text_internal(item_names[lang], num, name);
 }
 
 /*
@@ -151,21 +156,24 @@ void Set_item_name(unsigned num, const char* name) {
  */
 
 int get_num_text_msgs() {
-	return text_msgs.size();
+	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	return text_msgs[lang].size();
 }
 
 /*
  *  Get a text message.
  */
 const char* get_text_msg(unsigned num) {
-	return get_text_internal(text_msgs, num);
+	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	return get_text_internal(text_msgs[lang], num);
 }
 
 /*
  *  Create a text message.
  */
 void Set_text_msg(unsigned num, const char* msg) {
-	add_text_internal(text_msgs, num, msg);
+	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	add_text_internal(text_msgs[lang], num, msg);
 }
 
 /*
@@ -173,30 +181,33 @@ void Set_text_msg(unsigned num, const char* msg) {
  */
 
 int get_num_misc_names() {
-	return misc_names.size();
+	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	return misc_names[lang].size();
 }
 
 /*
  *  Get a misc name.
  */
 const char* get_misc_name(unsigned num) {
-	return get_text_internal(misc_names, num);
+	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	return get_text_internal(misc_names[lang], num);
 }
 
 /*
  *  Create a misc name.
  */
 void Set_misc_name(unsigned num, const char* name) {
-	add_text_internal(misc_names, num, name);
+	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	add_text_internal(misc_names[lang], num, name);
 }
 
 static void Merge_message_strings(const vector<std::optional<string>>& msglist, int first_msg, int msg_start) {
 	const size_t total_msgs = msglist.size() - msg_start;
-	text_msgs.resize(std::max(total_msgs, text_msgs.size()));
+	text_msgs[loading_text_lang].resize(std::max(total_msgs, text_msgs[loading_text_lang].size()));
 	for (unsigned i = first_msg; i < total_msgs; i++) {
 		const auto& msg = msglist[i + msg_start];
 		if (msg) {
-			text_msgs[i] = msg.value_or(std::string());
+			text_msgs[loading_text_lang][i] = msg.value_or(std::string());
 		}
 	}
 }
@@ -257,9 +268,9 @@ static void Setup_item_names(
 			}
 		}
 	}
-	item_names.resize(num_item_names);
-	text_msgs.resize(std::max<size_t>(num_text_msgs, text_msgs.size()));
-	misc_names.resize(num_misc_names);
+	item_names[loading_text_lang].resize(num_item_names);
+	text_msgs[loading_text_lang].resize(std::max<size_t>(num_text_msgs, text_msgs[loading_text_lang].size()));
+	misc_names[loading_text_lang].resize(num_misc_names);
 	// Hack alert: move SI misc_names around to match those of SS.
 	if (flxcnt) {
 		const bool doremap = si && (!expansion || sibeta);
@@ -277,16 +288,16 @@ static void Setup_item_names(
 			string newitem;
 			items.read(newitem, itemlen);
 			if (i < num_item_names) {
-				item_names[i] = std::move(newitem);
+				item_names[loading_text_lang][i] = std::move(newitem);
 			} else if (i - num_item_names < num_text_msgs) {
 				if (sibeta && (i - num_item_names) >= 0xd2) {
-					text_msgs[i - num_item_names + 1] = std::move(newitem);
+					text_msgs[loading_text_lang][i - num_item_names + 1] = std::move(newitem);
 				} else {
-					text_msgs[i - num_item_names] = std::move(newitem);
+					text_msgs[loading_text_lang][i - num_item_names] = std::move(newitem);
 				}
 			} else {
 				const size_t new_index = remap_index(doremap, i - num_item_names - num_text_msgs, sibeta);
-				misc_names[new_index]  = std::move(newitem);
+				misc_names[loading_text_lang][new_index]  = std::move(newitem);
 			}
 		}
 	}
@@ -322,15 +333,15 @@ static void Setup_text(
 		}
 	}
 	// If no text mesages were loaded retry with the default exult ones
-	if (text_msgs.empty()) {
+	if (text_msgs[loading_text_lang].empty()) {
 		throw exult_exception("Failed to load any messages from exultmsg", __FILE__, __LINE__);
 	}
 
 	// Now read in textmsg.txt
 	if (txtfile.good()) {
 		Text_msg_file_reader reader(txtfile, use_special_chars);
-		reader.get_section_strings(SHAPES_SECT, item_names);
-		reader.get_section_strings(MISC_SECT, misc_names);
+		reader.get_section_strings(SHAPES_SECT, item_names[loading_text_lang]);
+		reader.get_section_strings(MISC_SECT, misc_names[loading_text_lang]);
 
 		Merge_message_strings(msglist, reader.get_section_strings(MSGS_SECT, msglist), 0);
 	}
@@ -341,6 +352,7 @@ static void Setup_text(
  */
 
 void Setup_text(bool si, bool expansion, bool sibeta, Game_Language language, bool use_special_chars) {
+	loading_text_lang = 0;  // Load into English slot by default
 	Free_text();
 	const bool             is_patch = is_system_path_defined("<PATCH>");
 	std::vector<File_spec> exultmsgs;
@@ -417,9 +429,50 @@ static void Free_text_list(vector<string>& items) {
 }
 
 void Free_text() {
-	Free_text_list(item_names);
-	Free_text_list(text_msgs);
-	Free_text_list(misc_names);
+	for (int i = 0; i < 2; i++) {
+		Free_text_list(item_names[i]);
+		Free_text_list(text_msgs[i]);
+		Free_text_list(misc_names[i]);
+	}
+}
+
+/*
+ *  Reload text for a specific language (0=English, 1=Chinese).
+ */
+
+void Reload_text(int lang_index) {
+	if (lang_index < 0 || lang_index > 1) {
+		return;
+	}
+
+	item_names[lang_index].clear();
+	text_msgs[lang_index].clear();
+	misc_names[lang_index].clear();
+
+	const char* textmsg_path = (lang_index == 0)
+								   ? TEXTMSGS         // STATIC/textmsg.txt
+								   : PATCH_TEXTMSGS;  // PATCH/textmsg.txt
+
+	if (!U7exists(textmsg_path)) {
+		std::cout << "[Bilingual] No text file for language "
+				  << lang_index << " at " << textmsg_path << std::endl;
+		return;
+	}
+
+	// Set the active language slot for the loading functions
+	int prev_lang = loading_text_lang;
+	loading_text_lang = lang_index;
+
+	// Build exultmsgs list
+	std::vector<File_spec> exultmsgs;
+	exultmsgs.push_back(File_spec(BUNDLE_CHECK(BUNDLE_EXULT_FLX, EXULT_FLX), EXULT_FLX_EXULTMSG_TXT));
+
+	IFileDataSource txtfile(textmsg_path, true);
+	if (txtfile.good()) {
+		Setup_text(txtfile, exultmsgs, false);
+	}
+
+	loading_text_lang = prev_lang;
 }
 
 /*
@@ -434,7 +487,7 @@ void Write_text_file() {
 	auto& out = *pOut;
 	out << "#\tExult " << VERSION << " text message file."
 		<< "\tWritten by ExultStudio." << std::endl;
-	Write_msg_file_section(out, SHAPES_SECT, item_names);
-	Write_msg_file_section(out, MSGS_SECT, text_msgs);
-	Write_msg_file_section(out, MISC_SECT, misc_names);
+	Write_msg_file_section(out, SHAPES_SECT, item_names[0]);
+	Write_msg_file_section(out, MSGS_SECT, text_msgs[0]);
+	Write_msg_file_section(out, MISC_SECT, misc_names[0]);
 }
