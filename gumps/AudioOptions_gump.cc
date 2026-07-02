@@ -37,6 +37,7 @@
 #include "AudioMixer.h"
 #include "AudioOptions_gump.h"
 #include "Configuration.h"
+#include "VoiceActingManager.h"
 #include "Enabled_button.h"
 #include "Gump_ToggleButton.h"
 #include "Gump_button.h"
@@ -341,6 +342,20 @@ void AudioOptions_gump::rebuild_buttons() {
 	buttons[id_speech_enabled]              = std::make_unique<AudioTextToggle>(
             this, &AudioOptions_gump::toggle_speech_enabled, std::move(speech_options), speech_option,
             get_button_pos_for_label(Strings::Speech_()), yForRow(12), 108);
+
+	// text language toggle
+	std::vector<std::string> lang_options = {"English", "Chinese"};
+	buttons[id_text_language]             = std::make_unique<AudioTextToggle>(
+            this, &AudioOptions_gump::toggle_text_language,
+            std::move(lang_options), text_language,
+            get_button_pos_for_label("Text Language"), yForRow(14), 80);
+
+	// voice language toggle
+	std::vector<std::string> vlang_options = {"English", "Chinese"};
+	buttons[id_voice_language]             = std::make_unique<AudioTextToggle>(
+            this, &AudioOptions_gump::toggle_voice_language,
+            std::move(vlang_options), voice_language,
+            get_button_pos_for_label("Voice Language"), yForRow(15), 80);
 	do_arrange();
 }
 
@@ -469,6 +484,11 @@ void AudioOptions_gump::load_settings() {
 			= (Audio::get_ptr()->is_speech_enabled()
 					   ? (Audio::get_ptr()->is_speech_with_subs() ? speech_on_with_subtitles : speech_on)
 					   : speech_off);
+	std::string text_lang_str, voice_lang_str;
+	config->value("config/audio/text/language", text_lang_str, "en");
+	config->value("config/audio/voice/language", voice_lang_str, "zh");
+	text_language   = (text_lang_str == "zh") ? 1 : 0;
+	voice_language  = (voice_lang_str == "zh") ? 1 : 0;
 	midi_looping = Audio::get_ptr()->get_music_looping();
 	speaker_type = true;    // stereo
 	sample_rate  = 44100;
@@ -576,7 +596,7 @@ void AudioOptions_gump::load_settings() {
 
 AudioOptions_gump::AudioOptions_gump() : Modal_gump(nullptr, -1) {
 	const int bottomrow_gap = 0;
-	SetProceduralBackground(TileRect(0, 0, 100, yForRow(14) + 2 * bottomrow_gap), -1);
+	SetProceduralBackground(TileRect(0, 0, 100, yForRow(16) + 2 * bottomrow_gap), -1);
 
 	const Exult_Game  game  = Game::get_game_type();
 	const std::string title = Game::get_gametitle();
@@ -687,6 +707,11 @@ void AudioOptions_gump::save_settings() {
 	config->set("config/audio/effects/enabled", sfx_enabled ? "yes" : "no", false);
 	config->set("config/audio/speech/enabled", (speech_option != speech_off) ? "yes" : "no", false);
 	config->set("config/audio/speech/with_subs", (speech_option == speech_on_with_subtitles) ? "yes" : "no", false);
+	config->set("config/audio/text/language", text_language == 1 ? "zh" : "en", false);
+	config->set("config/audio/voice/language", voice_language == 1 ? "zh" : "en", false);
+	BilingualManager::get().set_text_language(
+			text_language == 1 ? TextLanguage::CHINESE : TextLanguage::ENGLISH);
+	VoiceActingManager::init();    // Re-read voice config
 
 	const char* midi_looping_values[] = {"never", "limited", "auto", "endless"};
 	config->set("config/audio/midi/looping", midi_looping_values[static_cast<int>(midi_looping)], false);
@@ -781,6 +806,8 @@ void AudioOptions_gump::paint() {
 		}
 #endif
 		font->paint_text(iwin->get_ib8(), Strings::Speech_(), x + label_margin, y + yForRow(12) + 1);
+		font->paint_text(iwin->get_ib8(), "Text Language", x + label_margin, y + yForRow(14) + 1);
+		font->paint_text(iwin->get_ib8(), "Voice Language", x + label_margin, y + yForRow(15) + 1);
 	}
 	gwin->set_painted();
 }

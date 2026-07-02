@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Audio.h"
 #include "ConfigSetting_widget.h"
 #include "Modal_gump.h"
+#include "bilingual_manager.h"
 
 #include <array>
 #include <memory>
@@ -50,6 +51,8 @@ private:
 		id_sfx_pack,
 		id_sfx_conv = id_sfx_pack,
 		id_speech_enabled,
+		id_text_language,
+		id_voice_language,
 		id_count
 	};
 
@@ -79,6 +82,8 @@ private:
 	int sfx_conversion;
 #endif
 	audio_speech_state speech_option;
+	int                text_language;    // 0=English, 1=Chinese
+	int                voice_language;   // 0=English, 1=Chinese
 
 	// Auxiliary variables for digital SFX packages:
 	int nsfxopts, nsfxpacks;
@@ -161,6 +166,14 @@ public:
 
 	void toggle_speech_enabled(int state) {
 		speech_option = static_cast<audio_speech_state>(state);
+	}
+
+	void toggle_text_language(int state) {
+		text_language = state;
+	}
+
+	void toggle_voice_language(int state) {
+		voice_language = state;
 	}
 
 	Gump_button* on_button(int mx, int my) override;
