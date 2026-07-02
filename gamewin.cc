@@ -46,6 +46,7 @@
 #include "animate.h"
 #include "audio/midi_drivers/XMidiFile.h"
 #include "barge.h"
+#include "bilingual_manager.h"
 #include "cheat.h"
 #include "chunks.h"
 #include "chunkter.h"
@@ -566,6 +567,8 @@ void Game_window::init_files(bool cycle) {
 
 	usecode = Usecode_machine::create();
 	Game_singletons::init(this);    // Everything should exist here.
+
+	BilingualManager::get().init();
 
 	cycle_load_palette();
 	shape_man->load();    // All the .vga files!
