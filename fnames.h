@@ -97,6 +97,7 @@
 #define PATCH_INITGAME       "<PATCH>/initgame.dat"
 #define USECODE              "<STATIC>/usecode"
 #define PATCH_USECODE        "<PATCH>/usecode"
+#define ZH_USECODE           "<PATCH>/usecode.zh"
 #define POINTERS             "<STATIC>/pointers.shp"
 #define PATCH_POINTERS       "<PATCH>/pointers.shp"
 #define MAINMUS              "<STATIC>/mt32mus.dat"

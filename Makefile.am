@@ -36,6 +36,8 @@ EXULTSOURCES =	\
 	actors.h	\
 	args.cc		\
 	args.h		\
+	bilingual_manager.cc \
+	bilingual_manager.h \
 	browser.cc	\
 	browser.h	\
 	cheat.cc	\
