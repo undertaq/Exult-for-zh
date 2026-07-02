@@ -5,6 +5,7 @@
 #include "fnames.h"
 #include "utils.h"
 #include "Configuration.h"
+#include <cstring>
 #include <iostream>
 
 BilingualManager& BilingualManager::get() {
@@ -56,6 +57,59 @@ void BilingualManager::load_usecode_files() {
 }
 
 void BilingualManager::load_bilingual_map() {
+    if (!is_system_path_defined("<PATCH>")) {
+        return;
+    }
+
+    std::string map_path = std::string("<PATCH>/voice_acting/bilingual_map.dat");
+    if (!U7exists(map_path)) {
+        std::cout << "[Bilingual] No bilingual map found at " << map_path << std::endl;
+        return;
+    }
+
+    try {
+        auto pFile = U7open_in(map_path);
+        if (!pFile) {
+            std::cerr << "[Bilingual] Failed to open bilingual map" << std::endl;
+            return;
+        }
+        auto& file = *pFile;
+
+        char header[4];
+        file.read(header, 4);
+        if (std::memcmp(header, "BLMP", 4) != 0) {
+            std::cerr << "[Bilingual] Invalid map header" << std::endl;
+            return;
+        }
+
+        uint32_t count;
+        file.read(reinterpret_cast<char*>(&count), 4);
+        std::cout << "[Bilingual] Loading " << count << " voice mappings" << std::endl;
+
+        bilingual_map.reserve(count);
+        for (uint32_t i = 0; i < count; i++) {
+            VoiceMapping m;
+
+            file.read(reinterpret_cast<char*>(&m.zh_func_id), 4);
+            std::getline(file, m.zh_offset_key, '\0');
+
+            uint16_t segment_raw;
+            file.read(reinterpret_cast<char*>(&segment_raw), 2);
+            m.segment = segment_raw;
+
+            file.read(reinterpret_cast<char*>(&m.en_func_id), 4);
+            std::getline(file, m.en_offset_key, '\0');
+
+            bilingual_map.push_back(std::move(m));
+        }
+
+        std::cout << "[Bilingual] Successfully loaded " << bilingual_map.size()
+                  << " voice mappings" << std::endl;
+
+    } catch (const std::exception& e) {
+        std::cerr << "[Bilingual] Error loading bilingual map: " << e.what() << std::endl;
+        bilingual_map.clear();
+    }
 }
 
 void BilingualManager::set_text_language(TextLanguage lang) {
@@ -82,5 +136,17 @@ Usecode_machine* BilingualManager::get_usecode(TextLanguage lang) {
 bool BilingualManager::map_offset(TextLanguage from_lang, int func_id,
                                    const std::string& offset_key,
                                    int& out_func_id, std::string& out_offset_key) {
+    if (from_lang != TextLanguage::CHINESE) {
+        return false;
+    }
+
+    for (const auto& m : bilingual_map) {
+        if (m.zh_func_id == func_id && m.zh_offset_key == offset_key) {
+            out_func_id = m.en_func_id;
+            out_offset_key = m.en_offset_key;
+            return true;
+        }
+    }
+
     return false;
 }
