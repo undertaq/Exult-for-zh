@@ -89,7 +89,9 @@ def load_json(path):
 
 def write_binary(mapping, output_path):
     """Write mapping as BLMP binary file."""
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    out_dir = os.path.dirname(output_path)
+    if out_dir:
+        os.makedirs(out_dir, exist_ok=True)
 
     # Sort entries for deterministic output
     sorted_keys = sorted(mapping.keys(), key=lambda k: (k[0], k[1], k[2]))
