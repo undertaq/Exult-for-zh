@@ -240,6 +240,7 @@ exit /b 0
     <PostBuildEvent>
       <Command>copy "$(_ZVcpkgManifestRoot)vcpkg_installed\$(VcpkgTriplet)\$(VcpkgTriplet)\debug\bin\*.dll" "$(OutDir)"
 copy "$(_ZVcpkgManifestRoot)vcpkg_installed\$(VcpkgTriplet)\$(VcpkgTriplet)\debug\bin\*.pdb" "$(OutDir)"
+copy "$(ProjectDir)..\..\..\exult2\SDL3.dll" "$(OutDir)" /y
 exit /b 0
 </Command>
       <Message>Copy vcpkg package binaries to exult dir</Message>

@@ -119,29 +119,34 @@ def write_binary(mapping, output_path):
 
 def main():
     parser = argparse.ArgumentParser(description='Generate bilingual mapping binary data file')
-    parser.add_argument('--csv', help='Path to bilingual_mapping.csv')
+    parser.add_argument('--csv', action='append', dest='csv_files',
+                        help='Path(s) to bilingual_mapping CSV (can be specified multiple times)')
     parser.add_argument('--json', help='Path to bilingual_mapping_review.json')
     parser.add_argument('--output', required=True, help='Output .dat file path')
     args = parser.parse_args()
 
-    if not args.csv and not args.json:
-        parser.error("At least one of --csv or --json is required")
-
-    # Load from JSON first (hand-validated, higher priority)
+    # Load from CSV files first (lowest priority, won't overwrite JSON)
     mapping = {}
-    if args.json:
-        mapping.update(load_json(args.json))
-        print(f"Loaded {len(mapping)} entries from JSON", file=sys.stderr)
+    csv_loaded = 0
+    if args.csv_files:
+        for csv_path in args.csv_files:
+            csv_mapping = load_csv(csv_path)
+            csv_loaded += len(csv_mapping)
+            for key, value in csv_mapping.items():
+                if key not in mapping:
+                    mapping[key] = value
+            print(f"Loaded {len(csv_mapping)} entries from {csv_path}", file=sys.stderr)
+        print(f"Total CSV entries loaded: {csv_loaded}", file=sys.stderr)
 
-    # Load from CSV (lower priority, won't overwrite JSON entries)
-    if args.csv:
-        csv_mapping = load_csv(args.csv)
-        # Merge: JSON entries take priority
+    # Load from JSON (hand-validated, higher priority — overwrites CSV)
+    if args.json:
         before = len(mapping)
-        for key, value in csv_mapping.items():
-            if key not in mapping:
-                mapping[key] = value
-        print(f"Added {len(mapping) - before} entries from CSV", file=sys.stderr)
+        mapping.update(load_json(args.json))
+        print(f"Loaded {len(mapping) - before} net new entries from JSON", file=sys.stderr)
+
+    if not mapping:
+        print("Error: no entries found", file=sys.stderr)
+        sys.exit(1)
 
     if not mapping:
         print("Error: no entries found", file=sys.stderr)

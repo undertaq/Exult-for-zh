@@ -25,6 +25,7 @@
 #include "Audio.h"
 #include "BilingualMapping.h"
 #include "Configuration.h"
+#include "game.h"
 #include "pent_include.h"
 #include "utils.h"
 
@@ -33,6 +34,8 @@
 #include <ctime>
 #include <iomanip>
 #include <sstream>
+#include <unordered_map>
+#include <vector>
 
 using std::string;
 
@@ -65,15 +68,34 @@ void VoiceActingManager::init() {
 	}
 	config->set("config/audio/speech/text/language", text_language, false);
 
-	// Load bilingual mapping (failure is non-fatal — falls back to English text).
-	if (!BilingualMapping::load(get_system_path("<PATCH>/voice_acting/bilingual_map.dat"))) {
-		pout << "[VoiceActing] Bilingual mapping not loaded; text display will be English-only" << std::endl;
-	} else {
-		pout << "[VoiceActing] Bilingual mapping loaded successfully" << std::endl;
-	}
-
 	pout << "[VoiceActing] Voice language: " << voice_language
 	     << ", Text language: " << text_language << std::endl;
+}
+
+static string get_game_patch_tag() {
+	string tag = (Game::get_game_type() == SERPENT_ISLE) ? "<SERPENTISLE_PATCH>" : "<BLACKGATE_PATCH>";
+	if (is_system_path_defined(tag)) {
+		return tag;
+	}
+	return "<PATCH>";
+}
+
+static bool bilingual_mapping_loaded = false;
+
+static void lazy_load_bilingual_mapping() {
+	if (bilingual_mapping_loaded) {
+		return;
+	}
+	bilingual_mapping_loaded = true;
+
+	string tag = get_game_patch_tag();
+	string map_path = get_system_path(tag + "/voice_acting/bilingual_map.dat");
+
+	if (!BilingualMapping::load(map_path)) {
+		pout << "[VoiceActing] Bilingual mapping not loaded from " << map_path << "; text display will be English-only" << std::endl;
+	} else {
+		pout << "[VoiceActing] Bilingual mapping loaded successfully from " << map_path << std::endl;
+	}
 }
 
 bool VoiceActingManager::is_voice_enabled() {
@@ -90,7 +112,74 @@ const std::string& VoiceActingManager::get_text_language() {
 
 const std::string* VoiceActingManager::lookup_text(
 		int func_id, const std::string& offset_key, int segment) {
+	lazy_load_bilingual_mapping();
 	return BilingualMapping::lookup(func_id, offset_key, segment);
+}
+
+const std::string* VoiceActingManager::lookup_standard_option(const char* en_text) {
+	if (!en_text) {
+		return nullptr;
+	}
+	// Known standard conversation options shared across all NPC functions.
+	// These strings appear at fixed offsets (0/4/8) in most NPC usecode functions
+	// but are only mapped in the database for a small subset of functions.
+	// This table provides a text-match fallback so any NPC will display correctly.
+	static const std::unordered_map<std::string, std::string> kStandardOptions = {
+		{"name",      "\xe5\xa7\x93\xe5\x90\x8d"},  // 姓名
+		{"job",       "\xe8\x81\xb7\xe6\xa5\xad"},  // 職業
+		{"bye",       "\xe5\x91\x8a\xe8\xbe\xad"},  // 告辭
+		{"leave",     "\xe7\xa6\xbb\xe9\x96\x8b"},  // 離開
+	};
+	auto it = kStandardOptions.find(en_text);
+	if (it != kStandardOptions.end()) {
+		return &it->second;
+	}
+	return nullptr;
+}
+
+std::string VoiceActingManager::lookup_book_text(
+		int func_id, const std::string& offset_key, const char* en_text) {
+	lazy_load_bilingual_mapping();
+
+	// Split English text into segments using the same rules as say_string
+	std::vector<std::string> en_segs;
+	if (en_text) {
+		std::string s(en_text);
+		size_t pos = 0;
+		while (pos < s.size()) {
+			size_t next_tilde = s.find('~', pos);
+			if (next_tilde == std::string::npos) {
+				en_segs.push_back(s.substr(pos));
+				break;
+			}
+			en_segs.push_back(s.substr(pos, next_tilde - pos));
+			pos = next_tilde + 1;
+			if (pos < s.size() && s[pos] == '~') {
+				pos++;
+			}
+		}
+	}
+
+	std::string full_text;
+	for (size_t segment = 0; segment < en_segs.size(); ++segment) {
+		if (segment > 0) {
+			full_text += "~~";
+		}
+
+		const std::string* seg = BilingualMapping::lookup(func_id, offset_key, segment);
+		if (seg) {
+			std::string val = *seg;
+			if (val.rfind("##M## ", 0) == 0) {
+				val = val.substr(6);
+			}
+			full_text += val;
+		} else {
+			// Fallback to English segment if no translation exists
+			full_text += en_segs[segment];
+		}
+	}
+
+	return full_text;
 }
 
 void VoiceActingManager::set_text_language(const std::string& lang) {
@@ -141,7 +230,7 @@ void VoiceActingManager::ensure_log_open() {
 	session_id = ss.str();
 
 	// Open the log file in append mode.
-	string log_path = get_system_path("<PATCH>/voice_acting/voice_acting_log.csv");
+	string log_path = get_system_path(get_game_patch_tag() + "/voice_acting/voice_acting_log.csv");
 	bool   is_new   = !U7exists(log_path.c_str());
 
 	log_file.open(log_path, std::ios::app);
@@ -252,22 +341,19 @@ bool VoiceActingManager::try_play(const string& path) {
  */
 static bool find_voice_file(const string& base_filename, string& out_path) {
 	const string& lang   = VoiceActingManager::get_voice_language();
-	const string  dir1   = "<PATCH>/voice_acting/" + lang + "/";
-	const string  dir2   = "<PATCH>/voice_acting/" + lang + "/second_source/";
+	const string  patch_tag = get_game_patch_tag();
+	const string  dir1   = patch_tag + "/voice_acting/" + lang + "/";
+	const string  dir2   = patch_tag + "/voice_acting/" + lang + "/second_source/";
 	const char*   dirs[] = {dir1.c_str(), dir2.c_str()};
 	static const char* const extensions[] = {".ogg", ".wav"};
-	pout << "[VoiceActing] Language: " << lang << std::endl;
 	for (const char* dir : dirs) {
 		for (const char* ext : extensions) {
 			string candidate
 					= get_system_path(string(dir) + base_filename + ext);
-			pout << "[VoiceActing] Checking: " << candidate;
 			if (U7exists(candidate)) {
-				pout << " - FOUND" << std::endl;
 				out_path = candidate;
 				return true;
 			}
-			pout << " - not found" << std::endl;
 		}
 	}
 	return false;

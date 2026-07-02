@@ -73,8 +73,12 @@
 #include "useval.h"
 #include "virstone.h"
 
+#include "actors.h"
+#include "VoiceActingManager.h"
+
 #include <array>
 #include <cmath>
+#include <iostream>
 #include <limits>
 #include <map>
 #include <memory>
@@ -155,8 +159,167 @@ USECODE_INTRINSIC(remove_npc_face) {
 
 USECODE_INTRINSIC(add_answer) {
 	ignore_unused_variable_warning(num_parms);
+	const int voice_func_id = frame ? frame->function->id : -1;
+
+	int voice_caller_npc = 0;
+	if (caller_item) {
+		Actor* act = caller_item->as_actor();
+		if (act) {
+			int num = act->get_npc_num();
+			voice_caller_npc = num > 0 ? -num : num;
+		}
+	}
+	if (voice_caller_npc == 0) {
+		for (auto it = call_stack.rbegin(); it != call_stack.rend(); ++it) {
+			if (*it && (*it)->caller_item) {
+				Actor* act = (*it)->caller_item->as_actor();
+				if (act && act->get_npc_num() > 0) {
+					voice_caller_npc = -act->get_npc_num();
+					break;
+				}
+			}
+		}
+	}
+	const int voice_speaker_npc = voice_current_face_npc != VOICE_NO_FACE
+								? voice_current_face_npc
+								: voice_caller_npc;
+
+	auto add_single_answer = [&](const char* raw_text, const std::string& voice_offset_key, Usecode_value& val) {
+		std::cerr << "[add_answer] func=0x" << std::hex << voice_func_id
+			 << std::dec << " key='" << voice_offset_key
+			 << "' seg=0 text=\"" << raw_text << "\"" << std::endl;
+
+		VoiceActingManager::play_for_conversation(
+				voice_func_id, voice_offset_key, 0, raw_text,
+				voice_speaker_npc, voice_caller_npc);
+
+		if (VoiceActingManager::get_text_language() == "zh") {
+			const std::string* zh = VoiceActingManager::lookup_text(
+					voice_func_id, voice_offset_key, 0);
+			// Fallback: if no per-function translation found, check the
+			// well-known standard conversation options (name/job/bye/leave)
+			// which appear in all NPC functions but are only indexed in a few.
+			if (!zh && raw_text) {
+				zh = VoiceActingManager::lookup_standard_option(raw_text);
+			}
+			std::cerr << "[add_answer] lookup=" << (zh ? "ZH OK" : "ZH MISS")
+				 << std::endl;
+			if (zh) {
+				conv->add_answer(val);
+				conv->set_last_answer_display(*zh);
+				return true;
+			}
+		}
+		conv->add_answer(val);
+		return false;
+	};
+
+	if (parms[0].is_array()) {
+		int size = parms[0].get_array_size();
+		std::vector<int> string_offsets;
+		for (const auto& [fid, off] : voice_string_trace) {
+			if (fid == voice_func_id && off != VOICE_TRACE_ADDSV) {
+				string_offsets.push_back(off);
+			}
+		}
+		std::vector<int> pushs_offsets;
+		for (const auto& [fid, off] : voice_pushs_trace) {
+			if (fid == voice_func_id && off != VOICE_TRACE_ADDSV) {
+				pushs_offsets.push_back(off);
+			}
+		}
+
+		for (int i = 0; i < size; i++) {
+			Usecode_value val = parms[0].get_elem(i);
+			const char* raw_text = val.get_str_value();
+			if (raw_text) {
+				std::string voice_offset_key;
+				char hexbuf[16];
+
+				bool found_match = false;
+				if (frame && frame->data) {
+					// 1. Try to match within pushs_offsets by checking data segment string content
+					for (int off : pushs_offsets) {
+						const char* pushed_str = reinterpret_cast<const char*>(frame->data + off);
+						if (pushed_str && std::strcmp(pushed_str, raw_text) == 0) {
+							std::snprintf(hexbuf, sizeof(hexbuf), "%x", off);
+							voice_offset_key = hexbuf;
+							found_match = true;
+							break;
+						}
+					}
+					// 2. If not found, try to match within string_offsets
+					if (!found_match) {
+						for (int off : string_offsets) {
+							const char* pushed_str = reinterpret_cast<const char*>(frame->data + off);
+							if (pushed_str && std::strcmp(pushed_str, raw_text) == 0) {
+								std::snprintf(hexbuf, sizeof(hexbuf), "%x", off);
+								voice_offset_key = hexbuf;
+								found_match = true;
+								break;
+							}
+						}
+					}
+				}
+
+				// Fallback to index-based mapping if no string match was found
+				if (!found_match) {
+					if (i < static_cast<int>(string_offsets.size())) {
+						std::snprintf(hexbuf, sizeof(hexbuf), "%x", string_offsets[i]);
+						voice_offset_key = hexbuf;
+					} else if (i < static_cast<int>(pushs_offsets.size())) {
+						std::snprintf(hexbuf, sizeof(hexbuf), "%x", pushs_offsets[i]);
+						voice_offset_key = hexbuf;
+					}
+				}
+
+				add_single_answer(raw_text, voice_offset_key, val);
+			} else {
+				conv->add_answer(val);
+			}
+		}
+		voice_string_trace.clear();
+		voice_pushs_trace.clear();
+		return no_ret;
+	}
+
+	const char* raw_text = parms[0].get_str_value();
+	if (raw_text) {
+		auto build_key = [&](const auto& trace) {
+			std::string key;
+			for (const auto& [fid, off] : trace) {
+				if (fid != voice_func_id) {
+					continue;
+				}
+				if (off == VOICE_TRACE_ADDSV) {
+					continue;
+				}
+				if (!key.empty()) {
+					key += "_";
+				}
+				char hexbuf[16];
+				std::snprintf(hexbuf, sizeof(hexbuf), "%x", off);
+				key += hexbuf;
+			}
+			return key;
+		};
+
+		std::string voice_offset_key = build_key(voice_string_trace);
+		if (voice_offset_key.empty()) {
+			std::string pushs_key = build_key(voice_pushs_trace);
+			if (!pushs_key.empty()) {
+				voice_offset_key = pushs_key;
+			}
+		}
+		add_single_answer(raw_text, voice_offset_key, parms[0]);
+		voice_string_trace.clear();
+		voice_pushs_trace.clear();
+		return no_ret;
+	}
+
 	conv->add_answer(parms[0]);
-	//  user_choice = 0;
+	voice_string_trace.clear();
+	voice_pushs_trace.clear();
 	return no_ret;
 }
 

@@ -43,8 +43,10 @@ private:
 	TileRect                      avatar_face     = {0, 0, 0, 0};    // Area take by Avatar in conversation.
 	TileRect*                     conv_choices    = nullptr;         // Choices during a conversation.
 
-	std::vector<std::string>             answers;
-	std::deque<std::vector<std::string>> answer_stack;
+	std::vector<std::string>                    answers;          // Answer text for usecode comparison (always English)
+	std::vector<std::string>                    answers_display;  // Display text for rendering (Chinese or English)
+	std::deque<std::vector<std::string>>        answer_stack;
+	std::deque<std::vector<std::string>>        answer_display_stack;
 
 public:
 	inline int get_num_answers() const {
@@ -86,6 +88,7 @@ public:
 	void remove_answer(Usecode_value& val);
 	void clear_answers();
 	int  locate_answer(const char* str);
+	void set_last_answer_display(const std::string& text);
 
 	const char* get_answer(int num) {
 		return answers[num].c_str();

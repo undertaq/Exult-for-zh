@@ -95,6 +95,7 @@ static U7OstreamFactory ostream_factory = [](const char* s, std::ios_base::openm
 
 // Ugly hack for supporting different paths
 
+static std::string home_directory;
 static std::map<string, string> path_map;
 static std::map<string, string> stored_path_map;
 
@@ -133,6 +134,9 @@ void add_system_path(const string& key, const string& value) {
 			exit(1);
 		} else {
 			path_map[key] = remove_trailing_slash(value);
+			if (key == "<HOME>") {
+				home_directory = path_map[key];
+			}
 		}
 	} else {
 		clear_system_path(key);
@@ -142,6 +146,9 @@ void add_system_path(const string& key, const string& value) {
 void clone_system_path(const string& new_key, const string& old_key) {
 	if (is_system_path_defined(old_key)) {
 		path_map[new_key] = path_map[old_key];
+		if (new_key == "<HOME>") {
+			home_directory = path_map[new_key];
+		}
 	} else {
 		clear_system_path(new_key);
 	}
@@ -151,6 +158,9 @@ void clear_system_path(const string& key) {
 	auto iter = path_map.find(key);
 	if (iter != path_map.end()) {
 		path_map.erase(iter);
+		if (key == "<HOME>") {
+			home_directory.clear();
+		}
 	}
 }
 
@@ -757,7 +767,7 @@ void cleanup_output(const char* prefix) {
 #	endif    // USE_CONSOLE
 #endif        // _WIN32
 
-static std::string home_directory;
+
 
 void U7set_home(std::string home) {
 	home_directory = std::move(home);

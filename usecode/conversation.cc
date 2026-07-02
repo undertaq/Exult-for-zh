@@ -73,12 +73,22 @@ Conversation::~Conversation() {
 
 void Conversation::clear_answers() {
 	answers.clear();
+	answers_display.clear();
+	answer_stack.clear();
+	answer_display_stack.clear();
 }
 
 void Conversation::add_answer(const char* str) {
 	remove_answer(str);
 	const string s(str);
 	answers.push_back(s);
+	answers_display.push_back(s);
+}
+
+void Conversation::set_last_answer_display(const std::string& text) {
+	if (!answers_display.empty()) {
+		answers_display.back() = text;
+	}
 }
 
 /*
@@ -101,7 +111,11 @@ void Conversation::remove_answer(const char* str) {
 	auto it = std::find(answers.cbegin(), answers.cend(), str);
 
 	if (it != answers.cend()) {
+		auto idx = std::distance(answers.cbegin(), it);
 		answers.erase(it);
+		if (idx < static_cast<int>(answers_display.size())) {
+			answers_display.erase(answers_display.cbegin() + idx);
+		}
 	}
 }
 
@@ -711,13 +725,13 @@ void Conversation::show_avatar_choices() {
 	char** result;
 	size_t i;    // Blame MSVC
 
-	result = new char*[answers.size()];
-	for (i = 0; i < answers.size(); i++) {
-		result[i] = new char[answers[i].size() + 1];
-		strcpy(result[i], answers[i].c_str());
+	result = new char*[answers_display.size()];
+	for (i = 0; i < answers_display.size(); i++) {
+		result[i] = new char[answers_display[i].size() + 1];
+		strcpy(result[i], answers_display[i].c_str());
 	}
-	show_avatar_choices(answers.size(), result);
-	for (i = 0; i < answers.size(); i++) {
+	show_avatar_choices(answers_display.size(), result);
+	for (i = 0; i < answers_display.size(); i++) {
 		delete[] result[i];
 	}
 	delete[] result;
@@ -835,11 +849,15 @@ int Conversation::locate_answer(const char* str) {
 
 void Conversation::push_answers() {
 	answer_stack.push_front(answers);
+	answer_display_stack.push_front(answers_display);
 	answers.clear();
+	answers_display.clear();
 }
 
 void Conversation::pop_answers() {
 	answers = answer_stack.front();
+	answers_display = answer_display_stack.front();
 	answer_stack.pop_front();
+	answer_display_stack.pop_front();
 	gwin->paint();    // Really just need to figure tbox.
 }

@@ -582,6 +582,75 @@ void Usecode_internal::show_pending_text() {
 
 void Usecode_internal::show_book() {
 	char* str = String;
+	if (str && *str) {
+		const int voice_func_id = frame ? frame->function->id : -1;
+
+		int voice_caller_npc = 0;
+		if (caller_item) {
+			Actor* act = caller_item->as_actor();
+			if (act) {
+				int num = act->get_npc_num();
+				voice_caller_npc = num > 0 ? -num : num;
+			}
+		}
+		if (voice_caller_npc == 0) {
+			for (auto it = call_stack.rbegin(); it != call_stack.rend(); ++it) {
+				if (*it && (*it)->caller_item) {
+					Actor* act = (*it)->caller_item->as_actor();
+					if (act && act->get_npc_num() > 0) {
+						voice_caller_npc = -act->get_npc_num();
+						break;
+					}
+				}
+			}
+		}
+		const int voice_speaker_npc = voice_current_face_npc != VOICE_NO_FACE
+									? voice_current_face_npc
+									: voice_caller_npc;
+
+		std::string voice_offset_key;
+		for (const auto& [fid, off] : voice_string_trace) {
+			if (fid != voice_func_id) {
+				continue;
+			}
+			if (off == VOICE_TRACE_ADDSV) {
+				continue;
+			}
+			if (!voice_offset_key.empty()) {
+				voice_offset_key += "_";
+			}
+			char hexbuf[16];
+			std::snprintf(hexbuf, sizeof(hexbuf), "%x", off);
+			voice_offset_key += hexbuf;
+		}
+
+		pout << "[show_book] func=0x" << std::hex << voice_func_id
+			 << std::dec << " key='" << voice_offset_key
+			 << "' seg=0 str=\"" << (str ? str : "(null)") << "\"" << std::endl;
+
+		VoiceActingManager::play_for_conversation(
+				voice_func_id, voice_offset_key, 0, str,
+				voice_speaker_npc, voice_caller_npc);
+
+		if (VoiceActingManager::get_text_language() == "zh") {
+			std::string zh_book_text = VoiceActingManager::lookup_book_text(
+					voice_func_id, voice_offset_key, str);
+			pout << "[show_book] lookup=" << (!zh_book_text.empty() ? "ZH OK" : "ZH MISS")
+				 << std::endl;
+			if (!zh_book_text.empty()) {
+				book->add_text(zh_book_text.c_str());
+				delete[] String;
+				String = nullptr;
+				voice_string_trace.clear();
+				voice_pushs_trace.clear();
+				return;
+			}
+		}
+		voice_string_trace.clear();
+		voice_pushs_trace.clear();
+	}
+	pout << "[show_book] fallback text=\"" << (str ? str : "(null)")
+		 << "\"" << std::endl;
 	book->add_text(str);
 	delete[] String;
 	String = nullptr;
@@ -650,6 +719,7 @@ void Usecode_internal::say_string() {
 		voice_offset_key += hexbuf;
 	}
 	voice_string_trace.clear();
+	voice_pushs_trace.clear();
 
 	pout << "[say_string] func=0x" << std::hex << voice_func_id << std::dec
 	     << " offset_key=" << voice_offset_key << std::endl;
@@ -2406,6 +2476,7 @@ int Usecode_internal::run() {
 					DATA_SEGMENT_ERROR();
 					break;
 				}
+				voice_pushs_trace.push_back({frame->function->id, offset});
 				pushs(frame->data + offset);
 				break;
 			case UC_ARRC: {    // ARRC.

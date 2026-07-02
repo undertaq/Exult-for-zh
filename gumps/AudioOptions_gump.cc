@@ -191,11 +191,11 @@ public:
 	}
 
 	static auto Voicelanguage_() {
-		return get_text_msg(0x620 - msg_file_start);
+		return "Voice Language:";
 	}
 
 	static auto Textlanguage_() {
-		return get_text_msg(0x621 - msg_file_start);
+		return "Text Language:";
 	}
 };
 
@@ -362,13 +362,13 @@ void AudioOptions_gump::rebuild_buttons() {
             get_button_pos_for_label(Strings::Voice_()), yForRow(13), 59);
 
 	// voice language
-	std::vector<std::string> voice_lang_options = {"English", "中文"};
+	std::vector<std::string> voice_lang_options = {"English", "Chinese"};
 	buttons[id_voice_language]                 = std::make_unique<AudioTextToggle>(
             this, &AudioOptions_gump::toggle_voice_language, std::move(voice_lang_options), voice_language_val,
             get_button_pos_for_label(Strings::Voicelanguage_()), yForRow(14), 92);
 
 	// text language
-	std::vector<std::string> text_lang_options = {"English", "中文"};
+	std::vector<std::string> text_lang_options = {"English", "Chinese"};
 	buttons[id_text_language]                  = std::make_unique<AudioTextToggle>(
             this, &AudioOptions_gump::toggle_text_language, std::move(text_lang_options), text_language_val,
             get_button_pos_for_label(Strings::Textlanguage_()), yForRow(15), 92);

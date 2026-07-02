@@ -66,6 +66,14 @@ public:
 	static const std::string* lookup_text(
 			int func_id, const std::string& offset_key, int segment);
 
+	// Look up translation for a well-known standard conversation keyword (e.g. "name", "job", "bye").
+	// Returns nullptr if the text is not a recognized standard option.
+	static const std::string* lookup_standard_option(const char* en_text);
+
+	// Look up bilingual text for a book page, reconstructing all its segments with "~~" delimiters.
+	static std::string lookup_book_text(
+			int func_id, const std::string& offset_key, const char* en_text);
+
 	// Set text language at runtime (called from Audio Options on Apply).
 	static void set_text_language(const std::string& lang);
 
