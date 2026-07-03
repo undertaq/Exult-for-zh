@@ -1,6 +1,7 @@
 #include "bilingual_manager.h"
 #include "usecode/ucmachine.h"
 #include "gamewin.h"
+#include "items.h"
 #include "singles.h"
 #include "fnames.h"
 #include "utils.h"
@@ -16,12 +17,20 @@ BilingualManager& BilingualManager::get() {
 void BilingualManager::init() {
     std::string text_lang_str, voice_lang_str;
     config->value("config/audio/text/language", text_lang_str, "en");
-    config->value("config/audio/voice/language", voice_lang_str, "zh");
+    config->value("config/audio/speech/voice/language", voice_lang_str, "zh");
+    // Write text language default back so config always has the key
+    config->set("config/audio/text/language", text_lang_str, false);
 
     current_lang = (text_lang_str == "zh") ? TextLanguage::CHINESE : TextLanguage::ENGLISH;
 
     load_usecode_files();
     load_bilingual_map();
+
+    Game_window* gwin = Game_window::get_instance();
+    if (gwin) {
+        gwin->set_usecode(get_usecode(current_lang));
+        Game_singletons::init(gwin);
+    }
 
     std::cout << "[Bilingual] Text language: "
               << (current_lang == TextLanguage::CHINESE ? "zh" : "en") << std::endl;
@@ -68,7 +77,7 @@ void BilingualManager::load_bilingual_map() {
     }
 
     try {
-        auto pFile = U7open_in(map_path);
+	auto pFile = U7open_in(map_path.c_str());
         if (!pFile) {
             std::cerr << "[Bilingual] Failed to open bilingual map" << std::endl;
             return;
@@ -114,12 +123,12 @@ void BilingualManager::load_bilingual_map() {
 
 void BilingualManager::set_text_language(TextLanguage lang) {
     if (lang == current_lang) return;
-    current_lang = lang;
 
     Game_window* gwin = Game_window::get_instance();
     if (gwin) {
-        gwin->usecode = get_active_usecode();
+        gwin->set_usecode(get_usecode(lang));
         Game_singletons::init(gwin);
+        current_lang = lang;
         gwin->set_all_dirty();
     }
 }
@@ -136,17 +145,22 @@ Usecode_machine* BilingualManager::get_usecode(TextLanguage lang) {
 bool BilingualManager::map_offset(TextLanguage from_lang, int func_id,
                                    const std::string& offset_key,
                                    int& out_func_id, std::string& out_offset_key) {
-    if (from_lang != TextLanguage::CHINESE) {
-        return false;
-    }
-
-    for (const auto& m : bilingual_map) {
-        if (m.zh_func_id == func_id && m.zh_offset_key == offset_key) {
-            out_func_id = m.en_func_id;
-            out_offset_key = m.en_offset_key;
-            return true;
+    if (from_lang == TextLanguage::CHINESE) {
+        for (const auto& m : bilingual_map) {
+            if (m.zh_func_id == func_id && m.zh_offset_key == offset_key) {
+                out_func_id = m.en_func_id;
+                out_offset_key = m.en_offset_key;
+                return true;
+            }
+        }
+    } else if (from_lang == TextLanguage::ENGLISH) {
+        for (const auto& m : bilingual_map) {
+            if (m.en_func_id == func_id && m.en_offset_key == offset_key) {
+                out_func_id = m.zh_func_id;
+                out_offset_key = m.zh_offset_key;
+                return true;
+            }
         }
     }
-
     return false;
 }

@@ -23,7 +23,7 @@ def read_csv(path):
     Returns dict: func_id -> list of groups, where each group is:
       {'offset_key': str, 'segments': [int, ...], 'texts': [str, ...]}"""
     funcs = OrderedDict()
-    with open(path, newline='', encoding='utf-8') as f:
+    with open(path, newline='', encoding='utf-8-sig') as f:
         reader = csv.DictReader(f)
         for row in reader:
             key = row.get('offset_key', '').strip()

@@ -132,6 +132,9 @@ static inline void add_text_internal(vector<string>& src, unsigned num, const ch
 
 int get_num_item_names() {
 	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	if (item_names[lang].empty()) {
+		lang = 0;
+	}
 	return item_names[lang].size();
 }
 
@@ -140,6 +143,9 @@ int get_num_item_names() {
  */
 const char* get_item_name(unsigned num) {
 	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	if (item_names[lang].empty()) {
+		lang = 0;
+	}
 	return get_text_internal(item_names[lang], num);
 }
 
@@ -148,6 +154,9 @@ const char* get_item_name(unsigned num) {
  */
 void Set_item_name(unsigned num, const char* name) {
 	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	if (item_names[lang].empty()) {
+		lang = 0;
+	}
 	add_text_internal(item_names[lang], num, name);
 }
 
@@ -157,6 +166,9 @@ void Set_item_name(unsigned num, const char* name) {
 
 int get_num_text_msgs() {
 	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	if (text_msgs[lang].empty()) {
+		lang = 0;
+	}
 	return text_msgs[lang].size();
 }
 
@@ -165,6 +177,9 @@ int get_num_text_msgs() {
  */
 const char* get_text_msg(unsigned num) {
 	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	if (text_msgs[lang].empty()) {
+		lang = 0;
+	}
 	return get_text_internal(text_msgs[lang], num);
 }
 
@@ -173,6 +188,9 @@ const char* get_text_msg(unsigned num) {
  */
 void Set_text_msg(unsigned num, const char* msg) {
 	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	if (text_msgs[lang].empty()) {
+		lang = 0;
+	}
 	add_text_internal(text_msgs[lang], num, msg);
 }
 
@@ -182,6 +200,9 @@ void Set_text_msg(unsigned num, const char* msg) {
 
 int get_num_misc_names() {
 	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	if (misc_names[lang].empty()) {
+		lang = 0;
+	}
 	return misc_names[lang].size();
 }
 
@@ -190,6 +211,9 @@ int get_num_misc_names() {
  */
 const char* get_misc_name(unsigned num) {
 	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	if (misc_names[lang].empty()) {
+		lang = 0;
+	}
 	return get_text_internal(misc_names[lang], num);
 }
 
@@ -198,6 +222,9 @@ const char* get_misc_name(unsigned num) {
  */
 void Set_misc_name(unsigned num, const char* name) {
 	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	if (misc_names[lang].empty()) {
+		lang = 0;
+	}
 	add_text_internal(misc_names[lang], num, name);
 }
 
@@ -395,28 +422,60 @@ void Setup_text(bool si, bool expansion, bool sibeta, Game_Language language, bo
 		}
 	}
 
-	// Exult new-style messages?
-	if (is_patch && U7exists(PATCH_TEXTMSGS)) {
-		IFileDataSource txtfile(PATCH_TEXTMSGS, true);
-		if (!txtfile.good()) {
-			return;
-		}
-		Setup_text(txtfile, exultmsgs, use_special_chars);
-	} else if (U7exists(TEXTMSGS)) {
-		IFileDataSource txtfile(TEXTMSGS, true);
-		if (!txtfile.good()) {
-			return;
-		}
-		Setup_text(txtfile, exultmsgs, use_special_chars);
-	} else {
-		IFileDataSource textflx = [&]() {
-			if (is_patch && U7exists(PATCH_TEXT)) {
-				return IFileDataSource(PATCH_TEXT);
-			}
-			return IFileDataSource(TEXT_FLX);
-		}();
+	// Check if bilingual mode (Chinese usecode + text patch)
+	const bool is_bilingual = is_patch && U7exists(ZH_USECODE);
 
-		Setup_item_names(textflx, exultmsgs, si, expansion, sibeta, use_special_chars);
+	if (is_bilingual) {
+		// Bilingual: English text in slot 0, Chinese text in slot 1
+		if (U7exists(TEXTMSGS)) {
+			IFileDataSource txtfile(TEXTMSGS, true);
+			if (txtfile.good()) {
+				loading_text_lang = 0;
+				Setup_text(txtfile, exultmsgs, use_special_chars);
+			}
+		} else {
+			IFileDataSource textflx = [&]() {
+				if (is_patch && U7exists(PATCH_TEXT)) {
+					return IFileDataSource(PATCH_TEXT);
+				}
+				return IFileDataSource(TEXT_FLX);
+			}();
+			loading_text_lang = 0;
+			Setup_item_names(textflx, exultmsgs, si, expansion, sibeta, use_special_chars);
+		}
+		if (U7exists(PATCH_TEXTMSGS)) {
+			IFileDataSource txtfile(PATCH_TEXTMSGS, true);
+			if (txtfile.good()) {
+				loading_text_lang = 1;
+				Setup_text(txtfile, exultmsgs, use_special_chars);
+			}
+		}
+	} else {
+		// Original behavior: PATCH_TEXTMSGS → slot 0, else TEXTMSGS → slot 0
+		if (is_patch && U7exists(PATCH_TEXTMSGS)) {
+			IFileDataSource txtfile(PATCH_TEXTMSGS, true);
+			if (!txtfile.good()) {
+				return;
+			}
+			loading_text_lang = 0;
+			Setup_text(txtfile, exultmsgs, use_special_chars);
+		} else if (U7exists(TEXTMSGS)) {
+			IFileDataSource txtfile(TEXTMSGS, true);
+			if (!txtfile.good()) {
+				return;
+			}
+			loading_text_lang = 0;
+			Setup_text(txtfile, exultmsgs, use_special_chars);
+		} else {
+			IFileDataSource textflx = [&]() {
+				if (is_patch && U7exists(PATCH_TEXT)) {
+					return IFileDataSource(PATCH_TEXT);
+				}
+				return IFileDataSource(TEXT_FLX);
+			}();
+			loading_text_lang = 0;
+			Setup_item_names(textflx, exultmsgs, si, expansion, sibeta, use_special_chars);
+		}
 	}
 }
 
