@@ -1,0 +1,2028 @@
+{
+  "_meta": {
+    "total_entries": 10245,
+    "total_npcs": 266,
+    "total_designs": 175,
+    "unique_designs": 159,
+    "narrator_designs": 1,
+    "group_designs": 15
+  },
+  "designs": {
+    "group_actor_entertainer": {
+      "npc": "actor_entertainer",
+      "type": "group",
+      "npcs": [
+        "Amber",
+        "De Maria",
+        "Dustin",
+        "Jesse",
+        "Judith",
+        "Meryl",
+        "Neno",
+        "Stuart"
+      ],
+      "voice_desc_en": "Theatrical performer, expressive and dramatic voice, with a flair for entertainment, speaks in standard Mandarin",
+      "voice_desc_zh": "戲劇表演者，富於表情和戲劇性的聲音，愛好娛樂，用標準的普通話朗讀",
+      "ref_zh_text": "這位可愛的女演員穿著老鼠裝。",
+      "ref_en_text": "This lovely actress is dressed in a mouse costume."
+    },
+    "group_child": {
+      "npc": "child",
+      "type": "group",
+      "npcs": [
+        "Catherine",
+        "Kristy",
+        "Max",
+        "Nicholas"
+      ],
+      "voice_desc_en": "Young child, innocent and curious voice, high-pitched and playful, speaks in standard Mandarin",
+      "voice_desc_zh": "小孩，天真好奇的聲音，高音調俏皮，用標準的普通話朗讀",
+      "ref_zh_text": "你看到面前有一個表情無憂無慮的年輕女孩。當她注意到你時，她的眼睛睜得很大，驚呼道：「你就是 For……我的其中一本故事書裡的那個人！你是聖者 ！",
+      "ref_en_text": "How dost thou do, milord Avatar?\" She curtseys."
+    },
+    "group_elderly_female": {
+      "npc": "elderly_female",
+      "type": "group",
+      "npcs": [
+        "Boots",
+        "Nanna"
+      ],
+      "voice_desc_en": "Female, elderly woman, warm grandmotherly voice, gentle and loving, speaks slowly in standard Mandarin",
+      "voice_desc_zh": "女性，年長，慈祥的老奶奶的聲音，溫柔慈愛，慢慢地說，用標準的普通話朗讀",
+      "ref_zh_text": "這是一位老奶奶，簡直就是『慈祥祖母』的縮影。",
+      "ref_en_text": "This is an elderly woman who epitomizes 'grandmotherly'."
+    },
+    "group_elderly_male": {
+      "npc": "elderly_male",
+      "type": "group",
+      "npcs": [
+        "Bennie",
+        "Clint",
+        "Csil",
+        "Gregor"
+      ],
+      "voice_desc_en": "Male, elderly man, warm weathered voice with wisdom and patience, speaks slowly in standard Mandarin",
+      "voice_desc_zh": "男性，年長，溫暖滄桑的聲音，充滿智慧和耐心，慢慢地說，用標準的普通話朗讀",
+      "ref_zh_text": "你看見一位充滿幽默感，帶著溫暖笑容的老先生。",
+      "ref_en_text": "You see an elderly man with good humor and a warm smile."
+    },
+    "group_middle_female_firm": {
+      "npc": "middle_female_firm",
+      "type": "group",
+      "npcs": [
+        "Brita",
+        "Cynthia",
+        "Ellen",
+        "Millie",
+        "Polly"
+      ],
+      "voice_desc_en": "Female, 40s-50s, firm and capable woman, no-nonsense professional voice, speaks in standard Mandarin",
+      "voice_desc_zh": "女性，40-50歲，堅定能幹的女人，務實專業的聲音，用標準的普通話朗讀",
+      "ref_zh_text": "一個表情嚴厲的女人毫不幽默地盯著你看。",
+      "ref_en_text": "A stern-looking woman stares back at you without humor."
+    },
+    "group_middle_female_troubled": {
+      "npc": "middle_female_troubled",
+      "type": "group",
+      "npcs": [
+        "Alina"
+      ],
+      "voice_desc_en": "Female, 40s-50s, weary but resilient woman, tired concerned voice, speaks in standard Mandarin",
+      "voice_desc_zh": "女性，40-50歲，疲憊但堅韌的女人，憂心忡忡的聲音，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個單純的農婦。她的臉上刻滿了悲傷。",
+      "ref_en_text": "You see a simple peasant woman. Her face is etched with sorrow."
+    },
+    "group_middle_female_warm": {
+      "npc": "middle_female_warm",
+      "type": "group",
+      "npcs": [
+        "Kelly",
+        "Mama",
+        "Pamela",
+        "Zinaida"
+      ],
+      "voice_desc_en": "Female, 40s-50s, warm and maternal woman, kind gentle voice with wisdom, speaks in standard Mandarin",
+      "voice_desc_zh": "女性，40-50歲，溫暖慈祥的女人，善良溫柔的聲音，用標準的普通話朗讀",
+      "ref_zh_text": "你看見一位看起來很結實的農婦。她給了你一個好客的微笑，然後回到她的雜務上。",
+      "ref_en_text": "What brings us the pleasure of having thee back on this day, milord?\" says Kelly."
+    },
+    "group_middle_male_friendly": {
+      "npc": "middle_male_friendly",
+      "type": "group",
+      "npcs": [
+        "Ben",
+        "Brownie",
+        "Cador",
+        "Chantu",
+        "Eldroth",
+        "Fred",
+        "Greg",
+        "Jakher",
+        "Wayne",
+        "Yongi"
+      ],
+      "voice_desc_en": "Male, 30s-50s, friendly and warm-hearted man, pleasant conversational voice, speaks in standard Mandarin",
+      "voice_desc_zh": "男性，30-50歲，友善溫暖，愉快的談話聲音，用標準的普通話朗讀",
+      "ref_zh_text": "一個將斧頭扛在肩上、身材高大、胸膛寬闊的男人笑著對你點頭。",
+      "ref_en_text": "Resting an axe on his shoulder, a tall, broad-chested man smiles and nods at you."
+    },
+    "group_middle_male_rough": {
+      "npc": "middle_male_rough",
+      "type": "group",
+      "npcs": [
+        "Blorn",
+        "Cubolt",
+        "D Rel",
+        "Gilberto",
+        "Goth",
+        "Grayson",
+        "Karl",
+        "Komor",
+        "Mikos",
+        "Sintag",
+        "Sir Jeff",
+        "Vokes"
+      ],
+      "voice_desc_en": "Male, 30s-50s, rough gruff man, harsh and irritated voice, speaks in standard Mandarin",
+      "voice_desc_zh": "男性，30-50歲，粗獷的男人，刺耳惱怒的聲音，用標準的普通話朗讀",
+      "ref_zh_text": "你面前的男人看到你時，眼睛瞇成了一條縫。",
+      "ref_en_text": "The man before you narrows his eyes to slits as he sees you."
+    },
+    "group_middle_male_serious": {
+      "npc": "middle_male_serious",
+      "type": "group",
+      "npcs": [
+        "Denby",
+        "Johnson",
+        "Pendaran",
+        "Zaksam"
+      ],
+      "voice_desc_en": "Male, 30s-50s, serious and professional man, steady authoritative voice, speaks in standard Mandarin",
+      "voice_desc_zh": "男性，30-50歲，嚴肅專業的男人，沉穩權威的聲音，用標準的普通話朗讀",
+      "ref_zh_text": "你看見一位眼神銳利、性格嚴肅的戰士。",
+      "ref_en_text": "You see a fighter with intense eyes and a serious disposition."
+    },
+    "group_middle_male_worried": {
+      "npc": "middle_male_worried",
+      "type": "group",
+      "npcs": [
+        "Auston",
+        "Gordon",
+        "James",
+        "Tiery",
+        "William"
+      ],
+      "voice_desc_en": "Male, 30s-50s, worried and anxious man, concerned hesitant voice, speaks in standard Mandarin",
+      "voice_desc_zh": "男性，30-50歲，憂慮不安的男人，關切猶豫的聲音，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個眉頭緊鎖的中年男子，彷彿他一直在擔憂。",
+      "ref_en_text": "You see a middle-aged man with a furrowed brow, as if he is constantly worried."
+    },
+    "group_young_female_bright": {
+      "npc": "young_female_bright",
+      "type": "group",
+      "npcs": [
+        "Apollonia",
+        "Carlyn",
+        "Caroline",
+        "Diane",
+        "Eiko",
+        "Jeanette",
+        "Jillian",
+        "Leigh",
+        "Xanthia"
+      ],
+      "voice_desc_en": "Female, 20s-30s, bright and cheerful young woman, warm friendly voice, speaks in standard Mandarin",
+      "voice_desc_zh": "女性，20-30歲，開朗明亮的年輕女子，溫暖友善的聲音，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一位三十多歲、性感迷人的女性。",
+      "ref_en_text": "You see a gorgeous and voluptuous woman in her thirties."
+    },
+    "group_young_female_sad": {
+      "npc": "young_female_sad",
+      "type": "group",
+      "npcs": [
+        "Aimi",
+        "Liana",
+        "Nell",
+        "Penni"
+      ],
+      "voice_desc_en": "Female, 20s-30s, gentle and soft-spoken young woman, quiet tender voice, speaks in standard Mandarin",
+      "voice_desc_zh": "女性，20-30歲，溫柔輕聲細語的年輕女子，安靜柔和的聲音，用標準的普通話朗讀",
+      "ref_zh_text": "這位僧侶將風帽向後拉，足以讓你看到她的臉。",
+      "ref_en_text": "The monk pulls back her cowl far enough for you to see her face."
+    },
+    "group_young_female_serious": {
+      "npc": "young_female_serious",
+      "type": "group",
+      "npcs": [
+        "Amanda",
+        "Gaye",
+        "Iriale",
+        "Karenna",
+        "Mara",
+        "Syria"
+      ],
+      "voice_desc_en": "Female, 20s-30s, serious and composed young woman, steady confident voice, speaks in standard Mandarin",
+      "voice_desc_zh": "女性，20-30歲，嚴肅沈著的年輕女子，沉穩自信的聲音，用標準的普通話朗讀",
+      "ref_zh_text": "你看見一位穿著盔甲、帶著一小批武器的迷人女子。",
+      "ref_en_text": "You see an attractive woman dressed in armour and carrying a small arsenal of weapons with her."
+    },
+    "group_young_male_energetic": {
+      "npc": "young_male_energetic",
+      "type": "group",
+      "npcs": [
+        "Addom",
+        "Bradman",
+        "Cairbre",
+        "Chad",
+        "Charles",
+        "Cosmo",
+        "Effrem",
+        "Gladstone",
+        "Guard",
+        "Henry",
+        "Ian",
+        "Jergi",
+        "Jordan",
+        "Kreg",
+        "Markus",
+        "Menion",
+        "Merrick",
+        "Morz",
+        "Palace Guard",
+        "Perrin",
+        "Rayburt",
+        "Sasha",
+        "Seara",
+        "Thad",
+        "Thurston",
+        "Timmons",
+        "Tolemac",
+        "Zella"
+      ],
+      "voice_desc_en": "Male, 20s-30s, young man, warm and friendly voice, energetic and bright, speaks in standard Mandarin",
+      "voice_desc_zh": "男性，20-30歲，年輕開朗，溫暖友善，充滿活力，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個英俊、堅毅、肌肉發達的男人，令人驚訝的是，他的臉上帶著友善的微笑。",
+      "ref_en_text": "You see a handsome,hardened, muscular man who, surprisingly, bears a friendly smile on his face."
+    },
+    "npc_adjhar": {
+      "npc": "Adjhar",
+      "type": "unique",
+      "npcs": [
+        "Adjhar"
+      ],
+      "voice_desc_en": "Male, gargoyle, deep solemn voice, reverent and dramatic",
+      "voice_desc_zh": "男性，低沉莊嚴，虔誠而富有戲劇性，用標準的普通話朗讀",
+      "ref_zh_text": "我把我的給他！",
+      "ref_en_text": "I will give him mine!"
+    },
+    "npc_alagner": {
+      "npc": "Alagner",
+      "type": "unique",
+      "npcs": [
+        "Alagner"
+      ],
+      "voice_desc_en": "Male, 40s-50s, wise sage, knowing and slightly sly voice",
+      "voice_desc_zh": "男性，40-50歲，懂得而略帶狡猾的，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個高大的男人，散發著一種幾乎狡猾、博學的氣息。",
+      "ref_en_text": "You see a large man with an almost cunning, erudite aura about him."
+    },
+    "npc_andrew": {
+      "npc": "Andrew",
+      "type": "unique",
+      "npcs": [
+        "Andrew"
+      ],
+      "voice_desc_en": "Male, 20s-30s, handsome young man, friendly open voice",
+      "voice_desc_zh": "男性，20-30歲，年輕帥氣，友善開放，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個開朗英俊的年輕人，當你靠近時，他向你友善地揮手。",
+      "ref_en_text": "You see a cheerful, handsome young man who gives you a friendly wave as you approach."
+    },
+    "npc_anmanivas": {
+      "npc": "Anmanivas",
+      "type": "unique",
+      "npcs": [
+        "Anmanivas"
+      ],
+      "voice_desc_en": "Male, gargoyle, hostile hateful voice",
+      "voice_desc_zh": "男性，敵對仇恨的，用標準的普通話朗讀",
+      "ref_zh_text": "這隻石像鬼的仇恨如此強烈，以至於他抵抗了法術。",
+      "ref_en_text": "The gargoyle's hatred is so bitter that he resists the spell."
+    },
+    "npc_ansikart": {
+      "npc": "Ansikart",
+      "type": "unique",
+      "npcs": [
+        "Ansikart"
+      ],
+      "voice_desc_en": "Male, gargoyle, peaceful calm presence, serene voice",
+      "voice_desc_zh": "男性，平和平靜的存在，平靜的，用標準的普通話朗讀",
+      "ref_zh_text": "這只有翼石像鬼散發著非常平靜的氣息。當他第一眼看到你時，臉上露出了認出你的微笑。「致上問候，聖者 。",
+      "ref_en_text": "To ask how to help you?"
+    },
+    "npc_anton": {
+      "npc": "Anton",
+      "type": "unique",
+      "npcs": [
+        "Anton"
+      ],
+      "voice_desc_en": "Male, 30s-40s, sullen man, gloomy and resentful voice",
+      "voice_desc_zh": "男性，30-40歲，悶悶不樂，陰鬱怨恨，用標準的普通話朗讀",
+      "ref_zh_text": "我感謝你，大人。你真是有著崇高的榮譽感！我希望有一天能報答你的恩情！",
+      "ref_en_text": "You are greeted by a man with a sour expression."
+    },
+    "npc_aurvidlem": {
+      "npc": "Aurvidlem",
+      "type": "unique",
+      "npcs": [
+        "Aurvidlem"
+      ],
+      "voice_desc_en": "Male, gargoyle, displeased formal voice",
+      "voice_desc_zh": "男性，不高興的正式，用標準的普通話朗讀",
+      "ref_zh_text": "站在你面前的石像鬼臉上帶著不悅的表情。",
+      "ref_en_text": "The gargoyle standing before you has a sour expression on his face."
+    },
+    "npc_avatar": {
+      "npc": "Avatar",
+      "type": "unique",
+      "npcs": [
+        "Avatar"
+      ],
+      "voice_desc_en": "Male, 30s, the Avatar's own thoughts, introspective internal voice",
+      "voice_desc_zh": "男性，30多歲，內省的，用標準的普通話朗讀",
+      "ref_zh_text": "你的大腦被快速探測了一下，然後被拋開，讓你感到有些不適，並充滿了一種不理性的不祥預感。",
+      "ref_en_text": "After a short while you notice that the edge has definitely improved."
+    },
+    "npc_balayna": {
+      "npc": "Balayna",
+      "type": "unique",
+      "npcs": [
+        "Balayna"
+      ],
+      "voice_desc_en": "Female, 20s-30s, serious woman, hushed conspiratorial voice",
+      "voice_desc_zh": "女性，20-30歲，嚴肅的女人，低聲陰謀的，用標準的普通話朗讀",
+      "ref_zh_text": "她瞪著眼，將一根手指放在唇邊，示意你安靜。",
+      "ref_en_text": "Glaring, she puts a finger over her lips, indicating that you should be silent."
+    },
+    "npc_batlin": {
+      "npc": "Batlin",
+      "type": "unique",
+      "npcs": [
+        "Batlin"
+      ],
+      "voice_desc_en": "Male, 40s, charismatic and persuasive cult leader, smooth yet intense, speaks with conviction and subtle menace",
+      "voice_desc_zh": "男性，40多歲，有說服力的，用標準的普通話朗讀",
+      "ref_zh_text": "Batlin 以冰冷的無奈看著 Hook 死亡。當他轉向你時，時間似乎變慢了。\"這場戰鬥還沒結束，聖者。你以為自己是不死的嗎？守護者遠比你想像的更強大。回到你那珍貴的地球去休息吧。",
+      "ref_en_text": "As for me, I shall begone! Thou shalt never find me! Farewell, Avatar!"
+    },
+    "npc_battles": {
+      "npc": "Battles",
+      "type": "unique",
+      "npcs": [
+        "Battles"
+      ],
+      "voice_desc_en": "Male, 30s-40s, shifty suspicious man, cunning guarded voice",
+      "voice_desc_zh": "男性，30-40歲，狡猾多疑，狡猾警惕，用標準的普通話朗讀",
+      "ref_zh_text": "你面前的男人用狡詐的眼神打量著你。他微微彎著腰，彷彿隨時準備對周圍的世界發動攻擊。",
+      "ref_en_text": "What?\" asks Battles."
+    },
+    "npc_betra": {
+      "npc": "Betra",
+      "type": "unique",
+      "npcs": [
+        "Betra"
+      ],
+      "voice_desc_en": "Male, gargoyle, welcoming wing-flap, friendly formal voice",
+      "voice_desc_zh": "男性，歡迎拍翼，友善正式的，用標準的普通話朗讀",
+      "ref_zh_text": "這隻石像鬼張開手做了一個揮舞的動作來歡迎你。",
+      "ref_en_text": "The gargoyle welcomes you by making a sweeping motion with his open hand."
+    },
+    "npc_beverlea": {
+      "npc": "Beverlea",
+      "type": "unique",
+      "npcs": [
+        "Beverlea"
+      ],
+      "voice_desc_en": "Female, elderly, sweet grandmother, warm gentle voice, slightly hard of hearing",
+      "voice_desc_zh": "女，老人，甜甜，溫暖溫柔，稍有聽力障礙，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一位老婦人，她對你露出祖母般甜美的微笑。你可以立刻看出她的視力很差。",
+      "ref_en_text": "Why, hello again, milord. It is so good to see thee!\" says Beverlea."
+    },
+    "npc_blacktooth": {
+      "npc": "Blacktooth",
+      "type": "unique",
+      "npcs": [
+        "Blacktooth"
+      ],
+      "voice_desc_en": "Male, 40s, suspicious pirate, rough threatening voice, chewing tobacco",
+      "voice_desc_zh": "男性，40多歲，粗魯威脅的，用標準的普通話朗讀",
+      "ref_zh_text": "這個高大、中年的海盜充滿懷疑地看著你。",
+      "ref_en_text": "This tall, middle-aged pirate looks at you with suspicion."
+    },
+    "npc_bollux": {
+      "npc": "Bollux",
+      "type": "unique",
+      "npcs": [
+        "Bollux"
+      ],
+      "voice_desc_en": "Male, gargoyle, deep gravelly voice, earnest and emotional, speaks with a heavy resonant tone",
+      "voice_desc_zh": "男性，低沉沙啞，真誠而情感豐富，說話聲音厚重洪亮，用標準的普通話朗讀",
+      "ref_zh_text": "你身上有關於 Castambre 之石的書嗎？",
+      "ref_en_text": "Hast thou in thy possesion the book on the Stone of Castambre?"
+    },
+    "npc_boris": {
+      "npc": "Boris",
+      "type": "unique",
+      "npcs": [
+        "Boris"
+      ],
+      "voice_desc_en": "Male, 40s, lecherous innkeeper, oily and suggestive voice, unpleasant chuckle",
+      "voice_desc_zh": "男性，40多歲，油膩挑逗，笑聲令人不快，用標準的普通話朗讀",
+      "ref_zh_text": "你準備好付清帳單了嗎？",
+      "ref_en_text": "Art thou ready to pay thy bill?"
+    },
+    "npc_brion": {
+      "npc": "Brion",
+      "type": "unique",
+      "npcs": [
+        "Brion"
+      ],
+      "voice_desc_en": "Male, 30s-40s, scholarly man, calm intellectual voice",
+      "voice_desc_zh": "男性，30-40歲，冷靜知性的，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一位看起來很博學的男人，帶著友善的表情。",
+      "ref_en_text": "You see a scholarly-looking man with a friendly expression."
+    },
+    "npc_budo": {
+      "npc": "Budo",
+      "type": "unique",
+      "npcs": [
+        "Budo"
+      ],
+      "voice_desc_en": "Male, 40s, fat happy merchant, jolly booming voice",
+      "voice_desc_zh": "男性，40多歲，歡快洪亮，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個肥胖、看起來很快樂的商人。",
+      "ref_en_text": "You see a fat, cheerful-looking merchant."
+    },
+    "npc_burnside": {
+      "npc": "Burnside",
+      "type": "unique",
+      "npcs": [
+        "Burnside"
+      ],
+      "voice_desc_en": "Male, elderly, dignified aged gentleman, formal slightly strained voice",
+      "voice_desc_zh": "男性，老人，正式，略顯緊張，用標準的普通話朗讀",
+      "ref_zh_text": "友誼會集會正在進行中，Burnside 現在不會和你說話。",
+      "ref_en_text": "The Fellowship meeting is in progress, and Burnside will not speak with you now."
+    },
+    "npc_caine": {
+      "npc": "Caine",
+      "type": "unique",
+      "npcs": [
+        "Caine"
+      ],
+      "voice_desc_en": "Male, ghost, pained and hollow voice, suffering spirit, weak and trembling",
+      "voice_desc_zh": "男，鬼，痛苦空洞，虛弱顫抖，用標準的普通話朗讀",
+      "ref_zh_text": "這名沒有實體的男子凝視著你身後，似乎穿透了建築物的邊界，或許甚至是穿透了這個世界。然後，他突然發抖，彷彿充滿了痛苦。",
+      "ref_en_text": "The ghostly man displays a face filled with pain."
+    },
+    "npc_camille": {
+      "npc": "Camille",
+      "type": "unique",
+      "npcs": [
+        "Camille"
+      ],
+      "voice_desc_en": "Female, 40s, worried mother, pleading and desperate voice, tearful",
+      "voice_desc_zh": "女性，40多歲，擔心，懇求而絕望的淚流滿面，用標準的普通話朗讀",
+      "ref_zh_text": "聖者！我的兒子 Tobias 被誣陷了！他不是小偷！我無法相信在他身上發現了一瓶毒液。我真的相信那是被栽贓的！拜託——我求求你！請還我兒子清白。他沒有做錯任何事！",
+      "ref_en_text": "You see a farm woman. She rubs her hands, which are covered with dirt and lines drawn by toil."
+    },
+    "npc_candice": {
+      "npc": "Candice",
+      "type": "unique",
+      "npcs": [
+        "Candice"
+      ],
+      "voice_desc_en": "Female, 30s-40s, concerned fellowship member, worried voice",
+      "voice_desc_zh": "女性，30-40歲，關心的擔憂的，用標準的普通話朗讀",
+      "ref_zh_text": "Candice 正專心聆聽友誼會的聚會。",
+      "ref_en_text": "Candice is listening intently to the Fellowship meeting."
+    },
+    "npc_carrocio": {
+      "npc": "Carrocio",
+      "type": "unique",
+      "npcs": [
+        "Carrocio"
+      ],
+      "voice_desc_en": "Male, 30s-40s, fast-talking con artist, lively and theatrical, slightly sly and charming",
+      "voice_desc_zh": "男性，30多歲，活潑的，用標準的普通話朗讀",
+      "ref_zh_text": "現在正是時候！無論老少，都應該掏出錢包，將財富奉獻出來。\\* 閣下是否願意捐獻一枚金幣？",
+      "ref_en_text": "In a wink, in a word,"
+    },
+    "npc_chuckles": {
+      "npc": "Chuckles",
+      "type": "unique",
+      "npcs": [
+        "Chuckles"
+      ],
+      "voice_desc_en": "Male, 30s-40s, prankster, mischievous teasing voice, speaking exactly 4 words",
+      "voice_desc_zh": "男性，30-40歲，惡作劇者，惡作劇挑逗的準確地說出4個字，用標準的普通話朗讀",
+      "ref_zh_text": "你對與那個愛惡作劇的 Chuckles 交談感到警惕，但還是決定這麼做。",
+      "ref_en_text": "You are wary of conversing with that trickster Chuckles, but decide to anyway."
+    },
+    "npc_constance": {
+      "npc": "Constance",
+      "type": "unique",
+      "npcs": [
+        "Constance"
+      ],
+      "voice_desc_en": "Female, 20s, angelic young woman, innocent sweet voice, shy",
+      "voice_desc_zh": "女，20多歲，天使般，天真甜美的害羞，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一位宛如天使般的年輕女子，她對你露出完全天真無邪的微笑。",
+      "ref_en_text": "You see an angelic young woman who gives you a smile of complete innocence."
+    },
+    "npc_coop": {
+      "npc": "Coop",
+      "type": "unique",
+      "npcs": [
+        "Coop"
+      ],
+      "voice_desc_en": "Male, 20s-30s, traveling musician, warm singing voice, artistic and expressive",
+      "voice_desc_zh": "男性，20-30歲，歌聲溫暖，藝術感強，表現力強，用標準的普通話朗讀",
+      "ref_zh_text": "Coop 正與『聖者旅團』在舞台上。他看見你，並說：「嗯，今晚有位特別的聽眾，這下一首曲子是要獻給他們的。",
+      "ref_en_text": "He signals to his partners and they begin to play. He sings the following lyrics:"
+    },
+    "npc_danag": {
+      "npc": "Danag",
+      "type": "unique",
+      "npcs": [
+        "Danag"
+      ],
+      "voice_desc_en": "Male, 30s-40s, cheerful gambler, happy and carefree voice, warm laugh",
+      "voice_desc_zh": "男性，30-40歲，開朗的賭徒，快樂無憂無慮的溫暖的笑聲，用標準的普通話朗讀",
+      "ref_zh_text": "Danag 對你點點頭。「我無意失禮，但我正在專心玩遊戲。我希望能贏一大筆錢！",
+      "ref_en_text": "He rubs his hand with glee."
+    },
+    "npc_daphne": {
+      "npc": "Daphne",
+      "type": "unique",
+      "npcs": [
+        "Daphne"
+      ],
+      "voice_desc_en": "Female, 30s-40s, overworked barmaid, tired and annoyed voice, clipped",
+      "voice_desc_zh": "女性，30-40歲，疲憊而惱怒的簡短，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個不滿且明顯過度勞累的酒館女侍。她對你敷衍地咕噥了一聲算作打招呼。",
+      "ref_en_text": "You see a disgruntled, obviously overworked barmaid. She gives you a perfunctory grunt of a hello."
+    },
+    "npc_de_snel": {
+      "npc": "De Snel",
+      "type": "unique",
+      "npcs": [
+        "De Snel"
+      ],
+      "voice_desc_en": "Male, 30s-40s, combat instructor, stern fighting voice",
+      "voice_desc_zh": "男性，30-40歲，嚴厲的格鬥，用標準的普通話朗讀",
+      "ref_zh_text": "雖然他看起來沒有敵意，但這個男人以戰鬥的姿勢迎接你。",
+      "ref_en_text": "Though he does not seem hostile, the man greets you in a fighting stance."
+    },
+    "npc_dell": {
+      "npc": "Dell",
+      "type": "unique",
+      "npcs": [
+        "Dell"
+      ],
+      "voice_desc_en": "Male, 40s, strict shopkeeper, stern irritated voice",
+      "voice_desc_zh": "男性，40多歲，嚴厲惱怒的，用標準的普通話朗讀",
+      "ref_zh_text": "Dell 對你在友誼會會議期間打擾他皺起了眉頭。",
+      "ref_en_text": "Dell frowns at you for distracting him during the Fellowship meeting."
+    },
+    "npc_denton": {
+      "npc": "Denton",
+      "type": "unique",
+      "npcs": [
+        "Denton"
+      ],
+      "voice_desc_en": "Male, 40s, absent-minded brewer, distracted and vague voice",
+      "voice_desc_zh": "男性，40多歲，心不在焉，含糊不清，用標準的普通話朗讀",
+      "ref_zh_text": "向你致敬， Dupre 爵士。你又回來為 Brommer 研究葡萄酒了嗎？",
+      "ref_en_text": "Greetings to thee, Sir Dupre. Art thou back again for thy study of wines for Brommer?"
+    },
+    "npc_dracothraxus": {
+      "npc": "Dracothraxus",
+      "type": "unique",
+      "npcs": [
+        "Dracothraxus"
+      ],
+      "voice_desc_en": "Male, ancient dragon, deep rumbling ancient voice, proud and weary",
+      "voice_desc_zh": "男性，古老低沉的，用標準的普通話朗讀",
+      "ref_zh_text": "Dracothraxus 厭惡地嗅了嗅空氣，「我感覺到我的末日就在附近。也許我終於能得到解脫了。祝你好運，凡人。保護好你自己吧！」說罷，巨龍向你撲來。",
+      "ref_en_text": "Nevertheless, you persevere and retrieve the lovely little gem."
+    },
+    "npc_draxinusom": {
+      "npc": "Draxinusom",
+      "type": "unique",
+      "npcs": [
+        "Draxinusom"
+      ],
+      "voice_desc_en": "Male, elderly, ancient gargoyle king, deep venerable voice, wise and gentle",
+      "voice_desc_zh": "男性，老年，低沉，睿智溫柔，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一位年邁的石像鬼，身軀彎曲枯槁，卻帶著一種王者的風範。他溫和地笑了笑。",
+      "ref_en_text": "You see an aged gargoyle, bent and withered, with a regal bearing. He smiles gently."
+    },
+    "npc_dupre": {
+      "npc": "Dupre",
+      "type": "unique",
+      "npcs": [
+        "Dupre"
+      ],
+      "voice_desc_en": "Male, 40s, hearty paladin, jovial and warm voice, robust laugh, loyal and brave tone",
+      "voice_desc_zh": "男性，40多歲，快活溫暖，笑聲強勁，語調忠誠勇敢，用標準的普通話朗讀",
+      "ref_zh_text": "抱歉，我不加入小偷的行列。",
+      "ref_en_text": "I am sorry, I do not join thieves."
+    },
+    "npc_elad": {
+      "npc": "Elad",
+      "type": "unique",
+      "npcs": [
+        "Elad"
+      ],
+      "voice_desc_en": "Male, 20s-30s, smiling young man, cheerful polite voice",
+      "voice_desc_zh": "男性，20-30歲，微笑，開朗禮貌的，用標準的普通話朗讀",
+      "ref_zh_text": "這個男人用微笑的眼睛看著你。",
+      "ref_en_text": "The man looks at you through smiling eyes."
+    },
+    "npc_elynor": {
+      "npc": "Elynor",
+      "type": "unique",
+      "npcs": [
+        "Elynor"
+      ],
+      "voice_desc_en": "Female, 40s, elegant and slightly傲慢 noblewoman, refined voice with a hint of condescension",
+      "voice_desc_zh": "女，40多歲，精緻中帶著一絲居高臨下的感覺，用標準的普通話朗讀",
+      "ref_zh_text": "儀式開始的時間到了。」Elynor 說。",
+      "ref_en_text": "It is time for the ceremony to begin.\" says Elynor."
+    },
+    "npc_erethian": {
+      "npc": "Erethian",
+      "type": "unique",
+      "npcs": [
+        "Erethian"
+      ],
+      "voice_desc_en": "Male, elderly, wise mage, calm and philosophical voice with a mystical quality, speaks slowly",
+      "voice_desc_zh": "男性，年長，平靜而哲理的聲音帶著神秘的品質，緩慢地說著，用標準的普通話朗讀",
+      "ref_zh_text": "我不會再跟你說話了，聖者！」他無視了你。",
+      "ref_en_text": "I'll speak to thee no more, Avatar!\" He ignores you."
+    },
+    "npc_fenn": {
+      "npc": "Fenn",
+      "type": "unique",
+      "npcs": [
+        "Fenn"
+      ],
+      "voice_desc_en": "Male, 30s-40s, beggar, pitiful pleading voice",
+      "voice_desc_zh": "男性，30-40歲，可憐兮兮的哀求聲，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個乞丐。你從他臉上的表情看不出他是要笑還是要哭。",
+      "ref_en_text": "You see a beggar. You cannot tell from the look on his face whether he is about to laugh or cry."
+    },
+    "npc_feridwyn": {
+      "npc": "Feridwyn",
+      "type": "unique",
+      "npcs": [
+        "Feridwyn"
+      ],
+      "voice_desc_en": "Male, 40s, excited gossip, fast and eager voice, breathless with news",
+      "voice_desc_zh": "男性，40多歲，興奮的八卦，快速而急切的新聞時氣喘吁籲，用標準的普通話朗讀",
+      "ref_zh_text": "聖者！你知道商人 Morfin 被偷了一批銀蛇毒液嗎？這起竊案給社區帶來了不小的困擾。",
+      "ref_en_text": "Avatar! Oh Avatar! I have news!"
+    },
+    "npc_ferryman": {
+      "npc": "Ferryman",
+      "type": "unique",
+      "npcs": [
+        "Ferryman"
+      ],
+      "voice_desc_en": "Male, elderly, spectral ferryman, deep hollow voice, ominous and slow",
+      "voice_desc_zh": "男性，老人，低沉空洞，不祥而緩慢，用標準的普通話朗讀",
+      "ref_zh_text": "船上戴著兜帽的人完全無視了你。",
+      "ref_en_text": "The hooded figure in the boat ignores you completely."
+    },
+    "npc_figg": {
+      "npc": "Figg",
+      "type": "unique",
+      "npcs": [
+        "Figg"
+      ],
+      "voice_desc_en": "Male, 30s-40s, anxious fellowship member, worried hurried voice",
+      "voice_desc_zh": "男性，30-40歲，焦急的，用標準的普通話朗讀",
+      "ref_zh_text": "Figg 太過專心聆聽友誼會聚會，沒有理會你與他交談的嘗試。",
+      "ref_en_text": "Hast thou seen Batlin? Where is he? He needs to lead our meeting!"
+    },
+    "npc_finnigan": {
+      "npc": "Finnigan",
+      "type": "unique",
+      "npcs": [
+        "Finnigan"
+      ],
+      "voice_desc_en": "Male, 40s, determined investigator, serious and focused voice, slightly weary",
+      "voice_desc_zh": "男性，40多歲，態度堅定，嚴肅專注，略顯疲憊，用標準的普通話朗讀",
+      "ref_zh_text": "你仔細搜查過馬廄了嗎？",
+      "ref_en_text": "Hast thou properly searched the stables?"
+    },
+    "npc_fodus": {
+      "npc": "Fodus",
+      "type": "unique",
+      "npcs": [
+        "Fodus"
+      ],
+      "voice_desc_en": "Male, gargoyle, sick diseased gargoyle, rough pained voice",
+      "voice_desc_zh": "男性，粗糙痛苦的，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一隻沒有翅膀的石像鬼，患有可怕的皮膚病。看起來他的臉似乎正一塊塊地掉下來。",
+      "ref_en_text": "To want something else?\" Fodus asks."
+    },
+    "npc_for_lem": {
+      "npc": "For Lem",
+      "type": "unique",
+      "npcs": [
+        "For Lem"
+      ],
+      "voice_desc_en": "Male, gargoyle, large wingless gargoyle, deep formal voice",
+      "voice_desc_zh": "男性，低沉的正式，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一隻非常巨大、強壯的無翼石像鬼。",
+      "ref_en_text": "You see a very large, strong wingless gargoyle."
+    },
+    "npc_foranamo": {
+      "npc": "Foranamo",
+      "type": "unique",
+      "npcs": [
+        "Foranamo"
+      ],
+      "voice_desc_en": "Male, gargoyle, angry resistant voice",
+      "voice_desc_zh": "男性，憤怒反抗的，用標準的普通話朗讀",
+      "ref_zh_text": "這隻石像鬼的憤怒如此強烈，以至於他抵抗了法術。",
+      "ref_en_text": "The gargoyle's anger is so great that he resists the spell."
+    },
+    "npc_forbrak": {
+      "npc": "Forbrak",
+      "type": "unique",
+      "npcs": [
+        "Forbrak"
+      ],
+      "voice_desc_en": "Male, gargoyle, friendly research assistant, polite interested voice",
+      "voice_desc_zh": "男性，友善的研究助理，禮貌感興趣的，用標準的普通話朗讀",
+      "ref_zh_text": "向你問候，人類，」石像鬼對 Dupre 說。「請問研究進展如何？",
+      "ref_en_text": "To greet you, human,\" the gargoyle says to Dupre. \"To ask how well the study is progressing?"
+    },
+    "npc_forsythe": {
+      "npc": "Forsythe",
+      "type": "unique",
+      "npcs": [
+        "Forsythe"
+      ],
+      "voice_desc_en": "Male, 30s-40s, terrified ghost, fearful and trembling voice, desperate",
+      "voice_desc_zh": "男性，30-40歲，恐懼顫抖，絕望，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個幽靈般的男人蜷縮在角落裡。他以防禦的姿勢舉著生命護符，瘋狂地環顧房間，但沒有注意到你。",
+      "ref_en_text": "You nod. His resolve firms once again."
+    },
+    "npc_frank": {
+      "npc": "Frank",
+      "type": "unique",
+      "npcs": [
+        "Frank"
+      ],
+      "voice_desc_en": "Male, fox, sly clever voice, standing on hind legs",
+      "voice_desc_zh": "男性，狡猾的，用標準的普通話朗讀",
+      "ref_zh_text": "我想你問了太多問題。",
+      "ref_en_text": "I think thou dost ask too many questions."
+    },
+    "npc_gargan": {
+      "npc": "Gargan",
+      "type": "unique",
+      "npcs": [
+        "Gargan"
+      ],
+      "voice_desc_en": "Male, elderly, salty old sailor, rough raspy voice, wheezing cough, gruff",
+      "voice_desc_zh": "男性，老人，粗啞，喘息咳嗽，粗聲粗氣，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一位身上散發著菸草味的粗獷老水手。",
+      "ref_en_text": "You see a salty old sailor who reeks of tobacco."
+    },
+    "npc_garok": {
+      "npc": "Garok",
+      "type": "unique",
+      "npcs": [
+        "Garok"
+      ],
+      "voice_desc_en": "Male, 30s-40s, intense mage, suspicious and intense voice, slightly manic",
+      "voice_desc_zh": "男性，30-40歲，可疑而激烈，略顯躁狂，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個眼神狂野的法師。",
+      "ref_en_text": "You see a mage with a wild look in his eyes."
+    },
+    "npc_garritt": {
+      "npc": "Garritt",
+      "type": "unique",
+      "npcs": [
+        "Garritt"
+      ],
+      "voice_desc_en": "Male, teen-20s, cheerful young man, bright and friendly voice",
+      "voice_desc_zh": "男性，20多歲，個性開朗，明亮友善，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個開朗的年輕人向你友善地打招呼。",
+      "ref_en_text": "You see a jovial young man who gives you a friendly greeting."
+    },
+    "npc_geoffrey": {
+      "npc": "Geoffrey",
+      "type": "unique",
+      "npcs": [
+        "Geoffrey"
+      ],
+      "voice_desc_en": "Male, 40s, captain of the guard, warm familiar voice, laughing",
+      "voice_desc_zh": "男性，40多歲，溫暖熟悉的笑聲，用標準的普通話朗讀",
+      "ref_zh_text": "你看見你從前的同伴和朋友，皇家守衛隊長 Geoffrey。",
+      "ref_en_text": "You see your former companion and friend, Geoffrey, Captain of the Guard."
+    },
+    "npc_gharl": {
+      "npc": "Gharl",
+      "type": "unique",
+      "npcs": [
+        "Gharl"
+      ],
+      "voice_desc_en": "Male, troll, starving angry voice, deep growling",
+      "voice_desc_zh": "男性，飢餓的憤怒低沉咆哮的，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個巨魔 (troll) 在他的牢房裡生悶氣。當他呼吸時，你可以看到他的肋骨從皮下凸出來。",
+      "ref_en_text": "What you want?\" growls Gharl."
+    },
+    "npc_glenno": {
+      "npc": "Glenno",
+      "type": "unique",
+      "npcs": [
+        "Glenno"
+      ],
+      "voice_desc_en": "Male, 20s-30s, handsome fit man, charming slightly flirtatious voice",
+      "voice_desc_zh": "男性，20-30歲，身材帥氣，迷人，略帶妖艷，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一位英俊、肌肉發達，帶著些許調皮氣質的男人。",
+      "ref_en_text": "You see a handsome, muscular man with an air of mischief about him."
+    },
+    "npc_gordy": {
+      "npc": "Gordy",
+      "type": "unique",
+      "npcs": [
+        "Gordy"
+      ],
+      "voice_desc_en": "Male, 40s, wealthy pirate, oily pretentious voice",
+      "voice_desc_zh": "男性，40多歲，油膩做作的，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個穿著優雅且明顯富有的海盜。他身上散發著髮油的味道。",
+      "ref_en_text": "You see a pirate who is elegantly dressed and obviously rich. He reeks of pomade."
+    },
+    "npc_gorn": {
+      "npc": "Gorn",
+      "type": "unique",
+      "npcs": [
+        "Gorn"
+      ],
+      "voice_desc_en": "Male, 40s, serious dwarf warrior, deep gruff voice, loyal and wary",
+      "voice_desc_zh": "男性，40多歲，低沉沙啞，忠誠而警惕，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一張熟悉的臉，是個嚴肅的大鬍子戰士，你曾在上一次前往 Britannia 的旅途中見過他。",
+      "ref_en_text": "Ho, Avatar!\" says Gorn. \"Thou dost vish to speak mit me?"
+    },
+    "npc_grod": {
+      "npc": "Grod",
+      "type": "unique",
+      "npcs": [
+        "Grod"
+      ],
+      "voice_desc_en": "Male, troll, deep dumb gruff voice, growling and angry, simple speech",
+      "voice_desc_zh": "男性，深沉啞啞的咆哮和憤怒，簡單的言語，用標準的普通話朗讀",
+      "ref_zh_text": "食人妖對著你咆哮，顯然對你的出現感到不悅。",
+      "ref_en_text": "The troll snarls at you, obviously displeased at your presence."
+    },
+    "npc_horance": {
+      "npc": "Horance",
+      "type": "unique",
+      "npcs": [
+        "Horance"
+      ],
+      "voice_desc_en": "Male, ghost, hollow and echoing voice, ethereal and haunting, speaks as if from far away",
+      "voice_desc_zh": "男鬼，空洞迴響，空靈縈繞，彷彿從遠方傳來，用標準的普通話朗讀",
+      "ref_zh_text": "隨著靈魂囚籠化為塵土，巫妖發生了巨大的轉變。在邪靈被囚禁的地方，你看到了一個熟悉的身影。是 Horance！他是個鬼魂，但他看起來更像個人類，而不是不死生物。",
+      "ref_en_text": "You attempt to speak to the undead creature, but it does not, or cannot, respond."
+    },
+    "npc_horffe": {
+      "npc": "Horffe",
+      "type": "unique",
+      "npcs": [
+        "Horffe"
+      ],
+      "voice_desc_en": "Male, gargoyle, serious formal voice",
+      "voice_desc_zh": "男性，嚴肅正式的，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一隻表情非常嚴肅的石像鬼，聖者",
+      "ref_en_text": "You see a gargoyle with a very stern expression on his faceAvatar"
+    },
+    "npc_hydra": {
+      "npc": "Hydra",
+      "type": "unique",
+      "npcs": [
+        "Hydra"
+      ],
+      "voice_desc_en": "Creature, three-headed hydra, deep rumbling growling monster voice",
+      "voice_desc_zh": "男性，低沉的隆隆咆哮的，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一隻三頭水怪 (hydra) 。左邊的頭說話了。",
+      "ref_en_text": "You see a three-headed hydra. The head on the left speaks."
+    },
+    "npc_inforlem": {
+      "npc": "Inforlem",
+      "type": "unique",
+      "npcs": [
+        "Inforlem"
+      ],
+      "voice_desc_en": "Male, gargoyle, cheerful pleasant voice",
+      "voice_desc_zh": "男性，歡快悅耳的，用標準的普通話朗讀",
+      "ref_zh_text": "這位石像鬼臉上帶著愉快的表情。",
+      "ref_en_text": "The gargoyle has a pleasant expression on his face."
+    },
+    "npc_inmanilem": {
+      "npc": "Inmanilem",
+      "type": "unique",
+      "npcs": [
+        "Inmanilem"
+      ],
+      "voice_desc_en": "Male, gargoyle, friendly helpful voice",
+      "voice_desc_zh": "男性，友善樂於助人的，用標準的普通話朗讀",
+      "ref_zh_text": "一位友善的石像鬼向你打招呼。",
+      "ref_en_text": "You are greeted by a friendly gargoyle."
+    },
+    "npc_inwisloklem": {
+      "npc": "Inwisloklem",
+      "type": "unique",
+      "npcs": [
+        "Inwisloklem"
+      ],
+      "voice_desc_en": "Male, gargoyle, intelligent wise voice",
+      "voice_desc_zh": "男性，聰明智慧的，用標準的普通話朗讀",
+      "ref_zh_text": "一隻有翼石像鬼帶著興趣和明顯的智慧看著你。",
+      "ref_en_text": "A winged gargoyle looks at you with interest and obvious intelligence."
+    },
+    "npc_iolo": {
+      "npc": "Iolo",
+      "type": "unique",
+      "npcs": [
+        "Iolo"
+      ],
+      "voice_desc_en": "Male, elderly, warm and friendly companion, wise old soul with a gentle chuckle in his voice",
+      "voice_desc_zh": "男性，年長，熱情友善，明智的老靈魂，裡帶著溫柔的笑聲，用標準的普通話朗讀",
+      "ref_zh_text": "聖者 注意到這些十字弓箭上獨特的 Iolo 商標了嗎？它們是專為真正的 IOLO 十字弓提供最大效能而設計的，在 Yew 附近有售。",
+      "ref_en_text": "Oh, but Avatar! Wait until I tell the others! They will be happy to see thee! Welcome to Trinsic!"
+    },
+    "npc_iskander": {
+      "npc": "Iskander",
+      "type": "unique",
+      "npcs": [
+        "Iskander"
+      ],
+      "voice_desc_en": "Male, cyclops, deep booming voice, slow and simple speech",
+      "voice_desc_zh": "男性，低沉洪亮，言語緩慢而簡單，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個巨大的獨眼巨人。牠看著你，惱怒地眨著眼睛。",
+      "ref_en_text": "You see a large cyclops. It looks at you and blinks its eye in irritation."
+    },
+    "npc_jaana": {
+      "npc": "Jaana",
+      "type": "unique",
+      "npcs": [
+        "Jaana"
+      ],
+      "voice_desc_en": "Female, 40s, wise druidess, calm and spiritual voice, gentle authority",
+      "voice_desc_zh": "女，40多歲，沉靜有靈性，溫柔的權威，用標準的普通話朗讀",
+      "ref_zh_text": "你很驚訝地看到你的老同伴 Jaana ，自從你上次造訪以來，她看起來只有稍微老了一點。",
+      "ref_en_text": "Yes, Avatar?\" Jaana asks."
+    },
+    "npc_jehanne": {
+      "npc": "Jehanne",
+      "type": "unique",
+      "npcs": [
+        "Jehanne"
+      ],
+      "voice_desc_en": "Female, 40s, noblewoman, refined polite voice, curtsy in speech",
+      "voice_desc_zh": "女性，40多歲，優雅有禮貌，說話行屈膝禮，用標準的普通話朗讀",
+      "ref_zh_text": "這名女子向你屈膝行禮。",
+      "ref_en_text": "The woman greets you with a curtsey."
+    },
+    "npc_john_paul": {
+      "npc": "John Paul",
+      "type": "unique",
+      "npcs": [
+        "John Paul"
+      ],
+      "voice_desc_en": "Male, 40s, serious military commander, firm and authoritative voice",
+      "voice_desc_zh": "男性，40多歲，堅定而權威，用標準的普通話朗讀",
+      "ref_zh_text": "這位非常嚴肅的男人在向你問候時露出了一絲微笑。",
+      "ref_en_text": "The very serious man breaks into a half-smile as he greets you."
+    },
+    "npc_joseph": {
+      "npc": "Joseph",
+      "type": "unique",
+      "npcs": [
+        "Joseph"
+      ],
+      "voice_desc_en": "Male, 20s-30s, capable young administrator, polite efficient voice",
+      "voice_desc_zh": "男性，20-30歲，有禮貌且有效率的，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個男人散發著精明管理者的外在舉止，與他年輕的外表形成對比。",
+      "ref_en_text": "Joseph nods his head respectfully to you. \"How may I assist thee?"
+    },
+    "npc_julia": {
+      "npc": "Julia",
+      "type": "unique",
+      "npcs": [
+        "Julia"
+      ],
+      "voice_desc_en": "Female, 20s-30s, clever tinker, bright and enthusiastic voice, quick",
+      "voice_desc_zh": "女，20-30歲，明亮熱情，動作敏捷，用標準的普通話朗讀",
+      "ref_zh_text": "你看到了 Julia ，她是你之前某次造訪 Britannia 時冒險隊伍的成員。",
+      "ref_en_text": "You see Julia, a member of your party of adventurers from one of your previous visits to Britannia."
+    },
+    "npc_kallibrus": {
+      "npc": "Kallibrus",
+      "type": "unique",
+      "npcs": [
+        "Kallibrus"
+      ],
+      "voice_desc_en": "Male, gargoyle, reserved shy voice",
+      "voice_desc_zh": "男，內斂害羞，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個看起來相當矜持的石像鬼。",
+      "ref_en_text": "You see a rather reserved-looking gargoyle."
+    },
+    "npc_katrina": {
+      "npc": "Katrina",
+      "type": "unique",
+      "npcs": [
+        "Katrina"
+      ],
+      "voice_desc_en": "Female, 40s, warm shepherdess, kind maternal voice, gentle and nurturing",
+      "voice_desc_zh": "女，40多歲，慈母的溫柔有教養，用標準的普通話朗讀",
+      "ref_zh_text": "你看到了你的老同伴 Katrina ，她看起來只比你上次造訪時見到她稍微老了一點。",
+      "ref_en_text": "Hello again, Avatar!\" Katrina greets you with a smile."
+    },
+    "npc_kessler": {
+      "npc": "Kessler",
+      "type": "unique",
+      "npcs": [
+        "Kessler"
+      ],
+      "voice_desc_en": "Male, elderly, authoritative older man, dignified concerned voice",
+      "voice_desc_zh": "男性，老人，權威的老人，威嚴關切的，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一位看起來非常有權威的年長男人，正帶著深思熟慮的關切看著你。",
+      "ref_en_text": "You see a very authoritative-looking older man who looks at you with thoughtful concern."
+    },
+    "npc_kissme": {
+      "npc": "Kissme",
+      "type": "unique",
+      "npcs": [
+        "Kissme"
+      ],
+      "voice_desc_en": "Female, fairy, high-pitched tinkling voice, playful and giggly, singsong quality",
+      "voice_desc_zh": "女，高亢叮噹，俏皮傻笑，歌聲品質，用標準的普通話朗讀",
+      "ref_zh_text": "這個活潑的小仙子 (fairy) 在你周圍飛舞，咯咯笑著在你的頭上撒下某種閃閃發光的粉末。",
+      "ref_en_text": "I love thee! Yes, I do! I love thee!"
+    },
+    "npc_kliftin": {
+      "npc": "Kliftin",
+      "type": "unique",
+      "npcs": [
+        "Kliftin"
+      ],
+      "voice_desc_en": "Male, elderly, scarred veteran, gruff experienced voice",
+      "voice_desc_zh": "男性，年長，傷痕累累的退伍軍人，粗魯經驗豐富的，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個身經百戰、滿佈傷痕的老兵。",
+      "ref_en_text": "You see a battle-scarred old soldier."
+    },
+    "npc_klog": {
+      "npc": "Klog",
+      "type": "unique",
+      "npcs": [
+        "Klog"
+      ],
+      "voice_desc_en": "Male, 40s, friendly shopkeeper, warm and welcoming voice, cheerful",
+      "voice_desc_zh": "男性，40多歲，熱情好客，個性開朗，用標準的普通話朗讀",
+      "ref_zh_text": "這個男人散發著友善和親切的氣息。「啊，聖者！我一眼就認出你了！消息在鎮上傳得很快。我已經聽說你在這裡了。",
+      "ref_en_text": "Hello again, Avatar,\" Klog asks. \"How may I help thee?"
+    },
+    "npc_lap_lem": {
+      "npc": "Lap Lem",
+      "type": "unique",
+      "npcs": [
+        "Lap Lem"
+      ],
+      "voice_desc_en": "Male, gargoyle, smiling friendly voice",
+      "voice_desc_zh": "男性，微笑友善的，用標準的普通話朗讀",
+      "ref_zh_text": "這隻石像鬼以微笑迎接你。",
+      "ref_en_text": "You are greeted with a smile from this gargoyle."
+    },
+    "npc_lasher": {
+      "npc": "Lasher",
+      "type": "unique",
+      "npcs": [
+        "Lasher"
+      ],
+      "voice_desc_en": "Male, unicorn, noble and wise voice, clear and articulate, magical quality",
+      "voice_desc_zh": "男，高貴睿智的清晰能說，神奇品質，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一隻大小和形狀都像馬的生物。牠的頭上長著一根筆直的角。牠用閃爍著智慧光芒的眼睛看著你。",
+      "ref_en_text": "I greet thee once again, Avatar,\" says Lasher, the unicorn."
+    },
+    "npc_leavell": {
+      "npc": "Leavell",
+      "type": "unique",
+      "npcs": [
+        "Leavell"
+      ],
+      "voice_desc_en": "Male, 20s, knife-juggler, dangerous calm voice, focused",
+      "voice_desc_zh": "男性，20多歲，危險平靜的專注，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個年輕人在指尖上平衡著一把匕首。他努力想忽視你。",
+      "ref_en_text": "You see a young man balancing a dagger on the tip of his finger. He tries hard to ignore you."
+    },
+    "npc_lord_british": {
+      "npc": "Lord British",
+      "type": "unique",
+      "npcs": [
+        "Lord British"
+      ],
+      "voice_desc_en": "Male, elderly, regal and authoritative king, deep resonant voice, dignified and measured pace",
+      "voice_desc_zh": "男性，老人，低沉，步伐威嚴，穩重，用標準的普通話朗讀",
+      "ref_zh_text": "「當然，這也許可以看作是解決我們所有問題的聰明辦法。畢竟，現在就連那個所謂的守護者也不會想要 Britannia 了！",
+      "ref_en_text": "Yes, Avatar?\" Lord British asks."
+    },
+    "npc_lord_heather": {
+      "npc": "Lord Heather",
+      "type": "unique",
+      "npcs": [
+        "Lord Heather"
+      ],
+      "voice_desc_en": "Male, 40s-50s, lordly politician, charming public voice",
+      "voice_desc_zh": "男性，40-50歲，迷人的公眾，用標準的普通話朗讀",
+      "ref_zh_text": "這位充滿王者風範的紳士完美詮釋了一位受歡迎的政治家。",
+      "ref_en_text": "This regal gentleman epitomizes a well-liked politician."
+    },
+    "npc_lucky": {
+      "npc": "Lucky",
+      "type": "unique",
+      "npcs": [
+        "Lucky"
+      ],
+      "voice_desc_en": "Male, 30s-40s, steel-muscled pirate, confident smug voice",
+      "voice_desc_zh": "男性，30-40歲，自信得意的，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個肌肉如鋼鐵般結實的男人。他眼中的閃光告訴你他絕不是傻瓜。",
+      "ref_en_text": "You see a man whose sinewy body is like steel. The glint in his eye tells you that he is no fool."
+    },
+    "npc_lucy": {
+      "npc": "Lucy",
+      "type": "unique",
+      "npcs": [
+        "Lucy"
+      ],
+      "voice_desc_en": "Female, 50s, charming older woman, warm welcoming voice, excited",
+      "voice_desc_zh": "女性，50多歲，熱情歡迎的興奮，用標準的普通話朗讀",
+      "ref_zh_text": "你看見一位五十多歲、頗具魅力的女人。她帶著溫暖的微笑。「歡迎！陌生人，你是誰？",
+      "ref_en_text": "You see an attractive woman in her fifties. She has a warm smile. \"Welcome! Who art thou, stranger?"
+    },
+    "npc_mack": {
+      "npc": "Mack",
+      "type": "unique",
+      "npcs": [
+        "Mack"
+      ],
+      "voice_desc_en": "Male, 40s, excited farmer, wild-eyed enthusiastic voice",
+      "voice_desc_zh": "男性，40多歲，眼神狂熱熱情的，用標準的普通話朗讀",
+      "ref_zh_text": "你看見一位農夫，狂野的雙眼因為興奮而睜得大大的。",
+      "ref_en_text": "You see a farmer with wild eyes widened in excitement."
+    },
+    "npc_magenta": {
+      "npc": "Magenta",
+      "type": "unique",
+      "npcs": [
+        "Magenta"
+      ],
+      "voice_desc_en": "Female, elderly, humble old woman, soft friendly voice",
+      "voice_desc_zh": "女性，年長，謙虛，溫柔友善的，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一位看起來很謙虛的年長婦女。她對你露出友好的微笑。",
+      "ref_en_text": "You see a humble-looking older woman. She gives you a friendly smile."
+    },
+    "npc_malloy": {
+      "npc": "Malloy",
+      "type": "unique",
+      "npcs": [
+        "Malloy"
+      ],
+      "voice_desc_en": "Male, 40s, pompous miner, self-important voice, grand speech",
+      "voice_desc_zh": "男性，40多歲，自以為是的豪言壯語，用標準的普通話朗讀",
+      "ref_zh_text": "你看到面前站著一個矮胖的男人，臉上帶著自命不凡的傻笑。他一手拿著燈籠，另一手拿著一把髒湯匙。",
+      "ref_en_text": "Hello, good friend,\" says Malloy. \"A pleasure to see thee again."
+    },
+    "npc_mandy": {
+      "npc": "Mandy",
+      "type": "unique",
+      "npcs": [
+        "Mandy"
+      ],
+      "voice_desc_en": "Female, 50s, tough barmaid, rough but motherly voice, no-nonsense",
+      "voice_desc_zh": "女性，50多歲，粗獷但充滿母性，嚴肅，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一位五十多歲的女人，她早年可能是個海盜侍女。雖然她很粗野，但她有一種特別的母性特質。",
+      "ref_en_text": "Hello, again,\" Mandy says."
+    },
+    "npc_margareta": {
+      "npc": "Margareta",
+      "type": "unique",
+      "npcs": [
+        "Margareta"
+      ],
+      "voice_desc_en": "Female, 20s-30s, gypsy, wise mysterious voice, deep knowing tone",
+      "voice_desc_zh": "女性，20-30歲，睿智神秘的深沉會意的語氣，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一位年輕迷人的吉普賽女人，有著充滿智慧、彷彿能看穿靈魂的雙眼。",
+      "ref_en_text": "You see a young, bewitching gypsy woman with wise, soul-peering eyes."
+    },
+    "npc_mariah": {
+      "npc": "Mariah",
+      "type": "unique",
+      "npcs": [
+        "Mariah"
+      ],
+      "voice_desc_en": "Female, 30s, mage companion, clever voice with a hint of slyness",
+      "voice_desc_zh": "女，30多歲，聰明的帶著一絲狡黠的，用標準的普通話朗讀",
+      "ref_zh_text": "你看到你的老朋友 Mariah 。",
+      "ref_en_text": "You see your old friend Mariah."
+    },
+    "npc_markham": {
+      "npc": "Markham",
+      "type": "unique",
+      "npcs": [
+        "Markham"
+      ],
+      "voice_desc_en": "Male, ghost, fat ghost, pained and disoriented voice, groaning",
+      "voice_desc_zh": "男，鬼，痛苦迷失的呻吟，用標準的普通話朗讀",
+      "ref_zh_text": "這名不死生物空洞的目光，望向了你。顯然它察覺到了你的存在，但是你非常確定它並未看見你。",
+      "ref_en_text": "He begins to rub his temples with both hands."
+    },
+    "npc_martine": {
+      "npc": "Martine",
+      "type": "unique",
+      "npcs": [
+        "Martine"
+      ],
+      "voice_desc_en": "Female, 20s, tropical bath attendant, warm exotic voice, professional",
+      "voice_desc_zh": "女，20多歲，溫暖的異國專業，用標準的普通話朗讀",
+      "ref_zh_text": "這位女士驚訝地抬頭說：「我現在沒在工作，我請求你尊重我的隱私。如果你想和我說話，請在深夜時分到澡堂來。",
+      "ref_en_text": "You see a beautiful young woman with a tropical air."
+    },
+    "npc_martingo": {
+      "npc": "Martingo",
+      "type": "unique",
+      "npcs": [
+        "Martingo"
+      ],
+      "voice_desc_en": "Male, 40s, insane nobleman, intense and unsettling voice, cultured but unstable",
+      "voice_desc_zh": "男性，40多歲，緊張而令人不安，有教養但不穩定，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一位貴族，獨自一人，眼中閃爍著瘋狂的光芒。",
+      "ref_en_text": "You see a nobleman, all alone, with a demented gleam in his eye."
+    },
+    "npc_miranda": {
+      "npc": "Miranda",
+      "type": "unique",
+      "npcs": [
+        "Miranda"
+      ],
+      "voice_desc_en": "Female, 20s-30s, warm country woman, friendly and welcoming voice",
+      "voice_desc_zh": "女性，20-30歲，熱情的鄉村婦女，友善熱情，用標準的普通話朗讀",
+      "ref_zh_text": "這是一位可愛、樸實，帶著溫暖笑容的女性。",
+      "ref_en_text": "This is a lovely, earthy woman with a warm smile."
+    },
+    "npc_mole": {
+      "npc": "Mole",
+      "type": "unique",
+      "npcs": [
+        "Mole"
+      ],
+      "voice_desc_en": "Male, elderly, old pirate, raspy aging voice",
+      "voice_desc_zh": "男性，老人，沙啞蒼老的，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一位老海盜，他曾經可能看起來極其危險。",
+      "ref_en_text": "You see an aging pirate who might have looked extremely dangerous at one time."
+    },
+    "npc_mordra": {
+      "npc": "Mordra",
+      "type": "unique",
+      "npcs": [
+        "Mordra"
+      ],
+      "voice_desc_en": "Female, elderly, grandmotherly ghost, gentle humming voice, warm but distant",
+      "voice_desc_zh": "女，老人，溫柔的哼哼聲，溫暖卻又遙遠，用標準的普通話朗讀",
+      "ref_zh_text": "這位年老的幽靈婦女哼著一首古老民謠的曲調，並抬起頭對你微笑。這位老婦人會讓你想起你見過的每一位祖母。",
+      "ref_en_text": "Hello, milord. Thou mayest call me Mistress Mordra.\" She peers at you closely."
+    },
+    "npc_morfin": {
+      "npc": "Morfin",
+      "type": "unique",
+      "npcs": [
+        "Morfin"
+      ],
+      "voice_desc_en": "Male, 40s, grumpy merchant, gruff and irritable voice, impatient tone",
+      "voice_desc_zh": "男性，40多歲，粗暴易怒，語氣不耐煩，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個男人，他的眼珠慢慢地轉來轉去，嘴角掛著狡黠的微笑。他走到你面前，上下打量著你。「喔，鎮上一定有巡迴表演！」他竊笑著說。「那是一件非常棒的小丑裝！你是誰？",
+      "ref_en_text": "Very well, Avatar. What dost thou want?"
+    },
+    "npc_nastassia": {
+      "npc": "Nastassia",
+      "type": "unique",
+      "npcs": [
+        "Nastassia"
+      ],
+      "voice_desc_en": "Female, 20s, sad beautiful young woman, soft melancholy voice, delicate and sorrowful",
+      "voice_desc_zh": "女性，20多歲，悲傷美麗，柔和憂鬱的細膩而悲傷，用標準的普通話朗讀",
+      "ref_zh_text": "這是一位年輕迷人的女性，但神情似乎有些哀傷。",
+      "ref_en_text": "This is an attractive young woman who seems sad."
+    },
+    "npc_nelson": {
+      "npc": "Nelson",
+      "type": "unique",
+      "npcs": [
+        "Nelson"
+      ],
+      "voice_desc_en": "Male, 30s-40s, scholarly man, friendly intellectual voice",
+      "voice_desc_zh": "男性，30-40歲，友善的知性，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一位看起來很博學的男人，帶著友善的表情。",
+      "ref_en_text": "You see a scholarly-looking man with a friendly expression."
+    },
+    "npc_nicodemus": {
+      "npc": "Nicodemus",
+      "type": "unique",
+      "npcs": [
+        "Nicodemus"
+      ],
+      "voice_desc_en": "Male, elderly, senile mage, shaky and confused voice, muttering, eccentric and forgetful",
+      "voice_desc_zh": "男性，年老，顫抖混亂，喃喃自語，古怪健忘，用標準的普通話朗讀",
+      "ref_zh_text": "你的老朋友 Nicodemus 的眼神顯得很遙遠。",
+      "ref_en_text": "Your old friend Nicodemus has a far away look in his eyes."
+    },
+    "npc_nystul": {
+      "npc": "Nystul",
+      "type": "unique",
+      "npcs": [
+        "Nystul"
+      ],
+      "voice_desc_en": "Male, elderly, aged wizard, distracted and contemplative voice",
+      "voice_desc_zh": "男性，年長，心煩意亂和沈思的，用標準的普通話朗讀",
+      "ref_zh_text": "你看到你的老朋友 Nystul ，現在是一位穿著法師長袍、衰老的長者。他似乎陷入了沉思，神遊物外。",
+      "ref_en_text": "Do I know thee?\" Nystul asks."
+    },
+    "npc_ophelia": {
+      "npc": "Ophelia",
+      "type": "unique",
+      "npcs": [
+        "Ophelia"
+      ],
+      "voice_desc_en": "Female, 20s, shy and kind young woman, soft gentle voice, sweet and warm",
+      "voice_desc_zh": "女，20多歲，害羞善良，溫柔，甜美溫暖，用標準的普通話朗讀",
+      "ref_zh_text": "一位漂亮的女人對你露出友好的笑容，然後羞怯地將目光移開。",
+      "ref_en_text": "A pretty woman gives you a friendly grin and then coyly turns her eyes away from you."
+    },
+    "npc_owen": {
+      "npc": "Owen",
+      "type": "unique",
+      "npcs": [
+        "Owen"
+      ],
+      "voice_desc_en": "Male, 20s, serious young nobleman, earnest and formal voice",
+      "voice_desc_zh": "男性，20多歲，認真正式，用標準的普通話朗讀",
+      "ref_zh_text": "Owen 不會中斷他參與友誼會的集會來和你說話。",
+      "ref_en_text": "Owen will not interrupt his participation in The Fellowship meeting to talk with you."
+    },
+    "npc_owings": {
+      "npc": "Owings",
+      "type": "unique",
+      "npcs": [
+        "Owings"
+      ],
+      "voice_desc_en": "Male, 40s, skinny miner, friendly simple voice, grinning",
+      "voice_desc_zh": "男性，40多歲，友善簡單，笑容可掬，用標準的普通話朗讀",
+      "ref_zh_text": "在你面前的是個骨瘦如柴的男人，臉上帶著傻笑。他一手拿著燈籠，另一手拿著一把髒湯匙。",
+      "ref_en_text": "Hello, again,\" says Owings. He smiles and tips his mining hat to you."
+    },
+    "npc_papa": {
+      "npc": "Papa",
+      "type": "unique",
+      "npcs": [
+        "Papa"
+      ],
+      "voice_desc_en": "Male, 40s-50s, wild naked man, rough primal voice, baffled",
+      "voice_desc_zh": "男性，40-50歲，粗糙的原始困惑，用標準的普通話朗讀",
+      "ref_zh_text": "走開，殺蜂人！",
+      "ref_en_text": "Go away, bee killers!"
+    },
+    "npc_patterson": {
+      "npc": "Patterson",
+      "type": "unique",
+      "npcs": [
+        "Patterson"
+      ],
+      "voice_desc_en": "Male, 30s-40s, concerned fellowship member, worried and distracted voice",
+      "voice_desc_zh": "男性，30-40歲，關心的擔憂而心煩意亂的，用標準的普通話朗讀",
+      "ref_zh_text": "Patterson 正專心參與友誼會聚會，不想說話。",
+      "ref_en_text": "Patterson is concentrating on the Fellowship meeting and does not wish to speak."
+    },
+    "npc_paul": {
+      "npc": "Paul",
+      "type": "unique",
+      "npcs": [
+        "Paul"
+      ],
+      "voice_desc_en": "Male, 20s, cheerful young performer, bright and energetic voice",
+      "voice_desc_zh": "男性，20多歲，明亮充滿活力，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個年輕的表演者向你招手。",
+      "ref_en_text": "You see a young entertainer who beckons to you."
+    },
+    "npc_paulette": {
+      "npc": "Paulette",
+      "type": "unique",
+      "npcs": [
+        "Paulette"
+      ],
+      "voice_desc_en": "Female, 20s, beautiful barmaid ghost, dreamy distant voice, confused",
+      "voice_desc_zh": "女，20多歲，夢幻般遙遠的困惑，用標準的普通話朗讀",
+      "ref_zh_text": "美麗的幻影繼續她的工作，沒有提供任何回應。",
+      "ref_en_text": "The lovely apparition goes about her tasks without offering any response."
+    },
+    "npc_penumbra": {
+      "npc": "Penumbra",
+      "type": "unique",
+      "npcs": [
+        "Penumbra"
+      ],
+      "voice_desc_en": "Female, 30s-40s, powerful mage, confident and intense voice, slightly dramatic",
+      "voice_desc_zh": "女性，30-40歲，自信而激烈略帶戲劇性的，用標準的普通話朗讀",
+      "ref_zh_text": "這位沉睡了 200 年的法師看起來就像你上次造訪 Britannia 時一樣。",
+      "ref_en_text": "Avatar! I cannot believe 'tis thee! Thou didst come and wake me! I knew thee would!"
+    },
+    "npc_petre": {
+      "npc": "Petre",
+      "type": "unique",
+      "npcs": [
+        "Petre"
+      ],
+      "voice_desc_en": "Male, 40s, terrified farmer, frightened stammering voice",
+      "voice_desc_zh": "男性，40 多歲，害怕的結巴，用標準的普通話朗讀",
+      "ref_zh_text": "這位農夫看著你，像大白天撞見鬼。「Iolo！這那個人就這樣憑空冒出來！救命啊！",
+      "ref_en_text": "You see a distraught peasant. \"Art thou really the Avatar?"
+    },
+    "npc_phearcy": {
+      "npc": "Phearcy",
+      "type": "unique",
+      "npcs": [
+        "Phearcy"
+      ],
+      "voice_desc_en": "Male, 30s-40s, polite but busy fellowship member, hurried and slightly distracted",
+      "voice_desc_zh": "男性，30-40歲，有禮貌但忙碌的匆忙且有點心不在焉，用標準的普通話朗讀",
+      "ref_zh_text": "抱歉，大人，我晚點再跟你聊。但我現在想專心開會。",
+      "ref_en_text": "Sorry, milord, I may talk to thee later. But now I wish to pay attention to the meeting."
+    },
+    "npc_quaeven": {
+      "npc": "Quaeven",
+      "type": "unique",
+      "npcs": [
+        "Quaeven"
+      ],
+      "voice_desc_en": "Male, gargoyle, hurried fellowship member, rushed distracted voice",
+      "voice_desc_zh": "男性，匆忙心煩意亂的，用標準的普通話朗讀",
+      "ref_zh_text": "現在沒時間說話。會議結束後再談。",
+      "ref_en_text": "To have not the time to speak now. To talk after meeting."
+    },
+    "npc_quan": {
+      "npc": "Quan",
+      "type": "unique",
+      "npcs": [
+        "Quan"
+      ],
+      "voice_desc_en": "Male, gargoyle, dignified but busy, formal polite voice",
+      "voice_desc_zh": "男性，威嚴但忙碌，正式禮貌的，用標準的普通話朗讀",
+      "ref_zh_text": "這隻石像鬼似乎忙著主持友誼會會議，現在沒空跟你說話。",
+      "ref_en_text": "The gargoyle seems to be too busy conducting the Fellowship meeting to speak with you now."
+    },
+    "npc_quenton": {
+      "npc": "Quenton",
+      "type": "unique",
+      "npcs": [
+        "Quenton"
+      ],
+      "voice_desc_en": "Male, ghost, weak fading voice, apologetic and confused, barely audible",
+      "voice_desc_zh": "男，鬼，微弱，帶著歉意和困惑，幾乎聽不見，用標準的普通話朗讀",
+      "ref_zh_text": "蒼白的幽靈似乎看到了你，但出於某種原因無法對你說話。幽靈沮喪地轉過身去。",
+      "ref_en_text": "Hello, Quenton. I hope thou art doing well.\" Rowena gives the pale ghost a winning smile."
+    },
+    "npc_rankin": {
+      "npc": "Rankin",
+      "type": "unique",
+      "npcs": [
+        "Rankin"
+      ],
+      "voice_desc_en": "Male, 40s, friendly fellowship leader, warm and welcoming voice",
+      "voice_desc_zh": "男性，40多歲，友善的熱情好客，用標準的普通話朗讀",
+      "ref_zh_text": "Rankin 現在無法與你交談，因為他正在主持友誼會的聚會。",
+      "ref_en_text": "Rankin is unable to speak with you now, for he is conducting the Fellowship meeting."
+    },
+    "npc_raymundo": {
+      "npc": "Raymundo",
+      "type": "unique",
+      "npcs": [
+        "Raymundo"
+      ],
+      "voice_desc_en": "Male, 40s, irritable artist, annoyed and dismissive voice, creative intensity",
+      "voice_desc_zh": "男性，40 多歲，惱怒且輕蔑的創作強度，用標準的普通話朗讀",
+      "ref_zh_text": "你可以看到這個人的創造力，源源不絕地湧現出來。他饒富興味地看著你。",
+      "ref_en_text": "Yes, yes?\" Raymundo snaps. \"What dost thou want? I'm busy!"
+    },
+    "npc_reyna": {
+      "npc": "Reyna",
+      "type": "unique",
+      "npcs": [
+        "Reyna"
+      ],
+      "voice_desc_en": "Female, 20s-30s, bright-eyed woman, cheerful and lively voice",
+      "voice_desc_zh": "女性，20-30歲，眼睛明亮，開朗活潑，用標準的普通話朗讀",
+      "ref_zh_text": "這個女人閃著明亮的眼睛跟你打招呼。",
+      "ref_en_text": "The woman greets you with shining eyes."
+    },
+    "npc_richter": {
+      "npc": "Richter",
+      "type": "unique",
+      "npcs": [
+        "Richter"
+      ],
+      "voice_desc_en": "Male, 20s-30s, gallant knight, confident and polite voice",
+      "voice_desc_zh": "男性，20-30歲，自信而有禮貌的，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一位瀟灑的年輕人，他轉身向你問候。",
+      "ref_en_text": "You see a dashing young man, who turns to greet you."
+    },
+    "npc_roberto": {
+      "npc": "Roberto",
+      "type": "unique",
+      "npcs": [
+        "Roberto"
+      ],
+      "voice_desc_en": "Male, 20s-30s, extremely handsome bath attendant, warm professional voice",
+      "voice_desc_zh": "男性，20-30歲，溫暖專業的，用標準的普通話朗讀",
+      "ref_zh_text": "這個男人驚訝地抬頭說：「我現在沒在工作，我請求你尊重我的隱私。如果你想和我說話，請在深夜時分到澡堂來。",
+      "ref_en_text": "You see a strikingly handsome man with eyes that pierce your soul."
+    },
+    "npc_robin": {
+      "npc": "Robin",
+      "type": "unique",
+      "npcs": [
+        "Robin"
+      ],
+      "voice_desc_en": "Male, 20s-30s, roguish charming man, laid-back voice, hint of mischief",
+      "voice_desc_zh": "男性，20-30歲，浪蕩魅力男，悠閒，帶著一絲惡作劇的味道，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個流氓般的男人，穿著似乎是某個貴族破舊的二手衣服。",
+      "ref_en_text": "You see a roguish man dressed in what appears to be some nobleman's ratty hand-me-downs."
+    },
+    "npc_rowena": {
+      "npc": "Rowena",
+      "type": "unique",
+      "npcs": [
+        "Rowena"
+      ],
+      "voice_desc_en": "Female, 30s-40s, ghostly lady, hollow distant voice, polite but detached",
+      "voice_desc_zh": "女性，30-40歲，空洞遙遠的禮貌但超然，用標準的普通話朗讀",
+      "ref_zh_text": "美麗的鬼魂眼神空洞地看著你。你做的任何事似乎都無法引起她的注意。",
+      "ref_en_text": "I am called... Rowena"
+    },
+    "npc_rudyom": {
+      "npc": "Rudyom",
+      "type": "unique",
+      "npcs": [
+        "Rudyom"
+      ],
+      "voice_desc_en": "Male, elderly, senile old mage, forgetful shaky voice",
+      "voice_desc_zh": "男性，老人，健忘，顫抖，用標準的普通話朗讀",
+      "ref_zh_text": "這位年邁的法師看起來比你上次見到他時還要衰老且更加健忘。",
+      "ref_en_text": "This elderly mage looks older and more senile than when you last saw him."
+    },
+    "npc_runeb": {
+      "npc": "Runeb",
+      "type": "unique",
+      "npcs": [
+        "Runeb"
+      ],
+      "voice_desc_en": "Male, gargoyle, frowning impatient voice",
+      "voice_desc_zh": "男性，皺眉不耐煩的，用標準的普通話朗讀",
+      "ref_zh_text": "這隻石像鬼皺著眉頭轉向你。他將巨大的手移到嘴邊，用一根手指抵住嘴唇。友誼會會議正在進行中。",
+      "ref_en_text": "The gargoyle, obviously in a hurry, ignores you."
+    },
+    "npc_russell": {
+      "npc": "Russell",
+      "type": "unique",
+      "npcs": [
+        "Russell"
+      ],
+      "voice_desc_en": "Male, 40s, content shipwright, calm satisfied voice",
+      "voice_desc_zh": "男性，40多歲，平靜滿意的，用標準的普通話朗讀",
+      "ref_zh_text": "在你面前的是一位看起來很精明的工匠，顯然對平靜的生活充滿滿足感。",
+      "ref_en_text": "Before you is a shrewd-looking craftsman, obviously filled with the contentment of a peaceful life."
+    },
+    "npc_rutherford": {
+      "npc": "Rutherford",
+      "type": "unique",
+      "npcs": [
+        "Rutherford"
+      ],
+      "voice_desc_en": "Male, 40s, tired one-armed man, weary but friendly voice",
+      "voice_desc_zh": "男性，40多歲，疲憊但友善，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個神情疲憊、失去右臂的男人。他用單手抓了抓頭，朝你的方向瞇起眼睛。",
+      "ref_en_text": "Oy, how ye been, milord?\" Rutherford calls out to you."
+    },
+    "npc_salamon": {
+      "npc": "Salamon",
+      "type": "unique",
+      "npcs": [
+        "Salamon"
+      ],
+      "voice_desc_en": "Female, elderly, withered female ape-creature, creaky old voice",
+      "voice_desc_zh": "女性，年長，沙啞蒼老，用標準的普通話朗讀",
+      "ref_zh_text": "這個生物無視了你。",
+      "ref_en_text": "The creature ignores you."
+    },
+    "npc_sam": {
+      "npc": "Sam",
+      "type": "unique",
+      "npcs": [
+        "Sam"
+      ],
+      "voice_desc_en": "Male, 40s, content florist, warm gentle voice, happy",
+      "voice_desc_zh": "男性，40多歲，溫暖溫柔，快樂，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一位看起來很滿足的蓄鬍男子，臉上有著深深的笑紋和溫柔的雙眼。",
+      "ref_en_text": "You see a content-looking bearded man, with deep-set laugh lines in his face and gentle eyes."
+    },
+    "npc_saralek": {
+      "npc": "Saralek",
+      "type": "unique",
+      "npcs": [
+        "Saralek"
+      ],
+      "voice_desc_en": "Female, female ape-creature, nervous skittish voice",
+      "voice_desc_zh": "女性，緊張不安的，用標準的普通話朗讀",
+      "ref_zh_text": "這個生物無視了你。",
+      "ref_en_text": "The creature ignores you."
+    },
+    "npc_sarpling": {
+      "npc": "Sarpling",
+      "type": "unique",
+      "npcs": [
+        "Sarpling"
+      ],
+      "voice_desc_en": "Male, gargoyle, distracted fellowship member, hurried voice",
+      "voice_desc_zh": "男性，心煩意亂的匆忙的，用標準的普通話朗讀",
+      "ref_zh_text": "這隻石像鬼正全神貫注於友誼會會議，現在沒空跟你說話。",
+      "ref_en_text": "The gargoyle is too involved with the Fellowship meeting to talk to you at this moment."
+    },
+    "npc_sean": {
+      "npc": "Sean",
+      "type": "unique",
+      "npcs": [
+        "Sean"
+      ],
+      "voice_desc_en": "Male, 30s-40s, concerned fellowship member, distracted voice",
+      "voice_desc_zh": "男性，30-40歲，憂心忡忡的心不在焉，用標準的普通話朗讀",
+      "ref_zh_text": "Sean 全神貫注地聽著友誼會的集會。",
+      "ref_en_text": "Sean is deep in concentration, listening to the Fellowship meeting."
+    },
+    "npc_sentri": {
+      "npc": "Sentri",
+      "type": "unique",
+      "npcs": [
+        "Sentri"
+      ],
+      "voice_desc_en": "Male, 20s-30s, stylish fencer, confident and smooth voice",
+      "voice_desc_zh": "男性，20-30歲，自信流暢，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個瀟灑、苗條、穿著時髦且非常有品味的男人。",
+      "ref_en_text": "You see a dashing, slender man, stylishly dressed, with a lot of flair."
+    },
+    "npc_shamino": {
+      "npc": "Shamino",
+      "type": "unique",
+      "npcs": [
+        "Shamino"
+      ],
+      "voice_desc_en": "Male, 40s, mysterious ranger, calm and measured voice with a hint of wisdom and melancholy",
+      "voice_desc_zh": "男性，40多歲，平靜而有分寸，帶著一絲睿智和憂鬱，用標準的普通話朗讀",
+      "ref_zh_text": "抱歉，我不加入小偷的行列。",
+      "ref_en_text": "I am sorry, I do not join thieves."
+    },
+    "npc_sherry": {
+      "npc": "Sherry",
+      "type": "unique",
+      "npcs": [
+        "Sherry"
+      ],
+      "voice_desc_en": "Female, rat, squeaky intelligent voice, excited and friendly",
+      "voice_desc_zh": "女性，吱吱的智慧興奮而友好，用標準的普通話朗讀",
+      "ref_zh_text": "你看見一隻非常巨大的老鼠，散發出一種卓越智慧的氣息。",
+      "ref_en_text": "You see a very large mouse with an air of superior intelligence."
+    },
+    "npc_shrine": {
+      "npc": "Shrine",
+      "type": "unique",
+      "npcs": [
+        "Shrine"
+      ],
+      "voice_desc_en": "Entity, shrine spirit, echoing reverent voice, divine quality",
+      "voice_desc_zh": "中性，虔誠而神聖的，用標準的普通話朗讀",
+      "ref_zh_text": "我們感謝你，聖者。你拯救了 Britannia 免於陷入可能的第二次黑暗時代。你再次證明了你作為 Lord British 意志體現者的價值。",
+      "ref_en_text": "Suddenly, your mind is filled with the crystal-clear resonance of an authoritative voice."
+    },
+    "npc_silamo": {
+      "npc": "Silamo",
+      "type": "unique",
+      "npcs": [
+        "Silamo"
+      ],
+      "voice_desc_en": "Male, gargoyle, frowning formal voice",
+      "voice_desc_zh": "男性，皺眉的正式，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一隻皺著眉頭的石像鬼。",
+      "ref_en_text": "You see a frowning gargoyle."
+    },
+    "npc_smith": {
+      "npc": "Smith",
+      "type": "unique",
+      "npcs": [
+        "Smith"
+      ],
+      "voice_desc_en": "Male, horse, simple direct voice, dry humor, equine snorts",
+      "voice_desc_zh": "男，簡單直接的冷幽默，噴鼻息，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一匹馬。「你還期待看到什麼？",
+      "ref_en_text": "You see a horse. \"What else did you expect to see?"
+    },
+    "npc_smithy": {
+      "npc": "Smithy",
+      "type": "unique",
+      "npcs": [
+        "Smithy"
+      ],
+      "voice_desc_en": "Male, 30s-40s, well-dressed pirate, smooth voice",
+      "voice_desc_zh": "男性，30-40歲，流暢，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個衣著考究，頭髮塗著油的海盜。",
+      "ref_en_text": "You see a well-dressed pirate with oil in his hair."
+    },
+    "npc_snaz": {
+      "npc": "Snaz",
+      "type": "unique",
+      "npcs": [
+        "Snaz"
+      ],
+      "voice_desc_en": "Male, 30s-40s, crafty beggar, rough voice with a wheedling tone, false friendliness",
+      "voice_desc_zh": "男性，30-40歲，粗聲粗氣，語氣哄騙，虛假友善，用標準的普通話朗讀",
+      "ref_zh_text": "你看見一個渾身髒兮兮的乞丐，他對你咧嘴一笑，彷彿你是他全世界最好的朋友。",
+      "ref_en_text": "Hello again, milord,\" says Snaz."
+    },
+    "npc_spark": {
+      "npc": "Spark",
+      "type": "unique",
+      "npcs": [
+        "Spark"
+      ],
+      "voice_desc_en": "Male, teenage boy, earnest and emotional, voice cracking with adolescence, slightly insecure",
+      "voice_desc_zh": "男性，十幾歲的男孩，認真而情緒化，青春期時聲音嘶啞，有點不安全感，用標準的普通話朗讀",
+      "ref_zh_text": "你得找個鐵匠來做那件事。我敢打賭我爸能做到……我的意思是，如果他還活著，他就能做到……",
+      "ref_en_text": "Who art thou and what dost thou want?\" You realize the boy has a sling in hand."
+    },
+    "npc_sprellic": {
+      "npc": "Sprellic",
+      "type": "unique",
+      "npcs": [
+        "Sprellic"
+      ],
+      "voice_desc_en": "Male, young adult, timid and fearful, high-pitched nervous voice, stammers slightly",
+      "voice_desc_zh": "男性，青年，膽怯害怕，緊張，輕微結巴，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個骨瘦如柴且看起來膽小的男人，他恐懼地看著你。",
+      "ref_en_text": "You see a scrawny and timid-looking man who eyes you fearfully."
+    },
+    "npc_stone_guardian": {
+      "npc": "Stone Guardian",
+      "type": "unique",
+      "npcs": [
+        "Stone Guardian"
+      ],
+      "voice_desc_en": "Male, elemental, deep rumbling stone voice, slow and wise",
+      "voice_desc_zh": "男性，深沉的隆隆石聲，緩慢而睿智，用標準的普通話朗讀",
+      "ref_zh_text": "是的，休息吧，我的朋友。休息並療傷，這樣你才能變得堅強，並有能力面對你眼前的危險。祝你有個好夢！",
+      "ref_en_text": "Go inside. Tell them you are the Avatar!"
+    },
+    "npc_sullivan": {
+      "npc": "Sullivan",
+      "type": "unique",
+      "npcs": [
+        "Sullivan"
+      ],
+      "voice_desc_en": "Male, 20s-30s, cheerful ex-convict, bright and grateful voice",
+      "voice_desc_zh": "男性，20-30歲，明亮而感恩，用標準的普通話朗讀",
+      "ref_zh_text": "你把我從牢房裡放出來真是太好了。我現在要回到我以前的生活。日安！",
+      "ref_en_text": "'Twas very kind of thee to release me from my cell. I shall now return to my former life. Good day!"
+    },
+    "npc_tavenor": {
+      "npc": "Tavenor",
+      "type": "unique",
+      "npcs": [
+        "Tavenor"
+      ],
+      "voice_desc_en": "Male, ape-creature, cautious careful voice",
+      "voice_desc_zh": "男性，謹慎小心的，用標準的普通話朗讀",
+      "ref_zh_text": "這個生物無視了你。",
+      "ref_en_text": "The creature ignores you."
+    },
+    "npc_taylor": {
+      "npc": "Taylor",
+      "type": "unique",
+      "npcs": [
+        "Taylor"
+      ],
+      "voice_desc_en": "Male, 20s-30s, hard-working man, polite efficient voice",
+      "voice_desc_zh": "男性，20-30歲，工作勤奮，禮貌高效，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個有魅力、看起來很用功的男人。",
+      "ref_en_text": "You see an attractive, studious-looking man."
+    },
+    "npc_teregus": {
+      "npc": "Teregus",
+      "type": "unique",
+      "npcs": [
+        "Teregus"
+      ],
+      "voice_desc_en": "Male, gargoyle, dignified and formal, slightly gravelly but hospitable tone",
+      "voice_desc_zh": "男性，端莊正式，語氣略顯沙啞但好客，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一隻正值壯年的有翼石像鬼。",
+      "ref_en_text": "You see a winged gargoyle in his physical prime."
+    },
+    "npc_time_lord": {
+      "npc": "Time Lord",
+      "type": "unique",
+      "npcs": [
+        "Time Lord"
+      ],
+      "voice_desc_en": "Male, ancient being, timeless and mysterious voice, deep resonant tone with otherworldly echo",
+      "voice_desc_zh": "男性，古老的存在，永恆而神秘的深沉的共鳴，超凡脫俗的迴聲，用標準的普通話朗讀",
+      "ref_zh_text": "恭喜你，聖者，摧毀了球體。我從我的天球監獄中解脫了。我感謝你。但我很遺憾地通知你，守護者設計了那個球體，它的毀滅永久地癱瘓了月之門，以及你的月之寶珠。你無法再透過紅色的月之門回到你的家鄉了。",
+      "ref_en_text": "Shouldst thou wish to speak with me again, simply use the hourglass. Goodbye."
+    },
+    "npc_tobias": {
+      "npc": "Tobias",
+      "type": "unique",
+      "npcs": [
+        "Tobias"
+      ],
+      "voice_desc_en": "Male, teen-20s, sullen young man, resentful muttering voice",
+      "voice_desc_zh": "男性，20多歲，悶悶不樂，怨恨的嘀咕聲，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個生悶氣的小伙子，他似乎不想直視你的眼睛。",
+      "ref_en_text": "You see a sulking lad, who doesn't seem to want to look you in the eye."
+    },
+    "npc_tory": {
+      "npc": "Tory",
+      "type": "unique",
+      "npcs": [
+        "Tory"
+      ],
+      "voice_desc_en": "Female, 40s, compassionate healer, warm and understanding voice",
+      "voice_desc_zh": "女性，40多歲，富有同情心，溫暖善解人意，用標準的普通話朗讀",
+      "ref_zh_text": "女人慈悲地對你微笑。",
+      "ref_en_text": "The woman smiles at you compassionately."
+    },
+    "npc_trellek": {
+      "npc": "Trellek",
+      "type": "unique",
+      "npcs": [
+        "Trellek"
+      ],
+      "voice_desc_en": "Male, ape-like creature, simple cautious voice, slow and deliberate",
+      "voice_desc_zh": "男性，簡單謹慎，緩慢而從容，用標準的普通話朗讀",
+      "ref_zh_text": "這生物不理你。",
+      "ref_en_text": "The creature ignores you."
+    },
+    "npc_trent": {
+      "npc": "Trent",
+      "type": "unique",
+      "npcs": [
+        "Trent"
+      ],
+      "voice_desc_en": "Male, 40s, vengeful inventor, intense and determined voice, obsessive",
+      "voice_desc_zh": "男性，40多歲，強烈而堅定，有強迫症，用標準的普通話朗讀",
+      "ref_zh_text": "Trent 瞪著你，他的眼神中透露出一種強烈的情感，讓你對他的態度毫不懷疑。「如果我認為你會在接到通知的那一刻就跑掉，我就不會請求你幫我救出我的摯愛了。",
+      "ref_en_text": "The large, angry-looking ghost ignores your presence, while obviously searching for some item."
+    },
+    "npc_tseramed": {
+      "npc": "Tseramed",
+      "type": "unique",
+      "npcs": [
+        "Tseramed"
+      ],
+      "voice_desc_en": "Male, 30s-40s, serious ranger, steady and grounded voice, speaks plainly with a hint of wilderness grit",
+      "voice_desc_zh": "男性，30-40歲，沉穩踏實，說話平穩，帶著一絲荒野的堅毅，用標準的普通話朗讀",
+      "ref_zh_text": "我們不必擔心這些蜜蜂，只要我們有幾支我可靠的箭。",
+      "ref_en_text": "We need not be concerned about these bees, so long as we have a number of my trusty arrows."
+    },
+    "npc_unknown": {
+      "npc": "UNKNOWN",
+      "type": "narrator",
+      "npcs": [
+        "UNKNOWN"
+      ],
+      "voice_desc_en": "Neutral, clear and calm narrator voice, articulate and unhurried, descriptive tone",
+      "voice_desc_zh": "敘述者聲音中性、清晰、平靜，口齒清晰、不緊不慢、描述語氣，用標準的普通話朗讀",
+      "ref_zh_text": "這生物無視了你。",
+      "ref_en_text": "The creature ignores you."
+    },
+    "npc_wench": {
+      "npc": "Wench",
+      "type": "unique",
+      "npcs": [
+        "Wench"
+      ],
+      "voice_desc_en": "Female, 20s, attractive bath attendant, sultry voice, professional warmth",
+      "voice_desc_zh": "女，20多歲，性感，專業溫暖，用標準的普通話朗讀",
+      "ref_zh_text": "這位女士驚訝地抬頭說：「我現在沒在工作，我請求你尊重我的隱私。如果你想和我說話，請在深夜時分到澡堂來。",
+      "ref_en_text": "You see a gorgeous young woman with seductive eyes."
+    },
+    "npc_weston": {
+      "npc": "Weston",
+      "type": "unique",
+      "npcs": [
+        "Weston"
+      ],
+      "voice_desc_en": "Male, 20s, hopeless young prisoner, defeated sad voice",
+      "voice_desc_zh": "男性，20多歲，失敗的悲傷，用標準的普通話朗讀",
+      "ref_zh_text": "你看見一個徹底灰心喪志的年輕人，正在鐵窗後痛苦地憔悴著。",
+      "ref_en_text": "You see a thoroughly disheartened young man who is miserably languishing behind bars."
+    },
+    "npc_willy": {
+      "npc": "Willy",
+      "type": "unique",
+      "npcs": [
+        "Willy"
+      ],
+      "voice_desc_en": "Male, 20s, enthusiastic young man, eager and friendly voice, slightly nerdy",
+      "voice_desc_zh": "男性，20多歲，熱情，熱切友善，略帶書呆子氣，用標準的普通話朗讀",
+      "ref_zh_text": "你看見一個看起來很愛乾淨、胖乎乎的年輕人，正瘋狂地向你揮手。",
+      "ref_en_text": "You see a very clean-looking, portly young man who waves at you frantically."
+    },
+    "npc_wis_sur": {
+      "npc": "Wis Sur",
+      "type": "unique",
+      "npcs": [
+        "Wis Sur"
+      ],
+      "voice_desc_en": "Male, gargoyle, authoritative winged gargoyle, formal commanding voice",
+      "voice_desc_zh": "男性，正式的指揮，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一只有翼石像鬼，帶著權威的氣質。",
+      "ref_en_text": "You see a winged gargoyle with an authoritative disposition."
+    },
+    "npc_wislem": {
+      "npc": "Wislem",
+      "type": "unique",
+      "npcs": [
+        "Wislem"
+      ],
+      "voice_desc_en": "Male, gargoyle, impressive dignified voice",
+      "voice_desc_zh": "男性，威嚴令人印象深刻，用標準的普通話朗讀",
+      "ref_zh_text": "你看見一隻令人印象深刻，舉止莊嚴的有翼石像鬼。",
+      "ref_en_text": "You see an impressive winged gargoyle with a stately demeanor."
+    },
+    "npc_xorinia": {
+      "npc": "Xorinia",
+      "type": "unique",
+      "npcs": [
+        "Xorinia"
+      ],
+      "voice_desc_en": "Entity, will-o-wisp, alien echoing voice, strange cadence, collective we-speech",
+      "voice_desc_zh": "中性，外星人的迴響、奇怪的節奏、集體的我們言語，用標準的普通話朗讀",
+      "ref_zh_text": "鬼火沒有回應。",
+      "ref_en_text": "The wisp does not respond."
+    },
+    "npc_yvella": {
+      "npc": "Yvella",
+      "type": "unique",
+      "npcs": [
+        "Yvella"
+      ],
+      "voice_desc_en": "Female, 20s, polite young housewife, soft courteous voice",
+      "voice_desc_zh": "女，20多歲，溫柔有禮的，用標準的普通話朗讀",
+      "ref_zh_text": "你看到的這位主婦臉上帶著擔憂的表情。",
+      "ref_en_text": "The matronly woman you see has a look of concern on her face."
+    },
+    "npc_zelda": {
+      "npc": "Zelda",
+      "type": "unique",
+      "npcs": [
+        "Zelda"
+      ],
+      "voice_desc_en": "Female, 30s-40s, cold woman, icy clipped voice",
+      "voice_desc_zh": "女性，30-40歲，冷酷的女人，冰冷的，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一位用冰冷目光迎接你視線的女人。",
+      "ref_en_text": "You see a woman who meets your gaze with an icy stare."
+    },
+    "npc_zorn": {
+      "npc": "Zorn",
+      "type": "unique",
+      "npcs": [
+        "Zorn"
+      ],
+      "voice_desc_en": "Male, 40s, exhausted blacksmith, grim and tired voice",
+      "voice_desc_zh": "男性，40多歲，嚴峻疲憊，用標準的普通話朗讀",
+      "ref_zh_text": "你看到一個男人，長時間悶熱而艱苦的工作讓他的臉凝固成僵硬的表情，眼睛像熾熱的煤炭。",
+      "ref_en_text": "How may I serve thee?\" says Zorn."
+    }
+  }
+}
