@@ -345,6 +345,10 @@ voice/
 cosyvoice/
 *.log
 *.bak
+
+# Python virtual environments
+.venv/
+
 === .gitignore additions ===
 voice/
 cosyvoice/
