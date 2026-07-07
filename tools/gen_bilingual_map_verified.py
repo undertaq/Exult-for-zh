@@ -15,8 +15,10 @@ MAPPING_CSV  = os.path.join(SCRIPT_DIR, 'voice_acting', 'bilingual_mapping.csv')
 JSON_PATH    = os.path.join(SCRIPT_DIR, 'voice_acting', 'bilingual_mapping_review.json')
 OUTPUT_PATH  = os.path.join(REPO_DIR, 'voice', 'bilingual_map.dat')
 
-# Confidence levels to exclude (wrong pairings)
-EXCLUDE_CONFIDENCE = {'low', 'unpaired_en', 'unpaired_zh'}
+# Confidence levels to include (verified correct)
+# order_based and high are reliable; medium can be wrong due to
+# length-ratio false positives; low/unpaired are always wrong.
+INCLUDE_CONFIDENCE = {'order_based', 'high'}
 
 # ── 1. Load corrected func_ids from JSON ─────────────────────────────
 import json
@@ -44,7 +46,7 @@ with open(MAPPING_CSV, newline='', encoding='utf-8') as f:
     reader = csv.DictReader(f)
     for row in reader:
         conf = row.get('confidence', '').strip()
-        if conf in EXCLUDE_CONFIDENCE:
+        if conf not in INCLUDE_CONFIDENCE:
             continue
         conf_counts[conf] += 1
 

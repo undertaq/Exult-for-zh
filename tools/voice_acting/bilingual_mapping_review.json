@@ -138752,7 +138752,7 @@
   },
   {
     "index": 7227,
-    "npc": "",
+    "npc": "Phearcy",
     "zh_offset_key": "0_d",
     "zh_segment": 0,
     "zh_text": "「起來，聖者。是時候繼續任務了。」",
@@ -144914,7 +144914,7 @@
   },
   {
     "index": 7549,
-    "npc": "",
+    "npc": "Batlin",
     "zh_offset_key": "131",
     "zh_segment": 0,
     "zh_text": "「太好了！這就交給你。你現在必須上路了！」",
@@ -145781,7 +145781,7 @@
   },
   {
     "index": 7593,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "b0",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -145917,7 +145917,7 @@
   },
   {
     "index": 7600,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "a1",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -146072,7 +146072,7 @@
   },
   {
     "index": 7608,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "94",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -146167,7 +146167,7 @@
   },
   {
     "index": 7613,
-    "npc": "",
+    "npc": "Merrick",
     "zh_offset_key": "63",
     "zh_segment": 0,
     "zh_text": "「很好！」",
@@ -147250,7 +147250,7 @@
   },
   {
     "index": 7668,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "ac",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -147623,7 +147623,7 @@
   },
   {
     "index": 7687,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "13d",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -149729,7 +149729,7 @@
   },
   {
     "index": 7795,
-    "npc": "",
+    "npc": "Finnigan",
     "zh_offset_key": "10a",
     "zh_segment": 0,
     "zh_text": "「屍體我當然知道。我問的是，除此之外，你還發現了什麼？聖者，請你再回現場確認一次。」",
@@ -149748,7 +149748,7 @@
   },
   {
     "index": 7796,
-    "npc": "",
+    "npc": "Finnigan",
     "zh_offset_key": "189",
     "zh_segment": 0,
     "zh_text": "「是，水桶裡明顯裝著可憐的 Christopher 的血。但這不是唯一的線索。現場一定還有能指向犯嫌的東西，請你再仔細查一遍。」",
@@ -149767,7 +149767,7 @@
   },
   {
     "index": 7797,
-    "npc": "",
+    "npc": "Finnigan",
     "zh_offset_key": "230",
     "zh_segment": 0,
     "zh_text": "「什麼也沒有？聖者，這種說法很難令人採信。請你回去重新勘查。」",
@@ -150090,7 +150090,7 @@
   },
   {
     "index": 7814,
-    "npc": "",
+    "npc": "Finnigan",
     "zh_offset_key": "74e",
     "zh_segment": 0,
     "zh_text": "「很好。現在我沒有理由再懷疑你就是聖者本人。」",
@@ -150128,7 +150128,7 @@
   },
   {
     "index": 7816,
-    "npc": "",
+    "npc": "Finnigan",
     "zh_offset_key": "7da",
     "zh_segment": 0,
     "zh_text": "「嗯。很遺憾，我仍無法確認你是否真的是聖者。基於職務，我不能把口令交給你。請見諒。」",
@@ -150147,7 +150147,7 @@
   },
   {
     "index": 7817,
-    "npc": "",
+    "npc": "Finnigan",
     "zh_offset_key": "859",
     "zh_segment": 0,
     "zh_text": "「那好。你應該知道，沒有口令就不能自由進出本城。我再問一次：你要知道口令嗎？」",
@@ -150225,7 +150225,7 @@
   },
   {
     "index": 7821,
-    "npc": "",
+    "npc": "Finnigan",
     "zh_offset_key": "",
     "zh_segment": 0,
     "zh_text": "",
@@ -150263,7 +150263,7 @@
   },
   {
     "index": 7823,
-    "npc": "",
+    "npc": "Finnigan",
     "zh_offset_key": "0",
     "zh_segment": 0,
     "zh_text": "「你找到了什麼？」",
@@ -150282,7 +150282,7 @@
   },
   {
     "index": 7824,
-    "npc": "",
+    "npc": "Finnigan",
     "zh_offset_key": "4a",
     "zh_segment": 0,
     "zh_text": "「嗯，一把鑰匙。也許如果你去問 Christopher 的兒子，他可能會知道這是做什麼用的。」",
@@ -150320,7 +150320,7 @@
   },
   {
     "index": 7826,
-    "npc": "",
+    "npc": "Finnigan",
     "zh_offset_key": "116",
     "zh_segment": 0,
     "zh_text": "「是的，顯然裡面裝滿了可憐的 Christopher 的血。但肯定還有其他東西能為我們指出殺手的方向——你應該再去看一次，聖者。」",
@@ -150733,7 +150733,7 @@
   },
   {
     "index": 7847,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "f2",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -150926,7 +150926,7 @@
   },
   {
     "index": 7857,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "a0",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -151081,7 +151081,7 @@
   },
   {
     "index": 7865,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "a9",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -153155,7 +153155,7 @@
   },
   {
     "index": 7974,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "ae",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -153310,7 +153310,7 @@
   },
   {
     "index": 7982,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "c2",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -153484,7 +153484,7 @@
   },
   {
     "index": 7991,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "f2",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -154489,7 +154489,7 @@
   },
   {
     "index": 8042,
-    "npc": "",
+    "npc": "Katrina",
     "zh_offset_key": "4",
     "zh_segment": 0,
     "zh_text": "Jakher 注視著你的雙眼，在智力上對你進行評估。「你需要在戰場上學習更多。如果我們現在交談，我只是在白費唇舌。你連我說的一個字都不會懂。」",
@@ -154508,7 +154508,7 @@
   },
   {
     "index": 8043,
-    "npc": "",
+    "npc": "Katrina",
     "zh_offset_key": "cc_104",
     "zh_segment": 0,
     "zh_text": "你集中你的金幣並數了數，發現你總共有 一些 枚金幣。",
@@ -154530,7 +154530,7 @@
   },
   {
     "index": 8044,
-    "npc": "",
+    "npc": "Katrina",
     "zh_offset_key": "112",
     "zh_segment": 0,
     "zh_text": "「你似乎沒有我在此訓練所需數量的金幣。也許下次，當你手頭更寬裕的時候……」",
@@ -154549,7 +154549,7 @@
   },
   {
     "index": 8045,
-    "npc": "",
+    "npc": "Katrina",
     "zh_offset_key": "182",
     "zh_segment": 0,
     "zh_text": "「你已經精通戰場戰術了。恐怕我無法在這方面為你提供進一步的訓練。」",
@@ -154568,7 +154568,7 @@
   },
   {
     "index": 8046,
-    "npc": "",
+    "npc": "Katrina",
     "zh_offset_key": "1e6_1f4",
     "zh_segment": 0,
     "zh_text": "你支付了 一些 枚金幣，訓練課程開始了。",
@@ -154590,7 +154590,7 @@
   },
   {
     "index": 8047,
-    "npc": "",
+    "npc": "Katrina",
     "zh_offset_key": "21a_2c2_2e1",
     "zh_segment": 0,
     "zh_text": "當 Jakher 開始解釋過去偉大軍事領袖在驚人戰役中所使用的策略時，他的眼睛閃爍著光芒。他在地上畫著地圖，神祕兮兮地對著耳語。過了一段時間，聖者幾乎能感覺到自己開始吸收了他的一些精明。",
@@ -154612,7 +154612,7 @@
   },
   {
     "index": 8048,
-    "npc": "",
+    "npc": "Katrina",
     "zh_offset_key": "31e",
     "zh_segment": 0,
     "zh_text": "「我期待你的歸來。」",
@@ -154731,7 +154731,7 @@
   },
   {
     "index": 8054,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "1c2",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -155151,7 +155151,7 @@
   },
   {
     "index": 8075,
-    "npc": "",
+    "npc": "Spark",
     "zh_offset_key": "43",
     "zh_segment": 0,
     "zh_text": "「好的。」",
@@ -155308,7 +155308,7 @@
   },
   {
     "index": 8083,
-    "npc": "",
+    "npc": "Spark",
     "zh_offset_key": "55",
     "zh_segment": 0,
     "zh_text": "「好的。」",
@@ -155812,7 +155812,7 @@
   },
   {
     "index": 8108,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "db",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -155967,7 +155967,7 @@
   },
   {
     "index": 8116,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "ac",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -156103,7 +156103,7 @@
   },
   {
     "index": 8123,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "74",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -156916,7 +156916,7 @@
   },
   {
     "index": 8165,
-    "npc": "",
+    "npc": "Iolo",
     "zh_offset_key": "0_2",
     "zh_segment": 0,
     "zh_text": "\"聖者，我確定最終會有勇敢的靈魂來到這裡。畢竟，如有必要，大多數的靈體都能等待永恆，即使他們正處於極度的痛苦之中。」他在道別時看起來有點失望。然而，他眼中依然流露出感激之情。",
@@ -156938,7 +156938,7 @@
   },
   {
     "index": 8166,
-    "npc": "",
+    "npc": "Iolo",
     "zh_offset_key": "100",
     "zh_segment": 0,
     "zh_text": "Horance 看起來似乎早就料到你的反應。「我就知道像你這般高尚的人，絕不會在他人受難時袖手旁觀。你的慷慨似乎是無遠弗屆的。」",
@@ -157498,7 +157498,7 @@
   },
   {
     "index": 8195,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "243",
     "zh_segment": 0,
     "zh_text": "「完成了！」",
@@ -157536,7 +157536,7 @@
   },
   {
     "index": 8197,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "",
     "zh_segment": 0,
     "zh_text": "",
@@ -157555,7 +157555,7 @@
   },
   {
     "index": 8198,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "",
     "zh_segment": 0,
     "zh_text": "",
@@ -157949,7 +157949,7 @@
   },
   {
     "index": 8218,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "187",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -158025,7 +158025,7 @@
   },
   {
     "index": 8222,
-    "npc": "",
+    "npc": "Tseramed",
     "zh_offset_key": "0",
     "zh_segment": 0,
     "zh_text": "「太好了！你有雞蛋要給我嗎？」",
@@ -158063,7 +158063,7 @@
   },
   {
     "index": 8224,
-    "npc": "",
+    "npc": "Tseramed",
     "zh_offset_key": "5f",
     "zh_segment": 0,
     "zh_text": "「但你身上連一顆都沒有！你在浪費我的時間！」",
@@ -158082,7 +158082,7 @@
   },
   {
     "index": 8225,
-    "npc": "",
+    "npc": "Tseramed",
     "zh_offset_key": "a3_b4_d2",
     "zh_segment": 0,
     "zh_text": "「太棒了！ 一些 個！這意味著我欠你 一些 個金幣。拿去吧！我現在要把這些雞蛋收下了！」",
@@ -158142,7 +158142,7 @@
   },
   {
     "index": 8228,
-    "npc": "",
+    "npc": "Tseramed",
     "zh_offset_key": "185",
     "zh_segment": 0,
     "zh_text": "「沒有？你對我的雞做了什麼？你該不會是什麼禽類變態吧？」",
@@ -158261,7 +158261,7 @@
   },
   {
     "index": 8234,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "12b",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -158337,7 +158337,7 @@
   },
   {
     "index": 8238,
-    "npc": "",
+    "npc": "Caine",
     "zh_offset_key": "0",
     "zh_segment": 0,
     "zh_text": "「算命費用要 20 個金幣。可以嗎？」",
@@ -158356,7 +158356,7 @@
   },
   {
     "index": 8239,
-    "npc": "",
+    "npc": "Caine",
     "zh_offset_key": "32",
     "zh_segment": 0,
     "zh_text": "Margareta 收下了你的錢。",
@@ -158375,7 +158375,7 @@
   },
   {
     "index": 8240,
-    "npc": "",
+    "npc": "Caine",
     "zh_offset_key": "52",
     "zh_segment": 0,
     "zh_text": "「你的金幣不夠。」",
@@ -158394,7 +158394,7 @@
   },
   {
     "index": 8241,
-    "npc": "",
+    "npc": "Caine",
     "zh_offset_key": "6e",
     "zh_segment": 0,
     "zh_text": "Margareta 從你身邊轉過身去。",
@@ -158413,7 +158413,7 @@
   },
   {
     "index": 8242,
-    "npc": "",
+    "npc": "Caine",
     "zh_offset_key": "95",
     "zh_segment": 0,
     "zh_text": "「那就算了。」",
@@ -158432,7 +158432,7 @@
   },
   {
     "index": 8243,
-    "npc": "",
+    "npc": "Caine",
     "zh_offset_key": "ab",
     "zh_segment": 0,
     "zh_text": "這名吉普賽婦人凝視著她的水晶球。",
@@ -158451,7 +158451,7 @@
   },
   {
     "index": 8244,
-    "npc": "",
+    "npc": "Caine",
     "zh_offset_key": "dc",
     "zh_segment": 0,
     "zh_text": "「我看見一個女人站在神龕旁。她愛著你。關於這點，我看不出更多了。",
@@ -158470,7 +158470,7 @@
   },
   {
     "index": 8245,
-    "npc": "",
+    "npc": "Caine",
     "zh_offset_key": "13d",
     "zh_segment": 0,
     "zh_text": "「我看見一個女人站在神龕旁。她在你的生命中將扮演重要的角色。",
@@ -158489,7 +158489,7 @@
   },
   {
     "index": 8246,
-    "npc": "",
+    "npc": "Caine",
     "zh_offset_key": "198",
     "zh_segment": 0,
     "zh_text": "「嗯…水晶球非常渾濁……",
@@ -158508,7 +158508,7 @@
   },
   {
     "index": 8247,
-    "npc": "",
+    "npc": "Caine",
     "zh_offset_key": "1bd",
     "zh_segment": 0,
     "zh_text": "「我看見…如果你想了解更多關於友誼會的事，並發現他們的真實本質，你就必須加入他們。",
@@ -158527,7 +158527,7 @@
   },
   {
     "index": 8248,
-    "npc": "",
+    "npc": "Caine",
     "zh_offset_key": "239",
     "zh_segment": 0,
     "zh_text": "「既然…你已經是友誼會的成員，你遲早會更了解他們，並發現他們的真實本質。",
@@ -158546,7 +158546,7 @@
   },
   {
     "index": 8249,
-    "npc": "",
+    "npc": "Caine",
     "zh_offset_key": "2a6",
     "zh_segment": 0,
     "zh_text": "「不是很清楚……啊，對了……有一種新的邪惡正在威脅 Britannia。我看見你將來必須與它交手。",
@@ -158565,7 +158565,7 @@
   },
   {
     "index": 8250,
-    "npc": "",
+    "npc": "Caine",
     "zh_offset_key": "326",
     "zh_segment": 0,
     "zh_text": "「水晶球告訴我，世界的以太——即控制魔法的物質——已經受到這種新的邪惡存在所影響。",
@@ -158584,7 +158584,7 @@
   },
   {
     "index": 8251,
-    "npc": "",
+    "npc": "Caine",
     "zh_offset_key": "3a2",
     "zh_segment": 0,
     "zh_text": "「我進一步看見，這種邪惡的存在，在不久後的某個事件中，將會獲得更強大的力量。這個事件與行星有關。去 Moonglow 的天文台找一個人，了解更多關於這件事的資訊。我看見他有一個對你非常有用的裝置。儘快去找他，因為這個事件即將來臨。」",
@@ -158603,7 +158603,7 @@
   },
   {
     "index": 8252,
-    "npc": "",
+    "npc": "Caine",
     "zh_offset_key": "4eb",
     "zh_segment": 0,
     "zh_text": "「這是什麼？我看見……我看見……你在尋找一個『帶著鉤子的人』。他不是你真正的對手，但找到他，是完成你終極任務的必要條件。",
@@ -158622,7 +158622,7 @@
   },
   {
     "index": 8253,
-    "npc": "",
+    "npc": "Caine",
     "zh_offset_key": "5a0",
     "zh_segment": 0,
     "zh_text": "「等等！我看見你必須去覲見 Time Lord。他有麻煩了，雖然我看不出是什麼麻煩。Time Lord 知道許多關於這個新邪惡的事，所以千萬不要錯過去找他。",
@@ -158641,7 +158641,7 @@
   },
   {
     "index": 8254,
-    "npc": "",
+    "npc": "Caine",
     "zh_offset_key": "663",
     "zh_segment": 0,
     "zh_text": "「要找到 Time Lord，你必須先見到住在 Yew 森林裡的 『鬼火』。他們是你聯繫他最好的途徑。『人神修道院』的僧侶，也許知道如何聯繫這些『鬼火』。",
@@ -158660,7 +158660,7 @@
   },
   {
     "index": 8255,
-    "npc": "",
+    "npc": "Caine",
     "zh_offset_key": "72b",
     "zh_segment": 0,
     "zh_text": "「球體變暗了。我看不出更多了。」",
@@ -158679,7 +158679,7 @@
   },
   {
     "index": 8256,
-    "npc": "",
+    "npc": "Caine",
     "zh_offset_key": "75c",
     "zh_segment": 0,
     "zh_text": "Margareta 抬頭看著你說：「你前方將面臨許多危險。多加保重。」",
@@ -158698,7 +158698,7 @@
   },
   {
     "index": 8257,
-    "npc": "",
+    "npc": "Caine",
     "zh_offset_key": "7b2",
     "zh_segment": 0,
     "zh_text": "說完這些話，Margareta 癱軟下來，閉上眼睛休息。她顯然筋疲力竭了。",
@@ -158717,7 +158717,7 @@
   },
   {
     "index": 8258,
-    "npc": "",
+    "npc": "Caine",
     "zh_offset_key": "",
     "zh_segment": 0,
     "zh_text": "",
@@ -158815,7 +158815,7 @@
   },
   {
     "index": 8263,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "409",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -158989,7 +158989,7 @@
   },
   {
     "index": 8272,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "ed",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -159944,7 +159944,7 @@
   },
   {
     "index": 8321,
-    "npc": "",
+    "npc": "Mordra",
     "zh_offset_key": "15ad",
     "zh_segment": 0,
     "zh_text": "「如果我告訴你，你必須確保弄對它們。否則，當初我告訴那個該死的市長時發生的慘劇就會再次重演。而且，雖然我們在 Skara Brae 這裡已經沒有更多的生命可以失去了，但你卻有一條相當寶貴的性命！",
@@ -160020,7 +160020,7 @@
   },
   {
     "index": 8325,
-    "npc": "",
+    "npc": "Mordra",
     "zh_offset_key": "197f",
     "zh_segment": 0,
     "zh_text": "「Dark Tower 坐落在 Skara Brae 的西北角。它的建造有些古怪，因為我發現很難用我的魔法感知去滲透它。在它內部，」她說道，「你會找到靈魂之井。",
@@ -160058,7 +160058,7 @@
   },
   {
     "index": 8327,
-    "npc": "",
+    "npc": "Mordra",
     "zh_offset_key": "1b39",
     "zh_segment": 0,
     "zh_text": " Mordra 憤怒地說道：「每晚子時一到，Skara Brae 的亡靈就會前往 Dark Tower，並被用來為 Horance 注入力量以延續他的黑暗存在。其他人在這發生時都毫無察覺，但我能感受得到卻無法阻止自己。」",
@@ -160077,7 +160077,7 @@
   },
   {
     "index": 8328,
-    "npc": "",
+    "npc": "Mordra",
     "zh_offset_key": "1c36",
     "zh_segment": 0,
     "zh_text": "「即使巫妖已經不在了，我們依然會被吸引到他舉行黑色儀式的地方。他一定是對我們施加了某種禁制，並將其與靈魂之井(Well of Souls)的力量綁在了一起。噢，他曾是個多麼狡猾的惡棍啊。」對一位熟練法師的由衷敬佩與厭惡之情交織在 Mordra 的表情中。",
@@ -160485,7 +160485,7 @@
   },
   {
     "index": 8349,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "406",
     "zh_segment": 0,
     "zh_text": "「完成！」",
@@ -160659,7 +160659,7 @@
   },
   {
     "index": 8358,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "98",
     "zh_segment": 0,
     "zh_text": "正式的「成交！」",
@@ -160814,7 +160814,7 @@
   },
   {
     "index": 8366,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "429",
     "zh_segment": 0,
     "zh_text": "「完成！」",
@@ -160988,7 +160988,7 @@
   },
   {
     "index": 8375,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "f4",
     "zh_segment": 0,
     "zh_text": "「完成！」",
@@ -163051,7 +163051,7 @@
   },
   {
     "index": 8482,
-    "npc": "",
+    "npc": "Spark",
     "zh_offset_key": "85",
     "zh_segment": 0,
     "zh_text": "「好的。」",
@@ -163114,7 +163114,7 @@
   },
   {
     "index": 8485,
-    "npc": "",
+    "npc": "John Paul",
     "zh_offset_key": "d9",
     "zh_segment": 0,
     "zh_text": "「太好了。」",
@@ -164187,7 +164187,7 @@
   },
   {
     "index": 8540,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "11a",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -165371,7 +165371,7 @@
   },
   {
     "index": 8601,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "3f0",
     "zh_segment": 0,
     "zh_text": "「完成！」",
@@ -165545,7 +165545,7 @@
   },
   {
     "index": 8610,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "ef",
     "zh_segment": 0,
     "zh_text": "「完成！」",
@@ -166319,7 +166319,7 @@
   },
   {
     "index": 8650,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "8d",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -168485,7 +168485,7 @@
   },
   {
     "index": 8761,
-    "npc": "",
+    "npc": "Klog",
     "zh_offset_key": "0",
     "zh_segment": 0,
     "zh_text": "「友誼會是一個由心靈探索者組成的協會，致力於激發人類最高的潛能，並與所有人無私地分享這種理念。友誼會是在二十年前由 Batlin 在 Lord British 的全力批准和支持下成立的。」",
@@ -168504,7 +168504,7 @@
   },
   {
     "index": 8762,
-    "npc": "",
+    "npc": "Klog",
     "zh_offset_key": "ef",
     "zh_segment": 0,
     "zh_text": "「友誼會是一個向所有不列顛尼亞人民開放的美妙組織。透過學習其理念，我學到了很多，這幫助我過上了最充實的生活。透過友誼會，我能夠實現我在生活中的目標，並且因為加入而成為一個更好的人。」",
@@ -168523,7 +168523,7 @@
   },
   {
     "index": 8763,
-    "npc": "",
+    "npc": "Klog",
     "zh_offset_key": "201",
     "zh_segment": 0,
     "zh_text": "「友誼會是一個致力於一位名叫 Batlin 的偉人教導的理念團體。在聖者不在的日子裡，Batlin 成了不列顛尼亞人民的一種精神之父。透過他的演講和著作，他改變了許多人的生活，包括我自己的生活。」",
@@ -168542,7 +168542,7 @@
   },
   {
     "index": 8764,
-    "npc": "",
+    "npc": "Klog",
     "zh_offset_key": "30a",
     "zh_segment": 0,
     "zh_text": "「友誼會是一個近年來在不列顛尼亞人民中大受歡迎的團體。雖然表面上看，它可能只是一個研究其獨特理念的學術協會，但其教義卻具有永遠改變不列顛尼亞社會形態的力量。它的儀式是非常感人的體驗。」",
@@ -168561,7 +168561,7 @@
   },
   {
     "index": 8765,
-    "npc": "",
+    "npc": "Klog",
     "zh_offset_key": "0",
     "zh_segment": 0,
     "zh_text": "「友誼會透過所謂的『內在力量的三位一體 (Triad of Inner Strength)』來推廣『自信認知 (sanguine cognition)』的理念，這是一種將自信的思想秩序應用於生活的方法。這三合一理念就是三個基本原則，當它們結合在一起應用時，能夠讓人們在生活中更具創造力、更滿足也更成功。它們分別是：『致力合一 (Strive For Unity)』、『信賴你的兄弟 (Trust Thy Brother)』和『價值先行於報償 (Worthiness Precedes Reward)』。『致力合一』基本上意味著人們應該合作並共同努力。『信賴你的兄弟』意味著我們都是一樣的，我們不應該互相憎恨或恐懼。『價值先行於報償』則意味著我們每個人都必須努力使自己配得上我們在生活中想要得到的東西。」",
@@ -168580,7 +168580,7 @@
   },
   {
     "index": 8766,
-    "npc": "",
+    "npc": "Garritt",
     "zh_offset_key": "338",
     "zh_segment": 0,
     "zh_text": "「你想加入嗎？」",
@@ -168599,7 +168599,7 @@
   },
   {
     "index": 8767,
-    "npc": "",
+    "npc": "Klog",
     "zh_offset_key": "351",
     "zh_segment": 0,
     "zh_text": "「那你應該立刻去 Britain 的友誼會大廳總部找 Batlin。」",
@@ -168618,7 +168618,7 @@
   },
   {
     "index": 8768,
-    "npc": "",
+    "npc": "Klog",
     "zh_offset_key": "39b",
     "zh_segment": 0,
     "zh_text": "「喔。好吧，也許你下次能夠得到啟發。」",
@@ -168637,7 +168637,7 @@
   },
   {
     "index": 8769,
-    "npc": "",
+    "npc": "Klog",
     "zh_offset_key": "3d5",
     "zh_segment": 0,
     "zh_text": "「喔！我才注意到你的徽章！你已經知道這一切了！你是我們的一員！請原諒我喋喋不休地說個不停！」",
@@ -168985,7 +168985,7 @@
   },
   {
     "index": 8787,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "b0",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -170187,7 +170187,7 @@
   },
   {
     "index": 8849,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "117",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -170323,7 +170323,7 @@
   },
   {
     "index": 8856,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "f9",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -170767,7 +170767,7 @@
   },
   {
     "index": 8878,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "1a7",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -170903,7 +170903,7 @@
   },
   {
     "index": 8885,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "95",
     "zh_segment": 0,
     "zh_text": "「成交！」",
@@ -171039,7 +171039,7 @@
   },
   {
     "index": 8892,
-    "npc": "",
+    "npc": "Goth",
     "zh_offset_key": "b4",
     "zh_segment": 0,
     "zh_text": "「成交！」",
