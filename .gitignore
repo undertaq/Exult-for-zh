@@ -342,6 +342,7 @@ vcpkg/
 # Generated voice output (too large for git)
 voice/
 cosyvoice/
+voice_backup/
 *.log
 *.bak
 
