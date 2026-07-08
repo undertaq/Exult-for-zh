@@ -1,4 +1,5 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "snapshot": false
+  "snapshot": false,
+  "plugin": ["superpowers@git+https://github.com/obra/superpowers.git"]
 }

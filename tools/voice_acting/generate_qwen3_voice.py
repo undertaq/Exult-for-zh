@@ -31,6 +31,8 @@ from zhconv import convert as tc2sc
 
 from qwen_tts import Qwen3TTSModel
 
+from npc_data import NPC_NUMBERS
+
 # ── Config ────────────────────────────────────────────────────────────
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, '..', '..'))
@@ -47,7 +49,7 @@ CLONE_PROMPTS_PATH = os.path.join(SCRIPT_DIR, 'clone_prompts.pkl')
 VOICEDESIGN_MODEL = "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign"
 BASE_MODEL = "Qwen/Qwen3-TTS-12Hz-1.7B-Base"
 ATTN_IMPL = "sdpa"
-BATCH_SIZE_PHASE_C = 8
+BATCH_SIZE_PHASE_C = 4
 MIN_DURATION_MS = 1500
 LONG_TEXT_THRESHOLD = 100
 SHORT_MAX_TOKENS = 256
@@ -60,7 +62,8 @@ def text_hash(text):
     return hashlib.sha256(text.encode('utf-8')).hexdigest()[:16]
 
 
-def make_filename(entry, lang='zh'):
+def _build_base_name(entry, lang):
+    """Build the base filename without NPC suffix."""
     fid_key = f'{lang}_func_id'
     ok_key = f'{lang}_offset_key'
     seg_key = f'{lang}_segment'
@@ -70,7 +73,29 @@ def make_filename(entry, lang='zh'):
     if isinstance(fid, str) and (fid.startswith('0x') or fid.startswith('0X')):
         fid = fid[2:]
     fid = str(fid).lower().zfill(4)
-    return f'{fid}_{ok}_{seg}.ogg'
+    return f'{fid}_{ok}_{seg}'
+
+
+def make_filename(entry, lang='zh'):
+    """
+    Build voice filename with NPC-specific suffix when possible.
+    
+    The game's VoiceActingManager tries {base}_npc{N}.ogg first, then {base}.ogg.
+    By including the NPC number, we eliminate collisions where different NPCs
+    share the same func_id/offset_key/segment.
+    """
+    base = _build_base_name(entry, lang)
+    npc_name = entry.get('npc', '') or ''
+    npc_num = NPC_NUMBERS.get(npc_name)
+    if npc_num is not None:
+        return f'{base}_npc{npc_num}.ogg'
+    return f'{base}.ogg'
+
+
+def get_generic_filename(entry, lang='zh'):
+    """Get the generic (non-NPC-specific) fallback filename."""
+    base = _build_base_name(entry, lang)
+    return f'{base}.ogg'
 
 
 def ensure_minimum_duration(wav, sr, min_ms=MIN_DURATION_MS):
@@ -102,6 +127,24 @@ def write_ogg_direct(filepath, wav, sr, npc='', text=''):
 
     raw = wav.tobytes()
     subprocess.run(cmd, input=raw, capture_output=True, check=True)
+
+
+def create_generic_fallback(npc_specific_path, entry, lang, out_dir):
+    """
+    Create a hard link from NPC-specific filename to generic filename.
+    
+    The game's VoiceActingManager tries {base}_npc{N}.ogg first, then {base}.ogg.
+    Hard links share the same disk data (zero additional space) while providing
+    backward compatibility for entries where speaker_npc might be 0.
+    """
+    fname = os.path.basename(npc_specific_path)
+    generic_fname = get_generic_filename(entry, lang)
+    if generic_fname == fname:
+        return  # Not NPC-specific, nothing to do
+    generic_path = os.path.join(out_dir, generic_fname)
+    if os.path.exists(generic_path):
+        os.remove(generic_path)
+    os.link(npc_specific_path, generic_path)
 
 
 def load_mapping():
@@ -350,7 +393,8 @@ def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
     npc_to_design = build_npc_to_design_map(designs)
 
     try:
-        for lang in ['zh', 'en']:
+        langs = [args.lang] if args.lang else ['zh', 'en']
+        for lang in langs:
             lang_label = 'Chinese' if lang == 'zh' else 'English'
             out_dir = ZH_OUTPUT if lang == 'zh' else EN_OUTPUT
             text_key = f'{lang}_text'
@@ -445,6 +489,8 @@ def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
                                 npc_name, e.get(text_key, '')
                             )
                             generated += 1
+                            # Create hard link for generic fallback
+                            create_generic_fallback(e['_ogg_path'], e, lang, out_dir)
                         except Exception as ex:
                             print(f'  [{npc_name}] Write ERROR {e["_ogg_path"]}: {ex}')
                             errors += 1
@@ -490,6 +536,139 @@ def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
     return total_gen, total_skip, total_err
 
 
+# ── Migration ─────────────────────────────────────────────────────────
+
+def build_description_cache(out_dir):
+    """
+    Bulk-read DESCRIPTION metadata from all .ogg files in a directory.
+    Returns dict: {filename_without_ext: description_text}
+    """
+    import glob as glob_module
+    cache = {}
+    ogg_files = glob_module.glob(os.path.join(out_dir, '*.ogg'))
+    if not ogg_files:
+        return cache
+
+    import concurrent.futures
+
+    def read_comment(f):
+        try:
+            result = subprocess.run(
+                ['ffprobe', '-hide_banner', '-loglevel', 'error',
+                 '-show_entries', 'stream_tags=comment',
+                 '-of', 'default=noprint_wrappers=1:nokey=1',
+                 str(f)],
+                capture_output=True, text=True, timeout=10
+            )
+            desc = result.stdout.strip()
+            base = os.path.basename(f)[:-4]
+            return (base, desc) if desc else None
+        except Exception:
+            return None
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
+        futures = [executor.submit(read_comment, f) for f in ogg_files]
+        for future in concurrent.futures.as_completed(futures):
+            result = future.result()
+            if result:
+                base, desc = result
+                cache[base] = desc
+
+    print(f'  Cached {len(cache)} descriptions from {len(ogg_files)} files')
+    return cache
+
+
+def phase_migrate_existing(data, by_npc, args):
+    """
+    One-time migration: rename existing (correct) generic files to NPC-specific names.
+    
+    For entries with known NPC numbers:
+    - If NPC-specific file already exists → skip
+    - If generic file exists → verify DESCRIPTION metadata matches expected text
+    - If correct → rename to NPC-specific, create generic hard link
+    - If wrong → flag for regeneration
+    """
+    os.makedirs(ZH_OUTPUT, exist_ok=True)
+    os.makedirs(EN_OUTPUT, exist_ok=True)
+
+    print(f'\n{"="*60}')
+    print('Migration: Renaming existing files to NPC-specific names')
+    print(f'{"="*60}')
+
+    renamed = 0
+    verified = 0
+    wrong = 0
+    missing = 0
+    skipped = 0
+
+    for lang in ['zh', 'en']:
+        out_dir = ZH_OUTPUT if lang == 'zh' else EN_OUTPUT
+        text_key = f'{lang}_text'
+        lang_label = 'ZH' if lang == 'zh' else 'EN'
+
+        print(f'\n--- {lang_label} ---')
+        print('  Building description cache...')
+        desc_cache = build_description_cache(out_dir)
+        print(f'  Processing entries...')
+
+        for entry in data:
+            npc_name = entry.get('npc', '') or ''
+            npc_num = NPC_NUMBERS.get(npc_name)
+            if npc_num is None:
+                continue  # UNKNOWN or unmapped → keep generic name
+
+            # Check if NPC-specific file already exists
+            base = _build_base_name(entry, lang)
+            npc_fname = f'{base}_npc{npc_num}.ogg'
+            generic_fname = f'{base}.ogg'
+            npc_path = os.path.join(out_dir, npc_fname)
+            generic_path = os.path.join(out_dir, generic_fname)
+
+            if os.path.exists(npc_path):
+                skipped += 1
+                # Ensure generic hard link exists
+                if not os.path.exists(generic_path) and not args.dry_run:
+                    os.link(npc_path, generic_path)
+                    print(f'  [{npc_name}] {lang}: missing generic link restored')
+                continue
+
+            if not os.path.exists(generic_path):
+                missing += 1
+                continue
+
+            # Verify generic file content from cache
+            description = desc_cache.get(base)
+            expected_text = entry.get(text_key, '') or ''
+
+            if description and description == expected_text:
+                if args.dry_run:
+                    print(f'  [{npc_name}] {lang}: would rename {generic_fname} -> {npc_fname}')
+                else:
+                    os.rename(generic_path, npc_path)
+                    os.link(npc_path, generic_path)
+                    print(f'  [{npc_name}] {lang}: {generic_fname} -> {npc_fname}')
+                renamed += 1
+            else:
+                if args.dry_run:
+                    print(f'  [{npc_name}] {lang}: WRONG content, would delete and regenerate')
+                else:
+                    os.remove(generic_path)
+                wrong += 1
+
+        if args.dry_run:
+            print(f'  {lang_label} dry-run complete')
+
+    print(f'\nMigration complete.')
+    print(f'  Renamed (correct): {renamed}')
+    print(f'  Already NPC-specific: {skipped}')
+    print(f'  Verified correct (kept): {verified}')
+    print(f'  Wrong content (deleted): {wrong}')
+    print(f'  Missing (need generation): {missing}')
+    print(f'\nRun Phase C to regenerate {wrong + missing} entries with wrong/missing content.')
+
+    return renamed, wrong, missing
+
+
 # ── Main ──────────────────────────────────────────────────────────────
 
 def main():
@@ -503,11 +682,21 @@ def main():
     parser.add_argument('--device', type=str, default='cuda:0', help='CUDA device')
     parser.add_argument('--npc', type=str, default=None, help='Single NPC to generate (Phase C only)')
     parser.add_argument('--max-npcs', type=int, default=None, help='Limit number of NPCs to process')
+    parser.add_argument('--lang', type=str, default=None, choices=['zh', 'en'],
+                        help='Language to process (default: both)')
+    parser.add_argument('--migrate', action='store_true', help='One-time migration: rename existing generic files to NPC-specific names')
     args = parser.parse_args()
 
     # Load data
     designs = load_designs()
     data, by_npc = load_mapping()
+
+    # Migration mode: rename existing generic files to NPC-specific names
+    if args.migrate:
+        phase_migrate_existing(data, by_npc, args)
+        if args.dry_run:
+            return
+        print('\nMigration done. Run Phase C to regenerate wrong/missing entries.\n')
 
     print(f'Loaded {len(data)} entries across {len(by_npc)} NPCs')
     print(f'Voice designs: {designs["_meta"]["total_designs"]} total')
@@ -516,11 +705,15 @@ def main():
     print(f'  Narrator: {designs["_meta"]["narrator_designs"]}')
 
     if args.npc:
-        by_npc = {args.npc: by_npc.get(args.npc, [])}
-        if not list(by_npc.values())[0]:
-            print(f'NPC "{args.npc}" not found!')
+        npc_names = [n.strip() for n in args.npc.split(',')]
+        by_npc = {n: by_npc.get(n, []) for n in npc_names}
+        found = [n for n, v in by_npc.items() if v]
+        missing = [n for n, v in by_npc.items() if not v]
+        if missing:
+            print(f'NPC(s) not found: {", ".join(missing)}')
+        if not found:
             sys.exit(1)
-        print(f'Filtered to single NPC: {args.npc} ({len(by_npc[args.npc])} lines)')
+        print(f'Filtered to {len(found)} NPC(s): {", ".join(found)} ({sum(len(v) for v in by_npc.values())} lines total)')
 
     # Phase A: Generate reference clips
     if args.phase in ('all', 'refs'):
