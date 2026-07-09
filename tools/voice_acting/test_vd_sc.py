@@ -5,22 +5,76 @@ Hypothesis: VoiceDesign with SC text produces Mandarin output,
 avoiding the Cantonese-like prosody that characterful prompts cause on CustomVoice.
 """
 import json, os, sys, gc, re
+import unittest
 from pathlib import Path
 from collections import defaultdict
-from zhconv import convert as tc2sc
 
-import torch
-import soundfile as sf
-from qwen_tts import Qwen3TTSModel
+_MISSING_DEPENDENCY = None
+
+try:
+    from zhconv import convert as tc2sc
+    import torch
+    import soundfile as sf
+    from qwen_tts import Qwen3TTSModel
+except ModuleNotFoundError as ex:
+    _MISSING_DEPENDENCY = f'optional voice-design dependency missing: {ex.name}'
 
 sys.path.insert(0, os.path.dirname(__file__))
-from generate_qwen3_voice import (
-    PROJECT_DIR, OUTPUT_DIR, REF_DIR, MAPPING_PATH,
-    CUSTOMVOICE_MODEL, VOICEDESIGN_MODEL, BASE_MODEL,
-    ATTN_IMPL, BATCH_SIZE, MAX_NEW_TOKENS,
-    make_filename, make_ref_filename, get_ref_text,
-    ensure_minimum_duration, convert_wav_dir,
-)
+if _MISSING_DEPENDENCY is None:
+    try:
+        from generate_qwen3_voice import (
+            PROJECT_DIR, OUTPUT_DIR, REF_DIR, MAPPING_PATH,
+            CUSTOMVOICE_MODEL, VOICEDESIGN_MODEL, BASE_MODEL,
+            ATTN_IMPL, BATCH_SIZE, MAX_NEW_TOKENS,
+            make_filename, make_ref_filename, get_ref_text,
+            ensure_minimum_duration, convert_wav_dir,
+        )
+    except (ImportError, ModuleNotFoundError) as ex:
+        _MISSING_DEPENDENCY = f'optional voice generation dependency unavailable: {ex}'
+
+if _MISSING_DEPENDENCY is not None:
+    PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+    OUTPUT_DIR = os.path.join(PROJECT_DIR, 'voice')
+    REF_DIR = os.path.join(OUTPUT_DIR, 'refs')
+    MAPPING_PATH = os.path.join(os.path.dirname(__file__), 'bilingual_mapping_review.json')
+    CUSTOMVOICE_MODEL = ''
+    VOICEDESIGN_MODEL = ''
+    BASE_MODEL = ''
+    ATTN_IMPL = ''
+    BATCH_SIZE = 1
+    MAX_NEW_TOKENS = 1
+
+    def make_filename(entry, lang='zh'):
+        return 'missing-dependency.ogg'
+
+    def make_ref_filename(npc, lang='zh'):
+        return 'missing-dependency.ogg'
+
+    def get_ref_text(entries, lang='zh'):
+        return ''
+
+    def ensure_minimum_duration(wav, sr):
+        return wav
+
+    def convert_wav_dir(*args, **kwargs):
+        return None
+
+
+def load_tests(loader, tests, pattern):
+    if _MISSING_DEPENDENCY is None:
+        return tests
+
+    class MissingOptionalDependencyTest(unittest.TestCase):
+        @unittest.skip(_MISSING_DEPENDENCY)
+        def test_optional_voice_design_dependencies_available(self):
+            pass
+
+    return loader.loadTestsFromTestCase(MissingOptionalDependencyTest)
+
+
+def _require_dependencies():
+    if _MISSING_DEPENDENCY is not None:
+        raise SystemExit(_MISSING_DEPENDENCY)
 
 # ── test config ─────────────────────────────────────────────────────
 
@@ -140,6 +194,7 @@ def generate_test_lines(model, npc, entries, prompt_items, sr):
 
 
 def main():
+    _require_dependencies()
     os.makedirs(TEST_REF_DIR, exist_ok=True)
     os.makedirs(TEST_OUTPUT, exist_ok=True)
 

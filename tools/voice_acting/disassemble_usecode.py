@@ -772,8 +772,10 @@ def skip_symbol_table(data, offset):
                 num_methods = read2(data, pos); pos += 2
                 pos += 2 * num_methods  # method IDs
                 pos += 2                # num_vars
-            elif kind == 3:     # shape_fun
-                pos += 4  # extra shape value
+            elif kind in (3, 6, 7):
+                # shape_fun (3), function (6), and import (7) entries each
+                # carry one extra 32-bit value after the symbol value.
+                pos += 4
         return pos
 
     return skip_scope(offset + 8)

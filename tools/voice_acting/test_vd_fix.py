@@ -6,18 +6,55 @@ Test VD fix for broken files (>150K):
 Verify with faster-whisper ASR, compare with original.
 """
 import json, os, sys, gc, re, time
+import unittest
 from collections import defaultdict
-from zhconv import convert as tc2sc
-import torch
-import soundfile as sf
-from qwen_tts import Qwen3TTSModel
-from faster_whisper import WhisperModel
+
+_MISSING_DEPENDENCY = None
+
+try:
+    from zhconv import convert as tc2sc
+    import torch
+    import soundfile as sf
+    from qwen_tts import Qwen3TTSModel
+    from faster_whisper import WhisperModel
+except ModuleNotFoundError as ex:
+    _MISSING_DEPENDENCY = f'optional voice-design dependency missing: {ex.name}'
 
 sys.path.insert(0, os.path.dirname(__file__))
-from generate_qwen3_voice import (
-    PROJECT_DIR, OUTPUT_DIR, VOICEDESIGN_MODEL, ATTN_IMPL,
-    ensure_minimum_duration,
-)
+if _MISSING_DEPENDENCY is None:
+    try:
+        from generate_qwen3_voice import (
+            PROJECT_DIR, OUTPUT_DIR, VOICEDESIGN_MODEL, ATTN_IMPL,
+            ensure_minimum_duration,
+        )
+    except ModuleNotFoundError as ex:
+        _MISSING_DEPENDENCY = f'optional voice generation dependency missing: {ex.name}'
+else:
+    PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+    OUTPUT_DIR = os.path.join(PROJECT_DIR, 'voice')
+    VOICEDESIGN_MODEL = ''
+    ATTN_IMPL = ''
+
+if _MISSING_DEPENDENCY is not None:
+    def ensure_minimum_duration(wav, sr):
+        return wav
+
+
+def load_tests(loader, tests, pattern):
+    if _MISSING_DEPENDENCY is None:
+        return tests
+
+    class MissingOptionalDependencyTest(unittest.TestCase):
+        @unittest.skip(_MISSING_DEPENDENCY)
+        def test_optional_voice_design_dependencies_available(self):
+            pass
+
+    return loader.loadTestsFromTestCase(MissingOptionalDependencyTest)
+
+
+def _require_dependencies():
+    if _MISSING_DEPENDENCY is not None:
+        raise SystemExit(_MISSING_DEPENDENCY)
 
 FIX_OUTPUT = os.path.join(OUTPUT_DIR, 'fix_test')
 MAPPING_PATH = os.path.join(os.path.dirname(__file__), 'bilingual_mapping_review.json')
@@ -69,6 +106,7 @@ def _simplify_prompt_en(prompt):
 
 
 def main():
+    _require_dependencies()
     os.makedirs(FIX_OUTPUT, exist_ok=True)
 
     # Load data

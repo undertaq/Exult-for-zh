@@ -276,6 +276,32 @@ def fix_encoding(text):
         return text
 
 
+def normalize_func_id(value):
+    value = str(value or '').strip().lower()
+    if value.startswith('0x'):
+        value = value[2:]
+    return value.zfill(4)
+
+
+def normalize_offset_key(value):
+    parts = str(value or '0').strip().split('_')
+    normalized = []
+    for part in parts:
+        part = part.strip().lower()
+        if part.startswith('0x'):
+            part = part[2:]
+        normalized.append(part or '0')
+    return '_'.join(normalized)
+
+
+def runtime_key(func_id, offset_key, segment):
+    return (
+        normalize_func_id(func_id),
+        normalize_offset_key(offset_key),
+        int(segment or 0),
+    )
+
+
 def build_groups(csv_path):
     """Group voice lines by func_id then offset_key."""
     funcs = OrderedDict()
@@ -296,11 +322,68 @@ def build_groups(csv_path):
             groups = funcs[fid]
             grp = next((g for g in groups if g['offset_key'] == key), None)
             if grp is None:
-                grp = {'offset_key': key, 'segs': [], 'texts': [], 'npc': npc}
+                grp = {
+                    'func_id': fid,
+                    'offset_key': key,
+                    'segs': [],
+                    'texts': [],
+                    'npc': npc,
+                }
                 groups.append(grp)
             grp['segs'].append(seg)
             grp['texts'].append(text)
     return funcs
+
+
+def build_runtime_key_index(csv_path):
+    """Return runtime keys present in a source CSV plus duplicate text diagnostics."""
+    keys = set()
+    text_keys = Counter()
+    with open(csv_path, newline='', encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            keys.add(runtime_key(row.get('func_id', ''), row.get('offset_key', ''), row.get('segment', 0)))
+            text_key = (
+                re.sub(r'\s+', ' ', fix_encoding(row.get('text', '')).strip()),
+                row.get('npc', '') or '',
+                row.get('speaker', '') or '',
+                row.get('caller_guess', '') or '',
+            )
+            text_keys[text_key] += 1
+    ambiguous = sum(1 for count in text_keys.values() if count > 1)
+    return keys, ambiguous
+
+
+def validate_output_runtime_keys(output, en_csv, zh_csv):
+    """Fail fast if output runtime identity fields do not point at source CSV rows."""
+    en_keys, en_ambiguous = build_runtime_key_index(en_csv)
+    zh_keys, zh_ambiguous = build_runtime_key_index(zh_csv)
+    if en_ambiguous or zh_ambiguous:
+        print(
+            f"  Duplicate source text keys: EN={en_ambiguous}, ZH={zh_ambiguous}",
+            file=sys.stderr,
+        )
+
+    mismatches = []
+    for row in output:
+        idx = row.get('index', '?')
+        if row.get('en_text', '').strip():
+            key = runtime_key(row.get('en_func_id', ''), row.get('en_offset_key', ''), row.get('en_segment', 0))
+            if key not in en_keys:
+                mismatches.append((idx, 'en', row.get('en_func_id', ''), row.get('en_offset_key', ''), row.get('en_segment', 0)))
+        if row.get('zh_text', '').strip():
+            key = runtime_key(row.get('zh_func_id', ''), row.get('zh_offset_key', ''), row.get('zh_segment', 0))
+            if key not in zh_keys:
+                mismatches.append((idx, 'zh', row.get('zh_func_id', ''), row.get('zh_offset_key', ''), row.get('zh_segment', 0)))
+
+    if mismatches:
+        print("ERROR: output contains runtime keys not found in source CSVs:", file=sys.stderr)
+        for mismatch in mismatches[:20]:
+            idx, lang, func_id, offset_key, segment = mismatch
+            print(f"  row {idx} {lang}: {func_id} {offset_key} segment {segment}", file=sys.stderr)
+        if len(mismatches) > 20:
+            print(f"  ... {len(mismatches) - 20} more", file=sys.stderr)
+        raise SystemExit(1)
 
 
 def nw_align(en_grps, zh_grps, gap_penalty=-0.5):
@@ -472,6 +555,7 @@ def main():
                         'zh_offset_key': zg['offset_key'], 'zh_segment': zg['segs'][j],
                         'zh_text': txt, 'en_offset_key': '', 'en_segment': 0, 'en_text': '',
                         'confidence': 'unpaired_zh', 'npc': npc, 'func_id': fid,
+                        'zh_func_id': zg['func_id'], 'en_func_id': '',
                     })
                     match_stats['unpaired_zh'] += 1
             continue
@@ -483,6 +567,7 @@ def main():
                         'zh_offset_key': '', 'zh_segment': 0, 'zh_text': '',
                         'en_offset_key': eg['offset_key'], 'en_segment': eg['segs'][j],
                         'en_text': txt, 'confidence': 'unpaired_en', 'npc': npc, 'func_id': fid,
+                        'zh_func_id': '', 'en_func_id': eg['func_id'],
                     })
                     match_stats['unpaired_en'] += 1
             continue
@@ -526,6 +611,8 @@ def main():
                     'confidence': conf,
                     'npc': npc,
                     'func_id': fid,
+                    'zh_func_id': zg['func_id'],
+                    'en_func_id': eg['func_id'],
                 })
         
         for eg in en_unpaired:
@@ -538,6 +625,8 @@ def main():
                     'confidence': 'unpaired_en',
                     'npc': npc,
                     'func_id': fid,
+                    'zh_func_id': '',
+                    'en_func_id': eg['func_id'],
                 })
                 match_stats['unpaired_en'] += 1
         
@@ -551,6 +640,8 @@ def main():
                     'confidence': 'unpaired_zh',
                     'npc': npc,
                     'func_id': fid,
+                    'zh_func_id': zg['func_id'],
+                    'en_func_id': '',
                 })
                 match_stats['unpaired_zh'] += 1
     
@@ -604,6 +695,8 @@ def main():
             new_entry['en_offset_key'] = en_off
             new_entry['en_segment'] = entry['en_segment']
             new_entry['en_text'] = entry['en_text']
+            new_entry['zh_func_id'] = entry.get('zh_func_id', '')
+            new_entry['en_func_id'] = entry.get('en_func_id', '')
             if not args.keep_confidence:
                 new_entry['confidence'] = entry['confidence']
             new_entry['index'] = i
@@ -625,8 +718,8 @@ def main():
                 'voice_lang': 'en',
                 'tone': 'neutral',
                 'tone_instruct': '',
-                'zh_func_id': entry.get('func_id', ''),
-                'en_func_id': entry.get('func_id', ''),
+                'zh_func_id': entry.get('zh_func_id', ''),
+                'en_func_id': entry.get('en_func_id', ''),
             }
         
         # ── Tag replacement ──
@@ -648,6 +741,8 @@ def main():
         
         output.append(new_entry)
     
+    validate_output_runtime_keys(output, args.en, args.zh)
+
     # ── Write output ──
     with open(args.output, 'w', encoding='utf-8') as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
