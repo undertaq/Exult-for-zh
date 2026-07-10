@@ -208,7 +208,7 @@ class GenerateQwen3VoiceBehaviorTest(unittest.TestCase):
             self.assertEqual(FakeModel.generate_voice_clone_calls, 0)
             self.assertEqual(Path(target).read_bytes(), b"fresh")
 
-    def test_phase_c_restores_generic_fallback_when_fresh_specific_file_is_skipped(self):
+    def test_phase_c_does_not_restore_generic_fallback_by_default_when_fresh_specific_file_is_skipped(self):
         module = load_script_module()
 
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -241,6 +241,54 @@ class GenerateQwen3VoiceBehaviorTest(unittest.TestCase):
             clone_prompts = {"npc_iolo": {"en": ["prompt"]}}
             args = argparse.Namespace(
                 lang="en", dry_run=False, force=False, max_npcs=None, device="cuda:0"
+            )
+
+            generated, skipped, errors = module.phase_c_generate_voice(
+                designs, clone_prompts, by_npc, args
+            )
+
+            self.assertEqual((generated, skipped, errors), (0, 1, 0))
+            self.assertEqual(FakeModel.generate_voice_clone_calls, 0)
+            self.assertFalse(Path(generic).exists())
+
+    def test_phase_c_restores_generic_fallback_when_explicitly_requested(self):
+        module = load_script_module()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            module.ZH_OUTPUT = os.path.join(tmpdir, "zh")
+            module.EN_OUTPUT = os.path.join(tmpdir, "en")
+            os.makedirs(module.EN_OUTPUT)
+            specific = os.path.join(module.EN_OUTPUT, "0401_48d_1_npc1.ogg")
+            generic = os.path.join(module.EN_OUTPUT, "0401_48d_1.ogg")
+            Path(specific).write_bytes(b"fresh iolo stable")
+            module.voice_file_matches_text = lambda path, text: True
+            module.write_ogg_direct = lambda *args, **kwargs: self.fail("fresh file was regenerated")
+            designs = {
+                "designs": {
+                    "npc_iolo": {
+                        "npcs": ["Iolo"],
+                    },
+                },
+            }
+            by_npc = {
+                "Iolo": [
+                    {
+                        "npc": "Iolo",
+                        "en_func_id": "0x0401",
+                        "en_offset_key": "48d",
+                        "en_segment": 1,
+                        "en_text": "Take a look inside the stables.",
+                    },
+                ],
+            }
+            clone_prompts = {"npc_iolo": {"en": ["prompt"]}}
+            args = argparse.Namespace(
+                lang="en",
+                dry_run=False,
+                force=False,
+                max_npcs=None,
+                device="cuda:0",
+                generic_fallbacks=True,
             )
 
             generated, skipped, errors = module.phase_c_generate_voice(

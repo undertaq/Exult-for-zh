@@ -1,9 +1,9 @@
 {
   "_meta": {
     "total_entries": 10245,
-    "total_npcs": 266,
-    "total_designs": 175,
-    "unique_designs": 159,
+    "total_npcs": 272,
+    "total_designs": 178,
+    "unique_designs": 162,
     "narrator_designs": 1,
     "group_designs": 15
   },
@@ -352,6 +352,17 @@
       "ref_zh_text": "你的大腦被快速探測了一下，然後被拋開，讓你感到有些不適，並充滿了一種不理性的不祥預感。",
       "ref_en_text": "After a short while you notice that the edge has definitely improved."
     },
+    "npc_arcadion": {
+      "npc": "Arcadion",
+      "type": "unique",
+      "npcs": [
+        "Arcadion"
+      ],
+      "voice_desc_en": "Male daemon bound inside a gem, crystalline and resonant voice, smooth but dangerous, speaks with cold amusement",
+      "voice_desc_zh": "男性惡魔，被封印在寶石中，聲音清澈共鳴、圓滑而危險，帶著冷酷的愉悅，用標準的普通話朗讀",
+      "ref_zh_text": "Arcadion 的聲音如靜止池塘中的漣漪般向你低語：「別怕，我的主人。我對這些事情略知一二。」",
+      "ref_en_text": "Arcadion's voice whispers to you like ripple in still pond, \"Fear not, my master. I have some knowledge of these matters.\""
+    },
     "npc_balayna": {
       "npc": "Balayna",
       "type": "unique",
@@ -527,6 +538,17 @@
       "voice_desc_zh": "男性，30-40歲，惡作劇者，惡作劇挑逗的準確地說出4個字，用標準的普通話朗讀",
       "ref_zh_text": "你對與那個愛惡作劇的 Chuckles 交談感到警惕，但還是決定這麼做。",
       "ref_en_text": "You are wary of conversing with that trickster Chuckles, but decide to anyway."
+    },
+    "npc_dark_core": {
+      "npc": "Dark Core",
+      "type": "unique",
+      "npcs": [
+        "Dark Core"
+      ],
+      "voice_desc_en": "Male ancient daemon presence, deep shadowy voice, slow ominous whisper, powerful and otherworldly",
+      "voice_desc_zh": "男性遠古惡魔般的存在，低沉陰影般的聲音，緩慢不祥的低語，強大而異世，用標準的普通話朗讀",
+      "ref_zh_text": "「很好。我需要那卷卷軸才能給你進一步的資訊。」",
+      "ref_en_text": "\"Very well. I shall need the scroll to give thee further information.\""
     },
     "npc_constance": {
       "npc": "Constance",
@@ -913,11 +935,25 @@
       "ref_zh_text": "你看到一隻表情非常嚴肅的石像鬼，聖者",
       "ref_en_text": "You see a gargoyle with a very stern expression on his faceAvatar"
     },
+    "npc_hook": {
+      "npc": "Hook",
+      "type": "unique",
+      "npcs": [
+        "Hook"
+      ],
+      "voice_desc_en": "Male ruthless killer, cold sharp voice, controlled menace, cruel and confident",
+      "voice_desc_zh": "男性冷酷殺手，聲音冰冷銳利、威脅感克制，殘忍而自信，用標準的普通話朗讀",
+      "ref_zh_text": "寶石發出更亮的光芒，「終於不用再看到你了真好，老頭。也許在來生，我會是你的主人，而你是奴隸。」惡魔發出一聲令人毛骨悚然的輕笑。",
+      "ref_en_text": "The gem glows brighter, \"'Tis good to see the last of thee, also, old man. Perhaps in another life, I shall be thy master, and thou the slave.\""
+    },
     "npc_hydra": {
       "npc": "Hydra",
       "type": "unique",
       "npcs": [
-        "Hydra"
+        "Hydra",
+        "Shanda",
+        "Shando",
+        "Shandu"
       ],
       "voice_desc_en": "Creature, three-headed hydra, deep rumbling growling monster voice",
       "voice_desc_zh": "男性，低沉的隆隆咆哮的，用標準的普通話朗讀",

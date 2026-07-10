@@ -45,7 +45,7 @@ PROJECT_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, '..', '..'))
 OUTPUT_DIR = os.path.join(PROJECT_DIR, 'voice')
 ZH_OUTPUT = os.path.join(OUTPUT_DIR, 'zh')
 EN_OUTPUT = os.path.join(OUTPUT_DIR, 'en')
-REFS_DIR = os.path.join(SCRIPT_DIR, 'refs')
+REFS_DIR = os.path.join(OUTPUT_DIR, 'refs')
 
 MAPPING_PATH = os.path.join(SCRIPT_DIR, 'bilingual_mapping_review.json')
 EN_LINES_PATH = os.path.join(SCRIPT_DIR, 'en_voice_lines.csv')
@@ -761,7 +761,11 @@ def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
                             and voice_file_matches_text(ogg_path, expected_text)
                         ):
                             skipped += 1
-                            if not args.dry_run and not e.get('_suppress_generic_fallback'):
+                            if (
+                                getattr(args, 'generic_fallbacks', False)
+                                and not args.dry_run
+                                and not e.get('_suppress_generic_fallback')
+                            ):
                                 create_generic_fallback(ogg_path, e, lang, out_dir)
                         else:
                             e['_ogg_path'] = ogg_path
@@ -807,7 +811,10 @@ def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
                                 npc_name, e.get(text_key, '')
                             )
                             generated += 1
-                            if not e.get('_suppress_generic_fallback'):
+                            if (
+                                getattr(args, 'generic_fallbacks', False)
+                                and not e.get('_suppress_generic_fallback')
+                            ):
                                 # Create generic fallback without hard-link aliasing.
                                 create_generic_fallback(e['_ogg_path'], e, lang, out_dir)
                         except Exception as ex:
@@ -1008,6 +1015,8 @@ def main():
     parser.add_argument('--max-npcs', type=int, default=None, help='Limit number of NPCs to process')
     parser.add_argument('--lang', type=str, default=None, choices=['zh', 'en'],
                         help='Language to process (default: both)')
+    parser.add_argument('--generic-fallbacks', action='store_true',
+                        help='Also create generic non-NPC fallback copies for generated/skipped NPC-specific files')
     parser.add_argument('--migrate', action='store_true', help='One-time migration: rename existing generic files to NPC-specific names')
     args = parser.parse_args()
 

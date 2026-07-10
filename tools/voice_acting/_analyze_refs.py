@@ -14,7 +14,8 @@ from scipy import signal
 from scipy.spatial.distance import cosine
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-REFS_DIR = os.path.join(SCRIPT_DIR, 'refs')
+PROJECT_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, '..', '..'))
+REFS_DIR = os.path.join(PROJECT_DIR, 'voice', 'refs')
 DESIGNS_PATH = os.path.join(SCRIPT_DIR, 'npc_voice_designs.json')
 
 SR_TARGET = 12000  # 12kHz per Qwen3-TTS spec
