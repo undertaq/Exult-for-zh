@@ -66,6 +66,8 @@ void BilingualManager::load_usecode_files() {
 }
 
 void BilingualManager::load_bilingual_map() {
+    bilingual_map.clear();
+
     if (!is_system_path_defined("<PATCH>")) {
         return;
     }
@@ -144,20 +146,26 @@ Usecode_machine* BilingualManager::get_usecode(TextLanguage lang) {
 
 bool BilingualManager::map_offset(TextLanguage from_lang, int func_id,
                                    const std::string& offset_key,
-                                   int& out_func_id, std::string& out_offset_key) {
+                                   int segment,
+                                   int& out_func_id, std::string& out_offset_key,
+                                   int& out_segment) {
     if (from_lang == TextLanguage::CHINESE) {
         for (const auto& m : bilingual_map) {
-            if (m.zh_func_id == func_id && m.zh_offset_key == offset_key) {
+            if (m.zh_func_id == func_id && m.zh_offset_key == offset_key
+                    && m.segment == segment) {
                 out_func_id = m.en_func_id;
                 out_offset_key = m.en_offset_key;
+                out_segment = m.segment;
                 return true;
             }
         }
     } else if (from_lang == TextLanguage::ENGLISH) {
         for (const auto& m : bilingual_map) {
-            if (m.en_func_id == func_id && m.en_offset_key == offset_key) {
+            if (m.en_func_id == func_id && m.en_offset_key == offset_key
+                    && m.segment == segment) {
                 out_func_id = m.zh_func_id;
                 out_offset_key = m.zh_offset_key;
+                out_segment = m.segment;
                 return true;
             }
         }

@@ -287,20 +287,24 @@ bool VoiceActingManager::play_for_conversation(
 				= (cur_voice_lang == "en") ? TextLanguage::CHINESE : TextLanguage::ENGLISH;
 		int			target_func_id;
 		std::string target_offset_key;
+		int			target_segment;
 		if (BilingualManager::get().map_offset(from_lang, function_id,
-											   offset_key, target_func_id, target_offset_key)) {
+											   offset_key, segment, target_func_id,
+											   target_offset_key, target_segment)) {
 			char target_hex[16];
 			std::snprintf(target_hex, sizeof(target_hex), "%04x", target_func_id);
-			base = std::string(target_hex) + "_" + target_offset_key + "_" + std::to_string(segment);
+			base = std::string(target_hex) + "_" + target_offset_key + "_"
+				   + std::to_string(target_segment);
 			const char* dir_label = (cur_voice_lang == "en") ? "zh→en" : "en→zh";
 			pout << "[VoiceActing] Cross-language lookup: " << dir_label
 				 << " (func " << std::hex << function_id << " → " << target_func_id
-				 << std::dec << ", offset " << offset_key << " → " << target_offset_key << ")"
+				 << std::dec << ", offset " << offset_key << " → " << target_offset_key
+				 << ", segment " << segment << " → " << target_segment << ")"
 				 << std::endl;
 		} else {
 			pout << "[VoiceActing] Cross-language lookup failed for func "
 				 << std::hex << function_id << std::dec
-				 << ", offset " << offset_key << std::endl;
+				 << ", offset " << offset_key << ", segment " << segment << std::endl;
 		}
 	}
 

@@ -32,8 +32,9 @@ public:
     Usecode_machine* get_usecode(TextLanguage lang);
 
     bool map_offset(TextLanguage from_lang, int func_id,
-                    const std::string& offset_key,
-                    int& out_func_id, std::string& out_offset_key);
+                    const std::string& offset_key, int segment,
+                    int& out_func_id, std::string& out_offset_key,
+                    int& out_segment);
 
     bool is_bilingual_available() const { return usecode_zh != nullptr; }
 

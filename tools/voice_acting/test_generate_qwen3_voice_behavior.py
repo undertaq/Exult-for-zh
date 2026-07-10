@@ -166,6 +166,53 @@ class GenerateQwen3VoiceBehaviorTest(unittest.TestCase):
             self.assertEqual(FakeModel.generate_voice_clone_calls, 1)
             self.assertEqual(Path(target).read_bytes(), b"new")
 
+    def test_phase_c_generates_english_for_unpaired_zh_row_using_zh_runtime_key(self):
+        module = load_script_module()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            module.ZH_OUTPUT = os.path.join(tmpdir, "zh")
+            module.EN_OUTPUT = os.path.join(tmpdir, "en")
+
+            def write_file(filepath, wav, sr, npc="", text=""):
+                Path(filepath).write_bytes(text.encode("utf-8"))
+
+            module.write_ogg_direct = write_file
+            designs = {
+                "designs": {
+                    "npc_iolo": {
+                        "npcs": ["Iolo"],
+                    },
+                },
+            }
+            by_npc = {
+                "Iolo": [
+                    {
+                        "npc": "Iolo",
+                        "confidence": "unpaired_zh",
+                        "zh_func_id": "0x0401",
+                        "zh_offset_key": "6af",
+                        "zh_segment": 0,
+                        "zh_text": "「古文譯本？」",
+                        "en_func_id": "",
+                        "en_offset_key": "",
+                        "en_segment": 0,
+                        "en_text": "The rune translator?",
+                    },
+                ],
+            }
+            clone_prompts = {"npc_iolo": {"en": ["prompt"]}}
+            args = argparse.Namespace(
+                lang="en", dry_run=False, force=True, max_npcs=None, device="cuda:0"
+            )
+
+            generated, skipped, errors = module.phase_c_generate_voice(
+                designs, clone_prompts, by_npc, args
+            )
+
+            target = Path(module.EN_OUTPUT) / "0401_6af_0_npc1.ogg"
+            self.assertEqual((generated, skipped, errors), (1, 0, 0))
+            self.assertEqual(target.read_text(encoding="utf-8"), "The rune translator?")
+
     def test_phase_c_skips_existing_file_when_metadata_is_fresh(self):
         module = load_script_module()
 
@@ -353,6 +400,27 @@ class GenerateQwen3VoiceBehaviorTest(unittest.TestCase):
         self.assertEqual([e["npc"] for e in expanded], ["Petre"])
         self.assertEqual(module.make_filename(expanded[0], "en"), "0401_437_466_0_npc11.ogg")
         self.assertTrue(expanded[0]["_suppress_generic_fallback"])
+
+    def test_contextual_rune_sign_entries_expand_to_party_speaker_voices(self):
+        module = load_script_module()
+        entry = {
+            "npc": "",
+            "zh_func_id": "0x095F",
+            "zh_offset_key": "0",
+            "zh_segment": 0,
+            "zh_text": "「盧恩古文～」",
+            "en_text": "Runic writing...",
+        }
+
+        expanded = module.expand_entry_for_voice_speakers(entry)
+        by_npc = {e["npc"]: e for e in expanded}
+
+        self.assertIn("Iolo", by_npc)
+        self.assertIn("Shamino", by_npc)
+        self.assertIn("Dupre", by_npc)
+        self.assertNotIn("UNKNOWN", by_npc)
+        self.assertEqual(module.make_filename(by_npc["Iolo"], "en"), "095f_0_0_npc1.ogg")
+        self.assertTrue(all(e["_suppress_generic_fallback"] for e in expanded))
 
     def test_phase_b_dry_run_does_not_overwrite_existing_clone_prompts(self):
         module = load_script_module()

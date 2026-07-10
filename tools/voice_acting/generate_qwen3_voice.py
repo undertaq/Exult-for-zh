@@ -63,6 +63,18 @@ LONG_TEXT_THRESHOLD = 100
 SHORT_MAX_TOKENS = 256
 LONG_MAX_TOKENS = 1024
 
+RUNE_SIGN_CONTEXT_SPEAKERS = [
+    'Iolo',
+    'Spark',
+    'Shamino',
+    'Dupre',
+    'Jaana',
+    'Sentri',
+    'Julia',
+    'Katrina',
+    'Tseramed',
+]
+
 
 # ── Helpers ───────────────────────────────────────────────────────────
 
@@ -72,16 +84,35 @@ def text_hash(text):
 
 def _build_base_name(entry, lang):
     """Build the base filename without NPC suffix."""
-    fid_key = f'{lang}_func_id'
-    ok_key = f'{lang}_offset_key'
-    seg_key = f'{lang}_segment'
-    fid = entry.get(fid_key, '') or entry.get('zh_func_id', '') or entry.get('en_func_id', '') or '0000'
-    ok = entry.get(ok_key, '') or '0'
-    seg = entry.get(seg_key, 0) or 0
+    if uses_zh_runtime_for_english_voice(entry, lang):
+        fid = entry.get('zh_func_id', '') or '0000'
+        ok = entry.get('zh_offset_key', '') or '0'
+        seg = entry.get('zh_segment', 0) or 0
+    else:
+        fid_key = f'{lang}_func_id'
+        ok_key = f'{lang}_offset_key'
+        seg_key = f'{lang}_segment'
+        fid = entry.get(fid_key, '') or entry.get('zh_func_id', '') or entry.get('en_func_id', '') or '0000'
+        ok = entry.get(ok_key, '') or '0'
+        seg = entry.get(seg_key, 0) or 0
     if isinstance(fid, str) and (fid.startswith('0x') or fid.startswith('0X')):
         fid = fid[2:]
     fid = str(fid).lower().zfill(4)
     return f'{fid}_{ok}_{seg}'
+
+
+def uses_zh_runtime_for_english_voice(entry, lang='en'):
+    """Return true for Chinese-only rows that need English audio under ZH keys."""
+    if lang != 'en':
+        return False
+    if not (entry.get('en_text', '') or '').strip():
+        return False
+    if (entry.get('en_func_id', '') or '').strip() or (entry.get('en_offset_key', '') or '').strip():
+        return False
+    return bool(
+        (entry.get('zh_func_id', '') or '').strip()
+        and (entry.get('zh_offset_key', '') or '').strip()
+    )
 
 
 def normalize_func_id(value):
@@ -327,6 +358,8 @@ def audit_entry_runtime_keys(entry, source_runtime_keys):
     for lang in ('zh', 'en'):
         if not (entry.get(f'{lang}_text', '') or '').strip():
             continue
+        if uses_zh_runtime_for_english_voice(entry, lang):
+            continue
         func_id = (
             entry.get(f'{lang}_func_id', '')
             or entry.get('func_id', '')
@@ -377,6 +410,9 @@ def _append_unique_known_npc(names, name):
 
 def voice_speaker_candidates(entry):
     """Return NPC names whose own voice should be generated for this row."""
+    if normalize_func_id(entry.get('zh_func_id', '')) == '095f':
+        return RUNE_SIGN_CONTEXT_SPEAKERS, 'contextual_sign_reader'
+
     source_meta = entry.get('_source_meta', {})
     explicit_speakers = []
     caller_guess_speakers = []
@@ -412,6 +448,7 @@ def expand_entry_for_voice_speakers(entry):
         e['_suppress_generic_fallback'] = (
             len(speakers) > 1
             or reason == 'caller_guess'
+            or reason == 'contextual_sign_reader'
             or (reason == 'speaker' and speaker != original_npc)
         )
         expanded.append(e)
