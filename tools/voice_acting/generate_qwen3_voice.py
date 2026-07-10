@@ -151,6 +151,9 @@ def make_filename(entry, lang='zh'):
     share the same func_id/offset_key/segment.
     """
     base = _build_base_name(entry, lang)
+    avatar_gender = entry.get('_avatar_voice_gender')
+    if avatar_gender in ('male', 'female'):
+        return f'{base}_avatar_{avatar_gender}.ogg'
     npc_name = entry.get('npc', '') or ''
     npc_num = NPC_NUMBERS.get(npc_name)
     if npc_num is not None:
@@ -313,6 +316,13 @@ def get_design_for_npc(designs, npc_name):
     return None
 
 
+def expand_npc_filter_name(npc_name):
+    """Expand user-facing NPC filter aliases to generation NPC names."""
+    if npc_name == 'Avatar':
+        return ['Avatar male', 'Avatar female']
+    return [npc_name]
+
+
 def load_source_line_metadata():
     """Load original per-line speaker/caller metadata from voice CSV files."""
     metadata = {}
@@ -439,12 +449,19 @@ def expand_entry_for_voice_speakers(entry):
     """Expand one mapping row into per-speaker generation rows."""
     speakers, reason = voice_speaker_candidates(entry)
     original_npc = entry.get('npc', '') or ''
+    if speakers == ['Avatar']:
+        speakers = ['Avatar male', 'Avatar female']
+        reason = 'avatar_gender_variant'
     expanded = []
     for speaker in speakers:
         e = dict(entry)
         e['npc'] = speaker
         e['_voice_source_npc'] = original_npc
         e['_voice_speaker_reason'] = reason
+        if speaker == 'Avatar male':
+            e['_avatar_voice_gender'] = 'male'
+        elif speaker == 'Avatar female':
+            e['_avatar_voice_gender'] = 'female'
         e['_suppress_generic_fallback'] = (
             len(speakers) > 1
             or reason == 'caller_guess'
@@ -1074,7 +1091,9 @@ def main():
     print(f'  Narrator: {designs["_meta"]["narrator_designs"]}')
 
     if args.npc:
-        npc_names = [n.strip() for n in args.npc.split(',')]
+        npc_names = []
+        for name in [n.strip() for n in args.npc.split(',') if n.strip()]:
+            npc_names.extend(expand_npc_filter_name(name))
         by_npc = {n: by_npc.get(n, []) for n in npc_names}
         found = [n for n, v in by_npc.items() if v]
         missing = [n for n, v in by_npc.items() if not v]

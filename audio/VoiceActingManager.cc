@@ -23,8 +23,10 @@
 #include "VoiceActingManager.h"
 
 #include "Audio.h"
+#include "actors.h"
 #include "Configuration.h"
 #include "bilingual_manager.h"
+#include "gamewin.h"
 #include "pent_include.h"
 #include "utils.h"
 
@@ -255,8 +257,20 @@ static bool find_voice_file(const string& base_filename, string& out_path) {
 }
 
 /*
+ *  Avatar can be male or female depending on the new-game selection.
+ *  Return the selected gender suffix for Avatar-specific voice variants.
+ */
+static string get_avatar_voice_suffix() {
+	Game_window* gwin = Game_window::get_instance();
+	Actor*       ava  = gwin ? gwin->get_main_actor() : nullptr;
+	const bool   female = ava && ava->get_type_flag(Actor::tf_sex);
+	return female ? "_avatar_female" : "_avatar_male";
+}
+
+/*
  *  Play voice acting for conversation text.
  *  Tries NPC-specific file first, then falls back to generic:
+ *    0. <funcID>_<offset_key>_<segment>_avatar_<male|female>  (Avatar only)
  *    1. <funcID>_<offset_key>_<segment>_npc<N>  (per-NPC voice)
  *    2. <funcID>_<offset_key>_<segment>         (generic fallback)
  *  Each base name is searched in <PATCH>/voice_acting/ then in
@@ -312,18 +326,30 @@ bool VoiceActingManager::play_for_conversation(
 	string filename;
 	string path;
 	bool   exists = false;
+	const int speaker_abs = speaker_npc < 0 ? -speaker_npc : speaker_npc;
+	const bool avatar_speaker = speaker_abs == 356
+								|| (speaker_npc == 0 && caller_npc == 0);
 
+	if (avatar_speaker) {
+		const string avatar_suffix = get_avatar_voice_suffix();
+		exists = find_voice_file(base + avatar_suffix, path);
+		if (exists) {
+			filename = path.substr(path.find_last_of("/\\") + 1);
+		}
+	}
 	if (speaker_npc != 0) {
 		char npc_suffix[16];
 		std::snprintf(npc_suffix, sizeof(npc_suffix), "_npc%d",
-					  speaker_npc < 0 ? -speaker_npc : speaker_npc);
-		exists = find_voice_file(base + npc_suffix, path);
-		if (exists) {
-			// Reflect the actual extension resolved (.ogg or .wav) in the
-			// log, so auditing can distinguish compressed vs. raw builds.
-			filename = path.substr(path.find_last_of("/\\") + 1);
-		} else {
-			filename = base + npc_suffix + ".wav";
+					  speaker_abs);
+		if (!exists) {
+			exists = find_voice_file(base + npc_suffix, path);
+			if (exists) {
+				// Reflect the actual extension resolved (.ogg or .wav) in the
+				// log, so auditing can distinguish compressed vs. raw builds.
+				filename = path.substr(path.find_last_of("/\\") + 1);
+			} else {
+				filename = base + npc_suffix + ".wav";
+			}
 		}
 	}
 

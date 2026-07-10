@@ -213,6 +213,62 @@ class GenerateQwen3VoiceBehaviorTest(unittest.TestCase):
             self.assertEqual((generated, skipped, errors), (1, 0, 0))
             self.assertEqual(target.read_text(encoding="utf-8"), "The rune translator?")
 
+    def test_build_npc_to_design_map_supports_individual_actor_entertainer_designs(self):
+        module = load_script_module()
+
+        designs = {
+            "designs": {
+                "npc_amber": {
+                    "npcs": ["Amber"],
+                },
+                "npc_stuart": {
+                    "npcs": ["Stuart"],
+                },
+            },
+        }
+
+        npc_to_design = module.build_npc_to_design_map(designs)
+
+        self.assertEqual(npc_to_design["Amber"], "npc_amber")
+        self.assertEqual(npc_to_design["Stuart"], "npc_stuart")
+
+    def test_avatar_entries_expand_to_male_and_female_voice_variants(self):
+        module = load_script_module()
+
+        expanded = module.expand_entry_for_voice_speakers(
+            {
+                "npc": "Avatar",
+                "en_func_id": "0x03DE",
+                "en_offset_key": "0",
+                "en_segment": 0,
+                "en_text": "You feel as if your mind is being probed.",
+            }
+        )
+
+        by_npc = {entry["npc"]: entry for entry in expanded}
+        self.assertEqual(set(by_npc), {"Avatar male", "Avatar female"})
+        self.assertEqual(by_npc["Avatar male"]["_avatar_voice_gender"], "male")
+        self.assertEqual(by_npc["Avatar female"]["_avatar_voice_gender"], "female")
+        self.assertTrue(by_npc["Avatar male"]["_suppress_generic_fallback"])
+        self.assertTrue(by_npc["Avatar female"]["_suppress_generic_fallback"])
+        self.assertEqual(
+            module.make_filename(by_npc["Avatar male"], "en"),
+            "03de_0_0_avatar_male.ogg",
+        )
+        self.assertEqual(
+            module.make_filename(by_npc["Avatar female"], "en"),
+            "03de_0_0_avatar_female.ogg",
+        )
+
+    def test_avatar_filter_expands_to_gender_variants(self):
+        module = load_script_module()
+
+        self.assertEqual(
+            module.expand_npc_filter_name("Avatar"),
+            ["Avatar male", "Avatar female"],
+        )
+        self.assertEqual(module.expand_npc_filter_name("Iolo"), ["Iolo"])
+
     def test_phase_c_skips_existing_file_when_metadata_is_fresh(self):
         module = load_script_module()
 
