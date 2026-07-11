@@ -1,0 +1,24 @@
+{
+  "summary": {
+    "total_refs": 61,
+    "similarity_threshold": 0.08,
+    "similar_pairs": 0
+  },
+  "by_lang": {
+    "en": {
+      "count": 30,
+      "f0_hz_mean": 161.66,
+      "f0_hz_std": 62.42,
+      "spectral_centroid_hz_mean": 2664.44,
+      "spectral_centroid_hz_std": 397.27
+    },
+    "zh": {
+      "count": 31,
+      "f0_hz_mean": 159.24,
+      "f0_hz_std": 67.94,
+      "spectral_centroid_hz_mean": 2783.35,
+      "spectral_centroid_hz_std": 299.63
+    }
+  },
+  "similar_pairs": []
+}
