@@ -267,6 +267,75 @@ def chinese_style_phrase(text):
     return "，".join(phrases[:4])
 
 
+def infer_speaking_pace(design, analysis, en_desc):
+    text = " ".join([
+        analysis.get("temperament", ""),
+        analysis.get("voice_desc_en", ""),
+        design.get("voice_desc_en", ""),
+        design.get("voice_desc_zh", ""),
+        en_desc,
+    ]).lower()
+    if any(word in text for word in ("quick", "fast", "brisk", "energetic", "lively", "hurried", "agile", "playful", "theatrical")):
+        return (
+            "speaking pace: brisk, lively, with expressive timing",
+            "語速偏快，節奏活潑且富表情",
+        )
+    if any(word in text for word in ("slow", "measured", "deliberate", "solemn", "regal", "elderly", "ancient", "wise", "dignified")):
+        return (
+            "speaking pace: slow and measured, with deliberate pauses",
+            "語速偏慢，停頓沉穩",
+        )
+    if any(word in text for word in ("anxious", "worried", "nervous", "tense")):
+        return (
+            "speaking pace: uneven and slightly tense, with occasional quick phrases",
+            "語速略不均勻，帶緊張感",
+        )
+    return (
+        "speaking pace: natural medium tempo, clear and steady",
+        "語速自然中等，清晰穩定",
+    )
+
+
+def infer_pitch_prompt(design, analysis, en_desc):
+    gender = infer_gender(design, analysis)
+    age = infer_age(design, analysis)
+    text = " ".join([
+        analysis.get("voice_desc_en", ""),
+        design.get("voice_desc_en", ""),
+        design.get("voice_desc_zh", ""),
+        en_desc,
+    ]).lower()
+    if any(word in text for word in ("creature", "monster", "dragon", "hydra", "demon", "rumbling")) or gender == "生物":
+        return (
+            "pitch: very low, rumbling creature register",
+            "音高很低，帶轟鳴感的生物聲線",
+        )
+    if any(word in text for word in ("high-pitched", "little girl", "little boy", "child", "young girl", "young boy")) or age == "小孩":
+        return (
+            "pitch: high, bright childlike range",
+            "音高偏高，明亮童聲",
+        )
+    if any(word in text for word in ("deep", "baritone", "bass", "resonant", "gravelly", "gruff", "raspy", "low")):
+        return (
+            "pitch: low, resonant chest voice",
+            "音高偏低，胸腔共鳴明顯",
+        )
+    if gender == "女性":
+        return (
+            "pitch: medium-high, clear feminine range",
+            "音高偏高，清晰女性聲線",
+        )
+    if gender == "男性":
+        return (
+            "pitch: medium-low, clear masculine range",
+            "音高中低，清晰男性聲線",
+        )
+    return (
+        "pitch: medium, balanced neutral range",
+        "音高中等，中性平衡",
+    )
+
+
 def build_chinese_description(design, analysis, en_desc):
     gender = infer_gender(design, analysis)
     age = infer_age(design, analysis)
@@ -275,7 +344,12 @@ def build_chinese_description(design, analysis, en_desc):
         design.get("voice_desc_en", ""),
         en_desc,
     ]))
-    return f"{gender}，{age}，{style}，用標準的普通話朗讀"
+    _, zh_pace = infer_speaking_pace(design, analysis, en_desc)
+    _, zh_pitch = infer_pitch_prompt(design, analysis, en_desc)
+    details = re.sub(r"\s+", " ", (en_desc or "").strip())
+    if details:
+        return f"{gender}，{age}，{style}，{zh_pace}，{zh_pitch}，角色音色細節：{details}，用標準的普通話朗讀"
+    return f"{gender}，{age}，{style}，{zh_pace}，{zh_pitch}，用標準的普通話朗讀"
 
 
 def build_updated_descriptions(design, analysis):
@@ -293,6 +367,12 @@ def build_updated_descriptions(design, analysis):
     en_desc = "; ".join(parts)
     if en_desc:
         en_desc = en_desc[0].upper() + en_desc[1:]
+        en_pace, _ = infer_speaking_pace(design, analysis, en_desc)
+        if "speaking pace:" not in en_desc.lower():
+            en_desc = f"{en_desc}; {en_pace}"
+        en_pitch, _ = infer_pitch_prompt(design, analysis, en_desc)
+        if "pitch:" not in en_desc.lower():
+            en_desc = f"{en_desc}; {en_pitch}"
 
     zh_desc = build_chinese_description(design, analysis, en_desc) if en_desc else (design.get("voice_desc_zh") or "").strip()
     return en_desc, zh_desc
@@ -317,6 +397,7 @@ def apply_analysis(designs, design_id, portrait_path, analysis, model):
         "gender_presentation": analysis.get("gender_presentation", ""),
         "visual_traits": analysis.get("visual_traits", ""),
         "temperament": analysis.get("temperament", ""),
+        "voice_desc_en": new_en,
         "previous_voice_desc_en": old_en,
         "previous_voice_desc_zh": old_zh,
         "updated_at": datetime.now().isoformat(timespec="seconds"),

@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 import importlib.util
+import hashlib
 import json
+import re
+import struct
 import tempfile
 import unittest
 from pathlib import Path
@@ -55,6 +58,37 @@ class GeneratePortraitVoiceHtmlReportTest(unittest.TestCase):
         self.assertIn("<audio controls", html)
         self.assertIn("../../voice/refs/npc_iolo_en_ref.ogg", html)
 
+    def test_build_report_html_uses_design_prompt_when_processed_analysis_is_absent(self):
+        module = load_script_module()
+        designs = {
+            "designs": {
+                "npc_iolo": {
+                    "npc": "Iolo",
+                    "type": "unique",
+                    "npcs": ["Iolo"],
+                    "voice_desc_en": "Warm, elderly male voice from stored vision update",
+                    "_portrait_voice_analysis": {
+                        "portrait": "IoloU7.png",
+                        "previous_voice_desc_en": "Old bard prompt",
+                        "model": "qwen2.5vl:7b",
+                        "visual_traits": "white beard",
+                    },
+                }
+            }
+        }
+
+        html = module.build_html(designs, {"processed": []})
+
+        self.assertIn("1 vision-updated design(s)", html)
+        self.assertIn("Vision prompt", html)
+        self.assertRegex(
+            html,
+            re.compile(
+                r"Vision prompt</div>\s*<p>Warm, elderly male voice from stored vision update</p>"
+            ),
+        )
+        self.assertIn("Old bard prompt", html)
+
     def test_write_report_creates_html_file(self):
         module = load_script_module()
 
@@ -77,6 +111,39 @@ class GeneratePortraitVoiceHtmlReportTest(unittest.TestCase):
             self.assertIn("EN ref", status)
             self.assertIn("5 B", status)
             self.assertIn("ZH missing", status)
+
+    def test_ref_status_marks_current_and_stale_reference_hashes(self):
+        module = load_script_module()
+
+        def ogg_comments(**comments):
+            payload = b"\x03vorbis"
+            payload += struct.pack("<I", 6) + b"vendor"
+            payload += struct.pack("<I", len(comments))
+            for key, value in comments.items():
+                raw = f"{key}={value}".encode("utf-8")
+                payload += struct.pack("<I", len(raw)) + raw
+            return payload
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            refs = Path(tmpdir)
+            design = {
+                "ref_en_text": "Welcome.",
+                "voice_desc_en": "Warm voice",
+                "ref_zh_text": "你好。",
+                "voice_desc_zh": "溫暖聲線",
+            }
+            current_hash = hashlib.sha256("Welcome.\nWarm voice".encode("utf-8")).hexdigest()[:16]
+            (refs / "npc_iolo_en_ref.ogg").write_bytes(
+                ogg_comments(REFERENCE_HASH=current_hash)
+            )
+            (refs / "npc_iolo_zh_ref.ogg").write_bytes(
+                ogg_comments(REFERENCE_HASH="stale")
+            )
+
+            status = module.ref_status_html("npc_iolo", design, refs_dir=refs)
+
+            self.assertIn("EN ref current", status)
+            self.assertIn("ZH ref stale", status)
 
     def test_report_matches_portrait_for_design_without_vision_metadata(self):
         module = load_script_module()

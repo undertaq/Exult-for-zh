@@ -69,6 +69,12 @@ class AnalyzePortraitVoiceDesignsTest(unittest.TestCase):
         self.assertIn("年長", zh)
         self.assertIn("用標準的普通話朗讀", zh)
         self.assertIn("低沉有質感", zh)
+        self.assertIn("角色音色細節", zh)
+        self.assertIn("Deep, gravelly, warm, and authoritative", zh)
+        self.assertIn("speaking pace:", en)
+        self.assertIn("pitch:", en)
+        self.assertIn("語速", zh)
+        self.assertIn("音高", zh)
 
     def test_build_updated_descriptions_uses_chinese_gender_age_for_female_actor(self):
         module = load_script_module()
@@ -90,6 +96,8 @@ class AnalyzePortraitVoiceDesignsTest(unittest.TestCase):
         self.assertIn("女性", zh)
         self.assertIn("中年", zh)
         self.assertIn("溫暖", zh)
+        self.assertIn("語速偏快", zh)
+        self.assertIn("音高偏高", zh)
 
     def test_build_updated_descriptions_preserves_explicit_male_actor_gender(self):
         module = load_script_module()

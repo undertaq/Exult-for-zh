@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Generate an HTML review report for portrait-assisted voice designs."""
 import argparse
+import hashlib
 import html
 import json
 import re
+import struct
 from datetime import datetime
 from pathlib import Path
 
@@ -134,7 +136,54 @@ def format_size(size):
     return f"{size / (1024 * 1024):.1f} MB"
 
 
-def ref_status_html(design_id, refs_dir=REFS_DIR):
+def reference_fingerprint(text, instruct):
+    normalized = "\n".join([
+        re.sub(r"\s+", " ", (text or "").strip()),
+        re.sub(r"\s+", " ", (instruct or "").strip()),
+    ])
+    return hashlib.sha256(normalized.encode("utf-8")).hexdigest()[:16]
+
+
+def read_ogg_comments(path):
+    comments = {}
+    try:
+        blob = Path(path).read_bytes()
+        marker = b"\x03vorbis"
+        pos = blob.find(marker)
+        if pos < 0:
+            return comments
+        p = pos + len(marker)
+        vendor_len = struct.unpack_from("<I", blob, p)[0]
+        p += 4 + vendor_len
+        comment_count = struct.unpack_from("<I", blob, p)[0]
+        p += 4
+        for _ in range(comment_count):
+            comment_len = struct.unpack_from("<I", blob, p)[0]
+            p += 4
+            raw = blob[p:p + comment_len]
+            p += comment_len
+            text = raw.decode("utf-8", errors="replace")
+            if "=" not in text:
+                continue
+            key, value = text.split("=", 1)
+            comments[key.lower()] = value
+    except Exception:
+        return {}
+    return comments
+
+
+def ref_matches_current_design(path, design, lang):
+    if not design:
+        return None
+    ref_text = design.get(f"ref_{lang}_text", "")
+    desc = design.get(f"voice_desc_{lang}", "")
+    if not ref_text or not desc:
+        return None
+    comments = read_ogg_comments(path)
+    return comments.get("reference_hash") == reference_fingerprint(ref_text, desc)
+
+
+def ref_status_html(design_id, design=None, refs_dir=REFS_DIR):
     items = []
     for lang in ("en", "zh"):
         path = Path(refs_dir) / f"{design_id}_{lang}_ref.ogg"
@@ -142,8 +191,18 @@ def ref_status_html(design_id, refs_dir=REFS_DIR):
         if path.exists():
             stat = path.stat()
             mtime = datetime.fromtimestamp(stat.st_mtime).strftime("%Y-%m-%d %H:%M:%S")
+            matches = ref_matches_current_design(path, design, lang)
+            if matches is True:
+                status = "current"
+                css = "current"
+            elif matches is False:
+                status = "stale"
+                css = "stale"
+            else:
+                status = "exists"
+                css = "ok"
             items.append(
-                f'<div class="ref ok">{label} ref · {esc(format_size(stat.st_size))} · {esc(mtime)}</div>'
+                f'<div class="ref {css}">{label} ref {status} · {esc(format_size(stat.st_size))} · {esc(mtime)}</div>'
             )
         else:
             items.append(f'<div class="ref missing">{label} missing</div>')
@@ -192,7 +251,11 @@ def row_html(design_id, design, processed, portrait_index):
         badge += '<span class="badge changed">changed</span>'
 
     npcs = ", ".join(design.get("npcs", []))
-    vision_prompt = analysis.get("voice_desc_en", "")
+    vision_prompt = (
+        analysis.get("voice_desc_en", "")
+        or meta.get("voice_desc_en", "")
+        or design.get("voice_desc_en", "")
+    )
     traits = meta.get("visual_traits") or analysis.get("visual_traits", "")
     temperament = meta.get("temperament") or analysis.get("temperament", "")
     has_vision = bool(meta or processed_item)
@@ -223,7 +286,7 @@ def row_html(design_id, design, processed, portrait_index):
         <div class="sub">{esc(design_id)} · {esc(design.get('type', ''))}</div>
         <div class="sub">{esc(npcs)}</div>
         <div class="audio">{ref_audio_links(design_id)}</div>
-        <div class="refstatus">{ref_status_html(design_id)}</div>
+        <div class="refstatus">{ref_status_html(design_id, design)}</div>
       </td>
       <td>
         <div class="label">Current English prompt</div>
@@ -248,7 +311,11 @@ def build_html(designs, report, portrait_index=None):
     portrait_index = portrait_index if portrait_index is not None else build_portrait_index()
     processed = processed_by_design(report)
     rows = "\n".join(row_html(design_id, design, processed, portrait_index) for design_id, design in sort_design_items(designs, report))
-    processed_count = len(processed)
+    processed_count = sum(
+        1
+        for design_id, design in designs.get("designs", {}).items()
+        if design.get("_portrait_voice_analysis") or design_id in processed
+    )
     design_count = len(designs.get("designs", {}))
     generated_at = datetime.now().isoformat(timespec="seconds")
     return f"""<!doctype html>
@@ -404,6 +471,14 @@ def build_html(designs, report, portrait_index=None):
     }}
     .ref.ok {{
       color: #137333;
+    }}
+    .ref.current {{
+      color: #137333;
+      font-weight: 700;
+    }}
+    .ref.stale {{
+      color: #b06000;
+      font-weight: 700;
     }}
     .ref.missing {{
       color: #a50e0e;

@@ -269,6 +269,42 @@ class GenerateQwen3VoiceBehaviorTest(unittest.TestCase):
         )
         self.assertEqual(module.expand_npc_filter_name("Iolo"), ["Iolo"])
 
+    def test_filter_designs_by_npc_keeps_only_matching_voice_designs(self):
+        module = load_script_module()
+
+        designs = {
+            "_meta": {
+                "total_designs": 3,
+                "unique_designs": 3,
+                "group_designs": 0,
+                "narrator_designs": 0,
+            },
+            "designs": {
+                "npc_iolo": {"npc": "Iolo", "npcs": ["Iolo"], "type": "unique"},
+                "npc_avatar_male": {
+                    "npc": "Avatar male",
+                    "npcs": ["Avatar male"],
+                    "type": "unique",
+                },
+                "npc_avatar_female": {
+                    "npc": "Avatar female",
+                    "npcs": ["Avatar female"],
+                    "type": "unique",
+                },
+            },
+        }
+
+        filtered = module.filter_designs_by_npc(
+            designs,
+            ["Avatar male", "Avatar female"],
+        )
+
+        self.assertEqual(
+            set(filtered["designs"]),
+            {"npc_avatar_male", "npc_avatar_female"},
+        )
+        self.assertEqual(filtered["_meta"]["total_designs"], 2)
+
     def test_phase_c_skips_existing_file_when_metadata_is_fresh(self):
         module = load_script_module()
 
@@ -511,6 +547,42 @@ class GenerateQwen3VoiceBehaviorTest(unittest.TestCase):
             self.assertEqual(prompts["npc_iolo"], {"zh": None, "en": None})
             self.assertEqual(after, original)
             self.assertEqual(FakeModel.create_prompt_calls, 0)
+
+    def test_reference_fingerprint_changes_when_instruction_changes(self):
+        module = load_script_module()
+
+        old_fingerprint = module.reference_fingerprint(
+            "Reference text.",
+            "Male, elderly, warm voice.",
+        )
+        new_fingerprint = module.reference_fingerprint(
+            "Reference text.",
+            "Male, elderly, warm voice with a rougher bard texture.",
+        )
+
+        self.assertNotEqual(old_fingerprint, new_fingerprint)
+
+    def test_phase_a_dry_run_regenerates_stale_existing_reference(self):
+        module = load_script_module()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            module.REFS_DIR = tmpdir
+            Path(tmpdir, "npc_iolo_zh_ref.ogg").write_bytes(b"old ref")
+            module.reference_file_matches_design = lambda *args: False
+            designs = {
+                "designs": {
+                    "npc_iolo": {
+                        "npc": "Iolo",
+                        "ref_zh_text": "你好。",
+                        "voice_desc_zh": "男性，年長，溫暖友善，用標準的普通話朗讀",
+                    },
+                },
+            }
+            args = argparse.Namespace(dry_run=True, force_refs=False)
+
+            generated, skipped, errors = module.phase_a_generate_refs(designs, args)
+
+            self.assertEqual((generated, skipped, errors), (0, 1, 0))
 
     def test_phase_c_refuses_to_generate_entry_with_noncanonical_runtime_key(self):
         module = load_script_module()
