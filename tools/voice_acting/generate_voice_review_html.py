@@ -93,8 +93,19 @@ def build_mapping_index(mapping_path):
                 "func_id": entry.get(f"{lang}_func_id", "") or entry.get("zh_func_id", ""),
                 "offset_key": entry.get(f"{lang}_offset_key", "") or entry.get("zh_offset_key", ""),
                 "segment": entry.get(f"{lang}_segment", 0),
+                "voice_prompt": entry.get("voice_prompt", ""),
+                "voice_prompt_zh": entry.get("voice_prompt_zh", ""),
             }
     return index
+
+
+def format_voice_prompt(meta):
+    """Combine EN/ZH reference-voice prompts for the review row display."""
+    zh = (meta.get("voice_prompt_zh") or "").strip()
+    en = (meta.get("voice_prompt") or "").strip()
+    if zh and en:
+        return f"{zh}\n---\n{en}"
+    return zh or en
 
 
 def rows_from_mood_samples(sample_dir):
@@ -146,26 +157,24 @@ def rows_from_full_voice(voice_dir, mapping_path, since_mtime=0, only_new=False)
         if only_new and not is_new:
             continue
         seen.add((lang, filename))
-        rows.append({
-            "kind": "generated",
-            "status": "new" if is_new else ("generated" if exists else "missing"),
-            "character": meta.get("npc", ""),
-            "npc": meta.get("npc", ""),
-            "speaker": meta.get("speaker", ""),
-            "mood": "",
-            "lang": lang,
-            "text": meta.get("text", ""),
-            "audio": str(path.resolve()) if exists else "",
-            "ref_audio": "",
-            "ref_text": "",
-            "prompt": "",
-            "filename": filename,
-            "func_id": meta.get("func_id", ""),
-            "offset_key": meta.get("offset_key", ""),
-            "segment": meta.get("segment", ""),
-            "size": path.stat().st_size if exists else 0,
-            "modified": mtime,
-        })
+            rows.append({
+                "kind": "generated",
+                "status": "new" if is_new else ("generated" if exists else "missing"),
+                "character": meta.get("npc", ""),
+                "npc": meta.get("npc", ""),
+                "speaker": meta.get("speaker", ""),
+                "mood": "",
+                "lang": lang,
+                "text": meta.get("text", ""),
+                "audio": str(path.resolve()) if exists else "",
+                "ref_audio": "",
+                "ref_text": "",
+                "prompt": format_voice_prompt(meta),
+                "filename": filename,
+                "func_id": meta.get("func_id", ""),
+                "offset_key": meta.get("offset_key", ""),
+                "segment": meta.get("segment", ""),
+            })
     for lang in ("en", "zh"):
         lang_dir = voice_dir / lang
         if not lang_dir.exists():
