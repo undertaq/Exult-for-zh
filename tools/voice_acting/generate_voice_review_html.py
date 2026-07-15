@@ -157,7 +157,7 @@ def rows_from_full_voice(voice_dir, mapping_path, since_mtime=0, only_new=False)
         if only_new and not is_new:
             continue
         seen.add((lang, filename))
-            rows.append({
+        rows.append({
                 "kind": "generated",
                 "status": "new" if is_new else ("generated" if exists else "missing"),
                 "character": meta.get("npc", ""),
