@@ -355,3 +355,6 @@ voice_0629/
 cosyvoice/
 *.log
 *.bak
+
+# Exception: keep NPC reference voice audio tracked
+!voice/refs/
