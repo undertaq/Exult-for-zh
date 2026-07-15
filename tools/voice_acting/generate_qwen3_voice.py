@@ -58,7 +58,7 @@ CLONE_PROMPTS_PATH = os.path.join(SCRIPT_DIR, 'clone_prompts.pkl')
 VOICEDESIGN_MODEL = "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign"
 BASE_MODEL = "Qwen/Qwen3-TTS-12Hz-1.7B-Base"
 ATTN_IMPL = "sdpa"
-BATCH_SIZE_PHASE_C = 4
+MAX_LINES_PER_CALL = 4
 MIN_DURATION_MS = 1500
 LONG_TEXT_THRESHOLD = 100
 SHORT_MAX_TOKENS = 256
@@ -341,6 +341,115 @@ def generate_delimited_voice(model, parts, lang, speaker_prompt, narrator_prompt
         joined.append(np.asarray(wav, dtype=np.float32))
     wav = np.concatenate(joined) if joined else np.zeros(int(sr * 0.5), dtype=np.float32)
     return wav, sr
+
+
+def prepare_voice_jobs(entries, lang, text_key, prompt_data, narrator_prompt, narrator_id):
+    """Split generation entries into single-part batch jobs and multi-part entries.
+
+    A "single-part" entry has exactly one narrator/speaker span and is emitted as a
+    batch job carrying its (text, clone prompt, length class). Multi-part entries
+    (mixed narrator/speaker dialogue) are returned separately and generated
+    per-line with fade-splicing so delimiter handling is preserved.
+    """
+    single_jobs = []
+    multi_entries = []
+    for e in entries:
+        original_text = e.get(text_key, '') or '...'
+        parts = split_voice_parts(
+            original_text, lang, default_role=default_voice_role(e, lang)
+        )
+        if len(parts) != 1:
+            multi_entries.append(e)
+            continue
+        role, text = parts[0]
+        prompt = narrator_prompt if (role == 'narrator' and narrator_prompt is not None) else prompt_data
+        length_class = 'long' if len(text) > LONG_TEXT_THRESHOLD else 'short'
+        single_jobs.append({
+            'entry': e,
+            'text': text,
+            'prompt': prompt,
+            'length_class': length_class,
+            'narrator_id': narrator_id,
+        })
+    return single_jobs, multi_entries
+
+
+def bucket_single_part_jobs(single_jobs, max_lines):
+    """Group single-part jobs by (prompt identity, length class), capped at max_lines each.
+
+    Bucketing by prompt identity keeps one consistent clone prompt per model call;
+    bucketing by length class keeps one consistent ``max_new_tokens`` per call.
+    """
+    buckets = {}
+    for job in single_jobs:
+        key = (id(job['prompt']), job['length_class'])
+        buckets.setdefault(key, []).append(job)
+    result = []
+    for jobs in buckets.values():
+        for i in range(0, len(jobs), max_lines):
+            result.append(jobs[i:i + max_lines])
+    return result
+
+
+def generate_single_part_batch(model, bucket, lang_label, lang, out_dir, args, npc_name, review_since_mtime, last_review_update, stats):
+    """Issue one batched ``generate_voice_clone`` call for a bucket, then write outputs.
+
+    Every job in a bucket shares the same clone prompt and length class, so a
+    single model call embeds the (broadcast) reference prompt across all lines.
+    On OOM the bucket is split in half and retried recursively. Returns the
+    (possibly updated) ``last_review_update`` timestamp.
+    """
+    if not bucket:
+        return last_review_update
+    # All jobs in a bucket share one prompt; the model broadcasts a length-1 prompt.
+    prompt = bucket[0]['prompt']
+    texts = [tc2sc(j['text'], 'zh-cn') if lang == 'zh' else j['text'] for j in bucket]
+    max_tokens = LONG_MAX_TOKENS if bucket[0]['length_class'] == 'long' else SHORT_MAX_TOKENS
+    try:
+        wavs, sr = model.generate_voice_clone(
+            text=texts,
+            language=[lang_label] * len(texts),
+            voice_clone_prompt=prompt,
+            max_new_tokens=max_tokens,
+        )
+    except Exception:
+        if len(bucket) > 1:
+            mid = len(bucket) // 2
+            last_review_update = generate_single_part_batch(
+                model, bucket[:mid], lang_label, lang, out_dir, args, npc_name, review_since_mtime, last_review_update, stats
+            )
+            last_review_update = generate_single_part_batch(
+                model, bucket[mid:], lang_label, lang, out_dir, args, npc_name, review_since_mtime, last_review_update, stats
+            )
+            return last_review_update
+        e = bucket[0]['entry']
+        print(f"  [{npc_name}] Line ERROR {e.get('_ogg_path')}: {e}")
+        stats['errors'] += 1
+        return last_review_update
+
+    if not isinstance(wavs, (list, tuple)):
+        wavs = [wavs]
+    for j, wav in zip(bucket, wavs):
+        e = j['entry']
+        try:
+            prepare_voice_output_path(e['_ogg_path'])
+            write_ogg_direct(
+                e['_ogg_path'], wav, sr, npc_name, j['text'],
+                metadata={'VOICE_MODE': 'batch_clone', 'NARRATOR': j['narrator_id']},
+            )
+            stats['generated'] += 1
+            if (
+                getattr(args, 'generic_fallbacks', False)
+                and not e.get('_suppress_generic_fallback')
+            ):
+                create_generic_fallback(e['_ogg_path'], e, lang, out_dir)
+            last_review_update = maybe_update_full_voice_review(
+                args, review_since_mtime, last_review_update, force=False
+            )
+        except Exception as ex:
+            print(f"  [{npc_name}] Write ERROR {e.get('_ogg_path')}: {ex}")
+            stats['errors'] += 1
+    return last_review_update
 
 
 def write_ogg_direct(filepath, wav, sr, npc='', text='', metadata=None):
@@ -1203,8 +1312,8 @@ def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
                         'line(s) with noncanonical runtime keys'
                     )
 
-                for i in range(0, len(lang_entries), BATCH_SIZE_PHASE_C):
-                    batch = lang_entries[i:i + BATCH_SIZE_PHASE_C]
+                for i in range(0, len(lang_entries), MAX_LINES_PER_CALL):
+                    batch = lang_entries[i:i + MAX_LINES_PER_CALL]
                     to_generate = []
 
                     for e in batch:
@@ -1234,7 +1343,12 @@ def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
                         would_generate += len(to_generate)
                         continue
 
-                    for e in to_generate:
+                    # Multi-part (narrator/speaker) lines: keep per-line fade-splice path.
+                    single_jobs, multi_entries = prepare_voice_jobs(
+                        to_generate, lang, text_key, prompt_data, narrator_prompt, narrator_id
+                    )
+                    stats = {'generated': 0, 'errors': 0}
+                    for e in multi_entries:
                         try:
                             original_text = e.get(text_key, '') or '...'
                             parts = split_voice_parts(
@@ -1275,7 +1389,16 @@ def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
                             print(f'  [{npc_name}] Write ERROR {e["_ogg_path"]}: {ex}')
                             errors += 1
 
-                    if i > 0 and (i // BATCH_SIZE_PHASE_C) % 4 == 0:
+                    # Single-part lines: one batched model call per bucket.
+                    for bucket in bucket_single_part_jobs(single_jobs, MAX_LINES_PER_CALL):
+                        last_review_update = generate_single_part_batch(
+                            model, bucket, lang_label, lang, out_dir, args, npc_name,
+                            review_since_mtime, last_review_update, stats
+                        )
+                    generated += stats['generated']
+                    errors += stats['errors']
+
+                    if i > 0 and (i // MAX_LINES_PER_CALL) % 4 == 0:
                         gc.collect()
                         torch.cuda.empty_cache()
 

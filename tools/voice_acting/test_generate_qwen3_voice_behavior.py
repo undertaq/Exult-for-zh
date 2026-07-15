@@ -328,16 +328,19 @@ class GenerateQwen3VoiceBehaviorTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmpdir:
             module.ZH_OUTPUT = os.path.join(tmpdir, "zh")
             module.EN_OUTPUT = os.path.join(tmpdir, "en")
-            generated_parts = []
+            clone_calls = []
 
-            def fake_generate(model, parts, lang, speaker_prompt, narrator_prompt):
-                generated_parts.append(parts)
-                return np.zeros(24000, dtype=np.float32), 24000
+            def record_clone(self, *args, **kwargs):
+                FakeModel.generate_voice_clone_calls += 1
+                clone_calls.append(kwargs)
+                texts = kwargs.get("text") or []
+                return [np.zeros(24000, dtype=np.float32) for _ in texts], 24000
+
+            FakeModel.generate_voice_clone = record_clone
 
             def write_file(filepath, wav, sr, npc="", text="", metadata=None):
                 Path(filepath).write_bytes(text.encode("utf-8"))
 
-            module.generate_delimited_voice = fake_generate
             module.write_ogg_direct = write_file
             designs = {
                 "designs": {
@@ -391,10 +394,14 @@ class GenerateQwen3VoiceBehaviorTest(unittest.TestCase):
             )
 
             self.assertEqual((generated, skipped, errors), (1, 0, 0))
+            # Single-part unquoted source-speaker line is treated as narrator and
+            # routed through the batched clone path with the narrator clone prompt.
+            self.assertEqual(len(clone_calls), 1)
             self.assertEqual(
-                generated_parts,
-                [[("narrator", "大部分資訊都很瑣碎，像是詳細描述了億萬年前某一天天空的顏色，")]],
+                clone_calls[0]["text"],
+                ["大部分資訊都很瑣碎，像是詳細描述了億萬年前某一天天空的顏色，"],
             )
+            self.assertEqual(clone_calls[0]["voice_clone_prompt"], ["male-narrator-prompt"])
 
     def test_narrator_design_id_follows_speaker_gender(self):
         module = load_script_module()
