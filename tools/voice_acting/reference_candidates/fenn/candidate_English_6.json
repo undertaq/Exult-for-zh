@@ -1,0 +1,17 @@
+{
+  "npc": "Fenn",
+  "slug": "fenn",
+  "index": 6,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.72,
+  "sha256": "056888530e9120a99730d0a199a75620b02d91a79130f393098784c0d1a0c0b5",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 30s-40s, beggar, pitiful pleading voice",
+  "seed": 1169,
+  "batch_no": 169,
+  "batch_size": 16,
+  "batch_position": 2,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

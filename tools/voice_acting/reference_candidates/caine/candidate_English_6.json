@@ -1,0 +1,16 @@
+{
+  "npc": "Caine",
+  "slug": "caine",
+  "index": 6,
+  "language": "English",
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "instruct": "Gender: male. Age: late thirties. Role: tormented ghost alchemist. Pitch: low, hollow baritone with a raspy edge. Pace: slow, tremulous, with heavy pauses that echo his agony. Emotion: profound sorrow, self-blame, haunted resignation. Characteristics: breathy, thin, with a metallic undertone from spectral energy. Use case: fantasy RPG dialogue in a haunted ruin or spectral tavern.",
+  "seed": 47048,
+  "batch_seed": 47048,
+  "batch_position": 8,
+  "batch_size": 16,
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "sha256": "e28110c0f19421447a3877d520f4eb5638ce15b664d43cbd9738daea4e0d010b",
+  "sample_rate": 24000,
+  "duration_seconds": 4.32
+}

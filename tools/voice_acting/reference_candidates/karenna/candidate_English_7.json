@@ -1,0 +1,17 @@
+{
+  "npc": "Karenna",
+  "slug": "karenna",
+  "index": 7,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.44,
+  "sha256": "97cf1816cdaa029264c3d3f65e1a30896b451207f98f315ba5b13140d1d9109f",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 20s-30s, sneaky woman in green, sly wicked voice",
+  "seed": 1218,
+  "batch_no": 218,
+  "batch_size": 16,
+  "batch_position": 9,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

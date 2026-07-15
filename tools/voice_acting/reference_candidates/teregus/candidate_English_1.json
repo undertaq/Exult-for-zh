@@ -1,0 +1,17 @@
+{
+  "npc": "Teregus",
+  "slug": "teregus",
+  "index": 1,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.68,
+  "sha256": "d3e04cd1635888dc376165655fcf1f08b4837d83de5df2089ed27377533663ff",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, gargoyle, dignified and formal, slightly gravelly but hospitable tone",
+  "seed": 1286,
+  "batch_no": 286,
+  "batch_size": 16,
+  "batch_position": 5,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

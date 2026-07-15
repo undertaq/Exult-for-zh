@@ -1,0 +1,17 @@
+{
+  "npc": "Yvella",
+  "slug": "yvella",
+  "index": 4,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.36,
+  "sha256": "9f218e7743a148741d6df34284e2f6f15df6090c1ad7a9ad96f6d31c87905ed9",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：二十出头。角色：生活在Vesper镇的年轻主妇。音高：柔和婉转的女声。语速：轻缓、带停顿、语调温婉。情绪：焦虑而克制、略带担忧、表面礼貌实则心事重重。音色特征：清亮中带一丝疲惫感、尾音微扬、语调柔中带刚。语言：标准普通话。使用场景：角色扮演中与玩家对话或独白时展现其家庭主妇身份与内心不安。",
+  "seed": 1127,
+  "batch_no": 127,
+  "batch_size": 16,
+  "batch_position": 12,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

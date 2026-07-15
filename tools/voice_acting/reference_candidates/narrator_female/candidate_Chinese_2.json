@@ -1,0 +1,16 @@
+{
+  "npc": "Narrator (Female)",
+  "slug": "narrator_female",
+  "index": 2,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.68,
+  "sha256": "b4cf12107c8d82317ac9f2babe8ff458d51802e9928bcf1d25a556b0119bd131",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：五十多岁。角色：全知的说书人，叙述布列塔尼亚世界。音高：温暖低沉的女中音。语速：舒缓平稳，节奏如朗读故事书。情绪：温婉、睿智、温和而有权威感，唤起惊奇。音色特征：共鸣饱满、发音清晰、富有永恒安抚感。语言：标准普通话。使用场景：奇幻RPG场景旁白、世界观描述、影视级配音。",
+  "seed": 5020,
+  "batch_size": 5,
+  "batch_position": 2,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Denton",
+  "slug": "denton",
+  "index": 5,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 6.16,
+  "sha256": "a3266fe43ff660b1685e085a82ef6fa52fc3dea5a807e2c235128c8a66c10a08",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：四十多岁。角色：在Serpent's Hold经营酒馆的骑士兼酿酒师。音高：中性偏低、略带机械感的男声。语速：缓慢、机械式重复、缺乏停顿变化。情绪：冷漠、疏离、缺乏情感波动。音色特征：清晰但无起伏、语调平稳如读百科、略带口吃式断续。语言：标准普通话。使用场景：游戏内角色扮演中与玩家对话或提供信息时。",
+  "seed": 1135,
+  "batch_no": 135,
+  "batch_size": 16,
+  "batch_position": 15,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

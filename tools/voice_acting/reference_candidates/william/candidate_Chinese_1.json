@@ -1,0 +1,17 @@
+{
+  "npc": "William",
+  "slug": "william",
+  "index": 1,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 6.8,
+  "sha256": "803e90a80ab927903b1a0076ecdba02f9eadc543d8fe21b39dc44cfd7572f551",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：三十至四十岁。角色： Ultima VII 中的锯木工威廉，因目睹谋杀案而极度焦虑、精神紧张。音高：略显紧张的中音，语调起伏明显。语速：急促、断续，带明显不安的停顿。情绪：高度警觉、内心惶恐、自我怀疑。音色特征：略带沙哑、气息不稳、语调颤抖。语言：标准普通话。使用场景：游戏剧情中威廉在锯木厂内与玩家对话或自言自语时的语音表现。",
+  "seed": 1150,
+  "batch_no": 150,
+  "batch_size": 16,
+  "batch_position": 1,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

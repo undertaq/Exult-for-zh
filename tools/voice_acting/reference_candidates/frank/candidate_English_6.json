@@ -1,0 +1,17 @@
+{
+  "npc": "Frank",
+  "slug": "frank",
+  "index": 6,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.68,
+  "sha256": "53cfe568b3967356b74fff74620b45f68e46bcce4bd6fb5aca273d004e8f002d",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, fox, sly clever voice, standing on hind legs",
+  "seed": 1181,
+  "batch_no": 181,
+  "batch_size": 16,
+  "batch_position": 10,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

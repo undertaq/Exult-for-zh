@@ -1,0 +1,17 @@
+{
+  "npc": "Penumbra",
+  "slug": "penumbra",
+  "index": 7,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.16,
+  "sha256": "4c8ea43f8ce81a9fc463d9fce73749d7f9984b78a72b7475b1ed6a50690f470e",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 30s-40s, powerful mage, confident and intense voice, slightly dramatic",
+  "seed": 1290,
+  "batch_no": 290,
+  "batch_size": 16,
+  "batch_position": 7,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

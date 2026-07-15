@@ -1,0 +1,17 @@
+{
+  "npc": "Magenta",
+  "slug": "magenta",
+  "index": 7,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.92,
+  "sha256": "451822f46c91f3e43496cc566e4db1c1a5b2e73bb218ba65280de2393623a509",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, elderly, humble old woman, soft friendly voice",
+  "seed": 1207,
+  "batch_no": 207,
+  "batch_size": 16,
+  "batch_position": 15,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

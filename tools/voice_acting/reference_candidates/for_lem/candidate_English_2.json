@@ -1,0 +1,17 @@
+{
+  "npc": "For Lem",
+  "slug": "for_lem",
+  "index": 2,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.96,
+  "sha256": "67a5b6f9bbb04039c3c3729f22336d893b372478d5560a92f572225813700931",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, gargoyle, large wingless gargoyle, deep formal voice",
+  "seed": 1231,
+  "batch_no": 231,
+  "batch_size": 16,
+  "batch_position": 6,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

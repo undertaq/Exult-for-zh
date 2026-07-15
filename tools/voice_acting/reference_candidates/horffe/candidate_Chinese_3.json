@@ -1,0 +1,17 @@
+{
+  "npc": "Horffe",
+  "slug": "horffe",
+  "index": 3,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 7.68,
+  "sha256": "46ada1fce7390bc2f2eb035e235db09d252793392a6f921ea9ce85510e5ea4f3",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：中年。角色：石像鬼守卫队长。音高：低沉、略带喉音的男声。语速：平稳、节奏分明，带轻微停顿。情绪：严肃、正经、内敛而忠诚。音色特征：略带沙哑、发音清晰、语调稳重。语言：标准普通话。使用场景：游戏内守卫队长对玩家或同僚进行正式陈述或命令。",
+  "seed": 1042,
+  "batch_no": 42,
+  "batch_size": 16,
+  "batch_position": 11,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Blorn",
+  "slug": "blorn",
+  "index": 9,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.72,
+  "sha256": "6ddc7e251c13da62ea8598b78bb1f42b8683794346c41273598418f47c838809",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "A deeply suspicious, hostile, and resentful male voice in his 30s-40s, radiating bitter anger and racial animosity toward gargoyles. His speech is sharp, clipped, and laced with venomous sarcasm, often punctuated by sudden, aggressive intonation shifts. He speaks with a sense of personal grievance and moral superiority, as if his worldview is the only truth worth defending.",
+  "seed": 1313,
+  "batch_no": 313,
+  "batch_size": 16,
+  "batch_position": 1,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

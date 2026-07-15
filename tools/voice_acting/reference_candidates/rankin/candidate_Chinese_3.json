@@ -1,0 +1,17 @@
+{
+  "npc": "Rankin",
+  "slug": "rankin",
+  "index": 3,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.4,
+  "sha256": "11053e1c4e04579d2bd6f55855d31ddd759f5e59c1c338176e028fb4b26456b4",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：四十多岁。角色：摩月谷 fellowship 分支领袖。音高：温暖柔和的男中音。语速：舒缓、亲切、带自然停顿。情绪：友善、包容、略带虚伪的自信。音色特征：圆润、共鸣感强、略带沙哑。语言：标准普通话。使用场景：角色扮演中与玩家互动或发表日常言论。",
+  "seed": 1065,
+  "batch_no": 65,
+  "batch_size": 16,
+  "batch_position": 3,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

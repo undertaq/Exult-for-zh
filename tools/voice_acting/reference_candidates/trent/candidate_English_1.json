@@ -1,0 +1,17 @@
+{
+  "npc": "Trent",
+  "slug": "trent",
+  "index": 1,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.56,
+  "sha256": "0c61af0a70b25a7db12b03275b3f63008d5ae43a6f811e67dc91c66f735c38c6",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 40s, vengeful inventor, intense and determined voice, obsessive",
+  "seed": 1275,
+  "batch_no": 275,
+  "batch_size": 16,
+  "batch_position": 11,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

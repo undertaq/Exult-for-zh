@@ -1,0 +1,17 @@
+{
+  "npc": "Nanna",
+  "slug": "nanna",
+  "index": 3,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.0,
+  "sha256": "431f53d830e271ac00c4d8c1ee629851617e1347712481053de44267438c3d57",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, elderly, strict old woman, scolding teacher voice",
+  "seed": 1225,
+  "batch_no": 225,
+  "batch_size": 16,
+  "batch_position": 13,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

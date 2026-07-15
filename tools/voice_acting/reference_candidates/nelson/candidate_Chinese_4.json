@@ -1,0 +1,17 @@
+{
+  "npc": "Nelson",
+  "slug": "nelson",
+  "index": 4,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.44,
+  "sha256": "22732093d83310eac57629dc0caf4d00e67dae1b693f60f064a5211fe2bfd631",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：三十至四十岁。角色：图书馆馆长兼学者。音高：温和明亮的男中音。语速：轻快而有节奏感，带学术讨论的停顿。情绪：热情、聪慧、略带幽默。音色特征：圆润、清晰、带轻微气声。语言：标准普通话。使用场景：奇幻角色扮演中与玩家互动或讲解知识。",
+  "seed": 1030,
+  "batch_no": 30,
+  "batch_size": 16,
+  "batch_position": 14,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Sam",
+  "slug": "sam",
+  "index": 2,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.68,
+  "sha256": "160cc9b743fb044d87c69ad2b7de51c74889454cb1d0ee2bfc5ab60b182814eb",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：四十多岁。角色：自由奔放的花艺师。音高：温暖柔和的中音。语速：轻缓、自然、带点闲适停顿。情绪：愉悦、温和、略带哲思。音色特征：圆润、清澈、略带沙哑尾音。语言：标准普通话。使用场景：在新马金西亚温室或花车旁与玩家互动，讲述生活与植物的故事。",
+  "seed": 1048,
+  "batch_no": 48,
+  "batch_size": 16,
+  "batch_position": 14,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

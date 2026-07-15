@@ -1,0 +1,17 @@
+{
+  "npc": "Martine",
+  "slug": "martine",
+  "index": 1,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.76,
+  "sha256": "27badbc5878fb5de2d61a64ff80e80a04a398b00a0269ad8f8c66bcd33482a24",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 20s, tropical bath attendant, warm exotic voice, professional",
+  "seed": 1274,
+  "batch_no": 274,
+  "batch_size": 16,
+  "batch_position": 7,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

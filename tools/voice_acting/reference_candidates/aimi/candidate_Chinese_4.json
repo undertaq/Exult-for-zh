@@ -1,0 +1,16 @@
+{
+  "npc": "Aimi",
+  "slug": "aimi",
+  "index": 4,
+  "language": "Chinese",
+  "sample_text": "旅人，你好。今天過得如何？",
+  "instruct": "性别：女性。年龄：二十出头。角色：修道院园艺僧。音高：柔和清亮的女高音。语速：缓慢、从容、富有韵律感。情绪：宁静、温柔、略带浪漫。音色特征：气息轻柔、温暖、略带共鸣。语言：标准普通话。使用场景：奇幻RPG中修道院花园对话或酒馆闲谈花事。",
+  "seed": 47000,
+  "batch_seed": 47000,
+  "batch_position": 4,
+  "batch_size": 16,
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "sha256": "013fb5c92e3322eed0704953ceef8199fae64012fc5af115b3ca3a4aa0e57d5a",
+  "sample_rate": 24000,
+  "duration_seconds": 4.56
+}

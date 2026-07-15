@@ -1,0 +1,17 @@
+{
+  "npc": "Johnson",
+  "slug": "johnson",
+  "index": 1,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.28,
+  "sha256": "3c42244df1c06a185440b4123ce24f87435e0051b0df285c7da9fcec4bc5332a",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 30s-40s, alert guard, dutiful professional voice",
+  "seed": 1206,
+  "batch_no": 206,
+  "batch_size": 16,
+  "batch_position": 15,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Inforlem",
+  "slug": "inforlem",
+  "index": 8,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.2,
+  "sha256": "d9e47aa27acd3811ee8b6b4b56ab99806117c40b8d136282a4d907f71775286f",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, gargoyle, cheerful pleasant voice",
+  "seed": 1164,
+  "batch_no": 164,
+  "batch_size": 16,
+  "batch_position": 14,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

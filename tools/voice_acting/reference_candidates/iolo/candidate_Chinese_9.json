@@ -1,0 +1,16 @@
+{
+  "npc": "Iolo",
+  "slug": "iolo",
+  "index": 9,
+  "language": "Chinese",
+  "sample_text": "旅人，你好。今天過得如何？",
+  "instruct": "性别：男性。年龄：七十余岁。角色：流浪吟游诗人兼弓匠。音高：温暖略带沙哑的男中音。语速：缓慢、有韵律，歌词部分轻柔强调。情绪：温和、怀旧、略带怅惘。音色特征：柔润共鸣、带岁月磨砺的粗粝感。语言：标准普通话。使用场景：奇幻RPG对话、酒馆叙事、诗歌朗诵。",
+  "seed": 47160,
+  "batch_seed": 47160,
+  "batch_position": 9,
+  "batch_size": 16,
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "sha256": "1eb4a8900033a9cd78448e9eba01c0d8994ee664f0ae8cafb69621cc7b8183f1",
+  "sample_rate": 24000,
+  "duration_seconds": 5.36
+}

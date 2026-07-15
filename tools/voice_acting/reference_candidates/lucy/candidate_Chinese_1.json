@@ -1,0 +1,17 @@
+{
+  "npc": "Lucy",
+  "slug": "lucy",
+  "index": 1,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.96,
+  "sha256": "6aaa60db37b75a91792ec08f3fa64c96044f183660fac8c1a54a3c5ae40dae6f",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：五十多岁。角色：英国蓝猪 tavern 的女老板。音高：温暖明亮的女中音。语速：轻快、富有活力、带点俏皮停顿。情绪：热情洋溢、友善、爱交际。音色特征：圆润、富有共鸣、略带沙哑感。语言：标准普通话。使用场景：角色扮演中与玩家互动、推荐美食或乐队、调侃员工或客人。",
+  "seed": 1088,
+  "batch_no": 88,
+  "batch_size": 16,
+  "batch_position": 3,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Nystul",
+  "slug": "nystul",
+  "index": 7,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 5.76,
+  "sha256": "05be958328e01c29797dafe2454b1f863e79087e819d6c49554ab9d80dd92050",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, elderly, aged wizard, distracted and contemplative voice",
+  "seed": 1250,
+  "batch_no": 250,
+  "batch_size": 16,
+  "batch_position": 7,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Carlyn",
+  "slug": "carlyn",
+  "index": 1,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 2.64,
+  "sha256": "8b40f9fb0e116bdb45bc833d31182431fedf5a7e6dd860c9dbccd0cb3e93c0cf",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：二十至三十岁。角色：Moonglow镇的裁缝，兼当地酒吧侍应。音高：明亮温暖的女声，略带亲切的高音区共鸣。语速：自然流畅，语调轻快，带点俏皮与急切。情绪：热情、专注、略带腼腆，对顾客有天然亲和力。音色特征：清亮柔和、带点沙哑尾音，语调富有生活感。语言：标准普通话。使用场景：角色扮演中与玩家互动，介绍服饰或回应顾客询问。",
+  "seed": 1148,
+  "batch_no": 148,
+  "batch_size": 16,
+  "batch_position": 13,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

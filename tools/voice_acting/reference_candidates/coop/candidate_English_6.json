@@ -1,0 +1,17 @@
+{
+  "npc": "Coop",
+  "slug": "coop",
+  "index": 6,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.92,
+  "sha256": "31d270ff8de627631873e9ca18c6bd50cd1307bf78e371fa77f293ee9bc76e6b",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 20s-30s, traveling musician, warm singing voice, artistic and expressive",
+  "seed": 1289,
+  "batch_no": 289,
+  "batch_size": 16,
+  "batch_position": 12,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

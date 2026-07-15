@@ -1,0 +1,17 @@
+{
+  "npc": "Aurvidlem",
+  "slug": "aurvidlem",
+  "index": 7,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 5.92,
+  "sha256": "3039028598dc7e233a11238a80e4143171778621bd5200cb9a4bac94aec91182",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：中年。角色：石像鬼商人。音高：低沉、略带沙哑的男声。语速：缓慢、精确、带克制停顿。情绪：极度失望、冷峻、悲观务实。音色特征：低沉浑厚、共鸣感强、语调干涩。语言：标准普通话。使用场景：在Vesper市的商贩摊位与玩家对话，表达对种族压迫与社会衰败的绝望与无奈。",
+  "seed": 1083,
+  "batch_no": 83,
+  "batch_size": 16,
+  "batch_position": 9,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

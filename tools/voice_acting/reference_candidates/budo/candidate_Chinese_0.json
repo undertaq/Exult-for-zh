@@ -1,0 +1,17 @@
+{
+  "npc": "Budo",
+  "slug": "budo",
+  "index": 0,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.16,
+  "sha256": "4e3a0476794af606025b37be51c20e8e53f65b62a7abe028f5dee3776d893d3a",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：四十多岁。角色：在 Buccaneer's Den 经营杂货铺的诚实商人。音高：洪亮、圆润、略带粗粝感的男中音。语速：适中偏快，语调欢快，语句间常带轻松停顿。情绪：乐观、健谈、略带狡黠，富有生活气息。音色特征：饱满、有活力、带点沙哑的共鸣感。语言：标准普通话。使用场景：在 Ultima VII 游戏中与玩家角色互动，销售武器、盔甲与日常用品，或谈及盗贼公会与 Fellowship 的变迁。",
+  "seed": 1156,
+  "batch_no": 156,
+  "batch_size": 16,
+  "batch_position": 14,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

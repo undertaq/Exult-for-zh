@@ -1,0 +1,17 @@
+{
+  "npc": "Tavenor",
+  "slug": "tavenor",
+  "index": 4,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.64,
+  "sha256": "d6cae2c06a1fb4ebc7cb2f1f46f291cb9f7aa3f81eb193778ca60b9713d8667d",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：中年。角色：Emp种族的村居居民。音高：中低音，略带沙哑的嗓音。语速：缓慢、谨慎，语句间有停顿。情绪：警觉而克制、温和但戒备。音色特征：略带沙哑、共鸣清晰、语调沉稳。语言：标准普通话。使用场景：在银叶林村中与人类角色对话，表达对森林与蜂蜜的顾虑。",
+  "seed": 1067,
+  "batch_no": 67,
+  "batch_size": 16,
+  "batch_position": 2,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

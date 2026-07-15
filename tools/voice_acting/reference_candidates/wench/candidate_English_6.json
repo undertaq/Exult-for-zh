@@ -1,0 +1,17 @@
+{
+  "npc": "Wench",
+  "slug": "wench",
+  "index": 6,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.76,
+  "sha256": "71351d0d8e5061415b3758c9e7037ee1965721feda933182a6d11abf0a704d2f",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 20s, attractive bath attendant, sultry voice, professional warmth",
+  "seed": 1285,
+  "batch_no": 285,
+  "batch_size": 16,
+  "batch_position": 6,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Elad",
+  "slug": "elad",
+  "index": 5,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.68,
+  "sha256": "7efeb36f534af44b3e53953faf0f36bbc719ed831e49cf0b37c8415601f696b5",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 20s-30s, smiling young man, cheerful polite voice",
+  "seed": 1210,
+  "batch_no": 210,
+  "batch_size": 16,
+  "batch_position": 15,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

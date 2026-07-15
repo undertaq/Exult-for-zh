@@ -1,0 +1,17 @@
+{
+  "npc": "Lap Lem",
+  "slug": "lap_lem",
+  "index": 4,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.52,
+  "sha256": "3320542e2812557f25977d0280293354994941129de17c895ce9e04958b0a2d1",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, gargoyle, smiling friendly voice",
+  "seed": 1164,
+  "batch_no": 164,
+  "batch_size": 16,
+  "batch_position": 0,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

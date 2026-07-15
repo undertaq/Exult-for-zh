@@ -1,0 +1,17 @@
+{
+  "npc": "Gaye",
+  "slug": "gaye",
+  "index": 5,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 5.28,
+  "sha256": "b1609d7c92eef6e987314032a37ea7f81f8495240b881b814d7f3282ab6a57ae",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：二十至三十岁。角色：菲利普会成员兼裁缝。音高：柔和、略带沉稳的女声。语速：缓慢、专注，语调轻柔但清晰。情绪：认真、内敛、略带忧虑。音色特征：圆润、细腻、略带轻微气声。语言：标准普通话。使用场景：在非工作时间参与菲利普会活动或为角色定制服装时的对话。",
+  "seed": 1070,
+  "batch_no": 70,
+  "batch_size": 16,
+  "batch_position": 5,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

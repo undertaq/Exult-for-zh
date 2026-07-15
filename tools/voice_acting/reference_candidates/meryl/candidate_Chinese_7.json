@@ -1,0 +1,17 @@
+{
+  "npc": "Meryl",
+  "slug": "meryl",
+  "index": 7,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.0,
+  "sha256": "b9b9082e9243a5b0ee3e0797846792a86577911b7bef7aeeab118f65cf1a813f",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：四十多岁。角色：专业戏剧演员，参与激情剧表演。音高：中音域稳定、略带沉稳张力。语速：精准、节奏分明、语句凝练。情绪：专注、严肃、富有表现力。音色特征：清晰、富有共鸣、略带戏剧张力。语言：标准普通话。使用场景：角色扮演中演绎剧中亡妻角色，对白需传达悲悯与召唤感。",
+  "seed": 1089,
+  "batch_no": 89,
+  "batch_size": 16,
+  "batch_position": 3,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

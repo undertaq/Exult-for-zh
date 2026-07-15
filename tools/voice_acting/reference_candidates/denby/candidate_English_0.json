@@ -1,0 +1,17 @@
+{
+  "npc": "Denby",
+  "slug": "denby",
+  "index": 0,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.6,
+  "sha256": "44be443653eb5f83abf72ad441133a6758adc4f98df739a481a22f4ac8aec41d",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 30s-40s, sharp-eyed warrior, serious terse voice",
+  "seed": 1205,
+  "batch_no": 205,
+  "batch_size": 16,
+  "batch_position": 0,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

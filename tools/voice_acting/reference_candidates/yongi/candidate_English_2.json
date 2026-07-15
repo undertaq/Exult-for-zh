@@ -1,0 +1,17 @@
+{
+  "npc": "Yongi",
+  "slug": "yongi",
+  "index": 2,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.44,
+  "sha256": "f88fbaf404402b08c8db3a5c72efe2d099874588572c4b2bae80cd21c68a771d",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 40s, friendly bartender, warm professional voice",
+  "seed": 1209,
+  "batch_no": 209,
+  "batch_size": 16,
+  "batch_position": 8,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

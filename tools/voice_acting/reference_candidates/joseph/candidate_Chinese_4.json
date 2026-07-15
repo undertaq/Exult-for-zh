@@ -1,0 +1,17 @@
+{
+  "npc": "Joseph",
+  "slug": "joseph",
+  "index": 4,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.48,
+  "sha256": "dd699e856864c7e706bf5b6b5c5ab1a02329f5ddc7652d2ab610d30b359f5ceb",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：二十至三十岁。角色：Jhelom市市长。音高：清亮中略带沉稳的青年男声。语速：流畅、克制、节奏适中。情绪：礼貌、干练、略带理性与克制。音色特征：圆润、清晰、带轻微喉音。语言：标准普通话。使用场景：角色扮演中与玩家对话或处理市政事务。",
+  "seed": 1037,
+  "batch_no": 37,
+  "batch_size": 16,
+  "batch_position": 12,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

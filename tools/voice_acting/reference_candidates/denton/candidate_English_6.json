@@ -1,0 +1,17 @@
+{
+  "npc": "Denton",
+  "slug": "denton",
+  "index": 6,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.44,
+  "sha256": "59136217d2f8748dc701efbce26924eea2b26b631c01a6e928a1b7a404c66b78",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 40s, absent-minded brewer, distracted and vague voice",
+  "seed": 1238,
+  "batch_no": 238,
+  "batch_size": 16,
+  "batch_position": 8,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

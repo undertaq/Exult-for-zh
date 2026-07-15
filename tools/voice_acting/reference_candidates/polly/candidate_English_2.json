@@ -1,0 +1,17 @@
+{
+  "npc": "Polly",
+  "slug": "polly",
+  "index": 2,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.6,
+  "sha256": "a07e8e3969d72ba3f40cccdb4663842028f6b28aedac7cb3c35e77099a50b910",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 40s, busy tavern mistress, proud efficient voice",
+  "seed": 1220,
+  "batch_no": 220,
+  "batch_size": 16,
+  "batch_position": 12,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Zella",
+  "slug": "zella",
+  "index": 6,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.12,
+  "sha256": "9d3e6e1f213232a3f4bcc7669ffc0cc62fe9f70c0bc8c5ad8e6f667031529b84",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 20s, lean young fighter, casual confident voice",
+  "seed": 1202,
+  "batch_no": 202,
+  "batch_size": 16,
+  "batch_position": 4,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

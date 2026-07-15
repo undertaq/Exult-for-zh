@@ -1,0 +1,17 @@
+{
+  "npc": "Kelly",
+  "slug": "kelly",
+  "index": 8,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.36,
+  "sha256": "f3d1fcb659d06aacd204d3fe08644bfde971f15b31801671da5ffe5f3cd2406c",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 40s, sturdy farm woman, hospitable warm voice",
+  "seed": 1200,
+  "batch_no": 200,
+  "batch_size": 16,
+  "batch_position": 8,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

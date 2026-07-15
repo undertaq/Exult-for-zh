@@ -1,0 +1,16 @@
+{
+  "npc": "Iolo",
+  "slug": "iolo",
+  "index": 1,
+  "language": "English",
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "instruct": "Gender: male. Age: seventies. Role: wandering bard and bowyer. Pitch: warm, slightly raspy baritone. Pace: slow, rhythmic, with lilting emphasis on lyrics. Emotion: gentle, nostalgic, wistful. Characteristics: soft, resonant, with a touch of gravel from years of travel. Use case: fantasy RPG dialogue, tavern storytelling, poetic narration.",
+  "seed": 47160,
+  "batch_seed": 47160,
+  "batch_position": 11,
+  "batch_size": 16,
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "sha256": "810be8cd2575c4db67bab043122572443d080b1a42730f9cd44856b7a6f5ba31",
+  "sample_rate": 24000,
+  "duration_seconds": 5.04
+}

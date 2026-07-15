@@ -1,0 +1,17 @@
+{
+  "npc": "Syria",
+  "slug": "syria",
+  "index": 9,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.92,
+  "sha256": "2c331ff7c32beb6a962edf00009e66d7a4eebd3c29263e0bcd5d2e96e6fca02f",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 20s-30s, tough female guard, authoritative commanding voice",
+  "seed": 1266,
+  "batch_no": 266,
+  "batch_size": 16,
+  "batch_position": 13,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

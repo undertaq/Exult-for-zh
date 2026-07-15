@@ -1,0 +1,17 @@
+{
+  "npc": "Thurston",
+  "slug": "thurston",
+  "index": 3,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 7.36,
+  "sha256": "58aec9dd4abbefa2cc42a405d0e66f15c14a8639615faaa6c00bb265df211501",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：二十至三十岁。角色：磨坊主。音高：略低沉、带疲惫感的男声。语速：缓慢、略带停顿，语调温和。情绪：疲惫但亲切、务实、略带孤独感。音色特征：自然、略带沙哑、语调柔和。语言：标准普通话。使用场景：角色扮演中与玩家互动或日常对话。",
+  "seed": 1017,
+  "batch_no": 17,
+  "batch_size": 16,
+  "batch_position": 11,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

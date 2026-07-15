@@ -1,0 +1,17 @@
+{
+  "npc": "Max",
+  "slug": "max",
+  "index": 1,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.12,
+  "sha256": "4d6a2fa129a21104ba77b18c918673fb148276815508af43bac1ba576b3c956d",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, toddler, energetic baby voice",
+  "seed": 1159,
+  "batch_no": 159,
+  "batch_size": 16,
+  "batch_position": 7,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

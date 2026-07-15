@@ -1,0 +1,17 @@
+{
+  "npc": "Shamino",
+  "slug": "shamino",
+  "index": 3,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.88,
+  "sha256": "d81567cb892930cb93002162bec1ad0af54904769e09760349bfe7821cb6e2da",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 40s, mysterious ranger, calm and measured voice with a hint of wisdom and melancholy",
+  "seed": 1297,
+  "batch_no": 297,
+  "batch_size": 16,
+  "batch_position": 11,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

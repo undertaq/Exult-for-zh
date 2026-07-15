@@ -1,0 +1,17 @@
+{
+  "npc": "Grayson",
+  "slug": "grayson",
+  "index": 5,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.44,
+  "sha256": "7b85b7292c3cd855f7a1c6d72665b7b38ea0fb2bff06c9b86701c4016a359dde",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 30s-40s, fellowship member, shushing annoyed voice",
+  "seed": 1217,
+  "batch_no": 217,
+  "batch_size": 16,
+  "batch_position": 13,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

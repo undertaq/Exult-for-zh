@@ -1,0 +1,17 @@
+{
+  "npc": "For Lem",
+  "slug": "for_lem",
+  "index": 7,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.96,
+  "sha256": "fe39fcf3b8779daeea92ba87b4e2febd07a8682e13d43c0a1353b62028588e70",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：中年。角色：翼无的石像鬼学者兼商贾。音高：低沉、庄重的男低音。语速：缓慢、有韵律，带沉思停顿。情绪：沉稳、忧郁、富有历史感。音色特征：浑厚、略带沙哑、共鸣感强。语言：标准普通话。使用场景：在Vesper讲述族裔传说或与玩家角色商议秘密事宜。",
+  "seed": 1052,
+  "batch_no": 52,
+  "batch_size": 16,
+  "batch_position": 5,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

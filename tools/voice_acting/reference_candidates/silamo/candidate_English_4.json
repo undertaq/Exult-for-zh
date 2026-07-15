@@ -1,0 +1,17 @@
+{
+  "npc": "Silamo",
+  "slug": "silamo",
+  "index": 4,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.56,
+  "sha256": "fbb60921fb49e3082c97f1e29501abdf2e2b4b5dad3b5026ba08bc6580c82bb6",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, gargoyle, frowning formal voice",
+  "seed": 1162,
+  "batch_no": 162,
+  "batch_size": 16,
+  "batch_position": 2,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

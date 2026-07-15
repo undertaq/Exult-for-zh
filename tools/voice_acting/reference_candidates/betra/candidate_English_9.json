@@ -1,0 +1,17 @@
+{
+  "npc": "Betra",
+  "slug": "betra",
+  "index": 9,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.36,
+  "sha256": "ff2b1f7c36c5b8f8f216eeebe2348a12ef5b6a5fdd45e19354bfbd98ecd6d366",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male gargoyle provisioner with a warm, welcoming tone, characterized by a gentle wing-flap sound effect in the intro, delivered with formal yet friendly cadence, as if guiding a traveler through the Gargish settlement of Terfin.",
+  "seed": 1301,
+  "batch_no": 301,
+  "batch_size": 16,
+  "batch_position": 3,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

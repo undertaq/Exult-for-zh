@@ -1,0 +1,16 @@
+{
+  "npc": "Batlin",
+  "slug": "batlin",
+  "index": 2,
+  "language": "English",
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "instruct": "Gender: male. Age: fifties. Role: druid antagonist. Pitch: low, resonant baritone with a throaty rasp. Pace: slow, deliberate, with pauses that emphasize menace. Emotion: coldly persuasive, intellectually calculating, subtly sinister. Characteristics: gravelly, textured with a hint of breathy whisper in low tones. Use case: fantasy RPG dialogue during dark ritual or infiltration scenes.",
+  "seed": 47032,
+  "batch_seed": 47032,
+  "batch_position": 0,
+  "batch_size": 16,
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "sha256": "201b0fb07aae7e5a53a13de6793ae9a0ac7bc060287298aa92efd6bf20e2270b",
+  "sample_rate": 24000,
+  "duration_seconds": 4.24
+}

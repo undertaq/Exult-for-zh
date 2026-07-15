@@ -1,0 +1,17 @@
+{
+  "npc": "Inmanilem",
+  "slug": "inmanilem",
+  "index": 1,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 5.44,
+  "sha256": "c935a117378a8bad0847066b8ea9b2d3344cce4a68b14253257a5ff8f8047b11",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：中年。角色：石像鬼族治愈师。音高：温和明亮的男声，略带石像质感。语速：适中、亲切、带点停顿的节奏。情绪：友善、耐心、富有同理心。音色特征：清脆而稳定，带轻微共鸣感，语调柔和不突兀。语言：标准普通话。使用场景：游戏内为玩家提供治疗或咨询时的对话。",
+  "seed": 1061,
+  "batch_no": 61,
+  "batch_size": 16,
+  "batch_position": 15,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

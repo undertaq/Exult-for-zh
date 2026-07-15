@@ -1,0 +1,17 @@
+{
+  "npc": "Charles",
+  "slug": "charles",
+  "index": 3,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.92,
+  "sha256": "755dc700279dd7fca0d73aaea0ffddedc20d1c3c1d0aa45417f549b81ace3679",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 20s, young farmer, simple earnest voice",
+  "seed": 1168,
+  "batch_no": 168,
+  "batch_size": 16,
+  "batch_position": 5,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

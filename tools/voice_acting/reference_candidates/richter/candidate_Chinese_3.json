@@ -1,0 +1,17 @@
+{
+  "npc": "Richter",
+  "slug": "richter",
+  "index": 3,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 6.08,
+  "sha256": "c831a21b276b75452cb081446c54fab31262f81f218f2ab303a9c4e333bc447f",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：二十至三十岁。角色：《终极幻想IX》中的盗贼角色里奇特。音高：明亮而自信的男声，略带清脆感。语速：适中，节奏清晰，语调礼貌且从容。情绪：自信、礼貌、略带狡黠。音色特征：清亮、圆润、带轻微气声。语言：标准普通话。使用场景：角色扮演中与玩家对话或执行任务时的台词输出。",
+  "seed": 1095,
+  "batch_no": 95,
+  "batch_size": 16,
+  "batch_position": 3,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

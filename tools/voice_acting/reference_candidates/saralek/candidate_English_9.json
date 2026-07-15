@@ -1,0 +1,17 @@
+{
+  "npc": "Saralek",
+  "slug": "saralek",
+  "index": 9,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.76,
+  "sha256": "5251f09085fc514bbc406478e9f0e9089d242aee815d4f893bac3be4872d06af",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, female ape-creature, nervous skittish voice",
+  "seed": 1187,
+  "batch_no": 187,
+  "batch_size": 16,
+  "batch_position": 7,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Catherine",
+  "slug": "catherine",
+  "index": 4,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.6,
+  "sha256": "1d2e67544c4288e80b1af17d7da01c92f0dbcb0133a456fac7380d2604387de1",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, child, innocent excited voice",
+  "seed": 1160,
+  "batch_no": 160,
+  "batch_size": 16,
+  "batch_position": 14,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Geoffrey",
+  "slug": "geoffrey",
+  "index": 7,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.84,
+  "sha256": "51c7cbd3e3dcde8bc5b2f26fbcd8131c9e89f58daf04c38590d50af49c33776a",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 40s, captain of the guard, warm familiar voice, laughing",
+  "seed": 1249,
+  "batch_no": 249,
+  "batch_size": 16,
+  "batch_position": 3,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

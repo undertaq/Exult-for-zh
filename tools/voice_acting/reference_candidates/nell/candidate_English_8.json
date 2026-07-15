@@ -1,0 +1,17 @@
+{
+  "npc": "Nell",
+  "slug": "nell",
+  "index": 8,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.84,
+  "sha256": "9dbcb54122d6eadf797c54142902acc33dd36ed86aeb74c4765fa0df3bc0dd33",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 20s, surprised maid, curious shy voice",
+  "seed": 1171,
+  "batch_no": 171,
+  "batch_size": 16,
+  "batch_position": 12,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

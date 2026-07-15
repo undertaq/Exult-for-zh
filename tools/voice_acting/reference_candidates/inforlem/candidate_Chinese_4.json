@@ -1,0 +1,17 @@
+{
+  "npc": "Inforlem",
+  "slug": "inforlem",
+  "index": 4,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.0,
+  "sha256": "7f1f4ba9c43ec5b0a33733ce0b0dc17c251a66652709d3eb9986dcda2b4e74fd",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。角色：石像鬼族治疗师兼导师。音高：明亮清脆的中音，略带石像鬼特有的共鸣感。语速：轻快、节奏明快，语调亲切活泼。情绪：热情开朗、温和耐心、富有智慧。音色特征：清亮、圆润、略带金属质感的共鸣。语言：标准普通话。使用场景：游戏内与玩家互动教学或提供角色建议。",
+  "seed": 1066,
+  "batch_no": 66,
+  "batch_size": 16,
+  "batch_position": 8,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

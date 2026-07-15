@@ -1,0 +1,17 @@
+{
+  "npc": "Neno",
+  "slug": "neno",
+  "index": 4,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.4,
+  "sha256": "71352dfb3e921c12b0ef580eae40301cd9cfcb8dd45d3f1f2cae6ea40aaaab7b",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：二十至三十岁。角色： flamboyant musician（风趣张扬的音乐家）。音高：明亮、富有表现力的中音。语速：快而富有节奏感，带点急促的旋律感。情绪：自信、热情、略带戏谑。音色特征：清脆、圆润、略带沙哑的共鸣感。语言：标准普通话。使用场景：角色扮演中与听众或同伴即兴互动、演奏或讲述音乐故事。",
+  "seed": 1136,
+  "batch_no": 136,
+  "batch_size": 16,
+  "batch_position": 8,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

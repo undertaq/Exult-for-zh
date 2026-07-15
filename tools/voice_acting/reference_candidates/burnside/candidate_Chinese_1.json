@@ -1,0 +1,17 @@
+{
+  "npc": "Burnside",
+  "slug": "burnside",
+  "index": 1,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.88,
+  "sha256": "1f17677556ffb57d87ac039fd66f293c7f500330636b5d9b2167fd94163056f3",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：六十岁以上。角色：Minoc市市长。音高：低沉、略带沙哑的男中音。语速：缓慢、克制、带有政治话语的停顿。情绪：务实、疲惫、表面从容实则矛盾。音色特征：略显紧绷、语调正式、缺乏情绪波动。语言：标准普通话。使用场景：游戏剧情中与玩家角色对话，涉及市政决策与道德困境。",
+  "seed": 1089,
+  "batch_no": 89,
+  "batch_size": 16,
+  "batch_position": 7,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

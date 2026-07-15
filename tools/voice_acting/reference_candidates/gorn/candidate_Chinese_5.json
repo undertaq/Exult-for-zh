@@ -1,0 +1,17 @@
+{
+  "npc": "Gorn",
+  "slug": "gorn",
+  "index": 5,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.44,
+  "sha256": "3796aaac82bf0f714cacd07188e113bc7b133bc31dfb3c7c536513fe16262fd6",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：四十多岁。角色：来自 Balema 的严肃矮人战士，忠诚且警惕。音高：低沉粗粝的男低音。语速：缓慢、沉稳，带轻微停顿。情绪：严肃、坚毅、内敛而警觉。音色特征：粗粝、低沉、带沙哑质感。语言：标准普通话。使用场景：奇幻角色扮演中作为战友或宿敌对话。",
+  "seed": 1060,
+  "batch_no": 60,
+  "batch_size": 16,
+  "batch_position": 15,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

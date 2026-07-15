@@ -1,0 +1,17 @@
+{
+  "npc": "Quenton",
+  "slug": "quenton",
+  "index": 6,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 5.36,
+  "sha256": "90b491aaec3463c070510d6b4fde3bf7ca65a8e065163be8b4a839cfedeb988b",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, ghost, weak fading voice, apologetic and confused, barely audible",
+  "seed": 1279,
+  "batch_no": 279,
+  "batch_size": 16,
+  "batch_position": 12,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

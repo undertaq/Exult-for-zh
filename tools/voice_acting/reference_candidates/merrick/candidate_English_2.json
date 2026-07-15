@@ -1,0 +1,17 @@
+{
+  "npc": "Merrick",
+  "slug": "merrick",
+  "index": 2,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.28,
+  "sha256": "e8ebf29b7e5e23edb21d7ffc5ae9a5f5d229613ddcc16fe2c1d971eadfcdebe6",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 20s-30s, nervous blinking man, tense stuttering voice",
+  "seed": 1239,
+  "batch_no": 239,
+  "batch_size": 16,
+  "batch_position": 8,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

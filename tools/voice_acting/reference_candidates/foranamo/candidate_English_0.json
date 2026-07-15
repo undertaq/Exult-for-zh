@@ -1,0 +1,17 @@
+{
+  "npc": "Foranamo",
+  "slug": "foranamo",
+  "index": 0,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.52,
+  "sha256": "ce47d77aef49b9dfa9aa513f11713875c074eb90b62bdf02bf3b9954e4da6ff0",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, gargoyle, angry resistant voice",
+  "seed": 1161,
+  "batch_no": 161,
+  "batch_size": 16,
+  "batch_position": 4,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

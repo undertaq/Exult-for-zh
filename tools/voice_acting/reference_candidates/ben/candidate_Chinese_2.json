@@ -1,0 +1,17 @@
+{
+  "npc": "Ben",
+  "slug": "ben",
+  "index": 2,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.24,
+  "sha256": "68d2879572ccb6fbd9d5b7afea17a68ed4597e5c5e7c1e9b3b1b384e6f3b4793",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：三十至四十岁。角色：深林伐木工。音高：低沉浑厚、富有共鸣的男声。语速：舒缓、沉稳，带自然停顿。情绪：温和而有威信、略带沧桑、亲切可靠。音色特征：略带沙哑、如树皮与树汁般自然粗糙，带乡土韵味。语言：标准普通话。使用场景：在深林中与玩家对话或讲述伐木传统。",
+  "seed": 1076,
+  "batch_no": 76,
+  "batch_size": 16,
+  "batch_position": 6,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

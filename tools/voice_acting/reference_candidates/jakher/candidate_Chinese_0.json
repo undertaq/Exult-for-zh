@@ -1,0 +1,17 @@
+{
+  "npc": "Jakher",
+  "slug": "jakher",
+  "index": 0,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.6,
+  "sha256": "6ce4f9d6d54ac29140b089cfbaaf7c446b3f0aec417725cf38812dc179d12aa8",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：四十多岁。角色：训练师兼战术教练。音高：中音域，略带沉稳的男声。语速：适中，语调清晰，带点轻快节奏。情绪：严肃中透着亲切、理性中带点幽默。音色特征：圆润、清晰、略带沙哑的共鸣感。语言：标准普通话。使用场景：游戏内角色对话与训练指导。",
+  "seed": 1036,
+  "batch_no": 36,
+  "batch_size": 16,
+  "batch_position": 4,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

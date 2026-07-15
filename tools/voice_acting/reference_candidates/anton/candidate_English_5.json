@@ -1,0 +1,17 @@
+{
+  "npc": "Anton",
+  "slug": "anton",
+  "index": 5,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 5.44,
+  "sha256": "699fa3ddc10aa4093b80f3f694b41ad5e4575710d0b983e63e66c96a07b90758",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "A weary, intellectual male voice in his 30s-40s, conveying deep sorrow, suppressed rage, and intellectual exhaustion. His speech is clipped, with pauses that feel like emotional weight. He speaks with a quiet, almost resigned bitterness, as if carrying the burden of a failed mission and personal loss. His tone is layered with regret and a faint, lingering hope — the kind that only someone who has seen the world’s decay and still believes in redemption might possess.",
+  "seed": 1315,
+  "batch_no": 315,
+  "batch_size": 16,
+  "batch_position": 5,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Shamino",
+  "slug": "shamino",
+  "index": 5,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 5.28,
+  "sha256": "c9297642fb61ee80fc24a24defca388780ac290b859a1b806841e66c971ec7b2",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：四十多岁。角色：神秘游侠。音高：沉稳低缓的男声。语速：平稳、节奏舒缓、带轻微停顿。情绪：内敛、沉静、略带沧桑与哲思。音色特征：略带沙哑、共鸣感柔和、语调如林间低语。语言：标准普通话。使用场景：奇幻角色扮演中游侠与主角对话或独白。",
+  "seed": 1031,
+  "batch_no": 31,
+  "batch_size": 16,
+  "batch_position": 9,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

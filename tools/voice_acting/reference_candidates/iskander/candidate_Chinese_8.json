@@ -1,0 +1,17 @@
+{
+  "npc": "Iskander",
+  "slug": "iskander",
+  "index": 8,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.72,
+  "sha256": "9a686af1f5d1b7cdc43d2c402fc7b4d50159c7e2a14368a3502fb8eb63b7e308",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：两百多岁。角色：独眼巨人英雄。音高：低沉浑厚的男低音。语速：缓慢、简洁、带有沉稳停顿。情绪：沉静、坚毅、略带沧桑。音色特征：浑厚、共鸣感强、略带沙哑。语言：标准普通话。使用场景：奇幻角色扮演中与玩家对话或讲述过往经历。",
+  "seed": 1011,
+  "batch_no": 11,
+  "batch_size": 16,
+  "batch_position": 2,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

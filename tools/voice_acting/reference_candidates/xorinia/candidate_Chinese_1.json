@@ -1,0 +1,17 @@
+{
+  "npc": "Xorinia",
+  "slug": "xorinia",
+  "index": 1,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.48,
+  "sha256": "a6c9342f0b34006d3010a91d7819c077d9636758cfc25dfeb9b4cb69291d45d1",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：非人类。年龄：无具体年龄。角色：Xorinia集体意识的异界信息中介体。音高：清脆、多变、无固定音调。语速：快而断续、节奏错乱、语句跳跃。情绪：冷漠、理性、无情感波动、集体意识主导。音色特征：空灵、无实体质感、似光点共鸣、略带机械回响感。语言：标准普通话。使用场景：奇幻角色扮演中作为多维信息中介体与玩家对话。",
+  "seed": 1135,
+  "batch_no": 135,
+  "batch_size": 16,
+  "batch_position": 1,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

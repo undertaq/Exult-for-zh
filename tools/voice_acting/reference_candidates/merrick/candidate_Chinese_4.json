@@ -1,0 +1,17 @@
+{
+  "npc": "Merrick",
+  "slug": "merrick",
+  "index": 4,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.52,
+  "sha256": "eaf312928532bccd9207829f6496e37d3aeebd64bbba90fc68b269a5a7c6bf90",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：二十至三十岁。角色：前流浪乞丐，现居住于庇护所的招募员。音高：略带紧张的中音，语调起伏明显。语速：急促、断续，伴随不自觉的眨眼动作。情绪：焦虑、虚伪、善变，常为迎合环境调整言辞。音色特征：略显沙哑、语调不稳、带轻微颤抖。语言：标准普通话。使用场景：角色扮演中与玩家互动或表达对峙、道歉或讽刺时。",
+  "seed": 1132,
+  "batch_no": 132,
+  "batch_size": 16,
+  "batch_position": 12,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

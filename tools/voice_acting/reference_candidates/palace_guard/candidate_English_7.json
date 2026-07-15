@@ -1,0 +1,17 @@
+{
+  "npc": "Palace Guard",
+  "slug": "palace_guard",
+  "index": 7,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.6,
+  "sha256": "95bc7735f2fd55f68e9dfdd1c91f678d6747567fe998ee27b0cb5bf5d1fa2751",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 20s-30s, palace guard, professional dismissive voice",
+  "seed": 1233,
+  "batch_no": 233,
+  "batch_size": 16,
+  "batch_position": 9,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

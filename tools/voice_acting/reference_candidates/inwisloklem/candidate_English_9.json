@@ -1,0 +1,17 @@
+{
+  "npc": "Inwisloklem",
+  "slug": "inwisloklem",
+  "index": 9,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.76,
+  "sha256": "c7fb30cf2e37e194b7833e49f03204d5f70fbb48dd0fb803c4b6a12c64ba9f51",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, gargoyle, intelligent wise voice",
+  "seed": 1163,
+  "batch_no": 163,
+  "batch_size": 16,
+  "batch_position": 11,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Nelson",
+  "slug": "nelson",
+  "index": 1,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.12,
+  "sha256": "5b3877110ae3bdcb7d5bf8ccc11d8470aa056a665702020cfee41dcd18d10daa",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 30s-40s, scholarly man, friendly intellectual voice",
+  "seed": 1226,
+  "batch_no": 226,
+  "batch_size": 16,
+  "batch_position": 5,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

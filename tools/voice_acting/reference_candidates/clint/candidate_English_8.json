@@ -1,0 +1,17 @@
+{
+  "npc": "Clint",
+  "slug": "clint",
+  "index": 8,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.88,
+  "sha256": "feb5e92c6e901891930c05c9de353ad07a332b3aee3585776c6efc0366816e2d",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, elderly, weathered old sailor, rough sea-worn voice",
+  "seed": 1223,
+  "batch_no": 223,
+  "batch_size": 16,
+  "batch_position": 10,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

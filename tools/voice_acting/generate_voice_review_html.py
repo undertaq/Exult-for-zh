@@ -202,13 +202,13 @@ def rows_from_full_voice(voice_dir, mapping_path, since_mtime=0, only_new=False)
     return rows
 
 
-def write_report(rows, out_dir, title):
+def write_report(rows, out_dir, title, review_id=""):
     out_dir.mkdir(parents=True, exist_ok=True)
     data_path = out_dir / "voice_review_data.json"
     html_path = out_dir / "index.html"
     rows = normalize_audio_paths(rows, out_dir)
     rows = add_review_keys(rows)
-    payload = {"title": title, "rows": rows}
+    payload = {"title": title, "review_id": review_id, "rows": rows}
     data_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     html_path.write_text(build_html(title, payload), encoding="utf-8")
     return html_path, data_path
@@ -330,7 +330,7 @@ let allRows = [];
 let filtered = [];
 let page = 0;
 let reviewState = {{}};
-const REVIEW_STORAGE_KEY = 'voiceReviewState:' + location.pathname;
+const REVIEW_STORAGE_KEY = 'voiceReviewState:' + location.pathname + ':' + (JSON.parse(document.getElementById('voiceData').textContent).review_id || 'default');
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, ch => ({{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}}[ch]));
 function getReviewKey(row) {{
@@ -498,6 +498,7 @@ def main():
     parser.add_argument("--title", default=None)
     parser.add_argument("--since-mtime", type=int, default=0, help="Mark files with mtime >= this Unix timestamp as new.")
     parser.add_argument("--only-new", action="store_true", help="In full mode, include only files generated after --since-mtime.")
+    parser.add_argument("--review-id", default="", help="Stable id for this review run; changes reset browser-stored review marks.")
     args = parser.parse_args()
 
     if args.mode == "mood-samples":
@@ -516,7 +517,7 @@ def main():
         out_dir = Path(args.out_dir) if args.out_dir else PROJECT_DIR / "tools" / "voice_acting" / "voice_review_full"
         title = args.title or "Generated Voice Review"
 
-    html_path, data_path = write_report(rows, out_dir, title)
+    html_path, data_path = write_report(rows, out_dir, title, review_id=args.review_id)
     print(f"Wrote {html_path}")
     print(f"Wrote {data_path}")
     print(f"Rows: {len(rows)}")

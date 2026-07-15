@@ -1,0 +1,16 @@
+{
+  "npc": "Avatar (Male)",
+  "slug": "avatar_male",
+  "index": 7,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.68,
+  "sha256": "4be59b73982627fcc37cd9e7b26be8336dac948ae9f7c3f66503534a4ca098b7",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Gender: male. Age: early thirties. Role: the Avatar, the player's heroic protagonist and moral center of Britannia. Pitch: warm, steady mid-baritone. Pace: measured and deliberate, thoughtful pauses before weighty choices. Emotion: resolute, compassionate, quietly introspective. Characteristics: clear, grounded, earnest sincerity with subtle heroic warmth. Use case: fantasy RPG protagonist dialogue and reflective inner monologue.",
+  "seed": 88141,
+  "batch_size": 5,
+  "batch_position": 2,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

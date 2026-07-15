@@ -1,0 +1,17 @@
+{
+  "npc": "Beverlea",
+  "slug": "beverlea",
+  "index": 1,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.28,
+  "sha256": "120fc4a693edf515b7477797eb43c4d1acaabd16d164b7c535ea9af5343fe371",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：七十岁以上。角色：二手货店店主，慈祥老奶奶形象。音高：温暖柔和的女中音，略带沙哑。语速：缓慢、亲切，语调轻柔但带轻微停顿。情绪：温和慈爱、略带隐忍的不耐烦，隐含对不诚信顾客的微讽。音色特征：略带沙哑、共鸣柔和、语调圆润。语言：标准普通话。使用场景：游戏内与玩家对话，讲述商品故事或处理顾客交易。",
+  "seed": 1129,
+  "batch_no": 129,
+  "batch_size": 16,
+  "batch_position": 7,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Ian",
+  "slug": "ian",
+  "index": 0,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 2.16,
+  "sha256": "0be4c62ddc50cfccbab46670f807b1b1eee2a21102c07924ef37b082f369c7be",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：二十出头。角色：《终极幻想》系列中负责冥想静修营的导师。音高：明亮清亮的男声，略带年轻活力。语速：轻快、亲切、语调自然流畅。情绪：热情友善、耐心引导、富有亲和力。音色特征：圆润、清亮、略带年轻气息。语言：标准普通话。使用场景：角色扮演中与玩家互动或引导冥想训练。",
+  "seed": 1090,
+  "batch_no": 90,
+  "batch_size": 16,
+  "batch_position": 10,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Weston",
+  "slug": "weston",
+  "index": 3,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.08,
+  "sha256": "dbda6e685a39883a2d2328d22e16eeb05861e04d7934dafbd39c839a0b69aead",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 20s, hopeless young prisoner, defeated sad voice",
+  "seed": 1208,
+  "batch_no": 208,
+  "batch_size": 16,
+  "batch_position": 15,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

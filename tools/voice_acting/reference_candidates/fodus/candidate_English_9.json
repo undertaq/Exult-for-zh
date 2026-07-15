@@ -1,0 +1,17 @@
+{
+  "npc": "Fodus",
+  "slug": "fodus",
+  "index": 9,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.24,
+  "sha256": "3954f7956ab6fed325b67d0f58751afd2df20509f1ca0e666142549a4ae0146c",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, gargoyle, sick diseased gargoyle, rough pained voice",
+  "seed": 1231,
+  "batch_no": 231,
+  "batch_size": 16,
+  "batch_position": 3,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

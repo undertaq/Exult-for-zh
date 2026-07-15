@@ -1,0 +1,16 @@
+{
+  "npc": "Spark",
+  "slug": "spark",
+  "index": 1,
+  "language": "Chinese",
+  "sample_text": "旅人，你好。今天過得如何？",
+  "instruct": "性别：男性。年龄：十四岁。角色：被遗弃的铁匠学徒。音高：清亮略带气声的男高音。语速：急促、节奏紧凑，情绪激动时突然停顿。情绪：诚恳、脆弱、意志坚定。音色特征：略显沙哑、带少年声带裂纹。语言：标准普通话。使用场景：奇幻RPG对话、酒馆闲聊、情感独白。",
+  "seed": 47192,
+  "batch_seed": 47192,
+  "batch_position": 9,
+  "batch_size": 16,
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "sha256": "e3eda6ed1e68a99e4a9035fd0f1705ad47a13203b61bdcad611033f605007b94",
+  "sample_rate": 24000,
+  "duration_seconds": 3.12
+}

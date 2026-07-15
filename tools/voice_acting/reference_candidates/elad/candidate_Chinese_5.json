@@ -1,0 +1,17 @@
+{
+  "npc": "Elad",
+  "slug": "elad",
+  "index": 5,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.2,
+  "sha256": "b74eea1814965132eb19301097a628c03306863c50b78afdce8ad30084d3fc1e",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：二十至三十岁。角色：Moonglow地区的治愈师。音高：明亮清亮的青年男声。语速：轻快、温和、节奏自然。情绪：友善、谦和、略带热忱。音色特征：圆润、柔和、略带笑意。语言：标准普通话。使用场景：角色扮演中与玩家互动或提供治疗服务时。",
+  "seed": 1032,
+  "batch_no": 32,
+  "batch_size": 16,
+  "batch_position": 3,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

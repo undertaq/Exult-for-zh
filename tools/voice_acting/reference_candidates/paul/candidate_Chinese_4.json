@@ -1,0 +1,17 @@
+{
+  "npc": "Paul",
+  "slug": "paul",
+  "index": 4,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.76,
+  "sha256": "fa561c0d432d32935615a4f2b167b7675f8897fb671a9da27fcad99193d59f64",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：二十出头。角色：舞台剧表演者，担任叙述者。音高：明亮清亮的男声。语速：轻快、富有活力、节奏明快。情绪：开朗、热情、充满感染力。音色特征：清脆、圆润、富有表现力。语言：标准普通话。使用场景：奇幻角色扮演中进行舞台剧叙述或表演。",
+  "seed": 1022,
+  "batch_no": 22,
+  "batch_size": 16,
+  "batch_position": 12,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

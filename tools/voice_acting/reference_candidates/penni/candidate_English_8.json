@@ -1,0 +1,17 @@
+{
+  "npc": "Penni",
+  "slug": "penni",
+  "index": 8,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.6,
+  "sha256": "8724486e9abd57545c42dacc5c2d171c313cfe6c2865a548767cdbe5847b5a82",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 20s-30s, worried woman, concerned thoughtful voice",
+  "seed": 1234,
+  "batch_no": 234,
+  "batch_size": 16,
+  "batch_position": 14,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Feridwyn",
+  "slug": "feridwyn",
+  "index": 5,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.04,
+  "sha256": "123d12e2bddc19aba88fed39163227c3a0f08a04d29b21193f8a30610113996a",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：四十多岁。角色：流浪者庇护所运营者。音高：中音域，略带急促感，语调起伏明显。语速：快而急切，节奏紧凑，常带喘息感。情绪：兴奋、热切、略带焦虑，夹杂理想主义与现实挫败感。音色特征：清晰明亮、略带沙哑、语流紧凑。语言：标准普通话。使用场景：在传递紧急或激动人心的消息时，如庇护所动态或社会事件更新。",
+  "seed": 1131,
+  "batch_no": 131,
+  "batch_size": 16,
+  "batch_position": 9,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

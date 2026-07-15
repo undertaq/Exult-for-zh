@@ -1,0 +1,17 @@
+{
+  "npc": "Gilberto",
+  "slug": "gilberto",
+  "index": 4,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.44,
+  "sha256": "da5db1e0b9a628a04ac7198fed364c195c759472abe4909b108b18b0a989531a",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 30s-40s, grumpy injured man, annoyed recovering voice",
+  "seed": 1239,
+  "batch_no": 239,
+  "batch_size": 16,
+  "batch_position": 0,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

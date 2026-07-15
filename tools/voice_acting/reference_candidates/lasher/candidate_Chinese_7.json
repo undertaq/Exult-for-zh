@@ -1,0 +1,17 @@
+{
+  "npc": "Lasher",
+  "slug": "lasher",
+  "index": 7,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.2,
+  "sha256": "995018c3acd24ffe7e62e39cc4d3602209c70591560bba5da57965ba5dbfad5b",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：成年。角色：独角兽守护者，智慧而高贵。音高：清亮、精准的男声，带魔法般空灵质感。语速：从容、略带韵律，语句间有沉思停顿。情绪：沉静、睿智、略带神秘与疏离。音色特征：圆润通透、共鸣清晰、尾音微扬。语言：标准普通话。使用场景：奇幻角色扮演中与玩家对话，讲述独角兽历史与诅咒。",
+  "seed": 1106,
+  "batch_no": 106,
+  "batch_size": 16,
+  "batch_position": 11,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Stuart",
+  "slug": "stuart",
+  "index": 1,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.16,
+  "sha256": "696c43a16e31f079375ab3ec1263c5b9ec497eb5fa1084ed7cd07c37290f0728",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 20s-30s, arrogant actor, pompous theatrical voice",
+  "seed": 1215,
+  "batch_no": 215,
+  "batch_size": 16,
+  "batch_position": 1,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

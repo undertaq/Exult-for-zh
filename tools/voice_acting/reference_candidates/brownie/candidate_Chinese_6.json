@@ -1,0 +1,17 @@
+{
+  "npc": "Brownie",
+  "slug": "brownie",
+  "index": 6,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.92,
+  "sha256": "f40e268f64bd50b73e9f76aa69a67536de13adffe45222e8c87ecc8585b6f3ac",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：四十多岁。角色：在英国边缘务农的农民。音高：中音区明亮、略带沙哑的男声。语速：轻快、节奏感强，语调起伏自然。情绪：乐观开朗、精力充沛，虽疲惫仍带笑意。音色特征：自然粗粝、带田间气息、略显沙哑但亲切。语言：标准普通话。使用场景：游戏对话中与玩家互动，讲述农活、邻里或政治往事。",
+  "seed": 1111,
+  "batch_no": 111,
+  "batch_size": 16,
+  "batch_position": 10,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

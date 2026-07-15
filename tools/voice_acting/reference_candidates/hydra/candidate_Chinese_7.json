@@ -1,0 +1,16 @@
+{
+  "npc": "Hydra",
+  "slug": "hydra",
+  "index": 7,
+  "language": "Chinese",
+  "sample_text": "旅人，你好。今天過得如何？",
+  "instruct": "性别：中性。年龄：古老。角色：三头蛇形巨兽，守护巢穴的凶猛守卫者。音高：极低沉、地底般的喉音。语速：缓慢而阴森，字句拖长。情绪：原始的威胁感、冰冷的掠食欲望、沸腾的攻击性。音色特征：沉重低吼、砂砾般粗糙且回荡，似多声喉同时发声，湿滑嘶吼质感。语言：标准普通话。使用场景：奇幻RPG中巨兽Boss的威胁台词与对话，发生在沼泽洞穴内。",
+  "seed": 47144,
+  "batch_seed": 47144,
+  "batch_position": 3,
+  "batch_size": 16,
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "sha256": "7a4f8efcc3efde42b828cf0ff2799c192d8542917cc6d1a61216a129efa347eb",
+  "sample_rate": 24000,
+  "duration_seconds": 4.24
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Sullivan",
+  "slug": "sullivan",
+  "index": 2,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.84,
+  "sha256": "baca51bfea48fbab0e1c2bad5165fbf15dd1e475c9f48ee795712c0337b333bd",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 20s-30s, cheerful ex-convict, bright and grateful voice",
+  "seed": 1247,
+  "batch_no": 247,
+  "batch_size": 16,
+  "batch_position": 10,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

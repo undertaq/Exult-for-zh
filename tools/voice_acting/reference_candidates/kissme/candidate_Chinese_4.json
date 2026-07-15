@@ -1,0 +1,17 @@
+{
+  "npc": "Kissme",
+  "slug": "kissme",
+  "index": 4,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 5.44,
+  "sha256": "30ff9b3d6d095acab165d15b8944b2c0c2002a9557c9144c938784b1643b72c3",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：幼年精灵。角色：居住于Ambrosia的狂喜精灵。音高：清脆高亢的女高音。语速：轻快跳跃、语调俏皮，常重复词句。情绪：活泼、爱撒娇、充满爱意与梦幻感。音色特征：圆润、透亮、带童真气声。语言：标准普通话。使用场景：角色扮演中与玩家互动时表达爱意或讲述爱尘故事。",
+  "seed": 1084,
+  "batch_no": 84,
+  "batch_size": 16,
+  "batch_position": 10,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

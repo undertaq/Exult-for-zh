@@ -1,0 +1,17 @@
+{
+  "npc": "Paulette",
+  "slug": "paulette",
+  "index": 5,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.68,
+  "sha256": "48d93d660eb00d744023d9af05628579703d34756f29fec6b09265276dea86ca",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 20s, beautiful barmaid ghost, dreamy distant voice, confused",
+  "seed": 1270,
+  "batch_no": 270,
+  "batch_size": 16,
+  "batch_position": 15,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

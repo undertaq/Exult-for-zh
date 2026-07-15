@@ -1,0 +1,17 @@
+{
+  "npc": "Eiko",
+  "slug": "eiko",
+  "index": 6,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.28,
+  "sha256": "75d27cf6ed7acae211523ad88838ee8ab34acb007dea762492ffe7f36b009a2a",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：二十出头。角色：身负复仇使命的异域武装少女。音高：清亮而略带克制的女声。语速：平稳、克制、节奏清晰。情绪：冷静、礼貌、内敛而坚定。音色特征：圆润、纯净、略带金属质感的共鸣。语言：标准普通话。使用场景：角色扮演中与玩家对话或执行任务时的正式交流。",
+  "seed": 1060,
+  "batch_no": 60,
+  "batch_size": 16,
+  "batch_position": 6,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

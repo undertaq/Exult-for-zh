@@ -1,0 +1,17 @@
+{
+  "npc": "Quan",
+  "slug": "quan",
+  "index": 1,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.36,
+  "sha256": "42deb7766651bd6352ca618709c40fd128422fad380b97e470e7e970870d8eed",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, gargoyle, dignified but busy, formal polite voice",
+  "seed": 1214,
+  "batch_no": 214,
+  "batch_size": 16,
+  "batch_position": 7,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

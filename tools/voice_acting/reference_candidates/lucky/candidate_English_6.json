@@ -1,0 +1,17 @@
+{
+  "npc": "Lucky",
+  "slug": "lucky",
+  "index": 6,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 5.84,
+  "sha256": "7693ff9bd70072e1a69052d59469421a725e226caee034997c2f472c8dad6636",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 30s-40s, steel-muscled pirate, confident smug voice",
+  "seed": 1225,
+  "batch_no": 225,
+  "batch_size": 16,
+  "batch_position": 6,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Finnigan",
+  "slug": "finnigan",
+  "index": 7,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.68,
+  "sha256": "143fe342b2e2d4e157709efa5528cfa0d9f67cd136eddd7b1ddf4664c9974085",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：四十多岁。角色：特里西克市市长，严肃执着的调查者。音高：沉稳中略带疲惫的男声。语速：缓慢而专注，语句间有停顿。情绪：坚毅、理性、略带忧虑。音色特征：略显沙哑、低沉带共鸣。语言：标准普通话。使用场景：游戏剧情中与玩家角色对话或下达任务指令。",
+  "seed": 1048,
+  "batch_no": 48,
+  "batch_size": 16,
+  "batch_position": 9,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

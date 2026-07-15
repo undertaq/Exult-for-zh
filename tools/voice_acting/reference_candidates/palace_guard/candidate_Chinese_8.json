@@ -1,0 +1,17 @@
+{
+  "npc": "Palace Guard",
+  "slug": "palace_guard",
+  "index": 8,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.6,
+  "sha256": "ac211bc28ef2e057cc31f76f66c97fae90e7439adbbe4068c035a726a911fa74",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：二十至三十岁。角色：宫廷侍卫。音高：中音略带冷峻，语调干脆利落。语速：中等偏快，节奏分明，带轻微停顿。情绪：冷静、疏离、职业化，不带情绪波动。音色特征：清脆、略带金属质感，无明显沙哑或气声。语言：标准普通话。使用场景：宫廷内执行任务或传达命令时的对话。",
+  "seed": 1079,
+  "batch_no": 79,
+  "batch_size": 16,
+  "batch_position": 4,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

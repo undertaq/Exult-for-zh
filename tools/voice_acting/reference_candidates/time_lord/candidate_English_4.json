@@ -1,0 +1,17 @@
+{
+  "npc": "Time Lord",
+  "slug": "time_lord",
+  "index": 4,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 7.36,
+  "sha256": "35ef33e51a31aed77ca333d2c60068a8be5ce2868cb10444f375458d517ee2dc",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, ancient being, timeless and mysterious voice, deep resonant tone with otherworldly echo",
+  "seed": 1298,
+  "batch_no": 298,
+  "batch_size": 16,
+  "batch_position": 6,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

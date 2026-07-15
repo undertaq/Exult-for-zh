@@ -1,0 +1,17 @@
+{
+  "npc": "James",
+  "slug": "james",
+  "index": 8,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.6,
+  "sha256": "fe8835962965a38709fede076a49a2f0abfb08f9a201e4a5b46613db4c184dba",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 40s, grumpy innkeeper, irritated tired voice",
+  "seed": 1182,
+  "batch_no": 182,
+  "batch_size": 16,
+  "batch_position": 6,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Andrew",
+  "slug": "andrew",
+  "index": 1,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.68,
+  "sha256": "2ff35bec3cfecce002fdeec4ab34a4ea873704a33f8727c73628e3ec5cd451e1",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Friendly, open, and approachable male voice of a 20s-30s human dairyman from Ultima VII, with a warm, slightly rustic cadence reflecting his contentment despite personal troubles. Speaks with gentle conviction, as if reassuring a weary traveler or sharing quiet wisdom.",
+  "seed": 1303,
+  "batch_no": 303,
+  "batch_size": 16,
+  "batch_position": 13,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

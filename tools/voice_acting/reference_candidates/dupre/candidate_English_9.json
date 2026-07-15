@@ -1,0 +1,16 @@
+{
+  "npc": "Dupre",
+  "slug": "dupre",
+  "index": 9,
+  "language": "English",
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "instruct": "Gender: male. Age: fifties. Role: knight of Britannia and tavern critic. Pitch: warm, resonant baritone. Pace: bouncy, rhythmic, with pauses for punchlines. Emotion: jovial, loyal, slightly irreverent. Characteristics: crisp, slightly gravelly, with a twinkle in the delivery. Use case: fantasy tavern banter and heroic narration.",
+  "seed": 47112,
+  "batch_seed": 47112,
+  "batch_position": 7,
+  "batch_size": 16,
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "sha256": "55711d340f96df9414f4abaca6e695e0225bac057e8146b257f357be7143f91b",
+  "sample_rate": 24000,
+  "duration_seconds": 3.6
+}

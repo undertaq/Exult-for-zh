@@ -1,0 +1,17 @@
+{
+  "npc": "Nastassia",
+  "slug": "nastassia",
+  "index": 9,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.08,
+  "sha256": "c45774188522ed9c06c52f0b8bd6ab6af70a13f2d42266bb04a8c295911770c1",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 20s, sad beautiful young woman, soft melancholy voice, delicate and sorrowful",
+  "seed": 1294,
+  "batch_no": 294,
+  "batch_size": 16,
+  "batch_position": 15,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

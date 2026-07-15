@@ -1,0 +1,17 @@
+{
+  "npc": "Ophelia",
+  "slug": "ophelia",
+  "index": 8,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.92,
+  "sha256": "fdc91cb324e3174e3821c3c549f4cc28f4c6de51846ed5d11f6b4eb164e27185",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 20s, shy and kind young woman, soft gentle voice, sweet and warm",
+  "seed": 1281,
+  "batch_no": 281,
+  "batch_size": 16,
+  "batch_position": 12,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Richter",
+  "slug": "richter",
+  "index": 9,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.44,
+  "sha256": "1eaf5045e1790657ccdc980ab915b9f6437a6e13024a3ec4fca6e29a798d27d7",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 20s-30s, gallant knight, confident and polite voice",
+  "seed": 1227,
+  "batch_no": 227,
+  "batch_size": 16,
+  "batch_position": 7,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

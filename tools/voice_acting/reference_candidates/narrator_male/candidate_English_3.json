@@ -1,0 +1,16 @@
+{
+  "npc": "Narrator (Male)",
+  "slug": "narrator_male",
+  "index": 3,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.56,
+  "sha256": "517e4e2935ffaf7ec0e27fb08c3c1ebe3a7440a481c4b4c5cb4b5f86ccb46416",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Gender: male. Age: fifties. Role: omniscient storyteller narrating the world of Britannia. Pitch: deep, rich bass-baritone. Pace: unhurried, even, cadenced like reading a storybook. Emotion: warm, wise, gently authoritative, evoking wonder. Characteristics: resonant, clear diction, timeless and reassuring. Use case: fantasy RPG scene narration, lore descriptions, cinematic voiceover.",
+  "seed": 26607,
+  "batch_size": 5,
+  "batch_position": 3,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

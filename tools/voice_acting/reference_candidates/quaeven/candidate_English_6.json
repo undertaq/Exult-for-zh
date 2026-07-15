@@ -1,0 +1,17 @@
+{
+  "npc": "Quaeven",
+  "slug": "quaeven",
+  "index": 6,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.44,
+  "sha256": "4e303c7144d745950181610298f54525868023311245c6ca8091d66744c7cf75",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, gargoyle, hurried fellowship member, rushed distracted voice",
+  "seed": 1264,
+  "batch_no": 264,
+  "batch_size": 16,
+  "batch_position": 12,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

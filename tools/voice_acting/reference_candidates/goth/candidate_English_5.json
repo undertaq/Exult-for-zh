@@ -1,0 +1,17 @@
+{
+  "npc": "Goth",
+  "slug": "goth",
+  "index": 5,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.76,
+  "sha256": "2afd7c1c4f16be0a9fcd56c71339d09d0f31c4e5ef744f1e7209932452e3f1f4",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 30s-40s, mean-eyed man, hostile spitting voice",
+  "seed": 1192,
+  "batch_no": 192,
+  "batch_size": 16,
+  "batch_position": 3,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Cador",
+  "slug": "cador",
+  "index": 2,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.72,
+  "sha256": "49bb0d93cddd5ac32709a847a15f9a8645f9a89956f7be32df3c6f785cd8d881",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：三十至四十岁。角色：矿业公司运营主管。音高：沉稳中音，略带低沉感。语速：平稳、克制，语句间有自然停顿。情绪：礼貌、克制、务实，带点疲惫但不失尊严。音色特征：清晰、略带沙哑、共鸣感自然。语言：标准普通话。使用场景：矿区日常对话、与员工或访客交流事务。",
+  "seed": 1068,
+  "batch_no": 68,
+  "batch_size": 16,
+  "batch_position": 4,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

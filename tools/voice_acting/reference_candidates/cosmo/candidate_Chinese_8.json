@@ -1,0 +1,17 @@
+{
+  "npc": "Cosmo",
+  "slug": "cosmo",
+  "index": 8,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.64,
+  "sha256": "78eca62952e913664345a22ae9a718762e10d7314f79d33b003e89d21506bea7",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：二十出头。角色：天真无邪的年轻战士。音高：明亮清脆的男声。语速：轻快、略带慌张、语调跳跃。情绪：单纯、莽撞、略带羞涩。音色特征：清亮、稚嫩、带点少年气。语言：标准普通话。使用场景：角色扮演中与同伴或NPC对话，尤其在执行天真任务时。",
+  "seed": 1034,
+  "batch_no": 34,
+  "batch_size": 16,
+  "batch_position": 14,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

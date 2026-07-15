@@ -1,0 +1,17 @@
+{
+  "npc": "Sasha",
+  "slug": "sasha",
+  "index": 3,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.68,
+  "sha256": "ec87fbab02cb758c4f88d47362c40c02a09edc3b430b4ea38d19cd40a50d9f2d",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：青少年至二十出头。角色：在位游牧族群的年轻成员，因父母惨死而悲痛欲绝。音高：低沉、略带沙哑的少年男声。语速：缓慢、克制，语调中带有压抑的哀伤。情绪：内敛、忧郁、沉默寡言，充满未言明的悲伤。音色特征：略带沙哑、共鸣柔和、语调低沉。语言：标准普通话。使用场景：角色扮演中与玩家互动时表达内心创伤与身份挣扎。",
+  "seed": 1137,
+  "batch_no": 137,
+  "batch_size": 16,
+  "batch_position": 1,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

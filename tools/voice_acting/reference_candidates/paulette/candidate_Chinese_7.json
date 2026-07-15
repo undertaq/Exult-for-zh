@@ -1,0 +1,17 @@
+{
+  "npc": "Paulette",
+  "slug": "paulette",
+  "index": 7,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.6,
+  "sha256": "4042071f3a4be0ef9aafa8688ff75e17d3e3377dc78f2cf696f3e2e6cf9e3802",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：二十出头。角色：酒吧女侍鬼魂。音高：清亮柔婉的女声。语速：缓慢、飘忽、带恍惚停顿。情绪：迷离困惑、略带天真、略显怯懦。音色特征：圆润、空灵、略带气声。语言：标准普通话。使用场景：游戏对话中作为鬼魂角色与玩家互动。",
+  "seed": 1004,
+  "batch_no": 4,
+  "batch_size": 16,
+  "batch_position": 3,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

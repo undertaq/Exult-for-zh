@@ -1,0 +1,17 @@
+{
+  "npc": "Candice",
+  "slug": "candice",
+  "index": 9,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.44,
+  "sha256": "4f54ab807a346fa70f420ca46f58847817e53d9a88751dc00535a5b64b2a81fb",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：三十至四十岁。角色：关注 Fellowship 的成员。音高：柔和清亮的女声。语速：略快、带犹豫停顿，语调起伏明显。情绪：忧虑、羞怯、内敛、带点紧张。音色特征：圆润、略带气声、语尾轻颤。语言：标准普通话。使用场景：角色扮演中与玩家对话时表达个人情感与秘密，或在谈及浪漫与组织使命时流露矛盾情绪。",
+  "seed": 1130,
+  "batch_no": 130,
+  "batch_size": 16,
+  "batch_position": 9,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

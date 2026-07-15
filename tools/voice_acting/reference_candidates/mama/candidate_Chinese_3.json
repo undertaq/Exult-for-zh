@@ -1,0 +1,17 @@
+{
+  "npc": "Mama",
+  "slug": "mama",
+  "index": 3,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 7.36,
+  "sha256": "3e561bc8ba1daea87bd55fbbf158f756b86d80bbf1200bc6028f7aed232307ba",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：四十多岁。角色：独眼独眼的独眼巨人（Mama Cyclops），石门镇居民，抚养孤儿的母性角色。音高：温暖、泥土质感的女中音，略带沙哑。语速：缓慢、带节奏感，语调中带恳求与幽默。情绪：坦率、慈爱、略带粗粝的母性，不避讳表达情感。音色特征：自然、带泥土气息、有生活感的嗓音。语言：标准普通话。使用场景：在《终极幻想VI》石门镇与玩家互动时的对话。",
+  "seed": 1155,
+  "batch_no": 155,
+  "batch_size": 16,
+  "batch_position": 3,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

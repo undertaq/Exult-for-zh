@@ -1,0 +1,17 @@
+{
+  "npc": "Leigh",
+  "slug": "leigh",
+  "index": 2,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.68,
+  "sha256": "328e1772fa92236760aabc607f5c0a09f8c7359ad22d25551c56ffba2c8d71b4",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 20s-30s, charming lady, warm approving voice",
+  "seed": 1193,
+  "batch_no": 193,
+  "batch_size": 16,
+  "batch_position": 14,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

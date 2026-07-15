@@ -46,6 +46,7 @@ OUTPUT_DIR = os.path.join(PROJECT_DIR, 'voice')
 ZH_OUTPUT = os.path.join(OUTPUT_DIR, 'zh')
 EN_OUTPUT = os.path.join(OUTPUT_DIR, 'en')
 REFS_DIR = os.path.join(OUTPUT_DIR, 'refs')
+CANDIDATE_DIR = os.path.join(SCRIPT_DIR, 'reference_candidates')
 
 MAPPING_PATH = os.path.join(SCRIPT_DIR, 'bilingual_mapping_review.json')
 EN_LINES_PATH = os.path.join(SCRIPT_DIR, 'en_voice_lines.csv')
@@ -62,6 +63,14 @@ MIN_DURATION_MS = 1500
 LONG_TEXT_THRESHOLD = 100
 SHORT_MAX_TOKENS = 256
 LONG_MAX_TOKENS = 1024
+NARRATOR_FEMALE_DESIGN_ID = "npc_unknown"
+NARRATOR_FEMALE_NAME = "UNKNOWN"
+NARRATOR_MALE_DESIGN_ID = "npc_narrator_male"
+NARRATOR_MALE_NAME = "Narrator male"
+NARRATOR_DESIGN_ID = NARRATOR_FEMALE_DESIGN_ID
+NARRATOR_NAME = NARRATOR_FEMALE_NAME
+SPLICE_GAP_MS = 280
+SPLICE_FADE_MS = 30
 
 RUNE_SIGN_CONTEXT_SPEAKERS = [
     'Iolo',
@@ -181,6 +190,157 @@ def ensure_minimum_duration(wav, sr, min_ms=MIN_DURATION_MS):
         repeats = int(np.ceil(needed / len(wav)))
         wav = np.tile(wav, repeats)[:needed]
     return wav
+
+
+def split_voice_parts(text, lang, default_role='narrator'):
+    """Split text into narrator/speaker parts using language dialogue delimiters."""
+    text = text or ''
+    if lang == 'zh':
+        stripped = text.strip()
+        if (
+            default_role == 'speaker'
+            and (
+                (
+                    stripped.endswith('"')
+                    and stripped.count('"') == 1
+                    and '「' not in stripped
+                    and '」' not in stripped
+                )
+                or (
+                    stripped.endswith('」')
+                    and stripped.count('」') == 1
+                    and '「' not in stripped
+                )
+            )
+        ):
+            return [('speaker', stripped[:-1].strip())]
+        return split_delimited_voice_parts(
+            text,
+            [('「', '」'), ('"', '"')],
+            default_role=default_role,
+        )
+    return split_delimited_voice_parts(text, [('"', '"')], default_role=default_role)
+
+
+def split_delimited_voice_parts(text, delimiter_pairs, default_role='narrator'):
+    parts = []
+    text = text or ''
+    i = 0
+    start = 0
+    active_right = None
+    saw_delimiter = False
+    while i < len(text):
+        token = None
+        closing = False
+        if active_right is not None:
+            if text.startswith(active_right, i):
+                token = active_right
+                closing = True
+        else:
+            for left, right in delimiter_pairs:
+                if text.startswith(left, i):
+                    token = left
+                    active_right = right
+                    break
+        if token is not None:
+            saw_delimiter = True
+            chunk = text[start:i].strip()
+            if chunk:
+                parts.append(('speaker' if closing else 'narrator', chunk))
+            i += len(token)
+            start = i
+            if closing:
+                active_right = None
+            continue
+        i += 1
+    chunk = text[start:].strip()
+    if chunk:
+        role = 'speaker' if active_right is not None else ('narrator' if saw_delimiter else default_role)
+        parts.append((role, chunk))
+    return parts or [(default_role, text.strip() or '...')]
+
+
+def default_voice_role(entry, lang):
+    """Default role for text without explicit dialogue delimiters."""
+    role = (
+        entry.get(f'{lang}_voice_default_role')
+        or entry.get('voice_default_role')
+        or ''
+    )
+    if role in ('speaker', 'narrator'):
+        return role
+    text = (entry.get(f'{lang}_text', '') or '').strip()
+    source_meta = entry.get('_source_meta', {}) or {}
+    meta = source_meta.get(lang, {}) or {}
+    try:
+        segment = int(meta.get('segment', entry.get(f'{lang}_segment', 0)) or 0)
+        total_segments = int(meta.get('total_segments', 1) or 1)
+    except (TypeError, ValueError):
+        segment = int(entry.get(f'{lang}_segment', 0) or 0)
+        total_segments = 1
+    if segment > 0 and total_segments > 1:
+        if (
+            text.endswith('"')
+            and text.count('"') == 1
+            and '「' not in text
+            and '」' not in text
+        ):
+            return 'speaker'
+        if (
+            text.endswith('」')
+            and text.count('」') == 1
+            and '「' not in text
+        ):
+            return 'speaker'
+    return 'narrator'
+
+
+def fade_splice_chunk(wav, sr):
+    """Shape a generated chunk for concatenation without repeating short phrases."""
+    wav = np.asarray(wav, dtype=np.float32)
+    if wav.size == 0:
+        return wav
+    fade = min(int(sr * SPLICE_FADE_MS / 1000), wav.size // 2)
+    if fade <= 1:
+        return wav
+    wav = wav.copy()
+    wav[:fade] *= np.linspace(0.0, 1.0, fade, dtype=np.float32)
+    wav[-fade:] *= np.linspace(1.0, 0.0, fade, dtype=np.float32)
+    return wav
+
+
+def generate_delimited_voice(model, parts, lang, speaker_prompt, narrator_prompt):
+    """Generate one output waveform from narrator/speaker chunks."""
+    lang_label = 'Chinese' if lang == 'zh' else 'English'
+    max_tokens = SHORT_MAX_TOKENS
+    rendered_parts = []
+    for role, text in parts:
+        rendered = tc2sc(text, 'zh-cn') if lang == 'zh' else text
+        rendered_parts.append((role, rendered))
+        if len(text) > LONG_TEXT_THRESHOLD:
+            max_tokens = LONG_MAX_TOKENS
+
+    wavs = []
+    sr = None
+    for role, text in rendered_parts:
+        prompt = narrator_prompt if role == 'narrator' and narrator_prompt is not None else speaker_prompt
+        generated, sr = model.generate_voice_clone(
+            text=[text],
+            language=[lang_label],
+            voice_clone_prompt=prompt,
+            max_new_tokens=max_tokens,
+        )
+        wav = generated[0] if isinstance(generated, (list, tuple)) else generated
+        wavs.append(fade_splice_chunk(wav, sr))
+
+    gap = np.zeros(int(sr * SPLICE_GAP_MS / 1000), dtype=np.float32)
+    joined = []
+    for idx, wav in enumerate(wavs):
+        if idx:
+            joined.append(gap)
+        joined.append(np.asarray(wav, dtype=np.float32))
+    wav = np.concatenate(joined) if joined else np.zeros(int(sr * 0.5), dtype=np.float32)
+    return wav, sr
 
 
 def write_ogg_direct(filepath, wav, sr, npc='', text='', metadata=None):
@@ -388,6 +548,8 @@ def load_source_line_metadata():
                     'npc': row.get('npc', '') or '',
                     'speaker': row.get('speaker', '') or '',
                     'caller_guess': row.get('caller_guess', '') or '',
+                    'segment': row.get('segment', '') or '',
+                    'total_segments': row.get('total_segments', '') or '',
                 })
     return metadata
 
@@ -521,8 +683,36 @@ def expand_entry_for_voice_speakers(entry):
 
 # ── Phase A: VoiceDesign Reference Generation ─────────────────────────
 
+def backup_legacy_voice_state(args):
+    """Back up mutable legacy inputs once per invocation before replacing them."""
+    if getattr(args, 'dry_run', False):
+        return None
+    existing = getattr(args, '_legacy_voice_backup_dir', None)
+    if existing is not None:
+        return Path(existing)
+
+    backup_root = Path(PROJECT_DIR) / 'voice_backup'
+    timestamp = time.strftime('%Y%m%d-%H%M%S')
+    backup_dir = backup_root / timestamp
+    suffix = 1
+    while backup_dir.exists():
+        backup_dir = backup_root / f'{timestamp}-{suffix}'
+        suffix += 1
+    backup_dir.mkdir(parents=True)
+
+    refs_dir = Path(REFS_DIR)
+    if refs_dir.exists():
+        shutil.copytree(refs_dir, backup_dir / 'refs')
+    prompts_path = Path(CLONE_PROMPTS_PATH)
+    if prompts_path.exists():
+        shutil.copy2(prompts_path, backup_dir / prompts_path.name)
+    args._legacy_voice_backup_dir = str(backup_dir)
+    print(f'Legacy voice inputs backed up to {backup_dir}')
+    return backup_dir
+
 def phase_a_generate_refs(designs, args):
     """Generate reference clips for each voice design using VoiceDesign."""
+    backup_legacy_voice_state(args)
     os.makedirs(REFS_DIR, exist_ok=True)
 
     print(f'\n{"="*60}')
@@ -661,6 +851,41 @@ def phase_a_generate_refs(designs, args):
     return total, skipped, errors
 
 
+def phase_a_generate_candidates(designs, args):
+    """Generate review candidates without touching approved voice/refs clips."""
+    from generate_reference_candidates import (
+        build_candidate_jobs,
+        generate_jobs,
+        load_model as load_candidate_model,
+        load_designs_or_voice_bibles,
+    )
+
+    candidate_designs = designs
+    voice_bibles = getattr(args, 'voice_bibles', None)
+    if voice_bibles:
+        candidate_designs = load_designs_or_voice_bibles(Path(DESIGNS_PATH), Path(voice_bibles))
+    jobs = build_candidate_jobs(
+        candidate_designs,
+        Path(getattr(args, 'candidate_output_dir', CANDIDATE_DIR)),
+        getattr(args, 'candidates', 10),
+    )
+    if args.dry_run:
+        for job in jobs:
+            print(f'  [{job.npc}] Would generate candidate {job.output}')
+        return 0, 0, 0
+
+    model = load_candidate_model(args.device)
+    generated = generate_jobs(
+        model,
+        jobs,
+        getattr(args, 'candidate_seed_base', 1000),
+        getattr(args, 'candidate_batch_size', 16),
+        getattr(args, 'skip_existing_candidates', False) and not getattr(args, 'overwrite_candidates', False),
+    )
+    print(f'Candidate Phase A complete. Generated: {len(generated)}, output: {getattr(args, "candidate_output_dir", CANDIDATE_DIR)}')
+    return len(generated), 0, 0
+
+
 # ── Phase B + C: Clone Prompts + Bulk Generation ──────────────────────
 
 def build_npc_to_design_map(designs):
@@ -672,8 +897,75 @@ def build_npc_to_design_map(designs):
     return npc_to_design
 
 
+def infer_design_gender(design_id, design):
+    """Infer voice gender from design metadata used by voice generation."""
+    identity = ' '.join([
+        str(design_id or ''),
+        str(design.get('npc', '') or ''),
+    ]).lower()
+    if re.search(r'(^|[_\W])female([_\W]|$)', identity):
+        return 'female'
+    if re.search(r'(^|[_\W])male([_\W]|$)', identity):
+        return 'male'
+
+    blob = ' '.join([
+        str(design.get('voice_desc_en', '') or ''),
+        str(design.get('voice_desc_zh', '') or ''),
+    ]).lower()
+    female_noise_patterns = [
+        r'not(?:\s+\w+){0,4}\s+feminine',
+        r'not\s+feminine',
+        r'don[’\']?t(?:\s+\w+){0,4}\s+feminine',
+        r'do\s+not(?:\s+\w+){0,4}\s+feminine',
+        r'不要女性化',
+        r'不女性化',
+        r'非女性',
+        r'female\s+roles?',
+        r'woman[’\']s\s+wig',
+        r'in\s+drag',
+    ]
+    cleaned = blob
+    for pattern in female_noise_patterns:
+        cleaned = re.sub(pattern, ' ', cleaned)
+    if (
+        re.search(r'(^|[^a-z])female([^a-z]|$)', cleaned)
+        or re.search(r'(^|[^a-z])feminine([^a-z]|$)', cleaned)
+        or '女性' in cleaned
+    ):
+        return 'female'
+    if (
+        re.search(r'(^|[^a-z])male([^a-z]|$)', blob)
+        or re.search(r'(^|[^a-z])masculine([^a-z]|$)', blob)
+        or '男性' in blob
+        or '男聲' in blob
+        or '男中音' in blob
+    ):
+        return 'male'
+    return None
+
+
+def voice_gender_for_npc(designs, npc_to_design, npc_name):
+    if npc_name == 'Avatar female':
+        return 'female'
+    if npc_name == 'Avatar male':
+        return 'male'
+    did = npc_to_design.get(npc_name)
+    if not did:
+        return None
+    design = designs.get('designs', {}).get(did, {})
+    return infer_design_gender(did, design)
+
+
+def narrator_design_id_for_npc(designs, npc_to_design, npc_name):
+    gender = voice_gender_for_npc(designs, npc_to_design, npc_name)
+    if gender == 'male':
+        return NARRATOR_MALE_DESIGN_ID
+    return NARRATOR_FEMALE_DESIGN_ID
+
+
 def phase_b_build_prompts(designs, args):
     """Build clone prompts from reference clips."""
+    backup_legacy_voice_state(args)
     os.makedirs(REFS_DIR, exist_ok=True)
 
     print(f'\n{"="*60}')
@@ -775,6 +1067,38 @@ def phase_b_build_prompts(designs, args):
     return clone_prompts, total, errors
 
 
+def maybe_update_full_voice_review(args, since_mtime, last_update, force=False):
+    out_dir = getattr(args, 'review_out_dir', None)
+    if not out_dir:
+        return last_update
+    interval = getattr(args, 'review_update_interval', 120) or 120
+    now = time.time()
+    if not force and last_update and now - last_update < interval:
+        return last_update
+    if not force and last_update == 0 and now - since_mtime < interval:
+        return last_update
+    try:
+        from generate_voice_review_html import rows_from_full_voice, write_report
+
+        rows = rows_from_full_voice(
+            Path(OUTPUT_DIR),
+            Path(MAPPING_PATH),
+            since_mtime=since_mtime,
+            only_new=getattr(args, 'review_only_new', True),
+        )
+        html_path, data_path = write_report(
+            rows,
+            Path(out_dir),
+            'Generated Voice Review - Current Run',
+            review_id=str(since_mtime),
+        )
+        print(f'  Review HTML updated: {html_path} ({len(rows)} rows)')
+        return now
+    except Exception as ex:
+        print(f'  Review HTML update ERROR: {ex}')
+        return last_update
+
+
 def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
     """Bulk generate all ZH + EN voice files via VoiceClone."""
     os.makedirs(ZH_OUTPUT, exist_ok=True)
@@ -792,6 +1116,9 @@ def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
     # Build NPC → design lookup
     npc_to_design = build_npc_to_design_map(designs)
     model = None
+    generation_started_at = int(time.time())
+    review_since_mtime = getattr(args, 'review_since_mtime', 0) or generation_started_at
+    last_review_update = 0
 
     if not args.dry_run:
         print(f'\nLoading {BASE_MODEL}...')
@@ -808,10 +1135,19 @@ def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
             lang_label = 'Chinese' if lang == 'zh' else 'English'
             out_dir = ZH_OUTPUT if lang == 'zh' else EN_OUTPUT
             text_key = f'{lang}_text'
+            narrator_prompts = {
+                NARRATOR_FEMALE_DESIGN_ID: clone_prompts.get(NARRATOR_FEMALE_DESIGN_ID, {}).get(lang),
+                NARRATOR_MALE_DESIGN_ID: clone_prompts.get(NARRATOR_MALE_DESIGN_ID, {}).get(lang),
+            }
 
             print(f'\n{"-"*50}')
             print(f'Generating {lang_label} lines')
             print(f'{"-"*50}')
+
+            if not args.dry_run:
+                for narrator_id, prompt in narrator_prompts.items():
+                    if prompt is None:
+                        print(f'  [{narrator_id}] No narrator clone prompt for {lang}; matching narration falls back to speaker voice')
 
             npcs_in_lang = sorted([n for n in by_npc.keys()])
             progress_npc = 0
@@ -835,7 +1171,8 @@ def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
                     print(f'  [{npc_name}] No clone prompt for {lang}, skipping {len(entries)} lines')
                     total_err += len(entries)
                     continue
-
+                narrator_id = narrator_design_id_for_npc(designs, npc_to_design, npc_name)
+                narrator_prompt = narrator_prompts.get(narrator_id) or prompt_data
                 # Filter entries with text for this language, refusing stale runtime keys.
                 all_lang_entries = [e for e in entries if e.get(text_key, '').strip()]
                 invalid_lang_entries = [
@@ -897,37 +1234,29 @@ def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
                         would_generate += len(to_generate)
                         continue
 
-                    texts = []
-                    max_tokens = SHORT_MAX_TOKENS
                     for e in to_generate:
-                        t = e.get(text_key, '') or '...'
-                        if lang == 'zh':
-                            t = tc2sc(t, 'zh-cn')
-                        texts.append(t)
-                        if len(e.get(text_key, '')) > LONG_TEXT_THRESHOLD:
-                            max_tokens = LONG_MAX_TOKENS
-
-                    # VoiceClone batch generation
-                    try:
-                        wavs, sr = model.generate_voice_clone(
-                            text=texts,
-                            language=[lang_label] * len(texts),
-                            voice_clone_prompt=prompt_data,
-                            max_new_tokens=max_tokens,
-                        )
-                    except Exception as ex:
-                        print(f'  [{npc_name}] Batch ERROR: {ex}')
-                        errors += len(to_generate)
-                        continue
-
-                    for j, e in enumerate(to_generate):
                         try:
-                            wav_out = wavs[j] if j < len(wavs) else wavs[0]
-                            wav_out = ensure_minimum_duration(wav_out, sr)
+                            original_text = e.get(text_key, '') or '...'
+                            parts = split_voice_parts(
+                                original_text,
+                                lang,
+                                default_role=default_voice_role(e, lang),
+                            )
+                            wav_out, sr = generate_delimited_voice(
+                                model,
+                                parts,
+                                lang,
+                                prompt_data,
+                                narrator_prompt,
+                            )
                             prepare_voice_output_path(e['_ogg_path'])
                             write_ogg_direct(
                                 e['_ogg_path'], wav_out, sr,
-                                npc_name, e.get(text_key, '')
+                                npc_name, original_text,
+                                metadata={
+                                    'VOICE_MODE': 'delimited_narrator_speaker',
+                                    'NARRATOR': narrator_id,
+                                },
                             )
                             generated += 1
                             if (
@@ -936,11 +1265,16 @@ def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
                             ):
                                 # Create generic fallback without hard-link aliasing.
                                 create_generic_fallback(e['_ogg_path'], e, lang, out_dir)
+                            last_review_update = maybe_update_full_voice_review(
+                                args,
+                                review_since_mtime,
+                                last_review_update,
+                                force=False,
+                            )
                         except Exception as ex:
                             print(f'  [{npc_name}] Write ERROR {e["_ogg_path"]}: {ex}')
                             errors += 1
 
-                    del wavs, sr, texts
                     if i > 0 and (i // BATCH_SIZE_PHASE_C) % 4 == 0:
                         gc.collect()
                         torch.cuda.empty_cache()
@@ -956,6 +1290,12 @@ def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
                         status = f'  [{npc_name}] Would generate {would_generate} lines Skip:{skipped}'
                     print(status)
 
+                last_review_update = maybe_update_full_voice_review(
+                    args,
+                    review_since_mtime,
+                    last_review_update,
+                    force=False,
+                )
                 gc.collect()
                 torch.cuda.empty_cache()
 
@@ -969,6 +1309,8 @@ def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
         print(f'\nPhase C dry-run complete. Would generate: {total_would_gen}, Skipped: {total_skip}, Errors: {total_err}')
     else:
         print(f'\nPhase C complete. Generated: {total_gen}, Skipped: {total_skip}, Errors: {total_err}')
+
+    maybe_update_full_voice_review(args, review_since_mtime, last_review_update, force=True)
 
     # File size summary
     print(f'\nFile size summary:')
@@ -1121,7 +1463,7 @@ def phase_migrate_existing(data, by_npc, args):
 
 # ── Main ──────────────────────────────────────────────────────────────
 
-def main():
+def build_parser():
     parser = argparse.ArgumentParser(description='3-stage Qwen3-TTS voice generation')
     parser.add_argument('--phase', type=str, default='all',
                         choices=['all', 'refs', 'prompts', 'voice'],
@@ -1129,6 +1471,22 @@ def main():
     parser.add_argument('--dry-run', action='store_true', help='Scan and report only')
     parser.add_argument('--force', action='store_true', help='Force regenerate existing files')
     parser.add_argument('--force-refs', action='store_true', help='Force regenerate reference clips')
+    parser.add_argument('--reference-workflow', choices=['candidates', 'legacy'], default='candidates',
+                        help='Use review candidates by default; legacy writes approved voice/refs directly')
+    parser.add_argument('--voice-bibles', type=str, default=None,
+                        help='Optional per-NPC voice-bible directory for candidate generation')
+    parser.add_argument('--candidate-output-dir', type=str, default=CANDIDATE_DIR,
+                        help='Review-only candidate output directory (never voice/refs)')
+    parser.add_argument('--candidates', type=int, default=10,
+                        help='Reference candidates per NPC and language')
+    parser.add_argument('--candidate-batch-size', type=int, default=16,
+                        help='VoiceDesign candidate batch size; OOM batches split automatically')
+    parser.add_argument('--candidate-seed-base', type=int, default=1000,
+                        help='Base seed for candidate generation batches')
+    parser.add_argument('--skip-existing-candidates', action='store_true',
+                        help='Resume candidate generation by retaining existing candidate files')
+    parser.add_argument('--overwrite-candidates', action='store_true',
+                        help='Overwrite candidate files even with --skip-existing-candidates')
     parser.add_argument('--device', type=str, default='cuda:0', help='CUDA device')
     parser.add_argument('--npc', type=str, default=None, help='Single NPC to process')
     parser.add_argument('--max-npcs', type=int, default=None, help='Limit number of NPCs to process')
@@ -1137,7 +1495,20 @@ def main():
     parser.add_argument('--generic-fallbacks', action='store_true',
                         help='Also create generic non-NPC fallback copies for generated/skipped NPC-specific files')
     parser.add_argument('--migrate', action='store_true', help='One-time migration: rename existing generic files to NPC-specific names')
-    args = parser.parse_args()
+    parser.add_argument('--review-out-dir', type=str, default=None,
+                        help='Periodically write full generated voice review HTML to this directory')
+    parser.add_argument('--review-update-interval', type=int, default=120,
+                        help='Seconds between review HTML refreshes during Phase C')
+    parser.add_argument('--review-since-mtime', type=int, default=0,
+                        help='Unix mtime threshold for marking current-run generated files')
+    parser.add_argument('--review-all', action='store_true',
+                        help='Show all generated voice files in review HTML instead of only current-run files')
+    return parser
+
+
+def main():
+    args = build_parser().parse_args()
+    args.review_only_new = not args.review_all
 
     # Load data
     designs = load_designs()
@@ -1171,7 +1542,13 @@ def main():
 
     # Phase A: Generate reference clips
     if args.phase in ('all', 'refs'):
-        phase_a_generate_refs(designs, args)
+        if args.reference_workflow == 'legacy':
+            phase_a_generate_refs(designs, args)
+        else:
+            phase_a_generate_candidates(designs, args)
+            if args.phase == 'all':
+                print('Candidate workflow stops before prompts/voice; select and approve references first.')
+                return
 
     # Phase B + C: Build prompts and generate voice
     if args.phase in ('all', 'prompts', 'voice'):

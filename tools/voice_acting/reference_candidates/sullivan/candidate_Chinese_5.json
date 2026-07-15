@@ -1,0 +1,17 @@
+{
+  "npc": "Sullivan",
+  "slug": "sullivan",
+  "index": 5,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.12,
+  "sha256": "57d800ab6b5c6dad007ca68ae2e7a49f268c823159f15e74fc8433891fe3aa00",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：二十至三十岁。角色：前罪犯、诈骗犯，现为被囚禁的“假先知”扮演者。音高：明亮、清脆的男声，略带沙哑。语速：轻快、带笑意，节奏跳跃，语调充满感激与狡黠。情绪：乐观、自嘲、感激，带点戏谑与粗俗幽默。音色特征：明亮、清脆、略带沙哑，语调富有感染力。语言：标准普通话。使用场景：角色扮演中与玩家互动或被救出后表达谢意。",
+  "seed": 1142,
+  "batch_no": 142,
+  "batch_size": 16,
+  "batch_position": 3,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

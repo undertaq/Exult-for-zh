@@ -1,0 +1,17 @@
+{
+  "npc": "Rowena",
+  "slug": "rowena",
+  "index": 2,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.84,
+  "sha256": "12b2ce7ca110d3e1918b096bdcbf5634eeddd6fe2b1cb2422a784f93d714803f",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 30s-40s, ghostly lady, hollow distant voice, polite but detached",
+  "seed": 1282,
+  "batch_no": 282,
+  "batch_size": 16,
+  "batch_position": 10,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

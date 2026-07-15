@@ -1,0 +1,17 @@
+{
+  "npc": "Julia",
+  "slug": "julia",
+  "index": 1,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.6,
+  "sha256": "860d097889804454b1dbe9278213158b6c7d00f9796a14fcd4c7d303ff676767",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 20s-30s, clever tinker, bright and enthusiastic voice, quick",
+  "seed": 1270,
+  "batch_no": 270,
+  "batch_size": 16,
+  "batch_position": 1,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

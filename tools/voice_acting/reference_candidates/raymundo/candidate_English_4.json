@@ -1,0 +1,17 @@
+{
+  "npc": "Raymundo",
+  "slug": "raymundo",
+  "index": 4,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.28,
+  "sha256": "a12c5241bbe60130f67aba7247113ece4bd065d181db932de4b6a947437ed1ee",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 40s, irritable artist, annoyed and dismissive voice, creative intensity",
+  "seed": 1289,
+  "batch_no": 289,
+  "batch_size": 16,
+  "batch_position": 0,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Rutherford",
+  "slug": "rutherford",
+  "index": 8,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.8,
+  "sha256": "d2a3fcc011b6ee95b39a3b2ce8d23045ecd050f93047885026a44b00f8b1de2a",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：四十多岁。角色：Minoc市的酒馆老板，前海盗，右臂与右眼曾被海盗Hook所伤。音高：低沉略带沙哑的男声。语速：缓慢、带点疲惫感，语调温和但不拖沓。情绪：疲惫却友善、略带粗粝的幽默感、务实且不善言辞。音色特征：沙哑、略带喉音、共鸣感强、语调沉稳。语言：标准普通话。使用场景：在酒馆与玩家对话，讲述当地轶事或提供线索。",
+  "seed": 1146,
+  "batch_no": 146,
+  "batch_size": 16,
+  "batch_position": 2,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

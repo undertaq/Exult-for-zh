@@ -1,0 +1,17 @@
+{
+  "npc": "Rudyom",
+  "slug": "rudyom",
+  "index": 1,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 5.76,
+  "sha256": "e7470d57a71a889ff64b8129be546d2ccb5d034f73946b70226d93bae050aca1",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：八十多岁。角色：失忆的古老法师。音高：低沉、颤抖、略带沙哑。语速：缓慢、断续、思维混乱。情绪：迷糊、自言自语、偶有懊恼。音色特征：沙哑、气声明显、语调不稳。语言：标准普通话。使用场景：角色扮演中与玩家对话或自言自语时呈现其失智状态。",
+  "seed": 1040,
+  "batch_no": 40,
+  "batch_size": 16,
+  "batch_position": 11,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Cosmo",
+  "slug": "cosmo",
+  "index": 9,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.68,
+  "sha256": "aed8ba0323fd348ca4c5baaeb01465c652eec285591847782d91872e7aa7e51c",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 20s, naive young man, bright innocent voice",
+  "seed": 1177,
+  "batch_no": 177,
+  "batch_size": 16,
+  "batch_position": 7,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

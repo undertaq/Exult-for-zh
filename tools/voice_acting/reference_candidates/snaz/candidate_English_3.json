@@ -1,0 +1,17 @@
+{
+  "npc": "Snaz",
+  "slug": "snaz",
+  "index": 3,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.48,
+  "sha256": "3fa929e2b7373e15565864ae7620450791cb5eb0fd439d692a04291ec7eeeceb",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 30s-40s, crafty beggar, rough voice with a wheedling tone, false friendliness",
+  "seed": 1293,
+  "batch_no": 293,
+  "batch_size": 16,
+  "batch_position": 5,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

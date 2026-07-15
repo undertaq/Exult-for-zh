@@ -1,0 +1,17 @@
+{
+  "npc": "Saralek",
+  "slug": "saralek",
+  "index": 4,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.72,
+  "sha256": "0d8d5d8eb4e1e19f7b54085c1f14d6dc6c8c2057bfb205bb50dbda5e8b720d64",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。角色：emp族猿人。音高：略带紧张的中音，音调起伏明显。语速：急促、断续、带慌乱停顿。情绪：紧张、机警、略带羞怯。音色特征：清脆、略带沙哑、共鸣感弱、气息急促。语言：标准普通话。使用场景：游戏剧情中与玩家互动或表达担忧时。",
+  "seed": 1009,
+  "batch_no": 9,
+  "batch_size": 16,
+  "batch_position": 10,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

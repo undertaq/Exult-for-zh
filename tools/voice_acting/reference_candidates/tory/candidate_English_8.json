@@ -1,0 +1,17 @@
+{
+  "npc": "Tory",
+  "slug": "tory",
+  "index": 8,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.0,
+  "sha256": "2f3835fdb37fd191a45c2b44057bc668cf272bbb637672814d2bc8b4cd9f8ad4",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 40s, compassionate healer, warm and understanding voice",
+  "seed": 1256,
+  "batch_no": 256,
+  "batch_size": 16,
+  "batch_position": 2,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

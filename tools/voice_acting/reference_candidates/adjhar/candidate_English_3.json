@@ -1,0 +1,17 @@
+{
+  "npc": "Adjhar",
+  "slug": "adjhar",
+  "index": 3,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 5.04,
+  "sha256": "45fec2de5f76cbae43b3d260217eac0db1dc9034aa5e6fcccd7c9322f1b893ab",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "A deep, resonant, solemn gargoyle voice, echoing with ancient wisdom and quiet reverence. Each word carries weight, as if spoken from stone and memory. The tone is dramatic yet restrained, with a sense of tragic dignity and enduring loyalty. The voice is not loud, but it lingers — like the echo of a broken tower or a forgotten vow.",
+  "seed": 1310,
+  "batch_no": 310,
+  "batch_size": 16,
+  "batch_position": 3,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

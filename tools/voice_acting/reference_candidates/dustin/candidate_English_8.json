@@ -1,0 +1,17 @@
+{
+  "npc": "Dustin",
+  "slug": "dustin",
+  "index": 8,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.28,
+  "sha256": "19ae465fc6a1963f753dfdb582507a9d9e7555cabb299b0f5d99937bfa22e017",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 40s, stocky actor, focused memorizing voice",
+  "seed": 1179,
+  "batch_no": 179,
+  "batch_size": 16,
+  "batch_position": 4,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

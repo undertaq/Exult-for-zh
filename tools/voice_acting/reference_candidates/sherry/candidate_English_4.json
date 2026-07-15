@@ -1,0 +1,17 @@
+{
+  "npc": "Sherry",
+  "slug": "sherry",
+  "index": 4,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.44,
+  "sha256": "89de2ebc4cc5d4b1ed0723848cd4d13ea4b2d5ddd68bb86f3a8579c1b4add5da",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, rat, squeaky intelligent voice, excited and friendly",
+  "seed": 1244,
+  "batch_no": 244,
+  "batch_size": 16,
+  "batch_position": 10,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

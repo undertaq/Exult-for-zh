@@ -1,0 +1,17 @@
+{
+  "npc": "Kreg",
+  "slug": "kreg",
+  "index": 5,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.6,
+  "sha256": "4cc2037af789adf4c69ec70a4dc57dc563ddd230353d6c6bd9fc263bf320d125",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 20s-30s, friendly monk, warm kind voice",
+  "seed": 1170,
+  "batch_no": 170,
+  "batch_size": 16,
+  "batch_position": 15,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

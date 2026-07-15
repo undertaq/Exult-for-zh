@@ -1,0 +1,17 @@
+{
+  "npc": "Lucy",
+  "slug": "lucy",
+  "index": 9,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.6,
+  "sha256": "6940a2a80d34af90492f8a1915db52179dcb9317d945a32efb2689e87bf63077",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 50s, charming older woman, warm welcoming voice, excited",
+  "seed": 1256,
+  "batch_no": 256,
+  "batch_size": 16,
+  "batch_position": 13,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

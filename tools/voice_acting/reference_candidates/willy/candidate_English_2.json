@@ -1,0 +1,17 @@
+{
+  "npc": "Willy",
+  "slug": "willy",
+  "index": 2,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.68,
+  "sha256": "73b66714f67ad01868dfa83357abb86b73666afe642860084346ec090e47e61b",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 20s, enthusiastic young man, eager and friendly voice, slightly nerdy",
+  "seed": 1287,
+  "batch_no": 287,
+  "batch_size": 16,
+  "batch_position": 0,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

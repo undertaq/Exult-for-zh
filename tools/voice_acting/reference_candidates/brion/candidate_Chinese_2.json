@@ -1,0 +1,17 @@
+{
+  "npc": "Brion",
+  "slug": "brion",
+  "index": 2,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.56,
+  "sha256": "adafc0fd665d50334df8e7103c462e5cb7e3a126a6647b182872e40a554d7a52",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：三十至四十岁。角色：天文台管理员，学者型人物。音高：温和沉稳的男中音。语速：精准、舒缓，带自然停顿。情绪：沉静而热忱，略带怀旧与自豪。音色特征：圆润、清晰、略带共鸣感。语言：标准普通话。使用场景：向好奇听众讲解天文知识或展示收藏品。",
+  "seed": 1033,
+  "batch_no": 33,
+  "batch_size": 16,
+  "batch_position": 14,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

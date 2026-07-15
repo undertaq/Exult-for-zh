@@ -1,0 +1,17 @@
+{
+  "npc": "Leavell",
+  "slug": "leavell",
+  "index": 1,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.16,
+  "sha256": "7c2004cd16bfc95172629d53cb8c6c7c676032fd82efda06bafab04d45479bb4",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：二十出头。角色：刀术杂耍手，游荡的浪荡子。音高：低沉而冷静的男声，略带沙哑。语速：沉稳、专注，节奏紧凑但不急促。情绪：冷静中透着危险，自信且略带狡黠。音色特征：低沉、略带沙哑、共鸣感强，语调带点粗粝感。语言：标准普通话。使用场景：角色扮演中与玩家互动或执行任务时的对话。",
+  "seed": 1106,
+  "batch_no": 106,
+  "batch_size": 16,
+  "batch_position": 15,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

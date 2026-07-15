@@ -1,0 +1,17 @@
+{
+  "npc": "Judith",
+  "slug": "judith",
+  "index": 5,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.56,
+  "sha256": "7bbdc5471086cf899d2c21939386a1d1e5d87c725508e58e8644104ba77c2719",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 40s, musician, warm musical voice, hurried performer",
+  "seed": 1242,
+  "batch_no": 242,
+  "batch_size": 16,
+  "batch_position": 13,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

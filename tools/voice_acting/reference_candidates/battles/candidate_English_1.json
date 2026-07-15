@@ -1,0 +1,17 @@
+{
+  "npc": "Battles",
+  "slug": "battles",
+  "index": 1,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.84,
+  "sha256": "f363fef5e7e90267b03a4d871588be6827d28592d88e3068832ebb13a98f3b2c",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "A cunning, guarded male voice in his 30s-40s, speaking with deliberate slowness and a hint of theatrical menace — his words are laced with suspicion, as if every syllable is calculated to mislead or provoke. He speaks with a low, gravelly timbre, as though he’s been through too many storms to be anything but weary and wary.",
+  "seed": 1309,
+  "batch_no": 309,
+  "batch_size": 16,
+  "batch_position": 7,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

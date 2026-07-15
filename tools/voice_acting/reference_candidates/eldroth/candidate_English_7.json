@@ -1,0 +1,17 @@
+{
+  "npc": "Eldroth",
+  "slug": "eldroth",
+  "index": 7,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.04,
+  "sha256": "c048e6888d140a03cb45b97ae74a40a25fee9d8d05c9cc43263187f6b52d6467",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 30s-40s, neat friendly man, warm encouraging voice",
+  "seed": 1216,
+  "batch_no": 216,
+  "batch_size": 16,
+  "batch_position": 11,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

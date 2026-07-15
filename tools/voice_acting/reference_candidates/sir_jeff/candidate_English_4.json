@@ -1,0 +1,17 @@
+{
+  "npc": "Sir Jeff",
+  "slug": "sir_jeff",
+  "index": 4,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.76,
+  "sha256": "15bbd41467191956a856c803ea6afb0c9818fa78d6022578babce29101c49a8e",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 30s-40s, stern suspicious knight, harsh voice",
+  "seed": 1188,
+  "batch_no": 188,
+  "batch_size": 16,
+  "batch_position": 6,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

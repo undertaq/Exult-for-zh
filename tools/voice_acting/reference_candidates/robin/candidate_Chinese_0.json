@@ -1,0 +1,17 @@
+{
+  "npc": "Robin",
+  "slug": "robin",
+  "index": 0,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.04,
+  "sha256": "df1b35a2702e3d34dfcefb024e87a2e7ee756667336e28852da46bc19554344c",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：二十至三十岁。角色：游荡的赌徒兼冒险者。音高：略带慵懒的中音，音色清亮中透着玩味。语速：随性舒缓，节奏轻快，偶尔带点拖腔。情绪：狡黠、自信、带点痞气的迷人感。音色特征：圆润、略带沙哑尾音，有轻巧的气声起伏。语言：标准普通话。使用场景：角色扮演中与玩家互动或策划诡计时的对话。",
+  "seed": 1113,
+  "batch_no": 113,
+  "batch_size": 16,
+  "batch_position": 12,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

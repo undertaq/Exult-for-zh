@@ -1,0 +1,17 @@
+{
+  "npc": "Cairbre",
+  "slug": "cairbre",
+  "index": 5,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.52,
+  "sha256": "c3e77f1b621c1da9c0b6357287dec3685a8ed15cb612dbc9a7a6d1c8216c50b6",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：二十至三十岁。角色：战士兼雇佣兵。音高：稳定而自信的中音，略带金属质感。语速：平稳有力，节奏清晰，不拖沓。情绪：沉着果敢、略带幽默、不卑不亢。音色特征：清亮、略带沙哑、富有穿透力。语言：标准普通话。使用场景：游戏剧情对话、任务引导、角色互动。",
+  "seed": 1056,
+  "batch_no": 56,
+  "batch_size": 16,
+  "batch_position": 9,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

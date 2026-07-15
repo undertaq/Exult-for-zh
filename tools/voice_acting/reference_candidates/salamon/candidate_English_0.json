@@ -1,0 +1,17 @@
+{
+  "npc": "Salamon",
+  "slug": "salamon",
+  "index": 0,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.48,
+  "sha256": "837c4fb1e3c7734c4604cf6e153b60c7d42b906b00d7c69b48de8f27ea16ad43",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, elderly, withered female ape-creature, creaky old voice",
+  "seed": 1255,
+  "batch_no": 255,
+  "batch_size": 16,
+  "batch_position": 0,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Willy",
+  "slug": "willy",
+  "index": 5,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 5.44,
+  "sha256": "89ca1552f9b83c4653edf5d922175200ba9b9ba089da07ce4647893347856992",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：二十出头。角色：英国面包师兼商人。音高：明亮清脆的男声。语速：急促活泼、带点夸张停顿。情绪：热情外向、略带自恋、爱表现。音色特征：圆润、略带沙哑、语调俏皮。语言：标准普通话。使用场景：游戏NPC对话中展现其推销面包与社交互动的场景。",
+  "seed": 1042,
+  "batch_no": 42,
+  "batch_size": 16,
+  "batch_position": 3,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Iriale",
+  "slug": "iriale",
+  "index": 2,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.6,
+  "sha256": "2430c02a9ef1f45eba15da41163372268eb0a8a41fb58df69e141f0db82b34bc",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：二十至三十岁。角色：战士，守护者。音高：高亢有力的女中音，带攻击性。语速：快速、果断、节奏紧凑。情绪：冷峻、不容置疑、充满挑战性。音色特征：清脆、锐利、略带沙哑。语言：标准普通话。使用场景：战斗或对峙情境中直接命令或威胁对方。",
+  "seed": 1025,
+  "batch_no": 25,
+  "batch_size": 16,
+  "batch_position": 12,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Tolemac",
+  "slug": "tolemac",
+  "index": 2,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.04,
+  "sha256": "0adff633d17d130e8c7c8d351693720c0452b5786cbee63f4c8fd8f83b1b8238",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：二十至三十岁。角色：新加入哲团的农民。音高：中音略偏高，带有刺耳张力。语速：急促、断续、充满对抗性。情绪：愤恨、固执、压抑不满。音色特征：清脆锐利、略带沙哑、缺乏温润感。语言：标准普通话。使用场景：角色扮演中与兄长或组织成员激烈争辩时的对话。",
+  "seed": 1058,
+  "batch_no": 58,
+  "batch_size": 16,
+  "batch_position": 14,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

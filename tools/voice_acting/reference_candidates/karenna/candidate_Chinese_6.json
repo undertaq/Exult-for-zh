@@ -1,0 +1,17 @@
+{
+  "npc": "Karenna",
+  "slug": "karenna",
+  "index": 6,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.24,
+  "sha256": "b039414da7f6f6dd065c9b4354d833f2ad440d06a8021212401460c17bc6a63b",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：二十至三十岁。角色： Ultima VII 游戏中的女性健身教练。音高：清亮略带俏皮的女中音。语速：轻快、带节奏感，语调灵活多变。情绪：狡黠、自信、带点玩味的机敏。音色特征：圆润、略带气声、尾音轻扬。语言：标准普通话。使用场景：游戏对话中与玩家互动时展现专业与俏皮的双重性格。",
+  "seed": 1118,
+  "batch_no": 118,
+  "batch_size": 16,
+  "batch_position": 8,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

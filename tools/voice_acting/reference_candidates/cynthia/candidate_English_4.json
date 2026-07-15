@@ -1,0 +1,17 @@
+{
+  "npc": "Cynthia",
+  "slug": "cynthia",
+  "index": 4,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.76,
+  "sha256": "373ad09204e17dc8c95942e36a39b1d4786a44f0625fa9bd8c3e1d90a7007ef1",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 30s-40s, efficient woman, brisk helpful voice",
+  "seed": 1197,
+  "batch_no": 197,
+  "batch_size": 16,
+  "batch_position": 12,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Alina",
+  "slug": "alina",
+  "index": 7,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.88,
+  "sha256": "45f6a75d3b580fcdcd040c32f0053f0ef7b9fdbead363b7900f0c0a8248dc53e",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "A weary, emotionally fractured female voice in her 40s, conveying deep grief and quiet resignation. Her speech is slow, deliberate, and laced with sorrow — a woman burdened by loss, poverty, and the weight of a husband’s unjust imprisonment. She speaks with a soft, trembling timbre, as if every word is a struggle. Her voice carries the echo of a mother’s unspoken prayers and the bitterness of a life stripped of dignity.",
+  "seed": 1314,
+  "batch_no": 314,
+  "batch_size": 16,
+  "batch_position": 13,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

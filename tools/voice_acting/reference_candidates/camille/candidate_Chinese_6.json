@@ -1,0 +1,17 @@
+{
+  "npc": "Camille",
+  "slug": "camille",
+  "index": 6,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.52,
+  "sha256": "59f4bbf63e2335bfedcb2c04f853a6c29b3a1f869be3f6093ed67ce7a0f62b82",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：四十多岁。角色：寡妇农妇，抚养儿子托比亚斯。音高：略带哭腔的中音，音域偏低但情感起伏强烈。语速：急促、断续，夹杂哽咽与喘息。情绪：焦虑、恳求、绝望，充满母性悲痛。音色特征：沙哑、带泪痕、气息微弱、情感浓烈。语言：标准普通话。使用场景：角色扮演中恳求英雄为儿子洗清冤屈或表达深切哀求的对话情境。",
+  "seed": 1128,
+  "batch_no": 128,
+  "batch_size": 16,
+  "batch_position": 8,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

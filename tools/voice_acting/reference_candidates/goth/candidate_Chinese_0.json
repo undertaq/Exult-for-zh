@@ -1,0 +1,17 @@
+{
+  "npc": "Goth",
+  "slug": "goth",
+  "index": 0,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.72,
+  "sha256": "fb2b22b03293953b068acde4c4ab3b219d4b542def41f3ceed3b9333b9e0cee4",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：三十至四十岁。角色：监狱守卫。音高：粗粝低沉的男声。语速：急促、带压迫感，语调尖锐。情绪：阴险、冷酷、不耐烦。音色特征：沙哑、粗粝、带刺的气声。语言：标准普通话。使用场景：游戏NPC对话或剧情对峙中。",
+  "seed": 1000,
+  "batch_no": 0,
+  "batch_size": 16,
+  "batch_position": 10,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

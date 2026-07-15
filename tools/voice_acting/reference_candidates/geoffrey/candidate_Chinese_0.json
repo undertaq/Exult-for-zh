@@ -1,0 +1,17 @@
+{
+  "npc": "Geoffrey",
+  "slug": "geoffrey",
+  "index": 0,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 6.0,
+  "sha256": "a5fcffa9eb8c714a14a503982cb4ed19ece7e688d6346ffed3ef1130de2aefca",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：四十多岁。角色：皇家卫队长。音高：温暖亲切的中音。语速：适中、自然、带点轻松停顿。情绪：随和、可靠、略带幽默感。音色特征：圆润、共鸣感强、略带沙哑。语言：标准普通话。使用场景：角色扮演中与玩家互动或日常对话，尤其在轻松或战斗后场景。",
+  "seed": 1035,
+  "batch_no": 35,
+  "batch_size": 16,
+  "batch_position": 10,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

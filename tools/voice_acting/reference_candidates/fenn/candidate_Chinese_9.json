@@ -1,0 +1,17 @@
+{
+  "npc": "Fenn",
+  "slug": "fenn",
+  "index": 9,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.44,
+  "sha256": "b07039dbb0a1e49c1266a058c31a319719c2cf8423d1fc11672341f86f54bc3f",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：三十至四十岁。角色：流浪乞丐。音高：低微、沙哑、略带颤抖的男声。语速：缓慢、断续、充满恳求感。情绪：卑微、诚恳、略带绝望。音色特征：沙哑、低沉、带喉音共鸣。语言：标准普通话。使用场景：在城镇街角向路人乞讨时的对话。",
+  "seed": 1006,
+  "batch_no": 6,
+  "batch_size": 16,
+  "batch_position": 13,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

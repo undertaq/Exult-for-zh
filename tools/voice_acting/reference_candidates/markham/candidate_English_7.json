@@ -1,0 +1,17 @@
+{
+  "npc": "Markham",
+  "slug": "markham",
+  "index": 7,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 5.2,
+  "sha256": "320195a36fc6d32aeaa7187f873aaeef80bb91ab12d99b80732601f5932a0a10",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, ghost, fat ghost, pained and disoriented voice, groaning",
+  "seed": 1249,
+  "batch_no": 249,
+  "batch_size": 16,
+  "batch_position": 13,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

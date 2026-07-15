@@ -1,0 +1,17 @@
+{
+  "npc": "Gaye",
+  "slug": "gaye",
+  "index": 7,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.76,
+  "sha256": "1a530de211e071242be2273602d9035c30e2c25963a4a4d64ed5d5fb49afd7af",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 20s-30s, fellowship member, hushed focused voice",
+  "seed": 1217,
+  "batch_no": 217,
+  "batch_size": 16,
+  "batch_position": 5,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

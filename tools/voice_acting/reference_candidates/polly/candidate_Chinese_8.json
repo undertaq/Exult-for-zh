@@ -1,0 +1,17 @@
+{
+  "npc": "Polly",
+  "slug": "polly",
+  "index": 8,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.48,
+  "sha256": "4e202f406c0a53e3ccac173b9d9138932289d5d4c320003c0055aa40c5b3d235",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：四十多岁。角色：繁忙的酒馆老板娘。音高：清晰有力的女中音。语速：敏捷、节奏紧凑、带点急促停顿。情绪：自信、干练、略带骄傲。音色特征：圆润、带点沙哑、富有辨识度。语言：标准普通话。使用场景：酒馆日常运营与顾客互动中。",
+  "seed": 1008,
+  "batch_no": 8,
+  "batch_size": 16,
+  "batch_position": 0,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

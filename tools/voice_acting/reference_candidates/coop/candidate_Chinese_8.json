@@ -1,0 +1,17 @@
+{
+  "npc": "Coop",
+  "slug": "coop",
+  "index": 8,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.84,
+  "sha256": "b21909a0df1f7ea57e7c184abeab730a5d8903549497e66e4bc823fd049f4ffa",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：二十至三十岁。角色：游走街头的艺人兼弓箭匠。音高：温暖圆润的男声，略带吟唱质感。语速：舒缓、富有韵律，配合歌词节奏。情绪：热情而随和、富有艺术感、略带俏皮。音色特征：明亮柔和、共鸣自然、带轻柔气声。语言：标准普通话。使用场景：角色扮演中演唱或与玩家互动时的对话与表演。",
+  "seed": 1101,
+  "batch_no": 101,
+  "batch_size": 16,
+  "batch_position": 12,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

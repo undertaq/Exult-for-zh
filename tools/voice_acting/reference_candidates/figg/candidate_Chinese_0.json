@@ -1,0 +1,17 @@
+{
+  "npc": "Figg",
+  "slug": "figg",
+  "index": 0,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.36,
+  "sha256": "4d42160b58ab6815f5640b4c5d14f59d0aac6ce6fce65c9285d5741f56dedee7",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：三十至四十岁。角色：皇家果园的园丁，隶属于贵族庄园。音高：中音略带紧张感，语调急促。语速：快且急切，节奏紧凑，常带短促停顿。情绪：焦虑、急躁、自命清高，夹杂一丝无奈与讽刺。音色特征：略显沙哑、语调尖锐，带点口音般的紧迫感。语言：标准普通话。使用场景：在与贫民或同伴争执、或匆忙处理果园事务时的对话。",
+  "seed": 1134,
+  "batch_no": 134,
+  "batch_size": 16,
+  "batch_position": 6,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

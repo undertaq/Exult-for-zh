@@ -1,0 +1,17 @@
+{
+  "npc": "Reyna",
+  "slug": "reyna",
+  "index": 9,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.36,
+  "sha256": "e3fff2a32891b04138dc5b7fa41f042e30c0775c3a18b4d0b57864cfdca2539c",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 20s-30s, bright-eyed woman, cheerful and lively voice",
+  "seed": 1246,
+  "batch_no": 246,
+  "batch_size": 16,
+  "batch_position": 13,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

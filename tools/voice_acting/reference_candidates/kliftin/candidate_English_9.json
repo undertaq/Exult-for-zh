@@ -1,0 +1,17 @@
+{
+  "npc": "Kliftin",
+  "slug": "kliftin",
+  "index": 9,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 5.36,
+  "sha256": "823844c761ffd48268aeef5235ac79185cfa24b1fcba357dc22032796aa2ea92",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, elderly, scarred veteran, gruff experienced voice",
+  "seed": 1211,
+  "batch_no": 211,
+  "batch_size": 16,
+  "batch_position": 13,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

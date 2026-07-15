@@ -1,0 +1,17 @@
+{
+  "npc": "Gordy",
+  "slug": "gordy",
+  "index": 6,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.24,
+  "sha256": "f340054fe35d392e5a50d363ab02b7c5922ca1c8feec6a23d891231744d6ceb4",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 40s, wealthy pirate, oily pretentious voice",
+  "seed": 1179,
+  "batch_no": 179,
+  "batch_size": 16,
+  "batch_position": 12,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Battles",
+  "slug": "battles",
+  "index": 3,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.84,
+  "sha256": "0c056a5d6e7bb7a1e80839bf31a59bc37e4f4302a8d47585614e778091f5fc92",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：三十至四十岁。角色：海盗团伙成员，性格狡诈戒备。音高：低沉沙哑的男声。语速：缓慢刻意、节奏拖沓，每句皆似在设局。情绪：警觉、怀疑、带威胁感。音色特征：粗粝、疲惫、略显嘶哑。语言：标准普通话。使用场景：角色扮演中与玩家对话或策划阴谋时使用。",
+  "seed": 1047,
+  "batch_no": 47,
+  "batch_size": 16,
+  "batch_position": 11,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

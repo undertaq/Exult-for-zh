@@ -1,0 +1,17 @@
+{
+  "npc": "Martine",
+  "slug": "martine",
+  "index": 9,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.4,
+  "sha256": "0e7fd8abe374c5a67bfff14c582e5cdf56ed8e5ed7c70fcd964b9faf98c00c82",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：二十多岁。角色：热带浴场服务人员。音高：温暖柔和的女声，略带异域风情。语速：轻快、自然、带点俏皮感。情绪：外冷内热、善解人意、略带挑逗性。音色特征：圆润、清澈、带点慵懒感。语言：标准普通话。使用场景：游戏内与玩家互动、提供服务或闲聊时使用。",
+  "seed": 1053,
+  "batch_no": 53,
+  "batch_size": 16,
+  "batch_position": 11,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Tory",
+  "slug": "tory",
+  "index": 2,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 9.6,
+  "sha256": "c15ed29bfd7caedeed5bfafc51367abc41bc56687713ebd79a5acb3c0148b1d7",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：四十多岁。角色：拥有心灵感应能力的女巫医者与心理顾问。音高：温暖柔和的女中音。语速：舒缓、富有共情力，带自然停顿。情绪：温柔、理解、略带忧伤与坚韧。音色特征：圆润、共鸣清晰、略带气声。语言：标准普通话。使用场景：角色扮演中与玩家对话、安抚同伴或提供情感支持。",
+  "seed": 1086,
+  "batch_no": 86,
+  "batch_size": 16,
+  "batch_position": 6,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

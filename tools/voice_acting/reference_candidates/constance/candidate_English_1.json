@@ -1,0 +1,17 @@
+{
+  "npc": "Constance",
+  "slug": "constance",
+  "index": 1,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.0,
+  "sha256": "7c41032a2c23a184c253a52ee81b7c50aa4baf0e8017e6c5b31f0f435387ecbd",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 20s, angelic young woman, innocent sweet voice, shy",
+  "seed": 1237,
+  "batch_no": 237,
+  "batch_size": 16,
+  "batch_position": 9,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

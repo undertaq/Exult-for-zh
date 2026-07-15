@@ -1,0 +1,17 @@
+{
+  "npc": "Zinaida",
+  "slug": "zinaida",
+  "index": 6,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.28,
+  "sha256": "e26eef729723cce964d40128a124e7932fdb1a2b66feeb07734274dc46d2e7a6",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：四十多岁。角色：经营餐厅的质朴女性。音高：温暖柔和的女中音。语速：自然舒缓、带亲切停顿。情绪：友善热情、随和亲切、略带关切。音色特征：圆润、共鸣清晰、略带沙哑感。语言：标准普通话。使用场景：游戏剧情中与玩家角色互动提供服务或分享本地资讯。",
+  "seed": 1050,
+  "batch_no": 50,
+  "batch_size": 16,
+  "batch_position": 6,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

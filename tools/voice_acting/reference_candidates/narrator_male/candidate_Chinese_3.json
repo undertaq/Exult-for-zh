@@ -1,0 +1,16 @@
+{
+  "npc": "Narrator (Male)",
+  "slug": "narrator_male",
+  "index": 3,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 5.36,
+  "sha256": "1e244a3f2f0198ad6563221b2b9be6b20012915d23f85ddbd0b4f81c3b1bd6e9",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：五十多岁。角色：全知的布列塔尼亚世界叙述者。音高：低沉饱满的男中音。语速：缓慢匀速，如朗读故事书般有韵律。情绪：温暖、睿智、温和而权威，唤起惊奇感。音色特征：共鸣清晰、音质悠远、令人安心。语言：标准普通话。使用场景：奇幻RPG场景旁白、世界观描述、影视级配音。",
+  "seed": 26607,
+  "batch_size": 5,
+  "batch_position": 3,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

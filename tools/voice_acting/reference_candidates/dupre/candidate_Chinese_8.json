@@ -1,0 +1,16 @@
+{
+  "npc": "Dupre",
+  "slug": "dupre",
+  "index": 8,
+  "language": "Chinese",
+  "sample_text": "旅人，你好。今天過得如何？",
+  "instruct": "性别：男性。年龄：四十多岁。角色：不列颠骑士兼酒馆评论家。音高：温暖、共鸣感强的男中音。语速：轻快有节奏，带停顿强调笑点。情绪：欢快、忠诚、略带不羁。音色特征：清脆略带砂砾感，语调中带俏皮。语言：标准普通话。使用场景：奇幻酒馆闲谈与英雄叙事。",
+  "seed": 47096,
+  "batch_seed": 47096,
+  "batch_position": 12,
+  "batch_size": 16,
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "sha256": "f580b152dd7cce1cee131d1cac955dbc5ff869c2f0065f6a552e074e3788747e",
+  "sample_rate": 24000,
+  "duration_seconds": 4.08
+}

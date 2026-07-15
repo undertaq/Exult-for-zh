@@ -1,0 +1,17 @@
+{
+  "npc": "Diane",
+  "slug": "diane",
+  "index": 3,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.84,
+  "sha256": "beefe5e75e51840a363de835534bfb86749b74419b72becf1c2e32566fb3e309",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 20s, pretty farm girl, polite friendly voice",
+  "seed": 1190,
+  "batch_no": 190,
+  "batch_size": 16,
+  "batch_position": 13,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

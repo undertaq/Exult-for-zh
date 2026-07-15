@@ -1,0 +1,17 @@
+{
+  "npc": "Catherine",
+  "slug": "catherine",
+  "index": 0,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.0,
+  "sha256": "e4bd7af6bcd6593a2a74f9747b16ce5ad9d155908fbfcde3012484fdb447a0cf",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：幼童。角色： Ultima VII 中的天真孩童 Catherine。音高：清脆明亮的女童音。语速：轻快、活泼、带跳跃感的节奏。情绪：纯真、兴奋、略带稚气。音色特征：圆润、清澈、无杂质。语言：标准普通话。使用场景：游戏对话中与玩家互动的孩童角色。",
+  "seed": 1065,
+  "batch_no": 65,
+  "batch_size": 16,
+  "batch_position": 10,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

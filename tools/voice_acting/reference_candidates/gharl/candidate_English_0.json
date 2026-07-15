@@ -1,0 +1,17 @@
+{
+  "npc": "Gharl",
+  "slug": "gharl",
+  "index": 0,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.92,
+  "sha256": "bf2ca3bca66ad11e3cd2a1cbb4794e108acb54d1033d2f18ce54452572a99de9",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, troll, starving angry voice, deep growling",
+  "seed": 1173,
+  "batch_no": 173,
+  "batch_size": 16,
+  "batch_position": 12,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

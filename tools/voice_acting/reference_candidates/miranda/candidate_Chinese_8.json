@@ -1,0 +1,17 @@
+{
+  "npc": "Miranda",
+  "slug": "miranda",
+  "index": 8,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.04,
+  "sha256": "0c1b2a77f7b38082f1f050e43ad1a15a6c04078428d934214d69563fdb60602a",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：二十至三十岁。角色：政治活跃的女性贵族，兼具母亲与立法者身份。音高：温暖柔和的女中音。语速：自然流畅、略带亲切停顿。情绪：热情而坚定、温和中带理想主义。音色特征：圆润、富有共鸣、略带沙哑的嗓音质感。语言：标准普通话。使用场景：角色扮演中与玩家对话、发表政见或安抚家庭成员。",
+  "seed": 1110,
+  "batch_no": 110,
+  "batch_size": 16,
+  "batch_position": 8,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

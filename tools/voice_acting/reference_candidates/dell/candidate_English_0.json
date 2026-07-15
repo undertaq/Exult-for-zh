@@ -1,0 +1,17 @@
+{
+  "npc": "Dell",
+  "slug": "dell",
+  "index": 0,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.68,
+  "sha256": "892582e143e11edd422a04c13b37a6331f91d3003e0e6abc7697be40b5b60baa",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 40s, strict shopkeeper, stern irritated voice",
+  "seed": 1185,
+  "batch_no": 185,
+  "batch_size": 16,
+  "batch_position": 0,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

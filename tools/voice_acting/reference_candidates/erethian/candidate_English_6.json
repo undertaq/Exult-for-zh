@@ -1,0 +1,16 @@
+{
+  "npc": "Erethian",
+  "slug": "erethian",
+  "index": 6,
+  "language": "English",
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "instruct": "Gender: male. Age: fifties. Role: blind mage scholar. Pitch: low, resonant baritone with a mystical inflection. Pace: slow, deliberate, with pauses that echo contemplation. Emotion: calm, philosophical, subtly patronizing. Characteristics: rich, slightly gravelly, with a breathy undertone when emphasizing lore. Use case: fantasy RPG dialogue in a ruined castle or submerged isle setting.",
+  "seed": 47128,
+  "batch_seed": 47128,
+  "batch_position": 8,
+  "batch_size": 16,
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "sha256": "416984fa84e0679b77917957f64d82b62c2904f25ab35c42c4a4887e3852108b",
+  "sample_rate": 24000,
+  "duration_seconds": 5.84
+}

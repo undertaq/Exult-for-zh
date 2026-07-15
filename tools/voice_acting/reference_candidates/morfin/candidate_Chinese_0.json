@@ -1,0 +1,17 @@
+{
+  "npc": "Morfin",
+  "slug": "morfin",
+  "index": 0,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.2,
+  "sha256": "3faf2cac7b4b8a0eff922fd2981a536a446300ebfb74e1792ff0e33a90484e36",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：四十多岁。角色：屠夫商人。音高：粗粝低沉的男声。语速：急促、不耐烦、带急切停顿。情绪：暴躁、易怒、市侩。音色特征：沙哑、粗犷、带金属感。语言：标准普通话。使用场景：角色扮演中与玩家互动或交易时的对话。",
+  "seed": 1001,
+  "batch_no": 1,
+  "batch_size": 16,
+  "batch_position": 4,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

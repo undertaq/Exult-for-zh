@@ -1,0 +1,17 @@
+{
+  "npc": "De Maria",
+  "slug": "de_maria",
+  "index": 5,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.0,
+  "sha256": "1dc9a42da3a09bc9ad37c24859ef6262b6c35138d047776c6868cb5b5677bb8c",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：二十至三十岁。角色：风趣张扬的吟游诗人。音高：宽广宏亮的男声，富有戏剧张力。语速：节奏明快、语调起伏鲜明，带表演性停顿。情绪：热情洋溢、略带戏谑、充满故事感。音色特征：圆润明亮、略带沙哑共鸣，富有感染力。语言：标准普通话。使用场景：在酒馆或冒险场景中向玩家讲述传奇故事或抒发情感。",
+  "seed": 1122,
+  "batch_no": 122,
+  "batch_size": 16,
+  "batch_position": 3,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

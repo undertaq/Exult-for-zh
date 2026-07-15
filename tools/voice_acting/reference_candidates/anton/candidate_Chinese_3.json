@@ -1,0 +1,17 @@
+{
+  "npc": "Anton",
+  "slug": "anton",
+  "index": 3,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 8.08,
+  "sha256": "17df34aa1ddfca65a7fd3570e8551f11f332f3fd631c3a2d55072c11bbed165b",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：三十至四十岁。角色：被囚禁的年轻学者。音高：低沉、略带沙哑的男中音。语速：缓慢、断续，语调中夹杂压抑的停顿。情绪：沉郁、愤懑、疲惫，夹杂着隐忍的悔意与微弱的希望。音色特征：音质略带沙哑与疲惫感，语调低沉但层次分明，似有未尽之言。语言：标准普通话。使用场景：角色扮演中，作为被囚禁者与玩家互动时的独白或对话。",
+  "seed": 1139,
+  "batch_no": 139,
+  "batch_size": 16,
+  "batch_position": 9,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

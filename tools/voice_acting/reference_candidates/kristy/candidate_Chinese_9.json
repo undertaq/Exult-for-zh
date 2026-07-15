@@ -1,0 +1,17 @@
+{
+  "npc": "Kristy",
+  "slug": "kristy",
+  "index": 9,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.2,
+  "sha256": "38cd60762ae4563f9e1b6e6e121eecca62f595b226dc7eea4c9a32d42a0e8b9f",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：幼儿。角色：城堡育婴室的弃婴，被抚养长大。音高：清脆、稚嫩、略带齿音。语速：轻快、活泼、语调跳跃。情绪：天真、好奇、略带顽皮。音色特征：圆润、纯净、带轻微口齿不清。语言：标准普通话。使用场景：游戏内与玩家互动时表达童真对话或唱歌。",
+  "seed": 1033,
+  "batch_no": 33,
+  "batch_size": 16,
+  "batch_position": 1,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

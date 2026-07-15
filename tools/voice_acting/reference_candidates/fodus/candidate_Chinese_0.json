@@ -1,0 +1,17 @@
+{
+  "npc": "Fodus",
+  "slug": "fodus",
+  "index": 0,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 9.36,
+  "sha256": "41135fd2b410d3cd9f5c53f5284c32ba8ce6271e1ceb41130ca6bc6ff9d4c587",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。角色：石像鬼矿工。音高：低沉沙哑的男声。语速：缓慢、断续、带有喘息感。情绪：痛苦、虚弱、迷糊。音色特征：粗糙、嘶哑、气息微弱。语言：标准普通话。使用场景：矿工在矿井中向玩家求救或透露秘密矿石线索时。",
+  "seed": 1000,
+  "batch_no": 0,
+  "batch_size": 16,
+  "batch_position": 0,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

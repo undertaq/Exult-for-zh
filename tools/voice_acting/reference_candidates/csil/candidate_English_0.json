@@ -1,0 +1,17 @@
+{
+  "npc": "Csil",
+  "slug": "csil",
+  "index": 0,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.32,
+  "sha256": "dba6bf8c3189fbabc7423c25f01d90344d6dff7aedce485ccda319aa45c7a531",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, elderly, wise healer, calm reassuring voice",
+  "seed": 1177,
+  "batch_no": 177,
+  "batch_size": 16,
+  "batch_position": 8,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

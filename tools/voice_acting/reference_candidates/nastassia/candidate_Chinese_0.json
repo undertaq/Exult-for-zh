@@ -1,0 +1,17 @@
+{
+  "npc": "Nastassia",
+  "slug": "nastassia",
+  "index": 0,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.32,
+  "sha256": "01cae39b2b54d58d3902e4fabfa3e999842a828972fb46398c5b30bb93794c1c",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：二十出头。角色： Shrine of Compassion 的守护者，孤儿，心怀悲痛与使命感。音高：柔和清亮的女声，略带颤音。语速：缓慢、轻柔，语句间有停顿，情感层层递进。情绪：内敛忧伤、温柔坚韧、略带哀婉的执着。音色特征：细腻、略带沙哑尾音、共鸣感柔和。语言：标准普通话。使用场景：角色扮演中与玩家对话或独白，展现其守护与哀思。",
+  "seed": 1151,
+  "batch_no": 151,
+  "batch_size": 16,
+  "batch_position": 4,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

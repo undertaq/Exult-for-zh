@@ -1,0 +1,16 @@
+{
+  "npc": "Chuckles",
+  "slug": "chuckles",
+  "index": 1,
+  "language": "English",
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "instruct": "Gender: male. Age: fifties. Role: royal jester. Pitch: crisp, high-pitched baritone. Pace: rapid, bouncy, with playful pauses. Emotion: mischievous, jovial, slightly exasperated. Characteristics: breathy, light, with a twinkle in the tone. Use case: fantasy RPG dialogue in Castle Britannia, teasing players with word games.",
+  "seed": 47064,
+  "batch_seed": 47064,
+  "batch_position": 7,
+  "batch_size": 16,
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "sha256": "7d7c9695af01b4b55b94ff0a06846d52943c240d842fd615ffcb8df905b18244",
+  "sample_rate": 24000,
+  "duration_seconds": 3.52
+}

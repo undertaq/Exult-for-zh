@@ -1,0 +1,17 @@
+{
+  "npc": "Jordan",
+  "slug": "jordan",
+  "index": 6,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.0,
+  "sha256": "f6ad5e411340d5432d414f31876b0914f452fb1d22ec1cc2afa0e9ee755347d3",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：二十至三十岁。角色：盲眼骑士。音高：平稳中音，略带正式感。语速：温和、节奏均匀，语调克制。情绪：沉稳、礼貌、略带戒备。音色特征：清晰、略带金属质感的嗓音，无明显沙哑或气声。语言：标准普通话。使用场景：在商店或城镇中与玩家或NPC对话，或在调查事件时提供线索。",
+  "seed": 1084,
+  "batch_no": 84,
+  "batch_size": 16,
+  "batch_position": 2,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

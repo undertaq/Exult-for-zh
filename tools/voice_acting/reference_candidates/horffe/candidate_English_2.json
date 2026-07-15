@@ -1,0 +1,17 @@
+{
+  "npc": "Horffe",
+  "slug": "horffe",
+  "index": 2,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.28,
+  "sha256": "519b09d2a048356b5e3b98de8e03e969f23c5e5e0cf34a0df55cc6f3fb8abb24",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, gargoyle, serious formal voice",
+  "seed": 1160,
+  "batch_no": 160,
+  "batch_size": 16,
+  "batch_position": 2,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Kissme",
+  "slug": "kissme",
+  "index": 0,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.44,
+  "sha256": "91f52d62e1c9d2de022ac33bf797adfbe98fc858820fc277d66b8cc40b4e739d",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, fairy, high-pitched tinkling voice, playful and giggly, singsong quality",
+  "seed": 1291,
+  "batch_no": 291,
+  "batch_size": 16,
+  "batch_position": 14,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

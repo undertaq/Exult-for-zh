@@ -1,0 +1,17 @@
+{
+  "npc": "Klog",
+  "slug": "klog",
+  "index": 2,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.36,
+  "sha256": "864a8618e143e29d5954c95fb9832c1003b3d106a33acdd967c1115f149480f6",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 40s, friendly shopkeeper, warm and welcoming voice, cheerful",
+  "seed": 1263,
+  "batch_no": 263,
+  "batch_size": 16,
+  "batch_position": 14,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

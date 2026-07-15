@@ -1,0 +1,17 @@
+{
+  "npc": "Elynor",
+  "slug": "elynor",
+  "index": 9,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.36,
+  "sha256": "386dc9e327641e3a2d1a348348dc3d04cdff76a47a679eeadc575976e31ce31f",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：四十多岁。角色：Minoc地区的Fellowship分支领袖，傲慢而高贵的贵族女性。音高：清亮而略带高傲的女高音。语速：优雅从容，语调中带有轻微停顿与俯视感。情绪：自信、冷峻、略带居高临下的轻蔑。音色特征：圆润、精致、略带气声余韵。语言：标准普通话。使用场景：角色扮演中与下属或敌对势力对话，展现其权势与冷酷决断。",
+  "seed": 1144,
+  "batch_no": 144,
+  "batch_size": 16,
+  "batch_position": 5,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

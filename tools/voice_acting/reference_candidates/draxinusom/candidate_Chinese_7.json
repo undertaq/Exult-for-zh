@@ -1,0 +1,16 @@
+{
+  "npc": "Draxinusom",
+  "slug": "draxinusom",
+  "index": 7,
+  "language": "Chinese",
+  "sample_text": "旅人，你好。今天過得如何？",
+  "instruct": "性别：男性。年龄：老年。角色：古石像鬼国王，大审问者。音高：低沉庄重的男低音。语速：缓慢、沉稳，带有刻意停顿。情绪：睿智、温和、疲惫、肃穆。音色特征：厚实共鸣、略带砂砾感、低频回响。语言：标准普通话。使用场景：奇幻RPG对话、庄重独白、政治或哲学叙述。",
+  "seed": 47080,
+  "batch_seed": 47080,
+  "batch_position": 7,
+  "batch_size": 16,
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "sha256": "906488236560cf31bb3a2efe4d731c77b969ac13b213ba3501e21bbc162f67d6",
+  "sample_rate": 24000,
+  "duration_seconds": 7.52
+}

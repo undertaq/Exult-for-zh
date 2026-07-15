@@ -1,0 +1,17 @@
+{
+  "npc": "Yongi",
+  "slug": "yongi",
+  "index": 8,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.32,
+  "sha256": "356e0fb9777a5420df715e13e1fe739b4b178f8c13e65ee5234adbd4eca8290a",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：四十多岁。角色：酒馆老板。音高：温暖而略带沙哑的男声。语速：舒缓、亲切、带点随意停顿。情绪：热情友善、略带憨厚、乐于助人。音色特征：圆润、共鸣感强、带轻微鼻音。语言：标准普通话。使用场景：角色扮演中与玩家互动或讲述酒馆轶事。",
+  "seed": 1024,
+  "batch_no": 24,
+  "batch_size": 16,
+  "batch_position": 4,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Robin",
+  "slug": "robin",
+  "index": 7,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.92,
+  "sha256": "61efe2ac8a2bf63304bb6b42623ebfa1a904fdd222ac19cac77e2c4ec1163059",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 20s-30s, roguish charming man, laid-back voice, hint of mischief",
+  "seed": 1277,
+  "batch_no": 277,
+  "batch_size": 16,
+  "batch_position": 15,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

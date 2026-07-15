@@ -1,0 +1,17 @@
+{
+  "npc": "Jehanne",
+  "slug": "jehanne",
+  "index": 9,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.44,
+  "sha256": "91784457d3cf64917f31d68c6029608b4d1aa5c8ff706632a54b17c0139115dd",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：四十多岁。角色：贵族夫人，兼船匠与商人。音高：清亮柔和的女中音。语速：轻缓、优雅、带轻微停顿。情绪：温婉、克制、略带忧虑。音色特征：圆润、共鸣清晰、略带气声。语言：标准普通话。使用场景：角色扮演中与玩家互动或在城堡内日常对话。",
+  "seed": 1026,
+  "batch_no": 26,
+  "batch_size": 16,
+  "batch_position": 13,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

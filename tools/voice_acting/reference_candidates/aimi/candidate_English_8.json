@@ -1,0 +1,16 @@
+{
+  "npc": "Aimi",
+  "slug": "aimi",
+  "index": 8,
+  "language": "English",
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "instruct": "Gender: female. Age: twenties. Role: monk gardener. Pitch: soft, clear soprano. Pace: slow, deliberate, lyrical. Emotion: serene, gentle, romantic. Characteristics: breathy, warm, slightly resonant. Use case: fantasy RPG dialogue in a monastery garden or tavern banter about flowers.",
+  "seed": 47016,
+  "batch_seed": 47016,
+  "batch_position": 2,
+  "batch_size": 16,
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "sha256": "bbabcd93007582d21efe0509a5769962dbdd2ad312225fd1aca4a2ddb22b6645",
+  "sample_rate": 24000,
+  "duration_seconds": 4.32
+}

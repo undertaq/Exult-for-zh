@@ -1,0 +1,17 @@
+{
+  "npc": "Leigh",
+  "slug": "leigh",
+  "index": 9,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.72,
+  "sha256": "e78bc7a1083765289a97b115257adab81e5fa4df225a8284283696f4c3a8973e",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：二十至三十岁。角色：《终极法典》中的女医师，Serpent's Hold的主治医师。音高：温暖柔和的女声，音域明亮而稳定。语速：适中，语调亲切，带轻微停顿以示专业与耐心。情绪：温和、鼓励、略带知性智慧。音色特征：圆润、清晰、略带共鸣感，语感亲切如导师。语言：标准普通话。使用场景：游戏内角色扮演中与玩家互动、提供医疗建议或引导剧情。",
+  "seed": 1153,
+  "batch_no": 153,
+  "batch_size": 16,
+  "batch_position": 1,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

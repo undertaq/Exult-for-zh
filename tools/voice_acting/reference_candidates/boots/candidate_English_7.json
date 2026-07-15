@@ -1,0 +1,17 @@
+{
+  "npc": "Boots",
+  "slug": "boots",
+  "index": 7,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.56,
+  "sha256": "fa475d8887aeda23090808d20c3be74d6cd96da69c49dbf93ff4305db0df164e",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "A warm, gentle, and deeply affectionate voice of an elderly woman, radiating maternal love and wisdom, with a soft, comforting cadence reminiscent of a grandmother sharing stories over tea — her words carry the weight of years of care, patience, and culinary tradition.",
+  "seed": 1304,
+  "batch_no": 304,
+  "batch_size": 16,
+  "batch_position": 13,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

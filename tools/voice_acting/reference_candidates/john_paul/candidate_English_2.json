@@ -1,0 +1,17 @@
+{
+  "npc": "John Paul",
+  "slug": "john_paul",
+  "index": 2,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.36,
+  "sha256": "ca07f551c0c9b8924c6082caf5caeb46768ef74f13081b647233598afd66ab8c",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 40s, serious military commander, firm and authoritative voice",
+  "seed": 1265,
+  "batch_no": 265,
+  "batch_size": 16,
+  "batch_position": 2,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

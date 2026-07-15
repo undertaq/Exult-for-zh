@@ -1,0 +1,17 @@
+{
+  "npc": "Zelda",
+  "slug": "zelda",
+  "index": 0,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.8,
+  "sha256": "eed0082a4e9fb057aa1dbfe69ba0abba9578ffbb7ba94dbf001dbda81fefab14",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 30s-40s, cold woman, icy clipped voice",
+  "seed": 1171,
+  "batch_no": 171,
+  "batch_size": 16,
+  "batch_position": 14,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

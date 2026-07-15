@@ -1,0 +1,17 @@
+{
+  "npc": "Horance",
+  "slug": "horance",
+  "index": 4,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 8.08,
+  "sha256": "d161180fae64272bbac7fc5942077d732ef55e777484065a69572b97aab71b9f",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：约两百岁。角色：被诅咒的亡灵法师。音高：空灵、低沉、回荡感强的男声。语速：缓慢、断续、似从遥远传来。情绪：阴郁、孤寂、充满宿命感。音色特征：空洞、回响、略带破败感。语言：标准普通话。使用场景：奇幻角色扮演中亡灵法师与玩家对话或吟诵咒语。",
+  "seed": 1044,
+  "batch_no": 44,
+  "batch_size": 16,
+  "batch_position": 10,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

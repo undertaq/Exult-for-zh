@@ -1,0 +1,17 @@
+{
+  "npc": "Wench",
+  "slug": "wench",
+  "index": 5,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.56,
+  "sha256": "da9210cfee6b3f97ee846f5b1f553bf65b7feeed779654b84311f4119fd7f674",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：二十出头。角色：专业且迷人的浴场服务人员。音高：低沉而富有诱惑力的女声。语速：轻柔、流畅、带自然停顿。情绪：自信、温柔、略带撩人气质。音色特征：圆润、富有磁性、略带沙哑质感。语言：标准普通话。使用场景：温泉或高端SPA场景中与顾客互动。",
+  "seed": 1046,
+  "batch_no": 46,
+  "batch_size": 16,
+  "batch_position": 9,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

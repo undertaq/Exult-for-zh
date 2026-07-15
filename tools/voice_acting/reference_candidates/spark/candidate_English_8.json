@@ -1,0 +1,16 @@
+{
+  "npc": "Spark",
+  "slug": "spark",
+  "index": 8,
+  "language": "English",
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "instruct": "Gender: male. Age: fourteen. Role: orphaned blacksmith apprentice. Pitch: high-pitched, slightly breathy tenor. Pace: quick, urgent, with sudden pauses when emotional. Emotion: earnest, vulnerable, fiercely determined. Characteristics: crisp, slightly hoarse from labor, with adolescent cracking. Use case: fantasy RPG dialogue, tavern banter, emotional monologues.",
+  "seed": 47208,
+  "batch_seed": 47208,
+  "batch_position": 10,
+  "batch_size": 12,
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "sha256": "983eda6936362f887f00bf4fe3790b5f499cee46f84a03c1620a70cc329d00f8",
+  "sample_rate": 24000,
+  "duration_seconds": 3.52
+}

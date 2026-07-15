@@ -1,0 +1,17 @@
+{
+  "npc": "Martingo",
+  "slug": "martingo",
+  "index": 4,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.76,
+  "sha256": "14798c1efc7c703ac283839345689ac87bfd385109c87f70229070e62b98d977",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：四十多岁。角色：自封的“Spektran苏丹”，独居海岛的 eccentric 王者。音高：高亢而略带失控的男声，语调尖锐中夹杂文雅腔调。语速：急促且不规则，时快时慢，充满戏剧性停顿。情绪：狂妄、傲慢、自恋，夹杂神经质的嘲讽与突然的温柔。音色特征：清脆中带沙哑，气声明显，语调起伏剧烈，语尾常带夸张拖音。语言：标准普通话。使用场景：角色扮演中与玩家对话或独白，尤其在揭示其荒诞统治或突发情绪转折时。",
+  "seed": 1157,
+  "batch_no": 157,
+  "batch_size": 16,
+  "batch_position": 12,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

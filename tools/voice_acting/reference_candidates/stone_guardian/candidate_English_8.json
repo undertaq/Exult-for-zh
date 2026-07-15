@@ -1,0 +1,17 @@
+{
+  "npc": "Stone Guardian",
+  "slug": "stone_guardian",
+  "index": 8,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.48,
+  "sha256": "63540226ec710a1c9b3c46d91c39027d9c339655fbdaaebdd2c70d0475b6d950",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, elemental, deep rumbling stone voice, slow and wise",
+  "seed": 1228,
+  "batch_no": 228,
+  "batch_size": 16,
+  "batch_position": 10,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Tavenor",
+  "slug": "tavenor",
+  "index": 5,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.36,
+  "sha256": "7d68dea7b8a16779b17bedce50c956beb9f76141695eedfd0e4e8b52c4a010a9",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, ape-creature, cautious careful voice",
+  "seed": 1166,
+  "batch_no": 166,
+  "batch_size": 16,
+  "batch_position": 9,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

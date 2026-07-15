@@ -1,0 +1,17 @@
+{
+  "npc": "Gregor",
+  "slug": "gregor",
+  "index": 2,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.52,
+  "sha256": "3102affdf7596e4d31eebb9144ce39f1aa4f6e2d9be601d066dc8f01ce0e598f",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, elderly, imposing old man, commanding authoritative voice",
+  "seed": 1251,
+  "batch_no": 251,
+  "batch_size": 16,
+  "batch_position": 6,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

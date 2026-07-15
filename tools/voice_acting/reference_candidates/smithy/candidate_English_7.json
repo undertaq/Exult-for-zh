@@ -1,0 +1,17 @@
+{
+  "npc": "Smithy",
+  "slug": "smithy",
+  "index": 7,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.0,
+  "sha256": "523ba359971bc1a982252217cc7d1fac66768d6e5091e582599b997dfebba183",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 30s-40s, well-dressed pirate, smooth voice",
+  "seed": 1176,
+  "batch_no": 176,
+  "batch_size": 16,
+  "batch_position": 1,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Apollonia",
+  "slug": "apollonia",
+  "index": 1,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.08,
+  "sha256": "b0109cf3a6124b728bd4af794a7a646aceed3627dae3a5c0d75cd81a868ae1c8",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "A warm, seductive, and effortlessly alluring female voice in her 30s, embodying the charm and flirtatious confidence of Apollonia — the barmaid of The Honorable Hound Pub in Trinsic, known for her feminine allure and knack for drawing sailors and adventurers into her world of wit and wine.",
+  "seed": 1305,
+  "batch_no": 305,
+  "batch_size": 16,
+  "batch_position": 11,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

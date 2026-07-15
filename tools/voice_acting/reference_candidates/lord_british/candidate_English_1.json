@@ -1,0 +1,16 @@
+{
+  "npc": "Lord British",
+  "slug": "lord_british",
+  "index": 1,
+  "language": "English",
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "instruct": "Gender: male. Age: sixties. Role: reigning monarch of Britannia. Pitch: deep regal baritone. Pace: measured, dignified, with deliberate pauses. Emotion: solemn authority, paternal wisdom, weary resolve. Characteristics: rich, resonant, slight gravel. Use case: fantasy RPG dialogue in Castle Britannia or during courtly narration.",
+  "seed": 47176,
+  "batch_seed": 47176,
+  "batch_position": 15,
+  "batch_size": 16,
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "sha256": "15eb7fd5bcee00ef8418bf32956e12fe93cf5672c68bc51c452be40c95a801de",
+  "sample_rate": 24000,
+  "duration_seconds": 4.32
+}

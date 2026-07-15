@@ -1,0 +1,17 @@
+{
+  "npc": "Patterson",
+  "slug": "patterson",
+  "index": 5,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 5.28,
+  "sha256": "3f4606b1059e4e3b1c7cee7ff8950292fce9dfb00d4ef7c30722e3ded49430ac",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 30s-40s, concerned fellowship member, worried and distracted voice",
+  "seed": 1282,
+  "batch_no": 282,
+  "batch_size": 16,
+  "batch_position": 3,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

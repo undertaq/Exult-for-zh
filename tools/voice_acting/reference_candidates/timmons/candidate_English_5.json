@@ -1,0 +1,17 @@
+{
+  "npc": "Timmons",
+  "slug": "timmons",
+  "index": 5,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.2,
+  "sha256": "7cdcb9b61d0a964777ecd643cbb4fbd6c8605a8b6951edd2cefef84ad715d8b4",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 20s, serious studious young man, formal polite voice",
+  "seed": 1235,
+  "batch_no": 235,
+  "batch_size": 16,
+  "batch_position": 15,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

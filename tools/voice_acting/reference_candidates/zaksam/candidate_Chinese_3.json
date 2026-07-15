@@ -1,0 +1,17 @@
+{
+  "npc": "Zaksam",
+  "slug": "zaksam",
+  "index": 3,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.12,
+  "sha256": "ac0b11a33e3d4bce1f681f8a2bb7769b35ebdf0fd1481f9a981ed1da2236fbfb",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：三十至四十岁。角色：维瑟市的武技教练。音高：沉稳有力的男中音。语速：清晰、略带节奏感，语调自信而果断。情绪：坚定、略带傲气、务实且具权威感。音色特征：清晰圆润、带金属质感共鸣、略显粗粝。语言：标准普通话。使用场景：角色扮演中作为武技导师向玩家传授战斗技巧或发表战术见解。",
+  "seed": 1108,
+  "batch_no": 108,
+  "batch_size": 16,
+  "batch_position": 5,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

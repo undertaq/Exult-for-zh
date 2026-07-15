@@ -1,0 +1,17 @@
+{
+  "npc": "Meryl",
+  "slug": "meryl",
+  "index": 5,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.92,
+  "sha256": "5e788774a0980e827dd27c0918d30fbc96e1278a0a6253fee1935bf347027c73",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 40s, serious actress, focused professional voice",
+  "seed": 1219,
+  "batch_no": 219,
+  "batch_size": 16,
+  "batch_position": 1,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

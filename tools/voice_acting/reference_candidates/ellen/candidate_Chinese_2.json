@@ -1,0 +1,17 @@
+{
+  "npc": "Ellen",
+  "slug": "ellen",
+  "index": 2,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.92,
+  "sha256": "734db175eea7087b71c567ea7ff1a2e51f5fbb1def2cfcf6994915a07ccd4cc8",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：三十至四十岁。角色：《终极智慧典籍》中的角色，Trinsic分支的书吏，Klog之妻。音高：温暖柔和的女中音。语速：轻缓、自然、带轻微停顿。情绪：友善、略带歉意、温婉。音色特征：圆润、清晰、略带共鸣感。语言：标准普通话。使用场景：角色扮演中与玩家互动或陈述日常事务。",
+  "seed": 1097,
+  "batch_no": 97,
+  "batch_size": 16,
+  "batch_position": 0,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

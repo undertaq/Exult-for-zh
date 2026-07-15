@@ -1,0 +1,17 @@
+{
+  "npc": "Julia",
+  "slug": "julia",
+  "index": 1,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 2.0,
+  "sha256": "6d1e62f1ac529b86b8d5958718e16f740f0aabcbd83ec9cdc078820f99cf4b3d",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：二十至三十岁。角色：机敏工匠。音高：明亮清脆的女声。语速：快速、节奏紧凑、充满活力。情绪：热情洋溢、聪慧敏捷、略带急躁。音色特征：圆润、清亮、带点俏皮感。语言：标准普通话。使用场景：角色扮演中与玩家互动或执行任务时的对话。",
+  "seed": 1014,
+  "batch_no": 14,
+  "batch_size": 16,
+  "batch_position": 7,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

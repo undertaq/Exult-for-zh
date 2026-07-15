@@ -1,0 +1,17 @@
+{
+  "npc": "Morfin",
+  "slug": "morfin",
+  "index": 5,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.52,
+  "sha256": "4574ab803945e8524b741f277b716042e56f13232e5d22b331804a8bd3a91178",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 40s, grumpy merchant, gruff and irritable voice, impatient tone",
+  "seed": 1275,
+  "batch_no": 275,
+  "batch_size": 16,
+  "batch_position": 5,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

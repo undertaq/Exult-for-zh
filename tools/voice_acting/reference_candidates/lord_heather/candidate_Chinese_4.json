@@ -1,0 +1,17 @@
+{
+  "npc": "Lord Heather",
+  "slug": "lord_heather",
+  "index": 4,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.96,
+  "sha256": "a8964bbae831de1a768bb2b0e526d9c3f0e763824ef202406b4b473672155fd5",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：四十至五十岁。角色：小城 Cove 的市长，政治家兼地方领袖。音高：温和而富有磁性的中音，略带笑意的共鸣感。语速：舒缓、自然，语调中带亲切与从容。情绪：随和、略带调侃、善解人意，偶尔流露对小镇生活的满足与对琐事的轻描淡写。音色特征：圆润、柔和、略带沙哑的尾音，富有生活气息。语言：标准普通话。使用场景：角色扮演中与玩家互动、讲述小镇风情或处理日常政务。",
+  "seed": 1155,
+  "batch_no": 155,
+  "batch_size": 16,
+  "batch_position": 14,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

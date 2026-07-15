@@ -1,0 +1,17 @@
+{
+  "npc": "Jehanne",
+  "slug": "jehanne",
+  "index": 8,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.32,
+  "sha256": "94280f5c202c9ed40bc8fdcb8f9babc95cf971688d89de6689e5796cf22e8c0e",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 40s, noblewoman, refined polite voice, curtsy in speech",
+  "seed": 1252,
+  "batch_no": 252,
+  "batch_size": 16,
+  "batch_position": 6,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Jesse",
+  "slug": "jesse",
+  "index": 4,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.76,
+  "sha256": "62d57a4746b7238ae55a7099d6bb844616a639d3619727e09b4e2233a24878eb",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：二十至三十岁。角色：英国皇家剧院表演者，饰演女性角色。音高：清亮、略带假声的男声。语速：灵活、富有戏剧张力，节奏随角色情绪变化。情绪：自信、幽默、略带叛逆与实验精神。音色特征：圆润通透、略带气声，具舞台表演质感。语言：标准普通话。使用场景：奇幻角色扮演中饰演女性角色的戏剧表演。",
+  "seed": 1120,
+  "batch_no": 120,
+  "batch_size": 16,
+  "batch_position": 14,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

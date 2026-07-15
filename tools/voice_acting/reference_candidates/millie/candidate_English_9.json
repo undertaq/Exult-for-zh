@@ -1,0 +1,17 @@
+{
+  "npc": "Millie",
+  "slug": "millie",
+  "index": 9,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.76,
+  "sha256": "e7e499c3c852b69b10b6e2317fa40ba3264cca0e30e7673c7a66543350ab0792",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 30s-40s, concerned fellowship member, anxious voice",
+  "seed": 1240,
+  "batch_no": 240,
+  "batch_size": 16,
+  "batch_position": 9,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

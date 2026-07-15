@@ -1,0 +1,17 @@
+{
+  "npc": "Thad",
+  "slug": "thad",
+  "index": 1,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.76,
+  "sha256": "6c214f4de31731758c3c09128670d8605aa65799862591308b2aac4ce94fc6c1",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：二十至三十岁。角色：反 Fellowship 的狂热追索者。音高：尖锐冷冽的男声。语速：急促、断续、充满攻击性。情绪：愤怒、偏执、孤傲。音色特征：清脆、略带嘶哑、缺乏温度。语言：标准普通话。使用场景：角色扮演中与主角对峙或追击时的独白或对话。",
+  "seed": 1058,
+  "batch_no": 58,
+  "batch_size": 16,
+  "batch_position": 3,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

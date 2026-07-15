@@ -1,0 +1,17 @@
+{
+  "npc": "Taylor",
+  "slug": "taylor",
+  "index": 9,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.16,
+  "sha256": "ffa0a307a0f1786b9231e33a99c7b4ec8c8e74afb684c64ca5cbf3635de15daf",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：二十至三十岁。角色：修道院僧侣。音高：清亮而沉稳的男中音。语速：平稳、节奏清晰、略带思考停顿。情绪：温和、专注、略带书卷气。音色特征：圆润、共鸣清晰、语感清晰。语言：标准普通话。使用场景：游戏内与玩家角色交流森林生态与隐秘生物信息。",
+  "seed": 1041,
+  "batch_no": 41,
+  "batch_size": 16,
+  "batch_position": 13,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Fred",
+  "slug": "fred",
+  "index": 6,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.2,
+  "sha256": "f7610a2b8cf54368cf7a00739e96aea62723e0ec8bfed11a402b1f991b957c2d",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 40s, friendly farmer, warm waving voice",
+  "seed": 1169,
+  "batch_no": 169,
+  "batch_size": 16,
+  "batch_position": 12,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

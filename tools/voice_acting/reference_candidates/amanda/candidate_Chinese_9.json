@@ -1,0 +1,17 @@
+{
+  "npc": "Amanda",
+  "slug": "amanda",
+  "index": 9,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.04,
+  "sha256": "ce37059a424c595b801c6892ece189c5b916a970223a68bc866110eecbbee59e",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：二十至三十岁。角色： tavernkeeper（酒馆老板娘），来自 Ultima VI 的 Serpent's Hold。音高：明亮而有力的女中音，带自然的共鸣感。语速：节奏明快但不急促，语调中带亲切与自信。情绪：开朗、豪爽、热情好客，兼具战斗经验与烹饪技艺。音色特征：圆润、清晰、略带气声，体现活力与亲和力。语言：标准普通话。使用场景：酒馆对话、烹饪指导或战斗后闲聊。",
+  "seed": 1156,
+  "batch_no": 156,
+  "batch_size": 16,
+  "batch_position": 13,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

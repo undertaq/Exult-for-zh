@@ -1,0 +1,17 @@
+{
+  "npc": "Perrin",
+  "slug": "perrin",
+  "index": 0,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.28,
+  "sha256": "5b9976bffbd2facd01b9fe8183cb0df67c2d8f465c4f0e75e661e0340170ce42",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 20s-30s, stretching monk, cheerful relaxed voice",
+  "seed": 1208,
+  "batch_no": 208,
+  "batch_size": 16,
+  "batch_position": 2,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

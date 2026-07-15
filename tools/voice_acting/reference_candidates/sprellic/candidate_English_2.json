@@ -1,0 +1,17 @@
+{
+  "npc": "Sprellic",
+  "slug": "sprellic",
+  "index": 2,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.68,
+  "sha256": "5889b92eec705624223cacad8f868002dd838fa3dd78c2d22c1ad3bbd9ece2b6",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, young adult, timid and fearful, high-pitched nervous voice, stammers slightly",
+  "seed": 1293,
+  "batch_no": 293,
+  "batch_size": 16,
+  "batch_position": 14,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

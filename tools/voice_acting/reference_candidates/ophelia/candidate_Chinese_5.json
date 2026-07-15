@@ -1,0 +1,17 @@
+{
+  "npc": "Ophelia",
+  "slug": "ophelia",
+  "index": 5,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.8,
+  "sha256": "1f75bb57b9e1a2975caaa241756ff257e86f451ffcb8cfb5814211ddef44abdd",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：二十出头。角色：Jhelom酒馆的侍酒女。音高：柔和甜润的女声。语速：轻缓、自然、略带停顿。情绪：腼腆、温和、略带狡黠。音色特征：清亮、圆润、带一丝甜腻感。语言：标准普通话。使用场景：游戏对话中与玩家互动，或在酒馆场景中与顾客交谈。",
+  "seed": 1039,
+  "batch_no": 39,
+  "batch_size": 16,
+  "batch_position": 11,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

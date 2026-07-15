@@ -79,6 +79,578 @@ def load_script_module():
 
 
 class GenerateQwen3VoiceBehaviorTest(unittest.TestCase):
+    def test_phase_a_defaults_to_candidate_workflow(self):
+        module = load_script_module()
+
+        args = module.build_parser().parse_args(["--phase", "refs", "--dry-run"])
+
+        self.assertEqual(args.reference_workflow, "candidates")
+
+    def test_legacy_backup_copies_refs_and_clone_prompts_once(self):
+        module = load_script_module()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            voice_dir = Path(tmpdir, "voice")
+            refs_dir = voice_dir / "refs"
+            refs_dir.mkdir(parents=True)
+            (refs_dir / "npc_iolo_en_ref.ogg").write_bytes(b"reference")
+            clone_prompts = Path(tmpdir, "clone_prompts.pkl")
+            clone_prompts.write_bytes(b"prompts")
+            module.PROJECT_DIR = tmpdir
+            module.OUTPUT_DIR = str(voice_dir)
+            module.REFS_DIR = str(refs_dir)
+            module.CLONE_PROMPTS_PATH = str(clone_prompts)
+            args = argparse.Namespace(dry_run=False)
+
+            backup = module.backup_legacy_voice_state(args)
+
+            self.assertEqual(module.backup_legacy_voice_state(args), backup)
+            self.assertEqual(backup.parent, Path(tmpdir, "voice_backup"))
+            self.assertEqual((backup / "refs" / "npc_iolo_en_ref.ogg").read_bytes(), b"reference")
+            self.assertEqual((backup / "clone_prompts.pkl").read_bytes(), b"prompts")
+
+    def test_legacy_backup_does_not_run_during_dry_run(self):
+        module = load_script_module()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            module.PROJECT_DIR = tmpdir
+            module.OUTPUT_DIR = str(Path(tmpdir, "voice"))
+
+            backup = module.backup_legacy_voice_state(argparse.Namespace(dry_run=True))
+
+            self.assertIsNone(backup)
+            self.assertFalse(Path(module.PROJECT_DIR, "voice_backup").exists())
+
+    def test_split_voice_parts_uses_speaker_inside_delimiters_and_narrator_outside(self):
+        module = load_script_module()
+
+        self.assertEqual(
+            module.split_voice_parts('"Hello." Alagner says.', "en"),
+            [("speaker", "Hello."), ("narrator", "Alagner says.")],
+        )
+        self.assertEqual(
+            module.split_voice_parts("他說：「你好。」然後轉身。", "zh"),
+            [("narrator", "他說："), ("speaker", "你好。"), ("narrator", "然後轉身。")],
+        )
+
+    def test_split_voice_parts_treats_unquoted_text_as_narration(self):
+        module = load_script_module()
+
+        self.assertEqual(
+            module.split_voice_parts("The old mage ignores you.", "en"),
+            [("narrator", "The old mage ignores you.")],
+        )
+
+    def test_split_voice_parts_accepts_ascii_quotes_in_chinese_text(self):
+        module = load_script_module()
+
+        self.assertEqual(
+            module.split_voice_parts(
+                '法杖發出微弱的光芒。Batlin 假笑著。"時候未到，聖者。"',
+                "zh",
+            ),
+            [
+                ("narrator", "法杖發出微弱的光芒。Batlin 假笑著。"),
+                ("speaker", "時候未到，聖者。"),
+            ],
+        )
+        self.assertEqual(
+            module.split_voice_parts(
+                '"至於我，我要走了！你永遠找不到我的！再見了，聖者！"',
+                "zh",
+            ),
+            [("speaker", "至於我，我要走了！你永遠找不到我的！再見了，聖者！")],
+        )
+
+    def test_split_voice_parts_handles_trailing_ascii_quote_in_chinese_text(self):
+        module = load_script_module()
+
+        self.assertEqual(
+            module.split_voice_parts(
+                '然後他會在你的夢中現身，讓你夢見無數次死於巨蛇腹中的景象。"',
+                "zh",
+                default_role="speaker",
+            ),
+            [("speaker", "然後他會在你的夢中現身，讓你夢見無數次死於巨蛇腹中的景象。")],
+        )
+        self.assertEqual(
+            module.split_voice_parts(
+                "然後他會在你的夢中現身，讓你夢見無數次死於巨蛇腹中的景象。」",
+                "zh",
+                default_role="speaker",
+            ),
+            [("speaker", "然後他會在你的夢中現身，讓你夢見無數次死於巨蛇腹中的景象。")],
+        )
+
+    def test_split_voice_parts_can_treat_unquoted_source_speaker_text_as_speaker(self):
+        module = load_script_module()
+
+        self.assertEqual(
+            module.split_voice_parts(
+                "Much of the information is trivial, such as the color of the sky.",
+                "en",
+                default_role="speaker",
+            ),
+            [("speaker", "Much of the information is trivial, such as the color of the sky.")],
+        )
+
+    def test_voice_part_default_role_ignores_source_speaker_metadata_without_override(self):
+        module = load_script_module()
+        entry = {
+            "npc": "Erethian",
+            "_source_meta": {
+                "zh": {
+                    "speaker": "Erethian",
+                    "npc": "",
+                    "caller_guess": "",
+                },
+            },
+        }
+
+        self.assertEqual(module.default_voice_role(entry, "zh"), "narrator")
+
+    def test_voice_part_default_role_allows_explicit_speaker_override(self):
+        module = load_script_module()
+        entry = {
+            "npc": "Erethian",
+            "voice_default_role": "speaker",
+        }
+
+        self.assertEqual(module.default_voice_role(entry, "zh"), "speaker")
+
+    def test_voice_part_default_role_uses_trailing_quote_continuation_as_speaker(self):
+        module = load_script_module()
+        entry = {
+            "npc": "Batlin",
+            "zh_segment": 1,
+            "zh_text": '然後他會在你的夢中現身，讓你夢見無數次死於巨蛇腹中的景象。"',
+            "_source_meta": {
+                "zh": {
+                    "speaker": "Batlin",
+                    "segment": "1",
+                    "total_segments": "2",
+                },
+            },
+        }
+
+        self.assertEqual(module.default_voice_role(entry, "zh"), "speaker")
+
+        entry["zh_text"] = "然後他會在你的夢中現身，讓你夢見無數次死於巨蛇腹中的景象。」"
+
+        self.assertEqual(module.default_voice_role(entry, "zh"), "speaker")
+
+    def test_voice_part_default_role_keeps_source_narration_as_narrator(self):
+        module = load_script_module()
+        entry = {
+            "npc": "Erethian",
+            "_source_meta": {
+                "zh": {
+                    "speaker": "",
+                    "npc": "Erethian",
+                    "caller_guess": "",
+                },
+            },
+        }
+
+        self.assertEqual(module.default_voice_role(entry, "zh"), "narrator")
+
+    def test_phase_c_uses_delimited_generation_for_mixed_text(self):
+        module = load_script_module()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            module.ZH_OUTPUT = os.path.join(tmpdir, "zh")
+            module.EN_OUTPUT = os.path.join(tmpdir, "en")
+            generated_parts = []
+
+            def fake_generate(model, parts, lang, speaker_prompt, narrator_prompt):
+                generated_parts.append((parts, lang, speaker_prompt, narrator_prompt))
+                return np.zeros(24000, dtype=np.float32), 24000
+
+            def write_file(filepath, wav, sr, npc="", text="", metadata=None):
+                Path(filepath).write_bytes(text.encode("utf-8"))
+
+            module.generate_delimited_voice = fake_generate
+            module.write_ogg_direct = write_file
+            designs = {
+                "designs": {
+                    "npc_alagner": {"npcs": ["Alagner"]},
+                    module.NARRATOR_DESIGN_ID: {"npcs": [module.NARRATOR_NAME], "type": "narrator"},
+                },
+            }
+            by_npc = {
+                "Alagner": [
+                    {
+                        "npc": "Alagner",
+                        "en_func_id": "0x04F6",
+                        "en_offset_key": "68",
+                        "en_segment": 0,
+                        "en_text": '"Hello, again," Alagner says.',
+                    },
+                ],
+            }
+            clone_prompts = {
+                "npc_alagner": {"en": ["speaker-prompt"]},
+                module.NARRATOR_DESIGN_ID: {"en": ["narrator-prompt"]},
+            }
+            args = argparse.Namespace(
+                lang="en",
+                dry_run=False,
+                force=True,
+                max_npcs=None,
+                device="cuda:0",
+                generic_fallbacks=False,
+                review_out_dir=None,
+                review_update_interval=0,
+                review_only_new=True,
+                review_since_mtime=0,
+            )
+
+            generated, skipped, errors = module.phase_c_generate_voice(
+                designs, clone_prompts, by_npc, args
+            )
+
+            self.assertEqual((generated, skipped, errors), (1, 0, 0))
+            self.assertEqual(
+                generated_parts,
+                [
+                    (
+                        [("speaker", "Hello, again,"), ("narrator", "Alagner says.")],
+                        "en",
+                        ["speaker-prompt"],
+                        ["narrator-prompt"],
+                    )
+                ],
+            )
+
+    def test_phase_c_keeps_unquoted_source_speaker_metadata_as_narrator(self):
+        module = load_script_module()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            module.ZH_OUTPUT = os.path.join(tmpdir, "zh")
+            module.EN_OUTPUT = os.path.join(tmpdir, "en")
+            generated_parts = []
+
+            def fake_generate(model, parts, lang, speaker_prompt, narrator_prompt):
+                generated_parts.append(parts)
+                return np.zeros(24000, dtype=np.float32), 24000
+
+            def write_file(filepath, wav, sr, npc="", text="", metadata=None):
+                Path(filepath).write_bytes(text.encode("utf-8"))
+
+            module.generate_delimited_voice = fake_generate
+            module.write_ogg_direct = write_file
+            designs = {
+                "designs": {
+                    "npc_erethian": {
+                        "npc": "Erethian",
+                        "npcs": ["Erethian"],
+                        "voice_desc_en": "elderly male voice",
+                    },
+                    module.NARRATOR_MALE_DESIGN_ID: {"npcs": [module.NARRATOR_MALE_NAME]},
+                    module.NARRATOR_FEMALE_DESIGN_ID: {"npcs": [module.NARRATOR_FEMALE_NAME]},
+                },
+            }
+            by_npc = {
+                "Erethian": [
+                    {
+                        "npc": "Erethian",
+                        "zh_func_id": "0x009A",
+                        "zh_offset_key": "262b",
+                        "zh_segment": 0,
+                        "zh_text": "大部分資訊都很瑣碎，像是詳細描述了億萬年前某一天天空的顏色，",
+                        "_source_meta": {
+                            "zh": {
+                                "speaker": "Erethian",
+                                "npc": "",
+                                "caller_guess": "",
+                            }
+                        },
+                    },
+                ],
+            }
+            clone_prompts = {
+                "npc_erethian": {"zh": ["speaker-prompt"]},
+                module.NARRATOR_MALE_DESIGN_ID: {"zh": ["male-narrator-prompt"]},
+                module.NARRATOR_FEMALE_DESIGN_ID: {"zh": ["female-narrator-prompt"]},
+            }
+            args = argparse.Namespace(
+                lang="zh",
+                dry_run=False,
+                force=True,
+                max_npcs=None,
+                device="cuda:0",
+                generic_fallbacks=False,
+                review_out_dir=None,
+                review_update_interval=0,
+                review_only_new=True,
+                review_since_mtime=0,
+            )
+
+            generated, skipped, errors = module.phase_c_generate_voice(
+                designs, clone_prompts, by_npc, args
+            )
+
+            self.assertEqual((generated, skipped, errors), (1, 0, 0))
+            self.assertEqual(
+                generated_parts,
+                [[("narrator", "大部分資訊都很瑣碎，像是詳細描述了億萬年前某一天天空的顏色，")]],
+            )
+
+    def test_narrator_design_id_follows_speaker_gender(self):
+        module = load_script_module()
+        designs = {
+            "designs": {
+                "npc_alagner": {
+                    "npc": "Alagner",
+                    "npcs": ["Alagner"],
+                    "voice_desc_en": "Deep mature male voice",
+                },
+                "group_middle_female_firm": {
+                    "npc": "middle_female_firm",
+                    "npcs": ["Ellen"],
+                    "voice_desc_en": "A middle-aged firm female voice",
+                },
+                module.NARRATOR_MALE_DESIGN_ID: {"npcs": [module.NARRATOR_MALE_NAME]},
+                module.NARRATOR_FEMALE_DESIGN_ID: {"npcs": [module.NARRATOR_FEMALE_NAME]},
+            }
+        }
+        npc_to_design = module.build_npc_to_design_map(designs)
+
+        self.assertEqual(
+            module.narrator_design_id_for_npc(designs, npc_to_design, "Alagner"),
+            module.NARRATOR_MALE_DESIGN_ID,
+        )
+        self.assertEqual(
+            module.narrator_design_id_for_npc(designs, npc_to_design, "Ellen"),
+            module.NARRATOR_FEMALE_DESIGN_ID,
+        )
+
+    def test_gender_inference_treats_female_description_as_female(self):
+        module = load_script_module()
+        designs = {
+            "designs": {
+                "npc_amber": {
+                    "npc": "Amber",
+                    "npcs": ["Amber"],
+                    "voice_desc_en": "A bright adult female voice, lively and confident.",
+                    "voice_desc_zh": "女性，成年，明亮而自信。",
+                },
+                module.NARRATOR_MALE_DESIGN_ID: {"npcs": [module.NARRATOR_MALE_NAME]},
+                module.NARRATOR_FEMALE_DESIGN_ID: {"npcs": [module.NARRATOR_FEMALE_NAME]},
+            }
+        }
+        npc_to_design = module.build_npc_to_design_map(designs)
+
+        self.assertEqual(module.voice_gender_for_npc(designs, npc_to_design, "Amber"), "female")
+        self.assertEqual(
+            module.narrator_design_id_for_npc(designs, npc_to_design, "Amber"),
+            module.NARRATOR_FEMALE_DESIGN_ID,
+        )
+
+    def test_gender_inference_does_not_treat_not_feminine_as_female(self):
+        module = load_script_module()
+        designs = {
+            "designs": {
+                "group_young_male_energetic": {
+                    "npc": "young_male_energetic",
+                    "npcs": ["Addom"],
+                    "voice_desc_en": "Confident young adult male, not icy or feminine.",
+                    "voice_desc_zh": "男性，年輕，不要女性化。",
+                },
+                module.NARRATOR_MALE_DESIGN_ID: {"npcs": [module.NARRATOR_MALE_NAME]},
+                module.NARRATOR_FEMALE_DESIGN_ID: {"npcs": [module.NARRATOR_FEMALE_NAME]},
+            }
+        }
+        npc_to_design = module.build_npc_to_design_map(designs)
+
+        self.assertEqual(module.voice_gender_for_npc(designs, npc_to_design, "Addom"), "male")
+        self.assertEqual(
+            module.narrator_design_id_for_npc(designs, npc_to_design, "Addom"),
+            module.NARRATOR_MALE_DESIGN_ID,
+        )
+
+        neutral_design = {
+            "npc": "Addom",
+            "voice_desc_en": "Confident young adult male, not icy or feminine.",
+            "voice_desc_zh": "男性，年輕，不要女性化。",
+        }
+        self.assertEqual(module.infer_design_gender("npc_addom", neutral_design), "male")
+
+    def test_gender_inference_uses_actor_gender_not_costume_or_role_gender(self):
+        module = load_script_module()
+        design = {
+            "npc": "Jesse",
+            "voice_desc_en": (
+                "Male, 20s-30s, tall thin actor, theatrical voice, "
+                "doing female roles, wearing a woman's wig in drag."
+            ),
+            "voice_desc_zh": "男性，20-40歲，低沉有質感。",
+        }
+
+        self.assertEqual(module.infer_design_gender("npc_jesse", design), "male")
+
+        designs = {
+            "designs": {
+                "npc_jesse": {"npcs": ["Jesse"], **design},
+                module.NARRATOR_MALE_DESIGN_ID: {"npcs": [module.NARRATOR_MALE_NAME]},
+                module.NARRATOR_FEMALE_DESIGN_ID: {"npcs": [module.NARRATOR_FEMALE_NAME]},
+            }
+        }
+        npc_to_design = module.build_npc_to_design_map(designs)
+        self.assertEqual(
+            module.narrator_design_id_for_npc(designs, npc_to_design, "Jesse"),
+            module.NARRATOR_MALE_DESIGN_ID,
+        )
+
+    def test_phase_c_uses_male_narrator_for_male_speaker(self):
+        module = load_script_module()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            module.ZH_OUTPUT = os.path.join(tmpdir, "zh")
+            module.EN_OUTPUT = os.path.join(tmpdir, "en")
+            generated_parts = []
+
+            def fake_generate(model, parts, lang, speaker_prompt, narrator_prompt):
+                generated_parts.append(narrator_prompt)
+                return np.zeros(24000, dtype=np.float32), 24000
+
+            def write_file(filepath, wav, sr, npc="", text="", metadata=None):
+                Path(filepath).write_bytes(text.encode("utf-8"))
+
+            module.generate_delimited_voice = fake_generate
+            module.write_ogg_direct = write_file
+            designs = {
+                "designs": {
+                    "npc_alagner": {
+                        "npc": "Alagner",
+                        "npcs": ["Alagner"],
+                        "voice_desc_en": "Deep mature male voice",
+                    },
+                    module.NARRATOR_MALE_DESIGN_ID: {
+                        "npcs": [module.NARRATOR_MALE_NAME],
+                        "voice_desc_en": "Male narrator",
+                    },
+                    module.NARRATOR_FEMALE_DESIGN_ID: {
+                        "npcs": [module.NARRATOR_FEMALE_NAME],
+                        "voice_desc_en": "Female narrator",
+                    },
+                },
+            }
+            by_npc = {
+                "Alagner": [
+                    {
+                        "npc": "Alagner",
+                        "en_func_id": "0x04F6",
+                        "en_offset_key": "68",
+                        "en_segment": 0,
+                        "en_text": '"Hello, again," Alagner says.',
+                    },
+                ],
+            }
+            clone_prompts = {
+                "npc_alagner": {"en": ["speaker-prompt"]},
+                module.NARRATOR_MALE_DESIGN_ID: {"en": ["male-narrator-prompt"]},
+                module.NARRATOR_FEMALE_DESIGN_ID: {"en": ["female-narrator-prompt"]},
+            }
+            args = argparse.Namespace(
+                lang="en",
+                dry_run=False,
+                force=True,
+                max_npcs=None,
+                device="cuda:0",
+                generic_fallbacks=False,
+                review_out_dir=None,
+                review_update_interval=0,
+                review_only_new=True,
+                review_since_mtime=0,
+            )
+
+            generated, skipped, errors = module.phase_c_generate_voice(
+                designs, clone_prompts, by_npc, args
+            )
+
+            self.assertEqual((generated, skipped, errors), (1, 0, 0))
+            self.assertEqual(generated_parts, [["male-narrator-prompt"]])
+
+    def test_phase_c_uses_female_narrator_for_female_speaker(self):
+        module = load_script_module()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            module.ZH_OUTPUT = os.path.join(tmpdir, "zh")
+            module.EN_OUTPUT = os.path.join(tmpdir, "en")
+            generated_calls = []
+
+            def fake_generate(model, parts, lang, speaker_prompt, narrator_prompt):
+                generated_calls.append((parts, speaker_prompt, narrator_prompt))
+                return np.zeros(24000, dtype=np.float32), 24000
+
+            def write_file(filepath, wav, sr, npc="", text="", metadata=None):
+                Path(filepath).write_bytes(text.encode("utf-8"))
+
+            module.generate_delimited_voice = fake_generate
+            module.write_ogg_direct = write_file
+            designs = {
+                "designs": {
+                    "npc_amber": {
+                        "npc": "Amber",
+                        "npcs": ["Amber"],
+                        "voice_desc_en": "A bright adult female voice, lively and confident.",
+                    },
+                    module.NARRATOR_MALE_DESIGN_ID: {
+                        "npcs": [module.NARRATOR_MALE_NAME],
+                        "voice_desc_en": "Male narrator",
+                    },
+                    module.NARRATOR_FEMALE_DESIGN_ID: {
+                        "npcs": [module.NARRATOR_FEMALE_NAME],
+                        "voice_desc_en": "Female narrator",
+                    },
+                },
+            }
+            by_npc = {
+                "Amber": [
+                    {
+                        "npc": "Amber",
+                        "zh_func_id": "0x0529",
+                        "zh_offset_key": "10",
+                        "zh_segment": 0,
+                        "zh_text": "Amber 微笑著。「歡迎回來。」",
+                    },
+                ],
+            }
+            clone_prompts = {
+                "npc_amber": {"zh": ["speaker-prompt"]},
+                module.NARRATOR_MALE_DESIGN_ID: {"zh": ["male-narrator-prompt"]},
+                module.NARRATOR_FEMALE_DESIGN_ID: {"zh": ["female-narrator-prompt"]},
+            }
+            args = argparse.Namespace(
+                lang="zh",
+                dry_run=False,
+                force=True,
+                max_npcs=None,
+                device="cuda:0",
+                generic_fallbacks=False,
+                review_out_dir=None,
+                review_update_interval=0,
+                review_only_new=True,
+                review_since_mtime=0,
+            )
+
+            generated, skipped, errors = module.phase_c_generate_voice(
+                designs, clone_prompts, by_npc, args
+            )
+
+            self.assertEqual((generated, skipped, errors), (1, 0, 0))
+            self.assertEqual(
+                generated_calls,
+                [
+                    (
+                        [("narrator", "Amber 微笑著。"), ("speaker", "歡迎回來。")],
+                        ["speaker-prompt"],
+                        ["female-narrator-prompt"],
+                    )
+                ],
+            )
+
     def test_phase_c_dry_run_does_not_generate_or_write_files(self):
         module = load_script_module()
 
@@ -131,7 +703,7 @@ class GenerateQwen3VoiceBehaviorTest(unittest.TestCase):
             Path(target).write_bytes(b"stale")
             module.voice_file_matches_text = lambda path, text: False
 
-            def write_file(filepath, wav, sr, npc="", text=""):
+            def write_file(filepath, wav, sr, npc="", text="", metadata=None):
                 Path(filepath).write_bytes(b"new")
 
             module.write_ogg_direct = write_file
@@ -173,7 +745,7 @@ class GenerateQwen3VoiceBehaviorTest(unittest.TestCase):
             module.ZH_OUTPUT = os.path.join(tmpdir, "zh")
             module.EN_OUTPUT = os.path.join(tmpdir, "en")
 
-            def write_file(filepath, wav, sr, npc="", text=""):
+            def write_file(filepath, wav, sr, npc="", text="", metadata=None):
                 Path(filepath).write_bytes(text.encode("utf-8"))
 
             module.write_ogg_direct = write_file

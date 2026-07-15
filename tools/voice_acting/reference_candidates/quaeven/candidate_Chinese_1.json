@@ -1,0 +1,17 @@
+{
+  "npc": "Quaeven",
+  "slug": "quaeven",
+  "index": 1,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.6,
+  "sha256": "792b344896b27f3d1625d7fc40dbf1002efaab2e78f1fe9722045a1702108e16",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：青年。角色：石像鬼，兼职哲学社成员，负责城市休闲与学习中心运营。音高：中音略带紧张感，语调急促。语速：快，节奏急促，常带断续与急切感。情绪：焦躁、热心、略带慌乱，但内在有责任感。音色特征：清脆略带沙哑，气息略显急促，语调起伏明显。语言：标准普通话。使用场景：角色扮演中与玩家互动时，急促表达服务或招募信息。",
+  "seed": 1140,
+  "batch_no": 140,
+  "batch_size": 16,
+  "batch_position": 11,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

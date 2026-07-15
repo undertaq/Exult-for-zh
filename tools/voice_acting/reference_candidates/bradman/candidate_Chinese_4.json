@@ -1,0 +1,17 @@
+{
+  "npc": "Bradman",
+  "slug": "bradman",
+  "index": 4,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.36,
+  "sha256": "8ac26570c1c58e17009842385bb154d800a949115675b9ac189451e9c055bbae",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：二十至三十岁。角色：弓箭教练。音高：平稳沉稳的男声，略带温和的共鸣感。语速：缓慢而有节奏，语调从容不迫。情绪：沉静自信、富有耐心、略带学者式的温和。音色特征：圆润清晰、带轻微鼻音共鸣、不显粗粝。语言：标准普通话。使用场景：在深林东南区域向学员讲解弓箭技巧或进行训练指导。",
+  "seed": 1105,
+  "batch_no": 105,
+  "batch_size": 16,
+  "batch_position": 4,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

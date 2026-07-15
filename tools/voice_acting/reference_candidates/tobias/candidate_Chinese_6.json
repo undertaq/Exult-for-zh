@@ -1,0 +1,17 @@
+{
+  "npc": "Tobias",
+  "slug": "tobias",
+  "index": 6,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.0,
+  "sha256": "1cff558040046e96567d60458c34e290f4ab5b385a07950d335480dff87d211d",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：青少年至二十出头。角色：被社会边缘化的少年。音高：低沉、略带沙哑的少年男声。语速：缓慢、低语式，带有压抑的节奏感。情绪：愤懑、疏离、暗含怨怼。音色特征：沙哑、略带气声、共鸣不强、缺乏活力。语言：标准普通话。使用场景：角色扮演中少年私下表达不满或低声抱怨时的对话。",
+  "seed": 1092,
+  "batch_no": 92,
+  "batch_size": 16,
+  "batch_position": 4,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

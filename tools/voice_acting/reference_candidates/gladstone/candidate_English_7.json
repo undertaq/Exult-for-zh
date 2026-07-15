@@ -1,0 +1,17 @@
+{
+  "npc": "Gladstone",
+  "slug": "gladstone",
+  "index": 7,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.96,
+  "sha256": "9eea9435319a42477f0ddfd10ebc8edc45f57bdd486a5bc5820fb2f0fb15884a",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 20s-30s, handsome sculptor, warm artistic voice",
+  "seed": 1198,
+  "batch_no": 198,
+  "batch_size": 16,
+  "batch_position": 9,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

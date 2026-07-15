@@ -1,0 +1,17 @@
+{
+  "npc": "Mikos",
+  "slug": "mikos",
+  "index": 0,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.92,
+  "sha256": "0fab71362a893be384e7ee117020235a825d5bb367f25ad7098391647bf1febc",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：三十至四十岁。角色：矿场主管，冷峻多疑的独行者。音高：低沉、略带讽刺的男声。语速：缓慢、带压迫感的节奏，语调中常夹杂轻蔑。情绪：冷漠、防备、孤僻，带有不耐烦的嘲讽。音色特征：沙哑、低沉、缺乏共鸣，语调尖锐中透着疲惫。语言：标准普通话。使用场景：矿场管理或与主角对峙时的对话。",
+  "seed": 1113,
+  "batch_no": 113,
+  "batch_size": 16,
+  "batch_position": 2,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

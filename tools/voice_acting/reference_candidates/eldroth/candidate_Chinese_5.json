@@ -1,0 +1,17 @@
+{
+  "npc": "Eldroth",
+  "slug": "eldroth",
+  "index": 5,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.28,
+  "sha256": "a4b01faf56aff4449f5dfa39a3b91c58edd2e95f98a0e600891dacc8bfc863fc",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：三十至四十岁。角色：维瑟市的杂货商兼自封顾问。音高：温暖、略带沙哑的中音。语速：轻快、语调起伏自然，常带停顿和笑意。情绪：友善、调侃、略带自嘲，语带戏谑。音色特征：圆润、富有共鸣、带点粗粝感。语言：标准普通话。使用场景：在游戏对话中扮演杂货商，以诙谐方式提供建议或推销商品。",
+  "seed": 1112,
+  "batch_no": 112,
+  "batch_size": 16,
+  "batch_position": 3,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

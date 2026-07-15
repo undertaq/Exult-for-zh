@@ -1,0 +1,17 @@
+{
+  "npc": "James",
+  "slug": "james",
+  "index": 6,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.08,
+  "sha256": "8e60a90c6725060a7c1a5147b3f729767d5c16144c38096b3359af230ea667b5",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：四十多岁。角色：黑smith学徒，位于Minoc的Death Watch Armory。音高：略带沙哑的中低音，语调疲惫但带点不耐烦。语速：缓慢、断续，夹杂轻微停顿，体现倦怠与烦躁。情绪：不耐烦、疲惫、略带固执。音色特征：沙哑、带点粗粝感、气息略显急促。语言：标准普通话。使用场景：在游戏对话中向玩家推销或出售物品时表现角色性格。",
+  "seed": 1151,
+  "batch_no": 151,
+  "batch_size": 16,
+  "batch_position": 0,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

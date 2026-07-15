@@ -1,0 +1,17 @@
+{
+  "npc": "Malloy",
+  "slug": "malloy",
+  "index": 0,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.48,
+  "sha256": "46b8d42a1558badfe808634d039726e12693eaa137a567253e1111adade09ba0",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：四十多岁。角色：矿工搭档。音高：略带自大腔调的中音，语调高亢但不刺耳。语速：缓慢而夸张，强调每个词，带滑稽停顿。情绪：自视甚高、好斗、滑稽、自嘲。音色特征：圆润、带点沙哑、有腔调、语调起伏大。语言：标准普通话。使用场景：游戏对话中与玩家互动，或在矿洞内自言自语时。",
+  "seed": 1094,
+  "batch_no": 94,
+  "batch_size": 16,
+  "batch_position": 6,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

@@ -1,0 +1,16 @@
+{
+  "npc": "Hydra",
+  "slug": "hydra",
+  "index": 1,
+  "language": "English",
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "instruct": "Gender: neuter monster. Age: ancient. Role: three-headed hydra, a colossal serpentine beast guarding its lair. Pitch: very deep, subterranean, guttural. Pace: slow and menacing, with drawn-out syllables. Emotion: primal menace, cold predatory hunger, seething aggression. Characteristics: heavy rumbling growl, gravelly and reverberant, layered as if several throats speak at once, wet snarling texture. Use case: fantasy RPG boss-monster dialogue and threats issued from a swamp cavern.",
+  "seed": 47144,
+  "batch_seed": 47144,
+  "batch_position": 7,
+  "batch_size": 16,
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "sha256": "3739287f781a2639596cf6fb4d098d00073fead3b107fb7369c7ef609b4398f3",
+  "sample_rate": 24000,
+  "duration_seconds": 4.88
+}

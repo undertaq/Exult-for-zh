@@ -1,0 +1,17 @@
+{
+  "npc": "Thad",
+  "slug": "thad",
+  "index": 8,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.76,
+  "sha256": "d9480618cbaf260a130e17b59fe45aba432c37151961af9513461a3f2ce82e3f",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 20s-30s, hostile anti-fellowship man, angry cold voice",
+  "seed": 1245,
+  "batch_no": 245,
+  "batch_size": 16,
+  "batch_position": 8,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Max",
+  "slug": "max",
+  "index": 2,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.08,
+  "sha256": "0fa1bea8e84b9d37141bd9cab3bf0b9f4bba4a19bd55038cd9c894b4f2bfb146",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：幼儿。角色：皇家育婴房中的活泼孩童。音高：清脆、略带童音的高音域。语速：快而跳跃，伴随游戏式停顿。情绪：天真、好动、充满表演欲。音色特征：圆润、带轻微口音（如“Makth”）、略显稚嫩。语言：标准普通话。使用场景：游戏互动中表演或游戏时的对话。",
+  "seed": 1062,
+  "batch_no": 62,
+  "batch_size": 16,
+  "batch_position": 10,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

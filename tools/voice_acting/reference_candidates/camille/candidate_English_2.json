@@ -1,0 +1,17 @@
+{
+  "npc": "Camille",
+  "slug": "camille",
+  "index": 2,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.88,
+  "sha256": "d16f63a169b9da4db0262abc47a826b9118c88f18b99a5e1fe1ab1111ab836e6",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 40s, worried mother, pleading and desperate voice, tearful",
+  "seed": 1261,
+  "batch_no": 261,
+  "batch_size": 16,
+  "batch_position": 6,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

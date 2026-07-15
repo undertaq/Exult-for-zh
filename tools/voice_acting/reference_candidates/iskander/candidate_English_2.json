@@ -1,0 +1,17 @@
+{
+  "npc": "Iskander",
+  "slug": "iskander",
+  "index": 2,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 5.6,
+  "sha256": "5fa8b09fa47c78b185d58b3cd23b9ecc8929055452934d410485e31f6175364c",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, cyclops, deep booming voice, slow and simple speech",
+  "seed": 1224,
+  "batch_no": 224,
+  "batch_size": 16,
+  "batch_position": 8,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

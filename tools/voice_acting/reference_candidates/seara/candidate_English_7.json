@@ -1,0 +1,17 @@
+{
+  "npc": "Seara",
+  "slug": "seara",
+  "index": 7,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.68,
+  "sha256": "abdb8fe36df60769b6826e7fd8fc3f5c3a31d1437cb5fe14bcfa35d55cd202f8",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 20s, handsome creative young man, friendly enthusiastic voice",
+  "seed": 1266,
+  "batch_no": 266,
+  "batch_size": 16,
+  "batch_position": 1,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

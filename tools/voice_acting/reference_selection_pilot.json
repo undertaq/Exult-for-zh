@@ -1,0 +1,74 @@
+{
+  "languages": {
+    "English": {
+      "aimi": {
+        "index": 9
+      },
+      "batlin": {
+        "index": 4
+      },
+      "caine": {
+        "index": 8
+      },
+      "chuckles": {
+        "index": 8
+      },
+      "draxinusom": {
+        "index": 1
+      },
+      "dupre": {
+        "index": 0
+      },
+      "erethian": {
+        "index": 2
+      },
+      "hydra": {
+        "index": 1
+      },
+      "spark": {
+        "index": 0
+      },
+      "iolo": {
+        "index": 2
+      },
+      "lord_british": {
+        "index": 5
+      }
+    },
+    "Chinese": {
+      "aimi": {
+        "index": 4
+      },
+      "batlin": {
+        "index": 4
+      },
+      "caine": {
+        "index": 5
+      },
+      "chuckles": {
+        "index": 9
+      },
+      "draxinusom": {
+        "index": 8
+      },
+      "dupre": {
+        "index": 5
+      },
+      "erethian": {
+        "index": 4
+      },
+      "hydra": {
+        "index": 0
+      },
+      "spark": {
+        "index": 2
+      },
+      "iolo": {
+        "index": 1
+      },
+      "lord_british": {
+        "index": 7
+      }
+    }
+  }
+}

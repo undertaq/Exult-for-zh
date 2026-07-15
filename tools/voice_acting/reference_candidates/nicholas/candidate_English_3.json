@@ -1,0 +1,17 @@
+{
+  "npc": "Nicholas",
+  "slug": "nicholas",
+  "index": 3,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.6,
+  "sha256": "3eb1743526023abfbd3c3a03d0b914cbd7bffd7c737faa0f3820f81523565c1b",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, toddler, baby babbling voice",
+  "seed": 1158,
+  "batch_no": 158,
+  "batch_size": 16,
+  "batch_position": 15,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

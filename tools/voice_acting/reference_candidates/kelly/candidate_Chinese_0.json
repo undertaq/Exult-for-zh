@@ -1,0 +1,17 @@
+{
+  "npc": "Kelly",
+  "slug": "kelly",
+  "index": 0,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 6.32,
+  "sha256": "7b92bf786625bc4784d8bb4b3baf05eed9374a8405895c80357b8703dcac5744",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：四十多岁。角色：英国农场市场摊主。音高：温暖、略带沙哑的中音。语速：自然、舒缓，带点亲切停顿。情绪：热情好客、温和包容、略带观察者式的幽默。音色特征：圆润、共鸣感自然、略带生活气息。语言：标准普通话。使用场景：在农场市场与顾客交谈或介绍商品。",
+  "seed": 1056,
+  "batch_no": 56,
+  "batch_size": 16,
+  "batch_position": 14,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

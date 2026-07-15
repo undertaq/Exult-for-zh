@@ -1,0 +1,17 @@
+{
+  "npc": "Tseramed",
+  "slug": "tseramed",
+  "index": 1,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.36,
+  "sha256": "f075df6385c3120eccb07bf3a8891a3d77a0e1f8c4879793b225b41fcb0f4ac5",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 30s-40s, serious ranger, steady and grounded voice, speaks plainly with a hint of wilderness grit",
+  "seed": 1298,
+  "batch_no": 298,
+  "batch_size": 16,
+  "batch_position": 13,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

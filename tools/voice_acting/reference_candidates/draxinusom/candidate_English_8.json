@@ -1,0 +1,16 @@
+{
+  "npc": "Draxinusom",
+  "slug": "draxinusom",
+  "index": 8,
+  "language": "English",
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "instruct": "Gender: male. Age: elderly. Role: ancient gargoyle king, Grand Inquisitor. Pitch: deep, venerable baritone. Pace: slow, measured, with deliberate pauses. Emotion: wise, gentle, weary, solemn. Characteristics: rich, resonant, slightly gravelly, with a low, echoing timbre. Use case: fantasy RPG dialogue, solemn monologues, political or philosophical narration.",
+  "seed": 47096,
+  "batch_seed": 47096,
+  "batch_position": 2,
+  "batch_size": 16,
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "sha256": "cfc2ecfc53337ae493faed1da675ca747767f8c774ef9b3edee916c82b3ea3fa",
+  "sample_rate": 24000,
+  "duration_seconds": 4.96
+}

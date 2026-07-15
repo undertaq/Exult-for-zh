@@ -1,0 +1,17 @@
+{
+  "npc": "Gharl",
+  "slug": "gharl",
+  "index": 5,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.24,
+  "sha256": "cdf542c58bf8321745ca5f06c8d61c39dcc8a45fcdcbcd0b037c4ff248ceda1c",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：中年。角色：被囚禁的巨魔。音高：低沉、粗粝、带有饥饿怒吼感的男低音。语速：缓慢、压抑、夹杂急促喘息节奏。情绪：暴怒、饥饿、绝望、暴烈。音色特征：粗哑、气声明显、共鸣低沉、缺乏圆润感。语言：标准普通话。使用场景：角色扮演中巨魔在牢狱中因饥饿而咆哮或威胁玩家。",
+  "seed": 1081,
+  "batch_no": 81,
+  "batch_size": 16,
+  "batch_position": 9,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

@@ -1,0 +1,17 @@
+{
+  "npc": "Syria",
+  "slug": "syria",
+  "index": 4,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.24,
+  "sha256": "927e5489bccb2a16e505061469da794c70b1c82371fa712c36191e0aa65bfe9a",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：女性。年龄：二十至三十岁。角色：守卫与武馆导师。音高：中高音，锐利有力。语速：略快，节奏紧凑，带命令式停顿。情绪：果决、冷峻、不怒自威。音色特征：清脆、带金属质感的嗓音，略显沙哑。语言：标准普通话。使用场景：游戏战斗或角色扮演中担任护卫或武技指导者。",
+  "seed": 1049,
+  "batch_no": 49,
+  "batch_size": 16,
+  "batch_position": 10,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

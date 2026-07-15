@@ -1,0 +1,17 @@
+{
+  "npc": "Morz",
+  "slug": "morz",
+  "index": 8,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.28,
+  "sha256": "a808287d8f827c04a9772fcd226b4b0157cee73f625030beac4b17a31d278952",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Male, 20s, shy stuttering man, nervous stammering voice",
+  "seed": 1214,
+  "batch_no": 214,
+  "batch_size": 16,
+  "batch_position": 4,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

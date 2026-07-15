@@ -1,0 +1,17 @@
+{
+  "npc": "Foranamo",
+  "slug": "foranamo",
+  "index": 4,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.12,
+  "sha256": "eb5b03fddea67d8912ff8c739068699bd3097ad9ecff0dd7ef83f1361da50204",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。角色：石像鬼守卫。音高：低沉、粗粝的男声，带有怒气与压迫感。语速：急促、断续，充满对抗性节奏。情绪：暴怒、固执、充满敌意。音色特征：沙哑、低沉、粗粝，略带气声。语言：标准普通话。使用场景：在酒馆或冲突场景中对玩家角色发出警告或攻击性言语。",
+  "seed": 1035,
+  "batch_no": 35,
+  "batch_size": 16,
+  "batch_position": 4,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

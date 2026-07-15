@@ -1,0 +1,17 @@
+{
+  "npc": "Boris",
+  "slug": "boris",
+  "index": 2,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 7.04,
+  "sha256": "903416ca58f314977de17aeb812ae31d93acb5f63db52b3cfdfb489b71c6071f",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Lecherous, oily, suggestive tavern-keeper with a nervous, wheedling tone; chuckles with a low, throaty rasp; speaks in a manner that implies he’s both charming and morally ambiguous.",
+  "seed": 1299,
+  "batch_no": 299,
+  "batch_size": 16,
+  "batch_position": 8,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

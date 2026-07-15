@@ -1,0 +1,17 @@
+{
+  "npc": "Mama",
+  "slug": "mama",
+  "index": 6,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 4.48,
+  "sha256": "451e991ddcd6854f972ba46fe47f59c41adc9bf1b24c35a0f313e059deb8b4f5",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 40s, beautiful naked woman, warm earthy voice, unashamed",
+  "seed": 1257,
+  "batch_no": 257,
+  "batch_size": 16,
+  "batch_position": 4,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

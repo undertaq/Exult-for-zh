@@ -1,0 +1,17 @@
+{
+  "npc": "Johnson",
+  "slug": "johnson",
+  "index": 3,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.76,
+  "sha256": "c2147a4fd5a2740ebd7604daf755503e6822b797f2d9ad06a949c3693b4dc10b",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：三十至四十岁。角色：守卫，负责东门港口的白日班次。音高：中性稳定、略带紧绷感的男声。语速：中等偏快，节奏清晰、不容置疑。情绪：警觉、严谨、忠诚而克制。音色特征：清晰、略带金属质感的嗓音，无明显沙哑或气声。语言：标准普通话。使用场景：游戏剧情中守卫对玩家或市民执行职务时的对话。",
+  "seed": 1117,
+  "batch_no": 117,
+  "batch_size": 16,
+  "batch_position": 11,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

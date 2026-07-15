@@ -1,0 +1,17 @@
+{
+  "npc": "Ellen",
+  "slug": "ellen",
+  "index": 5,
+  "language": "English",
+  "status": "accepted",
+  "duration_seconds": 3.44,
+  "sha256": "abcabd623616e1e95d65f57f02b4061ba9a27f46d58d2dd1996b74c299cf5c0a",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "Female, 30s-40s, friendly woman, warm apologetic voice",
+  "seed": 1205,
+  "batch_no": 205,
+  "batch_size": 16,
+  "batch_position": 15,
+  "sample_text": "Greetings, traveler. What brings you to these lands this day?",
+  "sample_rate": 24000
+}

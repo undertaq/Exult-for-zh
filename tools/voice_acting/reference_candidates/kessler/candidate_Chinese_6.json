@@ -1,0 +1,17 @@
+{
+  "npc": "Kessler",
+  "slug": "kessler",
+  "index": 6,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 3.12,
+  "sha256": "80d6923a5938c31819bf7607f5018cdb6b493d19a7b8c4978b6002232aaf05e1",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：六十岁以上。角色：英国的药剂师兼研究专员。音高：沉稳低沉的男中音。语速：缓慢、克制、带思考停顿。情绪：严肃而关切、理性、富有责任感。音色特征：略带沙哑、共鸣清晰、语调沉稳。语言：标准普通话。使用场景：角色扮演中向他人解释银蛇毒液研究或警告其潜在危害。",
+  "seed": 1075,
+  "batch_no": 75,
+  "batch_size": 16,
+  "batch_position": 6,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}

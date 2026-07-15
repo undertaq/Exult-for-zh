@@ -1,0 +1,17 @@
+{
+  "npc": "Henry",
+  "slug": "henry",
+  "index": 7,
+  "language": "Chinese",
+  "status": "accepted",
+  "duration_seconds": 4.0,
+  "sha256": "bc496974fa1c957c786c24ea041e68e529469d7ddded605c6c19fc66cebabc6f",
+  "model_revision": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "instruct": "性别：男性。年龄：二十出头。角色：在新麦金西亚经营小摊的年轻商人。音高：略带沙哑的清亮男声。语速：缓慢、低沉、充满忧伤停顿。情绪：心碎、温柔、内敛、充满思念。音色特征：略带沙哑、共鸣柔和、尾音微颤。语言：标准普通话。使用场景：角色扮演中向恋人倾诉心事或回忆过往。",
+  "seed": 1061,
+  "batch_no": 61,
+  "batch_size": 16,
+  "batch_position": 11,
+  "sample_text": "旅人，你好。今天過得如何？",
+  "sample_rate": 24000
+}
