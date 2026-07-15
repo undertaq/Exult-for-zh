@@ -358,3 +358,6 @@ cosyvoice/
 
 # Exception: keep NPC reference voice audio tracked
 !voice/refs/
+
+# Reference voice candidate samples (bulky, regenerate locally)
+tools/voice_acting/reference_candidates/
