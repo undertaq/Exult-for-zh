@@ -262,7 +262,7 @@ class GenerateQwen3VoiceBehaviorTest(unittest.TestCase):
             module.EN_OUTPUT = os.path.join(tmpdir, "en")
             generated_parts = []
 
-            def fake_generate(model, parts, lang, speaker_prompt, narrator_prompt):
+            def fake_generate(model, parts, lang, speaker_prompt, narrator_prompt, generator=None):
                 generated_parts.append((parts, lang, speaker_prompt, narrator_prompt))
                 return np.zeros(24000, dtype=np.float32), 24000
 
@@ -517,7 +517,7 @@ class GenerateQwen3VoiceBehaviorTest(unittest.TestCase):
             module.EN_OUTPUT = os.path.join(tmpdir, "en")
             generated_parts = []
 
-            def fake_generate(model, parts, lang, speaker_prompt, narrator_prompt):
+            def fake_generate(model, parts, lang, speaker_prompt, narrator_prompt, generator=None):
                 generated_parts.append(narrator_prompt)
                 return np.zeros(24000, dtype=np.float32), 24000
 
@@ -587,7 +587,7 @@ class GenerateQwen3VoiceBehaviorTest(unittest.TestCase):
             module.EN_OUTPUT = os.path.join(tmpdir, "en")
             generated_calls = []
 
-            def fake_generate(model, parts, lang, speaker_prompt, narrator_prompt):
+            def fake_generate(model, parts, lang, speaker_prompt, narrator_prompt, generator=None):
                 generated_calls.append((parts, speaker_prompt, narrator_prompt))
                 return np.zeros(24000, dtype=np.float32), 24000
 
@@ -791,6 +791,53 @@ class GenerateQwen3VoiceBehaviorTest(unittest.TestCase):
             target = Path(module.EN_OUTPUT) / "0401_6af_0_npc1.ogg"
             self.assertEqual((generated, skipped, errors), (1, 0, 0))
             self.assertEqual(target.read_text(encoding="utf-8"), "The rune translator?")
+
+    def test_phase_c_generates_chinese_for_unpaired_en_row_using_en_runtime_key(self):
+        module = load_script_module()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            module.ZH_OUTPUT = os.path.join(tmpdir, "zh")
+            module.EN_OUTPUT = os.path.join(tmpdir, "en")
+
+            def write_file(filepath, wav, sr, npc="", text="", metadata=None):
+                Path(filepath).write_bytes(text.encode("utf-8"))
+
+            module.write_ogg_direct = write_file
+            designs = {
+                "designs": {
+                    "npc_iolo": {
+                        "npcs": ["Iolo"],
+                    },
+                },
+            }
+            by_npc = {
+                "Iolo": [
+                    {
+                        "npc": "Iolo",
+                        "confidence": "unpaired_en",
+                        "en_func_id": "0x0401",
+                        "en_offset_key": "6af",
+                        "en_segment": 0,
+                        "en_text": "The rune translator?",
+                        "zh_func_id": "",
+                        "zh_offset_key": "",
+                        "zh_segment": 0,
+                        "zh_text": "「古文譯本？」",
+                    },
+                ],
+            }
+            clone_prompts = {"npc_iolo": {"zh": ["prompt"]}}
+            args = argparse.Namespace(
+                lang="zh", dry_run=False, force=True, max_npcs=None, device="cuda:0"
+            )
+
+            generated, skipped, errors = module.phase_c_generate_voice(
+                designs, clone_prompts, by_npc, args
+            )
+
+            target = Path(module.ZH_OUTPUT) / "0401_6af_0_npc1.ogg"
+            self.assertEqual((generated, skipped, errors), (1, 0, 0))
+            self.assertEqual(target.read_text(encoding="utf-8"), "古文譯本？")
 
     def test_build_npc_to_design_map_supports_individual_actor_entertainer_designs(self):
         module = load_script_module()

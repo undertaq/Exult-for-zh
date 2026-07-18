@@ -41,6 +41,7 @@ def read_csv(path):
             seg = int(seg_str) if seg_str else 0
             text = row.get('text', '')
             npc = row.get('npc', '') or row.get('speaker', '') or ''
+            caller_guess = row.get('caller_guess', '') or ''
 
             if fid not in funcs:
                 funcs[fid] = []
@@ -48,7 +49,7 @@ def read_csv(path):
             grp = next((g for g in groups if g['offset_key'] == key), None)
             if grp is None:
                 grp = {'offset_key': key, 'segs': [], 'texts': [],
-                       'npc': npc, 'has_var': False}
+                       'npc': npc, 'caller_guess': caller_guess, 'has_var': False}
                 groups.append(grp)
             grp['segs'].append(seg)
             grp['texts'].append(text)
@@ -112,7 +113,13 @@ def main():
     for fid in common:
         en_grps = en_funcs[fid]
         zh_grps = zh_funcs[fid]
-        npc = en_grps[0]['npc'] if en_grps else ''
+        npc = en_grps[0]['npc'] or en_grps[0].get('caller_guess', '') or ''
+        if not npc:
+            for grp in en_grps[1:] + (zh_grps if zh_grps else []):
+                val = grp.get('npc', '') or grp.get('caller_guess', '') or ''
+                if val:
+                    npc = val
+                    break
 
         counts_match = (len(en_grps) == len(zh_grps))
         same_count += counts_match

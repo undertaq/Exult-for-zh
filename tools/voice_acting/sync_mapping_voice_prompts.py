@@ -80,11 +80,23 @@ def sync_row(row: dict, prompt_map: dict[str, tuple[str, str]]) -> tuple[bool, b
     return changed_en, changed_zh
 
 
+NARRATOR_FEMALE_NAME = "UNKNOWN"
+NARRATOR_MALE_NAME = "Narrator male"
+
+
+def narrator_name_for_gender(voice_gender: str) -> str:
+    gender = (voice_gender or "").strip().lower()
+    return NARRATOR_MALE_NAME if gender == "male" else NARRATOR_FEMALE_NAME
+
+
 def sync_mapping(mapping: list[dict], prompt_map: dict[str, tuple[str, str]]) -> dict:
     """Return counts: changed_en, changed_zh, unchanged, unresolved."""
     counts = {"changed_en": 0, "changed_zh": 0, "unchanged": 0, "unresolved": 0}
     for row in mapping:
         npc = (row.get("npc") or "").strip()
+        if not npc:
+            npc = narrator_name_for_gender(row.get("voice_gender", ""))
+            row["npc"] = npc
         if npc not in prompt_map:
             counts["unresolved"] += 1
             continue

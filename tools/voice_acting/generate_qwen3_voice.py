@@ -58,7 +58,7 @@ CLONE_PROMPTS_PATH = os.path.join(SCRIPT_DIR, 'clone_prompts.pkl')
 VOICEDESIGN_MODEL = "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign"
 BASE_MODEL = "Qwen/Qwen3-TTS-12Hz-1.7B-Base"
 ATTN_IMPL = "sdpa"
-MAX_LINES_PER_CALL = 4
+MAX_LINES_PER_CALL = 10
 MIN_DURATION_MS = 1500
 LONG_TEXT_THRESHOLD = 100
 SHORT_MAX_TOKENS = 256
@@ -71,6 +71,13 @@ NARRATOR_DESIGN_ID = NARRATOR_FEMALE_DESIGN_ID
 NARRATOR_NAME = NARRATOR_FEMALE_NAME
 SPLICE_GAP_MS = 280
 SPLICE_FADE_MS = 30
+
+# Fixed seed for deterministic TTS sampling. Qwen3-TTS uses stochastic sampling
+# (do_sample=True, temperature=0.9) by default, so the same name (e.g. "Rudyom")
+# can be voiced differently across runs. Pinning a generator seed makes each
+# character's pronunciation stable run-to-run. Change only if you want to
+# re-roll the entire voice cast.
+TTS_SEED = 20240718
 
 RUNE_SIGN_CONTEXT_SPEAKERS = [
     'Iolo',
@@ -101,7 +108,11 @@ def reference_fingerprint(text, instruct):
 
 def _build_base_name(entry, lang):
     """Build the base filename without NPC suffix."""
-    if uses_zh_runtime_for_english_voice(entry, lang):
+    if uses_en_runtime_for_zh_voice(entry, lang):
+        fid = entry.get('en_func_id', '') or '0000'
+        ok = entry.get('en_offset_key', '') or '0'
+        seg = entry.get('en_segment', 0) or 0
+    elif uses_zh_runtime_for_english_voice(entry, lang):
         fid = entry.get('zh_func_id', '') or '0000'
         ok = entry.get('zh_offset_key', '') or '0'
         seg = entry.get('zh_segment', 0) or 0
@@ -129,6 +140,20 @@ def uses_zh_runtime_for_english_voice(entry, lang='en'):
     return bool(
         (entry.get('zh_func_id', '') or '').strip()
         and (entry.get('zh_offset_key', '') or '').strip()
+    )
+
+
+def uses_en_runtime_for_zh_voice(entry, lang='zh'):
+    """Return true for English-only rows that need Chinese audio under EN keys."""
+    if lang != 'zh':
+        return False
+    if not (entry.get('zh_text', '') or '').strip():
+        return False
+    if (entry.get('zh_func_id', '') or '').strip() or (entry.get('zh_offset_key', '') or '').strip():
+        return False
+    return bool(
+        (entry.get('en_func_id', '') or '').strip()
+        and (entry.get('en_offset_key', '') or '').strip()
     )
 
 
@@ -309,7 +334,7 @@ def fade_splice_chunk(wav, sr):
     return wav
 
 
-def generate_delimited_voice(model, parts, lang, speaker_prompt, narrator_prompt):
+def generate_delimited_voice(model, parts, lang, speaker_prompt, narrator_prompt, generator=None):
     """Generate one output waveform from narrator/speaker chunks."""
     lang_label = 'Chinese' if lang == 'zh' else 'English'
     max_tokens = SHORT_MAX_TOKENS
@@ -329,6 +354,7 @@ def generate_delimited_voice(model, parts, lang, speaker_prompt, narrator_prompt
             language=[lang_label],
             voice_clone_prompt=prompt,
             max_new_tokens=max_tokens,
+            generator=generator,
         )
         wav = generated[0] if isinstance(generated, (list, tuple)) else generated
         wavs.append(fade_splice_chunk(wav, sr))
@@ -391,7 +417,7 @@ def bucket_single_part_jobs(single_jobs, max_lines):
     return result
 
 
-def generate_single_part_batch(model, bucket, lang_label, lang, out_dir, args, npc_name, review_since_mtime, last_review_update, stats):
+def generate_single_part_batch(model, bucket, lang_label, lang, out_dir, args, npc_name, review_since_mtime, last_review_update, stats, generator=None):
     """Issue one batched ``generate_voice_clone`` call for a bucket, then write outputs.
 
     Every job in a bucket shares the same clone prompt and length class, so a
@@ -411,15 +437,16 @@ def generate_single_part_batch(model, bucket, lang_label, lang, out_dir, args, n
             language=[lang_label] * len(texts),
             voice_clone_prompt=prompt,
             max_new_tokens=max_tokens,
+            generator=generator,
         )
     except Exception:
         if len(bucket) > 1:
             mid = len(bucket) // 2
             last_review_update = generate_single_part_batch(
-                model, bucket[:mid], lang_label, lang, out_dir, args, npc_name, review_since_mtime, last_review_update, stats
+                model, bucket[:mid], lang_label, lang, out_dir, args, npc_name, review_since_mtime, last_review_update, stats, generator
             )
             last_review_update = generate_single_part_batch(
-                model, bucket[mid:], lang_label, lang, out_dir, args, npc_name, review_since_mtime, last_review_update, stats
+                model, bucket[mid:], lang_label, lang, out_dir, args, npc_name, review_since_mtime, last_review_update, stats, generator
             )
             return last_review_update
         e = bucket[0]['entry']
@@ -589,7 +616,10 @@ def load_mapping():
     # Group by voice NPC name.
     by_npc = defaultdict(list)
     for entry in data:
-        npc = entry.get('npc', '') or 'UNKNOWN'
+        npc = entry.get('npc', '') or ''
+        if not npc:
+            gender = (entry.get('voice_gender') or '').strip().lower()
+            npc = NARRATOR_MALE_NAME if gender == 'male' else NARRATOR_FEMALE_NAME
         by_npc[npc].append(entry)
     return data, by_npc
 
@@ -687,6 +717,8 @@ def audit_entry_runtime_keys(entry, source_runtime_keys):
         if not (entry.get(f'{lang}_text', '') or '').strip():
             continue
         if uses_zh_runtime_for_english_voice(entry, lang):
+            continue
+        if uses_en_runtime_for_zh_voice(entry, lang):
             continue
         func_id = (
             entry.get(f'{lang}_func_id', '')
@@ -1237,6 +1269,12 @@ def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
             dtype=torch.bfloat16,
             attn_implementation=ATTN_IMPL,
         )
+        # Deterministic sampling so each character's name is pronounced
+        # identically across runs (see TTS_SEED). Guarded so environments
+        # without a real torch (e.g. unit-test fakes) still run.
+        tts_generator = None
+        if hasattr(torch, "Generator"):
+            tts_generator = torch.Generator(device=args.device).manual_seed(TTS_SEED)
 
     try:
         langs = [args.lang] if args.lang else ['zh', 'en']
@@ -1362,6 +1400,7 @@ def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
                                 lang,
                                 prompt_data,
                                 narrator_prompt,
+                                generator=tts_generator,
                             )
                             prepare_voice_output_path(e['_ogg_path'])
                             write_ogg_direct(
@@ -1393,7 +1432,7 @@ def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
                     for bucket in bucket_single_part_jobs(single_jobs, MAX_LINES_PER_CALL):
                         last_review_update = generate_single_part_batch(
                             model, bucket, lang_label, lang, out_dir, args, npc_name,
-                            review_since_mtime, last_review_update, stats
+                            review_since_mtime, last_review_update, stats, tts_generator
                         )
                     generated += stats['generated']
                     errors += stats['errors']

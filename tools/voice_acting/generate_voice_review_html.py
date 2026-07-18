@@ -40,8 +40,25 @@ def uses_zh_runtime_for_english_voice(entry, lang="en"):
     )
 
 
+def uses_en_runtime_for_zh_voice(entry, lang="zh"):
+    if lang != "zh":
+        return False
+    if not (entry.get("zh_text", "") or "").strip():
+        return False
+    if (entry.get("zh_func_id", "") or "").strip() or (entry.get("zh_offset_key", "") or "").strip():
+        return False
+    return bool(
+        (entry.get("en_func_id", "") or "").strip()
+        and (entry.get("en_offset_key", "") or "").strip()
+    )
+
+
 def build_base_name(entry, lang):
-    if uses_zh_runtime_for_english_voice(entry, lang):
+    if uses_en_runtime_for_zh_voice(entry, lang):
+        fid = entry.get("en_func_id", "") or "0000"
+        ok = entry.get("en_offset_key", "") or "0"
+        seg = entry.get("en_segment", 0) or 0
+    elif uses_zh_runtime_for_english_voice(entry, lang):
         fid = entry.get("zh_func_id", "") or "0000"
         ok = entry.get("zh_offset_key", "") or "0"
         seg = entry.get("zh_segment", 0) or 0
