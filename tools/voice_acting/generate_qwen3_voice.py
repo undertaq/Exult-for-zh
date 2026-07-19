@@ -418,51 +418,43 @@ def bucket_single_part_jobs(single_jobs, max_lines):
 
 
 def generate_single_part_batch(model, bucket, lang_label, lang, out_dir, args, npc_name, review_since_mtime, last_review_update, stats, generator=None):
-    """Issue one batched ``generate_voice_clone`` call for a bucket, then write outputs.
+    """Generate one ``generate_voice_clone`` call PER LINE, then write outputs.
 
-    Every job in a bucket shares the same clone prompt and length class, so a
-    single model call embeds the (broadcast) reference prompt across all lines.
-    On OOM the bucket is split in half and retried recursively. Returns the
-    (possibly updated) ``last_review_update`` timestamp.
+    Each job is synthesized with its own model call so that distinct utterances
+    never share a batched ``generate_voice_clone`` invocation. Voice-clone
+    cross-contaminates when multiple different texts are passed in one call,
+    bleeding words from one line into a neighbour (spurious prefixes). Issuing
+    one call per line eliminates that bleed. On OOM a job is retried; if it
+    keeps failing the bucket is split in half and retried recursively. Returns
+    the (possibly updated) ``last_review_update`` timestamp.
     """
     if not bucket:
         return last_review_update
-    # All jobs in a bucket share one prompt; the model broadcasts a length-1 prompt.
-    prompt = bucket[0]['prompt']
-    texts = [tc2sc(j['text'], 'zh-cn') if lang == 'zh' else j['text'] for j in bucket]
-    max_tokens = LONG_MAX_TOKENS if bucket[0]['length_class'] == 'long' else SHORT_MAX_TOKENS
-    try:
-        wavs, sr = model.generate_voice_clone(
-            text=texts,
-            language=[lang_label] * len(texts),
-            voice_clone_prompt=prompt,
-            max_new_tokens=max_tokens,
-            generator=generator,
-        )
-    except Exception:
-        if len(bucket) > 1:
-            mid = len(bucket) // 2
-            last_review_update = generate_single_part_batch(
-                model, bucket[:mid], lang_label, lang, out_dir, args, npc_name, review_since_mtime, last_review_update, stats, generator
+    failed = []
+    for j in bucket:
+        prompt = j['prompt']
+        text = tc2sc(j['text'], 'zh-cn') if lang == 'zh' else j['text']
+        max_tokens = LONG_MAX_TOKENS if j['length_class'] == 'long' else SHORT_MAX_TOKENS
+        try:
+            wavs, sr = model.generate_voice_clone(
+                text=[text],
+                language=[lang_label],
+                voice_clone_prompt=prompt,
+                max_new_tokens=max_tokens,
+                generator=generator,
             )
-            last_review_update = generate_single_part_batch(
-                model, bucket[mid:], lang_label, lang, out_dir, args, npc_name, review_since_mtime, last_review_update, stats, generator
-            )
-            return last_review_update
-        e = bucket[0]['entry']
-        print(f"  [{npc_name}] Line ERROR {e.get('_ogg_path')}: {e}")
-        stats['errors'] += 1
-        return last_review_update
-
-    if not isinstance(wavs, (list, tuple)):
-        wavs = [wavs]
-    for j, wav in zip(bucket, wavs):
+        except Exception:
+            failed.append(j)
+            continue
+        if not isinstance(wavs, (list, tuple)):
+            wavs = [wavs]
+        wav = wavs[0]
         e = j['entry']
         try:
             prepare_voice_output_path(e['_ogg_path'])
             write_ogg_direct(
                 e['_ogg_path'], wav, sr, npc_name, j['text'],
-                metadata={'VOICE_MODE': 'batch_clone', 'NARRATOR': j['narrator_id']},
+                metadata={'VOICE_MODE': 'single_clone', 'NARRATOR': j['narrator_id']},
             )
             stats['generated'] += 1
             if (
@@ -475,6 +467,22 @@ def generate_single_part_batch(model, bucket, lang_label, lang, out_dir, args, n
             )
         except Exception as ex:
             print(f"  [{npc_name}] Write ERROR {e.get('_ogg_path')}: {ex}")
+            stats['errors'] += 1
+    # Retry OOM-failed jobs by splitting the bucket in half (recurses to size 1).
+    if failed:
+        if len(failed) > 1:
+            mid = len(failed) // 2
+            last_review_update = generate_single_part_batch(
+                model, failed[:mid], lang_label, lang, out_dir, args,
+                npc_name, review_since_mtime, last_review_update, stats, generator
+            )
+            last_review_update = generate_single_part_batch(
+                model, failed[mid:], lang_label, lang, out_dir, args,
+                npc_name, review_since_mtime, last_review_update, stats, generator
+            )
+        else:
+            e = failed[0]['entry']
+            print(f"  [{npc_name}] Line ERROR {e.get('_ogg_path')}: {failed[0]}")
             stats['errors'] += 1
     return last_review_update
 
@@ -1273,7 +1281,7 @@ def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
         # identically across runs (see TTS_SEED). Guarded so environments
         # without a real torch (e.g. unit-test fakes) still run.
         tts_generator = None
-        if hasattr(torch, "Generator"):
+        if hasattr(torch, "Generator") and not os.environ.get("OPCODE_DISABLE_TTS_SEED"):
             tts_generator = torch.Generator(device=args.device).manual_seed(TTS_SEED)
 
     try:
