@@ -162,17 +162,55 @@ def parse_generated_filename(path):
     return match.groupdict() if match else {}
 
 
+def _build_paired_new(voice_dir, mapping_path, since_mtime):
+    """Build set of (lang, filename) where paired EN/ZH entry has either file new.
+
+    When EN and ZH generation runs on separate GPUs at different times,
+    a paired entry's files may have different mtimes. Without pairing,
+    ``only_new=True`` would exclude one language's file while including
+    the other, producing unbalanced per-NPC EN/ZH counts in the review.
+    """
+    with open(mapping_path) as f:
+        entries = json.load(f)
+    paired = set()
+    for entry in entries:
+        en_text = (entry.get('en_text', '') or '').strip()
+        zh_text = (entry.get('zh_text', '') or '').strip()
+        if not en_text or not zh_text:
+            continue
+        en_fn = expected_filename(entry, 'en')
+        zh_fn = expected_filename(entry, 'zh')
+        en_m = int((voice_dir / 'en' / en_fn).stat().st_mtime) if (voice_dir / 'en' / en_fn).exists() else 0
+        zh_m = int((voice_dir / 'zh' / zh_fn).stat().st_mtime) if (voice_dir / 'zh' / zh_fn).exists() else 0
+        if en_m >= since_mtime or zh_m >= since_mtime:
+            paired.add(('en', en_fn))
+            paired.add(('zh', zh_fn))
+    return paired
+
+
 def rows_from_full_voice(voice_dir, mapping_path, since_mtime=0, only_new=False):
     mapping = build_mapping_index(mapping_path)
+
+    if only_new and since_mtime:
+        paired_new = _build_paired_new(voice_dir, mapping_path, since_mtime)
+    else:
+        paired_new = set()
+
     rows = []
     seen = set()
     for (lang, filename), meta in sorted(mapping.items()):
+        npc = meta.get("npc", "")
+        if "|" in npc:
+            continue
         path = voice_dir / lang / filename
         exists = path.exists()
         mtime = int(path.stat().st_mtime) if exists else 0
         is_new = bool(exists and since_mtime and mtime >= since_mtime)
         if only_new and not is_new:
-            continue
+            if (lang, filename) in paired_new:
+                is_new = True
+            else:
+                continue
         seen.add((lang, filename))
         rows.append({
                 "kind": "generated",

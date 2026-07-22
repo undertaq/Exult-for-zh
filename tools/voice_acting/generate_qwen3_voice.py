@@ -58,7 +58,7 @@ CLONE_PROMPTS_PATH = os.path.join(SCRIPT_DIR, 'clone_prompts.pkl')
 VOICEDESIGN_MODEL = "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign"
 BASE_MODEL = "Qwen/Qwen3-TTS-12Hz-1.7B-Base"
 ATTN_IMPL = "sdpa"
-MAX_LINES_PER_CALL = 10
+MAX_LINES_PER_CALL = 8
 MIN_DURATION_MS = 1500
 LONG_TEXT_THRESHOLD = 100
 SHORT_MAX_TOKENS = 256
@@ -66,6 +66,8 @@ LONG_MAX_TOKENS = 1024
 NARRATOR_FEMALE_DESIGN_ID = "npc_unknown"
 NARRATOR_FEMALE_NAME = "UNKNOWN"
 NARRATOR_MALE_DESIGN_ID = "npc_narrator_male"
+
+COMPANION_NPCS = ['Iolo', 'Dupre', 'Spark', 'Katrina', 'Jaana', 'Tseramed', 'Shamino']
 NARRATOR_MALE_NAME = "Narrator male"
 NARRATOR_DESIGN_ID = NARRATOR_FEMALE_DESIGN_ID
 NARRATOR_NAME = NARRATOR_FEMALE_NAME
@@ -800,6 +802,20 @@ def voice_speaker_candidates(entry):
         return source_npcs, 'source_npc'
 
     npc = entry.get('npc', '') or ''
+    if '|' in npc:
+        names = [n.strip() for n in npc.split('|') if n.strip()]
+        if names:
+            return names, 'mapping_npc_group'
+
+    # Empty / UNKNOWN → try to identify from function context
+    if not npc or npc == 'UNKNOWN':
+        fid = normalize_func_id(entry.get('en_func_id', ''))
+        COMPANION_BARK_FUNCS = {'0622', '0623', '0800', '08D5'}
+        if fid in COMPANION_BARK_FUNCS:
+            return list(COMPANION_NPCS), 'companion_bark'
+        if fid == '06f6':
+            return ['Arcadion'], 'mapping_npc'
+
     return ([npc] if npc else ['UNKNOWN']), 'mapping_npc'
 
 
@@ -1250,12 +1266,13 @@ def maybe_update_full_voice_review(args, since_mtime, last_update, force=False):
 
 def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
     """Bulk generate all ZH + EN voice files via VoiceClone."""
+    print("DIAG: phase_c_generate_voice ENTERED", flush=True)
     os.makedirs(ZH_OUTPUT, exist_ok=True)
     os.makedirs(EN_OUTPUT, exist_ok=True)
 
-    print(f'\n{"="*60}')
-    print('Phase C: Bulk generating voice files via VoiceClone')
-    print(f'{"="*60}')
+    print(f'\n{"="*60}', flush=True)
+    print('Phase C: Bulk generating voice files via VoiceClone', flush=True)
+    print(f'{"="*60}', flush=True)
 
     total_gen = 0
     total_skip = 0
@@ -1270,7 +1287,7 @@ def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
     last_review_update = 0
 
     if not args.dry_run:
-        print(f'\nLoading {BASE_MODEL}...')
+        print(f'\nLoading {BASE_MODEL}...', flush=True)
         model = Qwen3TTSModel.from_pretrained(
             BASE_MODEL,
             device_map=args.device,
@@ -1308,6 +1325,7 @@ def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
             progress_npc = 0
 
             for npc_name in npcs_in_lang:
+                print(f'  [DIAG] NPC: {npc_name}', flush=True)
                 entries = by_npc[npc_name]
                 design = get_design_for_npc(designs, npc_name)
                 if not design:
@@ -1458,7 +1476,7 @@ def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
                     status = f'  [{npc_name}] Gen:{generated} Skip:{skipped} Err:{errors}'
                     if args.dry_run:
                         status = f'  [{npc_name}] Would generate {would_generate} lines Skip:{skipped}'
-                    print(status)
+                    print(status, flush=True)
 
                 last_review_update = maybe_update_full_voice_review(
                     args,

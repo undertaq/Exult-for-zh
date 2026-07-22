@@ -448,8 +448,13 @@ def nw_align(en_grps, zh_grps, gap_penalty=-0.5):
 
 # ── Tag replacement in text ────────────────────────────────────────────
 
-def replace_tags_in_text(text, lang, var_class=None):
-    """Replace all game tags with TTS-appropriate text, strip control chars."""
+def replace_tags_in_text(text, lang, var_class=None, var_replacements=None):
+    """Replace all game tags with TTS-appropriate text, strip control chars.
+
+    If var_replacements is a list of strings (one per <VAR> occurrence),
+    each <VAR> is replaced individually with the corresponding value
+    (per-VAR resolution from usecode tracing).
+    """
     if not text:
         return text
     
@@ -465,43 +470,52 @@ def replace_tags_in_text(text, lang, var_class=None):
     
     # Handle <PRONOUN> per occurrence (3 cases: he/him/his)
     while '<PRONOUN>' in result:
-        # Replace first occurrence with context-aware value
         repl = get_replacement('<PRONOUN>', lang, context_text=result)
         result = result.replace('<PRONOUN>', repl, 1)
     
-    # Replace <VAR> using the provided classification
+    # Replace <VAR> using per-VAR resolution or classification
     if '<VAR>' in result:
-        if var_class is None:
-            var_class = classify_var_en(text)
-        repl = var_replacement_en(var_class) if lang == 'en' else var_replacement_zh(var_class)
-        
-        # Handle multiple VARs intelligently
-        var_count = result.count('<VAR>')
-        if var_count == 1:
-            result = result.replace('<VAR>', repl)
-        else:
-            # Multiple VARs — common patterns:
-            # "<VAR> <noun><VAR>" → replace first, remove trailing duplicates
+        if var_replacements is not None:
+            # Per-VAR resolution from usecode tracing
+            # Each <VAR> gets its own replacement value
             parts = result.split('<VAR>')
-            new_parts = []
-            for i, p in enumerate(parts):
-                if i > 0:
-                    # Decide if this VAR should be replaced or skipped
-                    prev_seg = parts[i-1] if i-1 >= 0 else ''
-                    cur_seg = p if i < len(parts) else ''
-                    
-                    # Skip trailing duplicate VARs (attached to preceding word)
-                    if prev_seg and prev_seg[-1].isalpha():
-                        # VAR was a duplicate quantifier: "arrow<VAR>" → keep "arrow"
-                        pass  # skip this VAR
-                    elif cur_seg and cur_seg[0].isalpha() and cur_seg[0].isascii():
-                        # VAR attached to start of next word: "<VAR>arrow" → just remove
-                        pass  # skip this VAR
-                    else:
-                        new_parts.append(repl)
-                new_parts.append(p)
+            new_parts = [parts[0]]
+            for i in range(1, len(parts)):
+                if i - 1 < len(var_replacements):
+                    new_parts.append(var_replacements[i - 1])
+                else:
+                    # Fallback for extra VARs (shouldn't happen)
+                    if var_class is None:
+                        var_class = classify_var_en(text)
+                    repl = var_replacement_en(var_class) if lang == 'en' else var_replacement_zh(var_class)
+                    new_parts.append(repl)
+                new_parts.append(parts[i])
             result = ''.join(new_parts)
-            # Clean up double spaces
+        else:
+            if var_class is None:
+                var_class = classify_var_en(text)
+            repl = var_replacement_en(var_class) if lang == 'en' else var_replacement_zh(var_class)
+            
+            # Handle multiple VARs intelligently
+            var_count = result.count('<VAR>')
+            if var_count == 1:
+                result = result.replace('<VAR>', repl)
+            else:
+                parts = result.split('<VAR>')
+                new_parts = []
+                for i, p in enumerate(parts):
+                    if i > 0:
+                        prev_seg = parts[i-1] if i-1 >= 0 else ''
+                        cur_seg = p if i < len(parts) else ''
+                        
+                        if prev_seg and prev_seg[-1].isalpha():
+                            pass  # skip this VAR
+                        elif cur_seg and cur_seg[0].isalpha() and cur_seg[0].isascii():
+                            pass  # skip this VAR
+                        else:
+                            new_parts.append(repl)
+                    new_parts.append(p)
+                result = ''.join(new_parts)
             result = re.sub(r'  +', ' ', result)
     
     return result
@@ -652,27 +666,29 @@ def main():
     with open(args.input, encoding='utf-8') as f:
         review_data = json.load(f)
     
-    # Build index of existing entries by (npc, zh_offset_key, en_offset_key)
+    # Build index of existing entries by (npc, zh_offset_key, zh_segment, en_offset_key, en_segment)
     # to preserve voice_gender, voice_age, voice_prompt, tone, etc.
+    # Segment is included to prevent collisions when two segments share the same offset keys.
     existing_index = {}
     for e in review_data:
-        key = (e.get('npc', ''), e.get('zh_offset_key', ''), e.get('en_offset_key', ''))
+        key = (e.get('npc', ''), e.get('zh_offset_key', ''), e.get('zh_segment', 0),
+               e.get('en_offset_key', ''), e.get('en_segment', 0))
         existing_index[key] = e
     
     # ── Match review fields to realigned entries ──
-    def find_existing_entry(npc, zh_off, en_off):
+    def find_existing_entry(npc, zh_off, en_off, zh_seg=0, en_seg=0):
         """Find matching entry in existing review data."""
-        # Exact match
-        key = (npc, zh_off, en_off)
+        # Exact match (now includes segment)
+        key = (npc, zh_off, zh_seg, en_off, en_seg)
         if key in existing_index:
             return existing_index[key]
-        # Try matching on just en_offset_key
+        # Fallback: same en_offset_key and en_segment
         for k, v in existing_index.items():
-            if k[0] == npc and k[2] == en_off:
+            if k[0] == npc and k[3] == en_off and k[4] == en_seg:
                 return v
-        # Try matching on zh_offset_key
+        # Fallback: same zh_offset_key and zh_segment
         for k, v in existing_index.items():
-            if k[0] == npc and k[1] == zh_off:
+            if k[0] == npc and k[1] == zh_off and k[2] == zh_seg:
                 return v
         return None
     
@@ -684,7 +700,7 @@ def main():
         en_off = entry['en_offset_key']
         
         # Try to preserve review fields
-        existing = find_existing_entry(npc, zh_off, en_off)
+        existing = find_existing_entry(npc, zh_off, en_off, entry.get('zh_segment', 0), entry.get('en_segment', 0))
         if existing:
             new_entry = dict(existing)
             # Update text from realigned data
@@ -738,6 +754,11 @@ def main():
                 new_entry['en_text'] = replace_tags_in_text(orig_en, 'en', var_cls)
                 if var_cls:
                     new_entry['var_class'] = var_cls
+            else:
+                # No tags — clear any stale raw fields inherited from wrong existing entry
+                new_entry.pop('en_text_raw', None)
+                new_entry.pop('zh_text_raw', None)
+                new_entry.pop('var_class', None)
         
         output.append(new_entry)
     

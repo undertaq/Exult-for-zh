@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "Sign_gump.h"
 
-#include "Font.h"
 #include "actors.h"
 #include "deferred_text.h"
 #include "font.h"

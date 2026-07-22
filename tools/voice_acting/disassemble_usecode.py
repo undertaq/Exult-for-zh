@@ -498,6 +498,240 @@ def analyze_variables(func):
     return var_labels
 
 
+def trace_variable_sources(func):
+    """
+    Trace all instructions to determine what each local variable can contain.
+
+    Walks linearly through instructions and records every assignment.
+    If a variable is set in multiple places (e.g. different branches that
+    converge), all possible values are collected.
+
+    Returns dict:
+      var_index -> list of {'type': str, 'value': any, 'label': str or None}
+    where type is one of:
+      'string'  — literal string from pushs
+      'number'  — literal integer from pushi
+      'label'   — known placeholder (<PLAYER_NAME>, <HONORIFIC>)
+      'extern'  — result of an extern function call
+      'copy'    — copied from another variable
+      'bool'    — boolean/gender flag
+      'empty'   — empty/null string
+      'unknown' — could not resolve
+    """
+    instructions = func['instructions']
+    externs = func['externs']
+    strings = func['strings']
+
+    var_sources = {}
+
+    # What is currently on top-of-stack (None = unknown)
+    tos_type = None   # 'string' | 'number' | 'label' | 'extern' | 'copy' | 'bool' | 'empty' | 'unknown'
+    tos_value = None  # the string value, number value, extern id, or None
+    tos_label = None  # '<PLAYER_NAME>', '<HONORIFIC>', '<PRONOUN>', or None
+
+    def emit(var_idx):
+        nonlocal tos_type, tos_value, tos_label
+        if tos_type is None:
+            return
+        info = {
+            'type': tos_type,
+            'value': tos_value,
+            'label': tos_label,
+        }
+        if var_idx not in var_sources:
+            var_sources[var_idx] = []
+        if info not in var_sources[var_idx]:
+            var_sources[var_idx].append(info)
+        tos_type = None
+        tos_value = None
+        tos_label = None
+
+    for addr, raw_bytes, name, params, comment in instructions:
+        if name == 'pushs' and params:
+            s = strings.get(params[0], None)
+            if s is not None and s:
+                tos_type = 'string'
+                tos_value = s
+                tos_label = None
+            else:
+                tos_type = 'empty'
+                tos_value = ''
+                tos_label = None
+        elif name == 'pushi' and params:
+            tos_type = 'number'
+            tos_value = str(params[0])
+            tos_label = None
+        elif name == 'push' and params:
+            var_idx = params[0]
+            srcs = var_sources.get(var_idx, [])
+            if srcs:
+                # Copy the most recent source info
+                tos_type = srcs[-1]['type'] if srcs else 'unknown'
+                tos_value = srcs[-1]['value'] if srcs else None
+                tos_label = srcs[-1].get('label') if srcs else None
+                if tos_type != 'unknown':
+                    tos_type = 'copy'
+            else:
+                tos_type = 'unknown'
+                tos_value = None
+                tos_label = None
+        elif name == 'pushb' and params:
+            tos_type = 'number'
+            tos_value = str(params[0])
+            tos_label = None
+        elif name == 'call' and params:
+            extern_idx = params[0]
+            if extern_idx < len(externs):
+                ext_func = externs[extern_idx]
+                if ext_func == 0x908:
+                    tos_type = 'label'
+                    tos_value = None
+                    tos_label = '<PLAYER_NAME>'
+                elif ext_func == 0x909:
+                    tos_type = 'label'
+                    tos_value = None
+                    tos_label = '<HONORIFIC>'
+                else:
+                    tos_type = 'extern'
+                    tos_value = ext_func
+                    tos_label = None
+            else:
+                tos_type = 'extern'
+                tos_value = None
+                tos_label = None
+        elif name == 'callis' and params:
+            intrinsic = params[0]
+            if intrinsic == 0x5A:
+                tos_type = 'bool'
+                tos_value = 'gender_flag'
+                tos_label = '<GENDER_FLAG>'
+            else:
+                tos_type = 'unknown'
+                tos_value = None
+                tos_label = None
+        elif name == 'calli' and params:
+            tos_type = 'unknown'
+            tos_value = None
+            tos_label = None
+        elif name == 'pop' and params:
+            emit(params[0])
+        elif name == 'popf' and params:
+            # Flag pop — not a variable assignment, but consumes stack
+            tos_type = None
+            tos_value = None
+            tos_label = None
+        elif name in ('ret', 'ret2', 'retv', 'retz', 'abrt'):
+            # Function exit — clear stack tracking
+            tos_type = None
+            tos_value = None
+            tos_label = None
+        elif name == 'say':
+            # Say consumes the string register but doesn't change variables
+            pass
+
+    return var_sources
+
+
+def resolve_var_values(var_sources, var_idx):
+    """Resolve a variable to the best replacement text.
+
+    Returns (en_replacement, zh_replacement, is_fallback) where:
+      en_replacement: English text to use for TTS
+      zh_replacement: Chinese text to use for TTS
+      is_fallback: True if using a generic fallback instead of specific resolution
+
+    Uses the actual string value when possible, falls back to label-based
+    replacement, or finally to the generic type-based replacement.
+    """
+    GENERIC_EN = {
+        'number': 'some',
+        'player_name': 'Avatar',
+        'npc_name': 'this person',
+        'title': 'woodsman',
+    }
+    GENERIC_ZH = {
+        'number': '一些',
+        'player_name': '聖者',
+        'npc_name': '那個人',
+        'title': '遊俠',
+    }
+
+    srcs = var_sources.get(var_idx, [])
+    if not srcs:
+        return (GENERIC_EN['player_name'], GENERIC_ZH['player_name'], True)
+
+    # Collect unique types among sources
+    types = set(s['type'] for s in srcs)
+
+    if types == {'string'} or types == {'empty', 'string'} or types == {'string', 'empty'}:
+        # All literal strings — pick the longest non-empty one (most specific)
+        candidates = [s['value'] for s in srcs if s['type'] == 'string' and s['value']]
+        if candidates:
+            best = max(candidates, key=len)
+            return (best, '', False)  # ZH will be translated from the resolved EN
+
+    if types == {'number'} or types == {'empty', 'number'}:
+        return (GENERIC_EN['number'], GENERIC_ZH['number'], False)
+
+    if types == {'empty'}:
+        return ('', '', False)
+
+    # Check if all sources are the same label type
+    labels = set(s.get('label') for s in srcs if s.get('label'))
+    if len(labels) == 1:
+        label = labels.pop()
+        if label == '<PLAYER_NAME>':
+            return (GENERIC_EN['player_name'], GENERIC_ZH['player_name'], False)
+        elif label == '<HONORIFIC>':
+            from fix_alignment_and_tags import TAG_REPLACEMENTS
+            return (TAG_REPLACEMENTS['<HONORIFIC>'][0], TAG_REPLACEMENTS['<HONORIFIC>'][1], False)
+
+    # Check for mixed: some strings, some empty (branch-dependent)
+    # Return the best string
+    candidates = [s['value'] for s in srcs if s['type'] == 'string' and s['value']]
+    if candidates:
+        best = max(candidates, key=len)
+        return (best, '', False)
+
+    # Fallback: use the classify-based approach
+    # Determine the most common type
+    type_scores = {
+        'string': 'player_name',
+        'number': 'number',
+        'label': 'player_name',  # PLAYER_NAME is most common
+        'extern': 'npc_name',
+        'unknown': 'player_name',
+    }
+    primary_type = 'player_name'
+    for s in srcs:
+        if s['type'] in type_scores:
+            primary_type = type_scores[s['type']]
+            break
+
+    return (GENERIC_EN[primary_type], GENERIC_ZH[primary_type], True)
+
+
+def build_var_indices_for_say(accum, var_sources):
+    """For an accum list (for a say instruction), collect the variable indices
+    used in addsv operations and their resolved values.
+
+    Returns list of dicts:
+      [{'var_idx': N, 'en': str, 'zh': str, 'fallback': bool}, ...]
+    One entry per <VAR> in the template, in order.
+    """
+    var_info = []
+    for typ, val, text in accum:
+        if typ == 'addsv':
+            en_val, zh_val, is_fallback = resolve_var_values(var_sources, val)
+            var_info.append({
+                'var_idx': val,
+                'en': en_val,
+                'zh': zh_val,
+                'fallback': is_fallback,
+            })
+    return var_info
+
+
 def detect_book_mode(func):
     """Check if a function sets book mode (intrinsic 0x55) before any say opcode.
     Also detects book mode set within the function at any point.
@@ -553,6 +787,9 @@ def extract_say_lines(func):
     # Analyze variables to label player name, pronouns, etc.
     var_labels = analyze_variables(func)
 
+    # Trace all variable sources for runtime resolution
+    var_sources = trace_variable_sources(func)
+
     for addr, raw_bytes, name, params, comment in func['instructions']:
         if name == 'pushi' and params:
             last_pushi_values.append(params[0])
@@ -606,6 +843,9 @@ def extract_say_lines(func):
                     has_var = True
             full_template = "".join(template_parts)
 
+            # Resolve variables for this say-line
+            say_var_info = build_var_indices_for_say(accum, var_sources) if has_var else []
+
             # Determine the speaker
             speaker_npc = get_npc_name(current_face_npc)
 
@@ -635,6 +875,7 @@ def extract_say_lines(func):
                     'total_segments': len(segments),
                     'text': seg_text,
                     'has_var': has_var,
+                    'var_info': say_var_info,
                     'is_book': is_book,
                     'speaker': speaker_npc,
                     'speaker_func_id': current_face_npc,

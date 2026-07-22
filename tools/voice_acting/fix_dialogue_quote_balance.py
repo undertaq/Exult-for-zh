@@ -19,8 +19,23 @@ BACKUP_DIR = PROJECT_DIR / "voice_backup"
 
 
 def fix_english_quotes(text):
-    if not text or text.count('"') % 2 == 0:
+    if not text:
         return text, ""
+    
+    # Strip accidental leading or trailing double quotes if it balances the count
+    if text.startswith('""'):
+        fixed = text[1:]
+        if fixed.count('"') % 2 == 0:
+            return fixed, "remove_double_open_quote"
+    if text.endswith('""'):
+        fixed = text[:-1]
+        if fixed.count('"') % 2 == 0:
+            return fixed, "remove_double_close_quote"
+
+    count = text.count('"')
+    if count % 2 == 0:
+        return text, ""
+
     first = text.find('"')
     last = text.rfind('"')
     if first == -1:
@@ -44,9 +59,12 @@ def fix_english_quotes(text):
             or nxt in ".,;:!?)]}-"
         )
 
-    if looks_like_open_quote(last) or not looks_like_close_quote(last):
+    if (looks_like_open_quote(last) or not looks_like_close_quote(last)) and not text.endswith('"'):
         return text + '"', "append_english_quote"
-    return '"' + text, "prepend_english_quote"
+    if not text.startswith('"'):
+        return '"' + text, "prepend_english_quote"
+    return text, ""
+
 
 
 def fix_chinese_corner_quotes(text):
@@ -84,6 +102,74 @@ def fix_chinese_corner_quotes(text):
     return fixed, "+".join(actions)
 
 
+def _is_chinese_speech(text):
+    """True if 'text' looks like speech (ends with 。？！，) and is not a short term."""
+    if not text:
+        return False
+    text = text.strip()
+    if not text:
+        return False
+    last = text[-1]
+    return last in '\u3002\uff1f\uff01\uff0c' and len(text) > 2
+
+
+def fix_chinese_speech_vs_narration(zh_text, en_text):
+    """Fix 「『speech』」→「speech」(redundant outer 「」) and
+    「『speech』narration『speech』」→「speech」narration「speech」
+
+    Detects outer 「」 wrapping 『』 where 『』 marks actual speech
+    (ending in 。？！，) not titles/terms. Requires EN to have double
+    quotes (speech marker). Skips emphasis-only cases (Xorinia style).
+    """
+    if not zh_text or not en_text:
+        return zh_text, ""
+    zh = zh_text.strip()
+    if not (zh.startswith('\u300c\u300e') and zh.endswith('\u300d')):
+        return zh_text, ""
+
+    if '"' not in en_text and '\u201c' not in en_text:
+        return zh_text, ""
+
+    inner = zh[1:-1]
+
+    pairs = []
+    pos = 0
+    while pos < len(inner):
+        lidx = inner.find('\u300e', pos)
+        if lidx == -1:
+            break
+        ridx = inner.find('\u300f', lidx)
+        if ridx == -1:
+            break
+        content = inner[lidx + 1:ridx]
+        pairs.append((lidx, ridx, content))
+        pos = ridx + 1
+
+    if not pairs:
+        return zh_text, ""
+
+    has_narration_between = any(
+        inner[pairs[i][1] + 1:pairs[i + 1][0]].strip()
+        for i in range(len(pairs) - 1)
+    )
+
+    if len(pairs) >= 2 and has_narration_between:
+        must_have_speech = any(_is_chinese_speech(c) for _, _, c in pairs)
+        if not must_have_speech:
+            return zh_text, ""
+
+    else:
+        if not _is_chinese_speech(pairs[0][2]):
+            return zh_text, ""
+
+    result = list(inner)
+    for lidx, ridx, _ in reversed(pairs):
+        result[lidx] = '\u300c'
+        result[ridx] = '\u300d'
+
+    return ''.join(result), 'fix_speech_vs_narration'
+
+
 def backup_file(path):
     BACKUP_DIR.mkdir(parents=True, exist_ok=True)
     stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -117,6 +203,24 @@ def fix_mapping(mapping_path):
                     "old_text": old,
                     "new_text": new,
                 })
+
+        old_zh = row.get("zh_text", "")
+        en_text = row.get("en_text", "")
+        new_zh, action = fix_chinese_speech_vs_narration(old_zh, en_text)
+        if action:
+            row["zh_text"] = new_zh
+            fixes.append({
+                "file": str(mapping_path),
+                "row_index": index,
+                "lang": "zh",
+                "action": action,
+                "npc": row.get("npc", ""),
+                "func_id": row.get("zh_func_id", ""),
+                "offset_key": row.get("zh_offset_key", ""),
+                "segment": row.get("zh_segment", ""),
+                "old_text": old_zh,
+                "new_text": new_zh,
+            })
     return rows, fixes
 
 
