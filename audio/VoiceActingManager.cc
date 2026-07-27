@@ -44,6 +44,7 @@ std::string  VoiceActingManager::pak_path;
 std::string  VoiceActingManager::idx_path;
 std::vector<VoiceActingManager::VoicePackedEntry> VoiceActingManager::index;
 std::ifstream VoiceActingManager::pak_stream;
+static std::string packed_lang;  // language currently loaded in packed index
 
 std::ofstream VoiceActingManager::log_file;
 std::string   VoiceActingManager::session_id;
@@ -151,11 +152,19 @@ void VoiceActingManager::init() {
 }
 
 void VoiceActingManager::ensure_packed_loaded() {
-	if (use_packed) {
-		return;  // Already loaded.
+	const std::string& lang = get_voice_language();
+	if (use_packed && packed_lang == lang) {
+		return;  // Already loaded for this language.
+	}
+	if (use_packed && packed_lang != lang) {
+		// Language changed — close old index and reload.
+		pak_stream.close();
+		index.clear();
+		use_packed = false;
 	}
 	load_packed_index();
 	if (use_packed) {
+		packed_lang = lang;
 		pout << "[VoiceActing] Loaded packed archive: " << pak_path
 			 << " (" << index.size() << " entries)" << std::endl;
 	} else {
