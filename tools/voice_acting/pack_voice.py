@@ -88,7 +88,23 @@ def cmd_pack(lang: str, source_dir: Path, output_dir: Path):
 
 
 def cmd_unpack(lang: str, source_dir: Path, output_dir: Path):
-    raise NotImplementedError
+    idx_path = source_dir / f'{lang}_voices.idx'
+    pak_path = source_dir / f'{lang}_voices.pak'
+
+    if not idx_path.exists() or not pak_path.exists():
+        print(f'Missing {lang}_voices.idx or {lang}_voices.pak in {source_dir}')
+        return
+
+    entries = read_idx(idx_path)
+    pak_data = pak_path.read_bytes()
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    for e in entries:
+        data = pak_data[e.offset:e.offset + e.size]
+        out_path = output_dir / f'{e.name}.ogg'
+        out_path.write_bytes(data)
+
+    print(f'Extracted {len(entries)} files to {output_dir}')
 
 
 def cmd_verify(lang: str, source_dir: Path):
@@ -107,15 +123,19 @@ def main():
     base = Path(__file__).resolve().parent.parent.parent
     langs = ['en', 'zh'] if args.lang == 'all' else [args.lang]
 
+    base_voice = base / 'voice'
     for lang in langs:
-        source_dir = args.source_dir or base / 'voice' / lang
-        output_dir = args.output_dir or base / 'voice'
         if args.mode == 'pack':
-            cmd_pack(lang, source_dir, output_dir)
+            src = args.source_dir or base_voice / lang
+            out = args.output_dir or base_voice
+            cmd_pack(lang, src, out)
         elif args.mode == 'unpack':
-            cmd_unpack(lang, output_dir, source_dir)
+            src = args.source_dir or base_voice
+            out = args.output_dir or base_voice / lang
+            cmd_unpack(lang, src, out)
         elif args.mode == 'verify':
-            cmd_verify(lang, output_dir)
+            src = args.source_dir or base_voice
+            cmd_verify(lang, src)
 
 
 if __name__ == '__main__':
