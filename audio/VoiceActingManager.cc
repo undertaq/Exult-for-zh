@@ -39,6 +39,12 @@
 using std::string;
 
 // Static members.
+bool         VoiceActingManager::use_packed = false;
+std::string  VoiceActingManager::pak_path;
+std::string  VoiceActingManager::idx_path;
+std::vector<VoiceActingManager::VoicePackedEntry> VoiceActingManager::index;
+std::ifstream VoiceActingManager::pak_stream;
+
 std::ofstream VoiceActingManager::log_file;
 std::string   VoiceActingManager::session_id;
 bool          VoiceActingManager::log_initialized = false;
@@ -48,6 +54,87 @@ std::string   VoiceActingManager::voice_language  = "zh";
 /*
  *  Read voice acting config: enabled flag and language.
  */
+/*
+ *  Load the packed voice archive index for the configured language.
+ *  Called once during init. On success, sets use_packed = true.
+ */
+void VoiceActingManager::load_packed_index() {
+	const std::string& lang   = get_voice_language();
+	const std::string  base   = get_system_path("<PATCH>/voice_acting/");
+	pak_path = base + lang + "_voices.pak";
+	idx_path = base + lang + "_voices.idx";
+
+	// Check both files exist.
+	std::ifstream idx_file(idx_path, std::ios::binary);
+	if (!idx_file.is_open()) {
+		return;
+	}
+	std::ifstream pak_test(pak_path, std::ios::binary);
+	if (!pak_test.is_open()) {
+		idx_file.close();
+		return;
+	}
+	pak_stream.open(pak_path, std::ios::binary);
+	if (!pak_stream.is_open()) {
+		idx_file.close();
+		return;
+	}
+
+	// Read entire .idx into memory.
+	idx_file.seekg(0, std::ios::end);
+	std::streamsize idx_size = idx_file.tellg();
+	idx_file.seekg(0, std::ios::beg);
+	std::vector<char> idx_buf(static_cast<size_t>(idx_size));
+	if (!idx_file.read(idx_buf.data(), idx_size)) {
+		idx_file.close();
+		pak_stream.close();
+		return;
+	}
+	idx_file.close();
+
+	// Parse header: magic(4) + version(4) + count(4).
+	const char* p = idx_buf.data();
+	if (idx_size < 12 || std::memcmp(p, "VAIX", 4) != 0) {
+		pak_stream.close();
+		return;
+	}
+	uint32_t version;
+	uint32_t count;
+	std::memcpy(&version, p + 4, 4);
+	std::memcpy(&count, p + 8, 4);
+	// Note: little-endian format; on big-endian platforms, byte-swap.
+	if (version != 1) {
+		pak_stream.close();
+		return;
+	}
+
+	// Parse entries.
+	index.clear();
+	index.reserve(count);
+	size_t pos = 12;
+	for (uint32_t i = 0; i < count; i++) {
+		if (pos + 2 > static_cast<size_t>(idx_size)) {
+			break;
+		}
+		uint16_t name_len;
+		std::memcpy(&name_len, p + pos, 2);
+		pos += 2;
+		if (pos + name_len + 12 > static_cast<size_t>(idx_size)) {
+			break;
+		}
+		std::string name(p + pos, name_len);
+		pos += name_len;
+		VoicePackedEntry entry;
+		entry.name = std::move(name);
+		std::memcpy(&entry.offset, p + pos, 8);
+		std::memcpy(&entry.size, p + pos + 8, 4);
+		pos += 12;
+		index.push_back(std::move(entry));
+	}
+
+	use_packed = true;
+}
+
 void VoiceActingManager::init() {
 	string s;
 	config->value("config/audio/speech/voice/enabled", s, "yes");
@@ -59,6 +146,16 @@ void VoiceActingManager::init() {
 		config->value("config/gameplay/language", voice_language, "zh");
 	}
 	config->set("config/audio/speech/voice/language", voice_language, false);
+
+	// Try loading packed voice archive.
+	load_packed_index();
+	if (use_packed) {
+		pout << "[VoiceActing] Loaded packed archive: " << pak_path
+			 << " (" << index.size() << " entries)" << std::endl;
+	} else {
+		pout << "[VoiceActing] No packed archive found, using separate files"
+			 << std::endl;
+	}
 }
 
 bool VoiceActingManager::is_voice_enabled() {
@@ -67,6 +164,59 @@ bool VoiceActingManager::is_voice_enabled() {
 
 const std::string& VoiceActingManager::get_voice_language() {
 	return voice_language;
+}
+
+/*
+ *  Look up a voice file by name in the packed archive.
+ *  Returns true and fills out_data if found.
+ */
+bool VoiceActingManager::find_in_pak(
+		const std::string& name, std::vector<char>& out_data) {
+	// Binary search on sorted index.
+	auto it = std::lower_bound(index.begin(), index.end(), name,
+		[](const VoicePackedEntry& e, const std::string& n) {
+			return e.name < n;
+		});
+	if (it == index.end() || it->name != name) {
+		return false;
+	}
+
+	// Seek and read from the open pak stream.
+	pak_stream.seekg(static_cast<std::streamoff>(it->offset), std::ios::beg);
+	if (!pak_stream) {
+		return false;
+	}
+	out_data.resize(it->size);
+	pak_stream.read(out_data.data(), static_cast<std::streamsize>(it->size));
+	if (!pak_stream) {
+		return false;
+	}
+	return true;
+}
+
+/*
+ *  Play voice from a packed archive entry. Writes data to a temp file
+ *  and plays it, then removes the temp file.
+ */
+static bool try_play_packed(
+		const std::string& name, const std::vector<char>& data) {
+	const std::string& lang = VoiceActingManager::get_voice_language();
+	std::string temp_path = get_system_path(
+		"<PATCH>/voice_acting/" + lang + "/." + name + ".ogg");
+	// Ensure the language directory exists.
+	std::string dir = temp_path.substr(0, temp_path.find_last_of("/\\"));
+	U7mkdir(dir, 0755);
+
+	std::ofstream out(temp_path, std::ios::binary);
+	if (!out.is_open()) {
+		return false;
+	}
+	out.write(data.data(), static_cast<std::streamsize>(data.size()));
+	out.close();
+
+	bool played = VoiceActingManager::try_play(temp_path);
+	std::remove(temp_path.c_str());
+	return played;
 }
 
 /*
@@ -320,6 +470,42 @@ bool VoiceActingManager::play_for_conversation(
 				 << std::hex << function_id << std::dec
 				 << ", offset " << offset_key << ", segment " << segment << std::endl;
 		}
+	}
+
+	// Try packed archive first.
+	if (use_packed) {
+		// Build candidate names in order: avatar → NPC → generic.
+		std::vector<std::string> candidates;
+		const int speaker_abs_pack = speaker_npc < 0 ? -speaker_npc : speaker_npc;
+		const bool avatar_pack = speaker_abs_pack == 356
+								|| (speaker_npc == 0 && caller_npc == 0);
+		if (avatar_pack) {
+			candidates.push_back(base + get_avatar_voice_suffix());
+		}
+		if (speaker_npc != 0) {
+			char npc_suffix[16];
+			std::snprintf(npc_suffix, sizeof(npc_suffix), "_npc%d", speaker_abs_pack);
+			candidates.push_back(base + npc_suffix);
+		}
+		candidates.push_back(base);  // generic fallback
+
+		for (const auto& candidate : candidates) {
+			std::vector<char> pak_data;
+			if (find_in_pak(candidate, pak_data)) {
+				bool played = try_play_packed(candidate, pak_data);
+				std::string status;
+				if (played) {
+					status = "played";
+				} else {
+					status = "error";
+				}
+				log_entry(candidate + ".ogg", pak_path, function_id,
+						  offset_key, segment, text, status,
+						  speaker_npc, caller_npc);
+				return played;
+			}
+		}
+		// All candidates failed in packed archive — fall through to file search.
 	}
 
 	// Try NPC-specific file first (using absolute NPC number).

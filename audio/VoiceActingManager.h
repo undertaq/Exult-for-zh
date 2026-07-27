@@ -19,8 +19,10 @@
 #ifndef VOICEACTINGMANAGER_H
 #define VOICEACTINGMANAGER_H
 
+#include <cstdint>
 #include <fstream>
 #include <string>
+#include <vector>
 
 /*
  *  Manages AI-generated voice acting audio for dialog text.
@@ -60,6 +62,22 @@ public:
 	static const std::string& get_voice_language();
 
 private:
+	// Packed voice archive support (release mode).
+	struct VoicePackedEntry {
+		std::string name;     // filename without ".ogg", e.g. "009a_12df_0_npc286"
+		uint64_t    offset;   // byte offset in .pak
+		uint32_t    size;     // byte count
+	};
+
+	static bool         use_packed;
+	static std::string  pak_path;
+	static std::string  idx_path;
+	static std::vector<VoicePackedEntry> index;
+	static std::ifstream pak_stream;
+
+	static void load_packed_index();
+	static bool find_in_pak(const std::string& name, std::vector<char>& out_data);
+
 	// Try to play a voice file at the given path.
 	static bool try_play(const std::string& path);
 
