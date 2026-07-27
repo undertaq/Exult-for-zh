@@ -59,10 +59,9 @@ std::string   VoiceActingManager::voice_language  = "zh";
  *  Called once during init. On success, sets use_packed = true.
  */
 void VoiceActingManager::load_packed_index() {
-	const std::string& lang   = get_voice_language();
-	const std::string  base   = get_system_path("<PATCH>/voice_acting/");
-	pak_path = base + lang + "_voices.pak";
-	idx_path = base + lang + "_voices.idx";
+	const std::string& lang = get_voice_language();
+	pak_path = get_system_path("<PATCH>/voice_acting/" + lang + "_voices.pak");
+	idx_path = get_system_path("<PATCH>/voice_acting/" + lang + "_voices.idx");
 
 	pout << "[VoiceActing] Trying packed archive: lang=" << lang
 		 << " pak=" << pak_path << " idx=" << idx_path << std::endl;
