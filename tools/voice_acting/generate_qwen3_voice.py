@@ -1086,8 +1086,10 @@ def infer_design_gender(design_id, design):
         r'不女性化',
         r'非女性',
         r'female\s+roles?',
-        r'woman[’\']s\s+wig',
+        r'woman[’\']?s\s+wig',
         r'in\s+drag',
+        r'[飾饰][演演]女性(?:角色)?',
+        r'女性角色',
     ]
     cleaned = blob
     for pattern in female_noise_patterns:

@@ -97,6 +97,15 @@ def main(argv=None):
         print(f"{lang}: {action} {copied}, skipped {skipped}")
 
     print(f"Patch voice directory: {patch_dir / 'voice_acting'}")
+
+    blmp_src = source_root / "bilingual_map.dat"
+    if blmp_src.exists():
+        blmp_target = patch_dir / "voice_acting" / "bilingual_map.dat"
+        if not args.dry_run:
+            blmp_target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(blmp_src, blmp_target)
+        print(f"Synced {blmp_src.name} -> {blmp_target}")
+
     return 0 if total_copied >= 0 and total_skipped >= 0 else 1
 
 

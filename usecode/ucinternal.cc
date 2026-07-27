@@ -744,13 +744,16 @@ void Usecode_internal::show_npc_face(
 		int            slot     // 0, 1, or -1 to find free spot.
 ) {
 	show_pending_text();
-	// Track the current face NPC for voice acting logging.
-	if (arg1.is_int()) {
-		voice_current_face_npc = arg1.get_int_value();
-	}
 	Actor*    npc;
 	int       frame = arg2.get_int_value();
 	const int shape = get_face_shape(arg1, npc, frame);
+
+	// Track the current face NPC for voice acting matching.
+	if (npc && npc->get_npc_num() > 0) {
+		voice_current_face_npc = npc->get_npc_num();
+	} else if (arg1.is_int()) {
+		voice_current_face_npc = arg1.get_int_value();
+	}
 
 	if (shape < 0) {
 		return;

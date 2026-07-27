@@ -196,21 +196,53 @@ def rows_from_full_voice(voice_dir, mapping_path, since_mtime=0, only_new=False)
     else:
         paired_new = set()
 
+    # Pre-index existing audio files on disk per language for O(1) lookup
+    disk_files = {}
+    disk_mtimes = {}
+    for lang in ("en", "zh"):
+        lang_dir = voice_dir / lang
+        if lang_dir.exists():
+            disk_files[lang] = set()
+            for p in lang_dir.glob("*.ogg"):
+                disk_files[lang].add(p.name)
+                disk_mtimes[(lang, p.name)] = int(p.stat().st_mtime)
+
     rows = []
     seen = set()
     for (lang, filename), meta in sorted(mapping.items()):
         npc = meta.get("npc", "")
         if "|" in npc:
             continue
-        path = voice_dir / lang / filename
-        exists = path.exists()
-        mtime = int(path.stat().st_mtime) if exists else 0
+        
+        lang_files = disk_files.get(lang, set())
+        exists = False
+        resolved_filename = filename
+
+        if filename in lang_files:
+            exists = True
+            resolved_filename = filename
+        else:
+            base = filename.rsplit("_npc", 1)[0] if "_npc" in filename else filename.rsplit(".", 1)[0]
+            generic_fn = f"{base}.ogg"
+            if generic_fn in lang_files:
+                exists = True
+                resolved_filename = generic_fn
+            else:
+                prefix = f"{base}_"
+                matches = [f for f in lang_files if f.startswith(prefix) and f.endswith(".ogg")]
+                if matches:
+                    exists = True
+                    resolved_filename = sorted(matches)[0]
+
+        path = voice_dir / lang / resolved_filename
+        mtime = disk_mtimes.get((lang, resolved_filename), 0) if exists else 0
         is_new = bool(exists and since_mtime and mtime >= since_mtime)
         if only_new and not is_new:
-            if (lang, filename) in paired_new:
+            if (lang, resolved_filename) in paired_new or (lang, filename) in paired_new:
                 is_new = True
             else:
                 continue
+        seen.add((lang, resolved_filename))
         seen.add((lang, filename))
         rows.append({
                 "kind": "generated",
@@ -225,7 +257,7 @@ def rows_from_full_voice(voice_dir, mapping_path, since_mtime=0, only_new=False)
                 "ref_audio": "",
                 "ref_text": "",
                 "prompt": format_voice_prompt(meta),
-                "filename": filename,
+                "filename": resolved_filename,
                 "func_id": meta.get("func_id", ""),
                 "offset_key": meta.get("offset_key", ""),
                 "segment": meta.get("segment", ""),

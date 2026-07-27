@@ -3148,7 +3148,7 @@
     "npc": "Dracothraxus",
     "zh_offset_key": "",
     "zh_segment": 0,
-    "zh_text": "Dracothraxus sniffs the air distastefully, 「我聞到了毀滅的氣息。或許，我終於要獲得自由了。祝你好運，凡人。自求多福吧！」說完，巨龍便撲向了你。",
+    "zh_text": "Dracothraxus 厭惡地嗅了嗅空氣，「我聞到了毀滅的氣息。或許，我終於要獲得自由了。祝你好運，凡人。自求多福吧！」說完，巨龍便撲向了你。",
     "en_offset_key": "1fe",
     "en_segment": 0,
     "en_text": "Dracothraxus sniffs the air distastefully, \"I sense my doom nearby. Perhaps I am to be released at long last. I wish you good luck mortal. Defend yourself!\" With that, the dragon leaps at you.",
@@ -3163,7 +3163,13 @@
     "tone_instruct": " Speak with authority and firmness.",
     "voice_prompt_zh": "性别：男性。年龄：古老巨龙。角色：Ultima VII中的最终试炼守护者。音高：低沉、震颤如古钟的男低音。语速：缓慢、沉重、带岁月沉淀的停顿。情绪：骄傲而疲惫、威严中透着沧桑。音色特征：浑厚、共鸣深邃、略带沙哑。语言：标准普通话。使用场景：奇幻角色扮演中与玩家对峙或告别时的独白。",
     "en_raw": "Dracothraxus sniffs the air distastefully, \"I sense my doom nearby. Perhaps I am to be released at long last. I wish thee good luck mortal. Defend thyself!\"  With that, the dragon leaps at you.",
-    "zh_raw": "Dracothraxus sniffs the air distastefully, 「我聞到了毀滅的氣息。或許，我終於要獲得自由了。祝你好運，凡人。自求多福吧！」說完，巨龍便撲向了你。"
+    "zh_raw": "Dracothraxus sniffs the air distastefully, 「我聞到了毀滅的氣息。或許，我終於要獲得自由了。祝你好運，凡人。自求多福吧！」說完，巨龍便撲向了你。",
+    "_voice_fix_marked": {
+      "timestamp": "2026-07-25T10:59:18.864147",
+      "reason": "Translate English narration prefix into Traditional Chinese",
+      "old_zh_text": "Dracothraxus sniffs the air distastefully, 「我聞到了毀滅的氣息。或許，我終於要獲得自由了。祝你好運，凡人。自求多福吧！」說完，巨龍便撲向了你。",
+      "new_zh_text": "Dracothraxus 厭惡地嗅了嗅空氣，「我聞到了毀滅的氣息。或許，我終於要獲得自由了。祝你好運，凡人。自求多福吧！」說完，巨龍便撲向了你。"
+    }
   },
   {
     "index": 144,
@@ -59728,7 +59734,7 @@
     "npc": "Zorn",
     "zh_offset_key": "",
     "zh_segment": 0,
-    "zh_text": "Zorn dips the helmet in water to cool it.",
+    "zh_text": "Zorn 將頭盔浸入水中冷卻。",
     "en_offset_key": "b7d",
     "en_segment": 0,
     "en_text": "Zorn dips the helmet in water to cool it.",
@@ -59743,14 +59749,20 @@
     "tone_instruct": " Speak with sadness and sorrow.",
     "voice_prompt_zh": "性别：男性。年龄：四十多岁。角色：疲惫的黑smith。音高：低沉、沙哑的男声。语速：缓慢、拖沓，带喘息感。情绪：沉重、麻木、疲惫不堪。音色特征：粗粝、带金属摩擦感、气息微弱。语言：标准普通话。使用场景：角色扮演中黑smith在锻造间隙讲述过往或抱怨劳作。",
     "en_raw": "Zorn dips the helmet in water to cool it.",
-    "zh_raw": "佐恩將頭盔浸入水中降溫。"
+    "zh_raw": "佐恩將頭盔浸入水中降溫。",
+    "_voice_fix_marked": {
+      "timestamp": "2026-07-25T10:59:18.864147",
+      "reason": "Translate untranslated en_text in zh_text field",
+      "old_zh_text": "Zorn dips the helmet in water to cool it.",
+      "new_zh_text": "Zorn 將頭盔浸入水中冷卻。"
+    }
   },
   {
     "index": 2699,
     "npc": "Zorn",
     "zh_offset_key": "",
     "zh_segment": 0,
-    "zh_text": "He hands you the helmet.",
+    "zh_text": "他將頭盔遞給你。",
     "en_offset_key": "c12",
     "en_segment": 0,
     "en_text": "He hands you the helmet.",
@@ -59765,7 +59777,13 @@
     "tone_instruct": "",
     "voice_prompt_zh": "性别：男性。年龄：四十多岁。角色：疲惫的黑smith。音高：低沉、沙哑的男声。语速：缓慢、拖沓，带喘息感。情绪：沉重、麻木、疲惫不堪。音色特征：粗粝、带金属摩擦感、气息微弱。语言：标准普通话。使用场景：角色扮演中黑smith在锻造间隙讲述过往或抱怨劳作。",
     "en_raw": "He hands you the helmet.",
-    "zh_raw": "他將頭盔遞給你。"
+    "zh_raw": "他將頭盔遞給你。",
+    "_voice_fix_marked": {
+      "timestamp": "2026-07-25T10:59:18.864147",
+      "reason": "Translate untranslated en_text in zh_text field",
+      "old_zh_text": "He hands you the helmet.",
+      "new_zh_text": "他將頭盔遞給你。"
+    }
   },
   {
     "index": 2700,
@@ -136416,7 +136434,7 @@
     "npc": "Anmanivas",
     "zh_offset_key": "18d_190_197",
     "zh_segment": 0,
-    "zh_text": "「\"聖者！」聖者 「是造成我們不快樂的原因。」",
+    "zh_text": "「人類！」他指著你和你的同伴說，「是造成我們不快樂的原因。」",
     "en_offset_key": "197_19a_19d",
     "en_segment": 0,
     "en_text": "\"humans!\" he says, pointing at you and your companions. \"To be the cause for our unhappiness.\"",
@@ -136434,7 +136452,13 @@
     "zh_text_raw": "\"<VAR>！」<VAR> 「是造成我們不快樂的原因。」",
     "var_class": "player_name",
     "en_raw": "\"^<VAR>!\"<VAR> \"To be the cause for our unhappiness.\"",
-    "zh_raw": "\"^<VAR>！」<VAR> 「是造成我們不快樂的原因。」"
+    "zh_raw": "\"^<VAR>！」<VAR> 「是造成我們不快樂的原因。」",
+    "_voice_fix_marked": {
+      "timestamp": "2026-07-25T10:59:18.864147",
+      "reason": "Adjust Chinese text based on en_text to smooth grammar and balance delimiters",
+      "old_zh_text": "「\"聖者！」聖者 「是造成我們不快樂的原因。」",
+      "new_zh_text": "「人類！」他指著你和你的同伴說，「是造成我們不快樂的原因。」"
+    }
   },
   {
     "index": 6147,
