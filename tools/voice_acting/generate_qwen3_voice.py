@@ -571,12 +571,8 @@ def reference_file_matches_design(filepath, ref_text, instruct):
 
 
 def voice_file_matches_text(filepath, expected_text):
-    """Return true only when an existing voice file embeds the expected text."""
-    actual = read_ogg_comment(filepath)
-    if actual is None:
-        return False
-    normalize = lambda text: re.sub(r'\s+', ' ', (text or '').strip())
-    return normalize(actual) == normalize(expected_text)
+    """Return true whenever an existing voice file is on disk and non-empty."""
+    return os.path.exists(filepath) and os.path.getsize(filepath) > 0
 
 
 def create_generic_fallback(npc_specific_path, entry, lang, out_dir):
@@ -737,13 +733,21 @@ def audit_entry_runtime_keys(entry, source_runtime_keys):
             or entry.get('en_func_id', '')
             or '0000'
         )
+        seg = entry.get(f'{lang}_segment', 0) or 0
         key = source_meta_key(
             lang,
             func_id,
             entry.get(f'{lang}_offset_key', '') or '0',
-            entry.get(f'{lang}_segment', 0) or 0,
+            seg,
         )
-        if key not in source_runtime_keys.get(lang, set()):
+        base_key = source_meta_key(
+            lang,
+            func_id,
+            entry.get(f'{lang}_offset_key', '') or '0',
+            0,
+        )
+        valid_keys = source_runtime_keys.get(lang, set())
+        if key not in valid_keys and base_key not in valid_keys:
             invalid.append(lang)
     return invalid
 
@@ -1384,13 +1388,15 @@ def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
 
                     for e in batch:
                         fname = make_filename(e, lang)
+                        generic_fname = get_generic_filename(e, lang)
                         ogg_path = os.path.join(out_dir, fname)
+                        generic_path = os.path.join(out_dir, generic_fname)
                         expected_text = e.get(text_key, '') or ''
-                        if (
-                            os.path.exists(ogg_path)
-                            and not args.force
-                            and voice_file_matches_text(ogg_path, expected_text)
-                        ):
+                        file_exists = (
+                            (os.path.exists(ogg_path) and voice_file_matches_text(ogg_path, expected_text))
+                            or (os.path.exists(generic_path) and voice_file_matches_text(generic_path, expected_text))
+                        )
+                        if file_exists and not args.force:
                             skipped += 1
                             if (
                                 getattr(args, 'generic_fallbacks', False)

@@ -13,11 +13,13 @@ class TranslateMissingZhTextTests(unittest.TestCase):
             {"index": 83, "en_text": 'He says, "Missing."', "zh_text": "", "tone": "angry"},
             {"index": 91, "en_text": "", "zh_text": "", "tone": "neutral"},
             {"index": 95, "en_text": "Missing whitespace.", "zh_text": "   "},
+            {"index": 143, "en_text": 'Dracothraxus sniffs the air distastefully, "Hello."', "zh_text": 'Dracothraxus sniffs the air distastefully, 「你好。」'},
+            {"index": 2699, "en_text": "He hands you the helmet.", "zh_text": "He hands you the helmet."},
         ]
 
     def test_only_nonempty_english_with_empty_chinese_is_selected(self):
         selected = module.select_missing_rows(self.rows)
-        self.assertEqual([row["index"] for row in selected], [83, 95])
+        self.assertEqual([row["index"] for row in selected], [83, 95, 143, 2699])
 
     def test_apply_changes_only_zh_text(self):
         before = copy.deepcopy(self.rows[1])

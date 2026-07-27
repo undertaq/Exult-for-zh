@@ -10,6 +10,10 @@ Anmanivas => index:6146「"聖者！」聖者 「是造成我們不快樂的原�
 Jesse => 中英文旁白應該為男生
 Dracothraxus => 143 vs 134 duplicate en_text, zh_text: Dracothraxus sniffs the air distastefully, 「我聞到了毀滅的氣息。或許，我終於要獲得自由了。祝你好運，凡人。自求多福吧！」說完，巨龍便撲向了你。 沒有完全翻譯到
 
+Lord British => empty delimiters, 
+7273: Should be speaker's text
+1052: the en_text/zh_text and en_raw/zh_raw are not the same sentence.
+
 Some zh_text is not translated or fully trasnslated to Chinese, update the translation script, tranlate. e.g. index:2699, 143, 134
 
 Full all the above fix, , update the corresponding patch script, marked them, and regeneration these voice only. DO NOT modify other voices.

@@ -1,0 +1,205 @@
+{
+  "model": "qwen3.6:35b",
+  "direction": "zh2en",
+  "selected": 38,
+  "rows": [
+    {
+      "index": 307,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 308,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 309,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 377,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 378,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 430,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 431,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 432,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 514,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 515,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 516,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 591,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 592,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 593,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 634,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 674,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 675,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 676,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 756,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 757,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 758,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 1129,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 1130,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 1131,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 1132,
+      "status": "rejected",
+      "errors": [
+        "placeholder mismatch"
+      ]
+    },
+    {
+      "index": 1133,
+      "status": "rejected",
+      "errors": [
+        "placeholder mismatch"
+      ]
+    },
+    {
+      "index": 6881,
+      "status": "rejected",
+      "errors": [
+        "placeholder mismatch"
+      ]
+    },
+    {
+      "index": 6882,
+      "status": "rejected",
+      "errors": [
+        "placeholder mismatch"
+      ]
+    },
+    {
+      "index": 8451,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 8896,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 8897,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 8898,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 8899,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 8900,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 8901,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 8902,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 8903,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 8904,
+      "status": "accepted",
+      "errors": []
+    }
+  ]
+}

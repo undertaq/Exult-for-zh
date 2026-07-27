@@ -61,6 +61,27 @@ def direction_config(direction: str) -> dict:
         }
 
 
+def is_missing_or_untranslated(row: dict, source_field: str, target_field: str, direction: str = "en2zh") -> bool:
+    source_val = str(row.get(source_field, "")).strip()
+    target_val = str(row.get(target_field, "")).strip()
+    if not source_val:
+        return False
+    if not target_val:
+        return True
+    if source_val == target_val and re.search(r"[a-zA-Z]{2,}", source_val):
+        if source_val in ("Vas Flam Uus", "Du-pre-!"):
+            return False
+        return True
+    if direction == "en2zh" and re.match(r"^[A-Za-z]{3,}\s+[A-Za-z]", target_val):
+        first_zh_idx = min([i for i, ch in enumerate(target_val) if "\u4e00" <= ch <= "\u9fff" or ch == "「"] or [len(target_val)])
+        prefix = target_val[:first_zh_idx].strip()
+        if prefix and re.search(r"[a-zA-Z]{3,}\s+[a-zA-Z]{2,}", prefix):
+            if not re.search(r"\b(?:stands|holding|notices|sniffs|says|speaks|thinks|looks)\b", prefix, re.IGNORECASE):
+                return False
+            return True
+    return False
+
+
 def select_missing_rows(rows: list[dict], direction: str = "en2zh") -> list[dict]:
     """Return rows eligible for translation without changing the input."""
     cfg = direction_config(direction)
@@ -69,8 +90,7 @@ def select_missing_rows(rows: list[dict], direction: str = "en2zh") -> list[dict
     return [
         row
         for row in rows
-        if str(row.get(source, "")).strip()
-        and not str(row.get(target, "")).strip()
+        if is_missing_or_untranslated(row, source, target, direction=direction)
     ]
 
 

@@ -1,0 +1,5 @@
+usage: disassemble_usecode.py [-h] [--func FUNC] [--all] [--list]
+                              [--format {voice,dis,csv}] [--include-books]
+                              [--no-symbol-table]
+                              usecode_file
+disassemble_usecode.py: error: unrecognized arguments: -o /home/joe/project/Exult-for-zh/tools/voice_acting/_live/zh.csv
