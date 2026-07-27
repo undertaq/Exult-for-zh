@@ -77,6 +77,7 @@ private:
 
 	static void load_packed_index();
 	static bool find_in_pak(const std::string& name, std::vector<char>& out_data);
+	static bool try_play_packed(const std::string& name, const std::vector<char>& data);
 
 	// Try to play a voice file at the given path.
 	static bool try_play(const std::string& path);

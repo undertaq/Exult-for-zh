@@ -198,14 +198,14 @@ bool VoiceActingManager::find_in_pak(
  *  Play voice from a packed archive entry. Writes data to a temp file
  *  and plays it, then removes the temp file.
  */
-static bool try_play_packed(
+bool VoiceActingManager::try_play_packed(
 		const std::string& name, const std::vector<char>& data) {
-	const std::string& lang = VoiceActingManager::get_voice_language();
+	const std::string& lang = get_voice_language();
 	std::string temp_path = get_system_path(
 		"<PATCH>/voice_acting/" + lang + "/." + name + ".ogg");
 	// Ensure the language directory exists.
 	std::string dir = temp_path.substr(0, temp_path.find_last_of("/\\"));
-	U7mkdir(dir, 0755);
+	U7mkdir(dir.c_str(), 0755);
 
 	std::ofstream out(temp_path, std::ios::binary);
 	if (!out.is_open()) {
@@ -214,7 +214,7 @@ static bool try_play_packed(
 	out.write(data.data(), static_cast<std::streamsize>(data.size()));
 	out.close();
 
-	bool played = VoiceActingManager::try_play(temp_path);
+	bool played = try_play(temp_path);
 	std::remove(temp_path.c_str());
 	return played;
 }
