@@ -52,11 +52,8 @@ bool          VoiceActingManager::voice_enabled   = true;
 std::string   VoiceActingManager::voice_language  = "zh";
 
 /*
- *  Read voice acting config: enabled flag and language.
- */
-/*
  *  Load the packed voice archive index for the configured language.
- *  Called once during init. On success, sets use_packed = true.
+ *  On success, sets use_packed = true.
  */
 void VoiceActingManager::load_packed_index() {
 	const std::string& lang = get_voice_language();
@@ -151,8 +148,12 @@ void VoiceActingManager::init() {
 		config->value("config/gameplay/language", voice_language, "zh");
 	}
 	config->set("config/audio/speech/voice/language", voice_language, false);
+}
 
-	// Try loading packed voice archive.
+void VoiceActingManager::ensure_packed_loaded() {
+	if (use_packed) {
+		return;  // Already loaded.
+	}
 	load_packed_index();
 	if (use_packed) {
 		pout << "[VoiceActing] Loaded packed archive: " << pak_path
@@ -439,6 +440,9 @@ bool VoiceActingManager::play_for_conversation(
 	if (!voice_enabled) {
 		return false;
 	}
+
+	ensure_packed_loaded();
+
 	char func_hex[16];
 	std::snprintf(func_hex, sizeof(func_hex), "%04x", function_id);
 	string base = string(func_hex) + "_" + offset_key + "_"

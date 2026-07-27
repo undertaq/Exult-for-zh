@@ -76,6 +76,7 @@ private:
 	static std::ifstream pak_stream;
 
 	static void load_packed_index();
+	static void ensure_packed_loaded();
 	static bool find_in_pak(const std::string& name, std::vector<char>& out_data);
 	static bool try_play_packed(const std::string& name, const std::vector<char>& data);
 
