@@ -51,3 +51,72 @@ def write_idx(path: Path, entries: List[IndexEntry]):
     for e in entries:
         buf += e.to_bytes()
     path.write_bytes(bytes(buf))
+
+
+def cmd_pack(lang: str, source_dir: Path, output_dir: Path):
+    ogg_files = sorted(source_dir.glob('*.ogg'))
+    if not ogg_files:
+        print(f'No .ogg files found in {source_dir}')
+        return
+
+    entries = []
+    offset = 0
+    with (output_dir / f'{lang}_voices.pak').open('wb') as pak:
+        for ogg_path in ogg_files:
+            data = ogg_path.read_bytes()
+            name = ogg_path.stem
+            entries.append(IndexEntry(name, offset, len(data)))
+            pak.write(data)
+            offset += len(data)
+
+    names = [e.name for e in entries]
+    if len(names) != len(set(names)):
+        dupes = [n for n in names if names.count(n) > 1]
+        raise ValueError(f'Duplicate filenames in {lang}: {sorted(set(dupes))}')
+
+    expected = 0
+    for e in entries:
+        assert e.offset == expected, f'Offset mismatch for {e.name}: expected {expected}, got {e.offset}'
+        expected += e.size
+    assert expected == offset, f'Pak size mismatch: {expected} vs {offset}'
+
+    idx_path = output_dir / f'{lang}_voices.idx'
+    write_idx(idx_path, entries)
+    print(f'Packed {len(entries)} files into {output_dir}/{lang}_voices.pak and {idx_path.name}')
+    print(f'  Pak size: {offset:,} bytes ({offset/1024/1024:.1f} MB)')
+    print(f'  Index size: {idx_path.stat().st_size:,} bytes')
+
+
+def cmd_unpack(lang: str, source_dir: Path, output_dir: Path):
+    raise NotImplementedError
+
+
+def cmd_verify(lang: str, source_dir: Path):
+    raise NotImplementedError
+
+
+def main():
+    import argparse
+    parser = argparse.ArgumentParser(description='Voice packer for Exult')
+    parser.add_argument('mode', choices=['pack', 'unpack', 'verify'])
+    parser.add_argument('--lang', choices=['en', 'zh', 'all'], default='all')
+    parser.add_argument('--source-dir', type=Path, default=None)
+    parser.add_argument('--output-dir', type=Path, default=None)
+    args = parser.parse_args()
+
+    base = Path(__file__).resolve().parent.parent.parent
+    langs = ['en', 'zh'] if args.lang == 'all' else [args.lang]
+
+    for lang in langs:
+        source_dir = args.source_dir or base / 'voice' / lang
+        output_dir = args.output_dir or base / 'voice'
+        if args.mode == 'pack':
+            cmd_pack(lang, source_dir, output_dir)
+        elif args.mode == 'unpack':
+            cmd_unpack(lang, output_dir, source_dir)
+        elif args.mode == 'verify':
+            cmd_verify(lang, output_dir)
+
+
+if __name__ == '__main__':
+    main()
