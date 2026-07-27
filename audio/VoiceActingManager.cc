@@ -64,18 +64,24 @@ void VoiceActingManager::load_packed_index() {
 	pak_path = base + lang + "_voices.pak";
 	idx_path = base + lang + "_voices.idx";
 
+	pout << "[VoiceActing] Trying packed archive: lang=" << lang
+		 << " pak=" << pak_path << " idx=" << idx_path << std::endl;
+
 	// Check both files exist.
 	std::ifstream idx_file(idx_path, std::ios::binary);
 	if (!idx_file.is_open()) {
+		pout << "[VoiceActing] Index file not found: " << idx_path << std::endl;
 		return;
 	}
 	std::ifstream pak_test(pak_path, std::ios::binary);
 	if (!pak_test.is_open()) {
+		pout << "[VoiceActing] Pak file not found: " << pak_path << std::endl;
 		idx_file.close();
 		return;
 	}
 	pak_stream.open(pak_path, std::ios::binary);
 	if (!pak_stream.is_open()) {
+		pout << "[VoiceActing] Failed to open pak stream: " << pak_path << std::endl;
 		idx_file.close();
 		return;
 	}
