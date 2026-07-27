@@ -1,4 +1,5 @@
 import struct
+import sys
 from pathlib import Path
 from typing import List
 
@@ -107,8 +108,42 @@ def cmd_unpack(lang: str, source_dir: Path, output_dir: Path):
     print(f'Extracted {len(entries)} files to {output_dir}')
 
 
-def cmd_verify(lang: str, source_dir: Path):
-    raise NotImplementedError
+def cmd_verify(lang: str, data_dir: Path):
+    idx_path = data_dir / f'{lang}_voices.idx'
+    pak_path = data_dir / f'{lang}_voices.pak'
+
+    if not idx_path.exists() or not pak_path.exists():
+        print(f'Missing {lang}_voices.idx or {lang}_voices.pak in {data_dir}')
+        return 1
+
+    entries = read_idx(idx_path)
+    pak_data = pak_path.read_bytes()
+    errors = 0
+
+    for i, e in enumerate(entries):
+        if e.offset + e.size > len(pak_data):
+            print(f'ERROR [{i}]: {e.name} overflows pak (offset={e.offset}, size={e.size}, pak_len={len(pak_data)})')
+            errors += 1
+            continue
+        data = pak_data[e.offset:e.offset + e.size]
+        if len(data) != e.size:
+            print(f'ERROR [{i}]: {e.name} size mismatch (expected {e.size}, got {len(data)})')
+            errors += 1
+            continue
+        if not data.startswith(b'OggS'):
+            print(f'WARNING [{i}]: {e.name} missing OGG magic ({data[:8].hex()})')
+
+    total_pak = len(pak_data)
+    computed = sum(e.size for e in entries)
+    if total_pak != computed:
+        print(f'ERROR: pak size {total_pak} != sum of entries {computed}')
+        errors += 1
+
+    if errors == 0:
+        print(f'Verified {lang}: {len(entries)} entries, {total_pak:,} bytes — all OK')
+    else:
+        print(f'Verified {lang}: {len(entries)} entries, {errors} error(s)')
+    return errors
 
 
 def main():
@@ -124,6 +159,7 @@ def main():
     langs = ['en', 'zh'] if args.lang == 'all' else [args.lang]
 
     base_voice = base / 'voice'
+    exit_code = 0
     for lang in langs:
         if args.mode == 'pack':
             src = args.source_dir or base_voice / lang
@@ -135,7 +171,10 @@ def main():
             cmd_unpack(lang, src, out)
         elif args.mode == 'verify':
             src = args.source_dir or base_voice
-            cmd_verify(lang, src)
+            if cmd_verify(lang, src):
+                exit_code = 1
+
+    sys.exit(exit_code)
 
 
 if __name__ == '__main__':
