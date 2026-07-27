@@ -666,30 +666,43 @@ def main():
     with open(args.input, encoding='utf-8') as f:
         review_data = json.load(f)
     
-    # Build index of existing entries by (npc, zh_offset_key, zh_segment, en_offset_key, en_segment)
+    # Build index of existing entries by (npc, zh_offset_key, zh_segment, en_offset_key, en_segment, zh_func_id, en_func_id)
     # to preserve voice_gender, voice_age, voice_prompt, tone, etc.
-    # Segment is included to prevent collisions when two segments share the same offset keys.
+    # Includes func_id to prevent collisions when different dialogue functions share the same offset keys.
     existing_index = {}
     for e in review_data:
         key = (e.get('npc', ''), e.get('zh_offset_key', ''), e.get('zh_segment', 0),
-               e.get('en_offset_key', ''), e.get('en_segment', 0))
+               e.get('en_offset_key', ''), e.get('en_segment', 0),
+               e.get('zh_func_id', ''), e.get('en_func_id', ''))
         existing_index[key] = e
     
     # ── Match review fields to realigned entries ──
-    def find_existing_entry(npc, zh_off, en_off, zh_seg=0, en_seg=0):
+    def find_existing_entry(npc, zh_off, en_off, zh_seg=0, en_seg=0, zh_func='', en_func=''):
         """Find matching entry in existing review data."""
-        # Exact match (now includes segment)
-        key = (npc, zh_off, zh_seg, en_off, en_seg)
+        # Exact match (now includes segment and func_id)
+        key = (npc, zh_off, zh_seg, en_off, en_seg, zh_func, en_func)
         if key in existing_index:
             return existing_index[key]
-        # Fallback: same en_offset_key and en_segment
+        # Fallback: same en_offset_key and en_segment (prefer same func_id)
+        candidate = None
         for k, v in existing_index.items():
             if k[0] == npc and k[3] == en_off and k[4] == en_seg:
-                return v
-        # Fallback: same zh_offset_key and zh_segment
+                if k[5] == zh_func and k[6] == en_func:
+                    return v
+                if candidate is None:
+                    candidate = v
+        if candidate:
+            return candidate
+        # Fallback: same zh_offset_key and zh_segment (prefer same func_id)
+        candidate = None
         for k, v in existing_index.items():
             if k[0] == npc and k[1] == zh_off and k[2] == zh_seg:
-                return v
+                if k[5] == zh_func and k[6] == en_func:
+                    return v
+                if candidate is None:
+                    candidate = v
+        if candidate:
+            return candidate
         return None
     
     # ── Build output ──
@@ -700,7 +713,8 @@ def main():
         en_off = entry['en_offset_key']
         
         # Try to preserve review fields
-        existing = find_existing_entry(npc, zh_off, en_off, entry.get('zh_segment', 0), entry.get('en_segment', 0))
+        existing = find_existing_entry(npc, zh_off, en_off, entry.get('zh_segment', 0), entry.get('en_segment', 0),
+                                        entry.get('zh_func_id', ''), entry.get('en_func_id', ''))
         if existing:
             new_entry = dict(existing)
             # Update text from realigned data

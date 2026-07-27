@@ -3190,8 +3190,8 @@
     "tone": "neutral",
     "tone_instruct": "",
     "voice_prompt_zh": "性别：男性。年龄：四十多岁。角色：德鲁伊反派领袖。音高：低沉、共鸣强的男中音，带喉音沙哑质感。语速：缓慢、刻意，停顿强调阴险。情绪：冷峻说服力强、智力缜密、潜藏阴险。音色特征：砂砾感明显，低音略带气声。语言：标准普通话。使用场景：奇幻RPG中暗黑仪式或渗透场景对话。",
-    "en_raw": "The ceremony begins as Batlin stands before the gathered Fellowship members. The hall fills with thunderous cheers. They look at him with a mixture of awe and sheer adoration. Batlin stands and basks in the warm reception for a moment, a triumphant smile on his face. With a slight gesture of his hand the crowd becomes quiet.",
-    "zh_raw": "儀式開始了，巴特林站在聚集的友誼會成員面前。大廳裡充滿了雷鳴般的歡呼聲。他們以敬畏和純粹的崇拜交織的目光看著他。巴特林站著，在熱烈的歡迎中沐浴了片刻，臉上掛著勝利的微笑。他輕輕一揮手，人群便安靜了下來。"
+    "en_raw": "Batlin watches Hook's death with icy resignation. Time seems to slow as he turns to you. \"This battle is not done, Avatar. Dost thou imagine thyself an immortal? The Guardian is far more. Return to your precious Earth and rest.",
+    "zh_raw": "巴特林以冰冷的無奈看著 Hook 死亡。當他轉向你時，時間似乎變慢了。\"這場戰鬥還沒結束，聖者。你以為自己是不死的嗎？守護者遠比你想像的更強大。回到你那珍貴的地球去休息吧。"
   },
   {
     "index": 146,
@@ -3212,8 +3212,8 @@
     "tone": "neutral",
     "tone_instruct": "",
     "voice_prompt_zh": "性别：男性。年龄：四十多岁。角色：德鲁伊反派领袖。音高：低沉、共鸣强的男中音，带喉音沙哑质感。语速：缓慢、刻意，停顿强调阴险。情绪：冷峻说服力强、智力缜密、潜藏阴险。音色特征：砂砾感明显，低音略带气声。语言：标准普通话。使用场景：奇幻RPG中暗黑仪式或渗透场景对话。",
-    "en_raw": "\"Question One: Thou art feeling depressed right now. Is it more likely because -",
-    "zh_raw": "第一個問題：你現在感到很沮喪。最可能的原因是 -"
+    "en_raw": "Sleep, that he may visit your dreams with countless visions of death in the belly of the Great Sea Serpent.\"",
+    "zh_raw": "然後他會在你的夢中現身，讓你夢見無數次死於巨蛇腹中的景象。\""
   },
   {
     "index": 147,
@@ -4447,8 +4447,8 @@
     "tone": "neutral",
     "tone_instruct": "",
     "voice_prompt_zh": "性别：男性。年龄：约两百岁。角色：被诅咒的亡灵法师。音高：空灵、低沉、回荡感强的男声。语速：缓慢、断续、似从遥远传来。情绪：阴郁、孤寂、充满宿命感。音色特征：空洞、回响、略带破败感。语言：标准普通话。使用场景：奇幻角色扮演中亡灵法师与玩家对话或吟诵咒语。",
-    "en_raw": "Horance looks at you curiously, \"Thy task is done here in Skara Brae. Thou hast my respect and lifelong gratitude.\"",
-    "zh_raw": "Horance 好奇地看著你，「你在 Skara Brae 的任務已經完成了。你有我的敬意與畢生的感激。」"
+    "en_raw": "As the Soul Cage dissolves into dust, a great transformation comes upon the Liche. Where the evil spirit was caged you see the form of a familiar person. It's Horance! He's a ghost, but he much more resembles a man than an undead terror. ",
+    "zh_raw": "隨著靈魂囚籠化為塵土，巫妖發生了巨大的轉變。在邪靈被囚禁的地方，你看到了一個熟悉的身影。是 Horance！他是個鬼魂，但他看起來更像個人類，而不是不死生物。"
   },
   {
     "index": 203,
@@ -4469,8 +4469,8 @@
     "tone": "neutral",
     "tone_instruct": "",
     "voice_prompt_zh": "性别：男性。年龄：四十多岁。角色：德鲁伊反派领袖。音高：低沉、共鸣强的男中音，带喉音沙哑质感。语速：缓慢、刻意，停顿强调阴险。情绪：冷峻说服力强、智力缜密、潜藏阴险。音色特征：砂砾感明显，低音略带气声。语言：标准普通话。使用场景：奇幻RPG中暗黑仪式或渗透场景对话。",
-    "en_raw": "The ceremony begins as Batlin stands before the gathered Fellowship members. The hall fills with thunderous cheers. They look at him with a mixture of awe and sheer adoration. Batlin stands and basks in the warm reception for a moment, a triumphant smile on his face. With a slight gesture of his hand the crowd becomes quiet.",
-    "zh_raw": "儀式開始了，巴特林站在聚集的友誼會成員面前。大廳裡充滿了雷鳴般的歡呼聲。他們以敬畏和純粹的崇拜交織的目光看著他。巴特林站著，在熱烈的歡迎中沐浴了片刻，臉上掛著勝利的微笑。他輕輕一揮手，人群便安靜了下來。"
+    "en_raw": "The wand glows faintly. Batlin smirks. \"Not yet, Avatar.\"",
+    "zh_raw": "法杖發出微弱的光芒。巴特林假笑著。「時候未到，聖者。」"
   },
   {
     "index": 204,
@@ -5239,8 +5239,8 @@
     "tone": "neutral",
     "tone_instruct": "",
     "voice_prompt_zh": "性别：男性。年龄：三十出头。角色：布列塔尼亚世界的英雄主角与道德核心。音高：温暖稳重的中男音。语速：沉稳有度，重大抉择前刻意停顿。情绪：坚定、富有同理心、内敛而深思。音色特征：清晰、扎实、真诚恳切，带一丝英雄式的温润。语言：标准普通话。使用场景：奇幻RPG中主角的内心独白与对话。",
-    "en_raw": "After a short while you notice that the edge has definitely improved.",
-    "zh_raw": "過了一會兒，你注意到刀刃明顯變利了。"
+    "en_raw": "You feel as if your mind is being probed, delicately at first, then with more insistance. Images of long past memories flit before your eyes and old emotions resurface. At one point, the images pause as you remember the words Love, Sol, Moons, and Death then a strange sense of deja vu comes over you as the vision comes up to the current time. The images cease and a vast wave of power overwhelms you. A wall of darkness falls...",
+    "zh_raw": "你感覺自己的大腦正在被探測，起初很輕柔，然後越來越強烈。久遠回憶的畫面在你眼前掠過，舊有的情緒重新湧上心頭。在某個時刻，畫面暫停了，你想起了愛、太陽、雙月和死亡這些詞，然後一種奇怪的既視感襲來，幻象來到了現在。畫面停止，一股巨大的力量淹沒了你。一道黑暗之牆落下..."
   },
   {
     "index": 239,
@@ -5283,8 +5283,8 @@
     "tone": "neutral",
     "tone_instruct": "",
     "voice_prompt_zh": "性别：男性。年龄：古老石像，约数百岁。角色：守护神祇的石像守卫。音高：低沉、粗粝、如古石共鸣。语速：缓慢、沉重、带停顿，语调沉重如千载悲恸。情绪：沉痛、哀伤、忠诚、孤寂。音色特征：沙哑、厚重、共鸣感强、语句如石块碰撞般沉稳。语言：标准普通话。使用场景：奇幻角色扮演中守护遗迹或神殿的石像角色对玩家或NPC倾诉悲情。",
-    "en_raw": "Adjhar appears to have resumed the stance of a more traditional golem guardian -- staunch and distant. However, it is impossible to miss the glimmer of intelligence in his eyes.",
-    "zh_raw": "Adjhar 似乎恢復了傳統魔像守衛的姿態——堅定而疏遠。然而，你不可能錯過他眼中閃爍的智慧光芒。"
+    "en_raw": "\"Hast thou in thy possesion the book on the Stone of Castambre?\"",
+    "zh_raw": "「你身上有關於 Castambre 之石的書嗎？」"
   },
   {
     "index": 241,
@@ -7133,8 +7133,8 @@
     "voice_age": "young",
     "voice_prompt": "Gender: male. Age: fourteen. Role: orphaned blacksmith apprentice. Pitch: high-pitched, slightly breathy tenor. Pace: quick, urgent, with sudden pauses when emotional. Emotion: earnest, vulnerable, fiercely determined. Characteristics: crisp, slightly hoarse from labor, with adolescent cracking. Use case: fantasy RPG dialogue, tavern banter, emotional monologues.",
     "voice_lang": "en",
-    "tone": "questioning",
-    "tone_instruct": " Speak with curiosity, rising intonation.",
+    "tone": "sad",
+    "tone_instruct": " Start with pride, then shift to fear and grief upon realizing your father is dead and you are now an orphan.",
     "voice_prompt_zh": "性别：男性。年龄：十四岁。角色：被遗弃的铁匠学徒。音高：清亮略带气声的男高音。语速：急促、节奏紧凑，情绪激动时突然停顿。情绪：诚恳、脆弱、意志坚定。音色特征：略显沙哑、带少年声带裂纹。语言：标准普通话。使用场景：奇幻RPG对话、酒馆闲聊、情感独白。",
     "en_raw": "\"I have no job. I am only fourteen, so I am just learning how to best help Father in the smithy,\" he says, proudly. But then he suddenly realizes something which terrifies him. \"And now that Father is dead, I am an orphan!\"",
     "zh_raw": "「我沒有工作。我才十四歲，所以我正在學怎麼在鐵匠鋪裡成為父親最好的幫手，」 他驕傲地說。但隨後他突然意識到了什麼，這讓他感到恐懼。「現在父親死了，我成了孤兒！」"
@@ -17516,8 +17516,8 @@
     "tone": "neutral",
     "tone_instruct": "",
     "voice_prompt_zh": "性别：男性。年龄：四十多岁。角色：特里西克市市长，严肃执着的调查者。音高：沉稳中略带疲惫的男声。语速：缓慢而专注，语句间有停顿。情绪：坚毅、理性、略带忧虑。音色特征：略显沙哑、低沉带共鸣。语言：标准普通话。使用场景：游戏剧情中与玩家角色对话或下达任务指令。",
-    "en_raw": "\"Petre here knows something about all of this.\"",
-    "zh_raw": "「這裡的 Petre 知道這一切的內情。」"
+    "en_raw": "\"Hast thou properly searched the stables?\"",
+    "zh_raw": "「你仔細搜查過馬廄了嗎？」"
   },
   {
     "index": 790,
@@ -23332,8 +23332,8 @@
     "tone": "neutral",
     "tone_instruct": "",
     "voice_prompt_zh": "性别：男性。年龄：六十余岁。角色：不列颠王国在位君主。音高：低沉庄重的男中音。语速：沉稳、有分寸、带刻意停顿。情绪：肃穆权威、如父辈般睿智、疲惫却坚毅。音色特征：音色饱满、共鸣强、略带沙哑。语言：标准普通话。使用场景：奇幻RPG中于不列颠城堡或宫廷叙事对话。",
-    "en_raw": "Busted, you thieving scoundrel bastard! Perhaps the only thing more ridiculous than your pathetic attempt to destroy the black gate without paying proper dues is your inevitably embarassing explanation\tto the friend to whom you are, no doubt, showing this!",
-    "zh_raw": "抓到了，你這個偷竊的無賴混蛋！也許唯一比你這不付應付代價就想摧毀黑門的可悲企圖更可笑的，就是你無可避免地要向你那位朋友做出令人尷尬的解釋，毫無疑問，你正在向他展示這個！"
+    "en_raw": "\"Fool!! What possessed thee to cast that damned Armageddon Spell? I knew it was dangerous! Thou didst know it was dangerous!! Now look at us! We are all alone on the entire planet! Britannia is ruined! What kind of Avatar art thou!?! Now, with no Moongates working, we are both forced to spend eternity in this blasted wasteland!",
+    "zh_raw": "「愚蠢！！到底是什麼驅使你施展那個該死的『末日決戰（Armageddon Spell）』？我就知道那很危險！你也知道那很危險！！現在看看我們！我們是整個星球上唯二孤伶伶的人！不列顛尼亞全毀了！你算哪門子的聖者！？現在，沒有了月之門的運作，我們兩人都被迫要在這片被毀滅的荒原中度過永恆！"
   },
   {
     "index": 1053,
@@ -26334,8 +26334,8 @@
     "tone": "neutral",
     "tone_instruct": "",
     "voice_prompt_zh": "性别：男性。年龄：四十多岁。角色：德鲁伊反派领袖。音高：低沉、共鸣强的男中音，带喉音沙哑质感。语速：缓慢、刻意，停顿强调阴险。情绪：冷峻说服力强、智力缜密、潜藏阴险。音色特征：砂砾感明显，低音略带气声。语言：标准普通话。使用场景：奇幻RPG中暗黑仪式或渗透场景对话。",
-    "en_raw": "The ceremony begins as Batlin stands before the gathered Fellowship members. The hall fills with thunderous cheers. They look at him with a mixture of awe and sheer adoration. Batlin stands and basks in the warm reception for a moment, a triumphant smile on his face. With a slight gesture of his hand the crowd becomes quiet.",
-    "zh_raw": "儀式開始了，巴特林站在聚集的友誼會成員面前。大廳裡充滿了雷鳴般的歡呼聲。他們以敬畏和純粹的崇拜交織的目光看著他。巴特林站著，在熱烈的歡迎中沐浴了片刻，臉上掛著勝利的微笑。他輕輕一揮手，人群便安靜了下來。"
+    "en_raw": "Batlin's eyes narrow to red slits as he peers practically through you.",
+    "zh_raw": "巴特林雙眼瞇成紅色的細縫，目光彷彿要將你看穿。"
   },
   {
     "index": 1189,
@@ -55924,8 +55924,8 @@
     "tone": "questioning",
     "tone_instruct": " Speak with curiosity, rising intonation.",
     "voice_prompt_zh": "性别：男性。年龄：二十至三十岁。角色：风趣张扬的吟游诗人。音高：宽广宏亮的男声，富有戏剧张力。语速：节奏明快、语调起伏鲜明，带表演性停顿。情绪：热情洋溢、略带戏谑、充满故事感。音色特征：圆润明亮、略带沙哑共鸣，富有感染力。语言：标准普通话。使用场景：在酒馆或冒险场景中向玩家讲述传奇故事或抒发情感。",
-    "en_raw": "\"Ah, dear Nastassia. Wouldst thou like to hear her tale?\"",
-    "zh_raw": "「這是你的選擇……而且是個錯誤的選擇！」"
+    "en_raw": "\"'Tis thy choice... and thy mistake!\"",
+    "zh_raw": "「非常好！」"
   },
   {
     "index": 2527,
@@ -65844,8 +65844,8 @@
     "tone": "fearful",
     "tone_instruct": " Speak with fear and nervousness.",
     "voice_prompt_zh": "性别：女性。角色：emp族猿人。音高：略带紧张的中音，音调起伏明显。语速：急促、断续、带慌乱停顿。情绪：紧张、机警、略带羞怯。音色特征：清脆、略带沙哑、共鸣感弱、气息急促。语言：标准普通话。使用场景：游戏剧情中与玩家互动或表达担忧时。",
-    "en_raw": "The ape-like creature slowly and cautiously walks up to you. He, or she, sniffs for a moment, and then points to the honey you are carrying.",
-    "zh_raw": "像猿猴一樣的生物緩慢而小心地走向你。牠嗅了一會兒，然後指著你帶著的蜂蜜。"
+    "en_raw": "The creature ignores you.",
+    "zh_raw": "這生物無視了你。"
   },
   {
     "index": 2975,
@@ -66658,8 +66658,8 @@
     "tone": "fearful",
     "tone_instruct": " Speak with fear and nervousness.",
     "voice_prompt_zh": "性别：男性。年龄：中年。角色：Emp种族的村居居民。音高：中低音，略带沙哑的嗓音。语速：缓慢、谨慎，语句间有停顿。情绪：警觉而克制、温和但戒备。音色特征：略带沙哑、共鸣清晰、语调沉稳。语言：标准普通话。使用场景：在银叶林村中与人类角色对话，表达对森林与蜂蜜的顾虑。",
-    "en_raw": "The ape-like creature slowly and cautiously walks up to you. He, or she, sniffs for a moment, and then points to the honey you are carrying.",
-    "zh_raw": "像猿猴一樣的生物緩慢而小心地走向你。牠嗅了一會兒，然後指著你帶著的蜂蜜。"
+    "en_raw": "The creature ignores you.",
+    "zh_raw": "這生物無視了你。"
   },
   {
     "index": 3012,
@@ -67164,8 +67164,8 @@
     "tone": "fearful",
     "tone_instruct": " Speak with fear and nervousness.",
     "voice_prompt_zh": "性别：女性。年龄：年迈。角色：艾姆普族长老。音高：低沉、沙哑、略带颤音的女声。语速：缓慢、沉稳、带顿挫感。情绪：睿智、慈祥、略带疲惫。音色特征：沙哑、低沉、共鸣感弱、气息微弱。语言：标准普通话。使用场景：奇幻角色扮演中与玩家对话，讲述艾姆普族习俗与智慧。",
-    "en_raw": "The ape-like creature slowly and cautiously walks up to you. He, or she, sniffs for a moment, and then points to the honey you are carrying.",
-    "zh_raw": "像猿猴一樣的生物緩慢而小心地走向你。牠嗅了一會兒，然後指著你帶著的蜂蜜。"
+    "en_raw": "The creature ignores you.",
+    "zh_raw": "這生物無視了你。"
   },
   {
     "index": 3035,
@@ -90904,8 +90904,8 @@
     "tone": "neutral",
     "tone_instruct": "",
     "voice_prompt_zh": "性别：男性。年龄：约两百岁。角色：被诅咒的亡灵法师。音高：空灵、低沉、回荡感强的男声。语速：缓慢、断续、似从遥远传来。情绪：阴郁、孤寂、充满宿命感。音色特征：空洞、回响、略带破败感。语言：标准普通话。使用场景：奇幻角色扮演中亡灵法师与玩家对话或吟诵咒语。",
-    "en_raw": "Horance looks at you curiously, \"Thy task is done here in Skara Brae. Thou hast my respect and lifelong gratitude.\"",
-    "zh_raw": "Horance 好奇地看著你，「你在 Skara Brae 的任務已經完成了。你有我的敬意與畢生的感激。」"
+    "en_raw": "You attempt to speak to the undead creature, but it does not, or cannot, respond.",
+    "zh_raw": "你試圖與這不死生物說話，但它沒有任何反應。"
   },
   {
     "index": 4103,
@@ -91708,8 +91708,8 @@
     "tone": "neutral",
     "tone_instruct": "",
     "voice_prompt_zh": "性别：男性。年龄：四十多岁。角色：亡灵黑smith鬼魂。音高：低沉而嘶哑的男声，带有压抑的怒火。语速：急促、断续、充满执念，语调中夹杂焦躁与固执。情绪：极度执着、复仇心切、情绪失控但表面冷静。音色特征：沙哑、低沉、共鸣强烈，语句尾音常拖长如铁锤敲击。语言：标准普通话。使用场景：奇幻角色扮演中与玩家对话或独白，展现其被仇恨驱动的疯狂与机械性重复行为。",
-    "en_raw": "\"There. It is done. Now take the blasted thing to Mordra. She will instruct thee in its use.\"",
-    "zh_raw": "「好了。完成了。現在把這該死的東西帶給 Mordra。她會指導你如何使用。」"
+    "en_raw": "Trent glares, giving his eyes an intensity that leaves no doubt in your mind about his attitude. \"If I thought that thou wert going to run off at a moment's notice I'd not have asked thee to help me free my love.",
+    "zh_raw": "Trent 瞪著你，他的眼神中透露出一種強烈的情感，讓你對他的態度毫不懷疑。「如果我認為你會在接到通知的那一刻就跑掉，我就不會請求你幫我救出我的摯愛了。"
   },
   {
     "index": 4139,
@@ -106254,7 +106254,7 @@
     "voice_prompt_zh": "性别：男性。年龄：二十多岁至三十岁。角色：游历世界的商人兼收藏家。音高：温暖明亮的男声，略带沙哑质感。语速：轻快而富有节奏感，语调自然随和。情绪：热情、幽默、充满探索欲，带点旅人般的睿智。音色特征：圆润、共鸣清晰、带亲切感。语言：标准普通话。使用场景：角色扮演中与玩家互动分享冒险见闻或交易物品。",
     "en_text_raw": "\"'Twas a joke, <HONORIFIC>.\"",
     "zh_text_raw": "「這只是個玩笑，<HONORIFIC>。」",
-    "en_raw": "\"'Twas a joke, <HONORIFIC>.\"",
+    "en_raw": "\"It was a joke, <HONORIFIC>.\"",
     "zh_raw": "「這只是個玩笑，<HONORIFIC>。」"
   },
   {
@@ -160047,8 +160047,8 @@
     "tone": "neutral",
     "tone_instruct": "",
     "voice_prompt_zh": "性别：男性。年龄：四十多岁。角色：德鲁伊反派领袖。音高：低沉、共鸣强的男中音，带喉音沙哑质感。语速：缓慢、刻意，停顿强调阴险。情绪：冷峻说服力强、智力缜密、潜藏阴险。音色特征：砂砾感明显，低音略带气声。语言：标准普通话。使用场景：奇幻RPG中暗黑仪式或渗透场景对话。",
-    "en_raw": "The ceremony begins as Batlin stands before the gathered Fellowship members. The hall fills with thunderous cheers. They look at him with a mixture of awe and sheer adoration. Batlin stands and basks in the warm reception for a moment, a triumphant smile on his face. With a slight gesture of his hand the crowd becomes quiet.",
-    "zh_raw": "儀式開始了，巴特林站在聚集的友誼會成員面前。大廳裡充滿了雷鳴般的歡呼聲。他們以敬畏和純粹的崇拜交織的目光看著他。巴特林站著，在熱烈的歡迎中沐浴了片刻，臉上掛著勝利的微笑。他輕輕一揮手，人群便安靜了下來。"
+    "en_raw": "\"Avatar! Stop where thou art! Thou shalt not succeed in thy quest to destroy the Black Gate! Art thou mad??! The Guardian is much too powerful for thee! He shall crush thee like an insect! The fate of Britannia now belongs to him and to The Fellowship! The Guardian is the land's true ruler! Bow down to him, Avatar, and perhaps he shall give thee a place at his side. Bow down to him -now-!\"",
+    "zh_raw": "「聖者！停在原地！你休想成功摧毀黑門！你瘋了嗎？？！守護者對你來說太強大了！他會像捏死一隻蟲子一樣捏碎你！不列顛尼亞的命運現在屬於他和友誼會！守護者是這片土地真正的統治者！向他屈服吧，聖者，也許他會讓你在他身邊留有一席之地。向他屈服——就是現在——！」"
   },
   {
     "index": 7210,
@@ -160210,8 +160210,8 @@
     "tone": "questioning",
     "tone_instruct": " Speak with curiosity, rising intonation.",
     "voice_prompt_zh": "性别：男性。年龄：七十余岁。角色：流浪吟游诗人兼弓匠。音高：温暖略带沙哑的男中音。语速：缓慢、有韵律，歌词部分轻柔强调。情绪：温和、怀旧、略带怅惘。音色特征：柔润共鸣、带岁月磨砺的粗粝感。语言：标准普通话。使用场景：奇幻RPG对话、酒馆叙事、诗歌朗诵。",
-    "en_raw": "\"Feeling all right, man?\"",
-    "zh_raw": "「你沒事吧？」"
+    "en_raw": "\"I am gladdened to see thee still alive, my good friend. I was sorely grieved at thine apparent demise.",
+    "zh_raw": "「我的好朋友，我很高興看到你還活著。你看似死亡時，我感到非常悲痛。"
   },
   {
     "index": 7217,
@@ -161629,8 +161629,8 @@
     "tone": "neutral",
     "tone_instruct": "",
     "voice_prompt_zh": "性别：男性。年龄：五十多岁。角色：盲眼法师学者。音高：低沉、共鸣感强的男中音，带有神秘韵味。语速：缓慢、沉稳，语句间留有沉思停顿。情绪：沉静、哲思，略带居高临下的温和。音色特征：音质醇厚、略带砂砾感，强调典籍时带气声。语言：标准普通话。使用场景：奇幻RPG对话，发生在沉没岛屿或废墟城堡中。",
-    "en_raw": "Erethian's face begins to take on an ashen palor, but he looks contented with a job well done. \"As I have said, I myself once attempted to create an artifact of great power. I crafted the hilt from a dark substance that is immutable, save by magical means. The blade, however, is cast of an alloy of this substance and the purest metals known to Britannia. My artistic skills served me well enough to fashion the hilt but, alas, the strength was not in my arm to beat a good temper into the blade. Perhaps, thou canst finish this great artifact for me...\" He pulls a poorly worked blade with a fine hilt out of thin air. \"Fear not to touch the hilt when the blade is hot, for heat apparently does not travel well across the medium of the pure, black substance. I wish thee good luck.\"",
-    "zh_raw": "Erethian 的臉色轉為死灰，但他似乎對這件經由他之手完成的工作感到滿意。他那雙無神的眼睛轉向你，緩緩說道：「正如我所言，我本人曾嘗試打造一件擁有強大力量的神器。我以一種除魔法外便無法改變的深色物質製成了劍柄。然而，劍刃的部分，是由這種物質與不列顛尼亞所知最純淨的金屬合金鑄成。我的天賦足以讓我雕琢出這柄劍柄，但遺憾的是，我的臂力不足，無法將劍刃錘煉出完美的韌度。或許，你能替我完成這件偉大的神器...」他憑空取出一柄做工粗糙、但劍柄卻極為精緻的劍身。「當劍刃灼熱時，不必擔心觸碰劍柄，因為熱量似乎無法傳導過那種純淨的黑色物質。願好運與君同在。」"
+    "en_raw": "Erethian looks irritated by your question, \"'Tis not a hindrance for one\tsensitive enough to feel the ridges the ink makes on the page.",
+    "zh_raw": "這位法師的眼睛開始閃爍著柔和的光芒。「我的魔法強大到足以撕裂現實的結構，並按照我的意願重建它。」"
   },
   {
     "index": 7281,
@@ -162135,8 +162135,8 @@
     "tone": "neutral",
     "tone_instruct": "",
     "voice_prompt_zh": "性别：男性。年龄：五十多岁。角色：盲眼法师学者。音高：低沉、共鸣感强的男中音，带有神秘韵味。语速：缓慢、沉稳，语句间留有沉思停顿。情绪：沉静、哲思，略带居高临下的温和。音色特征：音质醇厚、略带砂砾感，强调典籍时带气声。语言：标准普通话。使用场景：奇幻RPG对话，发生在沉没岛屿或废墟城堡中。",
-    "en_raw": "Erethian's face begins to take on an ashen palor, but he looks contented with a job well done. \"As I have said, I myself once attempted to create an artifact of great power. I crafted the hilt from a dark substance that is immutable, save by magical means. The blade, however, is cast of an alloy of this substance and the purest metals known to Britannia. My artistic skills served me well enough to fashion the hilt but, alas, the strength was not in my arm to beat a good temper into the blade. Perhaps, thou canst finish this great artifact for me...\" He pulls a poorly worked blade with a fine hilt out of thin air. \"Fear not to touch the hilt when the blade is hot, for heat apparently does not travel well across the medium of the pure, black substance. I wish thee good luck.\"",
-    "zh_raw": "Erethian 的臉色轉為死灰，但他似乎對這件經由他之手完成的工作感到滿意。他那雙無神的眼睛轉向你，緩緩說道：「正如我所言，我本人曾嘗試打造一件擁有強大力量的神器。我以一種除魔法外便無法改變的深色物質製成了劍柄。然而，劍刃的部分，是由這種物質與不列顛尼亞所知最純淨的金屬合金鑄成。我的天賦足以讓我雕琢出這柄劍柄，但遺憾的是，我的臂力不足，無法將劍刃錘煉出完美的韌度。或許，你能替我完成這件偉大的神器...」他憑空取出一柄做工粗糙、但劍柄卻極為精緻的劍身。「當劍刃灼熱時，不必擔心觸碰劍柄，因為熱量似乎無法傳導過那種純淨的黑色物質。願好運與君同在。」"
+    "en_raw": "A look of grim determination comes to Erethian's lined features. He pushes up his sleeves like a blacksmith about to shoe a high strung horse,",
+    "zh_raw": "Erethian 佈滿皺紋的臉上露出冷酷堅決的神情。他捲起袖子，就像個準備為容易緊張的馬匹釘馬蹄鐵的鐵匠，"
   },
   {
     "index": 7304,
@@ -162223,8 +162223,8 @@
     "tone": "neutral",
     "tone_instruct": "",
     "voice_prompt_zh": "性别：男性。年龄：五十多岁。角色：盲眼法师学者。音高：低沉、共鸣感强的男中音，带有神秘韵味。语速：缓慢、沉稳，语句间留有沉思停顿。情绪：沉静、哲思，略带居高临下的温和。音色特征：音质醇厚、略带砂砾感，强调典籍时带气声。语言：标准普通话。使用场景：奇幻RPG对话，发生在沉没岛屿或废墟城堡中。",
-    "en_raw": "Erethian's face begins to take on an ashen palor, but he looks contented with a job well done. \"As I have said, I myself once attempted to create an artifact of great power. I crafted the hilt from a dark substance that is immutable, save by magical means. The blade, however, is cast of an alloy of this substance and the purest metals known to Britannia. My artistic skills served me well enough to fashion the hilt but, alas, the strength was not in my arm to beat a good temper into the blade. Perhaps, thou canst finish this great artifact for me...\" He pulls a poorly worked blade with a fine hilt out of thin air. \"Fear not to touch the hilt when the blade is hot, for heat apparently does not travel well across the medium of the pure, black substance. I wish thee good luck.\"",
-    "zh_raw": "Erethian 的臉色轉為死灰，但他似乎對這件經由他之手完成的工作感到滿意。他那雙無神的眼睛轉向你，緩緩說道：「正如我所言，我本人曾嘗試打造一件擁有強大力量的神器。我以一種除魔法外便無法改變的深色物質製成了劍柄。然而，劍刃的部分，是由這種物質與不列顛尼亞所知最純淨的金屬合金鑄成。我的天賦足以讓我雕琢出這柄劍柄，但遺憾的是，我的臂力不足，無法將劍刃錘煉出完美的韌度。或許，你能替我完成這件偉大的神器...」他憑空取出一柄做工粗糙、但劍柄卻極為精緻的劍身。「當劍刃灼熱時，不必擔心觸碰劍柄，因為熱量似乎無法傳導過那種純淨的黑色物質。願好運與君同在。」"
+    "en_raw": "Amidst muttered curses detailing the uselessness of ether and bothersome inter-dimensional beings, Erethian intones the magical words,",
+    "zh_raw": "在抱怨以太的無用和討厭的跨次元生物的低聲咒罵中，Erethian 吟唱起魔法咒語，"
   },
   {
     "index": 7308,
@@ -165238,8 +165238,8 @@
     "tone_instruct": "",
     "zh_func_id": "0x0842",
     "en_func_id": "0x0842",
-    "en_raw": "\"'Tis thine!\"",
-    "zh_raw": "「那是你的了！」"
+    "en_raw": "\"It is thine!\"",
+    "zh_raw": "「這是你的了！」"
   },
   {
     "index": 7450,
@@ -165751,8 +165751,8 @@
     "tone": "neutral",
     "tone_instruct": "",
     "voice_prompt_zh": "性别：男性。年龄：四十多岁。角色：德鲁伊反派领袖。音高：低沉、共鸣强的男中音，带喉音沙哑质感。语速：缓慢、刻意，停顿强调阴险。情绪：冷峻说服力强、智力缜密、潜藏阴险。音色特征：砂砾感明显，低音略带气声。语言：标准普通话。使用场景：奇幻RPG中暗黑仪式或渗透场景对话。",
-    "en_raw": "The ceremony begins as Batlin stands before the gathered Fellowship members. The hall fills with thunderous cheers. They look at him with a mixture of awe and sheer adoration. Batlin stands and basks in the warm reception for a moment, a triumphant smile on his face. With a slight gesture of his hand the crowd becomes quiet.",
-    "zh_raw": "儀式開始了，巴特林站在聚集的友誼會成員面前。大廳裡充滿了雷鳴般的歡呼聲。他們以敬畏和純粹的崇拜交織的目光看著他。巴特林站著，在熱烈的歡迎中沐浴了片刻，臉上掛著勝利的微笑。他輕輕一揮手，人群便安靜了下來。"
+    "en_raw": "\"These questions are all hypothetical. Do not let them confuse or upset thee.",
+    "zh_raw": "「這些問題都是假設性的。不要讓它們使你困惑或不安。"
   },
   {
     "index": 7474,
@@ -176210,8 +176210,8 @@
     "tone": "neutral",
     "tone_instruct": "",
     "voice_prompt_zh": "性别：男性。年龄：古老石像，约数百岁。角色：守护神祇的石像守卫。音高：低沉、粗粝、如古石共鸣。语速：缓慢、沉重、带停顿，语调沉重如千载悲恸。情绪：沉痛、哀伤、忠诚、孤寂。音色特征：沙哑、厚重、共鸣感强、语句如石块碰撞般沉稳。语言：标准普通话。使用场景：奇幻角色扮演中守护遗迹或神殿的石像角色对玩家或NPC倾诉悲情。",
-    "en_raw": "Adjhar appears to have resumed the stance of a more traditional golem guardian -- staunch and distant. However, it is impossible to miss the glimmer of intelligence in his eyes.",
-    "zh_raw": "Adjhar 似乎恢復了傳統魔像守衛的姿態——堅定而疏遠。然而，你不可能錯過他眼中閃爍的智慧光芒。"
+    "en_raw": "\"'Tis as I suspected. Bollux thought he must sacrifice his own heart to return my life.\"",
+    "zh_raw": "「正如我所料。Bollux 以為他必須犧牲自己的心臟才能讓我復活。」"
   },
   {
     "index": 7957,
@@ -176672,8 +176672,8 @@
     "tone": "neutral",
     "tone_instruct": "",
     "voice_prompt_zh": "性别：男性。角色：石像鬼守卫。音高：低沉浑厚的男声，带有石质共鸣感。语速：缓慢、庄严、语句间有沉稳停顿。情绪：悲悯而庄重，充满忠诚与哀伤。音色特征：略带沙哑、质感厚重、如石与记忆的回响。语言：标准普通话。使用场景：奇幻角色扮演中石像鬼守卫对玩家或NPC讲话。",
-    "en_raw": "The golem seems to have regained his staid composure. However, life is still evident within his gem-like eyes.",
-    "zh_raw": "魔像似乎恢復了牠穩重的鎮定。然而，牠寶石般的眼睛裡依然閃爍著生命的光芒。"
+    "en_raw": "\"I -must- return his life to him. He -will- have a new heart!\" The determination is quite evident by his forceful glare and stance.",
+    "zh_raw": "「我『必須』把生命還給他。他『一定』會有一顆新的心臟！」他強而有力的凝視和站姿，顯然表露出他的決心。"
   },
   {
     "index": 7978,
@@ -177354,8 +177354,8 @@
     "tone": "neutral",
     "tone_instruct": "",
     "voice_prompt_zh": "性别：男性。角色：石像鬼守卫。音高：低沉浑厚的男声，带有石质共鸣感。语速：缓慢、庄严、语句间有沉稳停顿。情绪：悲悯而庄重，充满忠诚与哀伤。音色特征：略带沙哑、质感厚重、如石与记忆的回响。语言：标准普通话。使用场景：奇幻角色扮演中石像鬼守卫对玩家或NPC讲话。",
-    "en_raw": "The golem seems to have regained his staid composure. However, life is still evident within his gem-like eyes.",
-    "zh_raw": "魔像似乎恢復了牠穩重的鎮定。然而，牠寶石般的眼睛裡依然閃爍著生命的光芒。"
+    "en_raw": "Bollux stares ahead, almost vacantly. Despite his features and lack of motion, it is apparent by his expression that some of Castambre's magic still resides within.",
+    "zh_raw": "Bollux 幾乎是茫然地直視著前方。儘管他的面容和缺乏動作，但從他的表情可以明顯看出 Castambre 的一些魔法仍然殘留在體內。"
   },
   {
     "index": 8009,
@@ -181966,8 +181966,8 @@
     "tone": "neutral",
     "tone_instruct": "",
     "voice_prompt_zh": "性别：男性。年龄：约两百岁。角色：被诅咒的亡灵法师。音高：空灵、低沉、回荡感强的男声。语速：缓慢、断续、似从遥远传来。情绪：阴郁、孤寂、充满宿命感。音色特征：空洞、回响、略带破败感。语言：标准普通话。使用场景：奇幻角色扮演中亡灵法师与玩家对话或吟诵咒语。",
-    "en_raw": "Horance looks at you curiously, \"Thy task is done here in Skara Brae. Thou hast my respect and lifelong gratitude.\"",
-    "zh_raw": "Horance 好奇地看著你，「你在 Skara Brae 的任務已經完成了。你有我的敬意與畢生的感激。」"
+    "en_raw": "\"Is there a problem? Art thou confounded by thy task?\"",
+    "zh_raw": "「有什麼問題嗎？你對你的任務感到困惑嗎？」"
   },
   {
     "index": 8220,
@@ -182162,8 +182162,8 @@
     "tone": "neutral",
     "tone_instruct": "",
     "voice_prompt_zh": "性别：男性。年龄：约两百岁。角色：被诅咒的亡灵法师。音高：空灵、低沉、回荡感强的男声。语速：缓慢、断续、似从遥远传来。情绪：阴郁、孤寂、充满宿命感。音色特征：空洞、回响、略带破败感。语言：标准普通话。使用场景：奇幻角色扮演中亡灵法师与玩家对话或吟诵咒语。",
-    "en_raw": "Horance looks at you curiously, \"Thy task is done here in Skara Brae. Thou hast my respect and lifelong gratitude.\"",
-    "zh_raw": "Horance 好奇地看著你，「你在 Skara Brae 的任務已經完成了。你有我的敬意與畢生的感激。」"
+    "en_raw": "\"Once again, Avatar, thou hast proven that thou art ever the defender of Britannia and the innocent. I cannot adequately express my gratitude; however, please take this small token of my thanks. I hope it will help thee in thy quest.\"",
+    "zh_raw": "「聖者，你再次證明了你始終是不列顛尼亞和無辜者的守護者。我無法充分表達我的感激之情；然而，請收下這份小小的謝禮。我希望它能在你的任務中幫助到你。」"
   },
   {
     "index": 8229,
