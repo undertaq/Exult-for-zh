@@ -1,4 +1,4 @@
-en_func_id,en_offset_key,en_segment,en_text,zh_func_id,zh_offset_key,zh_segment
+﻿en_func_id,en_offset_key,en_segment,en_text,zh_func_id,zh_offset_key,zh_segment
 0x009A,81,0,"""I'll speak to thee no more, Avatar!"" He ignores you.",0x009A,88,0
 0x009A,b8_113,0,"At your approach, the old man straightens and looking directly at you he says, ""Well met, <PLAYER_NAME>. I am called Erethian. Although thou dost not know me, I know thee well.",0x009A,c9_11b,0
 0x009A,15d,0,"I have seen thee destroy Mondain's power and so defeat that misguided mage, I have seen thee vanquish the enchantress Minax, I have also seen, in a very unique way, how thou brought low the hellspawn Exodus.""",0x009A,16e,0
@@ -8709,3 +8709,5 @@ en_func_id,en_offset_key,en_segment,en_text,zh_func_id,zh_offset_key,zh_segment
 0x0953,143,0,"""Wouldst thou like something else?""",0x0953,10e,0
 0x06FA,0,0,"""It would seem the nearby island is not at all stable.""",0x06FA,0,0
 0x06FA,38,0,"""All is not right in Britannia. Perhaps Lord British will know the reason behind this tremor.""",0x06FA,38,0
+0x0903,0_7,,,0x0903,0_9,
+0x0903,38_7,,,0x0903,38_9,

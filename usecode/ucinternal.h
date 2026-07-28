@@ -86,10 +86,14 @@ class Usecode_internal : public Usecode_machine {
 	int        saved_map       = -1;              // Improvements for these intrinsics.
 	char*      String          = nullptr;         // The single string register.
 
-	// Voice acting: tracks how the String register was built via addsi/addsv.
-	// Each entry is (func_id, offset) where offset >= 0 is addsi, or VOICE_TRACE_ADDSV.
-	static constexpr int VOICE_TRACE_ADDSV = -1;    // Marker for variable insertion.
-	std::vector<std::pair<int, int>> voice_string_trace;  // (func_id, offset) pairs.
+	// Voice acting: tracks how the String register was built via addsi/addsv/pushs.
+	// Each entry is (func_id, raw) where:
+	//   raw >= 0             → addsi at byte offset `raw`
+	//   raw == VOICE_TRACE_ADDSV → addsv (variable insertion, skipped in key)
+	//   raw & VOICE_TRACE_PUSHS_FLAG → pushs at byte offset (raw & ~FLAG) from a CALLER function
+	static constexpr int VOICE_TRACE_ADDSV      = -1;             // Marker for variable insertion.
+	static constexpr int VOICE_TRACE_PUSHS_FLAG = 0x40000000;     // Flag: entry is from a pushs trace.
+	std::vector<std::pair<int, int>> voice_string_trace;  // (func_id, offset/raw) pairs.
 	static constexpr int VOICE_NO_FACE = -999;          // Sentinel: no face has been set yet.
 	int                  voice_current_face_npc = VOICE_NO_FACE; // NPC whose face is currently shown (via show_npc_face).
 

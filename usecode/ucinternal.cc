@@ -630,16 +630,30 @@ void Usecode_internal::say_string() {
 	                            ? voice_current_face_npc
 	                            : voice_caller_npc;
 
-	// Build the offset key from addsi trace, filtering to only entries
-	// from the current function (ignoring offsets from parent callers).
+	// Build the offset key from the voice_string_trace. Includes addsi
+	// entries from the current function plus pushs entries from caller
+	// functions (e.g. egg-triggered barks where the egg pushes text then
+	// calls the speech function).
 	std::string voice_offset_key;
-	for (const auto& [fid, off] : voice_string_trace) {
-		if (fid != voice_func_id) {
-			continue;    // Skip entries from other functions.
+	for (const auto& [fid, off_raw] : voice_string_trace) {
+		if (off_raw == VOICE_TRACE_ADDSV) {
+			continue;    // Skip variable insertions always.
 		}
-		if (off == VOICE_TRACE_ADDSV) {
-			continue;    // Skip variable insertions.
+		const bool is_pushtrace = (off_raw & VOICE_TRACE_PUSHS_FLAG) != 0;
+		if (fid == voice_func_id) {
+			// Same-function: only include addsi entries.
+			if (is_pushtrace) {
+				continue;    // Skip pushs from the current function.
+			}
+		} else {
+			// Other-function: only include pushs entries (from egg caller).
+			if (!is_pushtrace) {
+				continue;    // Skip addsi entries from other functions.
+			}
 		}
+		const int off = is_pushtrace
+			                ? (off_raw & ~VOICE_TRACE_PUSHS_FLAG)
+			                : off_raw;
 		if (!voice_offset_key.empty()) {
 			voice_offset_key += "_";
 		}
@@ -2374,6 +2388,8 @@ int Usecode_internal::run() {
 					DATA_SEGMENT_ERROR();
 					break;
 				}
+				voice_string_trace.push_back({frame->function->id,
+											  offset | VOICE_TRACE_PUSHS_FLAG});
 				pushs(frame->data + offset);
 				break;
 			case UC_ARRC: {    // ARRC.
