@@ -8908,3 +8908,5 @@ func_id,npc,speaker,caller_guess,offset_key,segment,total_segments,has_var,text
 0x0953,,,Zorn,0xf0,0,1,False,"""Thou cannot possibly carry that much!"""
 0x0953,,,Zorn,0x118,0,1,False,"""Thou dost not have enough gold for that!"""
 0x0953,,,Zorn,0x143,0,1,False,"""Wouldst thou like something else?"""
+0x06FA,,,,0x0,0,1,False,"""It would seem the nearby island is not at all stable."""
+0x06FA,,,,0x38,0,1,False,"""All is not right in Britannia. Perhaps Lord British will know the reason behind this tremor."""

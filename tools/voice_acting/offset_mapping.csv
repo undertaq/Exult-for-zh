@@ -8707,3 +8707,5 @@ en_func_id,en_offset_key,en_segment,en_text,zh_func_id,zh_offset_key,zh_segment
 0x0953,f0,0,"""Thou cannot possibly carry that much!""",0x0953,c4,0
 0x0953,118,0,"""Thou dost not have enough gold for that!""",0x0953,ec,0
 0x0953,143,0,"""Wouldst thou like something else?""",0x0953,10e,0
+0x06FA,0,0,"""It would seem the nearby island is not at all stable.""",0x06FA,0,0
+0x06FA,38,0,"""All is not right in Britannia. Perhaps Lord British will know the reason behind this tremor.""",0x06FA,38,0
