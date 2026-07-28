@@ -166,6 +166,15 @@ python tools/voice_acting/pack_voice.py pack \
 2. `config/gameplay/language`（遊戲語言，作為備援）
 3. 預設值：`"zh"`
 
+## 在遊戲中切換語音語言
+
+1. 開啟 **Audio Options** 選單（Esc → Audio Options）
+2. 找到 **Speech Language** 設定項
+3. 選擇 `zh`（中文）或 `en`（英文）
+4. 遊戲會立即切換語音語言，後續對話將使用新語言的語音
+
+切換語言時，系統會自動重新載入對應語言的封裝檔（如 `en_voices.pak` ↔ `zh_voices.pak`）。
+
 ## 跨語言語音支援
 
 當使用雙語模式時（`bilingual_manager`），語音系統會自動對應中英文 usecode 的差異：
