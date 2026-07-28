@@ -8571,7 +8571,7 @@ en_func_id,en_offset_key,en_segment,en_text,zh_func_id,zh_offset_key,zh_segment
 0x08F8,15,0,"""I will carry some.""",0x08F8,17,0
 0x08F8,2a,0,"""I will carry some, as well.""",0x08F8,33,0
 0x0903,0,0,"""Oink""",0x0903,0,0
-0x0903,7,0,<VAR>,0x0903,9,0
+0x0903,7,0,"""All is not right in Britannia. Perhaps Lord British will know the reason behind this tremor.""",0x0903,9,0
 0x0919,0,0,"""The Fellowship is a society of spiritual seekers who strive to reach the highest levels of human potential and to share this philosophy freely with all people. The Fellowship was formed twenty years ago by Batlin with the full approval and support of Lord British.""",0x0919,0,0
 0x0919,10b,0,"""The Fellowship is a wonderful organization that is open to all the people of Britannia. I have learned so much through studying its philosophy and it has helped me to live my life to the fullest. Through The Fellowship I am able to achieve what I have set out to do in life and I am a better person for having joined.""",0x0919,ee,0
 0x0919,24b,0,"""The Fellowship is the philosophical group devoted to the teachings of a truly great man named Batlin. In the absence of the Avatar, Batlin has become a sort of spiritual father for the people of Britannia. Through his speeches and writings he has changed the lives of many people, including my own.""",0x0919,200,0

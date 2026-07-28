@@ -194805,14 +194805,14 @@
   },
   {
     "index": 8813,
-    "npc": "UNKNOWN",
+    "npc": "Iolo",
     "zh_offset_key": "9",
     "zh_segment": 0,
-    "zh_text": "聖者",
+    "zh_text": "「不列顛尼亞似乎有些不對勁。也許不列顛王會知道這場地震背後的原因。」",
     "en_offset_key": "7",
     "en_segment": 0,
-    "en_text": "Avatar",
-    "confidence": "order_based",
+    "en_text": "\"All is not right in Britannia. Perhaps Lord British will know the reason behind this tremor.\"",
+    "confidence": "manual",
     "voice_gender": "",
     "voice_age": "",
     "voice_prompt": "",
@@ -194821,11 +194821,8 @@
     "tone_instruct": "",
     "zh_func_id": "0x0903",
     "en_func_id": "0x0903",
-    "zh_text_raw": "<VAR>",
-    "en_text_raw": "<VAR>",
-    "var_class": "player_name",
-    "en_raw": "<VAR>",
-    "zh_raw": "<VAR>"
+    "en_raw": "\"All is not right in Britannia. Perhaps Lord British will know the reason behind this tremor.\"",
+    "zh_raw": "「不列顛尼亞似乎有些不對勁。也許不列顛王會知道這場地震背後的原因。」"
   },
   {
     "index": 8814,

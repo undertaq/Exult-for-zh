@@ -8764,7 +8764,7 @@ func_id,npc,speaker,caller_guess,offset_key,segment,total_segments,has_var,text
 0x08F8,,,Ansikart|Apollonia|Aurvidlem|Betra|Boris|Budo|Carlyn|Coop|Daphne|Dell|Denton|Eldroth|Forbrak|Fred|Gaye|Glenno|Grayson|Greg|Inforlem|Jeanette|Jehanne|Jordan|Kelly|Kessler|Kliftin|Lucy|Mandy|Mariah|Nicodemus|Nystul|Phearcy|Polly|Richter|Rudyom|Rutherford|Sarpling|Sean|Willy|Wis Sur|Yongi|Zinaida|Zorn,0x17,0,1,False,「我來拿一些吧。」
 0x08F8,,,Ansikart|Apollonia|Aurvidlem|Betra|Boris|Budo|Carlyn|Coop|Daphne|Dell|Denton|Eldroth|Forbrak|Fred|Gaye|Glenno|Grayson|Greg|Inforlem|Jeanette|Jehanne|Jordan|Kelly|Kessler|Kliftin|Lucy|Mandy|Mariah|Nicodemus|Nystul|Phearcy|Polly|Richter|Rudyom|Rutherford|Sarpling|Sean|Willy|Wis Sur|Yongi|Zinaida|Zorn,0x33,0,1,False,「我也來拿一些吧。」
 0x0903,,,,0x0,0,1,False,"""呼嚕"""
-0x0903,,,,0x9,0,1,True,<VAR>
+0x0903,Iolo,,,0x9,0,1,True,「不列顛尼亞似乎有些不對勁。也許不列顛王會知道這場地震背後的原因。」
 0x0919,,,Caroline|Dell|Figg|Garritt|Gaye|Gordon|Klog|Merrick|Millie|Nanna|Owen|Rankin|Richter|Sasha|Sean|Seara|William,0x0,0,1,False,「友誼會是一個由心靈探索者組成的協會，致力於激發人類最高的潛能，並與所有人無私地分享這種理念。友誼會是在二十年前由巴特林在不列顛王的全力批准和支持下成立的。」
 0x0919,,,Caroline|Dell|Figg|Garritt|Gaye|Gordon|Klog|Merrick|Millie|Nanna|Owen|Rankin|Richter|Sasha|Sean|Seara|William,0xee,0,1,False,「友誼會是一個向所有不列顛尼亞人民開放的美妙組織。透過學習其理念，我學到了很多，這幫助我過上了最充實的生活。透過友誼會，我能夠實現我在生活中的目標，並且因為加入而成為一個更好的人。」
 0x0919,,,Caroline|Dell|Figg|Garritt|Gaye|Gordon|Klog|Merrick|Millie|Nanna|Owen|Rankin|Richter|Sasha|Sean|Seara|William,0x200,0,1,False,「友誼會是一個致力於一位名叫巴特林的偉人教導的理念團體。在聖者不在的日子裡，巴特林成了不列顛尼亞人民的一種精神之父。透過他的演講和著作，他改變了許多人的生活，包括我自己的生活。」
