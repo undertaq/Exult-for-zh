@@ -452,10 +452,23 @@ bool VoiceActingManager::play_for_conversation(
 
 	ensure_packed_loaded();
 
+	// Build offset key variants for fallback: the compound key may include
+	// pushs entries from callers; try progressively simpler suffixes.
+	auto offset_key_variants = [&]() {
+		std::vector<std::string> variants;
+		variants.push_back(offset_key);
+		std::string::size_type p = 0;
+		while ((p = offset_key.find('_', p)) != std::string::npos) {
+			p++;
+			variants.push_back(offset_key.substr(p));
+		}
+		return variants;
+	};
+
 	char func_hex[16];
 	std::snprintf(func_hex, sizeof(func_hex), "%04x", function_id);
-	string base = string(func_hex) + "_" + offset_key + "_"
-				  + std::to_string(segment);
+	string base;
+	std::string fallback_offset_key = offset_key;
 
 	// Cross-language voice lookup: when the active usecode (determined by text
 	// language) uses different function IDs / offset keys than the voice files in
@@ -467,27 +480,40 @@ bool VoiceActingManager::play_for_conversation(
 			|| (cur_voice_lang == "zh" && text_lang == TextLanguage::ENGLISH))) {
 		TextLanguage from_lang
 				= (cur_voice_lang == "en") ? TextLanguage::CHINESE : TextLanguage::ENGLISH;
-		int			target_func_id;
-		std::string target_offset_key;
-		int			target_segment;
-		if (BilingualManager::get().map_offset(from_lang, function_id,
-											   offset_key, segment, target_func_id,
-											   target_offset_key, target_segment)) {
+		int			 target_func_id;
+		std::string  target_offset_key;
+		int			 target_segment;
+		bool		 mapped = false;
+		for (const auto& key_var : offset_key_variants()) {
+			if (BilingualManager::get().map_offset(from_lang, function_id,
+												   key_var, segment, target_func_id,
+												   target_offset_key, target_segment)) {
+				pout << "[VoiceActing] Cross-language lookup: "
+					 << (cur_voice_lang == "en" ? "zh→en" : "en→zh")
+					 << " (func " << std::hex << function_id << " → " << target_func_id
+					 << std::dec << ", offset " << key_var << " → " << target_offset_key
+					 << ", segment " << segment << " → " << target_segment << ")"
+					 << std::endl;
+				mapped = true;
+				break;
+			}
+		}
+		if (mapped) {
 			char target_hex[16];
 			std::snprintf(target_hex, sizeof(target_hex), "%04x", target_func_id);
 			base = std::string(target_hex) + "_" + target_offset_key + "_"
 				   + std::to_string(target_segment);
-			const char* dir_label = (cur_voice_lang == "en") ? "zh→en" : "en→zh";
-			pout << "[VoiceActing] Cross-language lookup: " << dir_label
-				 << " (func " << std::hex << function_id << " → " << target_func_id
-				 << std::dec << ", offset " << offset_key << " → " << target_offset_key
-				 << ", segment " << segment << " → " << target_segment << ")"
-				 << std::endl;
+			fallback_offset_key = target_offset_key;
 		} else {
 			pout << "[VoiceActing] Cross-language lookup failed for func "
 				 << std::hex << function_id << std::dec
 				 << ", offset " << offset_key << ", segment " << segment << std::endl;
 		}
+	}
+
+	if (base.empty()) {
+		base = string(func_hex) + "_" + offset_key + "_"
+			   + std::to_string(segment);
 	}
 
 	// Try packed archive first.
@@ -559,10 +585,28 @@ bool VoiceActingManager::play_for_conversation(
 
 	// Fall back to generic file.
 	if (!exists) {
-		exists = find_voice_file(base, path);
-		if (exists) {
-			filename = path.substr(path.find_last_of("/\\") + 1);
-		} else {
+		for (const auto& key_var : offset_key_variants()) {
+			string variant_base = string(func_hex) + "_" + key_var + "_"
+								  + std::to_string(segment);
+			// Try NPC-specific first.
+			if (speaker_npc != 0) {
+				char npc_suffix[16];
+				std::snprintf(npc_suffix, sizeof(npc_suffix), "_npc%d",
+							  speaker_abs);
+				exists = find_voice_file(variant_base + npc_suffix, path);
+				if (exists) {
+					filename = path.substr(path.find_last_of("/\\") + 1);
+					break;
+				}
+			}
+			// Try generic.
+			exists = find_voice_file(variant_base, path);
+			if (exists) {
+				filename = path.substr(path.find_last_of("/\\") + 1);
+				break;
+			}
+		}
+		if (!exists) {
 			filename = base + ".wav";
 		}
 	}
