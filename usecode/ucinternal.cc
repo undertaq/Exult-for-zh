@@ -637,28 +637,19 @@ void Usecode_internal::say_string() {
 	std::string voice_offset_key;
 	for (const auto& [fid, off_raw] : voice_string_trace) {
 		if (off_raw == VOICE_TRACE_ADDSV) {
-			continue;    // Skip variable insertions always.
+			continue;    // Skip variable insertions.
 		}
-		const bool is_pushtrace = (off_raw & VOICE_TRACE_PUSHS_FLAG) != 0;
-		if (fid == voice_func_id) {
-			// Same-function: only include addsi entries.
-			if (is_pushtrace) {
-				continue;    // Skip pushs from the current function.
-			}
-		} else {
-			// Other-function: only include pushs entries (from egg caller).
-			if (!is_pushtrace) {
-				continue;    // Skip addsi entries from other functions.
-			}
+		if (fid != voice_func_id) {
+			continue;    // Only entries from the current function.
 		}
-		const int off = is_pushtrace
-			                ? (off_raw & ~VOICE_TRACE_PUSHS_FLAG)
-			                : off_raw;
+		if (off_raw & VOICE_TRACE_PUSHS_FLAG) {
+			continue;    // Skip pushs, only addsi entries.
+		}
 		if (!voice_offset_key.empty()) {
 			voice_offset_key += "_";
 		}
 		char hexbuf[16];
-		std::snprintf(hexbuf, sizeof(hexbuf), "%x", off);
+		std::snprintf(hexbuf, sizeof(hexbuf), "%x", off_raw);
 		voice_offset_key += hexbuf;
 	}
 	voice_string_trace.clear();
