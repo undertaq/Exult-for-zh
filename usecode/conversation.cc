@@ -366,6 +366,18 @@ void Conversation::show_npc_message(const char* msg) {
 	if (last_face_shown == -1) {
 		return;
 	}
+	// Strip leading/trailing '@' usecode string delimiters
+	// (original USECODE uses @...@, e.g. pushs + call 0x08FF path).
+	std::string clean;
+	const char* display = msg;
+	if (msg && msg[0] == '@') {
+		clean = msg;
+		if (clean.front() == '@')
+			clean.erase(0, 1);
+		if (!clean.empty() && clean.back() == '@')
+			clean.pop_back();
+		display = clean.c_str();
+	}
 	// Voice playback is now triggered from say_string() in ucinternal.cc
 	// using usecode function ID + segment index as the key.
 	// Wait for any sprite effects to finish before showing text.
@@ -397,7 +409,7 @@ void Conversation::show_npc_message(const char* msg) {
 	info->cur_text      = "";
 
 	bool has_chinese = false;
-	for (const char* p = msg; p && *p; p++) {
+	for (const char* p = display; p && *p; p++) {
 		if (static_cast<unsigned char>(*p) >= 0x80) {
 			has_chinese = true;
 			break;
@@ -433,21 +445,21 @@ void Conversation::show_npc_message(const char* msg) {
 
 	int shading = info->large_face ? -1 : gwin->get_text_bg();
 	/* NOTE:  The original centers text for Guardian, snake.    */
-	while ((height = sman->paint_text_box(font, msg, box.x, box.y, box.w, render_box_h, -1, true, info->large_face, shading))
+	while ((height = sman->paint_text_box(font, display, box.x, box.y, box.w, render_box_h, -1, true, info->large_face, shading))
 		   < 0) {
 		// More to do?
-		info->cur_text = string(msg, -height);
+		info->cur_text = string(display, -height);
 		int  x;
 		int  y;
 		char c;
 		gwin->paint();    // Paint scenery beneath
 		Get_click(x, y, Mouse::hand, &c, false, this, true);
 		gwin->paint();
-		msg += -height;
+		display += -height;
 	}
 	// All fit?  Store height painted.
 	info->last_text_height = height;
-	info->cur_text         = msg;
+	info->cur_text         = display;
 	info->text_pending     = true;
 	gwin->set_painted();
 	//	gwin->show();

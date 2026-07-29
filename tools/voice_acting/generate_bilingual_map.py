@@ -61,8 +61,7 @@ def normalize_segment(value, field_name):
 def load_canonical_mappings(review_path):
     rows = json.loads(Path(review_path).read_text(encoding="utf-8"))
     mappings = []
-    seen_zh = {}
-    seen_en = {}
+    seen_keys = set()
 
     for index, row in enumerate(rows, start=1):
         if not (has_text(row.get("en_text")) and has_text(row.get("zh_text"))):
@@ -80,23 +79,14 @@ def load_canonical_mappings(review_path):
         )
         en_segment = normalize_segment(row.get("en_segment"), f"row {index} en_segment")
         zh_segment = normalize_segment(row.get("zh_segment"), f"row {index} zh_segment")
-        if en_segment != zh_segment:
-            raise ValueError(
-                f"row {index} has different EN/ZH segments: "
-                f"en={en_segment}, zh={zh_segment}"
-            )
 
-        mapping = (zh_func_id, zh_offset_key, zh_segment, en_func_id, en_offset_key)
-        zh_key = mapping[:3]
+        mapping = (zh_func_id, zh_offset_key, zh_segment, en_func_id, en_offset_key, en_segment)
+        zh_key = (zh_func_id, zh_offset_key, zh_segment)
         en_key = (en_func_id, en_offset_key, en_segment)
-        if zh_key in seen_zh and seen_zh[zh_key] != mapping:
-            raise ValueError(f"row {index} conflicts with prior ZH runtime key {zh_key}")
-        if en_key in seen_en and seen_en[en_key] != mapping:
-            raise ValueError(f"row {index} conflicts with prior EN runtime key {en_key}")
-        if zh_key in seen_zh or en_key in seen_en:
+        pair_key = (zh_key, en_key)
+        if pair_key in seen_keys:
             continue
-        seen_zh[zh_key] = mapping
-        seen_en[en_key] = mapping
+        seen_keys.add(pair_key)
         mappings.append(mapping)
 
     return mappings
@@ -106,14 +96,16 @@ def write_blmp(mappings, output_path):
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with output_path.open("wb") as f:
-        f.write(b"BLMP")
+        f.write(b"BLM2")
         f.write(struct.pack("<I", len(mappings)))
-        for zh_func_id, zh_offset_key, segment, en_func_id, en_offset_key in mappings:
+        for (zh_func_id, zh_offset_key, zh_segment,
+             en_func_id, en_offset_key, en_segment) in mappings:
             f.write(struct.pack("<i", zh_func_id))
             f.write(zh_offset_key.encode("utf-8") + b"\0")
-            f.write(struct.pack("<H", segment))
+            f.write(struct.pack("<H", zh_segment))
             f.write(struct.pack("<i", en_func_id))
             f.write(en_offset_key.encode("utf-8") + b"\0")
+            f.write(struct.pack("<H", en_segment))
 
 
 def main(argv=None):

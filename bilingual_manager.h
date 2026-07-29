@@ -13,9 +13,10 @@ enum class TextLanguage { ENGLISH = 0, CHINESE = 1 };
 struct VoiceMapping {
     int zh_func_id;
     std::string zh_offset_key;
-    int segment;
+    int zh_segment;
     int en_func_id;
     std::string en_offset_key;
+    int en_segment;
 };
 
 class BilingualManager {

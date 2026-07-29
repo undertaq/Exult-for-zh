@@ -88,14 +88,16 @@ void BilingualManager::load_bilingual_map() {
 
         char header[4];
         file.read(header, 4);
-        if (std::memcmp(header, "BLMP", 4) != 0) {
+        bool is_v2 = std::memcmp(header, "BLM2", 4) == 0;
+        if (!is_v2 && std::memcmp(header, "BLMP", 4) != 0) {
             std::cerr << "[Bilingual] Invalid map header" << std::endl;
             return;
         }
 
         uint32_t count;
         file.read(reinterpret_cast<char*>(&count), 4);
-        std::cout << "[Bilingual] Loading " << count << " voice mappings" << std::endl;
+        std::cout << "[Bilingual] Loading " << count << " voice mappings (v"
+                  << (is_v2 ? "2" : "1") << ")" << std::endl;
 
         bilingual_map.reserve(count);
         for (uint32_t i = 0; i < count; i++) {
@@ -106,10 +108,18 @@ void BilingualManager::load_bilingual_map() {
 
             uint16_t segment_raw;
             file.read(reinterpret_cast<char*>(&segment_raw), 2);
-            m.segment = segment_raw;
+            m.zh_segment = segment_raw;
 
             file.read(reinterpret_cast<char*>(&m.en_func_id), 4);
             std::getline(file, m.en_offset_key, '\0');
+
+            if (is_v2) {
+                uint16_t en_segment_raw;
+                file.read(reinterpret_cast<char*>(&en_segment_raw), 2);
+                m.en_segment = en_segment_raw;
+            } else {
+                m.en_segment = segment_raw;
+            }
 
             bilingual_map.push_back(std::move(m));
         }
@@ -152,20 +162,20 @@ bool BilingualManager::map_offset(TextLanguage from_lang, int func_id,
     if (from_lang == TextLanguage::CHINESE) {
         for (const auto& m : bilingual_map) {
             if (m.zh_func_id == func_id && m.zh_offset_key == offset_key
-                    && m.segment == segment) {
+                    && m.zh_segment == segment) {
                 out_func_id = m.en_func_id;
                 out_offset_key = m.en_offset_key;
-                out_segment = m.segment;
+                out_segment = m.en_segment;
                 return true;
             }
         }
     } else if (from_lang == TextLanguage::ENGLISH) {
         for (const auto& m : bilingual_map) {
             if (m.en_func_id == func_id && m.en_offset_key == offset_key
-                    && m.segment == segment) {
+                    && m.en_segment == segment) {
                 out_func_id = m.zh_func_id;
                 out_offset_key = m.zh_offset_key;
-                out_segment = m.segment;
+                out_segment = m.zh_segment;
                 return true;
             }
         }
