@@ -27,6 +27,33 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 class One_note;
 
+enum class NoteCategory {
+	GENERAL = 0,
+	QUEST,
+	CLUE,
+	LOCATION,
+	NPC
+};
+
+inline const char* note_category_to_string(NoteCategory cat) {
+	switch (cat) {
+		case NoteCategory::QUEST: return "quest";
+		case NoteCategory::CLUE: return "clue";
+		case NoteCategory::LOCATION: return "location";
+		case NoteCategory::NPC: return "npc";
+		default: return "general";
+	}
+}
+
+inline NoteCategory string_to_note_category(const std::string& str) {
+	if (str == "quest") return NoteCategory::QUEST;
+	if (str == "clue") return NoteCategory::CLUE;
+	if (str == "location") return NoteCategory::LOCATION;
+	if (str == "npc") return NoteCategory::NPC;
+	return NoteCategory::GENERAL;
+}
+
+
 /*
  *  Info. for top of a page.
  */
@@ -74,6 +101,18 @@ class Notebook_gump : public Gump {
 	void down_arrow();
 	void jump_to_first_entry();
 	void jump_to_last_entry();
+
+	static NoteCategory active_filter;
+	static std::string  search_query;
+	static bool         show_completed;
+	static int          unread_count;
+
+	static void set_filter(NoteCategory cat) { active_filter = cat; }
+	static NoteCategory get_filter() { return active_filter; }
+	static const std::string& get_search_query() { return search_query; }
+	static void set_search_query(const std::string& q) { search_query = q; }
+	static int get_unread_count();
+	static bool note_matches_filter(const One_note* note);
 
 public:
 	Notebook_gump();

@@ -27,7 +27,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Gump_manager.h"
 #include "U7file.h"
 #include "actors.h"
+#include "Audio.h"
 #include "cheat.h"
+#include "effects.h"
 #include "exult.h"
 #include "exult_flx.h"
 #include "fnames.h"
@@ -68,6 +70,10 @@ bool                 Notebook_gump::initialized_auto_text = false;
 Notebook_gump*       Notebook_gump::instance              = nullptr;
 vector<Notebook_top> Notebook_gump::page_info;
 vector<string>       Notebook_gump::auto_text;
+NoteCategory         Notebook_gump::active_filter         = NoteCategory::GENERAL;
+string               Notebook_gump::search_query          = "";
+bool                 Notebook_gump::show_completed        = true;
+int                  Notebook_gump::unread_count          = 0;
 
 /*
  *  Defines in 'gumps.vga':
@@ -85,12 +91,15 @@ const int pagey = 10;    // Top of text area of page.
 const int lpagex = 36, rpagex = 174;    // X-coord. of text area of page.
 
 class One_note {
-	int    day = 0, hour = 0, minute = 0;    // Game time when note was written.
-	int    tx = 0, ty = 0;                   // Tile coord. where written.
-	string text;                             // Text, 0-delimited.
-	int    gflag = -1;                       // >=0 if created automatically when
+	int          day = 0, hour = 0, minute = 0;    // Game time when note was written.
+	int          tx = 0, ty = 0;                   // Tile coord. where written.
+	string       text;                             // Text, 0-delimited.
+	int          gflag = -1;                       // >=0 if created automatically when
 	//   the global flag was set.
-	bool is_new = false;    // Newly created at cur. time/place.
+	bool         is_new = false;                   // Newly created at cur. time/place.
+	NoteCategory category = NoteCategory::GENERAL; // Category tag.
+	bool         is_completed = false;             // Quest status.
+	bool         is_unread = false;                // Unread status.
 public:
 	friend class Notebook_gump;
 	One_note() = default;
@@ -114,16 +123,43 @@ public:
 		gflag = gf;
 	}
 
-	void set(int d, int h, int m, int x, int y, const string& txt, int gf = -1, bool isnew = false) {
+	void set_category(NoteCategory cat) {
+		category = cat;
+	}
+
+	void set_completed(bool done) {
+		is_completed = done;
+	}
+
+	void set_unread(bool unread) {
+		is_unread = unread;
+	}
+
+	NoteCategory get_category() const {
+		return category;
+	}
+
+	bool get_completed() const {
+		return is_completed;
+	}
+
+	bool get_unread() const {
+		return is_unread;
+	}
+
+	void set(int d, int h, int m, int x, int y, const string& txt, int gf = -1, bool isnew = false, NoteCategory cat = NoteCategory::GENERAL, bool done = false, bool unread = false) {
 		set_time(d, h, m);
 		set_loc(x, y);
 		set_text(txt);
-		gflag  = gf;
-		is_new = isnew;
+		gflag        = gf;
+		is_new       = isnew;
+		category     = cat;
+		is_completed = done;
+		is_unread    = unread;
 	}
 
-	One_note(int d, int h, int m, int x, int y, const string& txt = "", int gf = -1, bool isnew = false) {
-		set(d, h, m, x, y, txt, gf, isnew);
+	One_note(int d, int h, int m, int x, int y, const string& txt = "", int gf = -1, bool isnew = false, NoteCategory cat = NoteCategory::GENERAL, bool done = false, bool unread = false) {
+		set(d, h, m, x, y, txt, gf, isnew, cat, done, unread);
 	}
 
 	// Insert text.
@@ -145,12 +181,58 @@ public:
 	void add_text_with_line_breaks(const std::string& text);
 };
 
+int Notebook_gump::get_unread_count() {
+	int count = 0;
+	for (const auto* note : notes) {
+		if (note && note->get_unread()) {
+			count++;
+		}
+	}
+	unread_count = count;
+	return count;
+}
+
+bool Notebook_gump::note_matches_filter(const One_note* note) {
+	if (!note) {
+		return false;
+	}
+	if (!show_completed && note->get_completed()) {
+		return false;
+	}
+	if (active_filter != NoteCategory::GENERAL) {
+		if (note->get_category() != active_filter) {
+			return false;
+		}
+	}
+	if (!search_query.empty()) {
+		string text = note->text;
+		string query = search_query;
+		for (char& c : text) {
+			c = static_cast<char>(tolower(static_cast<unsigned char>(c)));
+		}
+		for (char& c : query) {
+			c = static_cast<char>(tolower(static_cast<unsigned char>(c)));
+		}
+		if (text.find(query) == string::npos) {
+			return false;
+		}
+	}
+	return true;
+}
+
 /*
  *  Write out as XML.
  */
 
 void One_note::write(ostream& out) {
 	out << "<note>" << endl;
+	out << "<category> " << note_category_to_string(category) << " </category>" << endl;
+	if (is_completed) {
+		out << "<status> completed </status>" << endl;
+	}
+	if (is_unread) {
+		out << "<unread> true </unread>" << endl;
+	}
 	out << "<time> " << day << ':' << hour << ':' << minute << " </time>" << endl;
 	out << "<place> " << tx << ':' << ty << " </place>" << endl;
 	if (gflag >= 0) {
@@ -232,6 +314,51 @@ void Notebook_gump::clear() {
 	initialized = false;
 }
 
+static NoteCategory parse_note_category(const string& input_text, string& clean_text) {
+	clean_text = input_text;
+	if (clean_text.empty()) {
+		return NoteCategory::GENERAL;
+	}
+
+	// Trim leading whitespace
+	size_t start = clean_text.find_first_not_of(" \t\r\n");
+	if (start != string::npos && start > 0) {
+		clean_text = clean_text.substr(start);
+	}
+
+	if (!clean_text.empty() && clean_text.front() == '[') {
+		size_t close_bracket = clean_text.find(']');
+		if (close_bracket != string::npos) {
+			string tag = clean_text.substr(1, close_bracket - 1);
+			string tag_lower = tag;
+			for (char& c : tag_lower) {
+				c = static_cast<char>(tolower(static_cast<unsigned char>(c)));
+			}
+
+			NoteCategory cat = NoteCategory::GENERAL;
+			if (tag_lower == "quest" || tag == "任务" || tag == "任務") {
+				cat = NoteCategory::QUEST;
+			} else if (tag_lower == "clue" || tag == "线索" || tag == "線索") {
+				cat = NoteCategory::CLUE;
+			} else if (tag_lower == "location" || tag_lower == "loc" || tag == "地点" || tag == "地點") {
+				cat = NoteCategory::LOCATION;
+			} else if (tag_lower == "npc" || tag == "人物") {
+				cat = NoteCategory::NPC;
+			}
+
+			if (cat != NoteCategory::GENERAL) {
+				clean_text = clean_text.substr(close_bracket + 1);
+				size_t post_start = clean_text.find_first_not_of(" \t");
+				if (post_start != string::npos) {
+					clean_text = clean_text.substr(post_start);
+				}
+				return cat;
+			}
+		}
+	}
+	return NoteCategory::GENERAL;
+}
+
 /*
  *  Add a new note at the current time/place.
  */
@@ -239,8 +366,9 @@ void Notebook_gump::clear() {
 void Notebook_gump::add_new(const string& text, int gflag) {
 	Game_clock*      clk  = gwin->get_clock();
 	const Tile_coord t    = gwin->get_main_actor()->get_tile();
-	auto*            note = new One_note(clk->get_day(), clk->get_hour(), clk->get_minute(), t.tx, t.ty, text, gflag);
-	note->is_new          = true;
+	string clean_text;
+	NoteCategory cat  = parse_note_category(text, clean_text);
+	auto*        note = new One_note(clk->get_day(), clk->get_hour(), clk->get_minute(), t.tx, t.ty, clean_text, gflag, true, cat, false, true);
 	notes.push_back(note);
 }
 
@@ -807,6 +935,10 @@ void Notebook_gump::add_gflag_text(int gflag, const string& text) {
 	}
 	if (gwin->get_allow_autonotes()) {
 		instance->add_new_with_line_breaks(text, gflag);
+		if (gwin && gwin->get_effects() && gwin->get_main_actor()) {
+			gwin->get_effects()->add_text("Journal Updated", gwin->get_main_actor());
+		}
+		Audio::get_ptr()->play_sound_effect(Audio::game_sfx(74));
 	}
 }
 
@@ -818,12 +950,14 @@ void Notebook_gump::add_new_with_line_breaks(const string& text, int gflag) {
 	Game_clock*      clk = gwin->get_clock();
 	const Tile_coord t   = gwin->get_main_actor()->get_tile();
 
-	// Create a new note
-	One_note* note = new One_note(clk->get_day(), clk->get_hour(), clk->get_minute(), t.tx, t.ty, "", gflag);
-	note->is_new   = true;
+	string clean_text;
+	NoteCategory cat = parse_note_category(text, clean_text);
+
+	// Create a new note with parsed category and unread state
+	One_note* note = new One_note(clk->get_day(), clk->get_hour(), clk->get_minute(), t.tx, t.ty, "", gflag, true, cat, false, true);
 
 	// Use existing line breaking logic from One_note
-	note->add_text_with_line_breaks(text);
+	note->add_text_with_line_breaks(clean_text);
 
 	// Add the note to the collection
 	notes.push_back(note);
@@ -872,6 +1006,25 @@ void Notebook_gump::read() {
 		if (notend.first == "note") {
 			note = new One_note();
 			notes.push_back(note);
+		} else if (notend.first == "note/category") {
+			if (note) {
+				std::string cat_str = notend.second;
+				// trim spaces
+				size_t start = cat_str.find_first_not_of(" \t\r\n");
+				size_t end = cat_str.find_last_not_of(" \t\r\n");
+				if (start != std::string::npos && end != std::string::npos) {
+					cat_str = cat_str.substr(start, end - start + 1);
+				}
+				note->set_category(string_to_note_category(cat_str));
+			}
+		} else if (notend.first == "note/status") {
+			if (note) {
+				note->set_completed(notend.second.find("completed") != std::string::npos);
+			}
+		} else if (notend.first == "note/unread") {
+			if (note) {
+				note->set_unread(notend.second.find("true") != std::string::npos);
+			}
 		} else if (notend.first == "note/time") {
 			int d;
 			int h;
