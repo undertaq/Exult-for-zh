@@ -100,6 +100,11 @@ def text_hash(text):
     return hashlib.sha256(text.encode('utf-8')).hexdigest()[:16]
 
 
+def is_voice_generation_skipped(entry):
+    """Return True when an entry/design is marked reference-only for voice."""
+    return (entry.get('voice_generation') or '') == 'skip'
+
+
 def reference_fingerprint(text, instruct):
     normalized = '\n'.join([
         re.sub(r'\s+', ' ', (text or '').strip()),
@@ -606,6 +611,8 @@ def load_mapping():
     source_runtime_keys = load_source_runtime_keys()
     data = []
     for entry in raw_data:
+        if is_voice_generation_skipped(entry):
+            continue
         invalid_langs = audit_entry_runtime_keys(entry, source_runtime_keys)
         enriched = attach_source_metadata(entry, source_metadata)
         if invalid_langs:
@@ -893,6 +900,10 @@ def phase_a_generate_refs(designs, args):
         skipped = 0
         for did, design in sorted(designs['designs'].items()):
             npc_label = design.get('npc', did)
+            if is_voice_generation_skipped(design):
+                print(f'  [{npc_label}] Voice generation skipped (original game voice)')
+                skipped += 2
+                continue
             for lang, text_key, desc_key, default_desc in [
                 ('ZH', 'ref_zh_text', 'voice_desc_zh', '用標準的普通話朗讀'),
                 ('EN', 'ref_en_text', 'voice_desc_en', 'Neutral clear speaking voice, natural and pleasant'),
@@ -931,6 +942,10 @@ def phase_a_generate_refs(designs, args):
     try:
         for did, design in sorted(designs['designs'].items()):
             npc_label = design.get('npc', did)
+            if is_voice_generation_skipped(design):
+                print(f'  [{npc_label}] Voice generation skipped (original game voice)')
+                skipped += 2
+                continue
             ref_zh_path = os.path.join(REFS_DIR, f'{did}_zh_ref.ogg')
             ref_en_path = os.path.join(REFS_DIR, f'{did}_en_ref.ogg')
 
@@ -1149,6 +1164,8 @@ def phase_b_build_prompts(designs, args):
         errors = 0
         for did, design in sorted(designs['designs'].items()):
             npc_label = design.get('npc', did)
+            if is_voice_generation_skipped(design):
+                continue
             ref_zh_path = os.path.join(REFS_DIR, f'{did}_zh_ref.ogg')
             ref_en_path = os.path.join(REFS_DIR, f'{did}_en_ref.ogg')
             prompt = {'zh': None, 'en': None}
@@ -1185,6 +1202,9 @@ def phase_b_build_prompts(designs, args):
     try:
         for did, design in sorted(designs['designs'].items()):
             npc_label = design.get('npc', did)
+            if is_voice_generation_skipped(design):
+                print(f'  [{npc_label}] Voice generation skipped (original game voice)')
+                continue
             ref_zh_path = os.path.join(REFS_DIR, f'{did}_zh_ref.ogg')
             ref_en_path = os.path.join(REFS_DIR, f'{did}_en_ref.ogg')
 
@@ -1337,6 +1357,11 @@ def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
                 if not design:
                     print(f'  [{npc_name}] No voice design found, skipping {len(entries)} lines')
                     total_err += len(entries)
+                    continue
+
+                if is_voice_generation_skipped(design):
+                    print(f'  [{npc_name}] Voice generation skipped (original game voice)')
+                    total_skip += len(entries)
                     continue
 
                 did = None

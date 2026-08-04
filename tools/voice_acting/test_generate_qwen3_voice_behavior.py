@@ -1353,6 +1353,100 @@ class GenerateQwen3VoiceBehaviorTest(unittest.TestCase):
 
         self.assertEqual(calls, ["migrate"])
 
+    def test_load_mapping_excludes_rows_marked_voice_generation_skip(self):
+        module = load_script_module()
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            module.MAPPING_PATH = str(tmp / "bilingual_mapping_review.json")
+            module.EN_LINES_PATH = str(tmp / "en_voice_lines.csv")
+            module.ZH_LINES_PATH = str(tmp / "zh_voice_lines.csv")
+            Path(module.EN_LINES_PATH).write_text(
+                "func_id,npc,speaker,caller_guess,offset_key,segment,total_segments,has_var,text\n",
+                encoding="utf-8",
+            )
+            Path(module.ZH_LINES_PATH).write_text(
+                "func_id,npc,speaker,caller_guess,offset_key,segment,total_segments,has_var,text\n",
+                encoding="utf-8",
+            )
+            Path(module.MAPPING_PATH).write_text(
+                json.dumps([
+                    {
+                        "npc": "Stone Guardian",
+                        "voice_generation": "skip",
+                        "zh_func_id": "0x0614",
+                        "zh_offset_key": "0",
+                        "zh_segment": 0,
+                        "zh_text": "「是的，休息吧，我的朋友。」",
+                        "en_func_id": "0x0614",
+                        "en_offset_key": "0",
+                        "en_segment": 0,
+                        "en_text": "Yes, rest, my friend.",
+                    },
+                    {
+                        "npc": "Iolo",
+                        "zh_func_id": "0x0401",
+                        "zh_offset_key": "0",
+                        "zh_segment": 0,
+                        "zh_text": "「你好。」",
+                        "en_func_id": "0x0401",
+                        "en_offset_key": "0",
+                        "en_segment": 0,
+                        "en_text": "Hello.",
+                    },
+                ]),
+                encoding="utf-8",
+            )
+
+            data, by_npc = module.load_mapping()
+
+            npcs = {e.get("npc") for e in data}
+            self.assertNotIn("Stone Guardian", npcs)
+            self.assertNotIn("Stone Guardian", by_npc)
+            self.assertIn("Iolo", by_npc)
+
+    def test_phase_c_skips_npc_with_marked_design(self):
+        module = load_script_module()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            module.ZH_OUTPUT = os.path.join(tmpdir, "zh")
+            module.EN_OUTPUT = os.path.join(tmpdir, "en")
+            writes = []
+            module.write_ogg_direct = lambda *args, **kwargs: writes.append(args)
+
+            designs = {
+                "designs": {
+                    "npc_stone_guardian": {
+                        "npc": "Stone Guardian",
+                        "npcs": ["Stone Guardian"],
+                        "voice_generation": "skip",
+                    },
+                },
+            }
+            by_npc = {
+                "Stone Guardian": [
+                    {
+                        "npc": "Stone Guardian",
+                        "zh_func_id": "0x0614",
+                        "zh_offset_key": "0",
+                        "zh_segment": 0,
+                        "zh_text": "「是的，休息吧。」",
+                    },
+                ],
+            }
+            clone_prompts = {"npc_stone_guardian": {"zh": ["prompt"]}}
+            args = argparse.Namespace(
+                lang="zh", dry_run=False, force=True, max_npcs=None, device="cuda:0",
+                generic_fallbacks=False, review_out_dir=None, review_update_interval=0,
+                review_only_new=True, review_since_mtime=0,
+            )
+
+            generated, skipped, errors = module.phase_c_generate_voice(
+                designs, clone_prompts, by_npc, args
+            )
+
+            self.assertEqual((generated, skipped, errors), (0, 1, 0))
+            self.assertEqual(writes, [])
+
 
 class GenerateQwen3VoiceIntegrationTest(unittest.TestCase):
     def test_script_sets_numba_cache_dir_before_qwen_import(self):
