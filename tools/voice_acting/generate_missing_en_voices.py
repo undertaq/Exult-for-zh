@@ -41,6 +41,9 @@ def main():
     missing_npcs = set()
 
     for entry in data:
+        if (entry.get("voice_generation") or "").strip() == "skip":
+            continue
+
         en_text = (entry.get("en_text", "") or "").strip()
         if not en_text:
             continue
