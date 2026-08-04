@@ -99,6 +99,8 @@ def build_mapping_index(mapping_path):
     rows = load_json(mapping_path)
     index = {}
     for entry in rows:
+        if (entry.get("voice_generation") or "") == "skip":
+            continue
         for lang in ("en", "zh"):
             text = (entry.get(f"{lang}_text", "") or "").strip()
             if not text:

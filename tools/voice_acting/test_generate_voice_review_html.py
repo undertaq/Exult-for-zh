@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import importlib.util
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -68,6 +69,46 @@ class GenerateVoiceReviewHtmlTest(unittest.TestCase):
             data = data_path.read_text(encoding="utf-8")
 
         self.assertIn('"review_key": "zh:0401_748_765_0_npc1.ogg"', data)
+
+    def test_build_mapping_index_excludes_voice_generation_skip_rows(self):
+        module = load_script_module()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            mapping_path = Path(tmpdir) / "mapping.json"
+            mapping_path.write_text(
+                json.dumps([
+                    {
+                        "npc": "Stone Guardian",
+                        "voice_generation": "skip",
+                        "zh_func_id": "0x0614",
+                        "zh_offset_key": "0",
+                        "zh_segment": 0,
+                        "zh_text": "「是的，休息吧。」",
+                        "en_func_id": "0x0614",
+                        "en_offset_key": "0",
+                        "en_segment": 0,
+                        "en_text": "Yes, rest.",
+                    },
+                    {
+                        "npc": "Iolo",
+                        "zh_func_id": "0x0401",
+                        "zh_offset_key": "0",
+                        "zh_segment": 0,
+                        "zh_text": "「你好。」",
+                        "en_func_id": "0x0401",
+                        "en_offset_key": "0",
+                        "en_segment": 0,
+                        "en_text": "Hello.",
+                    },
+                ]),
+                encoding="utf-8",
+            )
+
+            index = module.build_mapping_index(mapping_path)
+
+        keys = list(index.keys())
+        self.assertTrue(all("npc277" not in k[1] for k in keys))
+        self.assertTrue(any("npc1" in k[1] for k in keys))
 
 
 if __name__ == "__main__":
