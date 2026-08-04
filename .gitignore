@@ -361,3 +361,4 @@ cosyvoice/
 
 # Reference voice candidate samples (bulky, regenerate locally)
 tools/voice_acting/reference_candidates/
+.worktrees/
