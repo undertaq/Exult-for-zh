@@ -41,6 +41,10 @@ public:
 	// Read configuration for voice acting (enabled, language).
 	static void init();
 
+	// Stone Guardian (NPC 277) has an original in-game recording; the
+	// synthesized voice is never substituted for it.
+	static constexpr int stone_guardian_npc = 277;
+
 	// Play voice for conversation text, keyed by function_id + addsi offset key + segment.
 	// speaker_npc is the NPC currently speaking (from show_npc_face tracking).
 	// caller_npc is the NPC that originated the conversation (from call stack).

@@ -450,6 +450,17 @@ bool VoiceActingManager::play_for_conversation(
 		return false;
 	}
 
+	// The Stone Guardian keeps its original in-game recording. Never route
+	// its lines to the synthesized lookup, even if a stray file reappears.
+	const int abs_speaker = speaker_npc < 0 ? -speaker_npc : speaker_npc;
+	const int abs_caller  = caller_npc < 0 ? -caller_npc : caller_npc;
+	if (abs_speaker == stone_guardian_npc || abs_caller == stone_guardian_npc) {
+		ensure_log_open();
+		log_entry("", "", function_id, offset_key, segment, text,
+		          "original", speaker_npc, caller_npc);
+		return false;
+	}
+
 	ensure_packed_loaded();
 
 	char func_hex[16];
