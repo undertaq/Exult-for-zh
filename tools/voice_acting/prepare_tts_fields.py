@@ -1,7 +1,18 @@
 #!/usr/bin/env python3
 """Add zh_raw/en_raw fields, replace tags in zh_text with TTS text,
 fix archaic contractions in en_text for TTS pronunciation,
-and balance dialogue delimiters across segments."""
+and balance dialogue delimiters across segments.
+
+WARNING: ONE-SHOT TOOL FOR THE LIVE LINEAGE — DO NOT RE-RUN.
+This pipeline resolves <VAR> tags with fall-through heuristics tuned
+against the sandbox doc lineage. Running it on the live
+bilingual_mapping_review.json re-damages ~26 rows that are already
+correctly resolved in the file (e.g. Elizabeth->Abraham name flips at
+688-694, gargoyle plural->singular, archaic modernizations, wrong
+branch picks at 755/8783/8792). The file was repaired by hand after
+the last run and must be treated as the source of truth. Re-running
+means repeating that manual repair. Only KNOWN_FULL_TEXT rows are
+protected; the fall-through itself is not."""
 
 from __future__ import annotations
 
@@ -136,6 +147,7 @@ ARCHAIC_VERBS = [
     (r'\bwilt\b', 'will'),
     (r'\bshalt\b', 'shall'),
     (r'\bthou\s+art\b', 'you are'),
+    (r'\bseemest\b', 'seem'),
 ]
 
 # Archaic pronouns — replace with modern equivalents for TTS
@@ -240,6 +252,70 @@ KNOWN_VAR_RESOLUTIONS_RAW = {
     7723: ("remove_leading_var", "remove_leading_var"),
 }
 
+# Full-text overrides: row index → (en_text, zh_text). These replace the
+# ENTIRE en_text/zh_text with known-correct runtime text, applied after all
+# tag replacement / archaic / whitespace steps. Used for rows where the
+# fall-through var value is a fragment or wrong branch (merchant quantity
+# fragments, healer service pools, runtime-state NPC names, etc.).
+KNOWN_FULL_TEXT = {
+    # NOTE: every index below is verified against the LIVE lineage
+    # (bilingual_mapping_review.json, Jul 29 enrichment). Entries keyed to
+    # the sandbox doc lineage were removed: same index numbers point at
+    # different rows there (e.g. sandbox 7681 = healer line, but live 7681
+    # = the Game-rule line; sandbox 8209 = healer line, live 8209 = the
+    # Skara Brae gratitude speech), so they clobbered unrelated live rows.
+    # Tseramed arrow offer — fall-through is "Shall I fashion these stingers
+    # into arrows?" (the follow-up line); the doc-driven value is the offer.
+    734: (
+        "If you would like, I would be happy to give you a dozen of my special arrows. Are you interested?",
+        "如果你願意，我很樂意給你一打我特製的箭。你有興趣嗎？",
+    ),
+    # Mayor's grave (0x040A): fall-through picks 'Abraham', but the wife is
+    # 'Elizabeth' (doc-driven).
+    695: (
+        '"She rests now forever in the Yew graveyard, may her sleep be peaceful. I searched the land for Elizabeth, but never found my quarry. In fact, it seems that every time I near my prey, they have already vanished! My search shall never be truly over."',
+        "「她現在長眠在 Yew 的墓地裡，願她安息。我在這片土地上到處尋找伊莉莎白，但從未找到我的獵物。事實上，似乎每次我接近我的獵物時，他們就已經消失了！我的搜尋將永遠不會真正結束。」",
+    ),
+    # Batlin (Fellowship HQ): live raw '<VAR>must go…' loses the leading
+    # quote during resolution; restore the balanced full line.
+    5891: (
+        '"I do not believe you. you must go to Britain and speak with Batlin at our headquarters there. Only he can properly initiate you into The Fellowship."',
+        "「聖者必須去不列顛城和我們總部的巴特林談談。只有他能正式引導你加入友誼會。」",
+    ),
+    # Mole complaint — same leading-quote loss on the live raw.
+    6403: (
+        '"No offense to you, but I do not trust them. I think they are all hiding something. I think they are all tricksters. Take mine old friend Mole, for example. Well, mine old ex-friend Mole. He has changed a great deal since joining them."',
+        "「聖者我不信任他們。我認為他們都在隱瞞什麼。我認為他們都是騙子。拿我的老朋友 Mole 來說吧。嗯，我的前老朋友 Mole。自從他加入他們之後，他改變了很多。」",
+    ),
+    # Healer service pools — fall-through 'healed' is wrong; the game text
+    # is "cured of poison" (matches the doc-driven zh).
+    7673: ('"Who do you wish to be cured of poison?"', "「你希望誰解毒？」"),
+    7704: ('"Who do you wish to be cured of poison?"', "「你希望誰解毒？」"),
+    7803: ('"Whom do you wish to have cured of poison?"', "「你希望誰解毒？」"),
+    8070: ('"To want to cured of poison whom?"', "「想要對誰解毒？」"),
+    8087: ('"Who do you wish to be cured of poison?"', "「你想讓誰解毒？」"),
+    8201: ('"Who do you wish to have cured of poison?"', "「你希望誰解毒？」"),
+    8244: ('"Who do you wish to be cured of poison?"', "「你希望誰解毒？」"),
+    8584: ('"Who needs to be cured of poison?"', "「誰需要解毒？」"),
+    # Merchant quantity questions — the var assembles at runtime as
+    # "How many <unit> wouldst thou like?" Fall-through keeps only a
+    # fragment; restore the full question. Combined row = count+phrase,
+    # second row = the bare question.
+    7599: ('"How many packets would you like? Art you still interested?"', "「你想要幾包？你還有興趣嗎？」"),
+    7600: ('"How many packets would you like?"', "「你想要幾包？」"),
+    7652: ('"How many sets do you want? Do you accept my price?"', "「你想要幾套？你接受我的價錢嗎？」"),
+    7653: ('"How many sets do you want?"', "「你想要幾套？」"),
+    7715: ('"How many sets would you like? Is that all right?"', "「你想要幾套？這樣可以嗎？」"),
+    7716: ('"How many sets would you like?"', "「你想要幾套？」"),
+    7724: ('"How many sets would you like?"', "「你想要幾套？」"),
+    7899: ('"How many sets would you like? Does that sound like a fair price?"', "「你想要幾套？這個價錢聽起來合理嗎？」"),
+    7900: ('"How many sets would you like?"', "「你想要幾套？」"),
+    8152: ('"How many dozen would you like? Will you pay my price?"', "「你想要幾打？你願意付我的價錢嗎？」"),
+    8153: ('"How many dozen would you like?"', "「你想要幾打？」"),
+    8538: ('"How many sets would you like? Can you afford my price?"', "「你想要幾套？你付得起我的價錢嗎？」"),
+    8539: ('"How many sets would you like?"', "「你想要幾套？」"),
+}
+
 # Replacement words that can be duplicated from consecutive tag replacements
 EN_REPLACEMENT_WORDS = ['Avatar', 'this person', 'some', 'woodsman']
 ZH_REPLACEMENT_WORDS = ['聖者', '那個人', '一些', '遊俠']
@@ -249,6 +325,11 @@ def fix_known_var_entries(entry: dict) -> tuple[str, str]:
     """Replace tag-generated duplicate text with resolved variable text
     for entries where we know the runtime variable values."""
     idx = entry.get('index')
+
+    # Full-text overrides replace the entire entry text
+    if idx in KNOWN_FULL_TEXT:
+        return KNOWN_FULL_TEXT[idx]
+
     if idx not in KNOWN_VAR_RESOLUTIONS_RAW:
         return entry.get('en_text', ''), entry.get('zh_text', '')
 
@@ -333,6 +414,7 @@ def classify_var_in_entry(en_text_with_tags: str) -> str:
 # fragments) are NOT included — they fall back to the generic class placeholder.
 _EN_VAR_TO_ZH = {
     'valiant warrior': '英勇的戰士',
+    'Abraham': '亞伯拉罕',
     'Elizabeth': '伊莉莎白',
     'Paulette': 'Paulette',
     'the mage Erethian': '法師 Erethian',
@@ -343,8 +425,17 @@ _EN_VAR_TO_ZH = {
         '如果你願意，我很樂意給你一打我特製的箭。你有興趣嗎？',
     'Be most careful. Who knows what may be lurking amongst the trees...':
         '務必小心。誰知道樹林間潛伏著什麼……',
-    'It is most fortunate that thou fell so near our shelter. Thou must have a protector watching over thee.@':
+    'It is most fortunate that thou fell so near our shelter. Thou must have a protector watching over thee.':
         '你跌倒在我們避難所附近真是太幸運了。你必定有守護者在看顧著你。',
+    # NPC names / runtime-flavored identity vars (zh keeps Latin names or the
+    # original doc-driven translation for consistency)
+    'Markham': '酒館老闆',
+    'Erethian': '法師 Erethian',
+    'Caine': 'Caine',
+    'Welcome, Avatar.': '歡迎，聖者。',
+    'thee': '你',
+    'you': '你',
+    'the party': '同伴們',
 }
 
 def en_var_to_zh(en_value: str, var_class: str) -> str:
@@ -633,8 +724,9 @@ def main():
     # EN delimiter balance (simpler: just balance each entry)
     for entry in data:
         en_text = entry.get('en_text', '')
-        if en_text and en_text.count('"') % 2 != 0:
-            # Add closing quote
+        if en_text and en_text.count('"') % 2 != 0 and not en_text.endswith('"'):
+            # Add closing quote (skip if already ends with one — the lone
+            # quote is the closing half of a quote opened in another segment)
             entry['en_text'] = en_text + '"'
             stats['en_delim_fixed'] += 1
     

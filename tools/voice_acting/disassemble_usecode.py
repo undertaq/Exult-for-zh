@@ -12,6 +12,7 @@ Usage:
 """
 
 import argparse
+import re
 import struct
 import sys
 
@@ -663,11 +664,34 @@ def resolve_var_values(var_sources, var_idx):
     # Collect unique types among sources
     types = set(s['type'] for s in srcs)
 
+    def _clean(v: str) -> str:
+        # Strip '@' usecode delimiters from string data. The game renders
+        # '@text@' without the '@', and concatenated fragments join via a
+        # space (e.g. '...right place!@' + 'it is open...' → '...right
+        # place! it is open...'). Whitespace is collapsed only adjacent to
+        # '@'; edge spaces are removed only where the '@' itself was at the
+        # edge, so fragments that keep a separator space (e.g. ' thou ' at
+        # the end, or ' See how...' at the start) retain it.
+        if '@' not in v:
+            return v
+        lead = v.startswith('@')
+        trail = v.endswith('@')
+        v = re.sub(r'\s*@\s*', ' ', v)
+        if lead:
+            v = v.lstrip()
+        if trail:
+            v = v.rstrip()
+        return v
+
     if types == {'string'} or types == {'empty', 'string'} or types == {'string', 'empty'}:
-        # All literal strings — pick the longest non-empty one (most specific)
+        # All literal strings — prefer the first in linear instruction order,
+        # which is the fall-through (default) branch value for runtime-variant
+        # variables (e.g. IsPlayerFemale → "Abraham"/"Elizabeth"). The longest
+        # string is NOT the default situation: it picked "Elizabeth" for
+        # Tseramed's var6 (should be "Abraham") and "she" for a male-only NPC.
         candidates = [s['value'] for s in srcs if s['type'] == 'string' and s['value']]
         if candidates:
-            best = max(candidates, key=len)
+            best = _clean(candidates[0])
             return (best, '', False)  # ZH will be translated from the resolved EN
 
     if types == {'number'} or types == {'empty', 'number'}:
@@ -687,10 +711,10 @@ def resolve_var_values(var_sources, var_idx):
             return (TAG_REPLACEMENTS['<HONORIFIC>'][0], TAG_REPLACEMENTS['<HONORIFIC>'][1], False)
 
     # Check for mixed: some strings, some empty (branch-dependent)
-    # Return the best string
+    # Return the fall-through (default) value: first string in linear order
     candidates = [s['value'] for s in srcs if s['type'] == 'string' and s['value']]
     if candidates:
-        best = max(candidates, key=len)
+        best = _clean(candidates[0])
         return (best, '', False)
 
     # Fallback: use the classify-based approach

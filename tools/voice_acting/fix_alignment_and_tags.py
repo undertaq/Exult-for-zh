@@ -614,13 +614,19 @@ def main():
             match_stats[conf] += 1
             
             seg_count = min(len(eg['segs']), len(zg['segs']))
+            emitted_en = set()
+            emitted_zh = set()
             for j in range(seg_count):
+                en_seg = eg['segs'][j]
+                zh_seg = zg['segs'][j]
+                emitted_en.add((eg['offset_key'], en_seg))
+                emitted_zh.add((zg['offset_key'], zh_seg))
                 all_entries.append({
                     'zh_offset_key': zg['offset_key'],
-                    'zh_segment': zg['segs'][j] if j < len(zg['segs']) else 0,
+                    'zh_segment': zh_seg,
                     'zh_text': zg['texts'][j] if j < len(zg['texts']) else '',
                     'en_offset_key': eg['offset_key'],
-                    'en_segment': eg['segs'][j] if j < len(eg['segs']) else 0,
+                    'en_segment': en_seg,
                     'en_text': eg['texts'][j] if j < len(eg['texts']) else '',
                     'confidence': conf,
                     'npc': npc,
@@ -628,6 +634,46 @@ def main():
                     'zh_func_id': zg['func_id'],
                     'en_func_id': eg['func_id'],
                 })
+            # A matched group can still have extra segments on one side (the
+            # ZH localization often merges several EN lines into one segment).
+            # Emit the overflow as unpaired rows rather than silently dropping
+            # them (e.g. Iolo's func 0x0401 "Lo and behold!" line, EN seg 2/3).
+            # Skip segments already emitted so duplicate source rows (same
+            # offset_key+segment, identical text) do not become duplicate keys.
+            for j in range(seg_count, len(eg['segs'])):
+                en_seg = eg['segs'][j]
+                if (eg['offset_key'], en_seg) in emitted_en:
+                    continue
+                emitted_en.add((eg['offset_key'], en_seg))
+                all_entries.append({
+                    'zh_offset_key': '', 'zh_segment': 0, 'zh_text': '',
+                    'en_offset_key': eg['offset_key'],
+                    'en_segment': en_seg,
+                    'en_text': eg['texts'][j],
+                    'confidence': 'unpaired_en',
+                    'npc': npc,
+                    'func_id': fid,
+                    'zh_func_id': '',
+                    'en_func_id': eg['func_id'],
+                })
+                match_stats['unpaired_en'] += 1
+            for j in range(seg_count, len(zg['segs'])):
+                zh_seg = zg['segs'][j]
+                if (zg['offset_key'], zh_seg) in emitted_zh:
+                    continue
+                emitted_zh.add((zg['offset_key'], zh_seg))
+                all_entries.append({
+                    'zh_offset_key': zg['offset_key'],
+                    'zh_segment': zh_seg,
+                    'zh_text': zg['texts'][j],
+                    'en_offset_key': '', 'en_segment': 0, 'en_text': '',
+                    'confidence': 'unpaired_zh',
+                    'npc': npc,
+                    'func_id': fid,
+                    'zh_func_id': zg['func_id'],
+                    'en_func_id': '',
+                })
+                match_stats['unpaired_zh'] += 1
         
         for eg in en_unpaired:
             for j, txt in enumerate(eg['texts']):

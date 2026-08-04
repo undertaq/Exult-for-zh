@@ -36,6 +36,16 @@ def main():
     new_mapping = []
     split_count = 0
     new_rows_added = 0
+    merged_count = 0
+
+    # Index existing rows by (en_func_id, en_offset_key, en_segment) so a
+    # tilde-split row can merge its ZH part into an existing unpaired_en
+    # overflow row instead of fabricating a colliding duplicate EN segment.
+    by_en_key = {}
+    for i, entry in enumerate(mapping):
+        if entry.get("en_func_id") and entry.get("en_offset_key") is not None:
+            k = (entry.get("en_func_id"), entry.get("en_offset_key"), entry.get("en_segment"))
+            by_en_key.setdefault(k, []).append(i)
 
     for entry in mapping:
         zh_text = entry.get("zh_text", "")
@@ -57,12 +67,49 @@ def main():
             base_seg = int(entry.get("zh_segment", 0))
 
             for s_idx in range(max_segs):
+                zh_seg_text = zh_parts[s_idx] if s_idx < len(zh_parts) else (zh_parts[-1] if zh_parts else "")
+                en_seg_text = en_parts[s_idx] if s_idx < len(en_parts) else (en_parts[-1] if en_parts else "")
+
+                # For segments beyond the base, if an unpaired_en overflow row
+                # already claims this EN segment, merge the ZH part into it
+                # instead of creating a colliding duplicate row. The overflow
+                # row keeps its own (correct) en_text; only zh fields change.
+                if s_idx > 0 and entry.get("en_func_id") and entry.get("en_offset_key") is not None:
+                    target_seg = base_seg + s_idx
+                    candidates = by_en_key.get((entry.get("en_func_id"), entry.get("en_offset_key"), target_seg), [])
+                    for ci in candidates:
+                        existing = mapping[ci]
+                        if existing is entry:
+                            continue
+                        if existing.get("zh_func_id"):
+                            continue
+                        existing["zh_segment"] = target_seg
+                        existing["zh_offset_key"] = entry.get("zh_offset_key")
+                        existing["zh_func_id"] = entry.get("zh_func_id")
+                        existing["zh_text"] = zh_seg_text
+                        if "zh_raw" in existing:
+                            existing["zh_raw"] = zh_seg_text
+                        existing["confidence"] = "tilde_split_segment"
+                        merged_count += 1
+                        break
+                    else:
+                        row = deepcopy(entry)
+                        row["zh_segment"] = base_seg + s_idx
+                        row["en_segment"] = base_seg + s_idx
+                        row["zh_text"] = zh_seg_text
+                        row["en_text"] = en_seg_text
+                        if "zh_raw" in row:
+                            row["zh_raw"] = zh_seg_text
+                        if "en_raw" in row:
+                            row["en_raw"] = en_seg_text
+                        row["confidence"] = "tilde_split_segment"
+                        new_rows_added += 1
+                        new_mapping.append(row)
+                    continue
+
                 row = deepcopy(entry)
                 row["zh_segment"] = base_seg + s_idx
                 row["en_segment"] = base_seg + s_idx
-
-                zh_seg_text = zh_parts[s_idx] if s_idx < len(zh_parts) else (zh_parts[-1] if zh_parts else "")
-                en_seg_text = en_parts[s_idx] if s_idx < len(en_parts) else (en_parts[-1] if en_parts else "")
 
                 row["zh_text"] = zh_seg_text
                 row["en_text"] = en_seg_text
