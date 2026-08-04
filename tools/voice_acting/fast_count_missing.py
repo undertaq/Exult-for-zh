@@ -20,6 +20,8 @@ total_zh = 0
 total_en = 0
 
 for entry in data:
+    if (entry.get("voice_generation") or "").strip() == "skip":
+        continue
     npc = entry.get("npc", "")
     npc_num = NPC_NUMBERS.get(npc)
     npc_suffix = f"_npc{npc_num}" if npc_num is not None else ""

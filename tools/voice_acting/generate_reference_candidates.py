@@ -371,6 +371,13 @@ def run(args) -> tuple[int, int]:
             if retained_members:
                 filtered_designs[design_id] = {**design, "npcs": retained_members}
         designs = {"designs": filtered_designs}
+    designs = {
+        "designs": {
+            did: design
+            for did, design in designs["designs"].items()
+            if (design.get("voice_generation") or "") != "skip"
+        }
+    }
     jobs = build_candidate_jobs(designs, args.output_dir, args.candidates)
     skipped = 0
     if args.skip_existing and not args.overwrite:

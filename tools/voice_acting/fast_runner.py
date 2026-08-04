@@ -20,6 +20,8 @@ def count_pending(lang):
     total = 0
     pending = 0
     for e in data:
+        if (e.get('voice_generation') or '').strip() == 'skip':
+            continue
         npc = e.get('npc', '')
         nn = NPC_NUMBERS.get(npc)
         if nn is None:

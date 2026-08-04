@@ -66,6 +66,8 @@ def get_missing_entries():
     missing_count = 0
 
     for entry in data:
+        if (entry.get("voice_generation") or "").strip() == "skip":
+            continue
         npc_name = entry.get("npc", "")
         for lang in ["zh", "en"]:
             text = (entry.get(f"{lang}_text", "") or "").strip()

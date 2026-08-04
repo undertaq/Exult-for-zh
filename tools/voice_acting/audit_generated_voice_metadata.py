@@ -95,6 +95,8 @@ def build_expected_rows(mapping, voice_root):
     rows = []
     by_target = defaultdict(list)
     for index, entry in enumerate(mapping):
+        if (entry.get('voice_generation') or '') == 'skip':
+            continue
         for lang in ('zh', 'en'):
             text = (entry.get(f'{lang}_text') or '').strip()
             if not text:

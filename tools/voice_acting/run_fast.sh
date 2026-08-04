@@ -11,6 +11,7 @@ from npc_data import NPC_NUMBERS
 with open('tools/voice_acting/bilingual_mapping_review.json') as f: data=json.load(f)
 n=en=0; m=0; L='$lang'
 for e in data:
+    if (e.get('voice_generation') or '').strip() == 'skip': continue
     npc=e.get('npc',''); nn=NPC_NUMBERS.get(npc)
     if nn is None: continue
     t=(e.get(L+'_text','') or '').strip()
@@ -68,6 +69,7 @@ from npc_data import NPC_NUMBERS
 with open('tools/voice_acting/bilingual_mapping_review.json') as f: data=json.load(f)
 zh_n=en_n=0; zh_m=en_m=0
 for e in data:
+    if (e.get('voice_generation') or '').strip() == 'skip': continue
     npc=e.get('npc',''); nn=NPC_NUMBERS.get(npc)
     if nn is None: continue
     for lang in ['zh','en']:
