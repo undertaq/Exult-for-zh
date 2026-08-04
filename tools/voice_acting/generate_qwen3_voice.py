@@ -105,6 +105,22 @@ def is_voice_generation_skipped(entry):
     return (entry.get('voice_generation') or '') == 'skip'
 
 
+def filter_voice_generation_skipped_designs(designs):
+    """Return (designs_without_skipped, skipped_count)."""
+    kept = {}
+    skipped = 0
+    for did, design in sorted(designs.get('designs', {}).items()):
+        npc_label = design.get('npc', did)
+        if is_voice_generation_skipped(design):
+            print(f'  [{npc_label}] Voice generation skipped (original game voice)')
+            skipped += 1
+            continue
+        kept[did] = design
+    filtered = dict(designs)
+    filtered['designs'] = kept
+    return filtered, skipped
+
+
 def reference_fingerprint(text, instruct):
     normalized = '\n'.join([
         re.sub(r'\s+', ' ', (text or '').strip()),
@@ -1048,6 +1064,7 @@ def phase_a_generate_candidates(designs, args):
     voice_bibles = getattr(args, 'voice_bibles', None)
     if voice_bibles:
         candidate_designs = load_designs_or_voice_bibles(Path(DESIGNS_PATH), Path(voice_bibles))
+    candidate_designs, _ = filter_voice_generation_skipped_designs(candidate_designs)
     jobs = build_candidate_jobs(
         candidate_designs,
         Path(getattr(args, 'candidate_output_dir', CANDIDATE_DIR)),

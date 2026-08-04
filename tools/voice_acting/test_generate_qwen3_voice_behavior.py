@@ -1447,6 +1447,72 @@ class GenerateQwen3VoiceBehaviorTest(unittest.TestCase):
             self.assertEqual((generated, skipped, errors), (0, 1, 0))
             self.assertEqual(writes, [])
 
+    def test_filter_voice_generation_skipped_designs_removes_marked(self):
+        module = load_script_module()
+
+        designs = {
+            "designs": {
+                "b_marked": {"npc": "Stone Guardian", "voice_generation": "skip"},
+                "a_kept": {"npc": "Iolo"},
+            },
+        }
+
+        kept, skipped = module.filter_voice_generation_skipped_designs(designs)
+
+        self.assertEqual(skipped, 1)
+        self.assertEqual(list(kept["designs"].keys()), ["a_kept"])
+        self.assertNotIn("b_marked", kept["designs"])
+
+    def test_phase_a_candidates_excludes_marked_design_from_jobs(self):
+        module = load_script_module()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            captured = {}
+            fake_candidates = types.ModuleType("generate_reference_candidates")
+
+            def fake_build_candidate_jobs(candidate_designs, output_dir, candidates):
+                captured["designs"] = candidate_designs
+                return [types.SimpleNamespace(npc="Iolo", output="out")]
+
+            fake_candidates.build_candidate_jobs = fake_build_candidate_jobs
+            fake_candidates.generate_jobs = lambda *a, **k: []
+            fake_candidates.load_model = lambda *a, **k: FakeModel()
+            fake_candidates.load_designs_or_voice_bibles = lambda *a, **k: None
+
+            old = sys.modules.get("generate_reference_candidates")
+            sys.modules["generate_reference_candidates"] = fake_candidates
+            try:
+                designs = {
+                    "designs": {
+                        "npc_stone_guardian": {
+                            "npc": "Stone Guardian",
+                            "voice_generation": "skip",
+                        },
+                        "npc_iolo": {"npc": "Iolo"},
+                    },
+                }
+                args = argparse.Namespace(
+                    dry_run=True,
+                    voice_bibles=None,
+                    candidate_output_dir=os.path.join(tmpdir, "candidates"),
+                    candidates=10,
+                    device="cpu",
+                    candidate_seed_base=1000,
+                    candidate_batch_size=16,
+                    skip_existing_candidates=False,
+                    overwrite_candidates=False,
+                )
+                module.phase_a_generate_candidates(designs, args)
+            finally:
+                if old is None:
+                    sys.modules.pop("generate_reference_candidates", None)
+                else:
+                    sys.modules["generate_reference_candidates"] = old
+
+        job_designs = captured["designs"]
+        self.assertIn("npc_iolo", job_designs["designs"])
+        self.assertNotIn("npc_stone_guardian", job_designs["designs"])
+
 
 class GenerateQwen3VoiceIntegrationTest(unittest.TestCase):
     def test_script_sets_numba_cache_dir_before_qwen_import(self):
