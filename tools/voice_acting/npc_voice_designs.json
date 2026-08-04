@@ -5087,6 +5087,7 @@
   "npc_stone_guardian": {
    "npc": "Stone Guardian",
    "type": "individual",
+   "voice_generation": "skip",
    "npcs": [
     "Stone Guardian"
    ],
