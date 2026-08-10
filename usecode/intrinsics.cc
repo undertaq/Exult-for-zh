@@ -55,6 +55,7 @@
 #include "monsters.h"
 #include "monstinf.h"
 #include "mouse.h"
+#include "Notebook_gump.h"
 #include "palette.h"
 #include "party.h"
 #include "playscene.h"
@@ -1554,38 +1555,63 @@ public:
 };
 
 /*
- *  Paint map.
+ *  Convert world tile coords to pixel coords on the paper map.
+ */
+static void Map_tile_to_pixel(int tx, int ty, int& xx, int& yy) {
+	if (Game::get_game_type() == BLACK_GATE) {
+		xx = std::lround(tx / 16.05 + 5);
+		yy = std::lround(ty / 15.95 + 4);
+	} else if (Game::get_game_type() == SERPENT_ISLE) {
+		xx = std::lround(tx / 16.0 + 18);
+		yy = std::lround(ty / 16.0 + 9.4);
+	} else {
+		xx = std::lround(tx / 16.0 + 5);
+		yy = std::lround(ty / 16.0 + 5);
+	}
+}
+
+/*
+ *  Paint map, optionally with active-quest markers. 'markers' points at
+ *  a caller-owned vector; 'focus' points at one of its elements (or null)
+ *  and is drawn bigger and in a different color.
  */
 class Paint_map : public Paint_centered {
-	bool show_loc;
+	bool                            show_loc;    // Draw the player-location cross.
+	const std::vector<Quest_marker>* markers    = nullptr;
+	const Quest_marker*              focus      = nullptr;
 
 public:
-	Paint_map(ShapeID* s, bool loc) : Paint_centered(s), show_loc(loc) {}
+	Paint_map(ShapeID* s, bool loc, const std::vector<Quest_marker>* marks = nullptr, const Quest_marker* foc = nullptr)
+			: Paint_centered(s), show_loc(loc), markers(marks), focus(foc) {}
 
 	void paint() override {
 		Paint_centered::paint();
-		if (show_loc) {
-			// mark location
+		const float   scale = get_ui_scale();
+		Image_window8* win  = gwin->get_win();
+		Shape_frame*  s     = sid->get_shape();
+		const int     xo    = x - s->get_xleft() * scale;
+		const int     yo    = y - s->get_yabove() * scale;
+		if (show_loc) {    // Mark player location.
 			int              xx;
 			int              yy;
 			const Tile_coord t = gwin->get_main_actor()->get_tile();
-			if (Game::get_game_type() == BLACK_GATE) {
-				xx = std::lround(t.tx / 16.05 + 5);
-				yy = std::lround(t.ty / 15.95 + 4);
-			} else if (Game::get_game_type() == SERPENT_ISLE) {
-				xx = std::lround(t.tx / 16.0 + 18);
-				yy = std::lround(t.ty / 16.0 + 9.4);
-			} else {
-				xx = std::lround(t.tx / 16.0 + 5);
-				yy = std::lround(t.ty / 16.0 + 5);
+			Map_tile_to_pixel(t.tx, t.ty, xx, yy);
+			xx = xx * scale + xo;
+			yy = yy * scale + yo;
+			win->fill8(50, 1 * scale, 5 * scale, xx, yy - 2 * scale);
+			win->fill8(50, 5 * scale, 1 * scale, xx - 2 * scale, yy);
+		}
+		if (markers) {    // Mark active quest destinations.
+			for (const Quest_marker& m : *markers) {
+				int mx;
+				int my;
+				Map_tile_to_pixel(m.tx, m.ty, mx, my);
+				mx = mx * scale + xo;
+				my = my * scale + yo;
+				const bool is_focus = (&m == focus);
+				const int  half     = is_focus ? 3 : 2;
+				win->fill8(is_focus ? 54 : 52, half * 2 * scale, half * 2 * scale, mx - half * scale, my - half * scale);
 			}
-			Shape_frame* s = sid->get_shape();
-			const float scale = get_ui_scale();
-			
-			xx = xx * scale + x - s->get_xleft() * scale;
-			yy = yy * scale + y - s->get_yabove() * scale;
-			gwin->get_win()->fill8(50, 1 * scale, 5 * scale, xx, yy - 2 * scale);
-			gwin->get_win()->fill8(50, 5 * scale, 1 * scale, xx - 2 * scale, yy);
 		}
 	}
 };
@@ -1609,8 +1635,9 @@ USECODE_INTRINSIC(display_map) {
 		ShortcutBar_gump::HideGump();
 	}
 	gwin->paint();
-	ShapeID   msid(game->get_shape("sprites/map"), 0, SF_SPRITES_VGA);
-	Paint_map map(&msid, loc);
+	ShapeID                    msid(game->get_shape("sprites/map"), 0, SF_SPRITES_VGA);
+	std::vector<Quest_marker>  marks = Notebook_gump::get_quest_markers();
+	Paint_map                  map(&msid, loc, &marks);
 
 	int xx;
 	int yy;
@@ -1630,6 +1657,52 @@ USECODE_INTRINSIC(display_map) {
 	}
 	gwin->paint();
 	return no_ret;
+}
+
+/*
+ *  Modal paper map with active quests marked and one destination
+ *  highlighted. Called from the notebook's [Map] chip; the notebook must
+ *  already be closed.
+ */
+void display_quest_map(const Quest_marker& focus) {
+	Game_window* gwin = Game_window::get_instance();
+	if (touchui != nullptr) {
+		touchui->hideGameControls();
+	}
+	if (Face_stats::Visible()) {
+		Face_stats::HideGump();
+	}
+	if (ShortcutBar_gump::Visible()) {
+		ShortcutBar_gump::HideGump();
+	}
+	gwin->paint();
+	ShapeID                    msid(game->get_shape("sprites/map"), 0, SF_SPRITES_VGA);
+	std::vector<Quest_marker>  marks = Notebook_gump::get_quest_markers();
+	const Quest_marker*        foc   = nullptr;
+	for (const Quest_marker& m : marks) {
+		if (m.note_index == focus.note_index) {
+			foc = &m;
+			break;
+		}
+	}
+	Paint_map map(&msid, false, &marks, foc);
+	int       xx;
+	int       yy;
+	Get_click(xx, yy, Mouse::hand, nullptr, false, &map);
+	gwin->paint();
+	if (touchui != nullptr) {
+		Gump_manager* gumpman = gwin->get_gump_man();
+		if (!gumpman->gump_mode()) {
+			touchui->showGameControls();
+		}
+	}
+	if (!Face_stats::Visible()) {
+		Face_stats::ShowGump();
+	}
+	if (!ShortcutBar_gump::Visible()) {
+		ShortcutBar_gump::ShowGump();
+	}
+	gwin->paint();
 }
 
 USECODE_INTRINSIC(si_display_map) {
