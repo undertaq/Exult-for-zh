@@ -311,6 +311,7 @@ void ShortcutBar_gump::paint() {
 
 	Gump::paint();
 
+	const int unread = Notebook_gump::get_unread_count();
 	for (int i = 0; i < numButtons; i++) {
 		const ShortcutBarButtonItem& item  = buttonItems[i];
 		const int                    x     = locx + item.mx;
@@ -320,6 +321,22 @@ void ShortcutBar_gump::paint() {
 		// when the bar is on the game screen it may need an outline
 		if (frame && frame->is_rle() && gwin->get_outline_color() < NPIXCOLORS && starty >= 0) {
 			sman->paint_outline(x, y, frame, gwin->get_outline_color());
+		}
+		// Red unread badge over the notebook icon.
+		if (unread > 0 && item.name && !strcmp(item.name, "NOTEBOOK") && frame) {
+			const int bw = 12;
+			const int bh = 12;
+			const int bx = x + frame->get_width() - 3;
+			const int by = y + frame->get_yabove() + 2;
+			gwin->get_win()->fill8(sman->get_special_pixel(HIT_PIXEL), bw, bh, bx, by);
+			gwin->get_win()->fill8(sman->get_special_pixel(BLACK_PIXEL), bw, 1, bx, by);
+			gwin->get_win()->fill8(sman->get_special_pixel(BLACK_PIXEL), bw, 1, bx, by + bh - 1);
+			gwin->get_win()->fill8(sman->get_special_pixel(BLACK_PIXEL), 1, bh, bx, by);
+			gwin->get_win()->fill8(sman->get_special_pixel(BLACK_PIXEL), 1, bh, bx + bw - 1, by);
+			char tbuf[16];
+			snprintf(tbuf, sizeof(tbuf), "%d", unread);
+			const int tw = sman->get_text_width(4, tbuf);
+			sman->paint_text(4, tbuf, bx + (bw - tw) / 2, by + 3);
 		}
 	}
 

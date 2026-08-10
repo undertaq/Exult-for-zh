@@ -71,6 +71,8 @@ public:
  *  A notebook gump represents the in-game journal.
  */
 class Notebook_gump : public Gump {
+	friend class Notebook_chip_button;
+	friend class Notebook_null_button;
 	static std::vector<One_note*> notes;    // The text.
 	// Indexed by page#.
 	static std::vector<Notebook_top> page_info;
@@ -84,6 +86,12 @@ class Notebook_gump : public Gump {
 	int                              updnx = 0;      // X-coord. for up/down arrows.
 	// Page turners:
 	Gump_button *leftpage, *rightpage;
+	// Bottom-strip UI: 5 category tabs, search box, hide-completed toggle.
+	Gump_button* tab_buttons[5] = {};
+	Gump_button* search_button  = nullptr;
+	Gump_button* toggle_button  = nullptr;
+	Gump_button* null_button    = nullptr;    // Swallows clicks on the checkbox.
+	bool         search_focused = false;    // Interactive search box has focus.
 	// Add new note.
 	static void add_new(const std::string& text, int gflag = -1);
 	bool        paint_page(const TileRect& box, One_note* note, int& offset, int pagenum);
@@ -106,15 +114,29 @@ class Notebook_gump : public Gump {
 	static std::string  search_query;
 	static bool         show_completed;
 	static int          unread_count;
+	static bool         dirty;    // True when notes changed and need saving.
+	// Index into notes[] of the notes that pass the current filter,
+	// in display order. Empty means all notes are visible.
+	static std::vector<int> visible;
 
 	static void set_filter(NoteCategory cat) { active_filter = cat; }
 	static NoteCategory get_filter() { return active_filter; }
 	static const std::string& get_search_query() { return search_query; }
 	static void set_search_query(const std::string& q) { search_query = q; }
-	static int get_unread_count();
 	static bool note_matches_filter(const One_note* note);
+	// Rebuild the visible list after filter/search/status changes.
+	static void rebuild_visible();
+	// Number of notes currently visible (subject to filter/search/status).
+	static int nb_note_count() {
+		return visible.empty() ? 0 : static_cast<int>(visible.size());
+	}
+	// Map a visible index to the underlying note.
+	static One_note* nb_note(int i) {
+		return notes[visible[i]];
+	}
 
 public:
+	static int get_unread_count();
 	Notebook_gump();
 	~Notebook_gump() override;
 	static void           clear();
@@ -125,6 +147,8 @@ public:
 	}
 
 	void change_page(int delta);    // Page forward/backward.
+	// Reset paging and repaint after visibility changed.
+	void reset_view();
 	// Is a given point on a button?
 	Gump_button* on_button(int mx, int my) override;
 	void         paint() override;    // Paint it and its contents.

@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2000-2025 The Exult Team
 
 This program is free software; you can redistribute it and/or
@@ -74,6 +74,8 @@ NoteCategory         Notebook_gump::active_filter         = NoteCategory::GENERA
 string               Notebook_gump::search_query          = "";
 bool                 Notebook_gump::show_completed        = true;
 int                  Notebook_gump::unread_count          = 0;
+bool                 Notebook_gump::dirty                 = false;
+vector<int>          Notebook_gump::visible;
 
 /*
  *  Defines in 'gumps.vga':
@@ -221,6 +223,39 @@ bool Notebook_gump::note_matches_filter(const One_note* note) {
 }
 
 /*
+ *  Rebuild the "visible" note list after filter/search/status changes.
+ *  Visibility decides which notes take part in page layout; the master
+ *  notes[] list is never reordered.
+ */
+void Notebook_gump::rebuild_visible() {
+	visible.clear();
+	for (int i = 0; i < static_cast<int>(notes.size()); ++i) {
+		if (note_matches_filter(notes[i])) {
+			visible.push_back(i);
+		}
+	}
+}
+
+/*
+ *  Reset pagination from the top after the visible notes changed.
+ */
+void Notebook_gump::reset_view() {
+	rebuild_visible();
+	page_info.clear();
+	if (visible.empty()) {
+		page_info.emplace_back(-1, 0);    // No notes match: blank pages.
+	} else {
+		page_info.emplace_back(0, 0);
+	}
+	curpage       = 0;
+	curnote       = 0;
+	cursor.offset = 0;
+	updnx         = 0;
+	dirty         = true;
+	paint();
+}
+
+/*
  *  Write out as XML.
  */
 
@@ -259,6 +294,38 @@ inline TileRect Get_text_area(bool right, bool startnote) {
 }
 
 /*
+ *  Remap tables for dimmed (completed) text and green "NEW" highlight.
+ *  Fonts paint glyph pixels at 0..255; mapping every pixel to a reduced
+ *  value dims the text, mapping to the special green gives a bright "NEW"
+ *  marker. Pixel 0 (transparent) is always preserved.
+ */
+static unsigned char* DimTable() {
+	static unsigned char table[256];
+	static bool          inited = false;
+	if (!inited) {
+		for (int i = 0; i < 256; ++i) {
+			table[i] = static_cast<unsigned char>(i ? (i * 3) / 5 : 0);
+		}
+		inited = true;
+	}
+	return table;
+}
+
+static unsigned char* NewTable() {
+	static unsigned char table[256];
+	static bool          inited = false;
+	if (!inited) {
+		const unsigned char green = static_cast<unsigned char>(
+				Shape_manager::get_instance()->get_special_pixel(POISON_PIXEL));
+		for (int i = 0; i < 256; ++i) {
+			table[i] = static_cast<unsigned char>(i ? green : 0);
+		}
+		inited = true;
+	}
+	return table;
+}
+
+/*
  *  A 'page-turner' button.
  */
 class Notebook_page_button : public Gump_button {
@@ -292,6 +359,153 @@ bool Notebook_page_button::activate(MouseButton button) {
 }
 
 /*
+ *  Invisble button that swallows a click (returned from on_button when a
+ *  click is handled directly, e.g. the quest checkbox).
+ */
+class Notebook_null_button : public Gump_button {
+public:
+	Notebook_null_button(Gump* par) : Gump_button(par, -1, 0, 0) {}
+
+	bool on_widget(int mx, int my) const override {
+		ignore_unused_variable_warning(mx, my);
+		return false;
+	}
+};
+
+/*
+ *  Bottom-strip interactive chip: category tab, search box or the
+ *  show-completed toggle. Self-contained drawing (font 4 only; CJK
+ *  safe), hit-testing against a gump-relative rect, and activation.
+ */
+class Notebook_chip_button : public Gump_button {
+	int          rx, ry, rw, rh;    // Gump-relative rect.
+	NoteCategory cat;               // For tabs.
+	bool         is_search;         // This is the search box.
+	bool         is_toggle;         // This is the hide/show completed toggle.
+public:
+	Notebook_chip_button(Gump* par, int gx, int gy, int gw, int gh, NoteCategory c = NoteCategory::GENERAL, bool search = false,
+						 bool toggle = false)
+			: Gump_button(par, -1, gx, gy), rx(gx), ry(gy), rw(gw), rh(gh), cat(c), is_search(search), is_toggle(toggle) {}
+
+	bool on_widget(int mx, int my) const override {
+		const int gx = parent->get_x();
+		const int gy = parent->get_y();
+		return mx >= gx + rx && mx < gx + rx + rw && my >= gy + ry && my < gy + ry + rh;
+	}
+
+	bool activate(MouseButton button) override;
+
+	void paint() override;
+};
+
+/*
+ *  Chip clicked (mouse released over it).
+ */
+bool Notebook_chip_button::activate(MouseButton button) {
+	if (button != MouseButton::Left) {
+		return false;
+	}
+	Notebook_gump* nb = static_cast<Notebook_gump*>(parent);
+	SDL_Window* window = gwin->get_win()->get_screen_window();
+	if (is_search) {
+		nb->search_focused = !nb->search_focused;
+		if (nb->search_focused) {
+			if (!SDL_TextInputActive(window)) {
+				TouchUI::startTextInput(window);
+			}
+		} else {
+			if (SDL_TextInputActive(window)) {
+				SDL_StopTextInput(window);
+			}
+		}
+		nb->paint();
+		return true;
+	}
+	if (is_toggle) {
+		Notebook_gump::show_completed = !Notebook_gump::show_completed;
+		nb->reset_view();
+		return true;
+	}
+	Notebook_gump::set_filter(cat);
+	nb->reset_view();
+	return true;
+}
+
+/*
+ *  Paint a chip: parchment-colored background, thin border, label text.
+ */
+void Notebook_chip_button::paint() {
+	Shape_manager* sman = Shape_manager::get_instance();
+	Image_window8* win  = gwin->get_win();
+	const int      x    = parent->get_x() + rx;
+	const int      y    = parent->get_y() + ry;
+	// Parchment-ish background + dark border, from the game palette.
+	const int      border_px   = sman->get_special_pixel(BLACK_PIXEL);
+	const int      parchment_px = sman->get_special_pixel(PROTECT_PIXEL);
+	bool           is_active    = false;
+	if (!is_search && !is_toggle) {
+		is_active = static_cast<Notebook_gump*>(parent)->get_filter() == cat;
+	}
+	const int bg_px = is_active ? sman->get_special_pixel(POISON_PIXEL) : parchment_px;
+	// Background.
+	win->fill8(bg_px, rw, rh, x, y);
+	// 1px border.
+	win->fill8(border_px, rw, 1, x, y);
+	win->fill8(border_px, rw, 1, x, y + rh - 1);
+	win->fill8(border_px, 1, rh - 2, x, y + 1);
+	win->fill8(border_px, 1, rh - 2, x + rw - 1, y + 1);
+	if (is_toggle) {
+		// Checkbox + label "Done".
+		const int cbsz = 8;
+		const int cbx  = x + 3;
+		const int cby  = y + (rh - cbsz) / 2;
+		win->fill8(border_px, cbsz, 1, cbx, cby);
+		win->fill8(border_px, cbsz, 1, cbx, cby + cbsz - 1);
+		win->fill8(border_px, 1, cbsz, cbx, cby);
+		win->fill8(border_px, 1, cbsz, cbx + cbsz - 1, cby);
+		if (Notebook_gump::show_completed) {    // Tick.
+			for (int i = 0; i < cbsz - 2; ++i) {
+				win->fill8(border_px, 1, 1, cbx + 1 + i, cby + cbsz - 2 - i);
+			}
+		}
+		sman->paint_text(4, "Done", cbx + cbsz + 3, y + 1);
+		return;
+	}
+	if (is_search) {
+		// Search chip: right-aligned query, caret when focused.
+		const string& q    = Notebook_gump::get_search_query();
+		const int     maxw = rw - 6;
+		string        shown;
+		if (q.empty()) {
+			shown = "Search";    // Placeholder.
+		} else {
+			shown = q;
+			while (!shown.empty() && sman->get_text_width(font, shown.c_str()) > maxw) {
+				const unsigned char c = static_cast<unsigned char>(shown[0]);
+				const size_t chlen = (c & 0xF0) == 0xF0 ? 4 : (c & 0xE0) == 0xE0 ? 3 : (c & 0xC0) == 0xC0 ? 2 : 1;
+				shown = shown.substr(chlen);
+			}
+		}
+		const int tw = sman->get_text_width(font, shown.c_str());
+		if (q.empty()) {
+			sman->paint_text(font, shown.c_str(), x + 3, y + 1);
+		} else {
+			sman->paint_text(font, shown.c_str(), x + rw - 3 - tw, y + 1);
+		}
+		if (static_cast<Notebook_gump*>(parent)->search_focused) {
+			const int cx = x + rw - 3 - (q.empty() ? 0 : tw);
+			win->fill8(border_px, 1, rh - 4, cx, y + 2);
+		}
+		return;
+	}
+	// Category tab.
+	const char* tablabels[5] = {"All","Quest","Clue","Loc","NPC"};
+	const char* label        = tablabels[static_cast<int>(cat)];
+	const int   tw           = sman->get_text_width(font, label);
+	sman->paint_text(font, label, x + (rw - tw) / 2, y + 1);
+}
+
+/*
  *  Read in notes the first time.
  */
 
@@ -311,6 +525,7 @@ void Notebook_gump::clear() {
 		notes.pop_back();
 	}
 	page_info.clear();
+	visible.clear();
 	initialized = false;
 }
 
@@ -336,11 +551,11 @@ static NoteCategory parse_note_category(const string& input_text, string& clean_
 			}
 
 			NoteCategory cat = NoteCategory::GENERAL;
-			if (tag_lower == "quest" || tag == "任务" || tag == "任務") {
+			if (tag_lower == "quest" || tag == "任务") {
 				cat = NoteCategory::QUEST;
-			} else if (tag_lower == "clue" || tag == "线索" || tag == "線索") {
+			} else if (tag_lower == "clue" || tag == "线索" || tag == "綫索") {
 				cat = NoteCategory::CLUE;
-			} else if (tag_lower == "location" || tag_lower == "loc" || tag == "地点" || tag == "地點") {
+			} else if (tag_lower == "location" || tag_lower == "loc" || tag == "地点") {
 				cat = NoteCategory::LOCATION;
 			} else if (tag_lower == "npc" || tag == "人物") {
 				cat = NoteCategory::NPC;
@@ -368,8 +583,13 @@ void Notebook_gump::add_new(const string& text, int gflag) {
 	const Tile_coord t    = gwin->get_main_actor()->get_tile();
 	string clean_text;
 	NoteCategory cat  = parse_note_category(text, clean_text);
+	// Game journal entries (gflag >= 0) are quests unless tagged otherwise.
+	if (cat == NoteCategory::GENERAL && gflag >= 0) {
+		cat = NoteCategory::QUEST;
+	}
 	auto*        note = new One_note(clk->get_day(), clk->get_hour(), clk->get_minute(), t.tx, t.ty, clean_text, gflag, true, cat, false, true);
 	notes.push_back(note);
+	rebuild_visible();
 }
 
 /*
@@ -396,7 +616,23 @@ Notebook_gump::Notebook_gump() : Gump(nullptr, EXULT_FLX_NOTEBOOK_SHP, SF_EXULT_
 	const int lrpagey = 12;
 	leftpage          = new Notebook_page_button(this, lpagex, lrpagey, 0);
 	rightpage         = new Notebook_page_button(this, rpagex, lrpagey, 1);
+	// Bottom-strip chips: 5 category tabs, search box, hide/show completed.
+	const int chipy  = pagey + 130 + 8;
+	const int tabw   = 30;
+	const int tabh   = 13;
+	const int startx = 36;
+	for (int i = 0; i < 5; ++i) {
+		tab_buttons[i] = new Notebook_chip_button(
+				this, startx + i * tabw, chipy, tabw, tabh, static_cast<NoteCategory>(i));
+		add_elem(tab_buttons[i]);    // Needed for Gump::has_point() hit-testing.
+	}
+	search_button = new Notebook_chip_button(this, startx + 5 * tabw + 3, chipy, 62, tabh, NoteCategory::GENERAL, true);
+	toggle_button = new Notebook_chip_button(this, startx + 5 * tabw + 3 + 62 + 3, chipy, 48, tabh, NoteCategory::GENERAL, false, true);
+	add_elem(search_button);
+	add_elem(toggle_button);
+	null_button   = new Notebook_null_button(this);
 	add_new("");    // Add new note to end.
+	rebuild_visible();
 }
 
 Notebook_gump* Notebook_gump::create() {
@@ -405,12 +641,27 @@ Notebook_gump* Notebook_gump::create() {
 	}
 	if (!instance) {
 		instance = new Notebook_gump;
+		// Opening the journal reads all entries: clear unread marks.
+		bool any_unread = false;
+		for (One_note* n : notes) {
+			if (n->get_unread()) {
+				n->set_unread(false);
+				any_unread = true;
+			}
+		}
+		if (any_unread) {
+			dirty = true;
+		}
 		if (touchui != nullptr) {
 			touchui->hideGameControls();
 			SDL_Window* window = gwin->get_win()->get_screen_window();
 			if (!SDL_TextInputActive(window)) {
 				TouchUI::startTextInput(window);
 			}
+		}
+		// Open on the most recent entry so the latest quest is visible.
+		if (nb_note_count() > 0) {
+			instance->jump_to_last_entry();
 		}
 	}
 	return instance;
@@ -432,6 +683,10 @@ Notebook_gump::~Notebook_gump() {
 	}
 	delete leftpage;
 	delete rightpage;
+	// tab_buttons/search/toggle are registered in elems and are deleted by
+	// the base Gump destructor. null_button is only a returned pointer.
+	delete null_button;
+	null_button = nullptr;
 	if (this == instance) {
 		instance = nullptr;
 	}
@@ -444,6 +699,10 @@ Notebook_gump::~Notebook_gump() {
 		if (SDL_TextInputActive(window)) {
 			SDL_StopTextInput(window);
 		}
+	}
+	if (dirty) {
+		write();
+		dirty = false;
 	}
 }
 
@@ -459,7 +718,10 @@ bool Notebook_gump::paint_page(
 		One_note*       note,      // Note to print.
 		int&            offset,    // Starting offset into text.  Updated.
 		int             pagenum) {
-	const bool find_cursor = (note == notes[curnote] && cursor.x < 0);
+	const bool find_cursor = (note == nb_note(curnote) && cursor.x < 0);
+	const bool completed   = note->get_completed();
+	// Remap table dims already-painted font pixels by ~60% brightness.
+	const unsigned char* dim_trans = completed ? DimTable() : nullptr;
 	if (offset == 0) {    // Print note info. at start.
 		char        buf[60];
 		const char* ampm = Strings::am();
@@ -476,12 +738,43 @@ bool Notebook_gump::paint_page(
 		const int fontnum = 2;
 		const int yoffset = 4;
 #endif
-		sman->paint_text(fontnum, buf, x + box.x, y + pagey);
+		if (dim_trans) {
+			sman->get_font(fontnum)->paint_text(gwin->get_win()->get_ib8(), buf, x + box.x, y + pagey, const_cast<unsigned char*>(dim_trans));
+		} else {
+			sman->paint_text(fontnum, buf, x + box.x, y + pagey);
+		}
 		// when cheating show location of entry (in dec - could use sextant
 		// postions)
 		if (cheat()) {
 			snprintf(buf, sizeof(buf), "%d, %d", note->tx, note->ty);
 			sman->paint_text(4, buf, x + box.x + 80, y + pagey - yoffset);
+		}
+		// "NEW" badge for unread entries, straight after the date.
+		if (note->get_unread()) {
+			const int wl = sman->get_text_width(fontnum, buf);
+			sman->get_font(fontnum)->paint_text(
+					gwin->get_win()->get_ib8(), "NEW", x + box.x + wl + 8, y + pagey, const_cast<unsigned char*>(NewTable()));
+		}
+		// Quest entries get a completion checkbox on the info row.
+		if (note->get_category() == NoteCategory::QUEST) {
+			const int cbx = x + box.x + box.w - 19;
+			const int cby = y + pagey;
+			const int blk = sman->get_special_pixel(BLACK_PIXEL);
+			const int pap = sman->get_special_pixel(PROTECT_PIXEL);
+			// Border + interior.
+			gwin->get_win()->fill8(blk, 9, 1, cbx, cby);
+			gwin->get_win()->fill8(blk, 9, 1, cbx, cby + 8);
+			gwin->get_win()->fill8(blk, 1, 9, cbx, cby);
+			gwin->get_win()->fill8(blk, 1, 9, cbx + 8, cby);
+			gwin->get_win()->fill8(pap, 7, 7, cbx + 1, cby + 1);
+			if (note->get_completed()) {    // Tick mark.
+				for (int i = 0; i < 3; ++i) {
+					gwin->get_win()->put_pixel8(blk, cbx + 1 + i, cby + 6 - i);
+				}
+				for (int i = 0; i < 5; ++i) {
+					gwin->get_win()->put_pixel8(blk, cbx + 3 + i, cby + 4 - i);
+				}
+			}
 		}
 		// Use bright green for automatic text.
 		gwin->get_win()->fill8(
@@ -489,8 +782,15 @@ bool Notebook_gump::paint_page(
 	}
 	const char* str = note->text.c_str() + offset;
 	cursor.offset -= offset;
-	const int endoff = sman->paint_text_box(
-			font, str, x + box.x, y + box.y, box.w, box.h, vlead, false, false, -1, find_cursor ? &cursor : nullptr);
+	int endoff;
+	if (dim_trans) {
+		endoff = sman->get_font(font)->paint_text_box(
+				gwin->get_win()->get_ib8(), str, x + box.x, y + box.y, box.w, box.h, vlead, false, false,
+				find_cursor ? &cursor : nullptr, const_cast<unsigned char*>(dim_trans));
+	} else {
+		endoff = sman->paint_text_box(
+				font, str, x + box.x, y + box.y, box.w, box.h, vlead, false, false, -1, find_cursor ? &cursor : nullptr);
+	}
 	cursor.offset += offset;
 	if (endoff > 0) {    // All painted?
 		// Value returned is height.
@@ -547,13 +847,43 @@ void Notebook_gump::change_page(int delta) {
 Gump_button* Notebook_gump::on_button(
 		int mx, int my    // Point in window.
 ) {
-	Gump_button* btn = Gump::on_button(mx, my);
-	if (btn) {
-		return btn;
-	} else if (leftpage->on_button(mx, my)) {
+	// Bottom-strip chips get first chance.
+	for (int i = 0; i < 5; ++i) {
+		if (tab_buttons[i]->on_button(mx, my)) {
+			return tab_buttons[i];
+		}
+	}
+	if (search_button->on_button(mx, my)) {
+		return search_button;
+	}
+	if (toggle_button->on_button(mx, my)) {
+		return toggle_button;
+	}
+	if (leftpage->on_button(mx, my)) {
 		return leftpage;
 	} else if (rightpage->on_button(mx, my)) {
 		return rightpage;
+	}
+	const int cbtopl   = curpage & ~1;
+	// Quest completion checkbox on the note-info row of the left page.
+	{
+		int       notenum = page_info[cbtopl].notenum;
+		const int looset  = page_info[cbtopl].offset;
+		if (notenum >= 0 && looset == 0) {
+			One_note* n   = nb_note(notenum);
+			TileRect  box = Get_text_area(false, true);
+			box.shift(x, y);    // Window area.
+			if (n->get_category() == NoteCategory::QUEST && TileRect(box.x + box.w - 19, box.y - 12, 9, 9).has_point(mx, my)) {
+				n->set_completed(!n->get_completed());
+				dirty = true;
+				paint();
+				return null_button;    // Swallow the click.
+			}
+		}
+	}
+	Gump_button* btn = Gump::on_button(mx, my);
+	if (btn) {
+		return btn;
 	}
 	const int topleft = curpage & ~1;
 	int       notenum = page_info[topleft].notenum;
@@ -562,7 +892,7 @@ Gump_button* Notebook_gump::on_button(
 	}
 	int         offset = page_info[topleft].offset;
 	TileRect    box    = Get_text_area(false, offset == 0);    // Left page.
-	One_note*   note   = notes[notenum];
+	One_note*   note   = nb_note(notenum);
 	int         coff   = sman->find_cursor(font, note->text.c_str() + offset, x + box.x, y + box.y, box.w, box.h, mx, my, vlead);
 	SDL_Window* window = gwin->get_win()->get_screen_window();
 	if (coff >= 0) {    // Found it?
@@ -577,10 +907,10 @@ Gump_button* Notebook_gump::on_button(
 	} else {
 		offset += -coff;    // New offset.
 		if (offset >= static_cast<int>(note->text.length())) {
-			if (notenum == static_cast<int>(notes.size()) - 1) {
+			if (notenum == nb_note_count() - 1) {
 				return nullptr;    // No more.
 			}
-			note   = notes[++notenum];
+			note   = nb_note(++notenum);
 			offset = 0;
 		}
 		box = Get_text_area(true, offset == 0);    // Right page.
@@ -607,7 +937,7 @@ Gump_button* Notebook_gump::on_button(
  */
 
 void Notebook_gump::paint() {
-	Gump::paint();
+	Gump::paint();    // Shape + elems (the chip buttons paint themselves here).
 	if (curpage > 0) {    // Not the first?
 		leftpage->paint();
 	}
@@ -617,16 +947,16 @@ void Notebook_gump::paint() {
 		return;
 	}
 	int       offset = page_info[topleft].offset;
-	One_note* note   = notes[notenum];
+	One_note* note   = nb_note(notenum);
 	cursor.x         = -1;
 	// Paint left page.
 	if (paint_page(Get_text_area(false, offset == 0), note, offset, topleft)) {
 		// Finished note?
-		if (notenum == static_cast<int>(notes.size()) - 1) {
+		if (notenum == nb_note_count() - 1) {
 			return;
 		}
 		++notenum;
-		note   = notes[notenum];
+		note   = nb_note(notenum);
 		offset = 0;
 	}
 	if (topleft + 1 >= static_cast<int>(page_info.size())) {    // Store right-page info.
@@ -637,7 +967,7 @@ void Notebook_gump::paint() {
 	// Paint right page.
 	if (paint_page(Get_text_area(true, offset == 0), note, offset, topleft + 1)) {
 		// Finished note?
-		if (notenum == static_cast<int>(notes.size()) - 1) {
+		if (notenum == nb_note_count() - 1) {
 			return;    // No more.
 		}
 		++notenum;
@@ -664,7 +994,7 @@ void Notebook_gump::prev_page() {
 	--curpage;
 	curnote = page_info[curpage].notenum;
 	if (!pinfo.offset) {    // Going to new note?
-		cursor.offset = notes[curnote]->text.length();
+		cursor.offset = nb_note(curnote)->text.length();
 	} else {
 		cursor.offset = pinfo.offset - 1;
 	}
@@ -702,6 +1032,9 @@ bool Notebook_gump::on_first_page_line() {
  */
 
 void Notebook_gump::down_arrow() {
+	if (page_info[curpage].notenum < 0) {
+		return;
+	}
 	int       offset = page_info[curpage].offset;
 	TileRect  box    = Get_text_area((curpage % 2) != 0, offset == 0);
 	const int ht     = sman->get_text_height(font);
@@ -719,7 +1052,7 @@ void Notebook_gump::down_arrow() {
 	const int mx      = box.x + updnx + 1;
 	const int my      = cursor.y + ht + ht / 2;
 	const int notenum = page_info[curpage].notenum;
-	One_note* note    = notes[notenum];
+	One_note* note    = nb_note(notenum);
 	const int coff    = sman->find_cursor(font, note->text.c_str() + offset, box.x, box.y, box.w, box.h, mx, my, vlead);
 	if (coff >= 0) {    // Found it?
 		cursor.offset = offset + coff;
@@ -728,6 +1061,9 @@ void Notebook_gump::down_arrow() {
 }
 
 void Notebook_gump::up_arrow() {
+	if (page_info[curpage].notenum < 0) {
+		return;
+	}
 	const Notebook_top& pinfo   = page_info[curpage];
 	const int           ht      = sman->get_text_height(font);
 	int                 offset  = pinfo.offset;
@@ -742,7 +1078,7 @@ void Notebook_gump::up_arrow() {
 		if (pinfo.notenum == notenum) {    // Same note?
 			cursor.offset = offset - 1;
 		} else {
-			cursor.offset = notes[notenum]->text.length();
+			cursor.offset = nb_note(notenum)->text.length();
 		}
 		paint();
 		offset = pinfo2.offset;
@@ -752,7 +1088,7 @@ void Notebook_gump::up_arrow() {
 	box.shift(x, y);    // Window coords.
 	const int mx   = box.x + updnx + 1;
 	const int my   = cursor.y - ht / 2;
-	One_note* note = notes[notenum];
+	One_note* note = nb_note(notenum);
 	const int coff = sman->find_cursor(font, note->text.c_str() + offset, box.x, box.y, box.w, box.h, mx, my, vlead);
 	if (coff >= 0) {    // Found it?
 		cursor.offset = offset + coff;
@@ -772,23 +1108,83 @@ bool Notebook_gump::handle_kbd_event(void* vev) {
 	if (ev.type == SDL_EVENT_KEY_UP) {
 		return true;    // Ignoring key-up at present.
 	}
+	// Raw UTF-8 text input (IME / keyboard) goes to the search box when focused.
+	if (ev.type == SDL_EVENT_TEXT_INPUT) {
+		if (search_focused && ev.text.text) {
+			search_query += ev.text.text;
+			reset_view();
+			return true;
+		}
+		return false;
+	}
 	if (ev.type != SDL_EVENT_KEY_DOWN) {
 		return false;
 	}
 	if (curpage >= static_cast<int>(page_info.size())) {
 		return false;    // Shouldn't happen.
 	}
+	if (search_focused) {    // Search box owns the keyboard.
+		SDL_Window* window = gwin->get_win()->get_screen_window();
+		switch (chr) {
+		case SDLK_ESCAPE:
+		case SDLK_RETURN:
+			search_focused = false;
+			if (SDL_TextInputActive(window)) {
+				SDL_StopTextInput(window);
+			}
+			paint();
+			return true;
+		case SDLK_BACKSPACE:
+			if (!search_query.empty()) {    // Drop last UTF-8 codepoint.
+				size_t i = search_query.size() - 1;
+				while (i > 0 && (static_cast<unsigned char>(search_query[i]) & 0xC0) == 0x80) {
+					--i;
+				}
+				search_query.erase(i);
+				reset_view();
+			}
+			return true;
+		case SDLK_DELETE:
+			if (!search_query.empty()) {
+				search_query.clear();
+				reset_view();
+			}
+			return true;
+		default:
+			return true;    // Swallow everything else while searching.
+		}
+	}
 	const Notebook_top& pinfo = page_info[curpage];
-	One_note*           note  = notes[pinfo.notenum];
+	if (pinfo.notenum < 0) {    // No note on this page (empty filter).
+		return true;
+	}
+	One_note* note = nb_note(pinfo.notenum);
 	switch (chr) {
 	case SDLK_ESCAPE: {
-		// Close the gump
+		// Close the gump.
 		if (gwin && gwin->get_gump_man()) {
 			gwin->get_gump_man()->close_gump(this);
 			return true;
 		}
 		return false;
 	}
+	case SDLK_F8:
+		// Toggle the interactive search box.
+		search_focused = !search_focused;
+		{
+			SDL_Window* window = gwin->get_win()->get_screen_window();
+			if (search_focused) {
+				if (!SDL_TextInputActive(window)) {
+					TouchUI::startTextInput(window);
+				}
+			} else {
+				if (SDL_TextInputActive(window)) {
+					SDL_StopTextInput(window);
+				}
+			}
+		}
+		paint();
+		return true;
 	case SDLK_HOME:
 		// Jump to first entry
 		jump_to_first_entry();
@@ -952,6 +1348,10 @@ void Notebook_gump::add_new_with_line_breaks(const string& text, int gflag) {
 
 	string clean_text;
 	NoteCategory cat = parse_note_category(text, clean_text);
+	// Game journal entries (gflag >= 0) are quests unless tagged otherwise.
+	if (cat == NoteCategory::GENERAL && gflag >= 0) {
+		cat = NoteCategory::QUEST;
+	}
 
 	// Create a new note with parsed category and unread state
 	One_note* note = new One_note(clk->get_day(), clk->get_hour(), clk->get_minute(), t.tx, t.ty, "", gflag, true, cat, false, true);
@@ -961,6 +1361,11 @@ void Notebook_gump::add_new_with_line_breaks(const string& text, int gflag) {
 
 	// Add the note to the collection
 	notes.push_back(note);
+	if (instance) {
+		instance->reset_view();
+	} else {
+		rebuild_visible();
+	}
 }
 
 /*
@@ -1053,6 +1458,7 @@ void Notebook_gump::read() {
 			}
 		}
 	}
+	rebuild_visible();
 }
 
 /*
@@ -1298,10 +1704,10 @@ void Notebook_gump::jump_to_first_entry() {
 
 // Jump to the last entry (first page where the last note begins)
 void Notebook_gump::jump_to_last_entry() {
-	if (notes.empty()) {
+	if (nb_note_count() == 0) {
 		return;
 	}
-	const int last_idx = static_cast<int>(notes.size()) - 1;
+	const int last_idx = nb_note_count() - 1;
 
 	// Reset to start so paint() builds page_info forward
 	if (page_info.empty()) {
