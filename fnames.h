@@ -179,6 +179,8 @@
 
 #define AUTONOTES       "autonotes.txt"
 #define PATCH_AUTONOTES "<PATCH>/autonotes.txt"
+#define AUTONOTES_ZH     "autonotes_zh.txt"
+#define PATCH_AUTONOTES_ZH "<PATCH>/autonotes_zh.txt"
 
 #define PATCH_KEYS "<PATCH>/patchkeys.txt"
 

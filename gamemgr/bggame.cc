@@ -157,6 +157,7 @@ BG_Game::BG_Game() : shapes(ENDSHAPE_FLX, -1, PATCH_ENDSHAPE) {
 		add_resource("config/shape_files", gameflx, EXULT_BG_FLX_SHAPE_FILES_TXT);
 		add_resource("config/avatar_data", gameflx, EXULT_BG_FLX_AVATAR_DATA_TXT);
 		add_resource("config/autonotes", gameflx, EXULT_BG_FLX_AUTONOTES_TXT);
+		add_resource("config/autonotes_zh", gameflx, EXULT_BG_FLX_AUTONOTES_ZH_TXT);
 		add_resource("files/intro_hand", gameflx, EXULT_BG_FLX_INTRO_HAND_SHP);
 		add_resource("files/global_flags", gameflx, EXULT_BG_FLX_GLOBAL_FLAGS_TXT);
 

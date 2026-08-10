@@ -1709,25 +1709,57 @@ void Notebook_gump::read_auto_text_file(const char* filename) {
 	}
 }
 
-// read in from flx bundled file
+/*
+ *  Load an autonote file, preferring the <PATCH> override, else the
+ *  bundled flx resource. Returns false if neither exists.
+ */
+static bool Load_autonotes(const char* patch_path, const char* resource_key, std::vector<string>& out) {
+	if (is_system_path_defined("<PATCH>") && U7exists(patch_path)) {
+		cout << "Loading patch autonotes: " << patch_path << endl;
+		IFileDataSource notesfile(patch_path, true);
+		if (notesfile.good()) {
+			Text_msg_file_reader reader(notesfile);
+			reader.get_global_section_strings(out);
+			return true;
+		}
+	}
+	const str_int_pair& resource = game->get_resource(resource_key);
+	IExultDataSource    notesfile(resource.str, resource.num);
+	if (notesfile.good()) {
+		cout << "Loading autonotes resource: " << resource_key << endl;
+		Text_msg_file_reader reader(notesfile);
+		reader.get_global_section_strings(out);
+		return true;
+	}
+	return false;
+}
+
+// read in from flx bundled file (or <PATCH> overrides)
 void Notebook_gump::read_auto_text() {
 	if (gwin->get_allow_autonotes()) {
 		initialized_auto_text = true;
-		if (is_system_path_defined("<PATCH>") && U7exists(PATCH_AUTONOTES)) {
-			cout << "Loading patch autonotes" << endl;
-			IFileDataSource notesfile(PATCH_AUTONOTES, true);
-			if (notesfile.good()) {
-				Text_msg_file_reader reader(notesfile);
-				reader.get_global_section_strings(auto_text);
+		std::vector<string> en;
+		std::vector<string> zh;
+		const bool have_en = Load_autonotes(PATCH_AUTONOTES, "config/autonotes", en);
+		const bool have_zh = Load_autonotes(PATCH_AUTONOTES_ZH, "config/autonotes_zh", zh);
+		auto_text.clear();
+		if (BilingualManager::get().get_text_language() == TextLanguage::CHINESE && have_zh) {
+			// Chinese wins; untranslated flags fall back to English so no
+			// note is ever dropped (missing entries arrive as "").
+			if (have_en) {
+				const size_t n = std::max(en.size(), zh.size());
+				auto_text.reserve(n);
+				for (size_t i = 0; i < n; ++i) {
+					const bool zh_empty = i >= zh.size() || zh[i].empty();
+					auto_text.push_back(zh_empty && i < en.size() ? en[i] : (i < zh.size() ? zh[i] : std::string()));
+				}
+			} else {
+				auto_text = std::move(zh);
 			}
-		} else {
-			const str_int_pair& resource = game->get_resource("config/autonotes");
-			IExultDataSource    notesfile(resource.str, resource.num);
-			if (notesfile.good()) {
-				cout << "Loading default autonotes" << endl;
-				Text_msg_file_reader reader(notesfile);
-				reader.get_global_section_strings(auto_text);
-			}
+		} else if (have_en) {
+			auto_text = std::move(en);
+		} else if (have_zh) {
+			auto_text = std::move(zh);
 		}
 	}
 }

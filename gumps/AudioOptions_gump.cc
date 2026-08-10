@@ -44,6 +44,7 @@
 #include "Gump_manager.h"
 #include "MidiDriver.h"
 #include "Mixer_gump.h"
+#include "Notebook_gump.h"
 #include "XMidiFile.h"
 #include "Yesno_gump.h"
 #include "exult.h"
@@ -711,6 +712,9 @@ void AudioOptions_gump::save_settings() {
 	config->set("config/audio/speech/voice/language", voice_language == 1 ? "zh" : "en", false);
 	BilingualManager::get().set_text_language(
 			text_language == 1 ? TextLanguage::CHINESE : TextLanguage::ENGLISH);
+	// New auto-notes (journal flags set from now on) use the new
+	// language; already-written notes keep their text.
+	Notebook_gump::invalidate_auto_text();
 	VoiceActingManager::init();    // Re-read voice config
 
 	const char* midi_looping_values[] = {"never", "limited", "auto", "endless"};
