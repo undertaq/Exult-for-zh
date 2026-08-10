@@ -53,6 +53,15 @@ inline NoteCategory string_to_note_category(const std::string& str) {
 	return NoteCategory::GENERAL;
 }
 
+/*
+ *  A quest's location for the world-map overlay.
+ */
+struct Quest_marker {
+	int tx, ty;        // Destination tile.
+	int note_index;    // Index into Notebook_gump's notes list.
+	Quest_marker() : tx(0), ty(0), note_index(-1) {}
+};
+
 
 /*
  *  Info. for top of a page.
@@ -73,6 +82,7 @@ public:
 class Notebook_gump : public Gump {
 	friend class Notebook_chip_button;
 	friend class Notebook_null_button;
+	friend class Notebook_map_button;
 	static std::vector<One_note*> notes;    // The text.
 	// Indexed by page#.
 	static std::vector<Notebook_top> page_info;
@@ -91,6 +101,9 @@ class Notebook_gump : public Gump {
 	Gump_button* search_button  = nullptr;
 	Gump_button* toggle_button  = nullptr;
 	Gump_button* null_button    = nullptr;    // Swallows clicks on the checkbox.
+	Gump_button* map_button     = nullptr;    // [Map] chip click handler.
+	int          pending_map    = -1;         // notes[] index of the note whose
+	//   [Map] chip was pressed, or -1.
 	bool         search_focused = false;    // Interactive search box has focus.
 	// Add new note.
 	static void add_new(const std::string& text, int gflag = -1);
@@ -164,6 +177,11 @@ public:
 		}
 	}
 
+	static std::vector<Quest_marker> get_quest_markers();    // Active quests, newest first.
+	static void invalidate_auto_text() {
+		initialized_auto_text = false;
+	}
+
 	bool is_draggable() const override {
 		return false;
 	}
@@ -177,5 +195,11 @@ public:
 	static void read_auto_text();
 	static void read_auto_text_file(const char* filename);
 };
+
+/*
+ *  Modal paper-map display with quest markers; 'focus' is highlighted.
+ *  Defined in usecode/intrinsics.cc. Closes no gumps itself.
+ */
+void display_quest_map(const Quest_marker& focus);
 
 #endif

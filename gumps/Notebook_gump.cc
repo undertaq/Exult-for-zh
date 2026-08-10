@@ -102,6 +102,8 @@ class One_note {
 	NoteCategory category = NoteCategory::GENERAL; // Category tag.
 	bool         is_completed = false;             // Quest status.
 	bool         is_unread = false;                // Unread status.
+	int          dest_x = -1, dest_y = -1;    // Curated map destination; <0 = none.
+	string       npcs;                        // Related NPC names, comma separated.
 public:
 	friend class Notebook_gump;
 	One_note() = default;
@@ -135,6 +137,28 @@ public:
 
 	void set_unread(bool unread) {
 		is_unread = unread;
+	}
+
+	void set_dest(int x, int y) {
+		dest_x = x;
+		dest_y = y;
+	}
+
+	bool get_dest(int& x, int& y) const {
+		if (dest_x < 0 || dest_y < 0) {
+			return false;
+		}
+		x = dest_x;
+		y = dest_y;
+		return true;
+	}
+
+	void set_npcs(const string& n) {
+		npcs = n;
+	}
+
+	const string& get_npcs() const {
+		return npcs;
 	}
 
 	NoteCategory get_category() const {
@@ -237,6 +261,34 @@ void Notebook_gump::rebuild_visible() {
 }
 
 /*
+ *  Locations of all active (not completed) quest notes, newest first,
+ *  capped at 8. A note's curated [map=x,y] destination wins over the
+ *  tile where the note was written. Reads the notebook from disk if it
+ *  was never opened, so the map works before the first journal visit.
+ */
+std::vector<Quest_marker> Notebook_gump::get_quest_markers() {
+	if (!initialized) {
+		initialize();
+	}
+	std::vector<Quest_marker> out;
+	const int                 max_markers = 8;
+	for (int i = static_cast<int>(notes.size()) - 1; i >= 0 && static_cast<int>(out.size()) < max_markers; --i) {
+		One_note* n = notes[i];
+		if (!n || n->get_category() != NoteCategory::QUEST || n->get_completed()) {
+			continue;
+		}
+		Quest_marker m;
+		m.note_index = i;
+		if (!n->get_dest(m.tx, m.ty)) {
+			m.tx = n->tx;
+			m.ty = n->ty;
+		}
+		out.push_back(m);
+	}
+	return out;
+}
+
+/*
  *  Reset pagination from the top after the visible notes changed.
  */
 void Notebook_gump::reset_view() {
@@ -270,6 +322,12 @@ void One_note::write(ostream& out) {
 	}
 	out << "<time> " << day << ':' << hour << ':' << minute << " </time>" << endl;
 	out << "<place> " << tx << ':' << ty << " </place>" << endl;
+	if (dest_x >= 0 && dest_y >= 0) {
+		out << "<dest> " << dest_x << ':' << dest_y << " </dest>" << endl;
+	}
+	if (!npcs.empty()) {
+		out << "<npcs> " << npcs << " </npcs>" << endl;
+	}
 	if (gflag >= 0) {
 		out << "<gflag> " << gflag << " </gflag>" << endl;
 	}
@@ -575,6 +633,65 @@ static NoteCategory parse_note_category(const string& input_text, string& clean_
 }
 
 /*
+ *  Pull structured markers out of note text:
+ *      [map=x,y]   destination tile for the world map.
+ *      [npc=A,B]   related NPC names.
+ *  The bracketed tokens are removed from the displayed text; values are
+ *  written back through the out-params. Missing tokens leave dest_x/dest_y
+ *  at -1 and npcs empty. Case-insensitive; a lone "[" without "]" is left
+ *  alone.
+ */
+static void parse_note_metadata(string& text, int& dest_x, int& dest_y, string& npcs) {
+	dest_x = dest_y = -1;
+	npcs.clear();
+	const string map_key = "[map=";
+	const string npc_key = "[npc=";
+	auto lowerify = [](const string& s, string& out) {
+		out = s;
+		for (char& c : out) {
+			c = static_cast<char>(tolower(static_cast<unsigned char>(c)));
+		}
+	};
+	auto extract = [&](const string& key, string& out) {
+		string lower;
+		lowerify(text, lower);
+		size_t pos = lower.find(key);
+		while (pos != string::npos) {
+			const size_t close = text.find(']', pos);
+			if (close == string::npos) {
+				pos = lower.find(key, pos + key.size());
+				continue;
+			}
+			out = text.substr(pos + key.size(), close - pos - key.size());
+			const size_t s = out.find_first_not_of(" \t\r\n");
+			const size_t e = out.find_last_not_of(" \t\r\n");
+			if (s == string::npos) {
+				out.clear();
+			} else {
+				out = out.substr(s, e - s + 1);
+			}
+			text.erase(pos, close - pos + 1);
+			lowerify(text, lower);
+			pos = lower.find(key);
+		}
+	};
+	string mapraw;
+	extract(map_key, mapraw);
+	if (!mapraw.empty()) {
+		int x;
+		int y;
+		if (sscanf(mapraw.c_str(), "%d,%d", &x, &y) == 2) {
+			dest_x = x;
+			dest_y = y;
+		}
+	}
+	extract(npc_key, npcs);
+	while (!text.empty() && (text.back() == ' ' || text.back() == '\n' || text.back() == '\t')) {
+		text.pop_back();    // Tidy whitespace left by tag removal.
+	}
+}
+
+/*
  *  Add a new note at the current time/place.
  */
 
@@ -582,12 +699,18 @@ void Notebook_gump::add_new(const string& text, int gflag) {
 	Game_clock*      clk  = gwin->get_clock();
 	const Tile_coord t    = gwin->get_main_actor()->get_tile();
 	string clean_text;
+	int    dest_x;
+	int    dest_y;
+	string npcs;
 	NoteCategory cat  = parse_note_category(text, clean_text);
+	parse_note_metadata(clean_text, dest_x, dest_y, npcs);
 	// Game journal entries (gflag >= 0) are quests unless tagged otherwise.
 	if (cat == NoteCategory::GENERAL && gflag >= 0) {
 		cat = NoteCategory::QUEST;
 	}
 	auto*        note = new One_note(clk->get_day(), clk->get_hour(), clk->get_minute(), t.tx, t.ty, clean_text, gflag, true, cat, false, true);
+	note->set_dest(dest_x, dest_y);
+	note->set_npcs(npcs);
 	notes.push_back(note);
 	rebuild_visible();
 }
@@ -1347,7 +1470,11 @@ void Notebook_gump::add_new_with_line_breaks(const string& text, int gflag) {
 	const Tile_coord t   = gwin->get_main_actor()->get_tile();
 
 	string clean_text;
+	int    dest_x;
+	int    dest_y;
+	string npcs;
 	NoteCategory cat = parse_note_category(text, clean_text);
+	parse_note_metadata(clean_text, dest_x, dest_y, npcs);
 	// Game journal entries (gflag >= 0) are quests unless tagged otherwise.
 	if (cat == NoteCategory::GENERAL && gflag >= 0) {
 		cat = NoteCategory::QUEST;
@@ -1355,6 +1482,8 @@ void Notebook_gump::add_new_with_line_breaks(const string& text, int gflag) {
 
 	// Create a new note with parsed category and unread state
 	One_note* note = new One_note(clk->get_day(), clk->get_hour(), clk->get_minute(), t.tx, t.ty, "", gflag, true, cat, false, true);
+	note->set_dest(dest_x, dest_y);
+	note->set_npcs(npcs);
 
 	// Use existing line breaking logic from One_note
 	note->add_text_with_line_breaks(clean_text);
@@ -1444,6 +1573,23 @@ void Notebook_gump::read() {
 			sscanf(notend.second.c_str(), "%d:%d", &x, &y);
 			if (note) {
 				note->set_loc(x, y);
+			}
+		} else if (notend.first == "note/dest") {
+			int x;
+			int y;
+			sscanf(notend.second.c_str(), "%d:%d", &x, &y);
+			if (note) {
+				note->set_dest(x, y);
+			}
+		} else if (notend.first == "note/npcs") {
+			if (note) {
+				std::string npc_str = notend.second;
+				const size_t start  = npc_str.find_first_not_of(" \t\r\n");
+				const size_t end    = npc_str.find_last_not_of(" \t\r\n");
+				if (start != std::string::npos && end != std::string::npos) {
+					npc_str = npc_str.substr(start, end - start + 1);
+				}
+				note->set_npcs(npc_str);
 			}
 		} else if (notend.first == "note/text") {
 			if (note) {
