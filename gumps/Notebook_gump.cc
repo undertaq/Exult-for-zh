@@ -28,6 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "U7file.h"
 #include "actors.h"
 #include "Audio.h"
+#include "bilingual_manager.h"
 #include "cheat.h"
 #include "effects.h"
 #include "exult.h"
@@ -431,6 +432,48 @@ public:
 };
 
 /*
+ *  Shapeless button returned when the [Map] chip on a quest note is
+ *  pressed. The chip itself is hit-tested (and this note recorded) inside
+ *  Notebook_gump::on_button; on mouse release we close the notebook and
+ *  open the quest map. Self-closing inside activate() is safe: the click
+ *  dispatcher (Dragging_info::drop) dereferences nothing after activate
+ *  returns.
+ */
+class Notebook_map_button : public Gump_button {
+public:
+	Notebook_map_button(Gump* par) : Gump_button(par, -1, 0, 0) {}
+
+	bool on_widget(int mx, int my) const override {
+		ignore_unused_variable_warning(mx, my);
+		return true;    // Release anywhere still fires activate().
+	}
+
+	bool activate(MouseButton button) override;
+};
+
+bool Notebook_map_button::activate(MouseButton button) {
+	if (button != MouseButton::Left) {
+		return false;
+	}
+	Notebook_gump* nb = static_cast<Notebook_gump*>(parent);
+	if (nb->pending_map < 0) {
+		return true;
+	}
+	const int idx = nb->pending_map;
+	nb->pending_map = -1;
+	std::vector<Quest_marker> marks = Notebook_gump::get_quest_markers();
+	for (const Quest_marker& m : marks) {
+		if (m.note_index == idx) {
+			// Deletes nb (and this button); safe as argued above.
+			gwin->get_gump_man()->close_gump(nb);
+			display_quest_map(m);
+			break;
+		}
+	}
+	return true;
+}
+
+/*
  *  Bottom-strip interactive chip: category tab, search box or the
  *  show-completed toggle. Self-contained drawing (font 4 only; CJK
  *  safe), hit-testing against a gump-relative rect, and activation.
@@ -754,6 +797,7 @@ Notebook_gump::Notebook_gump() : Gump(nullptr, EXULT_FLX_NOTEBOOK_SHP, SF_EXULT_
 	add_elem(search_button);
 	add_elem(toggle_button);
 	null_button   = new Notebook_null_button(this);
+	map_button    = new Notebook_map_button(this);
 	add_new("");    // Add new note to end.
 	rebuild_visible();
 }
@@ -810,6 +854,8 @@ Notebook_gump::~Notebook_gump() {
 	// the base Gump destructor. null_button is only a returned pointer.
 	delete null_button;
 	null_button = nullptr;
+	delete map_button;
+	map_button = nullptr;
 	if (this == instance) {
 		instance = nullptr;
 	}
@@ -899,6 +945,20 @@ bool Notebook_gump::paint_page(
 				}
 			}
 		}
+		// "[Map]" chip: opens the world map with this quest's destination
+		// marked (active quests only, mirroring the checkbox's row).
+		if (note->get_category() == NoteCategory::QUEST && !note->get_completed()) {
+			const int mpx = x + box.x + box.w - 43;
+			const int mpy = y + pagey;
+			const int blk = sman->get_special_pixel(BLACK_PIXEL);
+			const int pap = sman->get_special_pixel(PROTECT_PIXEL);
+			gwin->get_win()->fill8(pap, 18, 9, mpx, mpy);
+			gwin->get_win()->fill8(blk, 18, 1, mpx, mpy);
+			gwin->get_win()->fill8(blk, 18, 1, mpx, mpy + 8);
+			gwin->get_win()->fill8(blk, 1, 9, mpx, mpy);
+			gwin->get_win()->fill8(blk, 1, 9, mpx + 17, mpy);
+			sman->paint_text(4, "Map", mpx + (18 - sman->get_text_width(4, "Map")) / 2, mpy + 1);
+		}
 		// Use bright green for automatic text.
 		gwin->get_win()->fill8(
 				sman->get_special_pixel(note->gflag >= 0 ? POISON_PIXEL : CHARMED_PIXEL), box.w, 1, x + box.x, y + box.y - 3);
@@ -926,6 +986,19 @@ bool Notebook_gump::paint_page(
 		curpage = pagenum;
 	}
 	offset = str - note->text.c_str();    // Return offset past end.
+	// Related-NPC line under the text (paint_text_box reported the text
+	// height in endoff when the note finished on this page). Label follows
+	// the game's text-language setting.
+	if (endoff > 0 && endoff < box.h && !note->get_npcs().empty()) {
+		const bool   zh  = BilingualManager::get().get_text_language() == TextLanguage::CHINESE;
+		const string rel = (zh ? "相关：" : "Related: ") + note->get_npcs();
+		if (dim_trans) {
+			sman->get_font(4)->paint_text(
+					gwin->get_win()->get_ib8(), rel.c_str(), x + box.x, y + box.y + endoff, const_cast<unsigned char*>(dim_trans));
+		} else {
+			sman->paint_text(4, rel.c_str(), x + box.x, y + box.y + endoff);
+		}
+	}
 	// Watch for exactly filling page.
 	return endoff > 0 && endoff < box.h;
 }
@@ -988,7 +1061,8 @@ Gump_button* Notebook_gump::on_button(
 		return rightpage;
 	}
 	const int cbtopl   = curpage & ~1;
-	// Quest completion checkbox on the note-info row of the left page.
+	// Quest completion checkbox + [Map] chip on the note-info row of the
+	// left page.
 	{
 		int       notenum = page_info[cbtopl].notenum;
 		const int looset  = page_info[cbtopl].offset;
@@ -1001,6 +1075,11 @@ Gump_button* Notebook_gump::on_button(
 				dirty = true;
 				paint();
 				return null_button;    // Swallow the click.
+			}
+			if (n->get_category() == NoteCategory::QUEST && !n->get_completed()
+				&& TileRect(box.x + box.w - 43, box.y - 12, 18, 9).has_point(mx, my)) {
+				pending_map = visible[notenum];    // notes[] index for later lookup.
+				return map_button;                // Opens the map on release.
 			}
 		}
 	}
