@@ -22,16 +22,16 @@
 0x11:AVATAR_HELP
 0x12:TIMELORD_SAID_SPHERE
 0x13:TIMELORD_SAID_CUBE
-0x14:MET_IOLO
-0x15:MET_SPARK
-0x16:MET_SHAMINO
-0x17:MET_DUPRE
+0x14: I met my old friend Iolo. [npc=Iolo]
+0x15: I met a boy named Spark in Trinsic. [npc=Spark]
+0x16: I met Shamino. [npc=Shamino]
+0x17: I met Dupre. [npc=Dupre]
 0x18:In Cove I met my former companion Jaana.
-0x19:MET_TRELLEK
-0x1A:MET_SENTRI
+0x19: I met a man called Trellek. [npc=Trellek]
+0x1A: I met a quiet man named Sentri, who has joined me. [npc=Sentri]
 0x1B:Julia, my old friend, is living in Minoc. Perhaps she will join me.
-0x1C:MET_KATRINA
-0x1D:MET_TSERAMED
+0x1C: I met Katrina. [npc=Katrina]
+0x1D: I met Tseramed. [npc=Tseramed]
 0x1E:Oops, this armageddon spell is more dangerous than I thought. Hello? Anyone around?
 #0x1F:WHEEL_1
 #0x20:WHEEL_2
@@ -63,31 +63,31 @@
 0x3A:NEAR_SHELTER
 
 # Trinsic
-0x3B:START_GAME
+0x3B: I woke up in Trinsic; a murder investigation begins here. [npc=Finnigan,Spark]
 0x3C:What's this? A body! And a key? Could this be a clue?
 0x3D:Now I know the password I need to leave Trinsic. It's Blackbird!
 0x3E:Searched Christopher's house, the key I found unlocked a chest with a medallion, a scroll, and gold inside.
 0x3F:Christopher had an argument with Klog!
 0x40:There is a ship named Crown Jewel which was anchored in Trinsic when the murder happened.
-0x41:KLOG_SAID_COMPANIONS
+0x41: Klog told me the Avatar should travel with companions. [npc=Klog]
 0x42:Because of the murder in Trinsic, all gates are locked. I need a password to get out.
 0x43:A man with a hook was in Trinsic.
 0x44:I finished the investigation of the gruesome murder in Trinsic.
 0x45:I received half the payment for the murder investigation, the rest will come when I catch the culprit.
-0x46:TOLD_SPARK_NAME
-0x47:TOLD_SPARK_AVATAR
+0x46: I told Spark my name. [npc=Spark]
+0x47: I told Spark that I am the Avatar. [npc=Spark]
 0x48:I told the mayor Finnigan about the key I found on the body.
-0x49:SPARK_ASKED_TO_JOIN
-0x4A:GARGAN_SAID_SAILED
-0x4B:MET_PETRE
+0x49: Spark asked to join my party. [npc=Spark]
+0x4A: Captain Gargan said he once sailed the seas. [npc=Gargan]
+0x4B: I met Petre. [npc=Petre]
 0x4C:The mayor of Trinsic is called Finnigan. he wants me to investigate a ritual murder.
-0x4D:MET_GILBERTO
-0x4E:MET_JOHNSON
-0x4F:MET_KLOG
-0x50:MET_ELLEN
-0x51:MET_APOLLONIA
+0x4D: I met Gilberto. [npc=Gilberto]
+0x4E: I met Johnson. [npc=Johnson]
+0x4F: I met Klog. [npc=Klog]
+0x50: I met Ellen. [npc=Ellen]
+0x51: I met Apollonia. [npc=Apollonia]
 0x52:Chantu of Trinsic is a solemn fellow in healer's robes.
-0x53:MET_DELL
+0x53: I met Dell. [npc=Dell]
 0x54:MET_MARKUS
 0x55:MET_GARGAN
 0x56:MET_CAROLINE
