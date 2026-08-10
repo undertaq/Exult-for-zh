@@ -32,3 +32,8 @@
 0x42: 由于特林蒂克的谋杀案，所有城门都上锁了。我需要口令才能离开。
 0x43: 有一个带着钩手的人来过特林蒂克。
 0x45: 我收到了谋杀案调查报酬的一半，剩下的等我抓到凶手后再付。
+
+# Entries carried over from the pre-existing legacy translation file.
+0x3: 我打破了四面体生成器。
+0x3D: 现在我知道离开特林蒂克的口令了，是“黑鸟”（Blackbird）！
+0x3F: 克里斯托弗（Christopher）和克洛格（Klog）曾发生过争执！
