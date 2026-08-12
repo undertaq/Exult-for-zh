@@ -1,0 +1,39 @@
+# Chinese translations of the journal auto-notes.
+# Missing entries fall back to the English text in autonotes.txt.
+# [npc=...] names are the game's English names; they double as a search key.
+
+0x14: 我遇见了老友伊欧洛（Iolo）。[npc=Iolo]
+0x15: 我在特林蒂克遇到了男孩火花（Spark）。[npc=Spark]
+0x16: 我遇见了沙米诺（Shamino）。[npc=Shamino]
+0x17: 我遇见了杜普雷（Dupre）。[npc=Dupre]
+0x19: 我遇见了一个叫特雷莱克（Trellek）的人。[npc=Trellek]
+0x1A: 我遇见了一位沉默的伙伴哨兵（Sentri），他已加入我的队伍。[npc=Sentri]
+0x1C: 我遇见了卡特里娜（Katrina）。[npc=Katrina]
+0x1D: 我遇见了茨塞拉梅德（Tseramed）。[npc=Tseramed]
+0x3B: 我在特林蒂克醒来，一场谋杀案的调查由此展开。[npc=Finnigan,Spark]
+0x41: 克洛格（Klog）告诉我，圣者应当与同伴一同行动。[npc=Klog]
+0x46: 我告诉了火花我的名字。[npc=Spark]
+0x47: 我告诉火花我是圣者。[npc=Spark]
+0x49: 火花请求加入我的队伍。[npc=Spark]
+0x4A: 船长加尔甘（Gargan）说他曾扬帆远航。[npc=Gargan]
+0x4B: 我遇见了彼得（Petre）。[npc=Petre]
+0x4D: 我遇见了吉尔伯托（Gilberto）。[npc=Gilberto]
+0x4E: 我遇见了约翰逊（Johnson）。[npc=Johnson]
+0x4F: 我遇见了克洛格（Klog）。[npc=Klog]
+0x50: 我遇见了艾琳（Ellen）。[npc=Ellen]
+0x51: 我遇见了阿波罗妮亚（Apollonia）。[npc=Apollonia]
+0x53: 我遇见了戴尔（Dell）。[npc=Dell]
+
+# Additional translated journal sentences (English text verified against autonotes.txt).
+0x39: 我在发生器内部，突然无法再施放任何法术了。
+0x3C: 这是什么？一具尸体！还有一把钥匙？这会是一条线索吗？
+0x3E: 我搜查了克里斯托弗的家，找到的钥匙打开了一个箱子，里面有一枚徽章、一卷卷轴和金子。
+0x40: 有一艘名为“王冠明珠”的船，谋杀案发生时它就停泊在特林蒂克。
+0x42: 由于特林蒂克的谋杀案，所有城门都上锁了。我需要口令才能离开。
+0x43: 有一个带着钩手的人来过特林蒂克。
+0x45: 我收到了谋杀案调查报酬的一半，剩下的等我抓到凶手后再付。
+
+# Entries carried over from the pre-existing legacy translation file.
+0x3: 我打破了四面体生成器。
+0x3D: 现在我知道离开特林蒂克的口令了，是“黑鸟”（Blackbird）！
+0x3F: 克里斯托弗（Christopher）和克洛格（Klog）曾发生过争执！

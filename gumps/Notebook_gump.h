@@ -30,6 +30,7 @@ class One_note;
 enum class NoteCategory {
 	GENERAL = 0,
 	QUEST,
+	JOURNEY,
 	CLUE,
 	LOCATION,
 	NPC
@@ -38,6 +39,7 @@ enum class NoteCategory {
 inline const char* note_category_to_string(NoteCategory cat) {
 	switch (cat) {
 		case NoteCategory::QUEST: return "quest";
+		case NoteCategory::JOURNEY: return "journey";
 		case NoteCategory::CLUE: return "clue";
 		case NoteCategory::LOCATION: return "location";
 		case NoteCategory::NPC: return "npc";
@@ -47,6 +49,7 @@ inline const char* note_category_to_string(NoteCategory cat) {
 
 inline NoteCategory string_to_note_category(const std::string& str) {
 	if (str == "quest") return NoteCategory::QUEST;
+	if (str == "journey") return NoteCategory::JOURNEY;
 	if (str == "clue") return NoteCategory::CLUE;
 	if (str == "location") return NoteCategory::LOCATION;
 	if (str == "npc") return NoteCategory::NPC;
@@ -96,8 +99,8 @@ class Notebook_gump : public Gump {
 	int                              updnx = 0;      // X-coord. for up/down arrows.
 	// Page turners:
 	Gump_button *leftpage, *rightpage;
-	// Bottom-strip UI: 5 category tabs, search box, hide-completed toggle.
-	Gump_button* tab_buttons[5] = {};
+	// Bottom-strip UI: 6 category tabs, search box, hide-completed toggle.
+	Gump_button* tab_buttons[6] = {};
 	Gump_button* search_button  = nullptr;
 	Gump_button* toggle_button  = nullptr;
 	Gump_button* null_button    = nullptr;    // Swallows clicks on the checkbox.

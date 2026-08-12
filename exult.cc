@@ -2292,6 +2292,9 @@ static bool Get_click(
 
 		const uint32 ticks = SDL_GetTicks();
 		Game::set_ticks(ticks);
+		// Keep 'always' time-queue entries (e.g. text effects) alive while
+		// waiting for a click; the queue is paused, so only those fire.
+		gwin->get_tqueue()->activate(ticks);
 		Mouse::mouse()->hide();    // Turn off mouse.
 		Mouse::mouse_update = false;
 

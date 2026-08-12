@@ -2,38 +2,1584 @@
 # Missing entries fall back to the English text in autonotes.txt.
 # [npc=...] names are the game's English names; they double as a search key.
 
-0x14: 我遇见了老友伊欧洛（Iolo）。[npc=Iolo]
-0x15: 我在特林蒂克遇到了男孩火花（Spark）。[npc=Spark]
-0x16: 我遇见了沙米诺（Shamino）。[npc=Shamino]
-0x17: 我遇见了杜普雷（Dupre）。[npc=Dupre]
-0x19: 我遇见了一个叫特雷莱克（Trellek）的人。[npc=Trellek]
-0x1A: 我遇见了一位沉默的伙伴哨兵（Sentri），他已加入我的队伍。[npc=Sentri]
-0x1C: 我遇见了卡特里娜（Katrina）。[npc=Katrina]
-0x1D: 我遇见了茨塞拉梅德（Tseramed）。[npc=Tseramed]
-0x3B: 我在特林蒂克醒来，一场谋杀案的调查由此展开。[npc=Finnigan,Spark]
-0x41: 克洛格（Klog）告诉我，圣者应当与同伴一同行动。[npc=Klog]
-0x46: 我告诉了火花我的名字。[npc=Spark]
-0x47: 我告诉火花我是圣者。[npc=Spark]
-0x49: 火花请求加入我的队伍。[npc=Spark]
-0x4A: 船长加尔甘（Gargan）说他曾扬帆远航。[npc=Gargan]
-0x4B: 我遇见了彼得（Petre）。[npc=Petre]
-0x4D: 我遇见了吉尔伯托（Gilberto）。[npc=Gilberto]
-0x4E: 我遇见了约翰逊（Johnson）。[npc=Johnson]
-0x4F: 我遇见了克洛格（Klog）。[npc=Klog]
-0x50: 我遇见了艾琳（Ellen）。[npc=Ellen]
-0x51: 我遇见了阿波罗妮亚（Apollonia）。[npc=Apollonia]
-0x53: 我遇见了戴尔（Dell）。[npc=Dell]
-
-# Additional translated journal sentences (English text verified against autonotes.txt).
-0x39: 我在发生器内部，突然无法再施放任何法术了。
-0x3C: 这是什么？一具尸体！还有一把钥匙？这会是一条线索吗？
-0x3E: 我搜查了克里斯托弗的家，找到的钥匙打开了一个箱子，里面有一枚徽章、一卷卷轴和金子。
-0x40: 有一艘名为“王冠明珠”的船，谋杀案发生时它就停泊在特林蒂克。
-0x42: 由于特林蒂克的谋杀案，所有城门都上锁了。我需要口令才能离开。
-0x43: 有一个带着钩手的人来过特林蒂克。
-0x45: 我收到了谋杀案调查报酬的一半，剩下的等我抓到凶手后再付。
+# Journey
+0x0:[journey] 我見過了四面體生成器。
+# Journey
+0x1:[journey] 我見過了球體生成器。
+# Journey
+0x2:[journey] 我見過了立方體生成器。
 
 # Entries carried over from the pre-existing legacy translation file.
-0x3: 我打破了四面体生成器。
-0x3D: 现在我知道离开特林蒂克的口令了，是“黑鸟”（Blackbird）！
-0x3F: 克里斯托弗（Christopher）和克洛格（Klog）曾发生过争执！
+# Journey
+0x3:[journey] 我打破了四面體生成器。
+# Journey
+0x4:[journey] 我摧毀了球體生成器。
+# Journey
+0x5:[journey] 我摧毀了立方體生成器。
+# Quest
+0x6:[quest] 我加入了 Batlin 的友誼會。他在友誼會館等我。 [npc=Batlin]
+# Journey
+0x7:[journey] 時空之主提到了 Penumbra。
+# Journey
+0x8:[journey] 時空之主提到了 Brion。
+# Journey
+0x9:[journey] 我見過了黑門。
+# Journey
+0xA:[journey] 我目睹了受難劇的演出。
+# Journey
+0xB:[journey] 我檢查了我的物品。
+# Journey
+0xC:[journey] 我一直在等待某事。
+# Journey
+0xD:[journey] 我以單列前進。
+# Journey
+0xE:[journey] 我與同伴們整隊集合。
+# Journey
+0xF:[journey] 我攻擊了一名敵人。
+# Journey
+0x10:[journey] 我從戰鬥中撤退。
+# Journey
+0x11:[journey] 我從一名盟友那裡得到了幫助。
+# Journey
+0x12:[journey] 時空領主提到了球體。
+# Journey
+0x13:[journey] 時空領主提到了立方體。
+
+# Journey
+0x14:[journey] 我見到了我的老朋友Iolo，他對見到我感到驚訝，並提到我們的原鄉與Britannia之間時間結構的差異，已經過了200個Britannia年。 [npc=Iolo]
+# Journey
+0x15:[journey] 我在Trinsic見到了一個名叫Spark的男孩，他的父親去世後他成為了孤兒，目前正在學習如何協助鐵匠鋪的工作。 [npc=Spark]
+# Journey
+0x16:[journey] 我見到了Shamino，他提到他最近一直在Britain，並指出魔法和Moongates出現了許多問題。 [npc=Shamino]
+# Journey
+0x17:[journey] 我見到了Dupre，他自我們上次見面後已被封為爵士，現在稱為Sir Dupre。 [npc=Dupre]
+# Journey
+0x18:[journey] 我在Cove見到了我的前同伴Jaana，她現在是Cove的治療師，渴望加入冒險者小隊。 [npc=Jaana]
+# Journey
+0x19:[journey] 我見到了一個名叫Trellek的人，他是一名採集食物的人，並問了我的名字。 [npc=Trellek]
+# Journey
+0x1A:[journey] 我遇見了一位沉默的夥伴Sentri，他已加入我的隊伍。 [npc=Sentri]
+# Quest
+0x1B:[quest] Julia 告訴我 Minoc 發生了謀殺案。我應該調查這個籠罩城鎮的神秘邪惡。 [npc=Julia]
+# Journey
+0x1C:[journey] 我見到了Katrina，她提到自從陪同我進行過之前的冒險後，她便過著在New Magincia當牧羊人的安靜生活。 [npc=Katrina]
+# Journey
+0x1D:[journey] 我見到了Tseramed，一位對友誼會表示不信任的樵夫，他問我是否可以介紹他認識我的同伴。 [npc=Tseramed]
+# Quest
+0x1E:[quest] 哎呀，這個末日咒語比我預想的還要危險。有人在嗎？ [npc=Lord British]
+# Journey
+0x26:[journey] 我在看似死亡後被 Iolo、Shamino 和 Dupre 復活。 [npc=Dupre]
+# Journey
+0x27:[journey] 我使用了幫助指令來尋求指引。
+# Journey
+0x28:[journey] Jaana是Cove的治療師，她表示希望加入我的隊伍，不過她提到會等到有人離開隊伍後才這麼做。 [npc=Jaana]
+# Journey
+0x29:[journey] 為 Jaana 設定了一個計時器，可能是為了追蹤我再次與她會面的時間。
+# Quest
+0x38:[quest] 我未能完成 Batlin 的任務，必須另尋方法完成它。
+
+# Additional translated journal sentences (English text verified against autonotes.txt).
+# Journey
+0x39:[journey] 我在發生器內部，突然無法再施放任何法術了。
+# Journey
+0x3A:[journey] 我靠近一個避難所，或許是尋求庇護或調查它的用途。
+# Quest
+0x3B:[quest] 我在Trinsic醒來，一場謀殺案的調查由此展開。 [npc=Finnigan,Spark]
+# Quest
+0x3C:[quest] 這是什麼？一具屍體！還有一把鑰匙？這會是一條線索嗎？
+# Quest
+0x3D:[quest] 現在我知道離開Trinsic的口令了，是“黑鳥”（Blackbird）！ [npc=Finnigan]
+# Quest
+0x3E:[quest] 我搜查了克里斯托弗的家，找到的鑰匙開啟了一個箱子，裡面有一枚徽章、一卷卷軸和金子。
+# Quest
+0x3F:[quest] Christopher與Trinsic的友誼會分支主管Klog一個禮拜前發生了爭議。 [npc=Spark]
+# Quest
+0x40:[quest] 有一艘名為“王冠明珠”的船，謀殺案發生時它就停泊在Trinsic。 [npc=Gilberto]
+# Quest
+0x41:[quest] 克洛格（Klog）告訴我，聖者應當與同伴一同行動。 [npc=Klog]
+# Quest
+0x42:[quest] 由於Trinsic的謀殺案，所有城門都上鎖了。我需要口令才能離開。 [npc=Finnigan]
+# Quest
+0x43:[quest] 一名手拿鉤子的男子在Trinsic被看見，與一隻無翼的哥布林一起奔跑，可能涉及Spark父親的謀殺案。 [npc=Spark]
+# Quest
+0x44:[quest] 我已完成對 Trinsic 恐怖兇殺案的調查。我應該向市長報告我的調查結果。 [npc=Finnigan]
+# Quest
+0x45:[quest] 我收到了謀殺案調查報酬的一半，剩下的等我抓到兇手後再付。
+# Journey
+0x46:[journey] 我告訴了Spark我的名字，經過Iolo確認我是聖者後，他最終放下了武器。 [npc=Spark]
+# Journey
+0x47:[journey] 我告訴Spark我就是聖者。他起初懷疑，但最終在Iolo確認我的身分後相信了我。Spark放下了他的彈弓，問我想要什麼。 [npc=Spark]
+# Quest
+0x48:[quest] 我告訴了市長 Finnigan 我在屍體上找到的鑰匙。 [npc=Finnigan]
+# Journey
+0x49:[journey] Spark請求加入我的隊伍。他用彈弓擊中Iolo頭頂附近的一隻蒼蠅，展示了他的技巧，儘管有些猶豫，但他非常渴望成為我們的一員。 [npc=Spark]
+# Journey
+0x4A:[journey] 船長加爾甘（Gargan）說他曾揚帆遠航。 [npc=Gargan]
+# Journey
+0x4B:[journey] 我遇見了Petre。他看到我時非常驚訝，立刻叫Iolo來幫忙。Petre提到馬廄裡發生了可怕的事情，並指引我去檢視。 [npc=Petre]
+# Quest
+0x4C:[quest] Trinsic 的市長 Finnigan 要我調查一樁儀式謀殺案。 [npc=Iolo]
+# Journey
+0x4D:[journey] 我遇見了Gilberto。他是一個脾氣暴躁的守衛，頭上有傷，他提到在他被擊暈之前，一艘名為「The Crown Jewel」的船已經駛往Britain。他還提到造船師Gargan可以證實這一點。 [npc=Gilberto]
+# Journey
+0x4E:[journey] 我遇見了Johnson。他是一個嚴厲的守衛，因為要參加友誼會的會議而遲到。他提到他在碼頭發現Gilberto被擊暈，並說那艘船已經駛往Britain。 [npc=Johnson]
+# Quest
+0x4F:[quest] 我遇見了Klog。他是一個善良且友好的人，他立刻認出我是聖者。他提到友誼會每晚九點在Trinsic的分支辦公室開會，並說他與他的妻子Ellen一起在那裡工作。 [npc=Klog]
+# Journey
+0x50:[journey] 我遇見了Ellen，她與丈夫Klog在Trinsic的友誼會分支機構工作。她提到友誼會在Britannia各地都有分支機構，並每晚在分支機構辦公室舉行會議。 [npc=Ellen]
+# Journey
+0x51:[journey] 我遇見了Apollonia，她是Trinsic「Honorable Hound Pub and Inn」的女主人。她提供食物、飲料以及價格合理的旅館房間。 [npc=Apollonia]
+# Journey
+0x52:[journey] 我見到了 Trinsic 的治療師 Chantu，他談到了自己的工作以及對友誼會不重視 Britannia 治療師的看法。 [npc=Chantu]
+# Journey
+0x53:[journey] 我遇見了Dell，他是Trinsic一位嚴肅的店主，販賣武器、盔甲和補給品。他急著去參加友誼會的會議，對閒聊毫無興趣。 [npc=Dell]
+# Journey
+0x54:[journey] 我在 Trinsic 見到了訓練師 Markus。他提供戰鬥訓練，但需要收費。 [npc=Markus]
+# Journey
+0x55:[journey] 我在 Trinsic 見到了造船師 Gargan。他賣船的產權，但不是 Owen。 [npc=Gargan]
+# Quest
+0x56:[quest] 我遇見了友誼會的Caroline。她談到了Christopher的死，並邀請我參加他們每晚九點在友誼會館舉行的會議。 [npc=Caroline]
+# Journey
+0x57:[journey] 我們開始在 Trinsic 以外的地方探險。
+# Journey
+0x58:[journey] 我與 Gargan 談論購買船隻的事。他提到了 Minoc 的 Owen，以及船隻「The Scaly Eel」。 [npc=Gargan]
+# Quest
+0x59:[quest] 我接受了 Finnigan 要我調查 Christopher 和 Inamo 被殺案的請求。我應該與 Petre 談話並搜查馬廄。 [npc=Finnigan]
+# Quest
+0x5A:[quest] 我已經抵達 Trinsic，並被給予一個任務：調查馬廄。
+# Quest
+0x5B:[quest] 我已經收集了足夠的線索來向 Finnigan 報告。我應該繼續調查，並與 Spark 和 Gilberto 談話。 [npc=Finnigan]
+# Journey
+0x5C:[journey] Iolo 在多年後與我重逢。他提醒我馬廄中令人毛骨悚然的發現。 [npc=Iolo]
+# Quest
+0x5D:[quest] 我已經向 Finnigan 報告了一些線索，但還需要了解更多。我應該與 Spark、Johnson 和 Chantu the Healer 談話。 [npc=Finnigan]
+# Journey
+0x5E:[journey] 我遇到了一個需要解決的問題或謎題。
+# Journey
+0x5F:[journey] 我又遇到了一個需要解決的問題或謎題。
+# Journey
+0x60:[journey] 我遇到了第三個需要解決的問題或謎題。
+# Journey
+0x61:[journey] 我遇到了第四個需要解決的問題或謎題。
+# Journey
+0x62:[journey] 我遇到了第五個需要解決的問題或謎題。
+# Journey
+0x63:[journey] 我遇到了與任務相關的問題。
+# Quest
+0x64:[quest] Spark 給了我一卷羊皮紙，並告訴我他父親曾是友誼會的成員。我應該去鎮上西南角他父親的店舖。 [npc=Spark]
+# Quest
+0x65:[quest] Lord British 告訴我魔法在 Britannia 失效，而 Cove 的瘋狂法師 Rudyom 可能掌握關鍵。我應該去 Cove 找到 Rudyom。 [npc=Lord British]
+# Quest
+0x66:[quest] Lord British 告訴我魔法正在失效，而 Cove 的瘋狂法師 Rudyom 可能掌握關鍵。我應該去 Cove 找到 Rudyom。 [npc=Lord British]
+# Journey
+0x67:[journey] Raymundo 要求我去 Gaye's Clothier Shoppe 購買一套 聖者 的戲服，用於他正在創作的戲劇。 [npc=Raymundo]
+# Journey
+0x68:[journey] 我從 Gaye 那裡買了一套服裝，不過我得稍後再回來取。我應該今晚九點去參加友誼會的會議。 [npc=Gaye]
+# Quest
+0x69:[quest] Miranda 要我將一份法案送到 Cove 的 Lord Heather 那裡以獲得批准。我應該去 Cove 完成這個任務。 [npc=Miranda]
+# Quest
+0x6A:[quest] 我將法案送達了 Cove 的 Lord Heather，他簽署了它。Miranda 確認法案已經透過並感謝我。 [npc=Miranda]
+# Journey
+0x6B:[journey] Shamino 表示願意加入我進行調查。他提到大森林裡的 Nicodemus，他已經瘋了。 [npc=Shamino]
+# Journey
+0x6C:[journey] Shamino 同意與我一同踏上旅程。他對一位他認識的女演員一見鍾情，對安定下來感到猶豫。 [npc=Shamino]
+# Journey
+0x6D:[journey] 我遇見了皇家劇院的演員 Amber，她正在演出一齣她認為荒謬的戲，內容是關於一隻會說話的鼠婦 Sherry。 [npc=Amber]
+# Journey
+0x6E:[journey] 我再次與 Amber 談話，她表達了對這齣戲的不滿，並希望能夠演出更適合自己的角色，例如一位女王。 [npc=Amber]
+# Journey
+0x6F:[journey] 我從 Chuckles 那裡得到了一卷羊皮紙。
+# Journey
+0x70:[journey] 我從 Bennie 那裡得到了一些羊肉。
+# Quest
+0x71:[quest] 廚師 Boots 要求我從 Paws 的屠宰場帶來羊肉，並承諾每份給我 5 枚黃金。 [npc=Boots]
+# Quest
+0x72:[quest] Boots 要我從 Paws 的屠宰場帶來羊肉。我應該去 Paws 獲得它。 [npc=Boots]
+# Journey
+0x73:[journey] Chuckles 提到 The Game 並給了一個線索，雖然他沒有說出自己的名字。他似乎就是 Court Fool。 [npc=Chuckles]
+# Journey
+0x74:[journey] 我收到了 Batlin 的一個包裹。我應該檢查它以檢視裡面有什麼。
+# Journey
+0x75:[journey] Nell 提到她的家庭和她即將與 Carrocio 的婚事。她是城堡裡的一名僕人。 [npc=Nell]
+# Journey
+0x76:[journey] Nell 提到她的哥哥 Charles 和她未來的丈夫 Carrocio。她是城堡裡的一名房間女僕。 [npc=Nell]
+# Journey
+0x77:[journey] 我與城堡中的女僕 Nell 談話，她分享了有關她家庭和與 Carrocio 的秘密訂婚的故事。 [npc=Nell]
+# Journey
+0x78:[journey] 我再次與 Nell 談話，她重複了有關她家庭和與 Carrocio 的秘密訂婚的想法。 [npc=Nell]
+# Journey
+0x79:[journey] 我第三次與 Nell 談話，她再次分享了有關她家庭和與 Carrocio 的秘密訂婚的反思。 [npc=Nell]
+# Journey
+0x7A:[journey] 我再次與 Nell 談話，她又一次反思了有關她家庭和與 Carrocio 的秘密訂婚的事。 [npc=Nell]
+# Quest
+0x7B:[quest] 我與 Charles 談話，他對他的妹妹 Jeanette 一見鍾情，並得知他對她感情的希望與擔憂。 [npc=Charles]
+# Journey
+0x7C:[journey] Charles 說起他對妹妹 Nell 的關懷與對 Jeanette 的單戀。我得知 Nell 的情況與 Carrocio 的真相。 [npc=Charles]
+# Journey
+0x7D:[journey] Jeanette 表達了她對 Willy the Baker 的感情與最初對 Charles 的不滿。Lucy 素正了她對 Charles 社會地位的誤解。 [npc=Jeanette]
+# Journey
+0x7E:[journey] Jeanette 在得知 Charles 的真實階級後重新評價了他。她現在對他有了新的看法，並渴望與他調情。 [npc=Jeanette]
+# Journey
+0x7F:[journey] Patterson，英國市長，談到了他過往的選舉與目前的職位。他也提到了他的對手 Brownie 和自己的私人生活。 [npc=Patterson]
+# Journey
+0x80:[journey] 我聽說 Patterson 有外遇。Candice 暗示了她與市長的秘密關係，並談到了她在友誼會中的抱負。 [npc=Candice]
+# Journey
+0x81:[journey] 我見到了 Judith，她與 The Avatars 一起表演，並在 The Music Hall 教音樂。她談到了她的丈夫 Patterson，也就是鎮長，以及他與 友誼會 的關係。 [npc=Judith]
+# Journey
+0x82:[journey] 我與 Nanna 談話，她表達了對 Britannia 之間階級差距日益加劇的擔憂，並提到她已經加入了 友誼會。 [npc=Nanna]
+# Journey
+0x83:[journey] 我見到了 The Blue Boar 的老闆 Lucy，她歡迎我並談到了這家酒館以及當地的演唱團體 The Avatars。 [npc=Lucy]
+# Journey
+0x84:[journey] 我在 The Blue Boar 再次見到 Lucy，她向我介紹了 The Avatars，並談到了她對烹飪和服務的熱愛。 [npc=Lucy]
+# Journey
+0x85:[journey] Jeanette 對 Willy the Baker 有好感。她在藍豬酒館工作，愛上了 Willy，但 Willy 還不知道她的感情。 [npc=Jeanette]
+# Journey
+0x86:[journey] Clint 提供我一個六分儀，但我沒有足夠的黃金購買它。我應該在資金充足時再回來。 [npc=Clint]
+# Quest
+0x87:[quest] Batlin 解釋了內在力量三元組，並提到 Elizabeth 和 Abraham 已經前往 Minoc。我應該跟著他們去那裡。 [npc=Batlin]
+# Quest
+0x88:[quest] Batlin 給了我一個包裹要我遞送，但我必須騰出揹包空間才能拿起來。我應該帶著它前往目的地。 [npc=Batlin]
+# Journey
+0x89:[journey] Charles 揭露了他的妹妹 Nell 已經訂婚，並對她非常保護。他現在充滿了憤怒，計劃去對付 Carrocio。 [npc=Charles]
+# Journey
+0x8A:[journey] Millie 說到 Meditation Retreat，並邀請我今晚作為她的客人參加 友誼會 的會議。我應該去參加。 [npc=Millie]
+# Journey
+0x8B:[journey] Millie談到了冥想靜修營和內在之聲。我應該去南Britannia靠近Serpent's Hold的靜修營一探究竟。 [npc=Millie]
+# Journey
+0x8C:[journey] 我得知「內在之聲」是「友誼會」成員可能聽到的神秘聲音，通常在夢中或專注時出現，會給予他們指引或建議。 [npc=Candice]
+# Quest
+0x8D:[quest] 我被邀請加入友誼會。我必須完成他們的任務來證明自己的價值。
+# Quest
+0x8E:[quest] Batlin指派我從Destard地牢中取回友誼會的資金。我應該前往Trinsic西邊的地牢。 [npc=Batlin]
+# Quest
+0x8F:[quest] Batlin給我一個包裹要送到Minoc的Elynor。我應該前往Minoc完成這個任務。 [npc=Batlin]
+# Quest
+0x90:[quest] Batlin 已將我納入友誼會，並贈予我徽章。我必須研讀《友誼會書》才能完全被接受。 [npc=Batlin]
+# Quest
+0x91:[quest] Batlin 與我分享了他在 Skara Brae 的靈性經歷，並期望我徹底研讀《友誼會書》後再繼續前進。 [npc=Batlin]
+# Journey
+0x92:[journey] Cynthia 提供將黃金塊和金條兌換成可用硬幣。她也請我轉告她的丈夫 James，她仍然關心他。 [npc=Cynthia]
+# Quest
+0x93:[quest] Mack 聲稱在他的田地裡有外星生物的證據。我應當去他農場後面調查。 [npc=Mack]
+# Journey
+0x94:[journey] Weston，一名來自Paws的囚犯，盜竊了Royal Orchards的蘋果。他聲稱Figg在未經Lord British同意的情況下將水果贈與友誼會。 [npc=Weston]
+# Journey
+0x95:[journey] Mack 講述了有關老虎獅與一把魔法鋤頭的故事。我應該去尋找他倉庫裡遺失的毀滅鋤頭。 [npc=Mack]
+# Journey
+0x96:[journey] 我已經接受了測試。我必須完成它才能繼續前進。
+# Quest
+0x97:[quest] 箱子任務已經完成。我應該進行下一個任務。
+# Journey
+0x98:[journey] 我再次見到了老朋友 Lord British。他提供了幫助與治療。 [npc=Lord British]
+# Journey
+0x99:[journey] 我的老朋友 Nystul 看來已經神志不清了。他仍然提供法術與藥劑出售。 [npc=Nystul]
+# Journey
+0x9A:[journey] Lord British 的弄臣 Chuckles 想與我玩一個愚蠢的遊戲。若想與他交談，我必須學會這場遊戲。 [npc=Chuckles]
+# Quest
+0x9B:[quest] Batlin 已經給了我友誼會的徽章，但我必須減輕負擔並學習《友誼會書》才能正式加入。 [npc=Batlin]
+# Journey
+0x9C:[journey] 我見到了Britain的皇家劇院導演兼駐院劇作家Raymundo。 [npc=Raymundo]
+# Journey
+0x9D:[journey] 我見到了皇家劇院的演員Jesse，他正在一部新戲中飾演聖者的角色。 [npc=Jesse]
+# Journey
+0x9E:[journey] 我見到了演員 Stuart，他在新戲中飾演 Iolo，並認為我會比 Jesse 更適合飾演 聖者。 [npc=Stuart]
+# Journey
+0x9F:[journey] 我遇見了Amber，她是在皇家劇院演出的演員，正在飾演Sherry the Mouse的角色，但她覺得這出戲很可笑。 [npc=Amber]
+# Journey
+0xA0:[journey] 我遇見了Kristy，她是皇家育嬰院裡的一個小孩，喜歡玩耍和唱歌。 [npc=Kristy]
+# Journey
+0xA1:[journey] 我遇見了 Max，他是皇家育嬰院裡的一個活潑小童，喜歡玩遊戲和唱歌。 [npc=Max]
+# Journey
+0xA2:[journey] 我遇見了 Nicholas，他是皇家育嬰院裡的一個小童，喜歡玩耍，而且需要換尿布。 [npc=Nicholas]
+# Journey
+0xA3:[journey] 我遇見了 Nanna，她是一位善良的育嬰院保姆，照顧著皇家育嬰院的孩子們。 [npc=Nanna]
+# Journey
+0xA4:[journey] 我見到了英國的智者 Csil，他是一位誠實的治療師，過去曾被稱為 Abrams。 [npc=Csil]
+# Journey
+0xA5:[journey] 我見到了 Zella，一位專門教授徒手格鬥的教練，並聽她講述了她對拳擊的哲學。 [npc=Zella]
+# Journey
+0xA6:[journey] 我見到了溫暖友善的 Lucy，她是 Blue Boar 酒館的老闆，熱情地歡迎我並提供飲料與款待。 [npc=Lucy]
+# Journey
+0xA7:[journey] 我見到了熱情的商人 Greg，他是英國補給店的老闆，為 Lord British 的遠徵提供物資。 [npc=Greg]
+# Journey
+0xA8:[journey] 我見到了浮誇自信的音樂家 Neno，他是 The Avatars 的一員，夢想成為 Britannia 最偉大的吟遊詩人。 [npc=Neno]
+# Journey
+0xA9:[journey] 我見過 Judith，一位與 The Avatars 一起表演的音樂家，她也在 The Music Hall 教書。她談到了她的丈夫 Patterson，以及他們之間的問題。 [npc=Judith]
+# Journey
+0xAA:[journey] 我見過 Candice，皇家博物館的館長。她遲到了友誼會的會議，似乎隱藏著什麼事情。 [npc=Candice]
+# Journey
+0xAB:[journey] 我見過 Cynthia，鑄幣廠的出納員，也是 Britannian 稅務委員會的成員。她解釋了鑄幣廠在王國財政中的角色。 [npc=Cynthia]
+# Journey
+0xAC:[journey] 我見過 Patterson，鎮長，他被發現與 Candice 有秘密會面。他看起來感到羞恥，並承諾結束這段關係。 [npc=Patterson]
+# Journey
+0xAD:[journey] 我見過 Carrocio，一位華麗的紳士，他表演木偶戲，並為遊客提供各種遊戲和挑戰。 [npc=Carrocio]
+# Journey
+0xAE:[journey] 我見到了英國皇家花園的園丁 Figg。他正忙於友誼會的會議。 [npc=Figg]
+# Journey
+0xAF:[journey] 我見到了英國 Wayfarer's Inn 的尖酸刻薄的旅館老闆 James。 [npc=James]
+# Journey
+0xB0:[journey] 我見到了 Blue Boar 酒館裡開心的女侍 Jeanette。她愛上了麵包師 Willy。 [npc=Jeanette]
+# Journey
+0xB1:[journey] 我見到了英國的藥劑師 Kessler。他正在為 Lord British 研究一個特定的問題。 [npc=Kessler]
+# Journey
+0xB2:[journey] 我見到了教導結合體能與心靈訓練的戰士 Denby。 [npc=Denby]
+# Journey
+0xB3:[journey] 我見到了 Fred，一位友好的農夫，他在英國的 Farmer's Market 賣肉和蔬菜。他提到了 Morfin，一位來自 Buccaneer's Den 的商人，他在 Paws 經營屠宰場。 [npc=Fred]
+# Journey
+0xB4:[journey] 我見到了 Kelly，Fred 的妻子，她與 Fred 一起經營 Farmer's Market。她對 Fred 的正直和市場上商品的品質給予了很高的評價。 [npc=Kelly]
+# Journey
+0xB5:[journey] 我見到了 Willy，英國的麵包師，他自豪地宣稱他的麵包非常甜美。 [npc=Willy]
+# Journey
+0xB6:[journey] 我見到了 Gaye，她負責英國的服裝店，同時也是友誼會的成員。她提到 Batlin 不見了，並說她正前往友誼會館。 [npc=Gaye]
+# Journey
+0xB7:[journey] 我見到了 Coop，Iolo 的學徒，他管理 Iolo 的弓箭店。他談到了賣出三連弩的事情，並提到了 Iolo 在 Serpent's Hold 的另一家店。 [npc=Iolo]
+# Journey
+0xB8:[journey] 我見過 Grayson，一位精明的商人，他賣武器和盔甲，也是友誼會的成員。 [npc=Grayson]
+# Journey
+0xB9:[journey] 我見過 Diane，一位善良的年輕女子，她賣馬車，也認識 Britannia 的很多人。 [npc=Diane]
+# Journey
+0xBA:[journey] 我見過 Clint，一位年邁的水手，現在賣船和六分儀，對世界有強烈的觀點。 [npc=Clint]
+# Journey
+0xBB:[journey] 我見過 Gordon，一位友好的男子，他在 Britain 的馬車上賣炸魚薯條。 [npc=Gordon]
+# Journey
+0xBC:[journey] 我見過 Sean，一位珠寶商，他賣精美的珠寶，也是友誼會的成員。 [npc=Sean]
+# Journey
+0xBD:[journey] 我見到了 Brownie，他曾是英國市長的候選人，如今在英國務農。他談到了自己在選舉中的失敗以及對政治的幻滅。 [npc=Brownie]
+# Journey
+0xBE:[journey] 我見到了 Mack，一位聲稱見過來自異世界的奇怪生物的農夫。他堅持認為那些生物是危險的獅虎。 [npc=Mack]
+# Journey
+0xBF:[journey] 我見到了 Snaz，一位以金幣換笑話的乞丐。他講述了自己童年時被遺棄的黑暗故事。 [npc=Snaz]
+# Journey
+0xC0:[journey] 我見到了 Millie，一位友誼會的成員，她因遲到會議而匆忙離開。她談到了自己在推廣友誼會中的角色。 [npc=Millie]
+# Journey
+0xC1:[journey] 我見到了 Geoffrey，我的前同伴和守衛隊長。他建議我在繼續旅程前提升自己的經驗和技能。 [npc=Geoffrey]
+# Quest
+0xC2:[quest] Wislem 說到 Trinsic 的兇殺案，並建議我前往 Terfin 見 Lord Draxinusom，告訴他有關 Inamo 的事。我應該去 Terfin。 [npc=Wislem]
+# Journey
+0xC3:[journey] 我見到了 Sherry 老鼠，她負責皇家育嬰室，喜歡給孩子們講故事。 [npc=Sherry]
+# Journey
+0xC4:[journey] 我見到了 Boots，她是 Lord British 的廚師，需要從 Paws 的屠宰場取得羊肉。 [npc=Boots]
+# Journey
+0xC5:[journey] 我見到了 Bennie，他是總管家，他給我提供了一頓免費的牛肉與點心餐。 [npc=Bennie]
+# Journey
+0xC6:[journey] 我見到了 Weston，一個因偷竊皇家園藝的蘋果而被囚禁的年輕人。 [npc=Weston]
+# Journey
+0xC7:[journey] 我見到了 Great Council 的成員 Miranda，她談到了她的工作和對 Britannia 百姓的關切。 [npc=Miranda]
+# Journey
+0xC8:[journey] 我見到了 Great Council 的成員 Inwisloklem，他談到了他族人的歷史以及與人類和平共處的願望。 [npc=Inwisloklem]
+# Journey
+0xC9:[journey] 我見到了城堡裡的 chambermaid Nell，她分享了關於她家庭和即將來臨的婚禮的故事。 [npc=Nell]
+# Journey
+0xCA:[journey] 我見到了城堡裡的僕人 Charles，他談到了他的家庭以及對 Jeanette 的單戀。 [npc=Charles]
+# Quest
+0xCB:[quest] Willy 僱傭我來烤麵包。我應該去他的麵包店開始工作。 [npc=Willy]
+# Quest
+0xCC:[quest] Lord British 調查了 Weston 的監禁並釋放了他。他談到了火島與美德聖所，我必須前去尋找。 [npc=Lord British]
+# Quest
+0xCD:[quest] 一名名叫 Weston 的男子被囚禁在 Britain 城堡頂端。他的監禁可能不公。我必須與 Lord British 談論此事。 [npc=Weston]
+# Journey
+0xCE:[journey] 我僱用了 Brownie 去協助他收穫南瓜。 [npc=Brownie]
+# Journey
+0xCF:[journey] 我僱用了 Mack 去協助他收集雞蛋。 [npc=Mack]
+# Journey
+0xD0:[journey] 我已支付 Carrocio 的服務費用。
+# Quest
+0xD1:[quest] Lord British 告訴我多年前英國曾發生過一樁儀式性謀殺，並勸我進行調查。我應該與市長 Patterson 談話，並前往英國的友誼會總部與 Batlin 會面。 [npc=Lord British]
+# Journey
+0xD2:[journey] 我與造船師 Clint 談論購買船隻和六分儀的事，但我的黃金不足以購買任何一樣。 [npc=Clint]
+# Journey
+0xD3:[journey] 我與 Lord British 談話，他提醒我他有辦法在需要時治療和幫助我。他也提到了 Britannia 魔法的異常狀態。 [npc=Lord British]
+# Quest
+0xD4:[quest] Lord British 提到 Cove 有一位瘋狂的法師 Rudyom，他可能是解決月之門問題的關鍵。我應該前往 Cove 調查。 [npc=Lord British]
+# Journey
+0xD5:[journey] Shamino 表示願意加入我的調查，並提到大森林中的 Nicodemus 已經瘋了。 [npc=Shamino]
+# Journey
+0xD6:[journey] 我拒絕了一個包裹。
+# Journey
+0xD7:[journey] 我沒有收到那個包裹。
+# Journey
+0xD8:[journey] Bennie，這位管家，為我端來了一頓牛肉與點心的飯菜。我明日可再來享用。 [npc=Bennie]
+# Quest
+0xD9:[quest] Shamino歸還了我的懷表，並提到了一位名叫Amber的女演員。我應該多瞭解她一些。 [npc=Shamino]
+# Quest
+0xDA:[quest] 在我與他談論Cube後，Batlin不見了。我應該找到他。 [npc=Batlin]
+# Journey
+0xDB:[journey] 我的舊日冒險夥伴 Sentri 已加入我的隊伍。他是一名劍術教練，在 Britain 教授劍術。 [npc=Sentri]
+# Journey
+0xDC:[journey] 我在 Mint 與 Cynthia 談話。她解釋了 Mint 在王國經濟中的角色以及稅收的重要性。 [npc=Cynthia]
+# Quest
+0xDD:[quest] Lord British 給了我他的月之球，但警告我月之門現在不穩定且危險。 [npc=Lord British]
+# Quest
+0xDE:[quest] Lord Heather 簽署了一項法案，以解決湖水的惡臭問題，該問題是由 Minoc 的礦業廢料造成的。 [npc=Lord Heather]
+# Journey
+0xDF:[journey] Rudyom 給了 Iwan 一樣東西。雖然交換的內容尚不清楚，但已被記錄下來。
+# Journey
+0xE0:[journey] De Maria 告訴了我一個故事。這必定是個極其重要的故事。
+# Quest
+0xE1:[quest] Nastassia 要求我查明她父親死因的真相。我應該前往 Yew。 [npc=Nastassia]
+# Quest
+0xE2:[quest] Nastassia 要求我查明她父親死因的真相。我應該前往 Yew。 [npc=Nastassia]
+# Journey
+0xE3:[journey] Lord Heather 給了我一項法案要帶到大議會。他也提到了 Nastassia 的悲傷。 [npc=Lord Heather]
+# Journey
+0xE4:[journey] Lord Heather 談到了慈悲聖所，以及 Cove 中眾多的情侶。 [npc=Spark]
+# Journey
+0xE5:[journey] 我見過 Iwan。
+# Quest
+0xE6:[quest] Nastassia 分享了她的故事並表達了感謝。我應當繼續旅程，懷著新的決心。 [npc=Nastassia]
+# Journey
+0xE7:[journey] 我見過 Rudyom，一位失去大部分魔法力量的老魔導士。 [npc=Rudyom]
+# Journey
+0xE8:[journey] 我見過 Nastassia，她以極大的用心照料著慈悲神殿。 [npc=Nastassia]
+# Journey
+0xE9:[journey] 我見過 Rayburt，一位教授冥想與專注戰鬥技巧的教練。 [npc=Rayburt]
+# Journey
+0xEA:[journey] 我見到了 Cove 的鎮長 Lord Heather，他談到了慈悲神殿以及這個鎮上居民熱情的性格。 [npc=Lord Heather]
+# Journey
+0xEB:[journey] 我見到了 Out'n'Inn 的旅館老闆 Pamela，她警告我 Cove 的愛情會令人陷入危險。 [npc=Pamela]
+# Journey
+0xEC:[journey] 我見到了 The Emerald 的老闆 Zinaida，她談到了銀葉草以及 Lock Lake 的汙染問題。 [npc=Zinaida]
+# Journey
+0xED:[journey] 我見到了吟遊詩人 De Maria，他唱了關於 Cove 居民的歌，並表達了對 Zinaida 的愛。 [npc=De Maria]
+# Journey
+0xEE:[journey] 我見到了戰鬥教練 Rayburt，他教授冥想與專注，還有他的狗 Regal。 [npc=Rayburt]
+# Journey
+0xEF:[journey] 我問了 Jaana 她的名字，雖然我應該記得她。她是 Cove 的治療師，想加入我的冒險，但我的隊伍人數太多，她還不能立即同行。 [npc=Jaana]
+# Journey
+0xF0:[journey] 我見到了 Out'n'Inn 的旅館老闆 Pamela。她提供我一間房間過夜，但我無法負擔。 [npc=Pamela]
+# Journey
+0xF1:[journey] 我見到了 The Emerald 的老闆 Zinaida。她歡迎我，並談到了她對一位男士的愛以及對 Lock Lake 的擔憂。 [npc=Zinaida]
+# Journey
+0xF2:[journey] 我見到了 De Maria，這位吟遊詩人。他唱了歌並談到了 Cove 的人們，但被 Zinaida 中斷了。 [npc=De Maria]
+# Journey
+0xF3:[journey] 我與 Lord Heather 談話。他與我分享了一些話語，雖然我們對話的內容並未被記錄下來。
+# Journey
+0xF4:[journey] Jakher 和 Karenna 談到了 Owen 的過去以及 Minoc 的麻煩。我應該向 Karenna 問更多關於吉普賽人的資訊。 [npc=Jakher]
+# Journey
+0xF5:[journey] Jakher 提到 Karenna 非常有魅力。我應當記住這一點，以備將來的互動。
+# Journey
+0xF6:[journey] Karenna 談到了最近的兇殺案以及 Minoc 日益升高的緊張局勢。我應該進一步調查。 [npc=Karenna]
+# Quest
+0xF7:[quest] 市長已取消了對 Owen 的雕像，並讓我去通知他。我應該去見 Owen。 [npc=Burnside]
+# Journey
+0xF8:[journey] Jakher 再次談到了 Owen 的過去以及 Karl 的兄弟遭遇的悲劇。我應該瞭解更多關於 Owen 的內疚。 [npc=Jakher]
+# Journey
+0xF9:[journey] Owen談到了他過去的掙扎和與Elynor最近的糾紛。他也提到了Crown Jewel和一個手上有鉤子的男人。 [npc=Owen]
+# Journey
+0xFA:[journey] Owen重複了他之前關於Elynor、Crown Jewel和那個手上有鉤子的男人的說法。 [npc=Owen]
+# Quest
+0xFB:[quest] Owen提出以1000枚黃金幣建造一艘船，但我沒有足夠的資金。我應該調查鋸木廠的兇殺案。 [npc=Owen]
+# Journey
+0xFC:[journey] Owen歸還了我的黃金，並談到了為他準備的紀念碑以及鋸木廠的兇殺案。 [npc=Owen]
+# Quest
+0xFD:[quest] Julia批評了Owen的船隻設計，並提到了Frederico和Tania的儀式兇殺案。我應該去找Iolo和Shamino尋求幫助。 [npc=Julia]
+# Quest
+0xFE:[quest] Xanthia 認出兇案現場的燭臺，並建議我向 Elynor 問清楚。我應該進一步調查 Elynor。 [npc=Xanthia]
+# Quest
+0xFF:[quest] Seara 提到 Frederico 和 Tania 的兒子 Sasha 離家加入友誼會。我應該找到 Sasha 或與他的姨媽、占卜師 Margareta 談話。 [npc=Seara]
+# Journey
+0x100:[journey] 一名吉普賽人告訴我我的未來。我必須找到時間之主，而 Wisps 知道如何聯絡他。
+# Journey
+0x101:[journey] Julia 已經離開了我的隊伍。她不再與我同行。 [npc=Julia]
+# Quest
+0x102:[quest] Elynor 覺得包裹可能被動過或開啟了。我必須將密封的盒子歸還給她，並證明自己的價值。 [npc=Elynor]
+# Journey
+0x103:[journey] 我開啟了這個包裹。
+# Quest
+0x104:[quest] Rutherford提到一名名叫Hook的盜賊，他可能與謀殺案有關。我應該前往Buccaneer's Den進行調查。 [npc=Rutherford]
+# Journey
+0x105:[journey] Elynor提到友誼會已經前往Paws。我應該去那裡找到他們。 [npc=Elynor]
+# Journey
+0x106:[journey] Zorn為我打造了一頂頭盔。我現在擁有了一件精美的盔甲。 [npc=Zorn]
+# Journey
+0x107:[journey] 我遇到一名名叫Fodus的生病石像鬼，他提到了一種秘密礦石和毒液。這可能會引導我發現新事物。 [npc=Fodus]
+# Quest
+0x108:[quest] 我請 Julia 加入我的隊伍，她答應了。她提到了 Minoc 的謀殺案和一個神秘的邪惡力量。 [npc=Julia]
+# Quest
+0x109:[quest] 我將未開啟的包裹交給 Elynor，但我的行為受到質疑，並被告知行為的後果。 [npc=Elynor]
+# Quest
+0x10A:[quest] William 說起鋸木廠的謀殺案，並對鎮上的人感到恐懼。他是 友誼會 的成員。 [npc=William]
+# Quest
+0x10B:[quest] Karl 表達了對 Owen 的仇恨，並計畫阻止更多船隻建造。他將設計圖交給我，並告訴我在他的小屋。 [npc=Julia]
+# Journey
+0x10C:[journey] 我見到了 Minoc 的 友誼會 頭銜顧問 Elynor。她談到了 友誼會 的宗旨，並邀請我加入。 [npc=Elynor]
+# Journey
+0x10D:[journey] 我見到了 Gregor，他是 Britannian Mining Company 在 Minoc 的分支負責人。 [npc=Gregor]
+# Journey
+0x10E:[journey] 我見到了 Margareta，一位吉普賽女子，她談到了友誼會及其成員。 [npc=Margareta]
+# Journey
+0x10F:[journey] 我見到了 Sasha，一位年輕的吉普賽男孩，他是友誼會的成員，並為父母的死亡感到悲痛。 [npc=Sasha]
+# Journey
+0x110:[journey] 我見到了 Gladstone，一位在 Minoc 的玻璃工和雕塑家，他談到了藝術家公會的困境。 [npc=Gladstone]
+# Journey
+0x111:[journey] 我見到了 Xanthia，一位Artist's Guild的成員，她為友誼會製作燭臺。 [npc=Xanthia]
+# Journey
+0x112:[journey] 我見到了 Minoc 的鐵匠 Zorn，他談到了 William 的鋸木廠發生的謀殺案以及城內的動盪。 [npc=Zorn]
+# Journey
+0x113:[journey] 我見到了 Minoc Artist's Guild 的成員 Seara，他提到在我們見面的地點附近發生了兩起謀殺案。 [npc=Seara]
+# Journey
+0x114:[journey] 我見到了 Karl，他曾經住在 Minoc，但現在憎恨這個城鎮及其居民。 [npc=Karl]
+# Journey
+0x115:[journey] 我見到了 Minoc 最偉大的造船師 Owen，他談到了鋸木廠的謀殺案以及他頭腦中奇怪的聲音。 [npc=Owen]
+# Journey
+0x116:[journey] 我見到了 Minoc 的市長 Burnside，他談到了謀殺案以及調查毫無進展。 [npc=Burnside]
+# Journey
+0x117:[journey] 我在 Minoc 見到了 The Checquered Cork 酒館的酒保 Rutherford。他看起來很友善，很樂意聊天。 [npc=Rutherford]
+# Quest
+0x118:[quest] 我在 Minoc 見到了鋸木廠工人 William，他告訴我鋸木廠發生了兩起謀殺案。我應該進一步調查。 [npc=William]
+# Quest
+0x119:[quest] 我在 Minoc 見到了教師 Karenna，她談到了鋸木廠的謀殺案和鎮上的動盪。我應該瞭解更多情況。 [npc=Karenna]
+# Journey
+0x11A:[journey] 我在 Minoc 見到了武術教練 Jakher，他提出以收費方式教我戰鬥技巧。我之後可能需要他的幫助。 [npc=Jakher]
+# Journey
+0x11B:[journey] 我在 Minoc 見到了吉普賽人 Jergi，他是吉普賽人的首領，他談到了他族人的未來充滿不確定性。他似乎對最近的事件感到憂慮。 [npc=Jergi]
+# Quest
+0x11C:[quest] Mikos，Minoc礦場的經理，提到了一種秘密礦石和一隻名叫Fodus的石像鬼。我應該去找Fodus，瞭解更多關於隱藏礦脈的資訊。 [npc=Mikos]
+# Journey
+0x11D:[journey] 我遇見了Fodus，一隻病態的石像鬼，他提到了一種秘密礦石和一個隱藏的礦脈。他還提到需要更多的毒液。 [npc=Fodus]
+# Quest
+0x11E:[quest] Elynor指控我開啟了一個密封的包裹，並威脅要向Batlin報告。我必須證明自己的清白，並找回遺失的內容。 [npc=Elynor]
+# Quest
+0x11F:[quest] Julia透露Minoc鋸木廠發生了謀殺案。有什麼邪惡的事情正在發生，我應該進一步調查這件事。 [npc=Julia]
+# Journey
+0x120:[journey] Karl談到了被盜的船隻設計圖，以及他對Owen的憎恨。他提出如果我跟隨他去他的小屋，他就會讓我看這些設計圖。 [npc=Karl]
+# Journey
+0x121:[journey] Julia 覺得 Spark 可愛且有禮貌。 [npc=Spark]
+# Journey
+0x122:[journey] 我見過第二起兇殺案。
+# Quest
+0x123:[quest] Owen 提到他的名字以及與友誼會的關係。我應該進一步瞭解友誼會以及他聽到的聲音。 [npc=Owen]
+# Journey
+0x124:[journey] Karl 拒絕加入友誼會，並對 Minoc 評價不高。他似乎知道一些兇殺案的內情。 [npc=Karl]
+# Quest
+0x125:[quest] Xanthia 認出兇案現場的燭臺是她製作的。我應該與 Elynor 談論此事。 [npc=Xanthia]
+# Journey
+0x126:[journey] 我遇到了釣鉤事件的後果。
+# Quest
+0x127:[quest] The Time Lord告訴我，邪惡的Guardian計劃在Astronomical Alignment時透過black moongate進入Britannia。我應該使用月之球前往靈性神殿與The Time Lord會面。 [npc=Xorinia]
+# Journey
+0x128:[journey] Reyna 說起她的母親以及她帶給母親墳墓的花。她對我送給她的花表示感激。 [npc=Reyna]
+# Quest
+0x129:[quest] Trellek 給了我一個口哨，並談到被埋在修道院附近的 Julius。我應該向 Trellek 的妻子 Saralek 請求許可，與他一起旅行。 [npc=Trellek]
+# Quest
+0x12A:[quest] Salamon 給了我一份合同，需要一名正在砍伐銀葉樹的樵夫簽署。我應該去森林西部找到這位樵夫。 [npc=Salamon]
+# Quest
+0x12B:[quest] Ben，一位住在 Yew 的木匠，已經答應停止砍伐銀葉樹。我現在應該去找那個被詛咒的沙漏，幫助 Nicodemus 修復以太。 [npc=Ben]
+# Journey
+0x12C:[journey] 我已經進入了監獄。或許這裡有人可以幫助我。
+# Quest
+0x12D:[quest] Nicodemus 同意重新詛咒這個沙漏，但前提是必須修復以太。我應該找到辦法修復以太。 [npc=Nicodemus]
+# Journey
+0x12E:[journey] 我已經見過 Tavenor，一位 Emp，他向我解釋了銀葉樹對他族人的意義。他請求我擔任信使。 [npc=Tavenor]
+# Quest
+0x12F:[quest] 修道院的 Kreg 僧人請求我為他尋找一瓶隱形藥水，以協助他的研究。我應該去拜訪 Nicodemus。 [npc=Kreg]
+# Journey
+0x130:[journey] 我遇見了銀葉樹的 Emp Saralek，她談到了她的丈夫 Trellek，以及銀葉樹因被砍伐而面臨的困境。 [npc=Saralek]
+# Quest
+0x131:[quest] 我從 Salamon 那裡獲得 Trellek 加入我的許可，但必須先與砍伐銀葉樹的木匠簽訂合同，以阻止他繼續砍伐。 [npc=Salamon]
+# Journey
+0x132:[journey] 我與Trellek交談，他提到了一位名叫朱利葉斯的人類，並說明我必須先獲得Saralek的許可，他才能加入我。 [npc=Trellek]
+# Quest
+0x133:[quest] 除非我將Alagner的筆記本交給他們，否則這些靈體不會幫助我，而這筆記本位於New Magincia島上。 [npc=Xorinia]
+# Quest
+0x134:[quest] 我從 Xorinia 那裡得知，Black Gate將在Astronomical Alignment時啟動，而Guardian計劃透過一扇黑色的月之門進入Britannia。 [npc=Xorinia]
+# Journey
+0x135:[journey] 我與 D'Rel 談話，他是一名來自 Buccaneer's Den 的前私掠者，因未繳稅而被囚禁。他提到一名名叫 Hook 的人，可能與一名名叫 Forskis 的石像鬼一起出現。 [npc=D Rel]
+# Journey
+0x136:[journey] 我遇到了 Trellek，一名類似猿猴的生物，他自我介紹並問了我的名字。他表示自己是一名採集食物的生物。 [npc=Trellek]
+# Journey
+0x137:[journey] 我再次與 Trellek 談話，但他沒有提供任何新資訊。他仍然問了我的名字，並對 `job' 這個詞感到困惑。 [npc=Trellek]
+# Journey
+0x138:[journey] 我與 Taylor 談話，他提到 Emps，一種害羞的物種，住在森林附近。他還給了我一個煙霧彈，幫助我避開 Bee Caves 中的巨型蜜蜂。 [npc=Taylor]
+# Journey
+0x139:[journey] 我將花束贈與 Reyna，她負責修道院的花園。她對我的舉動感到感動，並表示願意以半價幫助我。 [npc=Reyna]
+# Journey
+0x13A:[journey] Reyna 說起她已故的母親，以及她為母親的墳墓帶來的花朵。我應該想辦法幫助她為母親的墳墓帶來更多的花朵。 [npc=Reyna]
+# Journey
+0x13B:[journey] Perrin，一位住在 Empath Abbey 的學者，提到了玫瑰兄弟會及其釀造的葡萄酒。我應該去訪問修道院，並試試他們的葡萄酒。 [npc=Perrin]
+# Journey
+0x13C:[journey] 我遇見了 Trellek，一位以採集食物為生的 Emp。他看起來友善且樂於交談。 [npc=Trellek]
+# Quest
+0x13D:[quest] Saralek 說起銀葉樹逐漸減少的問題，並提到需要保護它們。我應該想辦法幫助拯救銀葉樹。 [npc=Saralek]
+# Journey
+0x13E:[journey] Tavenor，另一位 Emp，警告我不要砍伐銀葉樹。他認為人類不應該破壞自然。 [npc=Tavenor]
+# Quest
+0x13F:[quest] 我遇見了 Salamon，一位提到 Trellek 有工作機會的 Emp，她說銀葉樹是 Emp 的家所在。 [npc=Salamon]
+# Journey
+0x140:[journey] 我遇見了 Nicodemus，一位瘋狂的法師，儘管他的魔法失靈，他仍出售藥劑和法術。 [npc=Nicodemus]
+# Quest
+0x141:[quest] 我遇見了 Thad，他正尋找摧毀友誼會的方法，並想解救被他們施法的妹妹 Millie。 [npc=Thad]
+# Journey
+0x142:[journey] 我遇見了 Bradman，一位在 Yew 教授弓箭的教練，他對 Iolo 和 Tseramed 評價很高。 [npc=Bradman]
+# Journey
+0x143:[journey] 我遇見了 Sir Jeff，Abbey 的 High Court 官員，他提到監獄裡有強盜和地精。 [npc=Sir Jeff]
+# Journey
+0x144:[journey] 我遇見了 Tiery，一位粗魯卻友善的男子，他在 Empath Abbey 的墓地工作。他提到了一些住在附近的人，包括 Garth、Darek、Nina、Bart 和 Perrin。 [npc=Tiery]
+# Journey
+0x145:[journey] 我已經遇見了 Perrin，根據標誌顯示。他應該是這個地區的一個重要人物。
+# Journey
+0x146:[journey] 我遇見了 Reyna，一位住在森林附近的治療師。她提到了修道院、一位學者，以及附近的一座監獄。 [npc=Reyna]
+# Journey
+0x147:[journey] 我遇見了 Taylor，一位熱衷學習當地動植物與地理的學者。他是玫瑰兄弟會的成員。 [npc=Taylor]
+# Journey
+0x148:[journey] 我遇見了 Kreg，一位正在研究一種煉金配方的修士。這配方將幫助修道院準備實行沉默的誓言。 [npc=Kreg]
+# Journey
+0x149:[journey] 我見過被囚禁的 Gharl。
+# Journey
+0x14A:[journey] 我見過 D'Rel，他曾是 Buccaneer's Den 的私掠者，現因逃稅入獄。 [npc=D Rel]
+# Journey
+0x14B:[journey] 我見過 Smith，一匹拒絕透露名字的馬，除非被稱呼為 Smith。 [npc=Smith]
+# Journey
+0x14C:[journey] 我見過 Aimi，一位收藏藝術的修女，她欽佩那些能以視覺表達自我的人。 [npc=Aimi]
+# Journey
+0x14D:[journey] 我見過 Penni，一位近身戰鬥教練，她擔心她的丈夫 Addom。 [npc=Penni]
+# Journey
+0x14E:[journey] Ben，一名來自 Yew 的伐木工人，提到了 Minoc 的鋸木廠和高法院附近的修道院。我應該去鋸木廠和修道院看看。 [npc=Ben]
+# Journey
+0x14F:[journey] Goth，一名脾氣暴躁的男子，以金錢為條件提供了關於High Court和囚室的資訊。我應該考慮支付他以獲得更多細節。 [npc=Goth]
+# Quest
+0x150:[quest] 我使用 Trellek 給我的口哨與精靈交談。他們提到了 Undrian 議會，並提及有關 Alagner 的資訊交易。 [npc=Xorinia]
+# Journey
+0x151:[journey] Salamon，一名 Emp，談到了 Trellek 的潛在工作機會，以及 Emp 喜歡的食物。我應該考慮幫助 Trellek 找到工作。 [npc=Salamon]
+# Journey
+0x152:[journey] Tseramed 提到了住在蜜蜂洞穴中的隱士，並分享了一個關於狐狸和黏液的故事。我應該去探訪蜜蜂洞穴。 [npc=Tseramed]
+# Journey
+0x153:[journey] Tseramed 贈與我一些由巨蜂刺製成的箭。我應當小心攜帶，因為即使輕微的抓傷也可能讓人陷入深沉的睡眠。 [npc=Tseramed]
+# Journey
+0x154:[journey] 我贈與了某人一些蜂蜜。或許這是為了換取某樣寶貴之物。
+# Quest
+0x155:[quest] Saralek 講述了 Trellek 和銀葉樹的事。我應該再次與 Trellek 談話，以瞭解更多關於精靈的資訊。 [npc=Saralek]
+# Quest
+0x156:[quest] Trellek 為我製作了用來與精靈溝通的口哨。我應當使用它去尋找位於山中石屋的精靈。 [npc=Trellek]
+# Quest
+0x157:[quest] 我將詛咒的筆記本交給了靈體，作為回報，他們給了我來自Time Lord的訊息。我應該前往Spirituality Shrine與他會面。 [npc=Xorinia]
+# Quest
+0x158:[quest] Saralek 說起她的家庭與銀葉樹，這些樹正被砍伐。我應該再次與 Trellek 談話，以瞭解更多資訊。 [npc=Saralek]
+# Journey
+0x159:[journey] 我遇見了 Kreg。或許他有話要說。
+# Journey
+0x15A:[journey] Reyna，一名治療師，談到修道院、一位學者以及附近的一座監獄。我應該去訪問修道院。 [npc=Reyna]
+# Journey
+0x15B:[journey] Aimi，一名修女，談到她的花園以及對這個地區瞭解很多的 Taylor。我應該去見 Taylor。 [npc=Aimi]
+# Journey
+0x15C:[journey] Aimi 給了我一些花，要送給 Reyna 的母親。我應該將它們交給 Reyna。 [npc=Aimi]
+# Journey
+0x15D:[journey] Tseramed 這個樵夫加入了我的旅程。他談到了對 友誼會 的仇恨，以及 Lady M 的悲劇故事。 [npc=Tseramed]
+# Journey
+0x15E:[journey] Tseramed 看來懷疑我是一名法師，雖然他尚未公開提及此事。
+# Journey
+0x15F:[journey] 我遇到了 Tseramed 這個樵夫。他對 友誼會 謹慎，希望知道我的名字和同伴。 [npc=Tseramed]
+# Journey
+0x160:[journey] Tseramed 提議與我交易，但細節仍不清楚。
+# Journey
+0x161:[journey] Tseramed 再次表達了對 友誼會 的不信任，並希望更進一步地瞭解我。 [npc=Tseramed]
+# Journey
+0x162:[journey] Tseramed 講述了有關洞穴中隱士的傳說，並分享了一則有關狐狸逃離黏液的奇聞。他提出願意與我同行。 [npc=Tseramed]
+# Journey
+0x163:[journey] Reyna，一位治療師，提到了修道院、一位學者以及附近的一座監獄。我應該去這些地方探訪。 [npc=Reyna]
+# Quest
+0x164:[quest] Syria 歸還了 Sprellic 偷走的榮譽旗幟。她是一位來自南方的戰士。 [npc=Syria]
+# Journey
+0x165:[journey] Ophelia 提供賭注，賭 Sprellic 的決鬥結果。我之後可以回來領取我的賭金。 [npc=Ophelia]
+# Journey
+0x166:[journey] 看來 Sprellic 已經去世，有關他決鬥的賭注現在無效。
+# Quest
+0x167:[quest] Kliftin 提議製作一面榮譽旗的複製品，以阻止 Sprellic 與圖書館的決鬥。我應返回他的店舖取旗。 [npc=Kliftin]
+# Quest
+0x168:[quest] Kliftin 已將仿製的榮譽旗交給我。我必須在 Sprellic 走向決鬥場之前將其送至圖書館。 [npc=Kliftin]
+# Journey
+0x169:[journey] Sprellic 與圖書館的決鬥已經開始。
+# Quest
+0x16A:[quest] Syria 已經取走了仿製的榮譽旗，決鬥已經解決。我應警告 Sprellic 避免未來的衝突。 [npc=Syria]
+# Journey
+0x16B:[journey] 我得知來自友誼會的 Elizabeth 和 Abraham 已前往 Britain。如有需要，我應追隨他們。 [npc=Joseph]
+# Quest
+0x16C:[quest] 我向 De Snel 展示了在 Minoc 被發現的匕首，其刻有圖書館 of Scars 的標記。他懷疑我在撒謊，並要求我接受他的訓練技巧示範。 [npc=De Snel]
+# Journey
+0x16D:[journey] Sir Dupre 已經受封為騎士，目前正在研究 Britannia 的各種飲酒場所。他提出再次加入我的冒險隊伍。 [npc=Dupre]
+# Journey
+0x16E:[journey] 我得知了 Jhelom 的 The Bunk and Stool 酒吧老闆 Sprellic，他被圖書館 of Scars 的學生挑戰決鬥。酒保 Ophelia 在他缺席期間經營酒吧。 [npc=Ophelia]
+# Journey
+0x16F:[journey] 我與 Ophelia 賭注 Sprellic 的決鬥。她給我金幣標記，若他勝出，她會支付雙倍賭金。 [npc=Ophelia]
+# Quest
+0x170:[quest] Sprellic 要求我擔任他的戰士，對抗 Jhelom 最強的三位戰士：Timmons、Vokes 和 Syria。我已接受請求，必須找到辦法擊敗他們。 [npc=Sprellic]
+# Journey
+0x171:[journey] 我見到了 De Snel，他經營 Jhelom 的傷疤圖書館，並教授一種獨特的戰鬥風格。 [npc=De Snel]
+# Journey
+0x172:[journey] 我見到了 Jhelom 的年輕市長 Joseph，他對城內的決鬥傳統頗為推崇。 [npc=Joseph]
+# Journey
+0x173:[journey] 我見到了 Jhelom 的鎧甲店老闆 Kliftin，他出售武器和盔甲，但目前暫時停業。 [npc=Kliftin]
+# Journey
+0x174:[journey] 我見到了 Jhelom 的 The Bunk and Stool 酒吧女侍 Ophelia，她談到了決鬥和她在那裡的工作。 [npc=Ophelia]
+# Journey
+0x175:[journey] 我見到了 The Bunk and Stool 酒吧過度勞累的女侍 Daphne，她顯然對自己的工作感到疲憊。 [npc=Daphne]
+# Journey
+0x176:[journey] 我見到了 Jhelom 的 Bunk and Stool 酒館老闆 Sprellic。他談到了這個城鎮中鬥毆和決鬥的問題。 [npc=Sprellic]
+# Quest
+0x177:[quest] Vokes 要求我將圖書館的榮譽旗歸還給 Syria。他向我發出決鬥挑戰，約定在中午於決鬥場見。 [npc=Vokes]
+# Quest
+0x178:[quest] Syria 接受歸還榮譽旗，但警告我若為 Sprellic 而戰，她將為榮譽而戰。她向我發出決鬥挑戰。 [npc=Syria]
+# Quest
+0x179:[quest] Timmons，一位嚴肅的年輕人，請求我將榮譽旗歸還給 Syria，並向我發出決鬥挑戰，約定在中午於決鬥場見。 [npc=Timmons]
+# Journey
+0x17A:[journey] Daphne 提供我下注的籌碼。若我勝出，之後可向她領取黃金作為獎勵。 [npc=Daphne]
+# Quest
+0x17B:[quest] Kliftin 提議製作一麵榮譽旗的複製品，以阻止 Sprellic 與圖書館的決鬥。我必須在他店裡取旗，以免 Sprellic 到達決鬥區。 [npc=Kliftin]
+# Quest
+0x17C:[quest] Alagner 要求我前往 Skara Brae 找到 The Tortured One 的靈魂，並學習生命與死亡的問題答案，方能借閱他的筆記本。 [npc=Alagner]
+# Quest
+0x17D:[quest] Henry 遺失了一枚他打算贈與 Constance 的項鍊。我應協助他尋找，以免他永遠失去她。 [npc=Henry]
+# Journey
+0x17E:[journey] Boris 否認知道項鍊的下落，但後來承認藏起了它。我應繼續尋找。 [npc=Boris]
+# Quest
+0x17F:[quest] Magenta 堅稱項鍊不是為她準備的，並命令我將其歸還給真正的主人。 [npc=Magenta]
+# Journey
+0x180:[journey] Katrina談到了她的朋友Alagner、Russell和Henry，並提到了來自Buccaneer's Den的三位陌生人Robin、Battles和Leavell。我應該去找Iolo和Shamino。 [npc=Katrina]
+# Quest
+0x181:[quest] Russell提到Crown Jewel離開島嶼，並有一名獨臂男子登船，還有一隻石像鬼陪同。我應該調查Crown Jewel的下落以及這名男子的去向。 [npc=Russell]
+# Journey
+0x182:[journey] Russell重複了關於Crown Jewel和獨臂男子的細節，但沒有新資訊。我應該繼續搜尋Crown Jewel和這名男子的下落。 [npc=Russell]
+# Quest
+0x183:[quest] Boris撒謊說不知道項鍊在哪裡，但承認他至今仍找不到。我應該繼續搜尋項鍊的下落。 [npc=Boris]
+# Quest
+0x184:[quest] Robin透露了他的計劃，要將Constance帶回Buccaneer's Den並賣掉她。我必須在她被綁架之前阻止他。 [npc=Robin]
+# Quest
+0x185:[quest] Battles 和 Leavell 要離開 New Magincia 去 Buccaneer's Den。我應該找到辦法幫助他們逃離。 [npc=Battles]
+# Quest
+0x186:[quest] Sprellic 在 Jhelom 被三位強大的戰士挑戰決鬥。我應該找到一位戰士為他出戰。 [npc=Sprellic]
+# Journey
+0x187:[journey] 我在 New Magincia 見到了花農 Sam。他賣花，並在自己的溫室裡研究植物。 [npc=Sam]
+# Journey
+0x188:[journey] 我已告訴 Sam 我是聖者。
+# Journey
+0x189:[journey] 我見到了 Alagner，一位來到 New Magincia 研究並建造工坊的賢者。 [npc=Alagner]
+# Journey
+0x18A:[journey] 我見到了 New Magincia 的造船師 Russell，他出售船隻地契和導航六分儀。 [npc=Russell]
+# Quest
+0x18B:[quest] Dupre 欠 Boris 74 黃金，必須先償還才能繼續前進。 [npc=Boris]
+# Journey
+0x18C:[journey] 我見到了 New Magincia 的市長 Magenta，她是 Boris 的妻子。 [npc=Magenta]
+# Journey
+0x18D:[journey] 我見到了 New Magincia 的販賣商 Henry，他因被心愛的人拒絕而心碎。 [npc=Henry]
+# Journey
+0x18E:[journey] 我見到了 Constance，一位善良的年輕女子，她提供來自謙卑之井的純淨冷水。 [npc=Constance]
+# Journey
+0x18F:[journey] 我遇見了 Robin，一名擅長賭博的 rogue，他最近剛到 New Magincia。 [npc=Robin]
+# Journey
+0x190:[journey] 我遇見了 Battles，Robin 的保鏢，他保護 Robin 賭博的活動。 [npc=Battles]
+# Journey
+0x191:[journey] 我遇見了 Leavell，Robin 的另一位保鏢，他忠誠且擅長戰鬥。 [npc=Leavell]
+# Journey
+0x192:[journey] 我遇見了 Sam，花商，他在 New Magincia 賣花，並享受他的工作。 [npc=Sam]
+# Journey
+0x193:[journey] 我與 Russell 談話，他是一名造船師，賣船契約和導航用的六分儀。 [npc=Russell]
+# Journey
+0x194:[journey] 我見過 New Magincia 的兇殺案。
+# Quest
+0x195:[quest] Dupre 欠 Boris 74 黃金。我應該幫助 Dupre 償還債務，讓他能與 Boris 談話。 [npc=Boris]
+# Quest
+0x196:[quest] Caine 表示 Liche 是鎮上痛苦的來源。我應該去找 Mistress Mordra，學習如何解救他們脫離 Liche 的控制。 [npc=Caine]
+# Journey
+0x197:[journey] 我已經抵達島上的碼頭。
+# Quest
+0x198:[quest] 我找到了犧牲品。我應該進一步調查，以瞭解它的意義。
+# Journey
+0x199:[journey] 我詢問了渡船人有關進入靈魂井所需的犧牲。
+# Journey
+0x19A:[journey] Markham 說起了 Skara Brae 所遭遇的悲劇以及圍繞 Horance 黑暗塔的黑暗事件。他拒絕成為犧牲。 [npc=Markham]
+# Journey
+0x19B:[journey] Paulette 說起了 Keg O' Spirits 的火災，並拒絕成為犧牲。 [npc=Paulette]
+# Journey
+0x19C:[journey] Quenton 說起了 Liche 的詛咒以及靈魂的痛苦。他拒絕成為犧牲。 [npc=Quenton]
+# Journey
+0x19D:[journey] 我詢問了 Rowena 有關進入靈魂井所需的犧牲。
+# Quest
+0x19E:[quest] 我已向 Trent 問及對抗 Liche 所需的犧牲。我應該去鐵匠鋪與他談話。
+# Quest
+0x19F:[quest] Forsythe 告訴我我必須尋找並問鎮民關於犧牲的事。我應該去東北海岸附近的隕石坑尋找他提到的人。 [npc=Forsythe]
+# Quest
+0x1A0:[quest] Mordra 揭露了市長 Forsythe 弄混了藥水配方。我應該去 Town Hall 與 Forsythe 談話。 [npc=Mordra]
+# Quest
+0x1A1:[quest] Caine 告訴我他曾經是製造毀滅鎮上的藥水的煉金術師。我應該去 Town Hall 與 Forsythe 談話。 [npc=Caine]
+# Quest
+0x1A2:[quest] Forsythe 同意犧牲自己來對抗 Liche。我應該帶他去靈魂井完成儀式。 [npc=Forsythe]
+# Journey
+0x1A3:[journey] 這口井已被摧毀。
+# Journey
+0x1A4:[journey] Paulette 說起 Keg O' Spirits 酒館的火災，並拒絕跳進井中。她雖然善良，卻給了我一個告別的吻。 [npc=Paulette]
+# Quest
+0x1A5:[quest] Trent 已經找到內心的平靜，現在他希望解救 Rowena 脫離 Horance 的詛咒。我應該幫助他完成 Soul Cage。 [npc=Trent]
+# Journey
+0x1A6:[journey] 我與某人或某物重逢了。
+# Journey
+0x1A7:[journey] 我見到了那個音樂盒。
+# Quest
+0x1A8:[quest] Trent 已經打造了一件裝置，並指示我將其帶給 Mordra，她會教我如何使用它。 [npc=Trent]
+# Journey
+0x1A9:[journey] 我第一次見到了這個箱子。
+# Journey
+0x1AA:[journey] Horance 已經離開，我只能獨自繼續旅程。
+# Journey
+0x1AB:[journey] 我已經將法杖交給了別人。
+# Quest
+0x1AC:[quest] 與井有關的任務已經開始。
+# Journey
+0x1AD:[journey] 我已經完成了與 Horance 的任務。
+# Quest
+0x1AE:[quest] 我必須帶 Rowena 回家。
+# Journey
+0x1AF:[journey] Horance 被困在某處。
+# Journey
+0x1B0:[journey] 我遇到了 Skarabraed。
+# Journey
+0x1B1:[journey] 我已經製作出了配方。
+# Journey
+0x1B2:[journey] 我與 Caine 參加了靈異集會。
+# Journey
+0x1B3:[journey] 我與擺渡人參加了靈異集會。
+# Journey
+0x1B4:[journey] 我與 Markham 參加了靈異集會。
+# Journey
+0x1B5:[journey] 我與 Horance 參加了靈異集會。
+# Journey
+0x1B6:[journey] 我與 Trent 參加了靈異集會。
+# Journey
+0x1B7:[journey] 我與幽靈 Mordra 談話，她似乎對神秘術法有所瞭解。她未來或許能幫上忙。 [npc=Mordra]
+# Journey
+0x1B8:[journey] 我與 Rowena 進行了通靈儀式。也許她有話要說。
+# Journey
+0x1B9:[journey] 我與 Paulette 進行了通靈儀式。也許她有話要說。
+# Journey
+0x1BA:[journey] 我與 Quentin 進行了通靈儀式。也許他有話要說。
+# Journey
+0x1BB:[journey] 我與 Forsythe 進行了通靈儀式。也許她有話要說。
+# Quest
+0x1BC:[quest] Caine透露有一個邪惡的靈魂，即Liche，佔據了Horance的身體，並從鎮上居民身上吸取生命。我必須與Mistress Mordra交談，以學習如何解救他們。 [npc=Caine]
+# Journey
+0x1BD:[journey] 我見到了Keg O' Spirits的殭屍酒保Markham，他談到了那場曾摧毀他的酒館和鎮子的火災。 [npc=Forsythe]
+# Journey
+0x1BE:[journey] 我見到了Paulette，這位幽靈女侍應生，她情緒低落且疏離，還與Rowena和Forsythe交談過。 [npc=Paulette]
+# Quest
+0x1BF:[quest] Caine透露了能摧毀Liche的藥水配方，但我必須從Mordra那裡取得正確的材料，並正確製備藥水。 [npc=Caine]
+# Quest
+0x1C0:[quest] Mordra解釋說，我必須將Soul Cage放入Dark Tower下的靈魂井中，以靈魂的力量為其充能，然後將藥水用於Liche。 [npc=Mordra]
+# Quest
+0x1C1:[quest] Trent談論他失去的愛人Rowena，以及對Horance的仇恨。他現在希望完成Soul Cage以將她從Horance的詛咒中解救出來。我應當協助他完成這項任務。 [npc=Trent]
+# Quest
+0x1C2:[quest] Caine，被稱為受折磨者，回憶起他導致Skara Brae毀滅的悲劇錯誤。他因內疚而受折磨，渴望贖罪。我應當尋找幫助他的方法。 [npc=Caine]
+# Journey
+0x1C3:[journey] 我見過擺渡人。他可能掌握前方旅程的知識。
+# Journey
+0x1C4:[journey] 我見過Markham，這位Keg O' Spirits的亡靈酒保。他談論Caine的破壞與Horance的詛咒。 [npc=Markham]
+# Quest
+0x1C5:[quest] 我與Horance，這位Liche對峙。他渴望透過亡靈統治Britannia。我必須阻止他。 [npc=Spark]
+# Journey
+0x1C6:[journey] 我見過 Horance。
+# Quest
+0x1C7:[quest] Trent 要我將他的鐵籠帶給 Mordra。我應該去見 Mordra。 [npc=Trent]
+# Quest
+0x1C8:[quest] Mordra 告訴我如何為Soul Cage充能並擊敗 Liche。我應該去靈魂井。 [npc=Mordra]
+# Journey
+0x1C9:[journey] 我見過塔樓的女主人 Rowena。她似乎迷失在自己的思緒中。 [npc=Rowena]
+# Journey
+0x1CA:[journey] 我見過酒館前的女侍應 Paulette。她親切且調情。 [npc=Paulette]
+# Quest
+0x1CB:[quest] Quenton 這位幽靈提到了造成 Skara Brae 火災的煉金術師 Caine。我應該去尋找 Caine。 [npc=Quenton]
+# Quest
+0x1CC:[quest] 市長 Forsythe 已決心在井邊對抗 Liche。我應該帶他去井邊。 [npc=Forsythe]
+# Journey
+0x1CD:[journey] Henry 已經找回了他的項鍊並將其交給 Constance。他的感激之情很深。 [npc=Henry]
+# Quest
+0x1CE:[quest] Trent 已經完成他的任務，並指示我將物品帶給 Mordra 以作進一步使用。 [npc=Trent]
+# Journey
+0x1CF:[journey] 我正在製作一個籠子，可能是為了某個尚未揭示的目的。
+# Journey
+0x1D0:[journey] 我已經製作了公式。
+# Journey
+0x1D1:[journey] 我被拒絕進入井中。
+# Quest
+0x1D2:[quest] 一個沙漏的任務已經擺在我面前。
+# Quest
+0x1D3:[quest] Time Lord已給我一個任務。
+# Journey
+0x1D4:[journey] 我已經見過時間之主。
+# Journey
+0x1D5:[journey] Tolemac談到了Morz的口吃及其過去。我應該與Morz或Tolemac談一談。 [npc=Tolemac]
+# Journey
+0x1D6:[journey] Cubolt談到了他的兄弟與Morz的口吃。他也警告我不要加入友誼會。 [npc=Cubolt]
+# Journey
+0x1D7:[journey] Cubolt重複了他對Morz與友誼會的擔憂。我應該與Morz或Tolemac談一談。 [npc=Cubolt]
+# Journey
+0x1D8:[journey] Balayna解釋了友誼會的信仰，並對Rankin表示懷疑。 [npc=Balayna]
+# Journey
+0x1D9:[journey] bartender Phearcy談到了友誼會及其在Moonglow的影響。 [npc=Phearcy]
+# Quest
+0x1DA:[quest] Zelda 提到 Penumbra，這位沉睡的賢者，只有 聖者 能夠喚醒她。我應該尋找她。 [npc=Zelda]
+# Journey
+0x1DB:[journey] 我見到了 Moonglow 觀測站的負責人 Brion。他談到了他的兄弟 Nelson，以及 Penumbra 的傳說。 [npc=Brion]
+# Journey
+0x1DC:[journey] 我見到了 Moonglow Lycaeum 的負責人 Nelson。他談到了 Zelda、Penumbra，以及島嶼傳說。 [npc=Nelson]
+# Journey
+0x1DD:[journey] Brion 給了我一個星象儀觀測器，但還需要一塊晶體才能完成。我應該去酒館尋找晶體。 [npc=Brion]
+# Journey
+0x1DE:[journey] 我見到了 Addom，一位販賣稀有物品的旅行者。他談到了 Moonglow 的 Nelson、Phearcy 和 Elad。 [npc=Addom]
+# Quest
+0x1DF:[quest] Penumbra 需要四塊黑巖來保護她免受以太波的傷害。我應將它們放在房間的四個方位的基座上。 [npc=Penumbra]
+# Quest
+0x1E0:[quest] Penumbra 需要以太戒指，最後由石像鬼國王 Draxinusom 擁有。我應前往 Terfin 島尋找它。 [npc=Penumbra]
+# Quest
+0x1E1:[quest] Penumbra 已經為以太戒指施法。我必須佩戴它，前往四面體附近的生成器摧毀它。 [npc=Penumbra]
+# Journey
+0x1E2:[journey] 我已完成將黑巖塊放置於 Penumbra 房間的任務。
+# Journey
+0x1E3:[journey] Zelda 談論了 Nelson 和 Brion，並贈予我一瓶白色藥水作為禮物。 [npc=Zelda]
+# Journey
+0x1E4:[journey] Nelson談到了門上神秘的符號，需要特定物品才能進入。他也向我展示了他的收藏，包括一個遺失的筆架和卷軸開啟器。 [npc=Nelson]
+# Journey
+0x1E5:[journey] Nelson提到Zelda可能已經將遺失的物品放回書架。他也向我展示了一本名為"Stranger in a Strange Land"的舊書。 [npc=Nelson]
+# Journey
+0x1E6:[journey] Nelson向我展示了一系列奇怪的物品，包括一個遺失的筆架和卷軸開啟器，以及一本名為"Stranger in a Strange Land"的舊書。 [npc=Nelson]
+# Journey
+0x1E7:[journey] Nelson向我展示了一本名為"Stranger in a Strange Land"的舊書。他也提到Zelda可能已經將遺失的物品放回書架。 [npc=Nelson]
+# Quest
+0x1E8:[quest] Brion向我展示了一個由綠色乳酪製成的 Britannia 衛星模型，以及一個已有200年歷史的黃金六分儀，但它們都遺失了。他也提供了一個天文儀觀測器，讓我觀測 Astronomical Alignment。 [npc=Brion]
+# Quest
+0x1E9:[quest] Brion 要我到酒館尋找一塊晶體。我應該去酒館尋找。 [npc=Brion]
+# Quest
+0x1EA:[quest] Brion 已經給了我完整的星象儀觀測器。我應該用它來觀測天文對齊。 [npc=Brion]
+# Journey
+0x1EB:[journey] 我見過與 Brion 有關的東西。或許是一件小玩意或回憶。
+# Journey
+0x1EC:[journey] 我見過與 Nel 有關的東西。或許是一件小玩意或回憶。
+# Journey
+0x1ED:[journey] 我在城裡遇見了 Addom，一位旅行者。他提到了這裡的其他人，包括一名治療師和一名酒保。 [npc=Addom]
+# Quest
+0x1EE:[quest] Brion 給了我一個黃道儀觀測器，但它還不完整。我必須去酒館為他尋找另一塊晶體。 [npc=Brion]
+# Quest
+0x1EF:[quest] Rankin 要我將一瓶烈酒送到 Terfin 島上的 Balayna 那裡。 [npc=Rankin]
+# Quest
+0x1F0:[quest] Brion 給了我一個黃道儀觀測器，但它還不完整。我必須去酒館為他尋找另一塊晶體。 [npc=Brion]
+# Journey
+0x1F1:[journey] 我在 Moonglow 見到了 Chad，他教授輕型武器技巧，並認識當地的酒保 Phearcy。 [npc=Chad]
+# Journey
+0x1F2:[journey] 我在 Moonglow 見到了 Chad，他教授輕型武器技巧，並認識當地的酒保 Phearcy。 [npc=Chad]
+# Journey
+0x1F3:[journey] Chad認出我是聖者，並告訴我關於Moonglow的位置和居民。 [npc=Shamino]
+# Journey
+0x1F4:[journey] Moonglow的Effrem談到了他的兒子Mikhail和他的妻子Jillian。 [npc=Effrem]
+# Journey
+0x1F5:[journey] 一名NPC發了言，但具體內容未知。
+# Quest
+0x1F6:[quest] Brion談到了Caddellite，並建議我去Minoc找Zorn打造頭盔。 [npc=Brion]
+# Journey
+0x1F7:[journey] 我見到了Moonglow天文臺的負責人Brion。 [npc=Brion]
+# Quest
+0x1F8:[quest] 我見到了 Penumbra，一位沉睡了 200 年的法師。她正在痛苦中，需要幫助恢復她的魔法力量。 [npc=Penumbra]
+# Journey
+0x1F9:[journey] 我見到了 Moonglow 觀測站的負責人 Brion。他談到了他的兄弟 Nelson 和 Lycaeum。 [npc=Brion]
+# Journey
+0x1FA:[journey] 我見到了 Lycaeum 的顧問 Zelda。她談到了自己的職責和圖書館的宗旨。 [npc=Zelda]
+# Journey
+0x1FB:[journey] 我在 Moonglow 見到了我的老朋友 Mariah。她賣法術和藥劑，但選擇不多。 [npc=Mariah]
+# Journey
+0x1FC:[journey] 我見到了 Moonglow 的 友誼會 新任分支領袖 Rankin。他談到了某人已前往 Britain。 [npc=Rankin]
+# Quest
+0x1FD:[quest] Balayna，Moonglow 分會的秘書，因我給她的試劑而中毒。我必須進一步調查此事。 [npc=Balayna]
+# Journey
+0x1FE:[journey] 我遇見了 Tolemac，一位 Moonglow 的友善農夫，他是友誼會的成員。他提到了 Balayna 和 Rankin。 [npc=Tolemac]
+# Journey
+0x1FF:[journey] 我遇見了 Cubolt，Tolemac 的哥哥，他對友誼會不信任。他談到了 Morz 和他們的農場。 [npc=Cubolt]
+# Journey
+0x200:[journey] 我遇見了 Morz，他口吃且對加入友誼會感到猶豫。他是 Tolemac 的朋友。 [npc=Morz]
+# Journey
+0x201:[journey] 我遇見了 Jillian，一位在 Moonglow 提供教學的學者。她談到了 Ambrosia 島。 [npc=Jillian]
+# Journey
+0x202:[journey] 我遇見了 Effrem，一位 Moonglow 的普通居民，他正在照顧一個名叫 Mikhail 的嬰兒。 [npc=Effrem]
+# Journey
+0x203:[journey] 我遇見了 Chad，一位在 Moonglow 訓練輕型武器的戰士，他提到酒保 Phearcy 可能對鎮上居民瞭解更多資訊。 [npc=Shamino]
+# Journey
+0x204:[journey] 我得知 Elad 是 Moonglow 的治療師，他渴望冒險。
+# Journey
+0x205:[journey] 我遇見了酒保 Phearcy，他正在開會，但表示願意幫助我瞭解 Zelda 的情緒。 [npc=Phearcy]
+# Journey
+0x206:[journey] 我遇見了 Addom，一位旅行者，他為博物館收集稀有物品，並在 Moonglow 看過許多文物。 [npc=Addom]
+# Journey
+0x207:[journey] 我遇到了 Frank，他聲稱自己正在追求誠實的旅程，但似乎對我的個人衛生毫無尊重。 [npc=Frank]
+# Journey
+0x208:[journey] 我遇到了 Moonglow 的裁縫 Carlyn，她同時也為 Phearcy 經營酒吧。她提到了一位名叫 Tolemac 的人，以及另一位名叫 Rankin 的人。 [npc=Carlyn]
+# Journey
+0x209:[journey] 我已經被 Brion 告知了我的名字。
+# Quest
+0x20A:[quest] Rankin 要我將一瓶利口酒送到 Balayna 那裡。我應該去找她並將酒交給她。 [npc=Rankin]
+# Journey
+0x20B:[journey] 我遇到了 Moonglow 的 友誼會 新任分支領袖 Rankin。他提到 Balayna 現在在 Britain。 [npc=Rankin]
+# Quest
+0x20C:[quest] Rankin告訴我Balayna已前往Britain處理重要事務，可能在她家中。我應該去她家搜尋。 [npc=Rankin]
+# Quest
+0x20D:[quest] Balayna在吸入我給她的試劑後死亡。我必須找到帶來這試劑的旅行商人，查明真相。 [npc=Balayna]
+# Quest
+0x20E:[quest] Rankin給我一瓶烈酒，要我交給Balayna。我應該去她家將它交給她。 [npc=Rankin]
+# Quest
+0x20F:[quest] Rankin懷疑旅行商人可能涉及Balayna的死。我應該找到商人並調查。 [npc=Rankin]
+# Quest
+0x210:[quest] Rankin決心找到殺死Balayna的旅行商人。我應該協助他進行搜尋。 [npc=Rankin]
+# Journey
+0x211:[journey] Beverlea 賣出一個古董沙漏，售價為五枚金幣。若我資金允許，應考慮購買。 [npc=Beverlea]
+# Quest
+0x212:[quest] Paws 發生了一起盜竊案，涉及銀蛇毒液。我應進行調查，並與 Morfin 對話。 [npc=Thurston]
+# Quest
+0x213:[quest] Feridwyn 指控 Tobias 盜竊銀蛇毒液。我應與 Tobias 的母親 Camille 對話。 [npc=Feridwyn]
+# Journey
+0x214:[journey] Paws 的商人 Morfin 販賣銀蛇毒液。他似乎對盜竊案瞭解更多。 [npc=Morfin]
+# Journey
+0x215:[journey] Merrick，一名前農夫，現為友誼會工作。他提及 Garritt 涉及盜竊案。 [npc=Merrick]
+# Journey
+0x216:[journey] Thurston 已經愛上了酒館老闆 Polly，並決心追求她。我應該去 Salty Dog 酒館見見 Polly。 [npc=Thurston]
+# Journey
+0x217:[journey] 我得知了 Jhelom 的一些居民及其情況。我應該去 Jhelom 找 Elizabeth 和 Abraham。 [npc=Feridwyn]
+# Quest
+0x218:[quest] 我在Paws找到了Garritt，他承認從Morfin那裡偷了毒藥並把它栽贓給Tobias。他還透露他這樣做是希望Tobias的母親加入「友誼會」。 [npc=Garritt]
+# Journey
+0x219:[journey] Garritt 警告我鎮上有小偷，並勸我與他站在一起。我應該對 Morfin 和被盜的蛇毒保持警惕。 [npc=Garritt]
+# Quest
+0x21A:[quest] Camille 給了我一些小麥要送給 Thurston。我應該把它送到磨坊並領取報酬。 [npc=Camille]
+# Journey
+0x21B:[journey] 我與酒館老闆 Polly 談話，得知銀蛇毒液被從商人 Morfin 那裡盜竊。 [npc=Polly]
+# Quest
+0x21C:[quest] 我得知 Feridwyn 和 Merrick 認為 Tobias 是盜竊銀蛇毒液的賊。我應該與 Tobias 的母親 Camille 談話。 [npc=Feridwyn]
+# Journey
+0x21D:[journey] 我將 Camille 的小麥送達 Thurston，並獲得十枚黃金作為報酬。 [npc=Thurston]
+# Journey
+0x21E:[journey] Merrick 道歉並表示他認為 Garritt 盜竊了銀蛇毒液。 [npc=Merrick]
+# Journey
+0x21F:[journey] 我在 Paws 見到了磨坊老闆 Thurston，他以每袋 12 黃金的價格出售小麥。 [npc=Thurston]
+# Quest
+0x220:[quest] Feridwyn 揭露 Tobias 擁有銀蛇毒液，並是一名小偷。我應立即與 Tobias 的母親 Camille 談話。 [npc=Feridwyn]
+# Journey
+0x221:[journey] 我見到了 Feridwyn 的妻子 Brita，她對丈夫及其與友誼會的工作頗為讚賞。 [npc=Brita]
+# Journey
+0x222:[journey] 我見到了 Alina，一位貧窮的母親，她的丈夫被友誼會的成員錯誤指控。她陷入留在收容所與背叛丈夫之間的掙扎。 [npc=Alina]
+# Journey
+0x223:[journey] 我見到了 Merrick，一位神經質的男子，他在友誼會工作，懷疑 Garritt 偷走了銀蛇毒液。 [npc=Merrick]
+# Journey
+0x224:[journey] 我見到了 Feridwyn 和 Brita 的兒子 Garritt，他談到父親的工作，並提到鎮上有一名小偷。 [npc=Garritt]
+# Journey
+0x225:[journey] 我見到了 Paws 的商人 Morfin，他販賣各種商品，包括銀蛇的毒液。 [npc=Morfin]
+# Journey
+0x226:[journey] 我見到了 Paws 的 Beverlea，她經營著 House of Items，販賣古董和二手物品。 [npc=Beverlea]
+# Quest
+0x227:[quest] 我見到了乞丐 Komor，他談到了 Merrick 和友誼會。我應該去調查友誼會的收容所。 [npc=Komor]
+# Quest
+0x228:[quest] 我見到了 Fenn，他告訴我銀蛇毒液被盜自 Morfin。我應該找出小偷。 [npc=Fenn]
+# Journey
+0x229:[journey] 我見到了 Paws 的乳酪店老闆 Andrew，他販賣牛奶和乳酪。 [npc=Andrew]
+# Quest
+0x22A:[quest] Camille 的兒子 Tobias 被錯誤指控竊盜。我應當調查並為他洗清冤屈。 [npc=Camille]
+# Journey
+0x22B:[journey] 我見到了 Camille 的兒子 Tobias，他神情沮喪，似乎對我不信任。 [npc=Tobias]
+# Quest
+0x22C:[quest] Polly 提到銀蛇毒被盜，來自 Morfin。我應當與 Morfin 談話，以瞭解更多資訊。 [npc=Polly]
+# Journey
+0x22D:[journey] 我見到了 Merrick，他曾是農民，現在為友誼會工作，住在他們的收容所裡。 [npc=Merrick]
+# Journey
+0x22E:[journey] Merrick 談到了七年的乾旱，使他和其他人淪為貧民。 [npc=Merrick]
+# Journey
+0x22F:[journey] 我見到了 Paws 的商人 Morfin，他販賣各種商品，包括銀蛇的毒液。 [npc=Morfin]
+# Journey
+0x230:[journey] 我再次見到 Morfin，他提到銀蛇毒液在某些地區需求很高。 [npc=Morfin]
+# Quest
+0x231:[quest] Thurston 知道 Polly 對他有好感，決定追求她。我應該去 Salty Dog。 [npc=Thurston]
+# Journey
+0x232:[journey] 我將沙漏賣給了 Beverlea。
+# Journey
+0x233:[journey] 我以一種可疑或令人不安的方式遇到了 Morfin。
+# Quest
+0x234:[quest] Camille 堅稱她的兒子 Tobias 在 Paws 的盜竊案中是無辜的。我應進一步調查以洗清他的罪名。 [npc=Camille]
+# Quest
+0x235:[quest] Morfin 已經道歉並提供協助調查。他懷疑 Garritt 可能是小偷。 [npc=Morfin]
+# Journey
+0x236:[journey] 我已抵達 Paws 併為調查做好準備。
+# Quest
+0x237:[quest] Morfin 給了我一把鑰匙，可能在屠宰場附近開啟重要的東西。我應搜查 Garritt 的物品。 [npc=Morfin]
+# Journey
+0x238:[journey] 我與 Draxinusom 談話，他分享了關於 Teregus 和石像鬼社群的訊息。 [npc=Draxinusom]
+# Journey
+0x239:[journey] Draxinusom 說到 Inamo，一位在 Trinsic 的年輕石像鬼，以及 友誼會 對石像鬼的影響。我應該去 Trinsic 瞭解更多。 [npc=Draxinusom]
+# Quest
+0x23A:[quest] Teregus 悲傷 Inamo 的死，並尋求為他的謀殺伸張正義。我應該調查誰想殺死 Inamo。 [npc=Teregus]
+# Journey
+0x23B:[journey] Draxinusom 提到 Spektran 的蘇丹，他可能擁有寶貴物品。我應該去訪問 Spektran 的蘇丹。 [npc=Draxinusom]
+# Journey
+0x23C:[journey] Inforlem 提到 Quan，友誼會 的領導者。我應該去找 Quan 獲取有關 Terfin 爭議的資訊。 [npc=Inforlem]
+# Journey
+0x23D:[journey] Inmanilem 提到 Silamo，一位在 Terfin 不滿的石像鬼。我應該去找 Silamo 瞭解更多關於動盪的情況。 [npc=Inmanilem]
+# Quest
+0x23E:[quest] Quaeven 說起友誼會的宗旨與他希望加入的願望。我應當再次與他交談，以說服他加入。 [npc=Quaeven]
+# Journey
+0x23F:[journey] 我找到了一張紙條。它可能包含重要的資訊。
+# Quest
+0x240:[quest] Sarpling 揭露了 Runeb 涉及破壞祭壇的陰謀。我應當進一步調查，並警告 Quan。 [npc=Sarpling]
+# Quest
+0x241:[quest] Quan 否認對陰謀有任何瞭解，並建議與 Runeb、Sarpling 和 Quaeven 談話。我應當遵循他的建議。 [npc=Quan]
+# Quest
+0x242:[quest] Quan 再次否認對陰謀有任何瞭解，並建議與 Runeb、Sarpling 和 Quaeven 談話。我應當遵循他的建議。 [npc=Quan]
+# Journey
+0x243:[journey] Quan談到了友誼會及其聚會，並提到人類友誼會官員已前往Meditation Retreat附近的Serpent's Hold。我應該前往Meditation Retreat附近的Serpent's Hold。 [npc=Quan]
+# Journey
+0x244:[journey] Forbrak提到了神壇與友誼會之間的衝突，以及無翼者的掙扎。我應該與教練、治療師以及友誼會的成員交談。 [npc=Forbrak]
+# Journey
+0x245:[journey] Draxinusom談到了他的過去以及石像鬼與人類的隔離。我應該再次尋求他的指導。 [npc=Draxinusom]
+# Journey
+0x246:[journey] Inforlem提到了神壇與友誼會之間的衝突，但沒有具體資訊。我應該與這裡的友誼會領導者Quan交談。 [npc=Inforlem]
+# Journey
+0x247:[journey] 在Terfin，我遇見了Inmalinem，他是一隻哥布林，擔任治療師、酒館老闆以及哥布林城市的領導者。他提到Terfin的三個奇點祭壇代表熱情、控制和勤勉這三種價值觀，而且他不跟隨「友誼會」。 [npc=Inmanilem]
+# Journey
+0x248:[journey] 我見到了 Teregus，他守護控制、激情與勤勉的祭壇。他談到了祭壇與友誼會之間的緊張關係。 [npc=Teregus]
+# Quest
+0x249:[quest] 我見到了 Runeb，友誼會的秘書，他很匆忙，似乎在追捕 Sarpling。我應該殺掉 Sarpling。 [npc=Runeb]
+# Journey
+0x24A:[journey] 我見到了 Quan，Terfin 友誼會 的領導者。他談到了引導的 內在之聲，以及 Britannia 石像鬼的減少。 [npc=Quan]
+# Journey
+0x24B:[journey] 我見到了 Quaeven，休閒設施與學習中心的主管。他是問題發現者，也是一個觀察力敏銳的人。 [npc=Quaeven]
+# Journey
+0x24C:[journey] 我見到了 Silamo，園丁，他因沒有翅膀而感到不公平對待。他致力於單一性的祭壇。 [npc=Silamo]
+# Quest
+0x24D:[quest] Sarpling透露Runeb企圖陷害Quan並刺殺他。我必須採取行動阻止此事，保護友誼會。 [npc=Sarpling]
+# Journey
+0x24E:[journey] Forbrak，酒館老闆歡迎我，並提供有關休息廳的資訊。 [npc=Forbrak]
+# Journey
+0x24F:[journey] Betra，補給商歡迎我，並指引我向Teregus或Forbrak尋求城鎮資訊。 [npc=Betra]
+# Quest
+0x250:[quest] Sarpling再次揭露Runeb企圖陷害Quan並刺殺他。我必須採取行動阻止此事，保護友誼會。 [npc=Sarpling]
+# Journey
+0x251:[journey] Betra談論Terfin獨特的文化，以及城鎮中人類與石像鬼之間的緊張關係。 [npc=Betra]
+# Journey
+0x252:[journey] 我見到了某種證據，雖然其內容仍不清楚。
+# Quest
+0x253:[quest] Teregus透露有人計劃摧毀控制、激情和勤勉的祭壇。我必須找出兇手，並用證據對質。 [npc=Teregus]
+# Journey
+0x254:[journey] 我再次與Teregus交談，他重申了對祭壇的威脅，並再次請求我的幫助。 [npc=Teregus]
+# Quest
+0x255:[quest] Runeb，友誼會的秘書，表現出敵意，並提到他想殺掉Sarpling。我必須進一步調查。 [npc=Runeb]
+# Journey
+0x256:[journey] 我見到了Spektran的蘇丹Martingo，他嘲諷且不合作。 [npc=Martingo]
+# Journey
+0x257:[journey] 邪鵝已經甦醒。我必須對它的存在保持警覺。
+# Journey
+0x258:[journey] Martingo 以金幣換取香蕉，並提及他從石像鬼國王那裡購得一件Ethereal Ring。 [npc=Martingo]
+# Quest
+0x259:[quest] Richter 給了我一些在雕像底部發現的帶血石塊。我應該進一步調查。 [npc=Richter]
+# Journey
+0x25A:[journey] 我見到了 Serpent's Hold 的盲眼弓箭商 Sir Jordan，他談到了 Lady Jehanne 和對團結的背叛。 [npc=Jordan]
+# Journey
+0x25B:[journey] 我再次與 Sir Jordan 談話，他重申了對 Lady Jehanne 的瞭解以及 Hold 中的騷動。 [npc=Jordan]
+# Journey
+0x25C:[journey] 我見到了盲眼商人 Sir Jordan，他在 Serpent's Hold 販賣弓箭。他提到聽見一位女士驚呼，可能是 Lady Jehanne。 [npc=Jordan]
+# Quest
+0x25D:[quest] Lady Jehanne 表示 Sir Pendaran 加入 友誼會 後行為改變，甚至破壞了 Lord British 的雕像並傷害了一位騎士。我必須進一步調查。 [npc=Jehanne]
+# Quest
+0x25E:[quest] Sir John-Paul 告訴我 Serpent's Hold 的 Lord British 雕像被破壞，他希望我找出兇手。我應該去與 Hallowed Dock 的 Sir Denton 談話。 [npc=John Paul]
+# Journey
+0x25F:[journey] Lady Leigh 檢查了石塊，發現其中含有石像鬼的血液。她提到 Sir Horffe 是 Serpent's Hold 唯一的石像鬼。 [npc=Leigh]
+# Journey
+0x260:[journey] 我再次與 Sir John-Paul 談話，但他堅持此事已由 Yew 的官員處理。他建議我去與 Hallowed Dock 的 Sir Denton 談話。 [npc=John Paul]
+# Quest
+0x261:[quest] Sir Pendaran 是破壞 Lord British 統治者雕像的兇手。我應該去 Yew 與法官會面。 [npc=Horffe]
+# Journey
+0x262:[journey] 我與 John Paul 和 Horffe 談論了雕像被破壞一事。他們很高興真正的兇手已被發現。 [npc=John Paul]
+# Quest
+0x263:[quest] John Paul 要求我調查 Lord British 的雕像被破壞一事。我應該去 Hallowed Dock 與 Sir Denton 談話。 [npc=John Paul]
+# Journey
+0x264:[journey] 我得知 Elizabeth 和 Abraham 去了 Buccaneer's Den。我應該去那裡尋找他們。 [npc=Ian]
+# Journey
+0x265:[journey] 我與守衛隊長 Horffe 談話。他在阻止兇手時受了傷。 [npc=Horffe]
+# Journey
+0x266:[journey] 我遇見了 Serpent's Hold 的騎士 Richter，他同時也是那裡的盔甲匠。 [npc=Richter]
+# Journey
+0x267:[journey] Richter 解釋說 Lord John-Paul 負責管理 Hold，而 Sir Horffe 是守衛隊長。 [npc=Richter]
+# Journey
+0x268:[journey] 我檢查了這些碎片。
+# Journey
+0x269:[journey] Serpent's Hold 的鐵匠 Menion 提供訓練，並願意為我打造一把劍。 [npc=Menion]
+# Journey
+0x26A:[journey] 我遇見了 Serpent's Hold 的騎士 Sir Pendaran，他承認因對政府不滿而破壞了一座雕像。 [npc=Pendaran]
+# Journey
+0x26B:[journey] 我見到了 Serpent's Hold 的供應商 Lady Jehanne，她提供一艘名為 `The Dragon's Breath' 的船給我購買。 [npc=Jehanne]
+# Journey
+0x26C:[journey] 我見到了 Serpent's Hold 的 Lord John-Paul，他記得我，並說他有某樣東西可能引起我的興趣。 [npc=John Paul]
+# Journey
+0x26D:[journey] 我見到了 Serpent's Hold 的裝甲師 Richter，他談到了 Hold 的騎士和其領導層。 [npc=Richter]
+# Journey
+0x26E:[journey] 在 Serpent's Hold，我見到了 Horffe，安全主管，他讓我想起了某個人，並談到了一個破壞者。 [npc=Horffe]
+# Journey
+0x26F:[journey] 我見到了 Sir Jordan，他賣弓和弩，並說他在事件當晚聽見一位女士驚呼。 [npc=Jordan]
+# Journey
+0x270:[journey] 我見到了 Serpent's Hold 的酒館老闆 Sir Denton，他談到了那裡的居民與位置。 [npc=Denton]
+# Journey
+0x271:[journey] Serpent's Hold 的 Tory 女士讓我聯想到名叫 Deanna 的人。她是 Riky 的母親，也為有需要的人提供諮詢。 [npc=Tory]
+# Journey
+0x272:[journey] Serpent's Hold 的 Lady Leigh 讓我聯想到某位醫生。她是治療者，並談到了 Sir Horffe 和 Sir Richter。 [npc=Leigh]
+# Journey
+0x273:[journey] 我見到了 Meditation Retreat 為 Fellowship 會員冥想靜修營的負責人 Ian，他談到了哲學訓練與冥想。 [npc=Ian]
+# Journey
+0x274:[journey] 我見到了 Serpent's Hold 的供應者 Lady Jehanne，她談到了船隻 `The Dragon's Breath' 和 Sir Pendaran。 [npc=Jehanne]
+# Journey
+0x275:[journey] 我與 Sir Denton 談話，他告訴我 Serpent's Hold 的居民及其位置。 [npc=Denton]
+# Quest
+0x276:[quest] Sir Pendaran 承認他因對政府的無能感到憤怒而破壞了雕像。如有需要，我應與他再次談話。 [npc=Pendaran]
+# Quest
+0x277:[quest] Lady Tory 的兒子 Riky 被 harpies 抓走。我必須救他，並可能與 Sir Jordan 談話以獲取更多資訊。 [npc=Tory]
+# Journey
+0x278:[journey] 我救了嬰兒Riky脫離女巫的魔爪，但Tory誤以為我救的是她的孩子，後來卻誤認為我是一個懦夫。 [npc=Tory]
+# Journey
+0x279:[journey] 我收到了 Richter 的報告。
+# Journey
+0x27A:[journey] Lady Leigh 是 Serpent's Hold 的治療師，她提到了鎮上幾個重要的人物，包括 Sir Denton、Sir Horffe、Lord Jean-Paul 和 Sir Richter，他們都以某種方式與 Serpent's Hold 有關。 [npc=Leigh]
+# Journey
+0x27B:[journey] Richter 是 Serpent's Hold 的盔甲匠，他談到了 Lord John-Paul 和 Sir Horffe。 [npc=Richter]
+# Journey
+0x27C:[journey] Lady Jehanne 是 Serpent's Hold 的補給官，她提供一艘名為 `The Dragon's Breath' 的船出售。 [npc=Jehanne]
+# Journey
+0x27D:[journey] For-Lem 是一名說到他族人歷史的石像鬼，他對一名名叫 Catherine 的人類女孩感到擔憂。 [npc=For Lem]
+# Quest
+0x27E:[quest] Yvella 擔心她的女兒每天中午消失，可能去到綠洲的另一側。 [npc=Yvella]
+# Journey
+0x27F:[journey] Aurvidlem 現在拒絕販賣補給品。我應該明天再來購買。 [npc=Aurvidlem]
+# Quest
+0x280:[quest] Blorn 要求我為他報仇，對抗攻擊他的 Lap-Lem。我應該找到 Lap-Lem 並與他對峙。 [npc=Blorn]
+# Quest
+0x281:[quest] Blorn 給了我一個護符，用來對抗 Lap-Lem。我應該用它來擊敗他。 [npc=Blorn]
+# Quest
+0x282:[quest] Lap-Lem 解釋他的護符被一個人類偷走了。我應該將它歸還給他，以恢復他的信任。 [npc=Lap Lem]
+# Journey
+0x283:[journey] Yongi 提到了 Blorn 和與石像鬼的衝突。我應該再次與 Blorn 談話。 [npc=Yongi]
+# Journey
+0x284:[journey] Auston 提供了有關 Vesper 的一些人的資訊，包括在 Gilded Lizard 被殺的 Cador，以及如 Eldroth、Zaksam 和 Blorn 等人。我應該進一步調查。 [npc=Auston]
+# Quest
+0x285:[quest] Yvella 擔心她的女兒 Catherine，她在中午時段會消失一段時間，可能與 gargoyles 有聯絡。我應該查明 Catherine 在那個時間去哪裡。 [npc=Yvella]
+# Journey
+0x286:[journey] 我見到了 Yvella，她在 Cador 上班時照顧女兒 Catherine。她是 友誼會 的成員。 [npc=Yvella]
+# Journey
+0x287:[journey] 我再次見到 Yvella，並瞭解到她已故的丈夫 Cador 以及他在 Britannian Mining Company 的角色。 [npc=Yvella]
+# Journey
+0x288:[journey] 我見到了 Cador，他是 Vesper 的 Britannian Mining Company 的主管，也是 友誼會 的成員。 [npc=Cador]
+# Quest
+0x289:[quest] Vesper 的礦工 Mara 說到石像鬼的威脅與鎮民的恐懼。我應該處理這個威脅。 [npc=Mara]
+# Journey
+0x28A:[journey] 我見過 Zakram。他可能提供資訊或協助。
+# Journey
+0x28B:[journey] Vesper 的供應商與顧問 Eldroth 提供了關於鎮務的智慧與見解。 [npc=Eldroth]
+# Journey
+0x28C:[journey] Gilded Lizard 酒館的 bartender Yongi 以友好的態度歡迎我。 [npc=Yongi]
+# Quest
+0x28D:[quest] Vesper 的 Blorn 要求我為他報復石像鬼 Lap-Lem。我應該對付這個怪物。 [npc=Blorn]
+# Quest
+0x28E:[quest] 我見到了 Vesper 的市長 Auston，他談到了人類與石像鬼之間的緊張關係。我應該進一步調查，以幫助維持和平。 [npc=Auston]
+# Journey
+0x28F:[journey] 我見到了市長的秘書 Liana，她談到了鎮上的問題以及市長的猶豫不決。 [npc=Liana]
+# Quest
+0x290:[quest] 我見到了石像鬼礦工 Lap-Lem，他失去了一個有情感價值的項鍊，並對人類與石像鬼之間日益增長的敵意感到擔憂。我應該幫助他找回項鍊並緩和緊張關係。 [npc=Lap Lem]
+# Journey
+0x291:[journey] 我見到了 Yvella，她談到了她已故的丈夫 Cador 和 Britannia 的友誼會。她似乎正在哀悼。 [npc=Yvella]
+# Quest
+0x292:[quest] 我見到了 Catherine，她為父親的死而悲傷，並責怪我。我應該找到方法幫助她並查明真相。 [npc=Catherine]
+# Journey
+0x293:[journey] 我見到了 For-Lem，一位分享其族人故事並關心他們未來的石像鬼。 [npc=For Lem]
+# Journey
+0x294:[journey] 我見到了 Ansikart，一位提供飲食並提及許多石像鬼對人類懷有怨恨的石像鬼。 [npc=Ansikart]
+# Journey
+0x295:[journey] 我見到了 Wis-Sur，一位隱居的石像鬼，他販賣魔法物品，對外人持懷疑態度。 [npc=Wis Sur]
+# Journey
+0x296:[journey] 我見到了 Anmanivas，雖然我們的會面沒有對話被記錄下來。
+# Journey
+0x297:[journey] 我見到了 Foranamo，雖然我們的會面沒有對話被記錄下來。
+# Journey
+0x298:[journey] 我遇見了 Vesper 的 gargoyles 女巫 Aurvidlem，她以謎語說話，並對 Wis-Sur 表達關切。 [npc=Aurvidlem]
+# Quest
+0x299:[quest] Blorn 要求我為他報仇，殺死 Lap-Lem，一名曾幾乎殺死他的兇暴 gargoyles。 [npc=Blorn]
+# Journey
+0x29A:[journey] Martine 熱情地歡迎我，並表示願意以任何方式為我服務。 [npc=Martine]
+# Journey
+0x29B:[journey] Martine 說起她在 The Baths 的工作，並表達了對這份工作的熱愛。 [npc=Martine]
+# Journey
+0x29C:[journey] 我在 The Baths 與 Martine 度過了一段放鬆的時光，包括按摩和游泳。 [npc=Martine]
+# Journey
+0x29D:[journey] 這名女子透露了連線 Buccaneer's Den 建築物的山中秘密通道。我應該調查 House of Games。 [npc=Wench]
+# Journey
+0x29E:[journey] Roberto 提到連線 Buccaneer's Den 建築物的秘密通道。我應該調查 House of Games。 [npc=Roberto]
+# Journey
+0x29F:[journey] 我與這名女子交談並得知她的名字。她似乎友善且樂於交談。 [npc=Wench]
+# Journey
+0x2A0:[journey] 我再次與這名女子交談，並瞭解到她在 The Baths 的生活。 [npc=Wench]
+# Journey
+0x2A1:[journey] 我與 Roberto 交談並得知他的名字。他似乎友善且樂於交談。 [npc=Roberto]
+# Journey
+0x2A2:[journey] 我在 The Baths 見到了 Roberto。他非常友善，並提供許多服務。 [npc=Roberto]
+# Quest
+0x2A3:[quest] Blacktooth 正在尋找一名盜竊他黃金的友誼會成員。我應該查明這名 聖者 是誰。 [npc=Blacktooth]
+# Quest
+0x2A4:[quest] Blacktooth 正在尋找一名盜竊他黃金的友誼會成員。我應該查明這名 聖者 是誰。 [npc=Blacktooth]
+# Journey
+0x2A5:[journey] Blacktooth 提到他失去的朋友 Mole。他顯然很難過，並正在尋找他。 [npc=Blacktooth]
+# Quest
+0x2A6:[quest] Blacktooth 正在尋找他失去的朋友 Mole。我應該幫助他找到 Mole。 [npc=Blacktooth]
+# Journey
+0x2A7:[journey] Mole談論了他的舊友Blacktooth以及他們的決裂。他現在為自己的行為感到後悔，可能尋求和解。 [npc=Mole]
+# Quest
+0x2A8:[quest] Danag透露Hook，友誼會 的首席執行者，擁有通往Codex神殿的鑰匙。我應該去遊戲屋後的墓穴尋找他。 [npc=Danag]
+# Journey
+0x2A9:[journey] 我見到了Buccaneer's Den的臨時友誼會分支領導人Danag。他歡迎我並談到了島嶼與友誼會的聯絡。 [npc=Danag]
+# Journey
+0x2AA:[journey] 我在浴場遇到了一位女子，她提到了Roberto，並對我的到來表現出極大的熱情。 [npc=Wench]
+# Journey
+0x2AB:[journey] 我見到了The Baths的經理Glenno，他以300金幣為代價提供我入場機會。 [npc=Glenno]
+# Journey
+0x2AC:[journey] 我在 The Baths 見到了 Martine。她非常友善，並樂於助人。 [npc=Martine]
+# Quest
+0x2AE:[quest] 我與 House of Games 的守衛 Sintag 談話。他提到了一個酷刑室和一個名叫 Hook 的人。我應該調查 House of Games 後面的洞穴。 [npc=Sintag]
+# Journey
+0x2AF:[journey] 我見到了一個懷疑的海盜 Blacktooth，他談到了一名試圖從他那裡偷竊的 Fellowship 會員。 [npc=Blacktooth]
+# Journey
+0x2B0:[journey] 我見到了 Mole，一名年邁的海盜，他曾經在海上為非作歹，現在則在 Buccaneer's Den 追求和平。 [npc=Mole]
+# Journey
+0x2B1:[journey] 我遇到了 Lucky，一位狡猾的海盜，他提供訓練但要收費。他聲稱自己是誘騙與說服的高手。 [npc=Lucky]
+# Journey
+0x2B2:[journey] 我遇到了 Budo，一位開心的商人，他販賣精良的武器與補給。他對家族的傳統感到自豪。 [npc=Budo]
+# Journey
+0x2B3:[journey] 我遇到了 Gordy，一位富有的海盜，他經營賭場。他對我懷疑，並警告我過去的麻煩。 [npc=Gordy]
+# Journey
+0x2B4:[journey] 我遇到了 Mandy， Fallen Virgin 酒店的老闆。她很友善，記得我過去的造訪。 [npc=Mandy]
+# Journey
+0x2B5:[journey] 我遇到了 Smithy，賭場的遊戲主持人。他解釋了遊戲規則，並警告不要作弊。 [npc=Smithy]
+# Journey
+0x2B6:[journey] Budo 已經將他的船 'The Lusty Wench' 的船契賣給了我，儘管他最初聲稱已經賣過了。我現在擁有這艘船。 [npc=Budo]
+# Journey
+0x2B7:[journey] 我造訪了 Hook Den。
+# Journey
+0x2B8:[journey] 我遇見了Paul，他表演一齣關於友誼會的受難劇。他要求金幣來演出，但我沒有足夠的錢。 [npc=Paul]
+# Journey
+0x2B9:[journey] 我遇見了 Meryl。
+# Journey
+0x2BA:[journey] 我遇見了 Dustin。
+# Journey
+0x2BB:[journey] 我見到了 Gorn，一位來自 Balema 的鬍子戰士，他一生都在尋找英雄事蹟。 [npc=Gorn]
+# Journey
+0x2BC:[journey] 我見到了 Owings，一位瘦削的男子，與他的夥伴 Malloy 在礦坑中工作。 [npc=Owings]
+# Journey
+0x2BD:[journey] 我見到了 Malloy，一位矮胖的男子，與 Owings 在礦坑中一起工作。 [npc=Malloy]
+# Journey
+0x2BE:[journey] 我見到了 Grod，一位憂心忡忡的巨魔，他決心做好自己的工作。 [npc=Grod]
+# Journey
+0x2BF:[journey] 我見到了 Murray，一位赤裸的男子，與他的妻子住在洞穴中，無需工作。 [npc=Papa]
+# Journey
+0x2C0:[journey] 我見到了 Mama，一位與 Papa 住在洞穴裡的婦人，她對他充滿溫暖與愛意。 [npc=Mama]
+# Journey
+0x2C1:[journey] 我見到了一個男孩，但尚不清楚他是誰，或他的故事是什麼。
+# Journey
+0x2C2:[journey] 我見到了一位名叫 Sullivan 的男子，但尚不清楚他的目的為何。
+# Quest
+0x2C3:[quest] 我見到了 Anton，一位曾受過智者 Alagner 訓練、被指派調查友誼會的囚犯。 [npc=Anton]
+# Quest
+0x2C4:[quest] 我見到了 Eiko 和她的半姊 Amanda，她們為報復殺害她們父親 Kalideth 的 Cyclops Iskander Ironheart 而尋仇。 [npc=Eiko]
+# Journey
+0x2C5:[journey] 我遇見了 Amanda 和她的半姊 Eiko，她們是 Minoc 的 Karenna 訓練的戰士，現正尋求內心的平靜。 [npc=Amanda]
+# Journey
+0x2C6:[journey] 我遇見了一位名叫 Kissme 的活潑精靈，她頗為調皮，引起了同伴的注意。 [npc=Kissme]
+# Journey
+0x2C7:[journey] 我遇見了一隻名叫 Shandu 的三頭水蛇，以及他的兄弟 Shanda 和 Shando，他們頗為敵意且飢餓。 [npc=Shanda]
+# Journey
+0x2C8:[journey] 我遇見了 Cairbre，一位正在幫助好友 Cosmo 找尋麒麟的傭兵，但他懷疑 Cosmo 會成功。 [npc=Cairbre]
+# Journey
+0x2C9:[journey] 我遇見了 Kallibrus，一隻與 Cairbre 是好友的石像鬼，正在幫助 Cosmo 找尋麒麟。 [npc=Kallibrus]
+# Journey
+0x2CA:[journey] 我遇見了一位迷路的僧人，名叫 Brother Wayne，他正在尋找修道院，並聲稱與一位名叫 Taylor 的兄弟一起研究地理。 [npc=Wayne]
+# Quest
+0x2CB:[quest] 我遇見了 Cosmo，他正在尋找一隻 unicorn 來向他的未婚妻 Ophelia 證明自己的處子之身。我應該為他找到這隻 unicorn。 [npc=Cosmo]
+# Journey
+0x2CC:[journey] Iriale Silvermist禁止我進入Meditation Retreat，並威脅我。我應該盡量避免與她接觸。 [npc=Iriale]
+# Quest
+0x2CD:[quest] 我遇見了 Lasher，這隻 unicorn，他願意與我對話並解釋 unicorn 的真正本質。我應該傾聽他所說的話。 [npc=Lasher]
+# Journey
+0x2CE:[journey] 我遇見了 Garok Al-Mat，一位似乎處於困惑或瘋狂狀態的法師。 [npc=Garok]
+# Journey
+0x2CF:[journey] 我遇見了 Iskander，他是 Ironheart 部落的 cyclops。他問了我的名字。 [npc=Iskander]
+# Journey
+0x2D0:[journey] Lasher 說他不喜歡被當作處女檢測器使用，並表示願意幫助一位年輕人證明他的純潔。 [npc=Lasher]
+# Journey
+0x2D1:[journey] Lasher 再次談到他不喜歡被當作處女檢測器使用，並表示願意幫助一位年輕人證明他的純潔。 [npc=Lasher]
+# Quest
+0x2D2:[quest] Gorn 說他聽到 Brom 的聲音，Brom 給了他一些奇怪的訊息。我應該幫助他找到 Brom。 [npc=Gorn]
+# Journey
+0x2D3:[journey] 我遇見了一個住在洞穴裡的家庭，他們從蜜蜂那裡採集蜂蜜，並煮老鼠吃。他們對外人很謹慎，附近的一個男人指控我們是獵蜂者。 [npc=Papa]
+# Journey
+0x2D4:[journey] 我遇見了 Murray 和 Myrtle，他們假裝是蜜蜂，實際上是住在洞穴裡的人類。他們來自 Yew。 [npc=Papa]
+# Journey
+0x2D5:[journey] 我遇見了 Iskander，一位尋找新家園給族人的獨眼巨人。他是一個安靜且深思熟慮的人。 [npc=Iskander]
+# Journey
+0x2D6:[journey] 我再次遇見 Iskander，他談論自己作為英雄的過去，以及與族人和平共處的願望。 [npc=Iskander]
+# Quest
+0x2D7:[quest] Cosmo 想要向未婚妻 Ophelia 證明自己的處男身分，方法是找到一隻獨角獸。我應該幫助他找到獨角獸。 [npc=Cosmo]
+# Journey
+0x2D8:[journey] 我目睹了 Malloy 和 Owings 戴頭盔時的滑稽掙扎。他們是正在礦場工作的礦工。 [npc=Malloy]
+# Journey
+0x2D9:[journey] 我見證了 Owings 和 Malloy 因一頂帽子而發生的爭吵，最後以混亂而幽默的方式結束。 [npc=Malloy]
+# Journey
+0x2DA:[journey] 我見證了 Owings 和 Malloy 因一頂帽子而發生的爭吵，最後以混亂而幽默的方式結束。 [npc=Owings]
+# Quest
+0x2DB:[quest] Eiko 和她的半姊 Amanda 想為他們的父親、法師 Kalideth 被 Iskander Ironheart 殺害報仇。我應該去尋找 Iskander。 [npc=Eiko]
+# Journey
+0x2DC:[journey] 我得知 Kalideth 已經瘋了。
+# Quest
+0x2DD:[quest] Eiko 和 Amanda 放棄了對 Kalideth 的復仇，因為他們發現他並非真正的兇手。我應該去尋找 Iskander Ironheart。 [npc=Amanda]
+# Quest
+0x2DE:[quest] Amanda 和 Eiko 為父親的死尋仇。我必須查明 Kalideth 的遭遇，以及為什麼 Britannia 的魔法會失靈。 [npc=Amanda]
+# Journey
+0x2DF:[journey] 我與一名名叫 Lap-Lem 的石像鬼礦工交談，他對人類與石像鬼之間日益增長的敵意感到遺憾。他渴望取回被偷走的項鍊。 [npc=Lap Lem]
+# Journey
+0x2E0:[journey] 我遇見了 Cairbre，一名正在幫助朋友 Cosmo 找尋獨角獸的傭兵。看來 Cosmo 的任務更像是一場鬧劇，而非真正的冒險。 [npc=Cosmo]
+# Journey
+0x2E1:[journey] Anton 已經被釋放。我不知道這對未來的事件意味著什麼。
+# Journey
+0x2E2:[journey] Sullivan 已經被釋放。我不知道這對未來的事件意味著什麼。
+# Journey
+0x2E3:[journey] 我遇到了一種魔法靜默，可能是讓聲音消失的咒語或詛咒。
+# Journey
+0x2E4:[journey] 左側的門現在可以啟動，似乎可以開啟或與之互動。
+# Journey
+0x2E5:[journey] 中間的門現在可以啟動，似乎可以進入或藏有值得注意之物。
+# Journey
+0x2E6:[journey] 右側的門現在可以啟動，暗示它可能可用或藏有隱秘通道。
+# Journey
+0x2E7:[journey] 我遇到了一種精緻的緞料，可能是高價值的物品。
+# Journey
+0x2E8:[journey] 有人在建築物內讓我上床休息。
+# Journey
+0x2E9:[journey] 我被某種未知的力量標記為壞人。
+# Journey
+0x2EA:[journey] Iolo 因某種原因對我生氣。
+# Journey
+0x2EB:[journey] Dupre 因某種原因對我生氣。
+# Journey
+0x2EC:[journey] Shamino 因某種原因對我生氣。
+# Journey
+0x2ED:[journey] 我施放了Magic Storm。
+# Quest
+0x2EE:[quest] Erethian 施放了一個咒語但失敗了，造成極大的痛苦。我必須找到方法幫助他。 [npc=Erethian]
+# Journey
+0x2EF:[journey] 我使用了殺死 Dracothraxus 的咒語。
+# Quest
+0x2FE:[quest] Lord British告訴我火之島再次升起，他提供他的船Golden Ankh給我使用。我應該前往Vesper取得這艘船。
+# Journey
+0x2FF:[journey] 火之島正在顫抖。我應該調查其原因。
+# Journey
+0x301:[journey] 我的靈魂被某種未知的力量探測過。
+# Quest
+0x30C:[quest] 我將 Exodus 的黑暗核心驅逐至虛無縹緲之境。Erethian 嘗試阻止我，但他的法術出了差錯。 [npc=Erethian]
+# Quest
+0x30D:[quest] Lord British 為我調查 Isle of Fire 的功績給予了獎勵。他提及城堡內有三座聖所，我應前往尋求其指引。 [npc=Lord British]
+# Journey
+0x30E:[journey] 我得到了 Scroll of Infinity。
+# Journey
+0x30F:[journey] 我與 Talisman of Infinity 交談過。
+# Journey
+0x310:[journey] 一位被放逐且失明的男子名叫 Erethian，他住在 Isle of Fire 上。
+# Journey
+0x311:[journey] 我見過了 Dracothraxus。
+# Quest
+0x312:[quest] Erethian 給了我一把做工粗糙的劍刃與精緻的劍柄。我應該為他完成這件偉大的神器。 [npc=Erethian]
+# Quest
+0x313:[quest] 在 Isle of Fire 上，我遇見了一位名叫 Arcadion 的惡魔，他被困在鏡子中。他希望我釋放他。我應該用那顆小藍寶石擊碎鏡子，將他釋放。 [npc=Erethian]
+# Journey
+0x314:[journey] 我談到了 Bollux。
+# Journey
+0x315:[journey] 我見過了 Bollux。
+# Journey
+0x316:[journey] 我造訪了真理聖所。
+# Journey
+0x317:[journey] 我現在可以與原則聖所對話。
+# Quest
+0x318:[quest] 我在真理聖所完成了一項任務。
+# Quest
+0x319:[quest] 我已經放置了第二個護符。
+# Journey
+0x31A:[journey] 我造訪過愛之神殿。
+# Journey
+0x31B:[journey] 我遇見了 Adjhar，他還活著。
+# Quest
+0x31C:[quest] 我獲得了一卷能夠讓我進行儀式，創造或重構具有思維能力的石像的羊皮紙。
+# Journey
+0x31D:[journey] 我現在知道了 Bollux 的名字。
+# Quest
+0x31E:[quest] 我答應治療 Bollux。
+# Journey
+0x31F:[journey] 我已經得知有關 Castambre 石頭的資訊。
+# Journey
+0x321:[journey] 我已經獲得提取新心臟的能力。
+# Journey
+0x322:[journey] 我已經閱讀了 Adjhar 給我的書。
+# Journey
+0x323:[journey] 我現在擁有Golem Book。
+# Journey
+0x324:[journey] Golem的旗標已經被解除。
+# Journey
+0x325:[journey] 我閱讀了 Perrin 所著的《龍類百科全書》，書中描述了龍的智慧、魔法以及致命的戰鬥能力。
+# Journey
+0x326:[journey] 我已經復活了哥倫。
+# Journey
+0x327:[journey] 我已經造訪過愛之神殿。
+# Journey
+0x328:[journey] 我已經得到了愛之護符。
+# Journey
+0x329:[journey] 我已經遇見了勇氣神殿。
+# Journey
+0x32A:[journey] Erethian 這位年長的法師因施法失敗而感到尷尬，似乎不願提及他的失明。 [npc=Erethian]
+# Journey
+0x32B:[journey] Erethian 已經變成了一隻石像鬼。
+# Journey
+0x32C:[journey] Erethian 已經變成了一條龍。
+# Journey
+0x32D:[journey] 我已經改善了黑巖劍，但它仍然太重，需要魔法才能完全使用。 [npc=Avatar]
+# Journey
+0x32E:[journey] 我已經改善了黑巖劍，但它仍然太重，需要魔法才能完全使用。 [npc=Avatar]
+# Journey
+0x32F:[journey] 我用寶石打破了鏡子，試圖釋放惡魔 Arcadion，但結果他卻被囚禁在寶石中。
+# Quest
+0x330:[quest] 我將惡魔 Arcadion 綁在黑巖劍上。 [npc=Hook]
+# Journey
+0x331:[journey] 我根本不幫魔鬼！一個名叫Arcadion的惡魔正在為一位名叫Erethian的法師效力。Arcadion憎恨Erethian，想要從他那裡獲得自由。他提出幫助我，作為交換，希望我能幫助他獲得自由。 [npc=Erethian]
+# Journey
+0x332:[journey] 我不信任 Erethian，但我已答應幫助惡魔 Arcadion。 [npc=Erethian]
+# Quest
+0x333:[quest] 我已經接受了寶石的力量。鏡子中的一個黑暗身影承認我是它的主人。Arcadion急切地希望我用這塊寶石將他從鏡子中解救出來，並提出協助我作為回報。 [npc=Erethian]
+# Quest
+0x334:[quest] Arcadion 現在我們的僕人，他提供自己的力量。我應考慮他的幫助。 [npc=Hook]
+# Journey
+0x335:[journey] Arcadion 講述了一個古老的束縛，使他的種族受奴役。這知識可能證明有用。 [npc=Hook]
+# Journey
+0x336:[journey] 我已經擊敗了 Dracothraxus。這場勝利可能讓我更接近最終目標。
+# Journey
+0x337:[journey] 我已經鍛造了黑巖劍，但它仍然太重，需要魔法才能變得可用。 [npc=Avatar]
+# Journey
+0x338:[journey] 我已經與某人討論了束縛寶石。這可能導致新的見解或危險。
+# Journey
+0x339:[journey] 我從某人那裡得知了關於陰影之刃的事。
+# Journey
+0x33B:[journey] 我已經完成了召喚儀式。
+# Quest
+0x33C:[quest] Erethian 施法失敗，引起了異常。我必須進一步調查。 [npc=Erethian]
+# Journey
+0x33D:[journey] 我已經開啟了第二組牆壁。
+# Journey
+0x33E:[journey] 我已經開啟了第一組牆壁。
+# Quest
+0x33F:[quest] Erethian 施法失敗，顯得極為痛苦。我必須對無限聖物格外謹慎。 [npc=Erethian]
+# Journey
+0x340:[journey] 我已經放置了第三個聖物。
+# Journey
+0x341:[journey] 我已經完成了勇氣神殿的任務。
+# Journey
+0x342:[journey] 我已經放置了第一個聖物。
+# Quest
+0x343:[quest] Arcadion 和陰影之刃已提供其力量。我必須決定如何使用它們。 [npc=Hook]
+# Quest
+0x344:[quest] 我已與 Arcadion 和 Dark Core 結下契約。他們現在是我的僕從，將協助我完成任務。 [npc=Hook]

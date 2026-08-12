@@ -362,3 +362,7 @@ cosyvoice/
 # Reference voice candidate samples (bulky, regenerate locally)
 tools/voice_acting/reference_candidates/
 .worktrees/
+
+tools/journal_notes/__pycache__/
+tools/journal_notes/*_cache.jsonl
+minidump.dmp

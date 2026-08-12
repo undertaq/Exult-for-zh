@@ -49,6 +49,7 @@ using std::ostream;
 using std::string;
 using std::vector;
 #include <sstream>
+#include <algorithm>
 
 class Strings : public GumpStrings {
 public:
@@ -540,6 +541,7 @@ void Notebook_chip_button::paint() {
 	Image_window8* win  = gwin->get_win();
 	const int      x    = parent->get_x() + rx;
 	const int      y    = parent->get_y() + ry;
+	const bool     chinese = BilingualManager::get().get_text_language() == TextLanguage::CHINESE;
 	// Parchment-ish background + dark border, from the game palette.
 	const int      border_px   = sman->get_special_pixel(BLACK_PIXEL);
 	const int      parchment_px = sman->get_special_pixel(PROTECT_PIXEL);
@@ -569,7 +571,7 @@ void Notebook_chip_button::paint() {
 				win->fill8(border_px, 1, 1, cbx + 1 + i, cby + cbsz - 2 - i);
 			}
 		}
-		sman->paint_text(4, "Done", cbx + cbsz + 3, y + 1);
+		sman->paint_text(4, chinese ? u8"完成" : "Done", cbx + cbsz + 3, y + 1);
 		return;
 	}
 	if (is_search) {
@@ -578,7 +580,7 @@ void Notebook_chip_button::paint() {
 		const int     maxw = rw - 6;
 		string        shown;
 		if (q.empty()) {
-			shown = "Search";    // Placeholder.
+			shown = chinese ? u8"搜尋" : "Search";    // Placeholder.
 		} else {
 			shown = q;
 			while (!shown.empty() && sman->get_text_width(font, shown.c_str()) > maxw) {
@@ -600,9 +602,10 @@ void Notebook_chip_button::paint() {
 		return;
 	}
 	// Category tab.
-	const char* tablabels[5] = {"All","Quest","Clue","Loc","NPC"};
-	const char* label        = tablabels[static_cast<int>(cat)];
-	const int   tw           = sman->get_text_width(font, label);
+	const char* zh_tablabels[6] = {u8"全部", u8"任務", u8"日誌", u8"線索", u8"地點", u8"人物"};
+	const char* en_tablabels[6] = {"All", "Quest", "Journ", "Clue", "Loc", "NPC"};
+	const char* label           = (chinese ? zh_tablabels : en_tablabels)[static_cast<int>(cat)];
+	const int   tw              = sman->get_text_width(font, label);
 	sman->paint_text(font, label, x + (rw - tw) / 2, y + 1);
 }
 
@@ -652,13 +655,15 @@ static NoteCategory parse_note_category(const string& input_text, string& clean_
 			}
 
 			NoteCategory cat = NoteCategory::GENERAL;
-			if (tag_lower == "quest" || tag == "任务") {
+			if (tag_lower == "quest" || tag == u8"任务") {
 				cat = NoteCategory::QUEST;
-			} else if (tag_lower == "clue" || tag == "线索" || tag == "綫索") {
+			} else if (tag_lower == "journey" || tag == u8"日誌" || tag == u8"日志") {
+				cat = NoteCategory::JOURNEY;
+			} else if (tag_lower == "clue" || tag == u8"线索" || tag == u8"綫索") {
 				cat = NoteCategory::CLUE;
-			} else if (tag_lower == "location" || tag_lower == "loc" || tag == "地点") {
+			} else if (tag_lower == "location" || tag_lower == "loc" || tag == u8"地点") {
 				cat = NoteCategory::LOCATION;
-			} else if (tag_lower == "npc" || tag == "人物") {
+			} else if (tag_lower == "npc" || tag == u8"人物") {
 				cat = NoteCategory::NPC;
 			}
 
@@ -782,18 +787,18 @@ Notebook_gump::Notebook_gump() : Gump(nullptr, EXULT_FLX_NOTEBOOK_SHP, SF_EXULT_
 	const int lrpagey = 12;
 	leftpage          = new Notebook_page_button(this, lpagex, lrpagey, 0);
 	rightpage         = new Notebook_page_button(this, rpagex, lrpagey, 1);
-	// Bottom-strip chips: 5 category tabs, search box, hide/show completed.
+	// Bottom-strip chips: 6 category tabs, search box, hide/show completed.
 	const int chipy  = pagey + 130 + 8;
 	const int tabw   = 30;
 	const int tabh   = 13;
 	const int startx = 36;
-	for (int i = 0; i < 5; ++i) {
+	for (int i = 0; i < 6; ++i) {
 		tab_buttons[i] = new Notebook_chip_button(
 				this, startx + i * tabw, chipy, tabw, tabh, static_cast<NoteCategory>(i));
 		add_elem(tab_buttons[i]);    // Needed for Gump::has_point() hit-testing.
 	}
-	search_button = new Notebook_chip_button(this, startx + 5 * tabw + 3, chipy, 62, tabh, NoteCategory::GENERAL, true);
-	toggle_button = new Notebook_chip_button(this, startx + 5 * tabw + 3 + 62 + 3, chipy, 48, tabh, NoteCategory::GENERAL, false, true);
+	search_button = new Notebook_chip_button(this, startx + 6 * tabw + 3, chipy, 50, tabh, NoteCategory::GENERAL, true);
+	toggle_button = new Notebook_chip_button(this, startx + 6 * tabw + 3 + 50 + 3, chipy, 40, tabh, NoteCategory::GENERAL, false, true);
 	add_elem(search_button);
 	add_elem(toggle_button);
 	null_button   = new Notebook_null_button(this);
@@ -991,7 +996,7 @@ bool Notebook_gump::paint_page(
 	// the game's text-language setting.
 	if (endoff > 0 && endoff < box.h && !note->get_npcs().empty()) {
 		const bool   zh  = BilingualManager::get().get_text_language() == TextLanguage::CHINESE;
-		const string rel = (zh ? "相关：" : "Related: ") + note->get_npcs();
+		const string rel = (zh ? u8"相關：" : "Related: ") + note->get_npcs();
 		if (dim_trans) {
 			sman->get_font(4)->paint_text(
 					gwin->get_win()->get_ib8(), rel.c_str(), x + box.x, y + box.y + endoff, const_cast<unsigned char*>(dim_trans));
@@ -1534,7 +1539,10 @@ void Notebook_gump::add_gflag_text(int gflag, const string& text) {
 	if (gwin->get_allow_autonotes()) {
 		instance->add_new_with_line_breaks(text, gflag);
 		if (gwin && gwin->get_effects() && gwin->get_main_actor()) {
-			gwin->get_effects()->add_text("Journal Updated", gwin->get_main_actor());
+			const bool  chinese = BilingualManager::get().get_text_language() == TextLanguage::CHINESE;
+			const char* toast   = chinese ? u8"日誌更新" : "Journal Updated";
+			const int   ticks   = std::max(10, 3000 / std::max(1, gwin->get_std_delay()));
+			gwin->get_effects()->add_text(toast, gwin->get_main_actor(), ticks);
 		}
 		Audio::get_ptr()->play_sound_effect(Audio::game_sfx(74));
 	}

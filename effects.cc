@@ -81,6 +81,17 @@ Effects_manager::~Effects_manager() {
  */
 
 void Effects_manager::add_text(const char* msg, Game_object* item) {
+	add_text(msg, item, 10);
+}
+
+/**
+ *  Add text over a given item.
+ *  @param msg      text to add
+ *  @param item     Item text ID's, or null.
+ *  @param max_ticks  # of ticks (std_delay each) the text stays visible.
+ */
+
+void Effects_manager::add_text(const char* msg, Game_object* item, int max_ticks) {
 	if (!msg) {    // Happens with edited games.
 		return;
 	}
@@ -96,7 +107,7 @@ void Effects_manager::add_text(const char* msg, Game_object* item) {
 
 	//	txt->paint(this);        // Draw it.
 	//	painted = 1;
-	texts.emplace_front(std::make_unique<Text_effect>(msg, item, gwin));
+	texts.emplace_front(std::make_unique<Text_effect>(msg, item, gwin, max_ticks));
 }
 
 /**
@@ -1081,7 +1092,19 @@ Text_effect::Text_effect(
 		Game_object*  it,      // Item text is on, or null.
 		Game_window*  gwin_    // Back-reference to gwin from Effects_manager
 		)
-		: gwin(gwin_), msg(m), item(weak_from_obj(it)), pos(Figure_text_pos()), num_ticks(0) {
+		: Text_effect(m, it, gwin_, 10) {}
+
+/**
+ *  Create a text effect for a given object, with a custom lifetime.
+ */
+
+Text_effect::Text_effect(
+		const string& m,       // A copy is made.
+		Game_object*  it,      // Item text is on, or null.
+		Game_window*  gwin_,   // Back-reference to gwin from Effects_manager
+		int           max_ticks_
+		)
+		: gwin(gwin_), msg(m), item(weak_from_obj(it)), pos(Figure_text_pos()), num_ticks(0), max_ticks(max_ticks_) {
 	init();
 }
 
@@ -1094,7 +1117,7 @@ Text_effect::Text_effect(
 		int t_x, int t_y,     // Abs. tile coords.
 		Game_window* gwin_    // Back-reference to gwin from Effects_manager
 		)
-		: gwin(gwin_), msg(m), tpos(t_x, t_y, 0), pos(Figure_text_pos()), num_ticks(0) {
+		: gwin(gwin_), msg(m), tpos(t_x, t_y, 0), pos(Figure_text_pos()), num_ticks(0), max_ticks(10) {
 	init();
 }
 
@@ -1107,7 +1130,7 @@ void Text_effect::handle_event(
 		uintptr       udata       // Ignored.
 ) {
 	ignore_unused_variable_warning(curtime, udata);
-	if (++num_ticks == 10) {    // About 1-2 seconds.
+	if (++num_ticks == max_ticks) {    // About 1-2 seconds.
 		// All done.
 		add_dirty();
 		eman->remove_text_effect(this);

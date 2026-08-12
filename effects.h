@@ -57,6 +57,7 @@ public:
 	// Add text item.
 	void add_text(const char* msg, Game_object* item);
 	void add_text(const char* msg, int x, int y);
+	void add_text(const char* msg, Game_object* item, int max_ticks);
 	void center_text(const char* msg);
 	void add_effect(std::unique_ptr<Special_effect> effect);
 	void remove_text_effect(Game_object* item);
@@ -235,12 +236,14 @@ class Text_effect : public Time_sensitive, public Game_singletons {
 	TileRect         pos;
 	short            width, height;    // Dimensions of rectangle.
 	int              num_ticks;        // # ticks passed.
+	int              max_ticks;        // # ticks before disappearing.
 	void             add_dirty();
 	void             init();
 	TileRect         Figure_text_pos();
 
 public:
 	Text_effect(const std::string& m, Game_object* it, Game_window* gwin_);
+	Text_effect(const std::string& m, Game_object* it, Game_window* gwin_, int max_ticks_);
 	Text_effect(const std::string& m, int t_x, int t_y, Game_window* gwin_);
 	// At timeout, remove from screen.
 	void handle_event(unsigned long curtime, uintptr udata) override;
