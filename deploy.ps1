@@ -20,6 +20,17 @@ if (Test-Path "$workspace\tools\voice_acting\_live\usecode.zh") {
     Copy-Item -Path "$workspace\tools\voice_acting\_live\usecode.zh" -Destination "$patchDest\" -Force
 }
 
+Write-Host "=== Step 2b: Copy autonote files ==="
+foreach ($file in @("autonotes.txt", "autonotes_zh.txt")) {
+    $src = "$workspace\data\bg\$file"
+    if (Test-Path $src) {
+        Copy-Item -Path $src -Destination "$patchDest\" -Force
+        Write-Host "  Copied $file -> $patchDest"
+    } else {
+        Write-Host "  WARNING: $src not found, skipping"
+    }
+}
+
 Write-Host "=== Step 3: 7z compress (exclude STATIC + gamedat) ==="
 $dateTag = (Get-Date -Format "yyyyMMdd")
 $out = Join-Path (Split-Path $dist -Parent) "U7_dual_$dateTag.7z"
