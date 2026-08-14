@@ -1580,9 +1580,47 @@ class Paint_map : public Paint_centered {
 	const std::vector<Quest_marker>* markers    = nullptr;
 	const Quest_marker*              focus      = nullptr;
 
+	// Pixel coords. of a marker on the painted map (same math as paint()).
+	void marker_pixel(const Quest_marker& m, float scale, int& px, int& py) const {
+		int               mx;
+		int               my;
+		Map_tile_to_pixel(m.tx, m.ty, mx, my);
+		const Shape_frame* s = sid->get_shape();
+		const int          xo = x - s->get_xleft() * scale;
+		const int          yo = y - s->get_yabove() * scale;
+		px = mx * scale + xo;
+		py = my * scale + yo;
+	}
+
 public:
 	Paint_map(ShapeID* s, bool loc, const std::vector<Quest_marker>* marks = nullptr, const Quest_marker* foc = nullptr)
 			: Paint_centered(s), show_loc(loc), markers(marks), focus(foc) {}
+
+	// Nearest marker within the hit radius of (gx, gy) in game coords, or null.
+	const Quest_marker* hit_test(int gx, int gy) const {
+		if (!markers) {
+			return nullptr;
+		}
+		const float        scale = get_ui_scale();
+		const Quest_marker* best  = nullptr;
+		int                best_d2 = 0;
+		for (const Quest_marker& m : *markers) {
+			int px;
+			int py;
+			marker_pixel(m, scale, px, py);
+			const int half = (&m == focus ? 3 : 2) + 4;    // X size + margin.
+			const int dx   = gx - px;
+			const int dy   = gy - py;
+			if (std::abs(dx) <= half * scale && std::abs(dy) <= half * scale) {
+				const int d2 = dx * dx + dy * dy;
+				if (!best || d2 < best_d2) {
+					best    = &m;
+					best_d2 = d2;
+				}
+			}
+		}
+		return best;
+	}
 
 	void paint() override {
 		Paint_centered::paint();
@@ -1609,8 +1647,12 @@ public:
 				mx = mx * scale + xo;
 				my = my * scale + yo;
 				const bool is_focus = (&m == focus);
+				const int  color    = is_focus ? 23 : 52;    // Focus quest in red.
 				const int  half     = is_focus ? 3 : 2;
-				win->fill8(is_focus ? 54 : 52, half * 2 * scale, half * 2 * scale, mx - half * scale, my - half * scale);
+				for (int d = -half; d <= half; ++d) {
+					win->fill8(color, scale, scale, mx + d * scale, my - d * scale);
+					win->fill8(color, scale, scale, mx + d * scale, my + d * scale);
+				}
 			}
 		}
 	}
@@ -1623,7 +1665,11 @@ USECODE_INTRINSIC(display_map) {
 	Usecode_value v650(650);
 	Usecode_value v_359(-359);
 	const long    sextants = count_objects(v_357, v650, v_359, v_359).get_int_value();
-	const bool    loc      = !gwin->is_main_actor_inside() && (sextants > 0);
+	ignore_unused_variable_warning(sextants);
+	// Always draw the player-location cross (the notebook's quest map does
+	// too), so the direct 'm' map shows the party position regardless of
+	// sextants or indoor/outdoor state.
+	const bool loc = true;
 	// Display map.
 	if (touchui != nullptr) {
 		touchui->hideGameControls();
@@ -1635,13 +1681,22 @@ USECODE_INTRINSIC(display_map) {
 		ShortcutBar_gump::HideGump();
 	}
 	gwin->paint();
-	ShapeID                    msid(game->get_shape("sprites/map"), 0, SF_SPRITES_VGA);
-	std::vector<Quest_marker>  marks = Notebook_gump::get_quest_markers();
-	Paint_map                  map(&msid, loc, &marks);
-
-	int xx;
-	int yy;
-	Get_click(xx, yy, Mouse::hand, nullptr, false, &map);
+	ShapeID                   msid(game->get_shape("sprites/map"), 0, SF_SPRITES_VGA);
+	std::vector<Quest_marker> marks = Notebook_gump::get_quest_markers();
+	Paint_map                 map(&msid, loc, &marks);
+	while (true) {    // Click a quest mark to open its journal page; click elsewhere to close.
+		int xx;
+		int yy;
+		if (!Get_click(xx, yy, Mouse::hand, nullptr, false, &map)) {
+			break;
+		}
+		const Quest_marker* hit = map.hit_test(xx, yy);
+		if (!hit) {
+			break;
+		}
+		Notebook_gump::open_at_note(hit->note_index);
+		break;
+	}
 	gwin->paint();
 	if (touchui != nullptr) {
 		Gump_manager* gumpman = gwin->get_gump_man();
@@ -1654,6 +1709,14 @@ USECODE_INTRINSIC(display_map) {
 	}
 	if (!ShortcutBar_gump::Visible()) {
 		ShortcutBar_gump::ShowGump();
+	}
+	// The mark click opened the journal while the portrait/shortcut bar were
+	// hidden; re-showing them appends to the gump chain, so re-raise the
+	// journal to keep it on top of them.
+	if (Notebook_gump* nb = Notebook_gump::get_instance()) {
+		Gump_manager* gm = gwin->get_gump_man();
+		gm->remove_gump(nb);
+		gm->add_gump(nb);
 	}
 	gwin->paint();
 	return no_ret;
@@ -1685,10 +1748,22 @@ void display_quest_map(const Quest_marker& focus) {
 			break;
 		}
 	}
-	Paint_map map(&msid, false, &marks, foc);
-	int       xx;
-	int       yy;
-	Get_click(xx, yy, Mouse::hand, nullptr, false, &map);
+	// Player-location cross is always drawn on the quest map: the [Map] chip
+	// is explicit about where the quest is relative to the party.
+	Paint_map map(&msid, true, &marks, foc);
+	while (true) {    // Click a quest mark to open its journal page; click elsewhere to close.
+		int xx;
+		int yy;
+		if (!Get_click(xx, yy, Mouse::hand, nullptr, false, &map)) {
+			break;
+		}
+		const Quest_marker* hit = map.hit_test(xx, yy);
+		if (!hit) {
+			break;
+		}
+		Notebook_gump::open_at_note(hit->note_index);
+		break;
+	}
 	gwin->paint();
 	if (touchui != nullptr) {
 		Gump_manager* gumpman = gwin->get_gump_man();
@@ -1701,6 +1776,14 @@ void display_quest_map(const Quest_marker& focus) {
 	}
 	if (!ShortcutBar_gump::Visible()) {
 		ShortcutBar_gump::ShowGump();
+	}
+	// The mark click opened the journal while the portrait/shortcut bar were
+	// hidden; re-showing them appends to the gump chain, so re-raise the
+	// journal to keep it on top of them.
+	if (Notebook_gump* nb = Notebook_gump::get_instance()) {
+		Gump_manager* gm = gwin->get_gump_man();
+		gm->remove_gump(nb);
+		gm->add_gump(nb);
 	}
 	gwin->paint();
 }

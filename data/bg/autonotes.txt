@@ -2,7 +2,6 @@
 # Adapted from https://github.com/marzojr/u7-usecode fov/include/globals.uc.
 # Lists ALL known flags, regardless of whether they make sense in the autonotes.
 
-
 # Journey
 0x0:[journey] I have seen the tetrahedron generator.
 # Journey
@@ -100,7 +99,6 @@
 0x39:[journey] I am inside the Generator and suddenly can't cast spells anymore.
 # Journey
 0x3A:[journey] I am near a shelter, perhaps seeking refuge or investigating its purpose.
-
 # Trinsic
 # Quest
 0x3B:[quest] I woke up in Trinsic; a murder investigation begins here. [npc=Finnigan,Spark]
@@ -121,28 +119,34 @@
 # Quest
 0x43:[quest] A man with a hook was seen in Trinsic, running with a wingless gargoyle, and was possibly involved in the murder of Spark's father. [npc=Spark]
 # Quest
-0x44:[quest] I finished the investigation of the gruesome murder in Trinsic.
+0x44:[quest] I finished the investigation of the gruesome murder in Trinsic. [done]
 # Quest
 0x45:[quest] I received half the payment for the murder investigation, the rest will come when I catch the culprit.
 # Journey
 0x46:[journey] I told Spark my name, and he eventually lowered his weapon after Iolo confirmed that I was the Avatar. [npc=Spark]
 # Journey
+# REVIEW: sentence 2 mentions iolo, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x47:[journey] I told Spark that I am the Avatar. He was skeptical at first but eventually believed me after Iolo confirmed my identity. Spark lowered his sling and asked what I wanted. [npc=Spark]
 # Quest
 0x48:[quest] I told the mayor Finnigan about the key I found on the body.
 # Journey
+# REVIEW: sentence 2 mentions iolo, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x49:[journey] Spark asked to join my party. He demonstrated his skill with a slingshot by hitting a fly near Iolo's head, and he was very eager to be part of the group despite some hesitation. [npc=Spark]
 # Journey
 0x4A:[journey] Captain Gargan said he once sailed the seas. [npc=Gargan]
 # Journey
+# REVIEW: sentence 2 mentions iolo, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x4B:[journey] I met Petre. He was shocked to see me and immediately called for Iolo's help. Petre mentioned that something terrible had happened in the stables and directed me to check there. [npc=Petre]
 # Quest
 0x4C:[quest] The mayor of Trinsic is called Finnigan. he wants me to investigate a ritual murder.
 # Journey
+# REVIEW: sentence 2 mentions gargan, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x4D:[journey] I met Gilberto. He was a grumpy guard with a head wound who mentioned that a ship called 'The Crown Jewel' had sailed to Britain just before he was knocked out. He also mentioned that the shipwright, Gargan, could confirm this. [npc=Gilberto]
 # Journey
+# REVIEW: sentence 2 mentions gilberto, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x4E:[journey] I met Johnson. He was a strict guard who was late for a Fellowship meeting. He mentioned that he found Gilberto knocked out at the dock and that the ship had sailed to Britain. [npc=Johnson]
 # Quest
+# REVIEW: sentence 2 mentions ellen, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x4F:[quest] I met Klog. He was a kind and friendly man who recognized me as the Avatar. He mentioned that the Fellowship meets every night at nine and that he works with his wife Ellen at the branch office in Trinsic. [npc=Klog]
 # Journey
 0x50:[journey] I met Ellen, who works with her husband Klog at the Fellowship Branch in Trinsic. She mentioned that the Fellowship has branches throughout Britannia and that they meet every night at the branch office. [npc=Ellen]
@@ -155,12 +159,14 @@
 # Journey
 0x54:[journey] I met Markus the trainer in Trinsic. He offers combat training for a fee. [npc=Markus]
 # Journey
+# REVIEW: sentence 2 mentions owen, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x55:[journey] I met Gargan, the shipwright of Trinsic. He sells ship deeds, though he is not Owen. [npc=Gargan]
 # Quest
 0x56:[quest] I met Caroline of the Fellowship. She spoke of Christopher's death and invited me to their meetings, which take place every night at nine o'clock in the Fellowship hall. [npc=Caroline]
 # Journey
 0x57:[journey] Off we go exploring outside Trinsic.
 # Journey
+# REVIEW: sentence 2 mentions owen, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x58:[journey] I spoke with Gargan about purchasing a ship. He mentioned Owen in Minoc and the ship 'The Scaly Eel.'. [npc=Gargan]
 # Quest
 0x59:[quest] I refused the mayor and will not investigate the murder.
@@ -186,7 +192,6 @@
 0x63:[journey] I have encountered a question related to my quest.
 # Quest
 0x64:[quest] Spark has given me a scroll and told me that his father was a member of the Fellowship. I should go to his father's shop in the southwest corner of town. [npc=Spark]
-
 # Britain
 # Quest
 0x65:[quest] Lord British has informed me that magic is failing in Britannia, and that a mad mage named Rudyom in Cove may hold the key. I should go to Cove and find Rudyom. [npc=Lord British]
@@ -201,6 +206,7 @@
 # Quest
 0x6A:[quest] I delivered the bill to Lord Heather in Cove, and he signed it. Miranda confirmed it was in order and thanked me. [npc=Miranda]
 # Journey
+# REVIEW: sentence 2 mentions nicodemus, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x6B:[journey] Shamino expressed interest in joining me on my investigation. He mentioned Nicodemus in the great forest, who has gone mad. [npc=Shamino]
 # Journey
 0x6C:[journey] Shamino agreed to accompany me on my quest. He is smitten with an actress he knows and is conflicted about settling down. [npc=Shamino]
@@ -235,8 +241,10 @@
 # Quest
 0x7B:[quest] I spoke with Charles, who is smitten with his sister Jeanette, and learned of his hopes and fears regarding her affections. [npc=Charles]
 # Journey
+# REVIEW: sentence 2 mentions carrocio, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x7C:[journey] Charles spoke of his sister Nell and his unrequited love for Jeanette. I learned of Nell's condition and the truth about Carrocio. [npc=Charles]
 # Journey
+# REVIEW: sentence 2 mentions lucy, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x7D:[journey] Jeanette revealed her feelings for Willy the Baker and her initial disdain for Charles. Lucy corrected her misunderstanding about Charles's social standing. [npc=Jeanette]
 # Journey
 0x7E:[journey] Jeanette reconsidered her opinion of Charles after learning the truth about his class. She now sees him in a new light and is eager to flirt with him. [npc=Jeanette]
@@ -245,6 +253,7 @@
 # Journey
 0x80:[journey] I heard that Patterson is having an affair.
 # Journey
+# REVIEW: sentence 2 mentions patterson, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x81:[journey] I met Judith, a musician who performs with The Avatars and teaches at The Music Hall. She spoke of her husband, Patterson, the Town Mayor, and his involvement with The Fellowship. [npc=Judith]
 # Journey
 0x82:[journey] I spoke with Nanna, who expressed concerns about the growing class divide in Britannia and mentioned that she has joined The Fellowship. [npc=Nanna]
@@ -261,6 +270,7 @@
 # Quest
 0x88:[quest] Batlin gave me a package to deliver, but I must free up space in my inventory to take it. I should proceed to my destination with it. [npc=Batlin]
 # Journey
+# REVIEW: sentence 2 mentions carrocio, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x89:[journey] Charles revealed that his sister Nell is engaged and that he is protective of her. He is now consumed with anger and plans to confront Carrocio. [npc=Charles]
 # Journey
 0x8A:[journey] Millie spoke of the Meditation Retreat and invited me to tonight's Fellowship meeting. I should attend it as her guest. [npc=Millie]
@@ -283,6 +293,7 @@
 # Quest
 0x93:[quest] Mack claims to have proof of alien creatures in his field. I should go behind his farm to investigate. [npc=Mack]
 # Journey
+# REVIEW: sentence 2 mentions figg, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x94:[journey] Weston, a prisoner from Paws, stole apples from the Royal Orchards. He claims Figg, the caretaker, gave fruit to the Fellowship without Lord British's consent. [npc=Weston]
 # Journey
 0x95:[journey] Mack recounted a tale of a tigerlion and a magical hoe. I should find the lost Hoe of Destruction in his shed. [npc=Mack]
@@ -325,6 +336,7 @@
 # Journey
 0xA8:[journey] I met Neno, a flamboyant and confident musician who is part of The Avatars and dreams of becoming the greatest bard in Britannia. [npc=Neno]
 # Journey
+# REVIEW: sentence 2 mentions patterson, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0xA9:[journey] I met Judith, a musician who performs with The Avatars and teaches at The Music Hall. She spoke of her husband, Patterson, and their troubled relationship. [npc=Judith]
 # Journey
 0xAA:[journey] Candice, a nice woman, works at the royal museum.
@@ -339,18 +351,22 @@
 # Journey
 0xAF:[journey] I met James, the sour-faced innkeeper of the Wayfarer's Inn in Britain. [npc=James]
 # Journey
+# REVIEW: sentence 2 mentions willy, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0xB0:[journey] I met Jeanette, the cheerful tavern wench at the Blue Boar. She is in love with Willy the Baker. [npc=Jeanette]
 # Journey
+# REVIEW: sentence 2 mentions lord british, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0xB1:[journey] I met Kessler, the apothecary in Britain. He is working for Lord British on a specific problem. [npc=Kessler]
 # Journey
 0xB2:[journey] I met Denby, a trainer who teaches a form of combat that combines physical and mental exercises. [npc=Denby]
 # Journey
+# REVIEW: sentence 2 mentions morfin, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0xB3:[journey] I met Fred, a friendly farmer who sells meats and vegetables at the Farmer's Market in Britain. He spoke of Morfin, a merchant from Buccaneer's Den who runs a slaughterhouse in Paws. [npc=Fred]
 # Journey
 0xB4:[journey] I met Kelly, Fred's wife, who runs the Farmer's Market with him. She spoke highly of Fred's integrity and the quality of the goods sold there. [npc=Kelly]
 # Journey
 0xB5:[journey] Willy is the baker of Britain and makes the sweetest bread.
 # Journey
+# REVIEW: sentence 2 mentions batlin, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0xB6:[journey] I met Gaye, who oversees the clothier's shop in Britain and is also a member of the Fellowship. She mentioned that Batlin is missing and that she is on her way to the Fellowship Hall. [npc=Gaye]
 # Journey
 0xB7:[journey] I met Coop, Iolo's apprentice, who manages Iolo's Bows. He spoke of selling crossbows and mentioned Iolo's other shop in Serpent's Hold. [npc=Iolo]
@@ -397,6 +413,7 @@
 # Quest
 0xCC:[quest] Lord British investigated Weston's imprionment and lets him go free. 
 # Quest
+# REVIEW: sentence 2 mentions lord british, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0xCD:[quest] A man named Weston is imprisoned atop Britain's castle. His imprisonment may be unjust. I must talk to my friend Lord British about this.
 # Journey
 0xCE:[journey] I have hired the Brownie to help with his pumpkin harvest. [npc=Brownie]
@@ -430,7 +447,6 @@
 0xDC:[journey] I spoke with Cynthia at the Mint. She explained the Mint's role in the kingdom's economy and the importance of taxes. [npc=Cynthia]
 # Quest
 0xDD:[quest] Lord British gave me his Orb of the moon, but warned me that the moongates are no longer stable.
-
 # Cove
 # Quest
 0xDE:[quest] Lord Heather signed a bill to address the stench from the lake, which is caused by mining waste from Minoc. [npc=Lord Heather]
@@ -443,6 +459,7 @@
 # Quest
 0xE2:[quest] Nastassia has asked me to find the truth about her father's death. I should go to Yew. [npc=Nastassia]
 # Journey
+# REVIEW: sentence 2 mentions nastassia, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0xE3:[journey] Lord Heather has given me a bill of law to take to the Great Council. He also spoke of Nastassia's sorrow. [npc=Lord Heather]
 # Journey
 0xE4:[journey] Lord Heather spoke of the Shrine of Compassion and the many lovers in Cove. [npc=Spark]
@@ -473,10 +490,10 @@
 # Journey
 0xF1:[journey] I met Zinaida, the owner of The Emerald. She welcomed me and spoke of her love for a man and her concerns about Lock Lake. [npc=Zinaida]
 # Journey
+# REVIEW: sentence 2 mentions zinaida, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0xF2:[journey] I met De Maria, the Bard. He sang songs and spoke of the people of Cove, though he was interrupted by Zinaida. [npc=De Maria]
 # Journey
 0xF3:[journey] I spoke with Lord Heather. He shared some words with me, though the exact nature of our conversation is not recorded.
-
 # Minoc
 # Journey
 0xF4:[journey] Jakher and Karenna spoke of Owen's past and the troubles in Minoc. I should seek Karenna for more information on the gypsies. [npc=Jakher]
@@ -497,12 +514,15 @@
 # Journey
 0xFC:[journey] Owen returned my gold and spoke of the monument planned for him and the murders at the sawmill. [npc=Owen]
 # Quest
+# REVIEW: sentence 2 mentions iolo, shamino, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0xFD:[quest] Julia criticized Owen's ship designs and mentioned the ritual murders of Frederico and Tania. I should seek out Iolo and Shamino for help. [npc=Julia]
 # Quest
 0xFE:[quest] Xanthia recognizes the candelabra from the murder scene and suggests I ask Elynor about it. I should investigate further with Elynor. [npc=Xanthia]
 # Quest
+# REVIEW: sentence 2 mentions margareta, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0xFF:[quest] Seara reveals that Sasha, the son of Frederico and Tania, ran away to join the Fellowship. I should find Sasha or speak with his aunt, Margareta, the fortune teller. [npc=Seara]
 # Journey
+# REVIEW: sentence 2 mentions time lord, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x100:[journey] A gypsy told me my future. I really need to find the Time Lord, and the Wisps know how to contact him.
 # Journey
 0x101:[journey] Unfortunately I had to leave Julia behind. She's no longer in my party.
@@ -578,7 +598,6 @@
 0x124:[journey] Karl refuses to join The Fellowship and speaks poorly of Minoc. He seems to know something about the murders. [npc=Karl]
 # Quest
 0x125:[quest] Xanthia recognizes the candelabra found at the murder scene as one of hers. I should speak with Elynor about it. [npc=Xanthia]
-
 # Empath Abbey & Yew
 # Journey
 0x126:[journey] I have encountered the aftermath of the hook event.
@@ -587,11 +606,12 @@
 # Journey
 0x128:[journey] Reyna spoke of her mother and the flowers she brings to her grave. She is kind and grateful for the flowers I gave her. [npc=Reyna]
 # Quest
+# REVIEW: sentence 2 mentions saralek, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x129:[quest] Trellek gave me a whistle and spoke of Julius, who is buried near the Abbey. I should seek permission from Saralek, Trellek's wife, to travel with him. [npc=Trellek]
 # Quest
 0x12A:[quest] Salamon has given me a contract to be signed by a woodcutter who is cutting down Silverleaf trees. I should find the woodcutter in the western part of the forest. [npc=Salamon]
 # Quest
-0x12B:[quest] Ben, a logger in Yew, has agreed to stop cutting Silverleaf trees. I should now find the enchanted hourglass to help Nicodemus repair the ether. [npc=Ben]
+0x12B:[quest] Ben, the logger in the Yew forest, has agreed to stop cutting down the Silverleaf trees. [npc=Ben]
 # Journey
 0x12C:[journey] I have entered the jail. Perhaps there is someone here who can help me.
 # Quest
@@ -599,6 +619,7 @@
 # Journey
 0x12E:[journey] I have met Tavenor, an Emp who has explained the importance of Silverleaf trees to his people. He has asked me to be a messenger. [npc=Tavenor]
 # Quest
+# REVIEW: sentence 2 mentions nicodemus, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x12F:[quest] Kreg, the monk at the Abbey, has asked me to find a potion of invisibility to aid his research. I should visit Nicodemus. [npc=Kreg]
 # Journey
 0x130:[journey] I met Saralek, an Emp of the Silverleaf tree, who spoke of her husband Trellek and the plight of their kind due to the cutting of Silverleaf trees. [npc=Saralek]
@@ -641,6 +662,7 @@
 # Journey
 0x143:[journey] I met Sir Jeff, the High Court official at the Abbey, who mentioned a pirate and a troll in the prison. [npc=Sir Jeff]
 # Journey
+# REVIEW: sentence 2 mentions perrin, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x144:[journey] I met Tiery, a gruff yet friendly man who tends to the graveyard at Empath Abbey. He mentioned several people who live nearby, including Garth, Darek, Nina, Bart, and Perrin. [npc=Tiery]
 # Journey
 0x145:[journey] I have met Perrin, as indicated by the flag. He is likely someone of interest in the area.
@@ -665,6 +687,7 @@
 # Journey
 0x14F:[journey] Goth, a grumpy man, gave information about the High Court and the prisoners in the cells for a price. I should consider paying him for more details. [npc=Goth]
 # Quest
+# REVIEW: sentence 2 mentions trellek, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x150:[quest] Finally, I have talked to the wisps. Only with the whistle the nice emp Trellek gave me, was I able to talk to them.
 # Journey
 0x151:[journey] Salamon, an Emp, spoke of Trellek's potential job and the foods Emps enjoy. I should consider helping Trellek find work. [npc=Salamon]
@@ -704,7 +727,6 @@
 0x162:[journey] Tseramed spoke of hermits in a cave and shared a tale of a fox escaping slime. He offered to travel with me. [npc=Tseramed]
 # Journey
 0x163:[journey] Reyna, a healer, mentioned the Abbey, a scholar, and a prison nearby. I should visit these places. [npc=Reyna]
-
 # Jhelom
 # Quest
 0x164:[quest] Syria returned the honor flag, which Sprellic had stolen. She is a fighter from the south. [npc=Syria]
@@ -754,7 +776,6 @@
 0x17A:[journey] Daphne offered me betting markers for the duel. If I win, I may collect gold from her later. [npc=Daphne]
 # Quest
 0x17B:[quest] Kliftin offers to make a duplicate of the honor flag to stop the duel between Sprellic and the Library of Scars. I should return to his shop before Sprellic reaches the Duelling Area. [npc=Kliftin]
-
 # New Magincia
 # Quest
 0x17C:[quest] Alagner requires me to seek out the spirit of The Tortured One in Skara Brae and learn the answers to the questions of Life and Death before I may borrow his notebook. [npc=Alagner]
@@ -765,6 +786,7 @@
 # Quest
 0x17F:[quest] Magenta insists that the locket is not meant for her and charges me with returning it to its rightful owner. [npc=Magenta]
 # Journey
+# REVIEW: sentence 2 mentions iolo, shamino, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x180:[journey] Katrina spoke of her friends Alagner, Russell, and Henry, and mentioned three strangers from Buccaneer's Den named Robin, Battles, and Leavell. I should seek out Iolo and Shamino. [npc=Katrina]
 # Quest
 0x181:[quest] Russell mentioned the Crown Jewel leaving the island and a man with a hook boarding it, accompanied by a gargoyle. I should investigate the fate of the Crown Jewel and the man with the hook. [npc=Russell]
@@ -808,9 +830,9 @@
 0x194:[journey] I have seen the murder in New Magincia.
 # Quest
 0x195:[quest] Dupre owes Boris 74 gold pieces. I should help Dupre pay his debt so that he may speak with Boris. [npc=Boris]
-
 # Skara Brae
 # Quest
+# REVIEW: sentence 2 mentions mordra, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x196:[quest] Caine has revealed that the Liche is the source of suffering in the town. I should speak with Mistress Mordra to learn how to free them from the Liche's power. [npc=Caine]
 # Journey
 0x197:[journey] I have arrived at the island dock.
@@ -833,6 +855,7 @@
 # Quest
 0x1A0:[quest] Mordra has revealed that the mayor, Forsythe, messed up the formula for the potion. I should go to the Town Hall to speak with Forsythe. [npc=Mordra]
 # Quest
+# REVIEW: sentence 2 mentions forsythe, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x1A1:[quest] Caine has told me that he was the alchemist who made the potion that destroyed the town. I should go to the Town Hall to speak with Forsythe. [npc=Caine]
 # Quest
 0x1A2:[quest] Forsythe has agreed to sacrifice himself to defeat the Liche. I should lead him to the Well of Souls to complete the ritual. [npc=Forsythe]
@@ -903,6 +926,7 @@
 # Journey
 0x1C3:[journey] I have met the ferryman. He may hold knowledge of the journey ahead.
 # Journey
+# REVIEW: sentence 2 mentions caine, horance, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x1C4:[journey] I have met Markham, the undead barkeep of the Keg O' Spirits. He speaks of Caine's destruction and Horance's curse. [npc=Markham]
 # Quest
 0x1C5:[quest] I have confronted Lord Horance, the Liche. He seeks to rule Britannia through the dead. I must stop him. [npc=Spark]
@@ -930,7 +954,6 @@
 0x1D0:[journey] I have created the formula.
 # Journey
 0x1D1:[journey] I have been refused access to the well.
-
 # Shrine of Spirituality
 # Quest
 0x1D2:[quest] An hourglass quest has been set before me.
@@ -938,7 +961,6 @@
 0x1D3:[quest] A mission has been given to me by the Time Lord.
 # Journey
 0x1D4:[journey] I have met the Time Lord.
-
 # Moonglow
 # Journey
 0x1D5:[journey] Tolemac spoke of Morz's stutter and his past. I should speak with Morz or Tolemac about it. [npc=Tolemac]
@@ -955,10 +977,12 @@
 # Journey
 0x1DB:[journey] I met Brion, the head of the observatory in Moonglow. He spoke of his brother, Nelson, and the legend of Penumbra. [npc=Brion]
 # Journey
+# REVIEW: sentence 2 mentions penumbra, zelda, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x1DC:[journey] I met Nelson, the head of the Lycaeum in Moonglow. He spoke of Zelda, Penumbra, and the island legend. [npc=Nelson]
 # Journey
 0x1DD:[journey] Brion gave me an orrery viewer, but it requires one more crystal to be complete. I should find a crystal in the tavern. [npc=Brion]
 # Journey
+# REVIEW: sentence 2 mentions elad, phearcy, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x1DE:[journey] I met Addom, a traveler who sells rare items. He spoke of Nelson, Phearcy, and Elad in Moonglow. [npc=Addom]
 # Quest
 0x1DF:[quest] Penumbra requires four pieces of blackrock to protect her from ethereal waves. I should place them on the pedestals at the cardinal directions of the room. [npc=Penumbra]
@@ -1013,6 +1037,7 @@
 # Quest
 0x1F8:[quest] I have met Penumbra, a mage who has been asleep for 200 years. She is in pain and needs help to restore her magical powers. [npc=Penumbra]
 # Journey
+# REVIEW: sentence 2 mentions nelson, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x1F9:[journey] I have met Brion, the head of the observatory in Moonglow. He speaks of his brother Nelson and the Lycaeum. [npc=Brion]
 # Journey
 0x1FA:[journey] I have met Zelda, the advisor at the Lycaeum. She speaks of her duties and the library's purpose. [npc=Zelda]
@@ -1023,10 +1048,13 @@
 # Quest
 0x1FD:[quest] Balayna, the clerk of the Moonglow branch of The Fellowship, was poisoned by a vial I gave her. I must investigate this matter further. [npc=Balayna]
 # Journey
+# REVIEW: sentence 2 mentions balayna, rankin, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x1FE:[journey] I met Tolemac, a friendly farmer in Moonglow who is part of The Fellowship. He mentioned Balayna and Rankin. [npc=Tolemac]
 # Journey
+# REVIEW: sentence 2 mentions morz, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x1FF:[journey] I met Cubolt, Tolemac's brother, who is distrustful of The Fellowship. He spoke of Morz and their farm. [npc=Cubolt]
 # Journey
+# REVIEW: sentence 2 mentions tolemac, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x200:[journey] I met Morz, who stutters and is conflicted about joining The Fellowship. He is friends with Tolemac. [npc=Morz]
 # Journey
 0x201:[journey] I met Jillian, a scholar in Moonglow who provides training for a price. She spoke of the island of Ambrosia. [npc=Jillian]
@@ -1043,12 +1071,14 @@
 # Journey
 0x207:[journey] I met Frank, a man who claims to be on a quest for honesty, though he seems to have little regard for my personal hygiene. [npc=Frank]
 # Journey
+# REVIEW: sentence 2 mentions rankin, tolemac, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x208:[journey] I met Carlyn, the tailor of Moonglow, who also tends the bar for Phearcy. She mentioned a fellow named Tolemac and another named Rankin. [npc=Carlyn]
 # Journey
 0x209:[journey] I have been told my name by Brion.
 # Quest
 0x20A:[quest] Rankin asked me to deliver a vial of liqueur to Balayna. I should go to her and give it to her. [npc=Rankin]
 # Journey
+# REVIEW: sentence 2 mentions balayna, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x20B:[journey] I met Rankin, the new branch leader of The Fellowship in Moonglow. He mentioned that Balayna is in Britain. [npc=Rankin]
 # Quest
 0x20C:[quest] Rankin informed me that Balayna has left for Britain on important business and may be found in her house. I should search her house. [npc=Rankin]
@@ -1060,7 +1090,6 @@
 0x20F:[quest] Rankin suspects the traveling merchant may be involved in Balayna's death. I should find the merchant and investigate. [npc=Rankin]
 # Quest
 0x210:[quest] Rankin is determined to find the traveling merchant who killed Balayna. I should assist him in his search. [npc=Rankin]
-
 # Paws
 # Journey
 0x211:[journey] Beverlea sells an antique hourglass for five gold pieces. I should consider purchasing it if I have the funds. [npc=Beverlea]
@@ -1071,6 +1100,7 @@
 # Journey
 0x214:[journey] Morfin, a merchant in Paws, sells silver serpent venom. He seems to know more about the theft. [npc=Morfin]
 # Journey
+# REVIEW: sentence 2 mentions garritt, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x215:[journey] Merrick, a former farmer, works for the Fellowship. He mentions Garritt's involvement in the theft. [npc=Merrick]
 # Journey
 0x216:[journey] Thurston has fallen for Polly, the innkeeper, and is determined to court her. I should go to the Salty Dog and see Polly. [npc=Thurston]
@@ -1079,6 +1109,7 @@
 # Quest
 0x218:[quest] I found Garritt, a thief in Paws who admitted to stealing venom from Morfin and planting it on Tobias to frame him. He also revealed that he wanted Tobias's mother to join The Fellowship. [npc=Garritt]
 # Journey
+# REVIEW: sentence 2 mentions morfin, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x219:[journey] Garritt warned me of a thief in town and urged me to stand with him. I should be wary of Morfin and the stolen venom. [npc=Garritt]
 # Quest
 0x21A:[quest] Camille gave me wheat to deliver to Thurston.
@@ -1093,6 +1124,7 @@
 # Journey
 0x21F:[journey] I met Thurston, the mill operator in Paws, and he sells sacks of wheat for 12 gold each. [npc=Thurston]
 # Quest
+# REVIEW: sentence 2 mentions camille, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x220:[quest] Feridwyn has revealed that Tobias possesses silver snake venom and is a thief. I should speak with Tobias's mother, Camille, at once. [npc=Feridwyn]
 # Journey
 0x221:[journey] I met Brita, Feridwyn's wife, who speaks highly of her husband and his work with The Fellowship. [npc=Brita]
@@ -1113,6 +1145,7 @@
 # Journey
 0x229:[journey] I met Andrew, the dairy owner in Paws, who sells milk and cheese. [npc=Andrew]
 # Quest
+# REVIEW: sentence 2 mentions tobias, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x22A:[quest] Camille is a hard working farm woman and widow. She runs her farm in Paws with her son Tobias.
 # Journey
 0x22B:[journey] I met Tobias, Camille's son, who is sulking and does not seem to trust me. [npc=Tobias]
@@ -1135,12 +1168,13 @@
 # Quest
 0x234:[quest] Camille has run out to say that her son is innocent of the theft in Paws.
 # Quest
+# REVIEW: sentence 2 mentions garritt, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x235:[quest] Morfin has apologized and offered his assistance in the investigation. He suspects Garritt may be the thief. [npc=Morfin]
 # Journey
 0x236:[journey] I have arrived in Paws and set up for the investigation.
 # Quest
+# REVIEW: sentence 2 mentions garritt, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x237:[quest] Morfin gave me a key, which may open something significant near the slaughterhouse. I should search Garritt's belongings. [npc=Morfin]
-
 # Terfin
 # Journey
 0x238:[journey] I spoke with Draxinusom, who shared news of Teregus and the gargoyle community. [npc=Draxinusom]
@@ -1171,6 +1205,7 @@
 # Journey
 0x245:[journey] Draxinusom spoke of his past and the isolation of gargoyles from humans. I should seek him out again for guidance. [npc=Draxinusom]
 # Journey
+# REVIEW: sentence 2 mentions quan, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x246:[journey] Inforlem mentioned conflicts between the altars and The Fellowship, but had no information. I should speak with Quan, the leader of The Fellowship here. [npc=Inforlem]
 # Journey
 0x247:[journey] In Terfin, I met Inmalinem, a gargoyle who serves as the healer, tavernkeeper, and leader of the gargoyle city. He mentioned that the three altars of singularity in Terfin represent the values of Passion, Control, and Diligence, and he does not follow The Fellowship. [npc=Inmanilem]
@@ -1202,7 +1237,6 @@
 0x254:[journey] I have spoken with Teregus again, who has reiterated the threat to the altars and the need for my assistance. [npc=Teregus]
 # Quest
 0x255:[quest] Runeb, the Fellowship clerk, has shown hostility and mentioned his intent to kill Sarpling. I must investigate further. [npc=Runeb]
-
 # Spektran
 # Journey
 0x256:[journey] I have met Martingo, the Sultan of Spektran, who is mocking and uncooperative. [npc=Martingo]
@@ -1210,7 +1244,6 @@
 0x257:[journey] The harpy has awakened. I must be cautious of its presence.
 # Journey
 0x258:[journey] Martingo offered me a banana for gold and spoke of an Ethereal Ring he purchased from the King of the Gargoyles. [npc=Martingo]
-
 # Serpent's Hold
 # Quest
 0x259:[quest] Richter gave me bloodstained stone chips found at the base of a statue. I should investigate further. [npc=Richter]
@@ -1223,16 +1256,20 @@
 # Quest
 0x25D:[quest] Lady Jehanne revealed that Sir Pendaran has changed since joining The Fellowship, even defacing the statue of Lord British and wounding a fellow knight. I should investigate further. [npc=Jehanne]
 # Quest
+# REVIEW: sentence 2 mentions paul, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x25E:[quest] Someone defaced the statue of my friend Lord British in Serpent's Hold. Sir John-Paul wants me to find out who it was.
 # Journey
+# REVIEW: sentence 2 mentions horffe, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x25F:[journey] Lady Leigh examined the stone chips and determined they contain gargoyle blood. She mentioned that Sir Horffe is the only gargoyle in Serpent's Hold. [npc=Leigh]
 # Journey
+# REVIEW: sentence 2 mentions denton, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x260:[journey] I spoke with Sir John-Paul again, but he insisted that the matter is being handled by an official from Yew. He recommended speaking with Sir Denton at the Hallowed Dock. [npc=John Paul]
 # Quest
 0x261:[quest] Sir Pendaran was the one who defaced the statue of Lord British in Serpent's Hold.
 # Journey
 0x262:[journey] I have spoken with John Paul and Horffe regarding the defacement of the statue. They are relieved that the true vandal has been discovered. [npc=John Paul]
 # Quest
+# REVIEW: sentence 2 mentions denton, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x263:[quest] John Paul has asked me to investigate the defacement of the statue of Lord British. I should speak with Sir Denton at the Hallowed Dock. [npc=John Paul]
 # Journey
 0x264:[journey] I have learned that Elizabeth and Abraham have gone to Buccaneer's Den. I should go there to find them. [npc=Ian]
@@ -1284,7 +1321,6 @@
 0x27B:[journey] Richter is the armourer of Serpent's Hold and spoke of Lord John-Paul and Sir Horffe. [npc=Richter]
 # Journey
 0x27C:[journey] Lady Jehanne is the provisioner of Serpent's Hold and offers to sell a ship called `The Dragon's Breath.'. [npc=Jehanne]
-
 # Vesper
 # Journey
 0x27D:[journey] For-Lem is a gargoyle who speaks of his people's history and is concerned about a human girl named Catherine. [npc=For Lem]
@@ -1342,7 +1378,6 @@
 0x297:[journey] I met Foranamo, though no dialogue was recorded of our encounter.
 # Journey
 0x298:[journey] I met Aurvidlem, a gargoyle in Vesper who speaks in riddles and expresses concern for Wis-Sur. [npc=Aurvidlem]
-
 # Buccaneer's Den
 # Quest
 0x299:[quest] Blorn asked me to avenge him by killing Lap-Lem, a violent gargoyle who nearly killed him. [npc=Blorn]
@@ -1405,7 +1440,6 @@
 0x2B6:[journey] Budo has sold me the deed to his ship, 'The Lusty Wench,' though he initially claimed he had already sold it. I now possess the ship. [npc=Budo]
 # Journey
 0x2B7:[journey] I have visited the Hook Den.
-
 # Travelling Show
 # Journey
 0x2B8:[journey] I have met Paul, who performs a Passion Play about The Fellowship. He asked for gold to perform it, but I did not have enough. [npc=Paul]
@@ -1413,7 +1447,6 @@
 0x2B9:[journey] I have met Meryl.
 # Journey
 0x2BA:[journey] I have met Dustin.
-
 # Misc
 # Journey
 0x2BB:[journey] I met Gorn, a bearded warrior from Balema who has spent his life in search of heroic deeds. [npc=Gorn]
@@ -1484,6 +1517,7 @@
 # Journey
 0x2DC:[journey] I have learned that Kalideth has gone mad.
 # Quest
+# REVIEW: sentence 2 mentions iskander, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x2DD:[quest] Eiko and Amanda have abandoned their quest for vengeance against Kalideth, realizing he was not the true killer. I should go to Iskander Ironheart. [npc=Amanda]
 # Quest
 0x2DE:[quest] Amanda and Eiko seek vengeance for their father's death. I must learn what happened to Kalideth and why the magic in Britannia is failing. [npc=Amanda]
@@ -1517,7 +1551,6 @@
 0x2EC:[journey] Shamino is angry with me for some reason.
 # Journey
 0x2ED:[journey] I've cast Magic Storm.
-
 # FoV
 # Quest
 0x2EE:[quest] Erethian attempted a spell but failed, causing great distress. I must find a way to help him. [npc=Erethian]
@@ -1612,12 +1645,13 @@
 # Journey
 0x32F:[journey] With the gem I broke the mirror to free the demon Arcadion, but instead he is now imprisoned in the gem.
 # Quest
-0x330:[quest] I bound the demon Arcadion to the blackrock sword
+0x330:[quest] I bound the demon Arcadion to the blackrock sword. [npc=Hook] [done]
 # Journey
 0x331:[journey] I'm not helping a demon! A daemon named Arcadion is in the service of a mage named Erethian. Arcadion despises Erethian and wants to be freed from him. He offers to help me in exchange for my assistance in freeing him. [npc=Erethian]
 # Journey
 0x332:[journey] I mistrust Erethian and have agreed to help the demon Arcadion.
 # Quest
+# REVIEW: sentence 2 mentions arcadion, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x333:[quest] I have accepted the power of the gem. A dark figure in a mirror acknowledges me as its master. Arcadion is eager for me to use the gem to free him from the mirror, and he offers to assist me in return. [npc=Erethian]
 # Quest
 0x334:[quest] Arcadion, now my servant, offers his power. I should consider his aid in my journey. [npc=Hook]
@@ -1651,3 +1685,4 @@
 0x343:[quest] Arcadion and the Shade Blade have offered their powers. I must decide how to use them. [npc=Hook]
 # Quest
 0x344:[quest] I have bonded with Arcadion and the Dark Core. They are now my servants and will aid me in my quest. [npc=Hook]
+0x346:[quest] Lord British told me, "Since you need it, here is the 'Ancient Translation'. It will help you decipher those old writings." [npc=Lord British]

@@ -712,9 +712,9 @@ void AudioOptions_gump::save_settings() {
 	config->set("config/audio/speech/voice/language", voice_language == 1 ? "zh" : "en", false);
 	BilingualManager::get().set_text_language(
 			text_language == 1 ? TextLanguage::CHINESE : TextLanguage::ENGLISH);
-	// New auto-notes (journal flags set from now on) use the new
-	// language; already-written notes keep their text.
-	Notebook_gump::invalidate_auto_text();
+	// Existing auto-notes are re-read and re-translated; manual notes
+	// keep their text.
+	Notebook_gump::refresh_auto_text_notes();
 	VoiceActingManager::init();    // Re-read voice config
 
 	const char* midi_looping_values[] = {"never", "limited", "auto", "endless"};

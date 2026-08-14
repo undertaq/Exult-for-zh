@@ -2046,6 +2046,7 @@ static void Handle_event(SDL_Event& event) {
 		break;
 	case SDL_EVENT_KEY_DOWN:    // Keystroke.
 	case SDL_EVENT_KEY_UP:
+	case SDL_EVENT_TEXT_INPUT:    // IME / typed text (e.g. notebook search).
 		if (!dragging &&    // ESC while dragging causes crashes.
 			!gwin->get_gump_man()->handle_kbd_event(&event)) {
 			keybinder->HandleEvent(event);

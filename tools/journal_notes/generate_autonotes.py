@@ -115,6 +115,12 @@ def first_sentence(text, limit=180):
     # keep a closing quote that directly follows the punctuation
     if end < len(text) and text[end] in '」"':
         end += 1
+    if end == len(text):
+        # no plain sentence break: cut at punctuation followed by a quote
+        # (dialogue glued together, e.g. '...stay."I will go')
+        m = re.search(r'[.!?]["\'」]\s', text)
+        if m:
+            end = m.end()
     if end > limit:
         # cut at last word boundary under limit
         cut = text.rfind(" ", 0, limit)
@@ -200,6 +206,8 @@ def parse_script(path):
         if m:
             name = npc_name_from_id(int(m.group(1), 16))
             if name:
+                if speaker and name != speaker:
+                    flush()          # a new speaker starts a fresh block
                 speaker = name
             continue
         m = GFLAG_ON_RE.search(line)
@@ -312,6 +320,13 @@ def compose_zh(flag, blk):
     return f"有人對我說：「{text}」", None
 
 
+# Lines that were produced by this pipeline in an earlier run (rather than
+# hand-curated) are re-derived on every run, so parser fixes propagate.
+PIPE_EN_RE = re.compile(r'\b(told me, "|I was told, ")')
+PIPE_ZH_RE = re.compile(r'對我說：「')
+PREFIX_TAG_RE = re.compile(r'^(\[quest\]|\[journey\]|\[任務\]|\[旅程\])\s*')
+
+
 EN_HEADER = """# List of flags, found by Alun Bestor (?), Marzo, SB-X and Malignant Maynor.
 # Adapted from https://github.com/marzojr/u7-usecode fov/include/globals.uc.
 # Lists ALL known flags, regardless of whether they make sense in the autonotes.
@@ -362,6 +377,111 @@ def is_bare_flag_text(text):
     return not any(ch.isspace() or ord(ch) > 0x2E80 or ch in ".,;:!?''\"" for ch in text)
 
 
+ENTRY_RE = re.compile(r"^(?:#\s*)?0x([0-9A-Fa-f]+):\s*(.*)$")
+NPC_TAG_RE = re.compile(r"\[npc=([^\]]+)\]")
+SENT_RE = re.compile(r"[.!?。！？]+(?:\s+|$)")
+REVIEW_OUT = os.path.join(ROOT, "tools", "journal_notes", "autonotes_review.md")
+
+
+def sentence_split(text):
+    return [s for s in SENT_RE.split(text) if s.strip()]
+
+
+def collect_review_issues(en_lines, zh_lines, en_ctx):
+    """Heuristic checks over the final output. Advisory only.
+
+    Rule: in a multi-sentence entry, an NPC name in a later sentence that
+    appears neither in the first sentence nor in the dialogue block the
+    flag was generated from points at text borrowed from another quest
+    (the 0x12B 'Ben + hourglass' bug). Entries without usecode context are
+    checked against the first sentence and the [npc=] tag alone.
+
+    Returns (issues, en_texts, zh_texts): flag -> [issue strings] etc.
+    """
+    def parse(lines):
+        out = {}
+        for ln in lines:
+            if ln.startswith("#"):
+                continue
+            m = ENTRY_RE.match(ln)
+            if m:
+                out[int(m.group(1), 16)] = m.group(2).strip()
+        return out
+
+    en = parse(en_lines)
+    zh = parse(zh_lines)
+    # common nouns/roles that happen to be NPC names — not quest-merge signals
+    common_npcs = {"avatar", "guard", "smithy", "shrine", "hook"}
+    names = sorted(
+        {n.casefold() for n in list(NPC_NUMBERS) + list(NPC_NUM2NAME.values())}
+        - common_npcs,
+        key=len, reverse=True)
+
+    def find_names(text):
+        t = text.casefold()
+        return {n for n in names if re.search(r"\b" + re.escape(n) + r"\b", t)}
+
+    issues = {}
+    for flag in sorted(set(en) & set(zh)):
+        sentences = sentence_split(en[flag])
+        if len(sentences) < 2:
+            continue
+        mt = NPC_TAG_RE.search(en[flag])
+        tagged = {n.casefold() for n in mt.group(1).split(",")} if mt else set()
+        known = find_names(sentences[0]) | tagged
+        blk = en_ctx.get(flag)
+        blk_low = blk[1].text.casefold() if blk else None
+        for i in range(1, len(sentences)):
+            extra = find_names(" ".join(sentences[i:])) - known
+            if extra and blk_low is not None:
+                extra = {n for n in extra if n not in blk_low}
+            if extra:
+                issues.setdefault(flag, []).append(
+                    f"sentence {i + 1} mentions {', '.join(sorted(extra))}, "
+                    "not covered by the first sentence or this flag's dialogue "
+                    "(possible quest merge)")
+                break
+    return issues, en, zh
+
+
+def insert_review_comments(lines, issues):
+    """Insert '# REVIEW: ...' comment lines before flagged entries.
+
+    Comments already present in the input (a previous run) suppress
+    re-insertion, so re-running is idempotent; identical reasons on
+    different flags each get their own comment."""
+    out = []
+    existing = {c.strip() for c in lines if c.strip().startswith("# REVIEW:")}
+    for ln in lines:
+        m = ENTRY_RE.match(ln)
+        if m and int(m.group(1), 16) in issues:
+            for reason in issues[int(m.group(1), 16)]:
+                c = f"# REVIEW: {reason}"
+                if c not in existing:
+                    out.append(c)
+        out.append(ln)
+    return out
+
+
+def write_review_report(issues, en_texts, zh_texts):
+    with open(REVIEW_OUT, "w", encoding="utf-8") as f:
+        f.write("# Autonotes review report (generated by generate_autonotes.py)\n")
+        f.write("# Entries flagged by heuristic checks; verify against the usecode\n")
+        f.write("# and fix the data files by hand.\n\n")
+        if not issues:
+            f.write("No suspicious entries detected.\n")
+        else:
+            f.write(f"{sum(len(v) for v in issues.values())} issue(s) across "
+                    f"{len(issues)} flag(s).\n\n")
+            for flag in sorted(issues):
+                f.write(f"## 0x{flag:X}\n")
+                for reason in issues[flag]:
+                    f.write(f"- {reason}\n")
+                f.write(f"- EN: {en_texts[flag]}\n")
+                f.write(f"- ZH: {zh_texts[flag]}\n")
+                f.write("\n")
+
+
 def main():
     import argparse
 
@@ -397,6 +517,9 @@ def main():
     for cm in (en_comments, zh_comments):
         for k in list(cm):
             cm[k] = [l for l in cm[k] if l.strip() not in en_hdr | zh_hdr]
+            # REVIEW comments are regenerated from scratch each run, so any
+            # stale ones (from older rule versions) are dropped here
+            cm[k] = [l for l in cm[k] if not l.strip().startswith("# REVIEW:")]
 
     all_flags = sorted(set(en_entries) | set(en_ctx) | set(zh_ctx))
 
@@ -406,11 +529,13 @@ def main():
 
     def emit_en_comments(flag):
         for c in en_comments.get(flag, ()):
-            en_lines.append(c)
+            if c.strip():
+                en_lines.append(c)
 
     def emit_zh_comments(flag):
         for c in zh_comments.get(flag, ()):
-            zh_lines.append(c)
+            if c.strip():
+                zh_lines.append(c)
 
     for flag in all_flags:
         emit_en_comments(flag)
@@ -424,8 +549,17 @@ def main():
             en_lines.append(old_line)  # commented-out mechanical flag
             n_bare += 1
         elif old_text and not is_bare:
-            en_lines.append(old_line)  # hand-written sentence wins
-            n_kept_en += 1
+            if en_txt and PIPE_EN_RE.search(old_text):
+                # pipeline-shaped line from an earlier run: re-derive with
+                # the current parser; preserve any category tag
+                tag = f" [npc={npc_en}]" if npc_en else ""
+                prefix = PREFIX_TAG_RE.match(old_text)
+                prefix = prefix.group(1) if prefix else ""
+                en_lines.append(f"0x{flag:X}:{prefix} {en_txt}{tag}")
+                n_en_gen += 1
+            else:
+                en_lines.append(old_line)  # hand-written sentence wins
+                n_kept_en += 1
         elif en_txt:
             tag = f" [npc={npc_en}]" if npc_en else ""
             en_lines.append(f"0x{flag:X}: {en_txt}{tag}")
@@ -448,9 +582,17 @@ def main():
         if old_line.startswith("#"):
             zh_lines.append(old_line)
         elif old_text and not is_bare:
-            # convert existing curated zh entry to Traditional
-            zh_lines.append(f"0x{flag:X}: {cc.convert(old_text)}")
-            n_kept_zh += 1
+            if zh_txt and PIPE_ZH_RE.search(old_text):
+                tag = f" [npc={npc_zh}]" if npc_zh else ""
+                prefix = PREFIX_TAG_RE.match(old_text)
+                prefix = prefix.group(1) if prefix else ""
+                zh_lines.append(f"0x{flag:X}:{prefix} {zh_txt}{tag}")
+                n_zh_gen += 1
+            else:
+                # convert the existing curated zh line in place, keeping its
+                # exact original format (prefix, tags, trailing comments)
+                zh_lines.append(cc.convert(old_line))
+                n_kept_zh += 1
         elif zh_txt:
             tag = f" [npc={npc_zh}]" if npc_zh else ""
             zh_lines.append(f"0x{flag:X}: {zh_txt}{tag}")
@@ -463,6 +605,14 @@ def main():
         en_lines.append(c)
     for c in zh_comments.get("__tail__", ()):
         zh_lines.append(c)
+
+    issues, en_texts, zh_texts = collect_review_issues(en_lines, zh_lines, en_ctx)
+    en_lines = insert_review_comments(en_lines, issues)
+    write_review_report(issues, en_texts, zh_texts)
+    if issues:
+        n_iss = sum(len(v) for v in issues.values())
+        print(f"REVIEW: {n_iss} issue(s) on {len(issues)} flag(s) — "
+              f"see autonotes_review.md")
 
     def emit(path, header, lines):
         with open(path, "w", encoding="utf-8") as f:

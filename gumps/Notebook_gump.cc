@@ -163,6 +163,10 @@ public:
 		return npcs;
 	}
 
+	const string& get_text() const {
+		return text;
+	}
+
 	NoteCategory get_category() const {
 		return category;
 	}
@@ -281,6 +285,7 @@ std::vector<Quest_marker> Notebook_gump::get_quest_markers() {
 		}
 		Quest_marker m;
 		m.note_index = i;
+		m.text       = n->get_text();
 		if (!n->get_dest(m.tx, m.ty)) {
 			m.tx = n->tx;
 			m.ty = n->ty;
@@ -379,6 +384,22 @@ static unsigned char* NewTable() {
 				Shape_manager::get_instance()->get_special_pixel(POISON_PIXEL));
 		for (int i = 0; i < 256; ++i) {
 			table[i] = static_cast<unsigned char>(i ? green : 0);
+		}
+		inited = true;
+	}
+	return table;
+}
+
+// Solid-red remap for the related-NPC line, so it reads as a distinct
+// annotation under the note text instead of blending with the body.
+static unsigned char* RelTable() {
+	static unsigned char table[256];
+	static bool          inited = false;
+	if (!inited) {
+		const unsigned char red = static_cast<unsigned char>(
+				Shape_manager::get_instance()->get_special_pixel(HIT_PIXEL));
+		for (int i = 0; i < 256; ++i) {
+			table[i] = static_cast<unsigned char>(i ? red : 0);
 		}
 		inited = true;
 	}
@@ -602,8 +623,8 @@ void Notebook_chip_button::paint() {
 		return;
 	}
 	// Category tab.
-	const char* zh_tablabels[6] = {u8"全部", u8"任務", u8"日誌", u8"線索", u8"地點", u8"人物"};
-	const char* en_tablabels[6] = {"All", "Quest", "Journ", "Clue", "Loc", "NPC"};
+	const char* zh_tablabels[3] = {u8"全部", u8"任務", u8"日誌"};
+	const char* en_tablabels[3] = {"All", "Quest", "Journ"};
 	const char* label           = (chinese ? zh_tablabels : en_tablabels)[static_cast<int>(cat)];
 	const int   tw              = sman->get_text_width(font, label);
 	sman->paint_text(font, label, x + (rw - tw) / 2, y + 1);
@@ -684,16 +705,20 @@ static NoteCategory parse_note_category(const string& input_text, string& clean_
  *  Pull structured markers out of note text:
  *      [map=x,y]   destination tile for the world map.
  *      [npc=A,B]   related NPC names.
+ *      [done]      the quest this note reports is finished; the note is
+ *                  created already marked completed (dimmed, no map mark).
  *  The bracketed tokens are removed from the displayed text; values are
  *  written back through the out-params. Missing tokens leave dest_x/dest_y
- *  at -1 and npcs empty. Case-insensitive; a lone "[" without "]" is left
- *  alone.
+ *  at -1, npcs empty and done false. Case-insensitive; a lone "[" without
+ *  "]" is left alone.
  */
-static void parse_note_metadata(string& text, int& dest_x, int& dest_y, string& npcs) {
+static void parse_note_metadata(string& text, int& dest_x, int& dest_y, string& npcs, bool& done) {
 	dest_x = dest_y = -1;
 	npcs.clear();
-	const string map_key = "[map=";
-	const string npc_key = "[npc=";
+	done  = false;
+	const string map_key  = "[map=";
+	const string npc_key  = "[npc=";
+	const string done_key = "[done";    // Bare token: "[done]".
 	auto lowerify = [](const string& s, string& out) {
 		out = s;
 		for (char& c : out) {
@@ -701,6 +726,7 @@ static void parse_note_metadata(string& text, int& dest_x, int& dest_y, string& 
 		}
 	};
 	auto extract = [&](const string& key, string& out) {
+		bool   found = false;
 		string lower;
 		lowerify(text, lower);
 		size_t pos = lower.find(key);
@@ -710,7 +736,8 @@ static void parse_note_metadata(string& text, int& dest_x, int& dest_y, string& 
 				pos = lower.find(key, pos + key.size());
 				continue;
 			}
-			out = text.substr(pos + key.size(), close - pos - key.size());
+			found = true;
+			out   = text.substr(pos + key.size(), close - pos - key.size());
 			const size_t s = out.find_first_not_of(" \t\r\n");
 			const size_t e = out.find_last_not_of(" \t\r\n");
 			if (s == string::npos) {
@@ -722,6 +749,7 @@ static void parse_note_metadata(string& text, int& dest_x, int& dest_y, string& 
 			lowerify(text, lower);
 			pos = lower.find(key);
 		}
+		return found;
 	};
 	string mapraw;
 	extract(map_key, mapraw);
@@ -734,6 +762,8 @@ static void parse_note_metadata(string& text, int& dest_x, int& dest_y, string& 
 		}
 	}
 	extract(npc_key, npcs);
+	string doneraw;
+	done = extract(done_key, doneraw);
 	while (!text.empty() && (text.back() == ' ' || text.back() == '\n' || text.back() == '\t')) {
 		text.pop_back();    // Tidy whitespace left by tag removal.
 	}
@@ -750,13 +780,14 @@ void Notebook_gump::add_new(const string& text, int gflag) {
 	int    dest_x;
 	int    dest_y;
 	string npcs;
+	bool   done;
 	NoteCategory cat  = parse_note_category(text, clean_text);
-	parse_note_metadata(clean_text, dest_x, dest_y, npcs);
+	parse_note_metadata(clean_text, dest_x, dest_y, npcs, done);
 	// Game journal entries (gflag >= 0) are quests unless tagged otherwise.
 	if (cat == NoteCategory::GENERAL && gflag >= 0) {
 		cat = NoteCategory::QUEST;
 	}
-	auto*        note = new One_note(clk->get_day(), clk->get_hour(), clk->get_minute(), t.tx, t.ty, clean_text, gflag, true, cat, false, true);
+	auto*        note = new One_note(clk->get_day(), clk->get_hour(), clk->get_minute(), t.tx, t.ty, clean_text, gflag, true, cat, done, true);
 	note->set_dest(dest_x, dest_y);
 	note->set_npcs(npcs);
 	notes.push_back(note);
@@ -787,18 +818,18 @@ Notebook_gump::Notebook_gump() : Gump(nullptr, EXULT_FLX_NOTEBOOK_SHP, SF_EXULT_
 	const int lrpagey = 12;
 	leftpage          = new Notebook_page_button(this, lpagex, lrpagey, 0);
 	rightpage         = new Notebook_page_button(this, rpagex, lrpagey, 1);
-	// Bottom-strip chips: 6 category tabs, search box, hide/show completed.
+	// Bottom-strip chips: 3 category tabs, search box, hide/show completed.
 	const int chipy  = pagey + 130 + 8;
 	const int tabw   = 30;
 	const int tabh   = 13;
 	const int startx = 36;
-	for (int i = 0; i < 6; ++i) {
+	for (int i = 0; i < 3; ++i) {
 		tab_buttons[i] = new Notebook_chip_button(
 				this, startx + i * tabw, chipy, tabw, tabh, static_cast<NoteCategory>(i));
 		add_elem(tab_buttons[i]);    // Needed for Gump::has_point() hit-testing.
 	}
-	search_button = new Notebook_chip_button(this, startx + 6 * tabw + 3, chipy, 50, tabh, NoteCategory::GENERAL, true);
-	toggle_button = new Notebook_chip_button(this, startx + 6 * tabw + 3 + 50 + 3, chipy, 40, tabh, NoteCategory::GENERAL, false, true);
+	search_button = new Notebook_chip_button(this, startx + 3 * tabw + 3, chipy, 50, tabh, NoteCategory::GENERAL, true);
+	toggle_button = new Notebook_chip_button(this, startx + 3 * tabw + 3 + 50 + 3, chipy, 40, tabh, NoteCategory::GENERAL, false, true);
 	add_elem(search_button);
 	add_elem(toggle_button);
 	null_button   = new Notebook_null_button(this);
@@ -811,6 +842,7 @@ Notebook_gump* Notebook_gump::create() {
 	if (!initialized) {
 		initialize();
 	}
+	refresh_auto_text_notes();
 	if (!instance) {
 		instance = new Notebook_gump;
 		// Opening the journal reads all entries: clear unread marks.
@@ -997,12 +1029,19 @@ bool Notebook_gump::paint_page(
 	if (endoff > 0 && endoff < box.h && !note->get_npcs().empty()) {
 		const bool   zh  = BilingualManager::get().get_text_language() == TextLanguage::CHINESE;
 		const string rel = (zh ? u8"相關：" : "Related: ") + note->get_npcs();
-		if (dim_trans) {
-			sman->get_font(4)->paint_text(
-					gwin->get_win()->get_ib8(), rel.c_str(), x + box.x, y + box.y + endoff, const_cast<unsigned char*>(dim_trans));
-		} else {
-			sman->paint_text(4, rel.c_str(), x + box.x, y + box.y + endoff);
+		// Like paint_text_box, force the CJK TTF path when the line has
+		// non-ASCII so the English names match the Chinese font. Solid red
+		// (dimmed on completed notes) sets the line apart from the body.
+		bool has_cjk = false;
+		for (char c : rel) {
+			if (static_cast<unsigned char>(c) >= 0x80) {
+				has_cjk = true;
+				break;
+			}
 		}
+		sman->get_font(4)->paint_text(
+				gwin->get_win()->get_ib8(), rel.c_str(), x + box.x, y + box.y + endoff,
+				const_cast<unsigned char*>(completed ? dim_trans : RelTable()), has_cjk);
 	}
 	// Watch for exactly filling page.
 	return endoff > 0 && endoff < box.h;
@@ -1049,7 +1088,7 @@ Gump_button* Notebook_gump::on_button(
 		int mx, int my    // Point in window.
 ) {
 	// Bottom-strip chips get first chance.
-	for (int i = 0; i < 5; ++i) {
+	for (int i = 0; i < 3; ++i) {
 		if (tab_buttons[i]->on_button(mx, my)) {
 			return tab_buttons[i];
 		}
@@ -1066,14 +1105,15 @@ Gump_button* Notebook_gump::on_button(
 		return rightpage;
 	}
 	const int cbtopl   = curpage & ~1;
-	// Quest completion checkbox + [Map] chip on the note-info row of the
-	// left page.
-	{
-		int       notenum = page_info[cbtopl].notenum;
-		const int looset  = page_info[cbtopl].offset;
+	// Quest completion checkbox + [Map] chip on the note-info row of either
+	// page of the current spread (a note may start on the right page).
+	for (int p = 0; p < 2 && cbtopl + p < static_cast<int>(page_info.size()); ++p) {
+		const int pagenum = cbtopl + p;
+		int       notenum = page_info[pagenum].notenum;
+		const int looset  = page_info[pagenum].offset;
 		if (notenum >= 0 && looset == 0) {
 			One_note* n   = nb_note(notenum);
-			TileRect  box = Get_text_area(false, true);
+			TileRect  box = Get_text_area((pagenum % 2) != 0, true);
 			box.shift(x, y);    // Window area.
 			if (n->get_category() == NoteCategory::QUEST && TileRect(box.x + box.w - 19, box.y - 12, 9, 9).has_point(mx, my)) {
 				n->set_completed(!n->get_completed());
@@ -1371,6 +1411,7 @@ bool Notebook_gump::handle_kbd_event(void* vev) {
 		// Close the gump.
 		if (gwin && gwin->get_gump_man()) {
 			gwin->get_gump_man()->close_gump(this);
+			gwin->paint();    // Repaint the world under the closed gump.
 			return true;
 		}
 		return false;
@@ -1560,15 +1601,16 @@ void Notebook_gump::add_new_with_line_breaks(const string& text, int gflag) {
 	int    dest_x;
 	int    dest_y;
 	string npcs;
+	bool   done;
 	NoteCategory cat = parse_note_category(text, clean_text);
-	parse_note_metadata(clean_text, dest_x, dest_y, npcs);
+	parse_note_metadata(clean_text, dest_x, dest_y, npcs, done);
 	// Game journal entries (gflag >= 0) are quests unless tagged otherwise.
 	if (cat == NoteCategory::GENERAL && gflag >= 0) {
 		cat = NoteCategory::QUEST;
 	}
 
 	// Create a new note with parsed category and unread state
-	One_note* note = new One_note(clk->get_day(), clk->get_hour(), clk->get_minute(), t.tx, t.ty, "", gflag, true, cat, false, true);
+	One_note* note = new One_note(clk->get_day(), clk->get_hour(), clk->get_minute(), t.tx, t.ty, "", gflag, true, cat, done, true);
 	note->set_dest(dest_x, dest_y);
 	note->set_npcs(npcs);
 
@@ -1610,7 +1652,7 @@ void Notebook_gump::write() {
  */
 
 void Notebook_gump::read() {
-	const string  root;
+	const string root;
 	Configuration conf;
 
 	conf.read_abs_config_file(NOTEBOOKXML, root);
@@ -1769,6 +1811,66 @@ void Notebook_gump::read_auto_text() {
 		} else if (have_zh) {
 			auto_text = std::move(zh);
 		}
+	}
+}
+
+/*
+ *  Re-read the auto-note texts in the current text language and refresh
+ *  every existing auto-note (gflag >= 0) in place, so notes already in
+ *  the journal switch language too. Category, completion, unread and
+ *  timestamp are preserved; related-NPC metadata is re-derived from the
+ *  new text. Manual notes (gflag < 0) are left untouched.
+ */
+static std::string collapse_ws(const std::string& s) {
+	std::string out;
+	out.reserve(s.size());
+	for (char c : s) {
+		if (c != ' ' && c != '\t' && c != '\n' && c != '\r') {
+			out += c;
+		}
+	}
+	return out;
+}
+
+void Notebook_gump::refresh_auto_text_notes() {
+	invalidate_auto_text();
+	if (!initialized) {
+		return;    // Nothing loaded yet; the next read uses the new language.
+	}
+	read_auto_text();
+	bool changed = false;
+	for (One_note* note : notes) {
+		if (note->gflag < 0 || note->gflag >= static_cast<int>(auto_text.size()) || auto_text[note->gflag].empty()) {
+			continue;
+		}
+		string clean;
+		NoteCategory cat = parse_note_category(auto_text[note->gflag], clean);
+		ignore_unused_variable_warning(cat);
+		int    dest_x;
+		int    dest_y;
+		string npcs;
+		bool   done;
+		parse_note_metadata(clean, dest_x, dest_y, npcs, done);
+		// A [done] tag marks the quest as finished: keep it out of the
+		// quest map even if the player never clicked the checkbox.
+		if (done && !note->get_completed()) {
+			note->set_completed(true);
+			changed = true;
+		}
+		// Skip notes that already match (line-wrap-insensitive) so opening
+		// the journal doesn't churn unchanged entries.
+		if (collapse_ws(clean) == collapse_ws(note->text) && note->get_npcs() == npcs) {
+			continue;
+		}
+		note->set_dest(dest_x, dest_y);
+		note->set_npcs(npcs);
+		note->add_text_with_line_breaks(clean);
+		changed = true;
+	}
+	if (changed) {
+		rebuild_visible();
+		write();
+		dirty = false;
 	}
 }
 
@@ -1956,6 +2058,95 @@ void One_note::add_text_with_line_breaks(const std::string& input) {
 	}
 }
 
+/*
+ *  Precompute page_info for every visible note using measure-only text
+ *  layout, so jumps and map clicks land instantly (no paint walk).
+ *  Mirrors paint()'s page-advance logic exactly, including the
+ *  exactly-filled-page continuation, so later paints land on the same
+ *  page breaks.
+ */
+void Notebook_gump::build_page_info() {
+	page_info.clear();
+	page_info.emplace_back(0, 0);
+	int notenum = 0;
+	int offset  = 0;
+	int pagenum = 0;
+	while (notenum < nb_note_count()) {
+		One_note*    note = nb_note(notenum);
+		const TileRect box = Get_text_area((pagenum % 2) != 0, offset == 0);
+		// Gump-relative coords: only the box w/h affect page breaks, and
+		// the returned continuation offsets are x/y-independent.
+		const int endoff = sman->get_font(font)->measure_text_box(
+				note->text.c_str() + offset, box.x, box.y, box.w, box.h, vlead);
+		if (endoff > 0) {
+			if (endoff < box.h) {    // Note finished on this page.
+				++notenum;
+				offset = 0;
+			} else {    // Page exactly filled: continuation page next.
+				offset = static_cast<int>(note->text.length());
+			}
+		} else {    // Out of room: continue the note on the next page.
+			const int prev = offset;
+			offset += -endoff;
+			if (offset >= static_cast<int>(note->text.length()) || offset == prev) {
+				++notenum;
+				offset = 0;
+			}
+		}
+		++pagenum;
+		if (pagenum >= static_cast<int>(page_info.size())) {
+			page_info.resize(pagenum + 1);
+		}
+		page_info[pagenum].notenum = notenum;
+		page_info[pagenum].offset  = offset;
+	}
+}
+
+/*
+ *  Open the notebook on the page where the given notes[] entry starts.
+ *  Used when a quest mark is clicked on the world map: the Quest filter
+ *  is forced so the note is always part of the visible layout.
+ */
+void Notebook_gump::open_at_note(int notes_index) {
+	Notebook_gump* nb = create();
+	// create() only builds the gump; the caller registers it with the gump
+	// manager (create() is used from ActionNotebook which adds it itself).
+	gwin->get_gump_man()->add_gump(nb);
+	if (active_filter != NoteCategory::QUEST || !search_query.empty()) {
+		active_filter = NoteCategory::QUEST;
+		search_query.clear();
+		rebuild_visible();
+	}
+	if (nb_note_count() == 0) {
+		return;
+	}
+	int vi = -1;
+	for (int i = 0; i < static_cast<int>(visible.size()); ++i) {
+		if (visible[i] == notes_index) {
+			vi = i;
+			break;
+		}
+	}
+	if (vi < 0) {
+		return;
+	}
+	build_page_info();
+	int found = -1;
+	for (int p = 0; p < static_cast<int>(page_info.size()); ++p) {
+		if (page_info[p].notenum == vi && page_info[p].offset == 0) {
+			found = p;
+			break;
+		}
+	}
+	if (found < 0) {
+		return;
+	}
+	instance->curpage       = found;
+	instance->curnote       = vi;
+	instance->cursor.offset = 0;
+	instance->paint();
+}
+
 // Jump to the first entry (beginning of the notebook)
 void Notebook_gump::jump_to_first_entry() {
 	if (page_info.empty()) {
@@ -1972,29 +2163,15 @@ void Notebook_gump::jump_to_last_entry() {
 	if (nb_note_count() == 0) {
 		return;
 	}
-	const int last_idx = nb_note_count() - 1;
-
-	// Reset to start so paint() builds page_info forward
-	if (page_info.empty()) {
-		page_info.emplace_back(0, 0);
+	// The trailing write-in note is usually empty; open on the newest
+	// entry that actually has content ("latest update").
+	int last_idx = nb_note_count() - 1;
+	while (last_idx > 0 && nb_note(last_idx)->text.empty()) {
+		--last_idx;
 	}
-	curpage       = 0;
-	curnote       = page_info[0].notenum;
-	cursor.offset = 0;
 
-	// Build page_info forward by painting subsequent pairs until we reach the
-	// end Safety cap to avoid any accidental infinite loop
-	for (int safety = 0; safety < 10000; ++safety) {
-		paint();    // updates page_info and appends info for next pair (nxt)
-
-		const int nxt = ((curpage & ~1) + 2);
-		if (nxt >= static_cast<int>(page_info.size())) {
-			break;    // reached end of mapped pages
-		}
-		curpage       = nxt;
-		curnote       = page_info[curpage].notenum;
-		cursor.offset = page_info[curpage].offset;
-	}
+	// Measure-only pass builds the full page map without painting.
+	build_page_info();
 
 	// Find the first page where the last note begins (offset == 0)
 	int found = -1;
@@ -2013,10 +2190,8 @@ void Notebook_gump::jump_to_last_entry() {
 			}
 		}
 	}
-	if (found >= 0) {
-		curpage       = found;
-		curnote       = last_idx;
-		cursor.offset = 0;
-		paint();
-	}
+	curpage       = found >= 0 ? found : 0;
+	curnote       = page_info[curpage].notenum;
+	cursor.offset = page_info[curpage].offset;
+	paint();
 }

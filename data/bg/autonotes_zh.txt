@@ -8,7 +8,6 @@
 0x1:[journey] 我見過了球體生成器。
 # Journey
 0x2:[journey] 我見過了立方體生成器。
-
 # Entries carried over from the pre-existing legacy translation file.
 # Journey
 0x3:[journey] 我打破了四面體生成器。
@@ -44,7 +43,6 @@
 0x12:[journey] 時空領主提到了球體。
 # Journey
 0x13:[journey] 時空領主提到了立方體。
-
 # Journey
 0x14:[journey] 我見到了我的老朋友Iolo，他對見到我感到驚訝，並提到我們的原鄉與Britannia之間時間結構的差異，已經過了200個Britannia年。 [npc=Iolo]
 # Journey
@@ -77,7 +75,6 @@
 0x29:[journey] 為 Jaana 設定了一個計時器，可能是為了追蹤我再次與她會面的時間。
 # Quest
 0x38:[quest] 我未能完成 Batlin 的任務，必須另尋方法完成它。
-
 # Additional translated journal sentences (English text verified against autonotes.txt).
 # Journey
 0x39:[journey] 我在發生器內部，突然無法再施放任何法術了。
@@ -102,7 +99,7 @@
 # Quest
 0x43:[quest] 一名手拿鉤子的男子在Trinsic被看見，與一隻無翼的哥布林一起奔跑，可能涉及Spark父親的謀殺案。 [npc=Spark]
 # Quest
-0x44:[quest] 我已完成對 Trinsic 恐怖兇殺案的調查。我應該向市長報告我的調查結果。 [npc=Finnigan]
+0x44:[quest] 我已完成對 Trinsic 恐怖兇殺案的調查。我應該向市長報告我的調查結果。 [npc=Finnigan] [done]
 # Quest
 0x45:[quest] 我收到了謀殺案調查報酬的一半，剩下的等我抓到兇手後再付。
 # Journey
@@ -564,11 +561,11 @@
 # Quest
 0x12A:[quest] Salamon 給了我一份合同，需要一名正在砍伐銀葉樹的樵夫簽署。我應該去森林西部找到這位樵夫。 [npc=Salamon]
 # Quest
-0x12B:[quest] Ben，一位住在 Yew 的木匠，已經答應停止砍伐銀葉樹。我現在應該去找那個被詛咒的沙漏，幫助 Nicodemus 修復以太。 [npc=Ben]
+0x12B:[quest] Ben，Yew 森林裡的伐木工，已經同意停止砍伐銀葉樹。 [npc=Ben]
 # Journey
 0x12C:[journey] 我已經進入了監獄。或許這裡有人可以幫助我。
 # Quest
-0x12D:[quest] Nicodemus 同意重新詛咒這個沙漏，但前提是必須修復以太。我應該找到辦法修復以太。 [npc=Nicodemus]
+0x12D:[quest] Nicodemus 同意重新附魔這個沙漏，但前提是必須修復以太。我應該找到辦法修復以太。 [npc=Nicodemus]
 # Journey
 0x12E:[journey] 我已經見過 Tavenor，一位 Emp，他向我解釋了銀葉樹對他族人的意義。他請求我擔任信使。 [npc=Tavenor]
 # Quest
@@ -1335,6 +1332,7 @@
 0x2AB:[journey] 我見到了The Baths的經理Glenno，他以300金幣為代價提供我入場機會。 [npc=Glenno]
 # Journey
 0x2AC:[journey] 我在 The Baths 見到了 Martine。她非常友善，並樂於助人。 [npc=Martine]
+# 0x2AD: Roberto 對我說：「Roberto 愣了一下，又看了一眼」 [npc=Roberto]
 # Quest
 0x2AE:[quest] 我與 House of Games 的守衛 Sintag 談話。他提到了一個酷刑室和一個名叫 Hook 的人。我應該調查 House of Games 後面的洞穴。 [npc=Sintag]
 # Journey
@@ -1544,7 +1542,7 @@
 # Journey
 0x32F:[journey] 我用寶石打破了鏡子，試圖釋放惡魔 Arcadion，但結果他卻被囚禁在寶石中。
 # Quest
-0x330:[quest] 我將惡魔 Arcadion 綁在黑巖劍上。 [npc=Hook]
+0x330:[quest] 我將惡魔 Arcadion 綁在黑巖劍上。 [npc=Hook] [done]
 # Journey
 0x331:[journey] 我根本不幫魔鬼！一個名叫Arcadion的惡魔正在為一位名叫Erethian的法師效力。Arcadion憎恨Erethian，想要從他那裡獲得自由。他提出幫助我，作為交換，希望我能幫助他獲得自由。 [npc=Erethian]
 # Journey
@@ -1583,3 +1581,4 @@
 0x343:[quest] Arcadion 和陰影之刃已提供其力量。我必須決定如何使用它們。 [npc=Hook]
 # Quest
 0x344:[quest] 我已與 Arcadion 和 Dark Core 結下契約。他們現在是我的僕從，將協助我完成任務。 [npc=Hook]
+0x346:[quest] Lord British 給了我一本『古文譯本』，它能幫助我解讀那些古老的文字。 [npc=Lord British]

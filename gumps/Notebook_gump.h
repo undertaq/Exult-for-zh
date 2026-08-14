@@ -60,8 +60,9 @@ inline NoteCategory string_to_note_category(const std::string& str) {
  *  A quest's location for the world-map overlay.
  */
 struct Quest_marker {
-	int tx, ty;        // Destination tile.
-	int note_index;    // Index into Notebook_gump's notes list.
+	int         tx, ty;    // Destination tile.
+	int         note_index;    // Index into Notebook_gump's notes list.
+	std::string text;    // Note text, for the map tooltip.
 	Quest_marker() : tx(0), ty(0), note_index(-1) {}
 };
 
@@ -99,8 +100,8 @@ class Notebook_gump : public Gump {
 	int                              updnx = 0;      // X-coord. for up/down arrows.
 	// Page turners:
 	Gump_button *leftpage, *rightpage;
-	// Bottom-strip UI: 6 category tabs, search box, hide-completed toggle.
-	Gump_button* tab_buttons[6] = {};
+	// Bottom-strip UI: 3 category tabs, search box, hide-completed toggle.
+	Gump_button* tab_buttons[3] = {};
 	Gump_button* search_button  = nullptr;
 	Gump_button* toggle_button  = nullptr;
 	Gump_button* null_button    = nullptr;    // Swallows clicks on the checkbox.
@@ -150,6 +151,9 @@ class Notebook_gump : public Gump {
 	static One_note* nb_note(int i) {
 		return notes[visible[i]];
 	}
+	// Precompute page_info for every visible note using measure-only text
+	// layout (no painting), so jumps and map clicks land instantly.
+	static void build_page_info();
 
 public:
 	static int get_unread_count();
@@ -181,9 +185,15 @@ public:
 	}
 
 	static std::vector<Quest_marker> get_quest_markers();    // Active quests, newest first.
+	// Open the notebook (creating it if needed) on the page where the
+	// given notes[] entry starts.
+	static void open_at_note(int notes_index);
 	static void invalidate_auto_text() {
 		initialized_auto_text = false;
 	}
+	// Re-read the auto-note texts in the current language and refresh
+	// existing auto-notes (gflag >= 0) so saved notes follow the switch.
+	static void refresh_auto_text_notes();
 
 	bool is_draggable() const override {
 		return false;
