@@ -456,6 +456,7 @@ void AudioMixer::MixAudio(sint16* stream, uint32 bytes) {
 }
 
 void AudioMixer::openMidiOutput() {
+	fprintf(stderr, "[AUDIODBG] openMidiOutput\n");
 	if (midi) {
 		return;
 	}
