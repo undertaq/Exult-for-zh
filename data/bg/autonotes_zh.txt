@@ -52,7 +52,7 @@
 # Journey
 0x17:[journey] 我見到了Dupre，他自我們上次見面後已被封為爵士，現在稱為Sir Dupre。 [npc=Dupre]
 # Journey
-0x18:[journey] 我在Cove見到了我的前同伴Jaana，她現在是Cove的治療師，渴望加入冒險者小隊。 [npc=Jaana]
+0x18:[journey] 我在 Cove 遇到了我的老夥伴 Jaana，與上次見面相比，她似乎只老了一點點。 [npc=Jaana]
 # Journey
 0x19:[journey] 我見到了一個名叫Trellek的人，他是一名採集食物的人，並問了我的名字。 [npc=Trellek]
 # Journey
@@ -93,7 +93,7 @@
 # Quest
 0x40:[quest] 有一艘名為“王冠明珠”的船，謀殺案發生時它就停泊在Trinsic。 [npc=Gilberto]
 # Quest
-0x41:[quest] 克洛格（Klog）告訴我，聖者應當與同伴一同行動。 [npc=Klog]
+0x41:[journey] Klog 告訴我，Fellowship 的成員 Elizabeth 和 Abraham 已經前往 Britain 的總部。 [npc=Klog]
 # Quest
 0x42:[quest] 由於Trinsic的謀殺案，所有城門都上鎖了。我需要口令才能離開。 [npc=Finnigan]
 # Quest
@@ -173,9 +173,9 @@
 # Journey
 0x68:[journey] 我從 Gaye 那裡買了一套服裝，不過我得稍後再回來取。我應該今晚九點去參加友誼會的會議。 [npc=Gaye]
 # Quest
-0x69:[quest] Miranda 要我將一份法案送到 Cove 的 Lord Heather 那裡以獲得批准。我應該去 Cove 完成這個任務。 [npc=Miranda]
+0x69:[journey] Miranda 向我提到了 Max，皇家劇院院長 Raymundo 的兒子。她相信 Max 將來會成為出色的表演者。 [npc=Miranda]
 # Quest
-0x6A:[quest] 我將法案送達了 Cove 的 Lord Heather，他簽署了它。Miranda 確認法案已經透過並感謝我。 [npc=Miranda]
+0x6A:[quest] Miranda 請我將一份法案送到 Cove 請 Lord Heather 批准。我應該前往 Cove 完成這項任務。 [npc=Miranda]
 # Journey
 0x6B:[journey] Shamino 表示願意加入我進行調查。他提到大森林裡的 Nicodemus，他已經瘋了。 [npc=Shamino]
 # Journey
@@ -231,7 +231,7 @@
 # Journey
 0x85:[journey] Jeanette 對 Willy the Baker 有好感。她在藍豬酒館工作，愛上了 Willy，但 Willy 還不知道她的感情。 [npc=Jeanette]
 # Journey
-0x86:[journey] Clint 提供我一個六分儀，但我沒有足夠的黃金購買它。我應該在資金充足時再回來。 [npc=Clint]
+0x86:[journey] Clint 告訴我，Crown Jewel 號已經很久沒有到過 Britain 了。 [npc=Clint]
 # Quest
 0x87:[quest] Batlin 解釋了內在力量三元組，並提到 Elizabeth 和 Abraham 已經前往 Minoc。我應該跟著他們去那裡。 [npc=Batlin]
 # Quest
@@ -273,7 +273,7 @@
 # Journey
 0x9A:[journey] Lord British 的弄臣 Chuckles 想與我玩一個愚蠢的遊戲。若想與他交談，我必須學會這場遊戲。 [npc=Chuckles]
 # Quest
-0x9B:[quest] Batlin 已經給了我友誼會的徽章，但我必須減輕負擔並學習《友誼會書》才能正式加入。 [npc=Batlin]
+0x9B:[journey] 我見到了 Fellowship 的創始人 Batlin——一位圓胖、謙遜而莊重的老者。 [npc=Batlin]
 # Journey
 0x9C:[journey] 我見到了Britain的皇家劇院導演兼駐院劇作家Raymundo。 [npc=Raymundo]
 # Journey
@@ -417,7 +417,7 @@
 # Quest
 0xE2:[quest] Nastassia 要求我查明她父親死因的真相。我應該前往 Yew。 [npc=Nastassia]
 # Journey
-0xE3:[journey] Lord Heather 給了我一項法案要帶到大議會。他也提到了 Nastassia 的悲傷。 [npc=Lord Heather]
+0xE3:[journey] Lord Heather 談到了 Nastassia，一位總是憂鬱的可愛年輕女子。他希望我能幫助她。 [npc=Lord Heather]
 # Journey
 0xE4:[journey] Lord Heather 談到了慈悲聖所，以及 Cove 中眾多的情侶。 [npc=Spark]
 # Journey
@@ -455,7 +455,7 @@
 # Journey
 0xF5:[journey] Jakher 提到 Karenna 非常有魅力。我應當記住這一點，以備將來的互動。
 # Journey
-0xF6:[journey] Karenna 談到了最近的兇殺案以及 Minoc 日益升高的緊張局勢。我應該進一步調查。 [npc=Karenna]
+0xF6:[journey] Karenna 說 Jakher 很可愛。 [npc=Karenna]
 # Quest
 0xF7:[quest] 市長已取消了對 Owen 的雕像，並讓我去通知他。我應該去見 Owen。 [npc=Burnside]
 # Journey
@@ -497,7 +497,7 @@
 # Quest
 0x10A:[quest] William 說起鋸木廠的謀殺案，並對鎮上的人感到恐懼。他是 友誼會 的成員。 [npc=William]
 # Quest
-0x10B:[quest] Karl 表達了對 Owen 的仇恨，並計畫阻止更多船隻建造。他將設計圖交給我，並告訴我在他的小屋。 [npc=Julia]
+0x10B:[quest] Karl 表達了對 Owen 的仇恨，以及阻止更多船隻建造的計畫。他把他小屋的設計圖交給我保管。 [npc=Karl]
 # Journey
 0x10C:[journey] 我見到了 Minoc 的 友誼會 頭銜顧問 Elynor。她談到了 友誼會 的宗旨，並邀請我加入。 [npc=Elynor]
 # Journey
@@ -593,7 +593,7 @@
 # Journey
 0x13A:[journey] Reyna 說起她已故的母親，以及她為母親的墳墓帶來的花朵。我應該想辦法幫助她為母親的墳墓帶來更多的花朵。 [npc=Reyna]
 # Journey
-0x13B:[journey] Perrin，一位住在 Empath Abbey 的學者，提到了玫瑰兄弟會及其釀造的葡萄酒。我應該去訪問修道院，並試試他們的葡萄酒。 [npc=Perrin]
+0x13B:[journey] Perrin 告訴我，一位名叫 Reyna 的治療師很喜歡動物；他曾看到她和鹿與松鼠玩耍。 [npc=Perrin]
 # Journey
 0x13C:[journey] 我遇見了 Trellek，一位以採集食物為生的 Emp。他看起來友善且樂於交談。 [npc=Trellek]
 # Quest
@@ -697,7 +697,7 @@
 # Journey
 0x16E:[journey] 我得知了 Jhelom 的 The Bunk and Stool 酒吧老闆 Sprellic，他被圖書館 of Scars 的學生挑戰決鬥。酒保 Ophelia 在他缺席期間經營酒吧。 [npc=Ophelia]
 # Journey
-0x16F:[journey] 我與 Ophelia 賭注 Sprellic 的決鬥。她給我金幣標記，若他勝出，她會支付雙倍賭金。 [npc=Ophelia]
+0x16F:[journey] Ophelia 將我賭 Sprellic 決鬥贏得的彩金付給了我。 [npc=Ophelia]
 # Quest
 0x170:[quest] Sprellic 要求我擔任他的戰士，對抗 Jhelom 最強的三位戰士：Timmons、Vokes 和 Syria。我已接受請求，必須找到辦法擊敗他們。 [npc=Sprellic]
 # Journey
@@ -719,7 +719,7 @@
 # Quest
 0x179:[quest] Timmons，一位嚴肅的年輕人，請求我將榮譽旗歸還給 Syria，並向我發出決鬥挑戰，約定在中午於決鬥場見。 [npc=Timmons]
 # Journey
-0x17A:[journey] Daphne 提供我下注的籌碼。若我勝出，之後可向她領取黃金作為獎勵。 [npc=Daphne]
+0x17A:[journey] Daphne 將我的彩金付給了我，不過她懷疑是我害死了 Sprellic。 [npc=Daphne]
 # Quest
 0x17B:[quest] Kliftin 提議製作一麵榮譽旗的複製品，以阻止 Sprellic 與圖書館的決鬥。我必須在他店裡取旗，以免 Sprellic 到達決鬥區。 [npc=Kliftin]
 # Quest
@@ -741,7 +741,7 @@
 # Quest
 0x184:[quest] Robin透露了他的計劃，要將Constance帶回Buccaneer's Den並賣掉她。我必須在她被綁架之前阻止他。 [npc=Robin]
 # Quest
-0x185:[quest] Battles 和 Leavell 要離開 New Magincia 去 Buccaneer's Den。我應該找到辦法幫助他們逃離。 [npc=Battles]
+0x185:[quest] Battles 說他曾見過一個和我描述一模一樣的項墜，就在 Robin 手上。 [npc=Battles]
 # Quest
 0x186:[quest] Sprellic 在 Jhelom 被三位強大的戰士挑戰決鬥。我應該找到一位戰士為他出戰。 [npc=Sprellic]
 # Journey
@@ -853,9 +853,9 @@
 # Quest
 0x1BC:[quest] Caine透露有一個邪惡的靈魂，即Liche，佔據了Horance的身體，並從鎮上居民身上吸取生命。我必須與Mistress Mordra交談，以學習如何解救他們。 [npc=Caine]
 # Journey
-0x1BD:[journey] 我見到了Keg O' Spirits的殭屍酒保Markham，他談到了那場曾摧毀他的酒館和鎮子的火災。 [npc=Forsythe]
+0x1BD:[journey] Skara Brae 的市長 Forsythe 一切安好。 [npc=Forsythe]
 # Journey
-0x1BE:[journey] 我見到了Paulette，這位幽靈女侍應生，她情緒低落且疏離，還與Rowena和Forsythe交談過。 [npc=Paulette]
+0x1BE:[journey] Rowena 說她一切安好，並感謝 Paulette 的關心。 [npc=Rowena]
 # Quest
 0x1BF:[quest] Caine透露了能摧毀Liche的藥水配方，但我必須從Mordra那裡取得正確的材料，並正確製備藥水。 [npc=Caine]
 # Quest
@@ -973,7 +973,7 @@
 # Quest
 0x1F8:[quest] 我見到了 Penumbra，一位沉睡了 200 年的法師。她正在痛苦中，需要幫助恢復她的魔法力量。 [npc=Penumbra]
 # Journey
-0x1F9:[journey] 我見到了 Moonglow 觀測站的負責人 Brion。他談到了他的兄弟 Nelson 和 Lycaeum。 [npc=Brion]
+0x1F9:[journey] 我在 Moonglow 遇到了雙胞胎學者之一，一位面容友善的學者。 [npc=Nelson]
 # Journey
 0x1FA:[journey] 我見到了 Lycaeum 的顧問 Zelda。她談到了自己的職責和圖書館的宗旨。 [npc=Zelda]
 # Journey
@@ -1133,7 +1133,7 @@
 # Journey
 0x248:[journey] 我見到了 Teregus，他守護控制、激情與勤勉的祭壇。他談到了祭壇與友誼會之間的緊張關係。 [npc=Teregus]
 # Quest
-0x249:[quest] 我見到了 Runeb，友誼會的秘書，他很匆忙，似乎在追捕 Sarpling。我應該殺掉 Sarpling。 [npc=Runeb]
+0x249:[quest] 我見到了 Fellowship 的書記 Runeb，他行色匆匆，似乎正在追捕 Sarpling。我必須查明事情的真相。 [npc=Runeb]
 # Journey
 0x24A:[journey] 我見到了 Quan，Terfin 友誼會 的領導者。他談到了引導的 內在之聲，以及 Britannia 石像鬼的減少。 [npc=Quan]
 # Journey
@@ -1141,13 +1141,13 @@
 # Journey
 0x24C:[journey] 我見到了 Silamo，園丁，他因沒有翅膀而感到不公平對待。他致力於單一性的祭壇。 [npc=Silamo]
 # Quest
-0x24D:[quest] Sarpling透露Runeb企圖陷害Quan並刺殺他。我必須採取行動阻止此事，保護友誼會。 [npc=Sarpling]
+0x24D:[journey] 我在 Terfin 見到了十分沮喪的翼人 Sarpling。 [npc=Sarpling]
 # Journey
 0x24E:[journey] Forbrak，酒館老闆歡迎我，並提供有關休息廳的資訊。 [npc=Forbrak]
 # Journey
 0x24F:[journey] Betra，補給商歡迎我，並指引我向Teregus或Forbrak尋求城鎮資訊。 [npc=Betra]
 # Quest
-0x250:[quest] Sarpling再次揭露Runeb企圖陷害Quan並刺殺他。我必須採取行動阻止此事，保護友誼會。 [npc=Sarpling]
+0x250:[journey] Sarpling 告訴了我他的名字；他在 Terfin 提供各種魔法與物品。 [npc=Sarpling]
 # Journey
 0x251:[journey] Betra談論Terfin獨特的文化，以及城鎮中人類與石像鬼之間的緊張關係。 [npc=Betra]
 # Journey
@@ -1199,7 +1199,7 @@
 # Journey
 0x269:[journey] Serpent's Hold 的鐵匠 Menion 提供訓練，並願意為我打造一把劍。 [npc=Menion]
 # Journey
-0x26A:[journey] 我遇見了 Serpent's Hold 的騎士 Sir Pendaran，他承認因對政府不滿而破壞了一座雕像。 [npc=Pendaran]
+0x26A:[journey] 我遇到了 Serpent's Hold 的騎士 Sir Pendaran，他以嚴厲的神情向我致意。 [npc=Pendaran]
 # Journey
 0x26B:[journey] 我見到了 Serpent's Hold 的供應商 Lady Jehanne，她提供一艘名為 `The Dragon's Breath' 的船給我購買。 [npc=Jehanne]
 # Journey
@@ -1311,7 +1311,7 @@
 # Journey
 0x2A1:[journey] 我與 Roberto 交談並得知他的名字。他似乎友善且樂於交談。 [npc=Roberto]
 # Journey
-0x2A2:[journey] 我在 The Baths 見到了 Roberto。他非常友善，並提供許多服務。 [npc=Roberto]
+0x2A2:[journey] 我告訴 Roberto 我就是 Avatar。他大吃一驚，說他以為自己什麼都聽過了。 [npc=Roberto]
 # Quest
 0x2A3:[quest] 我告訴了 Blacktooth 我的名字。 [npc=Blacktooth]
 # Quest
@@ -1378,7 +1378,7 @@
 # Quest
 0x2C3:[quest] 我見到了 Anton，一位曾受過智者 Alagner 訓練、被指派調查友誼會的囚犯。 [npc=Anton]
 # Quest
-0x2C4:[quest] 我見到了 Eiko 和她的半姊 Amanda，她們為報復殺害她們父親 Kalideth 的 Cyclops Iskander Ironheart 而尋仇。 [npc=Eiko]
+0x2C4:[journey] 我遇到了 Eiko，一位全副武裝、令人驚豔的女子。 [npc=Eiko]
 # Journey
 0x2C5:[journey] 我遇見了 Amanda 和她的半姊 Eiko，她們是 Minoc 的 Karenna 訓練的戰士，現正尋求內心的平靜。 [npc=Amanda]
 # Journey
@@ -1428,7 +1428,7 @@
 # Journey
 0x2DC:[journey] 我得知 Kalideth 已經瘋了。
 # Quest
-0x2DD:[quest] Eiko 和 Amanda 放棄了對 Kalideth 的復仇，因為他們發現他並非真正的兇手。我應該去尋找 Iskander Ironheart。 [npc=Amanda]
+0x2DD:[quest] Eiko 已放棄復仇之路，因為殺害她父親的真正力量已經查明。 [npc=Eiko]
 # Quest
 0x2DE:[quest] Amanda 和 Eiko 為父親的死尋仇。我必須查明 Kalideth 的遭遇，以及為什麼 Britannia 的魔法會失靈。 [npc=Amanda]
 # Journey

@@ -51,7 +51,7 @@
 # Journey
 0x17:[journey] I met Dupre, who was knighted since our last meeting and is now known as Sir Dupre. [npc=Dupre]
 # Journey
-0x18:[journey] In Cove I met my former companion Jaana, who is now the Cove Healer and is eager to join a party of adventurers. [npc=Jaana]
+0x18:[journey] I met my former companion Jaana in Cove; she looks only slightly aged since my last visit. [npc=Jaana]
 # Journey
 0x19:[journey] I met a man called Trellek, who is a gatherer of food and asked for my name. [npc=Trellek]
 # Journey
@@ -113,7 +113,7 @@
 # Quest
 0x40:[quest] There is a ship named Crown Jewel which was anchored in Trinsic when the murder happened.
 # Quest
-0x41:[quest] Klog told me the Avatar should travel with companions. [npc=Klog]
+0x41:[journey] Klog told me that the Fellowship members Elizabeth and Abraham have gone to Headquarters in Britain. [npc=Klog]
 # Quest
 0x42:[quest] Because of the murder in Trinsic, all gates are locked. I need a password to get out.
 # Quest
@@ -202,9 +202,9 @@
 # Journey
 0x68:[journey] I purchased a costume from Gaye, though I must return later to collect it. I should visit the Fellowship meeting tonight at nine o'clock. [npc=Gaye]
 # Quest
-0x69:[quest] Miranda asked me to deliver a bill to Lord Heather in Cove for approval. I should go to Cove to complete this task. [npc=Miranda]
+0x69:[journey] Miranda told me about Max, the son of Raymundo, the director of the Royal Theatre. She believes Max will be a fine performer. [npc=Miranda]
 # Quest
-0x6A:[quest] I delivered the bill to Lord Heather in Cove, and he signed it. Miranda confirmed it was in order and thanked me. [npc=Miranda]
+0x6A:[quest] Miranda asked me to deliver a bill to Lord Heather in Cove for approval. I should go to Cove to complete this task. [npc=Miranda]
 # Journey
 # REVIEW: sentence 2 mentions nicodemus, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x6B:[journey] Shamino expressed interest in joining me on my investigation. He mentioned Nicodemus in the great forest, who has gone mad. [npc=Shamino]
@@ -264,7 +264,7 @@
 # Journey
 0x85:[journey] Jeanette has a crush on Willy the Baker. She works at the Blue Boar tavern and is in love with Willy, though he is unaware of her feelings. [npc=Jeanette]
 # Journey
-0x86:[journey] Clint offered me a sextant, but I lacked the gold to purchase it. I should return when I have more funds. [npc=Clint]
+0x86:[journey] Clint told me that the Crown Jewel has not been to Britain for a long time. [npc=Clint]
 # Quest
 0x87:[quest] Batlin explained the Triad of Inner Strength and mentioned that Elizabeth and Abraham have gone to Minoc. I should follow them there. [npc=Batlin]
 # Quest
@@ -308,7 +308,7 @@
 # Journey
 0x9A:[journey] Chuckles, Lord British's court jester, wants to play a silly game with me.
 # Quest
-0x9B:[quest] Batlin has given me the Fellowship medallion, but I must lighten my load and study the Book of Fellowship before I can be fully inducted. [npc=Batlin]
+0x9B:[journey] I met Batlin, the Founder of the Fellowship: a rotund older gentleman, at once humble yet dignified. [npc=Batlin]
 # Journey
 0x9C:[journey] I met Raymundo, the Director of the Royal Theatre and Playwright-in-Residence in Britain. [npc=Raymundo]
 # Journey
@@ -459,8 +459,7 @@
 # Quest
 0xE2:[quest] Nastassia has asked me to find the truth about her father's death. I should go to Yew. [npc=Nastassia]
 # Journey
-# REVIEW: sentence 2 mentions nastassia, not covered by the first sentence or this flag's dialogue (possible quest merge)
-0xE3:[journey] Lord Heather has given me a bill of law to take to the Great Council. He also spoke of Nastassia's sorrow. [npc=Lord Heather]
+0xE3:[journey] Lord Heather spoke of Nastassia, a lovely young woman who is always melancholy. He hopes I can help her. [npc=Lord Heather]
 # Journey
 0xE4:[journey] Lord Heather spoke of the Shrine of Compassion and the many lovers in Cove. [npc=Spark]
 # Journey
@@ -500,7 +499,7 @@
 # Journey
 0xF5:[journey] Jakher mentioned that Karenna is attractive. I should keep this in mind for future interactions.
 # Journey
-0xF6:[journey] Karenna spoke of the recent murders and the growing tension in Minoc. I should investigate further. [npc=Karenna]
+0xF6:[journey] Karenna said that Jakher is cute. [npc=Karenna]
 # Quest
 0xF7:[quest] The Mayor has cancelled the statue to Owen and asked me to inform him. I should go to Owen. [npc=Burnside]
 # Journey
@@ -545,7 +544,7 @@
 # Quest
 0x10A:[quest] William spoke of the murders in the sawmill and his fear of the town's people. He is a member of The Fellowship. [npc=William]
 # Quest
-0x10B:[quest] Karl revealed his hatred for Owen and his plan to prevent more ships from being built. He gave me the plans to his cabin. [npc=Julia]
+0x10B:[quest] Karl revealed his hatred for Owen and his plan to prevent more ships from being built. He gave me the plans to his cabin. [npc=Karl]
 # Journey
 0x10C:[journey] I met Elynor, the head counselor of The Fellowship in Minoc. She spoke of the Fellowship's purpose and invited me to join. [npc=Elynor]
 # Journey
@@ -644,7 +643,7 @@
 # Journey
 0x13A:[journey] Reyna spoke of her late mother and the flowers she brings to her grave. I should find a way to help her bring more flowers. [npc=Reyna]
 # Journey
-0x13B:[journey] Perrin, a scholar in Empath Abbey, mentioned the Brotherhood of the Rose and their wine. I should visit the abbey and perhaps sample their wine. [npc=Perrin]
+0x13B:[journey] Perrin told me that a healer named Reyna loves animals; he has seen her playing with the deer and squirrels. [npc=Perrin]
 # Journey
 0x13C:[journey] I met Trellek, an Emp who gathers food. He seems friendly and open to conversation. [npc=Trellek]
 # Quest
@@ -751,7 +750,7 @@
 # Journey
 0x16E:[journey] I learned of Sprellic, the owner of The Bunk and Stool in Jhelom, who has been challenged to duels by students of the Library of Scars. Ophelia, the barmaid, has been running the bar in his absence. [npc=Ophelia]
 # Journey
-0x16F:[journey] I placed bets with Ophelia on Sprellic's duel. She gave me markers for gold, promising to pay me double if he wins. [npc=Ophelia]
+0x16F:[journey] Ophelia paid me my winnings from my bet on Sprellic's duel. [npc=Ophelia]
 # Quest
 0x170:[quest] Sprellic has asked me to be his champion against the three fiercest fighters in Jhelom: Timmons, Vokes, and Syria. I have accepted his request and must find a way to defeat them. [npc=Sprellic]
 # Journey
@@ -773,7 +772,7 @@
 # Quest
 0x179:[quest] Timmons, a serious young man, asked me to return the honor flag to Syria and challenged me to a duel at the dueling area at noon. [npc=Timmons]
 # Journey
-0x17A:[journey] Daphne offered me betting markers for the duel. If I win, I may collect gold from her later. [npc=Daphne]
+0x17A:[journey] Daphne paid me my winnings, though she suspects I killed Sprellic. [npc=Daphne]
 # Quest
 0x17B:[quest] Kliftin offers to make a duplicate of the honor flag to stop the duel between Sprellic and the Library of Scars. I should return to his shop before Sprellic reaches the Duelling Area. [npc=Kliftin]
 # New Magincia
@@ -797,7 +796,7 @@
 # Quest
 0x184:[quest] Robin revealed his plan to take Constance back to Buccaneer's Den and sell her. I must stop him before he captures her. [npc=Robin]
 # Quest
-0x185:[quest] Battles and Leavell seek to leave New Magincia for Buccaneer's Den. I should find a way to help them escape. [npc=Battles]
+0x185:[quest] Battles said he saw a locket like the one I described in Robin's possession. [npc=Battles]
 # Quest
 0x186:[quest] Sprellic has been challenged to a duel by three fierce fighters in Jhelom. I should find a champion to stand in his place. [npc=Sprellic]
 # Journey
@@ -912,9 +911,9 @@
 # Quest
 0x1BC:[quest] Caine has revealed that an evil spirit, the Liche, possesses Horance's body and drains the life from the townspeople. I must speak with Mistress Mordra to learn how to free them. [npc=Caine]
 # Journey
-0x1BD:[journey] I met Markham, the undead barkeep of the Keg O' Spirits, who speaks of the fire that once destroyed his tavern and the town. [npc=Forsythe]
+0x1BD:[journey] Forsythe, the mayor of Skara Brae, is fine and in good spirits. [npc=Forsythe]
 # Journey
-0x1BE:[journey] I met Paulette, the ghostly barmaid, who is troubled and distant, and also spoke with Rowena and Forsythe. [npc=Paulette]
+0x1BE:[journey] Rowena says she is fine and thanks Paulette for her concern. [npc=Rowena]
 # Quest
 0x1BF:[quest] Caine revealed the formula for the potion that could destroy the Liche, but I must obtain the correct ingredients from Mordra and prepare the potion properly. [npc=Caine]
 # Quest
@@ -1037,8 +1036,7 @@
 # Quest
 0x1F8:[quest] I have met Penumbra, a mage who has been asleep for 200 years. She is in pain and needs help to restore her magical powers. [npc=Penumbra]
 # Journey
-# REVIEW: sentence 2 mentions nelson, not covered by the first sentence or this flag's dialogue (possible quest merge)
-0x1F9:[journey] I have met Brion, the head of the observatory in Moonglow. He speaks of his brother Nelson and the Lycaeum. [npc=Brion]
+0x1F9:[journey] I met one of the twin scholars of Moonglow, a scholarly-looking man with a friendly expression. [npc=Nelson]
 # Journey
 0x1FA:[journey] I have met Zelda, the advisor at the Lycaeum. She speaks of her duties and the library's purpose. [npc=Zelda]
 # Journey
@@ -1212,7 +1210,7 @@
 # Journey
 0x248:[journey] I met Teregus, the guardian of the altars of Control, Passion, and Diligence. He spoke of tensions between the altars and The Fellowship. [npc=Teregus]
 # Quest
-0x249:[quest] I met Runeb, the Fellowship clerk, who is in a hurry and seems to be after Sarpling. I should kill Sarpling. [npc=Runeb]
+0x249:[quest] I met Runeb, the Fellowship clerk, who is in a hurry and seems to be after Sarpling. I must find out what is going on. [npc=Runeb]
 # Journey
 0x24A:[journey] I met Quan, the leader of The Fellowship in Terfin. He spoke of the inner voice of guidance and the decline of gargoyles in Britannia. [npc=Quan]
 # Journey
@@ -1220,13 +1218,13 @@
 # Journey
 0x24C:[journey] I met Silamo, the gardener, who feels treated unfairly due to his lack of wings. He is devoted to the altar of singularity. [npc=Silamo]
 # Quest
-0x24D:[quest] Sarpling revealed a plot by Runeb to frame Quan and assassinate him. I must act to prevent this and protect the Fellowship. [npc=Sarpling]
+0x24D:[journey] I met Sarpling, a very distraught gargoyle in Terfin. [npc=Sarpling]
 # Journey
 0x24E:[journey] Forbrak, the tavernkeeper, welcomed me and offered information about the Hall of Refreshment. [npc=Forbrak]
 # Journey
 0x24F:[journey] Betra, the provision seller, welcomed me and directed me to Teregus or Forbrak for town information. [npc=Betra]
 # Quest
-0x250:[quest] Sarpling again revealed Runeb's plot to frame Quan and assassinate him. I must act to prevent this and protect the Fellowship. [npc=Sarpling]
+0x250:[journey] Sarpling told me his name; he provides various magics and items in Terfin. [npc=Sarpling]
 # Journey
 0x251:[journey] Betra spoke of Terfin's unique culture and the tensions between humans and gargoyles in the town. [npc=Betra]
 # Journey
@@ -1284,7 +1282,7 @@
 # Journey
 0x269:[journey] Menion is a blacksmith I met in Serpent's Hold.
 # Journey
-0x26A:[journey] I met Sir Pendaran, a knight in Serpent's Hold who confessed to defacing a statue out of frustration with the government. [npc=Pendaran]
+0x26A:[journey] I met Sir Pendaran, a knight of Serpent's Hold, who greets me with a stern look. [npc=Pendaran]
 # Journey
 0x26B:[journey] I met Lady Jehanne, the provisioner of Serpent's Hold, who offers to sell me a ship called `The Dragon's Breath.'. [npc=Jehanne]
 # Journey
@@ -1398,7 +1396,7 @@
 # Journey
 0x2A1:[journey] I spoke with Roberto and learned his name. He seems friendly and open to conversation. [npc=Roberto]
 # Journey
-0x2A2:[journey] I met Roberto at The Baths. He is very friendly and offers many services. [npc=Roberto]
+0x2A2:[journey] I told Roberto that I am the Avatar. He did a double-take, saying he thought he had heard it all. [npc=Roberto]
 # Quest
 0x2A3:[quest] I told Blacktooth my name. [npc=Blacktooth]
 # Quest
@@ -1467,7 +1465,7 @@
 # Quest
 0x2C3:[quest] I have met Anton, a man in prison who was once apprenticed to the sage Alagner and tasked with finding information about the Fellowship. [npc=Anton]
 # Quest
-0x2C4:[quest] I have met Eiko and her half-sister Amanda, who seek vengeance for their father Kalideth, a mage murdered by a cyclops named Iskander Ironheart. [npc=Eiko]
+0x2C4:[journey] I met Eiko, a stunningly attractive woman armed to the teeth. [npc=Eiko]
 # Journey
 0x2C5:[journey] I met Amanda and her half-sister Eiko, who are warriors trained by Karenna of Minoc and seek inner peace. [npc=Amanda]
 # Journey
@@ -1517,8 +1515,7 @@
 # Journey
 0x2DC:[journey] I have learned that Kalideth has gone mad.
 # Quest
-# REVIEW: sentence 2 mentions iskander, not covered by the first sentence or this flag's dialogue (possible quest merge)
-0x2DD:[quest] Eiko and Amanda have abandoned their quest for vengeance against Kalideth, realizing he was not the true killer. I should go to Iskander Ironheart. [npc=Amanda]
+0x2DD:[quest] Eiko has renounced her quest for vengeance, now that the true force behind her father's death is known. [npc=Eiko]
 # Quest
 0x2DE:[quest] Amanda and Eiko seek vengeance for their father's death. I must learn what happened to Kalideth and why the magic in Britannia is failing. [npc=Amanda]
 # Journey
