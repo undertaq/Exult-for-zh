@@ -181,9 +181,9 @@
 # Journey
 0x6C:[journey] Shamino 同意與我一同踏上旅程。他對一位他認識的女演員一見鍾情，對安定下來感到猶豫。 [npc=Shamino]
 # Journey
-0x6D:[journey] 我遇見了皇家劇院的演員 Amber，她正在演出一齣她認為荒謬的戲，內容是關於一隻會說話的鼠婦 Sherry。 [npc=Amber]
+0x6D:[journey] 我向 Amber 打聽她的情人 Shamino。她不讓他去冒險，希望他安定下來。 [npc=Amber]
 # Journey
-0x6E:[journey] 我再次與 Amber 談話，她表達了對這齣戲的不滿，並希望能夠演出更適合自己的角色，例如一位女王。 [npc=Amber]
+0x6E:[journey] Amber 表示 Shamino 該安定下來了，並要我轉告他。 [npc=Amber]
 # Journey
 0x6F:[journey] 我從 Chuckles 那裡得到了一卷羊皮紙。
 # Journey
@@ -413,7 +413,7 @@
 # Journey
 0xE0:[journey] De Maria 告訴了我一個故事。這必定是個極其重要的故事。
 # Quest
-0xE1:[quest] Nastassia 要求我查明她父親死因的真相。我應該前往 Yew。 [npc=Nastassia]
+0xE1:[quest] 我向 Nastassia 打聽她的父親 Julius。她渴望得到任何關於他的訊息。 [npc=Nastassia]
 # Quest
 0xE2:[quest] Nastassia 要求我查明她父親死因的真相。我應該前往 Yew。 [npc=Nastassia]
 # Journey
@@ -951,15 +951,15 @@
 # Journey
 0x1ED:[journey] 我在城裡遇見了 Addom，一位旅行者。他提到了這裡的其他人，包括一名治療師和一名酒保。 [npc=Addom]
 # Quest
-0x1EE:[quest] Brion 給了我一個黃道儀觀測器，但它還不完整。我必須去酒館為他尋找另一塊晶體。 [npc=Brion]
+0x1EE:[quest] 我婉拒了 Brion 的黃道儀觀測器。 [npc=Brion]
 # Quest
 0x1EF:[quest] Rankin 要我將一瓶烈酒送到 Terfin 島上的 Balayna 那裡。 [npc=Rankin]
 # Quest
-0x1F0:[quest] Brion 給了我一個黃道儀觀測器，但它還不完整。我必須去酒館為他尋找另一塊晶體。 [npc=Brion]
+0x1F0:[quest] Brion 為黃道儀觀測器裝上了缺少的水晶，並把它交給了我。 [npc=Brion]
 # Journey
-0x1F1:[journey] 我在 Moonglow 見到了 Chad，他教授輕型武器技巧，並認識當地的酒保 Phearcy。 [npc=Chad]
+0x1F1:[journey] 我告訴了 Chad 我的名字。 [npc=Chad]
 # Journey
-0x1F2:[journey] 我在 Moonglow 見到了 Chad，他教授輕型武器技巧，並認識當地的酒保 Phearcy。 [npc=Chad]
+0x1F2:[journey] 我給了 Chad 一個不同的名字。 [npc=Chad]
 # Journey
 0x1F3:[journey] Chad認出我是聖者，並告訴我關於Moonglow的位置和居民。 [npc=Shamino]
 # Journey
@@ -980,8 +980,8 @@
 0x1FB:[journey] 我在 Moonglow 見到了我的老朋友 Mariah。她賣法術和藥劑，但選擇不多。 [npc=Mariah]
 # Journey
 0x1FC:[journey] 我見到了 Moonglow 的 友誼會 新任分支領袖 Rankin。他談到了某人已前往 Britain。 [npc=Rankin]
-# Quest
-0x1FD:[quest] Balayna，Moonglow 分會的秘書，因我給她的試劑而中毒。我必須進一步調查此事。 [npc=Balayna]
+# Journey
+0x1FD:[journey] 我見到了 Moonglow 的 友誼會 分會書記 Balayna。她的神情非常嚴肅。 [npc=Balayna]
 # Journey
 0x1FE:[journey] 我遇見了 Tolemac，一位 Moonglow 的友善農夫，他是友誼會的成員。他提到了 Balayna 和 Rankin。 [npc=Tolemac]
 # Journey
@@ -993,7 +993,7 @@
 # Journey
 0x202:[journey] 我遇見了 Effrem，一位 Moonglow 的普通居民，他正在照顧一個名叫 Mikhail 的嬰兒。 [npc=Effrem]
 # Journey
-0x203:[journey] 我遇見了 Chad，一位在 Moonglow 訓練輕型武器的戰士，他提到酒保 Phearcy 可能對鎮上居民瞭解更多資訊。 [npc=Shamino]
+0x203:[journey] 我見到了 Chad，一位在 Moonglow 訓練輕型武器的戰士，他提到酒保 Phearcy 可能對鎮民瞭解得更多。 [npc=Chad]
 # Journey
 0x204:[journey] 我得知 Elad 是 Moonglow 的治療師，他渴望冒險。
 # Journey
@@ -1081,7 +1081,7 @@
 # Journey
 0x22E:[journey] Merrick 談到了七年的乾旱，使他和其他人淪為貧民。 [npc=Merrick]
 # Journey
-0x22F:[journey] 我見到了 Paws 的商人 Morfin，他販賣各種商品，包括銀蛇的毒液。 [npc=Morfin]
+0x22F:[journey] 我告訴了 Morfin 我的名字。 [npc=Morfin]
 # Journey
 0x230:[journey] 我再次見到 Morfin，他提到銀蛇毒液在某些地區需求很高。 [npc=Morfin]
 # Quest
@@ -1313,9 +1313,9 @@
 # Journey
 0x2A2:[journey] 我在 The Baths 見到了 Roberto。他非常友善，並提供許多服務。 [npc=Roberto]
 # Quest
-0x2A3:[quest] Blacktooth 正在尋找一名盜竊他黃金的友誼會成員。我應該查明這名 聖者 是誰。 [npc=Blacktooth]
+0x2A3:[quest] 我告訴了 Blacktooth 我的名字。 [npc=Blacktooth]
 # Quest
-0x2A4:[quest] Blacktooth 正在尋找一名盜竊他黃金的友誼會成員。我應該查明這名 聖者 是誰。 [npc=Blacktooth]
+0x2A4:[quest] 我告訴 Blacktooth 我就是 Avatar。 [npc=Blacktooth]
 # Journey
 0x2A5:[journey] Blacktooth 提到他失去的朋友 Mole。他顯然很難過，並正在尋找他。 [npc=Blacktooth]
 # Quest
@@ -1420,7 +1420,7 @@
 # Journey
 0x2D8:[journey] 我目睹了 Malloy 和 Owings 戴頭盔時的滑稽掙扎。他們是正在礦場工作的礦工。 [npc=Malloy]
 # Journey
-0x2D9:[journey] 我見證了 Owings 和 Malloy 因一頂帽子而發生的爭吵，最後以混亂而幽默的方式結束。 [npc=Malloy]
+0x2D9:[journey] 我目睹了 Owings 和 Malloy 為一頂礦盔爭吵，最後頭盔卡在 Malloy 的腳上。 [npc=Malloy]
 # Journey
 0x2DA:[journey] 我見證了 Owings 和 Malloy 因一頂帽子而發生的爭吵，最後以混亂而幽默的方式結束。 [npc=Owings]
 # Quest
@@ -1524,7 +1524,7 @@
 # Journey
 0x326:[journey] 我已經復活了哥倫。
 # Journey
-0x327:[journey] 我已經造訪過愛之神殿。
+0x327:[journey] 我已透過了愛之試煉。
 # Journey
 0x328:[journey] 我已經得到了愛之護符。
 # Journey

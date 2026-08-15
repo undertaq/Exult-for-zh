@@ -211,9 +211,9 @@
 # Journey
 0x6C:[journey] Shamino agreed to accompany me on my quest. He is smitten with an actress he knows and is conflicted about settling down. [npc=Shamino]
 # Journey
-0x6D:[journey] I met Amber, an actress at the Royal Theatre, who is playing the role of Sherry the Mouse in a play she finds ridiculous. [npc=Amber]
+0x6D:[journey] I asked Amber about her beau Shamino. She will not let him go adventuring and wants him to settle down. [npc=Amber]
 # Journey
-0x6E:[journey] I spoke with Amber again, who expressed her frustration with the play and her desire to perform a more fitting role, such as a queen. [npc=Amber]
+0x6E:[journey] Amber declared that it is time for Shamino to settle down, and asked me to tell him so. [npc=Amber]
 # Journey
 0x6F:[journey] I received a scroll from Chuckles.
 # Journey
@@ -455,7 +455,7 @@
 # Journey
 0xE0:[journey] De Maria has told me a story. It must be of great importance.
 # Quest
-0xE1:[quest] Nastassia has asked me to find the truth about her father's death. I should go to Yew. [npc=Nastassia]
+0xE1:[quest] I asked Nastassia about her father Julius. She yearns for any news of him. [npc=Nastassia]
 # Quest
 0xE2:[quest] Nastassia has asked me to find the truth about her father's death. I should go to Yew. [npc=Nastassia]
 # Journey
@@ -1015,15 +1015,15 @@
 # Journey
 0x1ED:[journey] I have met Addom, a traveler in the city. He spoke of others here, including a healer and a bartender. [npc=Addom]
 # Quest
-0x1EE:[quest] Brion has given me an orrery viewer, but it is incomplete. I must find another crystal for him at the tavern. [npc=Brion]
+0x1EE:[quest] I declined Brion's offer of the orrery viewer. [npc=Brion]
 # Quest
 0x1EF:[quest] Rankin has asked me to deliver a vial of liqueur to Balayna on Terfin Island. [npc=Rankin]
 # Quest
-0x1F0:[quest] Brion has given me an orrery viewer, but it is incomplete. I must find another crystal for him at the tavern. [npc=Brion]
+0x1F0:[quest] Brion fitted the missing crystal into the orrery viewer and gave it to me. [npc=Brion]
 # Journey
-0x1F1:[journey] I have met Chad in Moonglow, who teaches light weapon expertise and knows the local bartender, Phearcy. [npc=Chad]
+0x1F1:[journey] I told Chad my name. [npc=Chad]
 # Journey
-0x1F2:[journey] I have met Chad in Moonglow, who teaches light weapon expertise and knows the local bartender, Phearcy. [npc=Chad]
+0x1F2:[journey] I gave Chad a different name than my own. [npc=Chad]
 # Journey
 0x1F3:[journey] Chad recognized me as the Avatar and spoke of Moonglow's location and its people. [npc=Shamino]
 # Journey
@@ -1045,8 +1045,8 @@
 0x1FB:[journey] I've met my old friend Mariah in Moonglow.
 # Journey
 0x1FC:[journey] I have met Rankin, the new branch leader of The Fellowship in Moonglow. He speaks of someone who has left for Britain. [npc=Rankin]
-# Quest
-0x1FD:[quest] Balayna, the clerk of the Moonglow branch of The Fellowship, was poisoned by a vial I gave her. I must investigate this matter further. [npc=Balayna]
+# Journey
+0x1FD:[journey] I have met Balayna, the clerk of the Moonglow branch of The Fellowship in Moonglow. She has a very serious look about her. [npc=Balayna]
 # Journey
 # REVIEW: sentence 2 mentions balayna, rankin, not covered by the first sentence or this flag's dialogue (possible quest merge)
 0x1FE:[journey] I met Tolemac, a friendly farmer in Moonglow who is part of The Fellowship. He mentioned Balayna and Rankin. [npc=Tolemac]
@@ -1061,7 +1061,7 @@
 # Journey
 0x202:[journey] I met Effrem, a simple resident of Moonglow, who is caring for a baby named Mikhail. [npc=Effrem]
 # Journey
-0x203:[journey] I met Chad, a fighter who trains with light weapons in Moonglow and mentioned Phearcy, the bartender, as someone who might know more about the townspeople. [npc=Shamino]
+0x203:[journey] I met Chad, a fighter who trains with light weapons in Moonglow and mentioned Phearcy, the bartender, as someone who might know more about the townspeople. [npc=Chad]
 # Journey
 0x204:[journey] Elad is the healer of Moonglow with a yearning for adventures.
 # Journey
@@ -1156,7 +1156,7 @@
 # Journey
 0x22E:[journey] Merrick spoke of the seven year drought that reduced him and others to paupers. [npc=Merrick]
 # Journey
-0x22F:[journey] I met Morfin, a merchant in Paws who sells various goods, including the venom of the silver serpent. [npc=Morfin]
+0x22F:[journey] I told Morfin my name. [npc=Morfin]
 # Journey
 0x230:[journey] I met Morfin again, who mentioned the high demand for silver serpent venom in certain areas. [npc=Morfin]
 # Quest
@@ -1400,9 +1400,9 @@
 # Journey
 0x2A2:[journey] I met Roberto at The Baths. He is very friendly and offers many services. [npc=Roberto]
 # Quest
-0x2A3:[quest] Blacktooth is searching for a Fellowship member who stole gold from him. I should find out who this Avatar is. [npc=Blacktooth]
+0x2A3:[quest] I told Blacktooth my name. [npc=Blacktooth]
 # Quest
-0x2A4:[quest] Blacktooth is searching for a Fellowship member who stole gold from him. I should find out who this Avatar is. [npc=Blacktooth]
+0x2A4:[quest] I told Blacktooth that I am the Avatar. [npc=Blacktooth]
 # Journey
 0x2A5:[journey] Blacktooth spoke of his lost friend Mole. He is clearly upset and searching for him. [npc=Blacktooth]
 # Quest
@@ -1509,7 +1509,7 @@
 # Journey
 0x2D8:[journey] I have witnessed Malloy and Owings's comedic struggle with mining helmets. They are miners working in a mine. [npc=Malloy]
 # Journey
-0x2D9:[journey] I witnessed a quarrel between Owings and Malloy over a hat, which ended in a chaotic and humorous manner. [npc=Malloy]
+0x2D9:[journey] I witnessed the quarrel between Owings and Malloy over a mining helmet; Malloy ended up with it stuck on his foot. [npc=Malloy]
 # Journey
 0x2DA:[journey] I witnessed a quarrel between Owings and Malloy over a hat, which ended in a chaotic and humorous manner. [npc=Owings]
 # Quest
@@ -1627,7 +1627,7 @@
 # Journey
 0x326:[journey] I have revived the golem.
 # Journey
-0x327:[journey] I have visited the Shrine of Love.
+0x327:[journey] I have completed the Test of Love at the Shrine of Love.
 # Journey
 0x328:[journey] I have obtained the Talisman of Love.
 # Journey
