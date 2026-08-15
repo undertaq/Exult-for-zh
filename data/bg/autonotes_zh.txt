@@ -753,7 +753,7 @@
 # Journey
 0x18A:[journey] 我見到了 New Magincia 的造船師 Russell，他出售船隻地契和導航六分儀。 [npc=Russell]
 # Quest
-0x18B:[quest] Dupre 欠 Boris 74 黃金，必須先償還才能繼續前進。 [npc=Boris]
+0x18B:[quest] 我遇到了 Boris，他在 New Magincia 經營一間名為 The Modest Damsel 的旅館兼酒館。 [npc=Boris]
 # Journey
 0x18C:[journey] 我見到了 New Magincia 的市長 Magenta，她是 Boris 的妻子。 [npc=Magenta]
 # Journey

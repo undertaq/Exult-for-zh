@@ -809,7 +809,7 @@
 # Journey
 0x18A:[journey] I met Russell, a shipwright in New Magincia who sells ship deeds and sextants. [npc=Russell]
 # Quest
-0x18B:[quest] Dupre owes Boris 74 gold pieces and must pay before proceeding further. [npc=Boris]
+0x18B:[quest] I met Boris, who runs The Modest Damsel, an inn and tavern in New Magincia. [npc=Boris]
 # Journey
 0x18C:[journey] I met Magenta, the Mayor of New Magincia and wife of Boris. [npc=Magenta]
 # Journey
