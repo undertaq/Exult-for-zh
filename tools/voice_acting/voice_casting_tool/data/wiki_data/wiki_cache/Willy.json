@@ -1,0 +1,13 @@
+{
+  "npc_name": "Willy",
+  "url": "https://wiki.ultimacodex.com/wiki/Willy",
+  "title": "Willy",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Willy</b> (short for <b>Wilhelm</b>)<sup id=\"cite_ref-1\" class=\"reference\"><a href=\"#cite_note-1\">&#91;1&#93;</a></sup> is a <a href=\"/wiki/Bakery\" title=\"Bakery\">baker</a> working in <a href=\"/wiki/Britain\" title=\"Britain\">Britain</a> during <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>. \n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Willy (short for Wilhelm)[1] is a baker working in Britain during Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "baker",
+    "Location": "Britain"
+  },
+  "fetched_at": "2026-04-18T20:34:11.251101+00:00"
+}

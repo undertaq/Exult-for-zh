@@ -1,0 +1,12 @@
+{
+  "npc_name": "Quan",
+  "url": "https://wiki.ultimacodex.com/wiki/Quan",
+  "title": "Quan",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Quan</b> is the <a href=\"/wiki/Gargoyles\" title=\"Gargoyles\"> gargish</a> <a href=\"/wiki/Fellowship\" title=\"Fellowship\">Fellowship</a> branch leader of <a href=\"/wiki/Terfin\" title=\"Terfin\">Terfin</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>. Despite the Fellowship’s reputation, he is very well-meaning to the point of naïvety.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Quan is the gargish Fellowship branch leader of Terfin in Ultima VII. Despite the Fellowship’s reputation, he is very well-meaning to the point of naïvety.",
+  "infobox": {
+    "Species": "gargoyle",
+    "Location": "Terfin"
+  },
+  "fetched_at": "2026-04-18T20:33:30.066258+00:00"
+}

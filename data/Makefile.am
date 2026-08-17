@@ -108,6 +108,7 @@ EXULT_BG_FLX_OBJECTS = \
 	bg/blends.dat \
 	bg/container.dat \
 	bg/autonotes.txt \
+	bg/autonotes_zh.txt \
 	bg/intro_hand.shp \
 	bg/gump_info.txt \
 	bg/global_flags.txt
@@ -154,6 +155,7 @@ EXULT_SI_FLX_OBJECTS = \
 	si/blends.dat \
 	si/container.dat \
 	si/autonotes.txt \
+	si/autonotes_zh.txt \
 	si/ext_intro_castle.flc \
 	si/ext_intro_ship1.flc \
 	si/ext_intro_ship2.flc \

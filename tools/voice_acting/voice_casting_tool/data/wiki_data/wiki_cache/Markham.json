@@ -1,0 +1,12 @@
+{
+  "npc_name": "Markham",
+  "url": "https://wiki.ultimacodex.com/wiki/Markham",
+  "title": "Markham",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Markham</b> is the ghost of a <a href=\"/wiki/Skara_Brae\" title=\"Skara Brae\"> Skara Braen</a> man who once was proprietor of the Keg o' Spirits tavern. The <a href=\"/wiki/Avatar\" title=\"Avatar\">Avatar</a> can encounter him in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Markham is the ghost of a Skara Braen man who once was proprietor of the Keg o' Spirits tavern. The Avatar can encounter him in Ultima VII.",
+  "infobox": {
+    "Species": "ghost",
+    "Location": "Skara Brae"
+  },
+  "fetched_at": "2026-04-18T20:33:01.565351+00:00"
+}

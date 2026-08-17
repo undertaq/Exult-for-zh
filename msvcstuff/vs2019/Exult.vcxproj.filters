@@ -338,6 +338,9 @@
     <ClCompile Include="..\..\audio\VocAudioSample.cc">
       <Filter>audio</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\audio\VoiceActingManager.cc">
+      <Filter>audio</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\audio\WavAudioSample.cc">
       <Filter>audio</Filter>
     </ClCompile>
@@ -968,6 +971,9 @@
       <Filter>audio</Filter>
     </ClInclude>
     <ClInclude Include="..\..\audio\VocAudioSample.h">
+      <Filter>audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\audio\VoiceActingManager.h">
       <Filter>audio</Filter>
     </ClInclude>
     <ClInclude Include="..\..\audio\WavAudioSample.h">

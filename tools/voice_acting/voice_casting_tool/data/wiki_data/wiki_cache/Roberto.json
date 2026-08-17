@@ -1,0 +1,12 @@
+{
+  "npc_name": "Roberto",
+  "url": "https://wiki.ultimacodex.com/wiki/Roberto",
+  "title": "Roberto",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Roberto</b> is a host at the <a href=\"/wiki/The_Baths\" title=\"The Baths\"> Baths</a> in <a href=\"/wiki/Buccaneer%27s_Den\" title=\"Buccaneer&#39;s Den\">Buccaneer's Den</a>. He appears in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Roberto is a host at the Baths in Buccaneer's Den. He appears in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Buccaneer's Den"
+  },
+  "fetched_at": "2026-04-18T20:33:35.089812+00:00"
+}

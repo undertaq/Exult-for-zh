@@ -1,0 +1,13 @@
+{
+  "npc_name": "Jaana",
+  "url": "https://wiki.ultimacodex.com/wiki/Jaana",
+  "title": "Jaana",
+  "summary_html": "<div class=\"mw-parser-output\">\n\n\n\n\n\n\n</td></tr></tbody></table>\n<p><b>Jaana</b> [<b>yah</b>-nah <a href=\"/wiki/File:Jaana_Introduction.ogg\" title=\"(audio)\"><img alt=\"(audio)\" src=\"/images/thumb/a/a6/Gnome-speakernotes.png/20px-Gnome-speakernotes.png\" decoding=\"async\" width=\"20\" height=\"23\" srcset=\"/images/thumb/a/a6/Gnome-speakernotes.png/30px-Gnome-speakernotes.png 1.5x, /images/a/a6/Gnome-speakernotes.png 2x\" /></a>] is a recurring character.  She first appears in the <i><a href=\"/wiki/Ultima_IV:_Quest_of_the_Avatar\" title=\"Ultima IV: Quest of the Avatar\">Ultima&#160;IV</a></i>, and is one of the <a href=\"/wiki/The_Companions_of_the_Avatar\" class=\"mw-redirect\" title=\"The Companions of the Avatar\"> companions</a> of the <a href=\"/wiki/Avatar\" title=\"Avatar\">Avatar</a>, being a <a href=\"/wiki/Druid\" title=\"Druid\">druid</a> and therefore strong magic user. \n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Jaana [yah-nah ] is a recurring character. She first appears in the Ultima IV, and is one of the companions of the Avatar, being a druid and therefore strong magic user.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "druid",
+    "Location": "Cove"
+  },
+  "fetched_at": "2026-04-18T20:32:29.560720+00:00"
+}

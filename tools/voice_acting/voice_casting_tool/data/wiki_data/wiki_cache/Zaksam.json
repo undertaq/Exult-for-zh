@@ -1,0 +1,13 @@
+{
+  "npc_name": "Zaksam",
+  "url": "https://wiki.ultimacodex.com/wiki/Zaksam",
+  "title": "Zaksam",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Zaksam</b> is a <a href=\"/wiki/Trainers\" title=\"Trainers\"> trainer</a> working in <a href=\"/wiki/Vesper\" title=\"Vesper\">Vesper</a> during <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Zaksam is a trainer working in Vesper during Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "trainer",
+    "Location": "Vesper"
+  },
+  "fetched_at": "2026-04-18T20:34:16.503897+00:00"
+}

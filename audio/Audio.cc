@@ -21,6 +21,7 @@
 #include "Audio.h"
 
 #include "AudioMixer.h"
+#include "VoiceActingManager.h"
 #include "AudioSample.h"
 #include "Configuration.h"
 #include "Flex.h"
@@ -256,6 +257,9 @@ Audio::Audio() {
 	if (newval != s) {
 		config->set("config/audio/midi/looping", newval, false);
 	}
+
+	VoiceActingManager::init();
+
 	config->write_back();
 
 	mixer.reset();
@@ -426,6 +430,7 @@ sint32 Audio::copy_and_play_sfx(const uint8* sound_data, uint32 len, bool wait, 
 sint32 Audio::play(std::unique_ptr<uint8[]> sound_data, uint32 len, bool wait, int volume) {
 	ignore_unused_variable_warning(wait);
 	if (!audio_enabled || !len) {
+		cerr << "Audio::play: disabled or empty (len=" << len << ")" << endl;
 		return -1;
 	}
 
@@ -433,10 +438,14 @@ sint32 Audio::play(std::unique_ptr<uint8[]> sound_data, uint32 len, bool wait, i
 
 	if (audio_sample) {
 		sint32 id = mixer->playSample(audio_sample, 0, 128, false, 65536, volume, volume);
+		if (id < 0) {
+			cerr << "Audio::play: playSample returned " << id << " (no channel?)" << endl;
+		}
 		audio_sample->Release();
 		return id;
 	}
 
+	cerr << "Audio::play: createAudioSample returned null for " << len << " bytes" << endl;
 	return -1;
 }
 
@@ -557,6 +566,37 @@ bool Audio::start_speech(int num, bool wait) {
 
 	speech_id = play(std::move(buf), len, wait, (speech_volume * 255) / 100);
 	return true;
+}
+
+bool Audio::play_voice_file(const std::string& path) {
+	if (!audio_enabled || !speech_enabled) {
+		cerr << "play_voice_file: audio/speech disabled" << endl;
+		return false;
+	}
+
+	std::ifstream file(path, std::ios::binary | std::ios::ate);
+	if (!file.is_open()) {
+		cerr << "play_voice_file: failed to open file" << endl;
+		return false;
+	}
+
+	const auto len = static_cast<uint32>(file.tellg());
+	if (len == 0) {
+		cerr << "play_voice_file: file is empty" << endl;
+		return false;
+	}
+	file.seekg(0, std::ios::beg);
+
+	auto buf = std::make_unique<uint8[]>(len);
+	if (!file.read(reinterpret_cast<char*>(buf.get()), len)) {
+		cerr << "play_voice_file: failed to read " << len << " bytes" << endl;
+		return false;
+	}
+
+	cerr << "play_voice_file: loaded " << len << " bytes, calling play()" << endl;
+	speech_id = play(std::move(buf), len, false, (speech_volume * 255) / 100);
+	cerr << "play_voice_file: play() returned speech_id=" << speech_id << endl;
+	return speech_id != -1;
 }
 
 void Audio::stop_speech() {

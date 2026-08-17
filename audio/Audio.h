@@ -169,6 +169,7 @@ public:
 
 	void stop_sound_effects();
 	bool start_speech(int num, bool wait = false);
+	bool play_voice_file(const std::string& path);
 	void stop_speech();
 	bool is_speech_playing();
 

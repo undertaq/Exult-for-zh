@@ -1,0 +1,12 @@
+{
+  "npc_name": "Weston",
+  "url": "https://wiki.ultimacodex.com/wiki/Weston",
+  "title": "Weston",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Weston</b> is an imprisoned native of <a href=\"/wiki/Paws\" title=\"Paws\">Paws</a> residing in a small jail in <a href=\"/wiki/Castle_Britannia\" title=\"Castle Britannia\">Castle Britannia</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Weston is an imprisoned native of Paws residing in a small jail in Castle Britannia in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Castle Britannia"
+  },
+  "fetched_at": "2026-04-18T20:34:09.827077+00:00"
+}

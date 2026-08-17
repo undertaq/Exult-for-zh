@@ -1,0 +1,12 @@
+{
+  "npc_name": "Kliftin",
+  "url": "https://wiki.ultimacodex.com/wiki/Kliftin",
+  "title": "Kliftin",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Kliftin</b> is a retired soldier who runs an <a href=\"/wiki/Armoury\" title=\"Armoury\">armoury</a> in <a href=\"/wiki/Jhelom\" title=\"Jhelom\">Jhelom</a> during <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Kliftin is a retired soldier who runs an armoury in Jhelom during Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Jhelom"
+  },
+  "fetched_at": "2026-04-18T20:32:45.034997+00:00"
+}

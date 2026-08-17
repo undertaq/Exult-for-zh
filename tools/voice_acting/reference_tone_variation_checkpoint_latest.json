@@ -1,0 +1,1725 @@
+{
+  "summary": {
+    "total_refs": 327,
+    "similarity_threshold": 0.08,
+    "similar_pairs": 97
+  },
+  "by_lang": {
+    "en": {
+      "count": 163,
+      "f0_hz_mean": 148.05,
+      "f0_hz_std": 62.63,
+      "spectral_centroid_hz_mean": 2596.83,
+      "spectral_centroid_hz_std": 421.87
+    },
+    "zh": {
+      "count": 164,
+      "f0_hz_mean": 143.61,
+      "f0_hz_std": 58.36,
+      "spectral_centroid_hz_mean": 2809.44,
+      "spectral_centroid_hz_std": 380.18
+    }
+  },
+  "similar_pairs": [
+    {
+      "lang": "en",
+      "distance": 0.0379,
+      "left": {
+        "design_id": "npc_dustin",
+        "npc": "Dustin",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_dustin_en_ref.ogg",
+        "features": {
+          "duration_s": 10.72,
+          "rms": 0.08939731121063232,
+          "zero_crossing_rate": 0.13717015087604523,
+          "spectral_centroid_hz": 2474.2536438374063,
+          "spectral_bandwidth_hz": 2949.887432354389,
+          "f0_hz": 86.64259927797833,
+          "f0_std_hz": 63.10277633738053
+        }
+      },
+      "right": {
+        "design_id": "npc_shamino",
+        "npc": "Shamino",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_shamino_en_ref.ogg",
+        "features": {
+          "duration_s": 15.36,
+          "rms": 0.07663791626691818,
+          "zero_crossing_rate": 0.13529224693775177,
+          "spectral_centroid_hz": 2384.3405765554803,
+          "spectral_bandwidth_hz": 2941.6093985954094,
+          "f0_hz": 88.88888888888889,
+          "f0_std_hz": 65.3065730389863
+        }
+      }
+    },
+    {
+      "lang": "en",
+      "distance": 0.0408,
+      "left": {
+        "design_id": "npc_ferryman",
+        "npc": "Ferryman",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_ferryman_en_ref.ogg",
+        "features": {
+          "duration_s": 17.52,
+          "rms": 0.07660272717475891,
+          "zero_crossing_rate": 0.12934772670269012,
+          "spectral_centroid_hz": 2782.7914099660347,
+          "spectral_bandwidth_hz": 3053.835528417971,
+          "f0_hz": 87.5912408759124,
+          "f0_std_hz": 46.919416395944864
+        }
+      },
+      "right": {
+        "design_id": "npc_quenton",
+        "npc": "Quenton",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_quenton_en_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.08296605199575424,
+          "zero_crossing_rate": 0.13103172183036804,
+          "spectral_centroid_hz": 2940.0000452346035,
+          "spectral_bandwidth_hz": 3080.359371213202,
+          "f0_hz": 93.3852140077821,
+          "f0_std_hz": 45.40915399427437
+        }
+      }
+    },
+    {
+      "lang": "zh",
+      "distance": 0.0439,
+      "left": {
+        "design_id": "npc_brion",
+        "npc": "Brion",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_brion_zh_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.06960529834032059,
+          "zero_crossing_rate": 0.16200605034828186,
+          "spectral_centroid_hz": 2676.6547639225128,
+          "spectral_bandwidth_hz": 2926.357417508537,
+          "f0_hz": 102.56410256410257,
+          "f0_std_hz": 80.98429662625921
+        }
+      },
+      "right": {
+        "design_id": "npc_erethian",
+        "npc": "Erethian",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_erethian_zh_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.07462382316589355,
+          "zero_crossing_rate": 0.16791293025016785,
+          "spectral_centroid_hz": 2665.1700388880395,
+          "spectral_bandwidth_hz": 2959.864897116533,
+          "f0_hz": 92.84367423902307,
+          "f0_std_hz": 79.1508394989282
+        }
+      }
+    },
+    {
+      "lang": "en",
+      "distance": 0.0454,
+      "left": {
+        "design_id": "npc_dell",
+        "npc": "Dell",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_dell_en_ref.ogg",
+        "features": {
+          "duration_s": 12.8,
+          "rms": 0.09921208024024963,
+          "zero_crossing_rate": 0.12469441443681717,
+          "spectral_centroid_hz": 2245.021059085562,
+          "spectral_bandwidth_hz": 2723.2605376384686,
+          "f0_hz": 120.0,
+          "f0_std_hz": 45.62955788496159
+        }
+      },
+      "right": {
+        "design_id": "npc_klog",
+        "npc": "Klog",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_klog_en_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.08998999744653702,
+          "zero_crossing_rate": 0.12044550478458405,
+          "spectral_centroid_hz": 2248.378293323204,
+          "spectral_bandwidth_hz": 2733.0357297613714,
+          "f0_hz": 131.86813186813185,
+          "f0_std_hz": 47.96934791293396
+        }
+      }
+    },
+    {
+      "lang": "zh",
+      "distance": 0.0454,
+      "left": {
+        "design_id": "npc_balayna",
+        "npc": "Balayna",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_balayna_zh_ref.ogg",
+        "features": {
+          "duration_s": 20.32,
+          "rms": 0.09132278710603714,
+          "zero_crossing_rate": 0.14616581797599792,
+          "spectral_centroid_hz": 2787.2628242669853,
+          "spectral_bandwidth_hz": 3056.835824704675,
+          "f0_hz": 193.5483870967742,
+          "f0_std_hz": 53.304925678957105
+        }
+      },
+      "right": {
+        "design_id": "npc_meryl",
+        "npc": "Meryl",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_meryl_zh_ref.ogg",
+        "features": {
+          "duration_s": 12.16,
+          "rms": 0.09699280560016632,
+          "zero_crossing_rate": 0.146392360329628,
+          "spectral_centroid_hz": 2793.7174052142145,
+          "spectral_bandwidth_hz": 3165.5961153555436,
+          "f0_hz": 203.38983050847457,
+          "f0_std_hz": 52.87017455416885
+        }
+      }
+    },
+    {
+      "lang": "en",
+      "distance": 0.0484,
+      "left": {
+        "design_id": "npc_balayna",
+        "npc": "Balayna",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_balayna_en_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.07284967601299286,
+          "zero_crossing_rate": 0.1784113049507141,
+          "spectral_centroid_hz": 2696.566858183875,
+          "spectral_bandwidth_hz": 3066.6042666271587,
+          "f0_hz": 233.0097087378641,
+          "f0_std_hz": 54.23669458019976
+        }
+      },
+      "right": {
+        "design_id": "npc_mariah",
+        "npc": "Mariah",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_mariah_en_ref.ogg",
+        "features": {
+          "duration_s": 18.96,
+          "rms": 0.07853332161903381,
+          "zero_crossing_rate": 0.18229207396507263,
+          "spectral_centroid_hz": 2540.5688203808418,
+          "spectral_bandwidth_hz": 2987.368391670735,
+          "f0_hz": 237.62376237623764,
+          "f0_std_hz": 54.90311757054062
+        }
+      }
+    },
+    {
+      "lang": "en",
+      "distance": 0.0486,
+      "left": {
+        "design_id": "npc_betra",
+        "npc": "Betra",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_betra_en_ref.ogg",
+        "features": {
+          "duration_s": 16.96,
+          "rms": 0.08588878065347672,
+          "zero_crossing_rate": 0.1299973726272583,
+          "spectral_centroid_hz": 2225.727388409645,
+          "spectral_bandwidth_hz": 2767.392029933148,
+          "f0_hz": 150.9433962264151,
+          "f0_std_hz": 64.56498284729497
+        }
+      },
+      "right": {
+        "design_id": "npc_paul",
+        "npc": "Paul",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_paul_en_ref.ogg",
+        "features": {
+          "duration_s": 14.08,
+          "rms": 0.09590519219636917,
+          "zero_crossing_rate": 0.1259946972131729,
+          "spectral_centroid_hz": 2399.0899580879714,
+          "spectral_bandwidth_hz": 2811.317854628547,
+          "f0_hz": 153.84615384615384,
+          "f0_std_hz": 63.39235685964154
+        }
+      }
+    },
+    {
+      "lang": "zh",
+      "distance": 0.0488,
+      "left": {
+        "design_id": "npc_forbrak",
+        "npc": "Forbrak",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_forbrak_zh_ref.ogg",
+        "features": {
+          "duration_s": 12.4,
+          "rms": 0.07575466483831406,
+          "zero_crossing_rate": 0.17261818051338196,
+          "spectral_centroid_hz": 3076.1066994380462,
+          "spectral_bandwidth_hz": 3161.7523009944384,
+          "f0_hz": 96.0,
+          "f0_std_hz": 90.3929871393962
+        }
+      },
+      "right": {
+        "design_id": "npc_sam",
+        "npc": "Sam",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_sam_zh_ref.ogg",
+        "features": {
+          "duration_s": 17.28,
+          "rms": 0.06774388998746872,
+          "zero_crossing_rate": 0.16840077936649323,
+          "spectral_centroid_hz": 2919.474400114067,
+          "spectral_bandwidth_hz": 3117.815966415622,
+          "f0_hz": 103.8961038961039,
+          "f0_std_hz": 89.21596427450768
+        }
+      }
+    },
+    {
+      "lang": "en",
+      "distance": 0.0517,
+      "left": {
+        "design_id": "npc_coop",
+        "npc": "Coop",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_coop_en_ref.ogg",
+        "features": {
+          "duration_s": 15.04,
+          "rms": 0.0703512504696846,
+          "zero_crossing_rate": 0.1241442933678627,
+          "spectral_centroid_hz": 2649.062463505677,
+          "spectral_bandwidth_hz": 2967.1758724059396,
+          "f0_hz": 137.14285714285714,
+          "f0_std_hz": 60.06738619945584
+        }
+      },
+      "right": {
+        "design_id": "npc_patterson",
+        "npc": "Patterson",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_patterson_en_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.08683224022388458,
+          "zero_crossing_rate": 0.12843571603298187,
+          "spectral_centroid_hz": 2554.6044337507064,
+          "spectral_bandwidth_hz": 2910.347107100832,
+          "f0_hz": 129.03225806451613,
+          "f0_std_hz": 59.89964958543506
+        }
+      }
+    },
+    {
+      "lang": "zh",
+      "distance": 0.0518,
+      "left": {
+        "design_id": "npc_balayna",
+        "npc": "Balayna",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_balayna_zh_ref.ogg",
+        "features": {
+          "duration_s": 20.32,
+          "rms": 0.09132278710603714,
+          "zero_crossing_rate": 0.14616581797599792,
+          "spectral_centroid_hz": 2787.2628242669853,
+          "spectral_bandwidth_hz": 3056.835824704675,
+          "f0_hz": 193.5483870967742,
+          "f0_std_hz": 53.304925678957105
+        }
+      },
+      "right": {
+        "design_id": "npc_jehanne",
+        "npc": "Jehanne",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_jehanne_zh_ref.ogg",
+        "features": {
+          "duration_s": 18.64,
+          "rms": 0.08697065711021423,
+          "zero_crossing_rate": 0.1400776505470276,
+          "spectral_centroid_hz": 2653.3870272196486,
+          "spectral_bandwidth_hz": 2993.8335526300466,
+          "f0_hz": 184.6153846153846,
+          "f0_std_hz": 53.871078078807706
+        }
+      }
+    },
+    {
+      "lang": "en",
+      "distance": 0.0523,
+      "left": {
+        "design_id": "npc_hydra",
+        "npc": "Hydra",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_hydra_en_ref.ogg",
+        "features": {
+          "duration_s": 10.48,
+          "rms": 0.060526441782712936,
+          "zero_crossing_rate": 0.15372596681118011,
+          "spectral_centroid_hz": 2662.9090775389277,
+          "spectral_bandwidth_hz": 2996.7908903987422,
+          "f0_hz": 102.12765957446808,
+          "f0_std_hz": 92.46425063883005
+        }
+      },
+      "right": {
+        "design_id": "npc_smithy",
+        "npc": "Smithy",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_smithy_en_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.06629141420125961,
+          "zero_crossing_rate": 0.16044354438781738,
+          "spectral_centroid_hz": 2651.998559329761,
+          "spectral_bandwidth_hz": 2962.9840642413124,
+          "f0_hz": 113.20754716981132,
+          "f0_std_hz": 89.59469002963607
+        }
+      }
+    },
+    {
+      "lang": "en",
+      "distance": 0.0524,
+      "left": {
+        "design_id": "npc_dracothraxus",
+        "npc": "Dracothraxus",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_dracothraxus_en_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.04787413030862808,
+          "zero_crossing_rate": 0.1307314783334732,
+          "spectral_centroid_hz": 2457.9478125635915,
+          "spectral_bandwidth_hz": 2777.2410793841777,
+          "f0_hz": 103.8961038961039,
+          "f0_std_hz": 94.03268904312897
+        }
+      },
+      "right": {
+        "design_id": "npc_papa",
+        "npc": "Papa",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_papa_en_ref.ogg",
+        "features": {
+          "duration_s": 17.28,
+          "rms": 0.05044271796941757,
+          "zero_crossing_rate": 0.13888439536094666,
+          "spectral_centroid_hz": 2534.995621533025,
+          "spectral_bandwidth_hz": 2800.458717472122,
+          "f0_hz": 93.93382352941177,
+          "f0_std_hz": 95.44025152511213
+        }
+      }
+    },
+    {
+      "lang": "en",
+      "distance": 0.0538,
+      "left": {
+        "design_id": "npc_boris",
+        "npc": "Boris",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_boris_en_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.06502101570367813,
+          "zero_crossing_rate": 0.12706929445266724,
+          "spectral_centroid_hz": 2986.256885794439,
+          "spectral_bandwidth_hz": 3215.8387887146205,
+          "f0_hz": 89.88764044943821,
+          "f0_std_hz": 60.43903979209439
+        }
+      },
+      "right": {
+        "design_id": "npc_martingo",
+        "npc": "Martingo",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_martingo_en_ref.ogg",
+        "features": {
+          "duration_s": 18.4,
+          "rms": 0.07762403786182404,
+          "zero_crossing_rate": 0.12108496576547623,
+          "spectral_centroid_hz": 2831.796461415283,
+          "spectral_bandwidth_hz": 3169.961654063184,
+          "f0_hz": 91.42890314341277,
+          "f0_std_hz": 58.8970060587165
+        }
+      }
+    },
+    {
+      "lang": "en",
+      "distance": 0.0557,
+      "left": {
+        "design_id": "npc_brion",
+        "npc": "Brion",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_brion_en_ref.ogg",
+        "features": {
+          "duration_s": 20.32,
+          "rms": 0.08577457815408707,
+          "zero_crossing_rate": 0.11952534317970276,
+          "spectral_centroid_hz": 2206.3303619022654,
+          "spectral_bandwidth_hz": 2724.88119220748,
+          "f0_hz": 89.88764044943821,
+          "f0_std_hz": 51.099929142936894
+        }
+      },
+      "right": {
+        "design_id": "npc_smith",
+        "npc": "Smith",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_smith_en_ref.ogg",
+        "features": {
+          "duration_s": 16.56,
+          "rms": 0.08180049806833267,
+          "zero_crossing_rate": 0.12368439137935638,
+          "spectral_centroid_hz": 2174.802329101468,
+          "spectral_bandwidth_hz": 2779.832257592192,
+          "f0_hz": 96.0,
+          "f0_std_hz": 45.73288380992508
+        }
+      }
+    },
+    {
+      "lang": "en",
+      "distance": 0.0566,
+      "left": {
+        "design_id": "npc_for_lem",
+        "npc": "For Lem",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_for_lem_en_ref.ogg",
+        "features": {
+          "duration_s": 14.16,
+          "rms": 0.06699541211128235,
+          "zero_crossing_rate": 0.1452275961637497,
+          "spectral_centroid_hz": 2560.2459321997185,
+          "spectral_bandwidth_hz": 2944.0759761181384,
+          "f0_hz": 104.1219649915302,
+          "f0_std_hz": 96.84844012923875
+        }
+      },
+      "right": {
+        "design_id": "npc_lasher",
+        "npc": "Lasher",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_lasher_en_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.07329859584569931,
+          "zero_crossing_rate": 0.13976947963237762,
+          "spectral_centroid_hz": 2540.500342961869,
+          "spectral_bandwidth_hz": 2884.771326144587,
+          "f0_hz": 90.39580082281174,
+          "f0_std_hz": 100.0674367779388
+        }
+      }
+    },
+    {
+      "lang": "en",
+      "distance": 0.0569,
+      "left": {
+        "design_id": "npc_alagner",
+        "npc": "Alagner",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_alagner_en_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.09674645960330963,
+          "zero_crossing_rate": 0.12379927188158035,
+          "spectral_centroid_hz": 2263.447481922902,
+          "spectral_bandwidth_hz": 2771.813851069178,
+          "f0_hz": 88.88888888888889,
+          "f0_std_hz": 56.348735211977676
+        }
+      },
+      "right": {
+        "design_id": "npc_brion",
+        "npc": "Brion",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_brion_en_ref.ogg",
+        "features": {
+          "duration_s": 20.32,
+          "rms": 0.08577457815408707,
+          "zero_crossing_rate": 0.11952534317970276,
+          "spectral_centroid_hz": 2206.3303619022654,
+          "spectral_bandwidth_hz": 2724.88119220748,
+          "f0_hz": 89.88764044943821,
+          "f0_std_hz": 51.099929142936894
+        }
+      }
+    },
+    {
+      "lang": "en",
+      "distance": 0.0571,
+      "left": {
+        "design_id": "npc_gordy",
+        "npc": "Gordy",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_gordy_en_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.05987574905157089,
+          "zero_crossing_rate": 0.14025764167308807,
+          "spectral_centroid_hz": 2531.8842259385724,
+          "spectral_bandwidth_hz": 2941.745515646241,
+          "f0_hz": 85.40925266903915,
+          "f0_std_hz": 93.79950378121627
+        }
+      },
+      "right": {
+        "design_id": "npc_papa",
+        "npc": "Papa",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_papa_en_ref.ogg",
+        "features": {
+          "duration_s": 17.28,
+          "rms": 0.05044271796941757,
+          "zero_crossing_rate": 0.13888439536094666,
+          "spectral_centroid_hz": 2534.995621533025,
+          "spectral_bandwidth_hz": 2800.458717472122,
+          "f0_hz": 93.93382352941177,
+          "f0_std_hz": 95.44025152511213
+        }
+      }
+    },
+    {
+      "lang": "en",
+      "distance": 0.0573,
+      "left": {
+        "design_id": "group_middle_male_friendly",
+        "npc": "middle_male_friendly",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/group_middle_male_friendly_en_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.0741213709115982,
+          "zero_crossing_rate": 0.14429359138011932,
+          "spectral_centroid_hz": 2044.9685538742467,
+          "spectral_bandwidth_hz": 2354.7656149795444,
+          "f0_hz": 183.206106870229,
+          "f0_std_hz": 62.857144741096725
+        }
+      },
+      "right": {
+        "design_id": "npc_mole",
+        "npc": "Mole",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_mole_en_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.08199489861726761,
+          "zero_crossing_rate": 0.13830910623073578,
+          "spectral_centroid_hz": 2222.240677789177,
+          "spectral_bandwidth_hz": 2430.144764719817,
+          "f0_hz": 186.04651162790697,
+          "f0_std_hz": 64.5415342478424
+        }
+      }
+    },
+    {
+      "lang": "en",
+      "distance": 0.0578,
+      "left": {
+        "design_id": "npc_denton",
+        "npc": "Denton",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_denton_en_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.0716189593076706,
+          "zero_crossing_rate": 0.14505748450756073,
+          "spectral_centroid_hz": 2352.771449597024,
+          "spectral_bandwidth_hz": 2865.993444641405,
+          "f0_hz": 81.63265306122449,
+          "f0_std_hz": 95.51441811170001
+        }
+      },
+      "right": {
+        "design_id": "npc_gordy",
+        "npc": "Gordy",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_gordy_en_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.05987574905157089,
+          "zero_crossing_rate": 0.14025764167308807,
+          "spectral_centroid_hz": 2531.8842259385724,
+          "spectral_bandwidth_hz": 2941.745515646241,
+          "f0_hz": 85.40925266903915,
+          "f0_std_hz": 93.79950378121627
+        }
+      }
+    },
+    {
+      "lang": "zh",
+      "distance": 0.0582,
+      "left": {
+        "design_id": "npc_budo",
+        "npc": "Budo",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_budo_zh_ref.ogg",
+        "features": {
+          "duration_s": 16.08,
+          "rms": 0.09209734946489334,
+          "zero_crossing_rate": 0.1301957219839096,
+          "spectral_centroid_hz": 2682.3410816734436,
+          "spectral_bandwidth_hz": 2947.267817484807,
+          "f0_hz": 102.12765957446808,
+          "f0_std_hz": 77.01037417023132
+        }
+      },
+      "right": {
+        "design_id": "npc_leavell",
+        "npc": "Leavell",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_leavell_zh_ref.ogg",
+        "features": {
+          "duration_s": 14.8,
+          "rms": 0.08304811269044876,
+          "zero_crossing_rate": 0.12800711393356323,
+          "spectral_centroid_hz": 2750.602389119043,
+          "spectral_bandwidth_hz": 3080.3791764125,
+          "f0_hz": 97.16599190283401,
+          "f0_std_hz": 73.98415328814504
+        }
+      }
+    },
+    {
+      "lang": "zh",
+      "distance": 0.0594,
+      "left": {
+        "design_id": "npc_mack",
+        "npc": "Mack",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_mack_zh_ref.ogg",
+        "features": {
+          "duration_s": 15.92,
+          "rms": 0.0784619152545929,
+          "zero_crossing_rate": 0.16164982318878174,
+          "spectral_centroid_hz": 2478.491093370436,
+          "spectral_bandwidth_hz": 2870.432113402077,
+          "f0_hz": 184.6153846153846,
+          "f0_std_hz": 80.9228642137677
+        }
+      },
+      "right": {
+        "design_id": "npc_spark",
+        "npc": "Spark",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_spark_zh_ref.ogg",
+        "features": {
+          "duration_s": 9.2,
+          "rms": 0.06971924006938934,
+          "zero_crossing_rate": 0.1666085422039032,
+          "spectral_centroid_hz": 2458.7955916206,
+          "spectral_bandwidth_hz": 2943.831662627448,
+          "f0_hz": 196.73452932876438,
+          "f0_std_hz": 76.98461803000535
+        }
+      }
+    },
+    {
+      "lang": "zh",
+      "distance": 0.06,
+      "left": {
+        "design_id": "npc_kallibrus",
+        "npc": "Kallibrus",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_kallibrus_zh_ref.ogg",
+        "features": {
+          "duration_s": 9.36,
+          "rms": 0.07003384828567505,
+          "zero_crossing_rate": 0.15560077130794525,
+          "spectral_centroid_hz": 2542.7355291799286,
+          "spectral_bandwidth_hz": 2958.8601296326183,
+          "f0_hz": 137.93103448275863,
+          "f0_std_hz": 78.08750976467256
+        }
+      },
+      "right": {
+        "design_id": "npc_raymundo",
+        "npc": "Raymundo",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_raymundo_zh_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.07410361617803574,
+          "zero_crossing_rate": 0.16538432240486145,
+          "spectral_centroid_hz": 2632.717572856769,
+          "spectral_bandwidth_hz": 2886.0126278744597,
+          "f0_hz": 135.59322033898306,
+          "f0_std_hz": 79.77558409129931
+        }
+      }
+    },
+    {
+      "lang": "zh",
+      "distance": 0.0603,
+      "left": {
+        "design_id": "npc_lord_british",
+        "npc": "Lord British",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_lord_british_zh_ref.ogg",
+        "features": {
+          "duration_s": 10.64,
+          "rms": 0.0912318229675293,
+          "zero_crossing_rate": 0.1600296050310135,
+          "spectral_centroid_hz": 2588.8433342605463,
+          "spectral_bandwidth_hz": 2991.424225034246,
+          "f0_hz": 106.19469026548673,
+          "f0_std_hz": 90.6920448310986
+        }
+      },
+      "right": {
+        "design_id": "npc_sean",
+        "npc": "Sean",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_sean_zh_ref.ogg",
+        "features": {
+          "duration_s": 19.04,
+          "rms": 0.09569170325994492,
+          "zero_crossing_rate": 0.16971763968467712,
+          "spectral_centroid_hz": 2585.018759922722,
+          "spectral_bandwidth_hz": 2931.5923078834726,
+          "f0_hz": 112.67605633802818,
+          "f0_std_hz": 93.49109521953113
+        }
+      }
+    },
+    {
+      "lang": "zh",
+      "distance": 0.0606,
+      "left": {
+        "design_id": "npc_dupre",
+        "npc": "Dupre",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_dupre_zh_ref.ogg",
+        "features": {
+          "duration_s": 15.76,
+          "rms": 0.08909893035888672,
+          "zero_crossing_rate": 0.11811050772666931,
+          "spectral_centroid_hz": 2856.6969477984653,
+          "spectral_bandwidth_hz": 3059.9109700819567,
+          "f0_hz": 101.69491525423729,
+          "f0_std_hz": 76.52353015640587
+        }
+      },
+      "right": {
+        "design_id": "npc_leavell",
+        "npc": "Leavell",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_leavell_zh_ref.ogg",
+        "features": {
+          "duration_s": 14.8,
+          "rms": 0.08304811269044876,
+          "zero_crossing_rate": 0.12800711393356323,
+          "spectral_centroid_hz": 2750.602389119043,
+          "spectral_bandwidth_hz": 3080.3791764125,
+          "f0_hz": 97.16599190283401,
+          "f0_std_hz": 73.98415328814504
+        }
+      }
+    },
+    {
+      "lang": "en",
+      "distance": 0.0607,
+      "left": {
+        "design_id": "npc_for_lem",
+        "npc": "For Lem",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_for_lem_en_ref.ogg",
+        "features": {
+          "duration_s": 14.16,
+          "rms": 0.06699541211128235,
+          "zero_crossing_rate": 0.1452275961637497,
+          "spectral_centroid_hz": 2560.2459321997185,
+          "spectral_bandwidth_hz": 2944.0759761181384,
+          "f0_hz": 104.1219649915302,
+          "f0_std_hz": 96.84844012923875
+        }
+      },
+      "right": {
+        "design_id": "npc_gordy",
+        "npc": "Gordy",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_gordy_en_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.05987574905157089,
+          "zero_crossing_rate": 0.14025764167308807,
+          "spectral_centroid_hz": 2531.8842259385724,
+          "spectral_bandwidth_hz": 2941.745515646241,
+          "f0_hz": 85.40925266903915,
+          "f0_std_hz": 93.79950378121627
+        }
+      }
+    },
+    {
+      "lang": "zh",
+      "distance": 0.061,
+      "left": {
+        "design_id": "npc_inforlem",
+        "npc": "Inforlem",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_inforlem_zh_ref.ogg",
+        "features": {
+          "duration_s": 7.36,
+          "rms": 0.08286809921264648,
+          "zero_crossing_rate": 0.14127117395401,
+          "spectral_centroid_hz": 2886.4406352241676,
+          "spectral_bandwidth_hz": 3197.1543789419243,
+          "f0_hz": 109.0909090909091,
+          "f0_std_hz": 81.6371952908063
+        }
+      },
+      "right": {
+        "design_id": "npc_martingo",
+        "npc": "Martingo",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_martingo_zh_ref.ogg",
+        "features": {
+          "duration_s": 18.88,
+          "rms": 0.08225467056035995,
+          "zero_crossing_rate": 0.14189429581165314,
+          "spectral_centroid_hz": 2760.933034353374,
+          "spectral_bandwidth_hz": 3195.019886584195,
+          "f0_hz": 86.95652173913044,
+          "f0_std_hz": 82.20836439930062
+        }
+      }
+    },
+    {
+      "lang": "zh",
+      "distance": 0.0623,
+      "left": {
+        "design_id": "npc_anton",
+        "npc": "Anton",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_anton_zh_ref.ogg",
+        "features": {
+          "duration_s": 14.88,
+          "rms": 0.04449712112545967,
+          "zero_crossing_rate": 0.17657139897346497,
+          "spectral_centroid_hz": 2905.1109886575045,
+          "spectral_bandwidth_hz": 3063.4971397298623,
+          "f0_hz": 110.09405971845212,
+          "f0_std_hz": 59.0015620096538
+        }
+      },
+      "right": {
+        "design_id": "npc_snaz",
+        "npc": "Snaz",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_snaz_zh_ref.ogg",
+        "features": {
+          "duration_s": 8.8,
+          "rms": 0.05890221148729324,
+          "zero_crossing_rate": 0.16872712969779968,
+          "spectral_centroid_hz": 2787.412933078117,
+          "spectral_bandwidth_hz": 3006.560220322945,
+          "f0_hz": 118.81188118811882,
+          "f0_std_hz": 57.65498175645042
+        }
+      }
+    },
+    {
+      "lang": "zh",
+      "distance": 0.0626,
+      "left": {
+        "design_id": "npc_hook",
+        "npc": "Hook",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_hook_zh_ref.ogg",
+        "features": {
+          "duration_s": 13.84,
+          "rms": 0.06216300278902054,
+          "zero_crossing_rate": 0.15643411874771118,
+          "spectral_centroid_hz": 2637.4711518191566,
+          "spectral_bandwidth_hz": 3067.6777263424347,
+          "f0_hz": 89.71993962770418,
+          "f0_std_hz": 91.02640255624532
+        }
+      },
+      "right": {
+        "design_id": "npc_morfin",
+        "npc": "Morfin",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_morfin_zh_ref.ogg",
+        "features": {
+          "duration_s": 19.92,
+          "rms": 0.04990222305059433,
+          "zero_crossing_rate": 0.16358593106269836,
+          "spectral_centroid_hz": 2818.014822486904,
+          "spectral_bandwidth_hz": 3060.8339736939597,
+          "f0_hz": 81.63265306122449,
+          "f0_std_hz": 93.1677150773577
+        }
+      }
+    },
+    {
+      "lang": "en",
+      "distance": 0.063,
+      "left": {
+        "design_id": "npc_gordy",
+        "npc": "Gordy",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_gordy_en_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.05987574905157089,
+          "zero_crossing_rate": 0.14025764167308807,
+          "spectral_centroid_hz": 2531.8842259385724,
+          "spectral_bandwidth_hz": 2941.745515646241,
+          "f0_hz": 85.40925266903915,
+          "f0_std_hz": 93.79950378121627
+        }
+      },
+      "right": {
+        "design_id": "npc_lasher",
+        "npc": "Lasher",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_lasher_en_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.07329859584569931,
+          "zero_crossing_rate": 0.13976947963237762,
+          "spectral_centroid_hz": 2540.500342961869,
+          "spectral_bandwidth_hz": 2884.771326144587,
+          "f0_hz": 90.39580082281174,
+          "f0_std_hz": 100.0674367779388
+        }
+      }
+    },
+    {
+      "lang": "en",
+      "distance": 0.0637,
+      "left": {
+        "design_id": "npc_for_lem",
+        "npc": "For Lem",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_for_lem_en_ref.ogg",
+        "features": {
+          "duration_s": 14.16,
+          "rms": 0.06699541211128235,
+          "zero_crossing_rate": 0.1452275961637497,
+          "spectral_centroid_hz": 2560.2459321997185,
+          "spectral_bandwidth_hz": 2944.0759761181384,
+          "f0_hz": 104.1219649915302,
+          "f0_std_hz": 96.84844012923875
+        }
+      },
+      "right": {
+        "design_id": "npc_hydra",
+        "npc": "Hydra",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_hydra_en_ref.ogg",
+        "features": {
+          "duration_s": 10.48,
+          "rms": 0.060526441782712936,
+          "zero_crossing_rate": 0.15372596681118011,
+          "spectral_centroid_hz": 2662.9090775389277,
+          "spectral_bandwidth_hz": 2996.7908903987422,
+          "f0_hz": 102.12765957446808,
+          "f0_std_hz": 92.46425063883005
+        }
+      }
+    },
+    {
+      "lang": "en",
+      "distance": 0.0639,
+      "left": {
+        "design_id": "npc_denton",
+        "npc": "Denton",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_denton_en_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.0716189593076706,
+          "zero_crossing_rate": 0.14505748450756073,
+          "spectral_centroid_hz": 2352.771449597024,
+          "spectral_bandwidth_hz": 2865.993444641405,
+          "f0_hz": 81.63265306122449,
+          "f0_std_hz": 95.51441811170001
+        }
+      },
+      "right": {
+        "design_id": "npc_lasher",
+        "npc": "Lasher",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_lasher_en_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.07329859584569931,
+          "zero_crossing_rate": 0.13976947963237762,
+          "spectral_centroid_hz": 2540.500342961869,
+          "spectral_bandwidth_hz": 2884.771326144587,
+          "f0_hz": 90.39580082281174,
+          "f0_std_hz": 100.0674367779388
+        }
+      }
+    },
+    {
+      "lang": "en",
+      "distance": 0.0641,
+      "left": {
+        "design_id": "npc_rankin",
+        "npc": "Rankin",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_rankin_en_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.045306283980607986,
+          "zero_crossing_rate": 0.13861139118671417,
+          "spectral_centroid_hz": 3157.6434551512393,
+          "spectral_bandwidth_hz": 3167.354963688992,
+          "f0_hz": 103.00429184549357,
+          "f0_std_hz": 36.41828538535018
+        }
+      },
+      "right": {
+        "design_id": "npc_roberto",
+        "npc": "Roberto",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_roberto_en_ref.ogg",
+        "features": {
+          "duration_s": 17.36,
+          "rms": 0.06046456843614578,
+          "zero_crossing_rate": 0.13557060062885284,
+          "spectral_centroid_hz": 3010.204344105721,
+          "spectral_bandwidth_hz": 3077.856248150383,
+          "f0_hz": 107.62331838565022,
+          "f0_std_hz": 40.331723279910165
+        }
+      }
+    },
+    {
+      "lang": "en",
+      "distance": 0.0651,
+      "left": {
+        "design_id": "npc_horance",
+        "npc": "Horance",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_horance_en_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.06551602482795715,
+          "zero_crossing_rate": 0.1148715615272522,
+          "spectral_centroid_hz": 2337.3534974243803,
+          "spectral_bandwidth_hz": 2787.3445692760342,
+          "f0_hz": 91.6030534351145,
+          "f0_std_hz": 44.88170473580774
+        }
+      },
+      "right": {
+        "design_id": "npc_smith",
+        "npc": "Smith",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_smith_en_ref.ogg",
+        "features": {
+          "duration_s": 16.56,
+          "rms": 0.08180049806833267,
+          "zero_crossing_rate": 0.12368439137935638,
+          "spectral_centroid_hz": 2174.802329101468,
+          "spectral_bandwidth_hz": 2779.832257592192,
+          "f0_hz": 96.0,
+          "f0_std_hz": 45.73288380992508
+        }
+      }
+    },
+    {
+      "lang": "zh",
+      "distance": 0.0655,
+      "left": {
+        "design_id": "npc_andrew",
+        "npc": "Andrew",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_andrew_zh_ref.ogg",
+        "features": {
+          "duration_s": 12.8,
+          "rms": 0.07693035155534744,
+          "zero_crossing_rate": 0.135462686419487,
+          "spectral_centroid_hz": 2575.6849045572812,
+          "spectral_bandwidth_hz": 2885.6137777347267,
+          "f0_hz": 134.8314606741573,
+          "f0_std_hz": 69.25974057409732
+        }
+      },
+      "right": {
+        "design_id": "npc_klog",
+        "npc": "Klog",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_klog_zh_ref.ogg",
+        "features": {
+          "duration_s": 10.32,
+          "rms": 0.07348211109638214,
+          "zero_crossing_rate": 0.14611250162124634,
+          "spectral_centroid_hz": 2660.2982531477815,
+          "spectral_bandwidth_hz": 2881.17090911698,
+          "f0_hz": 146.34146341463415,
+          "f0_std_hz": 67.20698389682482
+        }
+      }
+    },
+    {
+      "lang": "en",
+      "distance": 0.0658,
+      "left": {
+        "design_id": "npc_hook",
+        "npc": "Hook",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_hook_en_ref.ogg",
+        "features": {
+          "duration_s": 9.68,
+          "rms": 0.07644475996494293,
+          "zero_crossing_rate": 0.13003671169281006,
+          "spectral_centroid_hz": 2621.939248057202,
+          "spectral_bandwidth_hz": 3034.7916264794144,
+          "f0_hz": 94.30291801760075,
+          "f0_std_hz": 67.14060971906449
+        }
+      },
+      "right": {
+        "design_id": "npc_shamino",
+        "npc": "Shamino",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_shamino_en_ref.ogg",
+        "features": {
+          "duration_s": 15.36,
+          "rms": 0.07663791626691818,
+          "zero_crossing_rate": 0.13529224693775177,
+          "spectral_centroid_hz": 2384.3405765554803,
+          "spectral_bandwidth_hz": 2941.6093985954094,
+          "f0_hz": 88.88888888888889,
+          "f0_std_hz": 65.3065730389863
+        }
+      }
+    },
+    {
+      "lang": "zh",
+      "distance": 0.066,
+      "left": {
+        "design_id": "npc_klog",
+        "npc": "Klog",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_klog_zh_ref.ogg",
+        "features": {
+          "duration_s": 10.32,
+          "rms": 0.07348211109638214,
+          "zero_crossing_rate": 0.14611250162124634,
+          "spectral_centroid_hz": 2660.2982531477815,
+          "spectral_bandwidth_hz": 2881.17090911698,
+          "f0_hz": 146.34146341463415,
+          "f0_std_hz": 67.20698389682482
+        }
+      },
+      "right": {
+        "design_id": "npc_lord_heather",
+        "npc": "Lord Heather",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_lord_heather_zh_ref.ogg",
+        "features": {
+          "duration_s": 19.52,
+          "rms": 0.06240033730864525,
+          "zero_crossing_rate": 0.1471741497516632,
+          "spectral_centroid_hz": 2419.389898502013,
+          "spectral_bandwidth_hz": 2901.9600038686995,
+          "f0_hz": 131.14754098360655,
+          "f0_std_hz": 67.85957560409787
+        }
+      }
+    },
+    {
+      "lang": "en",
+      "distance": 0.0662,
+      "left": {
+        "design_id": "npc_forbrak",
+        "npc": "Forbrak",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_forbrak_en_ref.ogg",
+        "features": {
+          "duration_s": 18.24,
+          "rms": 0.08593348413705826,
+          "zero_crossing_rate": 0.12765014171600342,
+          "spectral_centroid_hz": 2713.8351607844224,
+          "spectral_bandwidth_hz": 3023.336632237034,
+          "f0_hz": 96.0,
+          "f0_std_hz": 82.50761022385248
+        }
+      },
+      "right": {
+        "design_id": "npc_kliftin",
+        "npc": "Kliftin",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_kliftin_en_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.07209068536758423,
+          "zero_crossing_rate": 0.12684257328510284,
+          "spectral_centroid_hz": 2610.0371140986904,
+          "spectral_bandwidth_hz": 3063.2432129685976,
+          "f0_hz": 95.42781255928666,
+          "f0_std_hz": 75.95080338144768
+        }
+      }
+    },
+    {
+      "lang": "en",
+      "distance": 0.0668,
+      "left": {
+        "design_id": "npc_lasher",
+        "npc": "Lasher",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_lasher_en_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.07329859584569931,
+          "zero_crossing_rate": 0.13976947963237762,
+          "spectral_centroid_hz": 2540.500342961869,
+          "spectral_bandwidth_hz": 2884.771326144587,
+          "f0_hz": 90.39580082281174,
+          "f0_std_hz": 100.0674367779388
+        }
+      },
+      "right": {
+        "design_id": "npc_papa",
+        "npc": "Papa",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_papa_en_ref.ogg",
+        "features": {
+          "duration_s": 17.28,
+          "rms": 0.05044271796941757,
+          "zero_crossing_rate": 0.13888439536094666,
+          "spectral_centroid_hz": 2534.995621533025,
+          "spectral_bandwidth_hz": 2800.458717472122,
+          "f0_hz": 93.93382352941177,
+          "f0_std_hz": 95.44025152511213
+        }
+      }
+    },
+    {
+      "lang": "zh",
+      "distance": 0.0668,
+      "left": {
+        "design_id": "npc_lord_heather",
+        "npc": "Lord Heather",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_lord_heather_zh_ref.ogg",
+        "features": {
+          "duration_s": 19.52,
+          "rms": 0.06240033730864525,
+          "zero_crossing_rate": 0.1471741497516632,
+          "spectral_centroid_hz": 2419.389898502013,
+          "spectral_bandwidth_hz": 2901.9600038686995,
+          "f0_hz": 131.14754098360655,
+          "f0_std_hz": 67.85957560409787
+        }
+      },
+      "right": {
+        "design_id": "npc_owings",
+        "npc": "Owings",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_owings_zh_ref.ogg",
+        "features": {
+          "duration_s": 9.2,
+          "rms": 0.06278609484434128,
+          "zero_crossing_rate": 0.15574346482753754,
+          "spectral_centroid_hz": 2535.1653609577897,
+          "spectral_bandwidth_hz": 2818.6719754438222,
+          "f0_hz": 117.07317073170732,
+          "f0_std_hz": 68.96397555715923
+        }
+      }
+    },
+    {
+      "lang": "zh",
+      "distance": 0.067,
+      "left": {
+        "design_id": "npc_owings",
+        "npc": "Owings",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_owings_zh_ref.ogg",
+        "features": {
+          "duration_s": 9.2,
+          "rms": 0.06278609484434128,
+          "zero_crossing_rate": 0.15574346482753754,
+          "spectral_centroid_hz": 2535.1653609577897,
+          "spectral_bandwidth_hz": 2818.6719754438222,
+          "f0_hz": 117.07317073170732,
+          "f0_std_hz": 68.96397555715923
+        }
+      },
+      "right": {
+        "design_id": "npc_smith",
+        "npc": "Smith",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_smith_zh_ref.ogg",
+        "features": {
+          "duration_s": 15.84,
+          "rms": 0.06205630674958229,
+          "zero_crossing_rate": 0.15877829492092133,
+          "spectral_centroid_hz": 2302.448378708524,
+          "spectral_bandwidth_hz": 2704.564543046511,
+          "f0_hz": 119.10743313137284,
+          "f0_std_hz": 71.93999200200139
+        }
+      }
+    },
+    {
+      "lang": "zh",
+      "distance": 0.0676,
+      "left": {
+        "design_id": "group_elderly_male",
+        "npc": "elderly_male",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/group_elderly_male_zh_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.055640220642089844,
+          "zero_crossing_rate": 0.16376462578773499,
+          "spectral_centroid_hz": 2824.026703847748,
+          "spectral_bandwidth_hz": 3046.167285741126,
+          "f0_hz": 82.1917808219178,
+          "f0_std_hz": 77.6530907940268
+        }
+      },
+      "right": {
+        "design_id": "npc_erethian",
+        "npc": "Erethian",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_erethian_zh_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.07462382316589355,
+          "zero_crossing_rate": 0.16791293025016785,
+          "spectral_centroid_hz": 2665.1700388880395,
+          "spectral_bandwidth_hz": 2959.864897116533,
+          "f0_hz": 92.84367423902307,
+          "f0_std_hz": 79.1508394989282
+        }
+      }
+    },
+    {
+      "lang": "zh",
+      "distance": 0.0677,
+      "left": {
+        "design_id": "npc_finnigan",
+        "npc": "Finnigan",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_finnigan_zh_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.05333177000284195,
+          "zero_crossing_rate": 0.18936313688755035,
+          "spectral_centroid_hz": 3094.713385620499,
+          "spectral_bandwidth_hz": 3100.7309611846167,
+          "f0_hz": 94.11764705882354,
+          "f0_std_hz": 77.81031008375783
+        }
+      },
+      "right": {
+        "design_id": "npc_quaeven",
+        "npc": "Quaeven",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_quaeven_zh_ref.ogg",
+        "features": {
+          "duration_s": 11.04,
+          "rms": 0.04995705559849739,
+          "zero_crossing_rate": 0.18453043699264526,
+          "spectral_centroid_hz": 3055.9703763648836,
+          "spectral_bandwidth_hz": 2991.573610574919,
+          "f0_hz": 102.34588106928533,
+          "f0_std_hz": 83.37352222117076
+        }
+      }
+    },
+    {
+      "lang": "zh",
+      "distance": 0.0681,
+      "left": {
+        "design_id": "npc_lucy",
+        "npc": "Lucy",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_lucy_zh_ref.ogg",
+        "features": {
+          "duration_s": 8.0,
+          "rms": 0.08773411065340042,
+          "zero_crossing_rate": 0.12632358074188232,
+          "spectral_centroid_hz": 2728.038306248206,
+          "spectral_bandwidth_hz": 3079.7870085022223,
+          "f0_hz": 225.3570798800917,
+          "f0_std_hz": 62.8631767862565
+        }
+      },
+      "right": {
+        "design_id": "npc_nastassia",
+        "npc": "Nastassia",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_nastassia_zh_ref.ogg",
+        "features": {
+          "duration_s": 20.4,
+          "rms": 0.09367465227842331,
+          "zero_crossing_rate": 0.12524738907814026,
+          "spectral_centroid_hz": 2918.227797498802,
+          "spectral_bandwidth_hz": 3169.2703386235785,
+          "f0_hz": 206.89655172413794,
+          "f0_std_hz": 63.01400535055824
+        }
+      }
+    },
+    {
+      "lang": "zh",
+      "distance": 0.0684,
+      "left": {
+        "design_id": "npc_jesse",
+        "npc": "Jesse",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_jesse_zh_ref.ogg",
+        "features": {
+          "duration_s": 9.52,
+          "rms": 0.08929668366909027,
+          "zero_crossing_rate": 0.16155970096588135,
+          "spectral_centroid_hz": 2648.811191699374,
+          "spectral_bandwidth_hz": 2931.714552952126,
+          "f0_hz": 205.14319111630624,
+          "f0_std_hz": 80.69385290969623
+        }
+      },
+      "right": {
+        "design_id": "npc_mack",
+        "npc": "Mack",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_mack_zh_ref.ogg",
+        "features": {
+          "duration_s": 15.92,
+          "rms": 0.0784619152545929,
+          "zero_crossing_rate": 0.16164982318878174,
+          "spectral_centroid_hz": 2478.491093370436,
+          "spectral_bandwidth_hz": 2870.432113402077,
+          "f0_hz": 184.6153846153846,
+          "f0_std_hz": 80.9228642137677
+        }
+      }
+    },
+    {
+      "lang": "zh",
+      "distance": 0.0685,
+      "left": {
+        "design_id": "group_middle_male_worried",
+        "npc": "middle_male_worried",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/group_middle_male_worried_zh_ref.ogg",
+        "features": {
+          "duration_s": 19.12,
+          "rms": 0.0889444351196289,
+          "zero_crossing_rate": 0.15585371851921082,
+          "spectral_centroid_hz": 2889.5442012242324,
+          "spectral_bandwidth_hz": 3111.0041312665235,
+          "f0_hz": 203.38983050847457,
+          "f0_std_hz": 61.657759248556445
+        }
+      },
+      "right": {
+        "design_id": "npc_mariah",
+        "npc": "Mariah",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_mariah_zh_ref.ogg",
+        "features": {
+          "duration_s": 17.28,
+          "rms": 0.09318909794092178,
+          "zero_crossing_rate": 0.15745601058006287,
+          "spectral_centroid_hz": 2848.853987116969,
+          "spectral_bandwidth_hz": 3112.2134190495904,
+          "f0_hz": 216.21621621621622,
+          "f0_std_hz": 54.59312108336455
+        }
+      }
+    },
+    {
+      "lang": "zh",
+      "distance": 0.0689,
+      "left": {
+        "design_id": "npc_neno",
+        "npc": "Neno",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_neno_zh_ref.ogg",
+        "features": {
+          "duration_s": 10.88,
+          "rms": 0.07467830926179886,
+          "zero_crossing_rate": 0.14513689279556274,
+          "spectral_centroid_hz": 2847.7122409625536,
+          "spectral_bandwidth_hz": 2931.3943309503547,
+          "f0_hz": 142.43448858833474,
+          "f0_std_hz": 74.8905085432258
+        }
+      },
+      "right": {
+        "design_id": "npc_patterson",
+        "npc": "Patterson",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_patterson_zh_ref.ogg",
+        "features": {
+          "duration_s": 20.0,
+          "rms": 0.10004515945911407,
+          "zero_crossing_rate": 0.1486961394548416,
+          "spectral_centroid_hz": 2641.3602634907807,
+          "spectral_bandwidth_hz": 2908.5180405369397,
+          "f0_hz": 139.53488372093022,
+          "f0_std_hz": 75.66972366632943
+        }
+      }
+    },
+    {
+      "lang": "zh",
+      "distance": 0.0692,
+      "left": {
+        "design_id": "npc_mariah",
+        "npc": "Mariah",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_mariah_zh_ref.ogg",
+        "features": {
+          "duration_s": 17.28,
+          "rms": 0.09318909794092178,
+          "zero_crossing_rate": 0.15745601058006287,
+          "spectral_centroid_hz": 2848.853987116969,
+          "spectral_bandwidth_hz": 3112.2134190495904,
+          "f0_hz": 216.21621621621622,
+          "f0_std_hz": 54.59312108336455
+        }
+      },
+      "right": {
+        "design_id": "npc_meryl",
+        "npc": "Meryl",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_meryl_zh_ref.ogg",
+        "features": {
+          "duration_s": 12.16,
+          "rms": 0.09699280560016632,
+          "zero_crossing_rate": 0.146392360329628,
+          "spectral_centroid_hz": 2793.7174052142145,
+          "spectral_bandwidth_hz": 3165.5961153555436,
+          "f0_hz": 203.38983050847457,
+          "f0_std_hz": 52.87017455416885
+        }
+      }
+    },
+    {
+      "lang": "en",
+      "distance": 0.0695,
+      "left": {
+        "design_id": "npc_gorn",
+        "npc": "Gorn",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_gorn_en_ref.ogg",
+        "features": {
+          "duration_s": 19.28,
+          "rms": 0.08405960351228714,
+          "zero_crossing_rate": 0.14646902680397034,
+          "spectral_centroid_hz": 2420.878337467132,
+          "spectral_bandwidth_hz": 2784.2204417449752,
+          "f0_hz": 100.0,
+          "f0_std_hz": 33.32744282738347
+        }
+      },
+      "right": {
+        "design_id": "npc_sam",
+        "npc": "Sam",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_sam_en_ref.ogg",
+        "features": {
+          "duration_s": 6.4,
+          "rms": 0.05544249340891838,
+          "zero_crossing_rate": 0.14113372564315796,
+          "spectral_centroid_hz": 2329.8431623194533,
+          "spectral_bandwidth_hz": 2786.9558532410824,
+          "f0_hz": 93.3852140077821,
+          "f0_std_hz": 35.18601553784229
+        }
+      }
+    },
+    {
+      "lang": "en",
+      "distance": 0.0704,
+      "left": {
+        "design_id": "npc_kessler",
+        "npc": "Kessler",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_kessler_en_ref.ogg",
+        "features": {
+          "duration_s": 20.0,
+          "rms": 0.0675840824842453,
+          "zero_crossing_rate": 0.13810445368289948,
+          "spectral_centroid_hz": 2423.3125413855537,
+          "spectral_bandwidth_hz": 2866.816805697177,
+          "f0_hz": 89.71993962770418,
+          "f0_std_hz": 72.6430920595925
+        }
+      },
+      "right": {
+        "design_id": "npc_shamino",
+        "npc": "Shamino",
+        "lang": "en",
+        "path": "/tmp/tmp.oN888giWPp/npc_shamino_en_ref.ogg",
+        "features": {
+          "duration_s": 15.36,
+          "rms": 0.07663791626691818,
+          "zero_crossing_rate": 0.13529224693775177,
+          "spectral_centroid_hz": 2384.3405765554803,
+          "spectral_bandwidth_hz": 2941.6093985954094,
+          "f0_hz": 88.88888888888889,
+          "f0_std_hz": 65.3065730389863
+        }
+      }
+    },
+    {
+      "lang": "zh",
+      "distance": 0.0704,
+      "left": {
+        "design_id": "npc_blacktooth",
+        "npc": "Blacktooth",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_blacktooth_zh_ref.ogg",
+        "features": {
+          "duration_s": 15.44,
+          "rms": 0.08979035168886185,
+          "zero_crossing_rate": 0.13079968094825745,
+          "spectral_centroid_hz": 2613.4270724539824,
+          "spectral_bandwidth_hz": 2973.181237412548,
+          "f0_hz": 106.19469026548673,
+          "f0_std_hz": 85.5462800091338
+        }
+      },
+      "right": {
+        "design_id": "npc_inmanilem",
+        "npc": "Inmanilem",
+        "lang": "zh",
+        "path": "/tmp/tmp.oN888giWPp/npc_inmanilem_zh_ref.ogg",
+        "features": {
+          "duration_s": 6.08,
+          "rms": 0.08256107568740845,
+          "zero_crossing_rate": 0.131052166223526,
+          "spectral_centroid_hz": 2454.477318815068,
+          "spectral_bandwidth_hz": 2933.7676384798915,
+          "f0_hz": 90.05660217960633,
+          "f0_std_hz": 90.82337784971678
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "npc_name": "Liana",
+  "url": "https://wiki.ultimacodex.com/wiki/Liana",
+  "title": "Liana",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Liana</b> is the secretary to Mayor <a href=\"/wiki/Auston\" title=\"Auston\">Auston</a> of <a href=\"/wiki/Vesper\" title=\"Vesper\">Vesper</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Liana is the secretary to Mayor Auston of Vesper in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Vesper"
+  },
+  "fetched_at": "2026-04-18T20:32:51.852610+00:00"
+}

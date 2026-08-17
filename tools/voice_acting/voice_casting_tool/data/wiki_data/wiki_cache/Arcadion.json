@@ -1,0 +1,12 @@
+{
+  "npc_name": "Arcadion",
+  "url": "https://wiki.ultimacodex.com/wiki/Arcadion",
+  "title": "Arcadion",
+  "summary_html": "<div class=\"mw-parser-output\">\n\n\n</td></tr></tbody></table>\n<p><b>Arcadion</b> is a <a href=\"/wiki/Daemon\" class=\"mw-redirect\" title=\"Daemon\">daemon</a> who is introduced in the expansion pack for <i><a href=\"/wiki/Ultima_VII\" class=\"mw-redirect\" title=\"Ultima VII\">Ultima VII</a></i>, the <i><a href=\"/wiki/Forge_of_Virtue\" class=\"mw-redirect\" title=\"Forge of Virtue\">Forge of Virtue</a></i>, and who later appears in <i><a href=\"/wiki/Ultima_VII_Part_Two\" class=\"mw-redirect\" title=\"Ultima VII Part Two\">Ultima VII Part Two</a></i> and potentially in <i><a href=\"/wiki/Ultima_VIII\" class=\"mw-redirect\" title=\"Ultima VIII\">Ultima VIII</a></i>. He is bound to the <a href=\"/wiki/The_Black_Sword\" class=\"mw-redirect\" title=\"The Black Sword\">Black Sword</a>, an artifact of great power wielded by the <a href=\"/wiki/Avatar\" title=\"Avatar\">Avatar</a> of <a href=\"/wiki/Britannia\" title=\"Britannia\">Britannia</a>.\n</p>",
+  "summary_text": "Arcadion is a daemon who is introduced in the expansion pack for Ultima VII, the Forge of Virtue, and who later appears in Ultima VII Part Two and potentially in Ultima VIII. He is bound to the Black Sword, an artifact of great power wielded by the Avatar of Britannia.",
+  "infobox": {
+    "Species": "daemon",
+    "Location": "Isle of Fire"
+  },
+  "fetched_at": "2026-04-18T20:31:11.896512+00:00"
+}

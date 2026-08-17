@@ -1,0 +1,13 @@
+{
+  "npc_name": "Papa",
+  "url": "https://wiki.ultimacodex.com/wiki/Papa",
+  "title": "Papa",
+  "summary_html": "<div class=\"mw-parser-output\">\n\n</td></tr></tbody></table>\n<p><b>Papa</b> is a <a href=\"/wiki/Cyclops\" title=\"Cyclops\">cyclops</a> occupying the keep of <a href=\"/wiki/Stonegate\" title=\"Stonegate\">Stonegate</a> in <i><a href=\"/wiki/Ultima_VI:_The_False_Prophet\" title=\"Ultima VI: The False Prophet\">Ultima&#160;VI</a></i>.\n</p>",
+  "summary_text": "Papa is a cyclops occupying the keep of Stonegate in Ultima VI.",
+  "infobox": {
+    "Species": "cyclops",
+    "Location": "Stonegate",
+    "Transcript": "Papa"
+  },
+  "fetched_at": "2026-04-18T20:33:21.164096+00:00"
+}

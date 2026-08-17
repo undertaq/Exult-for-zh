@@ -1,0 +1,12 @@
+{
+  "npc_name": "Mikos",
+  "url": "https://wiki.ultimacodex.com/wiki/Mikos",
+  "title": "Mikos",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Mikos</b> is the foreman of the <a href=\"/wiki/Covetous\" title=\"Covetous\">Covetous</a> mine operated by the <a href=\"/wiki/Britannian_Mining_Company_(BMC)\" class=\"mw-redirect\" title=\"Britannian Mining Company (BMC)\">Britannian Mining Company (BMC)</a> in <i><a href=\"/wiki/Ultima_VII\" class=\"mw-redirect\" title=\"Ultima VII\">Ultima VII</a></i>.\n</p>",
+  "summary_text": "Mikos is the foreman of the Covetous mine operated by the Britannian Mining Company (BMC) in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Covetous"
+  },
+  "fetched_at": "2026-04-18T20:33:07.370830+00:00"
+}

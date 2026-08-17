@@ -1,0 +1,13 @@
+{
+  "npc_name": "Betra",
+  "url": "https://wiki.ultimacodex.com/wiki/Betra",
+  "title": "Betra",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Betra</b> is a wingless <a href=\"/wiki/Gargoyle\" class=\"mw-redirect\" title=\"Gargoyle\">gargoyle</a> working as a <a href=\"/wiki/Provisioner\" title=\"Provisioner\">provisioner</a> on <a href=\"/wiki/Terfin\" title=\"Terfin\">Terfin</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Betra is a wingless gargoyle working as a provisioner on Terfin in Ultima VII.",
+  "infobox": {
+    "Species": "gargoyle",
+    "Profession": "provisioner",
+    "Location": "Terfin"
+  },
+  "fetched_at": "2026-04-18T20:31:17.807250+00:00"
+}

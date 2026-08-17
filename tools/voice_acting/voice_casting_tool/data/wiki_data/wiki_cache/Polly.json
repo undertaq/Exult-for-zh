@@ -1,0 +1,12 @@
+{
+  "npc_name": "Polly",
+  "url": "https://wiki.ultimacodex.com/wiki/Polly",
+  "title": "Polly",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Polly</b> is the owner of the <a href=\"/wiki/Salty_Dog_Tavern\" class=\"mw-redirect\" title=\"Salty Dog Tavern\">Salty Dog Tavern</a> in <a href=\"/wiki/Paws\" title=\"Paws\">Paws</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Polly is the owner of the Salty Dog Tavern in Paws in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Paws"
+  },
+  "fetched_at": "2026-04-18T20:33:28.597789+00:00"
+}

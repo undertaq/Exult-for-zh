@@ -1,0 +1,13 @@
+{
+  "npc_name": "Figg",
+  "url": "https://wiki.ultimacodex.com/wiki/Figg",
+  "title": "Figg",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Figg</b> is the caretaker of the <a href=\"/wiki/Apple_Orchard\" class=\"mw-redirect\" title=\"Apple Orchard\"> Royal Orchards</a> in <a href=\"/wiki/Britain\" title=\"Britain\">Britain</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>",
+  "summary_text": "Figg is the caretaker of the Royal Orchards in Britain in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "gardener",
+    "Location": "Britain"
+  },
+  "fetched_at": "2026-04-18T20:32:00.429804+00:00"
+}

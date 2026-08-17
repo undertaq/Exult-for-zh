@@ -2,7 +2,6 @@ commit.bat
 update.bat
 ed.bat
 add.bat
-exult.cfg
 
 *.sav
 exult???.pcx
@@ -339,3 +338,31 @@ vcpkg/
 
 # TrueType Font files
 *.ttf
+
+# Generated voice output (too large for git)
+voice/
+cosyvoice/
+voice_backup/
+*.log
+*.bak
+
+# Python virtual environments
+.venv/
+
+=== .gitignore additions ===
+voice/
+voice_0629/
+cosyvoice/
+*.log
+*.bak
+
+# Exception: keep NPC reference voice audio tracked
+!voice/refs/
+
+# Reference voice candidate samples (bulky, regenerate locally)
+tools/voice_acting/reference_candidates/
+.worktrees/
+
+tools/journal_notes/__pycache__/
+tools/journal_notes/*_cache.jsonl
+minidump.dmp

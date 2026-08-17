@@ -37,12 +37,14 @@
 #include "AudioMixer.h"
 #include "AudioOptions_gump.h"
 #include "Configuration.h"
+#include "VoiceActingManager.h"
 #include "Enabled_button.h"
 #include "Gump_ToggleButton.h"
 #include "Gump_button.h"
 #include "Gump_manager.h"
 #include "MidiDriver.h"
 #include "Mixer_gump.h"
+#include "Notebook_gump.h"
 #include "XMidiFile.h"
 #include "Yesno_gump.h"
 #include "exult.h"
@@ -341,6 +343,20 @@ void AudioOptions_gump::rebuild_buttons() {
 	buttons[id_speech_enabled]              = std::make_unique<AudioTextToggle>(
             this, &AudioOptions_gump::toggle_speech_enabled, std::move(speech_options), speech_option,
             get_button_pos_for_label(Strings::Speech_()), yForRow(12), 108);
+
+	// text language toggle
+	std::vector<std::string> lang_options = {"English", "Chinese"};
+	buttons[id_text_language]             = std::make_unique<AudioTextToggle>(
+            this, &AudioOptions_gump::toggle_text_language,
+            std::move(lang_options), text_language,
+            get_button_pos_for_label("Text Language"), yForRow(13), 80);
+
+	// voice language toggle
+	std::vector<std::string> vlang_options = {"English", "Chinese"};
+	buttons[id_voice_language]             = std::make_unique<AudioTextToggle>(
+            this, &AudioOptions_gump::toggle_voice_language,
+            std::move(vlang_options), voice_language,
+            get_button_pos_for_label("Voice Language"), yForRow(14), 80);
 	do_arrange();
 }
 
@@ -469,6 +485,11 @@ void AudioOptions_gump::load_settings() {
 			= (Audio::get_ptr()->is_speech_enabled()
 					   ? (Audio::get_ptr()->is_speech_with_subs() ? speech_on_with_subtitles : speech_on)
 					   : speech_off);
+	std::string text_lang_str, voice_lang_str;
+	config->value("config/audio/text/language", text_lang_str, "en");
+	config->value("config/audio/speech/voice/language", voice_lang_str, "zh");
+	text_language   = (text_lang_str == "zh") ? 1 : 0;
+	voice_language  = (voice_lang_str == "zh") ? 1 : 0;
 	midi_looping = Audio::get_ptr()->get_music_looping();
 	speaker_type = true;    // stereo
 	sample_rate  = 44100;
@@ -576,7 +597,7 @@ void AudioOptions_gump::load_settings() {
 
 AudioOptions_gump::AudioOptions_gump() : Modal_gump(nullptr, -1) {
 	const int bottomrow_gap = 0;
-	SetProceduralBackground(TileRect(0, 0, 100, yForRow(14) + 2 * bottomrow_gap), -1);
+	SetProceduralBackground(TileRect(0, 0, 100, yForRow(17) + 2 * bottomrow_gap), -1);
 
 	const Exult_Game  game  = Game::get_game_type();
 	const std::string title = Game::get_gametitle();
@@ -614,13 +635,13 @@ AudioOptions_gump::AudioOptions_gump() : Modal_gump(nullptr, -1) {
 			this, &AudioOptions_gump::toggle_audio_enabled, audio_enabled, procedural_background.w - 59, yForRow(1), 59);
 	// Apply
 	buttons[id_apply] = std::make_unique<AudioOptions_button>(
-			this, &AudioOptions_gump::save_settings, Strings::APPLY(), 25, yForRow(13) + bottomrow_gap, 50);
+			this, &AudioOptions_gump::save_settings, Strings::APPLY(), 25, yForRow(15) + bottomrow_gap, 50);
 	// Help
 	buttons[id_help] = std::make_unique<AudioOptions_button>(
-			this, &AudioOptions_gump::help, Strings::HELP(), 50, yForRow(13) + bottomrow_gap, 50);
+			this, &AudioOptions_gump::help, Strings::HELP(), 50, yForRow(15) + bottomrow_gap, 50);
 	// Cancel
 	buttons[id_cancel] = std::make_unique<AudioOptions_button>(
-			this, &AudioOptions_gump::cancel, Strings::CANCEL(), 100, yForRow(13) + bottomrow_gap, 50);
+			this, &AudioOptions_gump::cancel, Strings::CANCEL(), 100, yForRow(15) + bottomrow_gap, 50);
 
 	rebuild_buttons();
 	do_arrange();
@@ -687,6 +708,14 @@ void AudioOptions_gump::save_settings() {
 	config->set("config/audio/effects/enabled", sfx_enabled ? "yes" : "no", false);
 	config->set("config/audio/speech/enabled", (speech_option != speech_off) ? "yes" : "no", false);
 	config->set("config/audio/speech/with_subs", (speech_option == speech_on_with_subtitles) ? "yes" : "no", false);
+	config->set("config/audio/text/language", text_language == 1 ? "zh" : "en", false);
+	config->set("config/audio/speech/voice/language", voice_language == 1 ? "zh" : "en", false);
+	BilingualManager::get().set_text_language(
+			text_language == 1 ? TextLanguage::CHINESE : TextLanguage::ENGLISH);
+	// Existing auto-notes are re-read and re-translated; manual notes
+	// keep their text.
+	Notebook_gump::refresh_auto_text_notes();
+	VoiceActingManager::init();    // Re-read voice config
 
 	const char* midi_looping_values[] = {"never", "limited", "auto", "endless"};
 	config->set("config/audio/midi/looping", midi_looping_values[static_cast<int>(midi_looping)], false);
@@ -781,6 +810,8 @@ void AudioOptions_gump::paint() {
 		}
 #endif
 		font->paint_text(iwin->get_ib8(), Strings::Speech_(), x + label_margin, y + yForRow(12) + 1);
+		font->paint_text(iwin->get_ib8(), "Text Language", x + label_margin, y + yForRow(13) + 1);
+		font->paint_text(iwin->get_ib8(), "Voice Language", x + label_margin, y + yForRow(14) + 1);
 	}
 	gwin->set_painted();
 }

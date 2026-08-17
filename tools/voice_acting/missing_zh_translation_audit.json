@@ -1,0 +1,468 @@
+{
+  "model": "qwen3.6:35b",
+  "selected": 85,
+  "rows": [
+    {
+      "index": 83,
+      "status": "rejected",
+      "errors": [
+        "unbalanced corner quotes",
+        "simplified Chinese character detected"
+      ]
+    },
+    {
+      "index": 84,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 143,
+      "status": "rejected",
+      "errors": [
+        "unbalanced corner quotes"
+      ]
+    },
+    {
+      "index": 197,
+      "status": "rejected",
+      "errors": [
+        "simplified Chinese character detected"
+      ]
+    },
+    {
+      "index": 198,
+      "status": "rejected",
+      "errors": [
+        "simplified Chinese character detected"
+      ]
+    },
+    {
+      "index": 376,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 848,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 849,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 1025,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 1152,
+      "status": "rejected",
+      "errors": [
+        "simplified Chinese character detected"
+      ]
+    },
+    {
+      "index": 1236,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 1237,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 1358,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 1521,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 1588,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 1953,
+      "status": "rejected",
+      "errors": [
+        "simplified Chinese character detected"
+      ]
+    },
+    {
+      "index": 2163,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 2164,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 2392,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 2432,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 2433,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 2514,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 2576,
+      "status": "rejected",
+      "errors": [
+        "simplified Chinese character detected"
+      ]
+    },
+    {
+      "index": 2697,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 2698,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 2699,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 3090,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 3272,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 3337,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 3702,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 3765,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 4116,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 4517,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 4760,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 5035,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 5036,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 5037,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 5038,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 5039,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 5040,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 5041,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 5042,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 5043,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 5044,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 5045,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 5084,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 5297,
+      "status": "rejected",
+      "errors": [
+        "simplified Chinese character detected"
+      ]
+    },
+    {
+      "index": 5413,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 5567,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 5568,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 5569,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 5710,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 6141,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 7046,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 7047,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 7048,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 7180,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 7271,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 7272,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 7273,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 7274,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 7382,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 7383,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 7384,
+      "status": "rejected",
+      "errors": [
+        "simplified Chinese character detected"
+      ]
+    },
+    {
+      "index": 7385,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 7662,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 7663,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 7820,
+      "status": "rejected",
+      "errors": [
+        "simplified Chinese character detected"
+      ]
+    },
+    {
+      "index": 7821,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 7822,
+      "status": "rejected",
+      "errors": [
+        "simplified Chinese character detected"
+      ]
+    },
+    {
+      "index": 7896,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 7897,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 7898,
+      "status": "rejected",
+      "errors": [
+        "simplified Chinese character detected"
+      ]
+    },
+    {
+      "index": 7899,
+      "status": "rejected",
+      "errors": [
+        "simplified Chinese character detected"
+      ]
+    },
+    {
+      "index": 7900,
+      "status": "rejected",
+      "errors": [
+        "simplified Chinese character detected"
+      ]
+    },
+    {
+      "index": 7901,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 7902,
+      "status": "rejected",
+      "errors": [
+        "simplified Chinese character detected"
+      ]
+    },
+    {
+      "index": 7903,
+      "status": "rejected",
+      "errors": [
+        "simplified Chinese character detected"
+      ]
+    },
+    {
+      "index": 7955,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 8030,
+      "status": "rejected",
+      "errors": [
+        "simplified Chinese character detected"
+      ]
+    },
+    {
+      "index": 8197,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 8198,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 8258,
+      "status": "accepted",
+      "errors": []
+    },
+    {
+      "index": 8330,
+      "status": "rejected",
+      "errors": [
+        "simplified Chinese character detected"
+      ]
+    },
+    {
+      "index": 8565,
+      "status": "accepted",
+      "errors": []
+    }
+  ]
+}

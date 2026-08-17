@@ -36,6 +36,8 @@ EXULTSOURCES =	\
 	actors.h	\
 	args.cc		\
 	args.h		\
+	bilingual_manager.cc \
+	bilingual_manager.h \
 	browser.cc	\
 	browser.h	\
 	cheat.cc	\
@@ -123,6 +125,7 @@ EXULTSOURCES =	\
 
 EXULTLIBS = \
 	pathfinder/libpathfinder.la		\
+	usecode/libusecode.la	\
 	audio/libaudio.la	\
 	audio/midi_drivers/libmididrv.la	\
 	audio/midi_drivers/timidity/libtimidity.la	\
@@ -131,7 +134,6 @@ EXULTLIBS = \
 	server/libserver.la \
 	gamemgr/libgamemgr.la	\
 	flic/libflic.la \
-	usecode/libusecode.la	\
 	shapes/libshapes.la \
 	shapes/shapeinf/libshapeinf.la \
 	objs/libobjs.la \

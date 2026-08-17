@@ -1,0 +1,13 @@
+{
+  "npc_name": "Gaye",
+  "url": "https://wiki.ultimacodex.com/wiki/Gaye",
+  "title": "Gaye",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Gaye</b> is a <a href=\"/wiki/Clothier\" title=\"Clothier\">clothier</a> in <a href=\"/wiki/Britain\" title=\"Britain\">Britain</a> during <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Gaye is a clothier in Britain during Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "clothier",
+    "Location": "Britain"
+  },
+  "fetched_at": "2026-04-18T20:32:10.303467+00:00"
+}

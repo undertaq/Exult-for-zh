@@ -1,0 +1,12 @@
+{
+  "npc_name": "Zelda",
+  "url": "https://wiki.ultimacodex.com/wiki/Zelda",
+  "title": "Zelda",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Zelda</b> is a woman in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i> who serves as an administrative assistant to <a href=\"/wiki/Nelson\" title=\"Nelson\">Nelson</a>, the head of the <a href=\"/wiki/Lycaeum\" title=\"Lycaeum\">Lycaeum</a> at the time.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Zelda is a woman in Ultima VII who serves as an administrative assistant to Nelson, the head of the Lycaeum at the time.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Lycaeum"
+  },
+  "fetched_at": "2026-04-18T20:34:17.255177+00:00"
+}

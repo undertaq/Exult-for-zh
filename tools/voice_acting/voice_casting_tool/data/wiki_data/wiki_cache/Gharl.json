@@ -1,0 +1,12 @@
+{
+  "npc_name": "Gharl",
+  "url": "https://wiki.ultimacodex.com/wiki/Gharl",
+  "title": "Gharl",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Gharl</b> is a <a href=\"/wiki/Trolls\" title=\"Trolls\">troll</a> imprisoned in the prison of the <a href=\"/wiki/Yew\" title=\"Yew\"> Yewish</a> <a href=\"/wiki/High_Court\" title=\"High Court\">High Court</a>.\n</p>",
+  "summary_text": "Gharl is a troll imprisoned in the prison of the Yewish High Court.",
+  "infobox": {
+    "Species": "troll",
+    "Location": "Yew"
+  },
+  "fetched_at": "2026-04-18T20:32:11.802312+00:00"
+}

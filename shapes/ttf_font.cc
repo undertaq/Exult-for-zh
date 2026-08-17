@@ -2,7 +2,9 @@
 #include "deferred_text.h"
 #include <ft2build.h>
 #include FT_FREETYPE_H
+#include <cstdint>
 #include <string>
+#include <unordered_map>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -36,6 +38,12 @@ namespace TTF {
 
     static std::string loaded_path = "";
     static int loaded_size = -1;
+    // Per-character advance cache, keyed by (pixel size, codepoint).
+    // Font::get_text_width switches the TTF pixel size between ASCII and CJK
+    // words on mixed lines, so a single-size cache would be cleared on every
+    // switch and re-render every glyph; keying by size keeps the entries
+    // valid across switches. Cleared only when the face itself changes.
+    static std::unordered_map<uint64_t, int> char_width_cache;
 
     bool load_font(const char* filepath, int pixel_size) {
         if (!initialized) init();
@@ -58,6 +66,7 @@ namespace TTF {
         FT_Set_Pixel_Sizes(face, 0, pixel_size);
         loaded_path = filepath;
         loaded_size = pixel_size;
+        char_width_cache.clear();
         return true;
     }
 
@@ -135,34 +144,44 @@ namespace TTF {
             return dot_w + style.letter_spacing;
         }
         if (!face) return 16;
-        if (FT_Load_Char(face, wch, FT_LOAD_RENDER | FT_LOAD_TARGET_MONO)) {
-            return 16;
-        }
-        
-        int advance;
-        if (wch > 32 && wch < 128) {
-            int true_left = face->glyph->bitmap.width;
-            int true_right = 0;
-            for (unsigned int row = 0; row < face->glyph->bitmap.rows; ++row) {
-                for (unsigned int col = 0; col < face->glyph->bitmap.width; ++col) {
-                    int byte_idx = row * face->glyph->bitmap.pitch + (col >> 3);
-                    int bit_idx = 7 - (col & 7);
-                    if (face->glyph->bitmap.buffer[byte_idx] & (1 << bit_idx)) {
-                        if ((int)col < true_left) true_left = col;
-                        if ((int)col + 1 > true_right) true_right = col + 1;
+        int base = 0;
+        const uint64_t key = (static_cast<uint64_t>(loaded_size) << 32) | wch;
+        const auto it = char_width_cache.find(key);
+        if (it != char_width_cache.end()) {
+            base = it->second;
+        } else {
+            if (wch > 32 && wch < 128) {
+                if (FT_Load_Char(face, wch, FT_LOAD_RENDER | FT_LOAD_TARGET_MONO)) {
+                    return 16;
+                }
+                int true_left = face->glyph->bitmap.width;
+                int true_right = 0;
+                for (unsigned int row = 0; row < face->glyph->bitmap.rows; ++row) {
+                    for (unsigned int col = 0; col < face->glyph->bitmap.width; ++col) {
+                        int byte_idx = row * face->glyph->bitmap.pitch + (col >> 3);
+                        int bit_idx = 7 - (col & 7);
+                        if (face->glyph->bitmap.buffer[byte_idx] & (1 << bit_idx)) {
+                            if ((int)col < true_left) true_left = col;
+                            if ((int)col + 1 > true_right) true_right = col + 1;
+                        }
                     }
                 }
-            }
-            if (true_right > 0) {
-                advance = (true_right - true_left) + style.weight + 2; // 絕對 2px 間距
+                if (true_right > 0) {
+                    base = (true_right - true_left) + 2; // 絕對 2px 間距
+                } else {
+                    base = (face->glyph->advance.x >> 6) + 2;
+                }
             } else {
-                advance = (face->glyph->advance.x >> 6) + style.weight + 2;
+                // CJK: measurement only needs the advance; skip rendering.
+                if (FT_Load_Char(face, wch, FT_LOAD_DEFAULT)) {
+                    return 16;
+                }
+                int extra_spacing = (wch >= 0x80) ? 2 : 1;
+                base = (face->glyph->advance.x >> 6) + extra_spacing;
             }
-        } else {
-            int extra_spacing = (wch >= 0x80) ? 2 : 1;
-            advance = (face->glyph->advance.x >> 6) + extra_spacing + style.weight;
+            char_width_cache.emplace(key, base);
         }
-        return advance + style.letter_spacing;
+        return base + style.weight + style.letter_spacing;
     }
 
     static unsigned char cached_fg = 254;

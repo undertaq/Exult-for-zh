@@ -1,0 +1,12 @@
+{
+  "npc_name": "Apollonia",
+  "url": "https://wiki.ultimacodex.com/wiki/Apollonia",
+  "title": "Apollonia",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Apollonia</b>, a buxom woman in her mid-thirties, runs the <a href=\"/wiki/The_Honorable_Hound\" title=\"The Honorable Hound\"> The Honorable Hound Pub and Inn</a> in <a href=\"/wiki/Trinsic\" title=\"Trinsic\">Trinsic</a>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Apollonia, a buxom woman in her mid-thirties, runs the The Honorable Hound Pub and Inn in Trinsic.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Trinsic"
+  },
+  "fetched_at": "2026-04-18T20:31:11.167641+00:00"
+}

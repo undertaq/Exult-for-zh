@@ -1,0 +1,12 @@
+{
+  "npc_name": "Goth",
+  "url": "https://wiki.ultimacodex.com/wiki/Goth",
+  "title": "Goth",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Goth</b> is a prison guard working at <a href=\"/wiki/Yew\" title=\"Yew\">Yew's</a> <a href=\"/wiki/High_Court\" title=\"High Court\">High Court</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Goth is a prison guard working at Yew's High Court in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Yew"
+  },
+  "fetched_at": "2026-04-18T20:32:16.953510+00:00"
+}

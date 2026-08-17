@@ -1,0 +1,13 @@
+{
+  "npc_name": "Jillian",
+  "url": "https://wiki.ultimacodex.com/wiki/Jillian",
+  "title": "Jillian",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Jillian</b> is a <a href=\"/wiki/Trainer_for_the_Art_of_Magic\" class=\"mw-redirect\" title=\"Trainer for the Art of Magic\"> trainer</a> and scholar of some renown who often can be found in the environs of the <a href=\"/wiki/Lycaeum\" title=\"Lycaeum\">Lycaeum</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Jillian is a trainer and scholar of some renown who often can be found in the environs of the Lycaeum in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "trainer",
+    "Location": "Lycaeum"
+  },
+  "fetched_at": "2026-04-18T20:32:34.691526+00:00"
+}

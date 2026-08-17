@@ -47,6 +47,7 @@ void        Set_misc_name(unsigned num, const char* name);
 
 void Setup_text(bool si, bool expansion, bool sibeta, Game_Language language, bool use_special_chars = false);
 void Free_text();
+void Reload_text(int lang_index);  // 0=English, 1=Chinese
 void Write_text_file();
 
 // This is the offset messages start at in txt.flx and exultmsg.txt

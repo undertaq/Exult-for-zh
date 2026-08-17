@@ -1,0 +1,13 @@
+{
+  "npc_name": "Clint",
+  "url": "https://wiki.ultimacodex.com/wiki/Clint",
+  "title": "Clint",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Clint</b> is a <a href=\"/wiki/Shipwright\" title=\"Shipwright\">shipwright</a> in <a href=\"/wiki/Britain\" title=\"Britain\">Britain</a>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Clint is a shipwright in Britain.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "shipwright",
+    "Location": "Britain"
+  },
+  "fetched_at": "2026-04-18T20:31:37.084754+00:00"
+}

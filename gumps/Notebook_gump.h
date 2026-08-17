@@ -27,6 +27,46 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 class One_note;
 
+enum class NoteCategory {
+	GENERAL = 0,
+	QUEST,
+	JOURNEY,
+	CLUE,
+	LOCATION,
+	NPC
+};
+
+inline const char* note_category_to_string(NoteCategory cat) {
+	switch (cat) {
+		case NoteCategory::QUEST: return "quest";
+		case NoteCategory::JOURNEY: return "journey";
+		case NoteCategory::CLUE: return "clue";
+		case NoteCategory::LOCATION: return "location";
+		case NoteCategory::NPC: return "npc";
+		default: return "general";
+	}
+}
+
+inline NoteCategory string_to_note_category(const std::string& str) {
+	if (str == "quest") return NoteCategory::QUEST;
+	if (str == "journey") return NoteCategory::JOURNEY;
+	if (str == "clue") return NoteCategory::CLUE;
+	if (str == "location") return NoteCategory::LOCATION;
+	if (str == "npc") return NoteCategory::NPC;
+	return NoteCategory::GENERAL;
+}
+
+/*
+ *  A quest's location for the world-map overlay.
+ */
+struct Quest_marker {
+	int         tx, ty;    // Destination tile.
+	int         note_index;    // Index into Notebook_gump's notes list.
+	std::string text;    // Note text, for the map tooltip.
+	Quest_marker() : tx(0), ty(0), note_index(-1) {}
+};
+
+
 /*
  *  Info. for top of a page.
  */
@@ -44,6 +84,9 @@ public:
  *  A notebook gump represents the in-game journal.
  */
 class Notebook_gump : public Gump {
+	friend class Notebook_chip_button;
+	friend class Notebook_null_button;
+	friend class Notebook_map_button;
 	static std::vector<One_note*> notes;    // The text.
 	// Indexed by page#.
 	static std::vector<Notebook_top> page_info;
@@ -57,6 +100,15 @@ class Notebook_gump : public Gump {
 	int                              updnx = 0;      // X-coord. for up/down arrows.
 	// Page turners:
 	Gump_button *leftpage, *rightpage;
+	// Bottom-strip UI: 3 category tabs, search box, hide-completed toggle.
+	Gump_button* tab_buttons[3] = {};
+	Gump_button* search_button  = nullptr;
+	Gump_button* toggle_button  = nullptr;
+	Gump_button* null_button    = nullptr;    // Swallows clicks on the checkbox.
+	Gump_button* map_button     = nullptr;    // [Map] chip click handler.
+	int          pending_map    = -1;         // notes[] index of the note whose
+	//   [Map] chip was pressed, or -1.
+	bool         search_focused = false;    // Interactive search box has focus.
 	// Add new note.
 	static void add_new(const std::string& text, int gflag = -1);
 	bool        paint_page(const TileRect& box, One_note* note, int& offset, int pagenum);
@@ -75,7 +127,36 @@ class Notebook_gump : public Gump {
 	void jump_to_first_entry();
 	void jump_to_last_entry();
 
+	static NoteCategory active_filter;
+	static std::string  search_query;
+	static bool         show_completed;
+	static int          unread_count;
+	static bool         dirty;    // True when notes changed and need saving.
+	// Index into notes[] of the notes that pass the current filter,
+	// in display order. Empty means all notes are visible.
+	static std::vector<int> visible;
+
+	static void set_filter(NoteCategory cat) { active_filter = cat; }
+	static NoteCategory get_filter() { return active_filter; }
+	static const std::string& get_search_query() { return search_query; }
+	static void set_search_query(const std::string& q) { search_query = q; }
+	static bool note_matches_filter(const One_note* note);
+	// Rebuild the visible list after filter/search/status changes.
+	static void rebuild_visible();
+	// Number of notes currently visible (subject to filter/search/status).
+	static int nb_note_count() {
+		return visible.empty() ? 0 : static_cast<int>(visible.size());
+	}
+	// Map a visible index to the underlying note.
+	static One_note* nb_note(int i) {
+		return notes[visible[i]];
+	}
+	// Precompute page_info for every visible note using measure-only text
+	// layout (no painting), so jumps and map clicks land instantly.
+	static void build_page_info();
+
 public:
+	static int get_unread_count();
 	Notebook_gump();
 	~Notebook_gump() override;
 	static void           clear();
@@ -86,6 +167,8 @@ public:
 	}
 
 	void change_page(int delta);    // Page forward/backward.
+	// Reset paging and repaint after visibility changed.
+	void reset_view();
 	// Is a given point on a button?
 	Gump_button* on_button(int mx, int my) override;
 	void         paint() override;    // Paint it and its contents.
@@ -101,6 +184,17 @@ public:
 		}
 	}
 
+	static std::vector<Quest_marker> get_quest_markers();    // Active quests, newest first.
+	// Open the notebook (creating it if needed) on the page where the
+	// given notes[] entry starts.
+	static void open_at_note(int notes_index);
+	static void invalidate_auto_text() {
+		initialized_auto_text = false;
+	}
+	// Re-read the auto-note texts in the current language and refresh
+	// existing auto-notes (gflag >= 0) so saved notes follow the switch.
+	static void refresh_auto_text_notes();
+
 	bool is_draggable() const override {
 		return false;
 	}
@@ -114,5 +208,11 @@ public:
 	static void read_auto_text();
 	static void read_auto_text_file(const char* filename);
 };
+
+/*
+ *  Modal paper-map display with quest markers; 'focus' is highlighted.
+ *  Defined in usecode/intrinsics.cc. Closes no gumps itself.
+ */
+void display_quest_map(const Quest_marker& focus);
 
 #endif

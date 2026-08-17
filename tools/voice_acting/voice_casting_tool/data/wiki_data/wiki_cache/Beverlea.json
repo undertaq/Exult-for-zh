@@ -1,0 +1,13 @@
+{
+  "npc_name": "Beverlea",
+  "url": "https://wiki.ultimacodex.com/wiki/Beverlea",
+  "title": "Beverlea",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Beverlea</b> is the owner of a used-goods shop known as the <a href=\"/wiki/House_of_Items\" class=\"mw-redirect\" title=\"House of Items\">House of Items</a> in <a href=\"/wiki/Paws\" title=\"Paws\">Paws</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Beverlea is the owner of a used-goods shop known as the House of Items in Paws in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "retailer",
+    "Location": "Paws"
+  },
+  "fetched_at": "2026-04-18T20:31:18.555568+00:00"
+}

@@ -418,6 +418,10 @@ public:
 		return usecode;
 	}
 
+	inline void set_usecode(Usecode_machine* u) {
+		usecode = u;
+	}
+
 	inline Image_window8* get_win() const {
 		return win;
 	}

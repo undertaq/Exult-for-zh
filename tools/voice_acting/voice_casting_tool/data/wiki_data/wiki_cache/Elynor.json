@@ -1,0 +1,12 @@
+{
+  "npc_name": "Elynor",
+  "url": "https://wiki.ultimacodex.com/wiki/Elynor",
+  "title": "Elynor",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Elynor</b> is leader of the <a href=\"/wiki/Fellowship\" title=\"Fellowship\">Fellowship</a> branch in <a href=\"/wiki/Minoc\" title=\"Minoc\">Minoc</a>. She appears in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>. \n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Elynor is leader of the Fellowship branch in Minoc. She appears in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Minoc"
+  },
+  "fetched_at": "2026-04-18T20:31:56.045531+00:00"
+}

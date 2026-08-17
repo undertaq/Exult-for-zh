@@ -1,0 +1,280 @@
+func_id,npc,speaker,caller_guess,offset_key,segment,total_segments,has_var,text
+0x0903,,Iolo,,0x0,0,,,,
+0x0903,,Iolo,,0x7,0,,False,All is not right in Britannia. Perhaps Lord British will know the reason behind these disturbing developments.
+0x040B,,,,0x17_0x58,0,,,"The peasant looks at you as if he has seen a ghost! ""Iolo! This person did appear from thin air! Help me!"""
+0x040C,,,,0x9a4_0xa0c,0,,,"Trinsic was once the city of Honor. I suppose it still is. Our Rune of Honor was taken many years ago by one who claimed they were the Avatar. I believe it now resides in the Royal Museum in Britain, yet the empty pedestal still remains in the center of town. I feel this is symbolic of the town itself. It is rather empty -- of people, of life, and of honor. 'Tis sad, really."
+0x0413,,,,0xd1_0xf4,0,,,"""My name is Apollonia,"" she says, as her tongue licks her upper lip."
+0x0842,,,,0x164_0x167,0,,,"Is that price all right?"
+0x0860,,,,0xd7_0xf2,0,,,"Who dost thou wish to be serviced?"
+0x0860,,,,0x2b9_0x2c7,0,,,"My price is [sigh] gold. Is this satisfactory?"
+0x0872,,,,0xbc_0xbf,0,,,"Is that acceptable?"
+0x0874,,,,0x86_0x89,0,,,"Is that acceptable?"
+0x0886,,,,0x500_0x46d_0x46f,0,,,SKIP
+0x08BD,,,,0xb8_0xe5,0,,,You gather your gold and count it. You have [sigh] altogether.
+0x08BD,,,,0x19e_0x1a7,0,,,You pay [sigh] gold and the training session begins.
+0x08BD,,,,0x269_0x2c6_0x2d2,1,,,"Markus wields his sword and faces them. He gives them a few pointers in stance and balance, then demonstrates some sample thrusts."
+0x08BD,,,,0x320_0x32e_0x3ad,0,,,"Before long, they and the trainer are trading blows with weapons. He is obviously very good at what he does, and the experience is valuable to them. When the session is over, it is felt that there has been a gain in combat ability."
+0x009A,,Erethian,,0x237b,0,,,
+0x009A,,Erethian,,0x245b,0,,,
+0x009A,,Erethian,,0x251f,0,,,
+0x009A,,Erethian,,0x2624,0,,,
+0x009A,,Erethian,,0x270e,0,,,
+0x009A,,Erethian,,0x27aa,0,,,
+0x009A,,Erethian,,0x282b,0,,,
+0x009A,,Erethian,,0x287f,0,,,
+0x009A,,Erethian,,0x28f3,0,,,
+0x009A,,Erethian,,0x297e,0,,,
+0x009A,,Erethian,,0x29f2,0,,,
+0x009A,,Erethian,,0x2a80,0,,,
+0x009A,,Erethian,,0x2b3a,0,,,
+0x009A,,Erethian,,0x2be9,0,,,
+0x009A,,Erethian,,0x2c58,0,,,
+0x009A,,Erethian,,0x2cd0,0,,,
+0x009A,,Erethian,,0x2d4b,0,,,
+0x009A,,Erethian,,0x2d91,0,,,
+0x009A,,Erethian,,0x2e0a,0,,,
+0x009A,,Erethian,,0x2ec9,0,,,
+0x009A,,Erethian,,0x2f4b,0,,,
+0x009A,,Erethian,,0x2fc2,0,,,
+0x009A,,Erethian,,0x305e,0,,,
+0x009A,,Erethian,,0x3137,0,,,
+0x009A,,Erethian,,0x31a9,0,,,
+0x009A,,Erethian,,0x3228,0,,,
+0x009A,,Erethian,,0x333c,0,,,
+0x009A,,Erethian,,0x33cf,0,,,
+0x009A,,Erethian,,0x34d7,0,,,
+0x009A,,Erethian,,0x35a8,0,,,
+0x009A,,Erethian,,0x36a5,0,,,
+0x009A,,Erethian,,0x37b4,0,,,
+0x009A,,Erethian,,0x397b,0,,,
+0x009A,,Erethian,,0x3ad1,0,,,
+0x009A,,Erethian,,0x3c0b,0,,,
+0x009A,,Erethian,,0x3cdd_0x3d4d,0,,,
+0x009A,,Erethian,,0x3df8,0,,,
+0x018A,,Palace Guard,,0xd,0,,,
+0x018A,,Guard,,0x5b,0,,,
+0x018A,,Palace Guard,,0x74,0,,,
+0x018A,,Guard,,0xf3,0,,,
+0x01DF,,Emp,,,,,,
+0x01F8,,Dracothraxus,,,,,,
+0x0326,,Guard,,0x16,0,,,
+0x0326,,Guard,,0x5d,0,,,
+0x0326,,Guard,,0x82,0,,,
+0x0326,,Guard,,0x108,0,,,
+0x0326,,Guard,,0x160,0,,,
+0x0326,,Guard,,0x180,0,,,
+0x0326,,Guard,,0x1db,0,,,
+0x03B2,,Guard,,,,,,
+0x0608,,Hook,,0x1a1,0,,,
+0x0608,,Hook,,0x1b5_0x1d0_0x1e4,0,,,
+0x0608,,Forskis,,0x206,0,,,
+0x0608,,Abraham,,0x22b_0x259,0,,,
+0x0608,,Elizabeth,,0x25d,0,,,
+0x0614,,Guardian,,,,,,
+0x0625,,Guard,,,,,,
+0x06F6,,Arcadion,,0x0,0,,,
+0x06F6,,Arcadion,,0x10c,0,,,
+0x06F6,,Arcadion,,0x17b,0,,,
+0x06F6,,Arcadion,,0x1d5,0,,,
+0x06F6,,Arcadion,,0x28e,0,,,
+0x06F6,,Arcadion,,0x32c,0,,,
+0x06F6,,Arcadion,,0x3f0,0,,,
+0x06F6,,Arcadion,,0x48e,0,,,
+0x06F6,,Arcadion,,0x572,0,,,
+0x06F6,,Arcadion,,0x6f5,0,,,
+0x06F6,,Arcadion,,0x75a,0,,,
+0x06F6,,Arcadion,,0x7d5,0,,,
+0x06F6,,Arcadion,,0x858,0,,,
+0x06F6,,Arcadion,,0x8d7,0,,,
+0x06F6,,Arcadion,,0x94a,0,,,
+0x06F6,,Arcadion,,0x9bc,0,,,
+0x06F6,,Arcadion,,0xafe,0,,,
+0x06F6,,Arcadion,,0xb7f,0,,,
+0x06F6,,Arcadion,,0xc56,0,,,
+0x06F6,,Arcadion,,0xce6,0,,,
+0x06F6,,Arcadion,,0xd44,0,,,
+0x06F6,,Arcadion,,0xe9e,0,,,
+0x06F6,,Arcadion,,0x101a,0,,,
+0x06F6,,Arcadion,,0x108c,0,,,
+0x06F6,,Arcadion,,0x11c5,0,,,
+0x06F6,,Arcadion,,0x127b,0,,,
+0x06F6,,Arcadion,,0x1316,0,,,
+0x06F6,,Arcadion,,0x13ae,0,,,
+0x06F6,,Arcadion,,0x1436,0,,,
+0x06F6,,Arcadion,,0x14d2,0,,,
+0x06F6,,Arcadion,,0x1544,0,,,
+0x06F6,,Arcadion,,0x2f59,0,,,
+0x06F6,,Arcadion,,0x3aa6,0,,,
+0x0710,,Arcadion,,0xb2,0,,,
+0x0845,,Arcadion,,,,,,
+0x087C,,Emp,,,,,,
+0x0891,,Arcadion,,,,,,
+0x08D5,,Arcadion,,,,,,
+0x040A,,,,0xbf_0xd5,0,,,"""Greetings, traveller."""
+0x040A,,,,0x109_0x132,0,,,"""I am Tseramed the woodsman. [trails off]Thou art a..."""
+0x040A,,,,0x270_0x2a5,0,,,"""I do not trust The Fellowship, and most especially Elizabram."""
+0x040A,,,,0x2fb_0x32a,0,,,"""Yes. Perhaps I am addressing the illustrious Elizabram?"""
+0x040A,,,,0x3e9_0x441,0,,,A woman so intelligent could not help but rise in their ranks. Her direct superior was Elizabram.
+0x040A,,,,0x443_0x48a,0,,,"One black evening she fell gravely ill. According to friends of mine, Elizabram forbade her to visit the local healer. By the time I learned of this, she had already passed away."
+0x040A,,,,0x4ee_0x54e,0,,,"She rests now forever in the Yew graveyard, may her sleep be peaceful. I searched the land for Elizabram, but never found my quarry. In fact, it seems that every time I near my prey, they have already vanished! My search shall never be truly over."""
+0x040A,,,,0x613_0x61c,0,,,"""Knave, thou dost tarnish the title of Avatar! I have not forgotten thy wrong doing, nor the evil crime that followed it."
+0x040A,,,,0x6b1_0x6c7,0,,,"""I travel with thee, Avatar, to aid thee with my wood craft."""
+0x040A,,,,0x88f_0x8d9,0,,,"""The forest is a wild place, but tamed somewhat in recent years. Within, Avatar, thou mayest still find creatures spoken of only in legend."""
+0x040A,,,,0x152a_0x1582,0,,,"""Cunning is the fox, and shy of humans. We shall never belong to the forest as they do. See how lustrous is the coat of that fox."""
+0x040A,,,,0x1827_0x187c_0x1883,0,,,"""Use them with care, for even a scratch may put one to sleep!"" he says, handing you [cough] arrows."
+0x040A,,,,0x1f6b_0x1fa3,0,,,"""Noble hero, it is an honor to make thine aquaintance. Thou art more fair by far than any likeness in stone could portray."""
+0x041C,,,,0x83_0xab,0,,,"Jesse clears his throat. ""Hello again!"""
+0x0430,,,,0x1c3_0x264,0,,,"""Mine half-sister is Eiko. She, like myself, is a warrior trained by Karenna in the ways of combat. We studied long and hard together to master the skills that are required to achieve our vengeance."""
+0x043B,,,,0x711_0x728,0,,,"""I see that thou hast [cough] gems."""
+0x044D,,,,0x75d_0x788,0,,,"""I do hope thou canst help her. She needs someone like thee to bring her out of her depression."""
+0x0457,,,,0x96f_0x97b,0,,,"""Thou hast [cough] in thy party. I am afraid thou does not have enough Caddellite for me to make that many helmets."""
+0x0457,,,,0xa16_0xa22,0,,,"""Thou hast [cough] Caddellite chunks. That is how many helmets I can make for thee."""
+0x046C,,,,0x7d1_0xa04_0xabb,3,,,"""Her grave looks so bare sometimes."" She looks off into the horizon and sighs. """
+0x046C,,,,0xca3_0xcbc,0,,,She quickly examines you.
+0x0470,,,,0x450_0x452,0,,,"""<PLAYER_NAME>, eh. Very well, a deal's a deal. I'm D'Rel."""
+0x0471,,,,0x3d5_0x411,0,,,"""Yep, that's what I told you to call me. Oh, I get it! You want something from me, don't you?"
+0x0476,,,,0x1f6_0x26c,0,,,"""He is the owner and bartender. Every night at 9, he goes to the Fellowship meetings, so I serve refreshment for him at the Friendly Knave."""
+0x048C,,,,0x646_0x652,0,,,"The lovely woman strolls over and pats Markham's rather large belly. ""Yes, he's Markham of the Keg, all right."" She smiles sweetly down at the older man.*"
+0x048C,,,,0xa82_0xa92,0,,,"""Oh, I suppose [pause] he was tryin' ta help us when he called the proverbial fires o' Hell down on us. It just rankles me to have died in my prime."" His roguish smile once again lightens his ghostly visage."
+0x0491,,,,0xcd1_0xd3a,0,,,"""Why, 'tis called the Keg O' Spirits. That's a fine name for a tavern, dost thou not agree?"" She smiles coyly."
+0x0492,,,,0xdbb_0xddb_0xe0d,0,,,"""[pause] Now, now, Quen. Settle down."" He moves closer to you and whispers, ""Fergive him, <HONORIFIC>."
+0x0492,,,,0x139e,0,,,"nods his head emphatically, ""'At's right, I seen it, I did."""
+0x0492,,,,0x143a_0x1484,0,,,"""It be gettin' so's a ghost cannot make an honest livin' no more. Hmph."""
+0x0492,,,,0x1c07_0x1c2f,0,,,He turns back to his conversation with them. END
+0x0493,,,,0x915_0x949,0,,,"""Ah yes, good Avatar. 'Tis good to see thee again."
+0x0493,,,,0x14bc_0x155e,0,,,"The Mayor's eyes dart back and forth as you ask him to sacrifice himself for the good of his people. ""There is still one thou hast neglected to ask. Go and find [cough]. Then come back and we'll see."" Spectral sweat drips from his ghostly forehead."
+0x049A,,,,0x117_0x132_0x13b,0,,,"""Thank thee ever so much, <HONORIFIC>,"" they say, sarcastically."
+0x04A0,,,,0x17b_0x183_0x1df_0x1f4,0,,,"""Fine, <HONORIFIC>, if that is the title by which thou dost wish to be called."" He looks at the infant. ""The person is quite a snob are they not, Mikhail?"""
+0x04C5,,,,0x75_0xb1,0,,,You see a gargoyle with a very stern expression on his face standing at attention just behind them.
+0x04CA,,,,0x8ae,0,,,"Then thou must go to Britain and speak with Batlin at our headquarters there. Only he can properly initiate thee into The Fellowship."""
+0x04D1,,,,0x437_0x4ac,0,,,"""I try to stay in touch with as many of the citizens as I can, but I do not know all of them that well. I know Cador has been in charge of the local branch of the Britannian Mining Company ever since it opened. He is married to Yvella. I believe they are members of that Fellowship organization."
+0x04D7,,,,0x6c6_0x78c,1,,,"""To hate the humans who work there, and who live on the other side of the oasis. To be too violent. To [pause] no longer permitted on the other side."""
+0x04D7,,,,0x7dd_0x85f,0,,,"""To be brother to Anmanivas and to have been raised by the same parent. To hate humans as much as Anmanivas, and,"" he sighs, ""to [sigh] allowed no longer to visit the human side."""
+0x04D9,,,,0x197_0x19a_0x19d,0,,,"""To be the cause for our unhappiness."""
+0x04D9,,,,0x1c5_0x217,1,,,"""To be the reason for our poverty. To die, humans, to die!"""
+0x04DA,,,,0x16f_0x1f4,1,,,"""To be the cause for our unhappiness."""
+0x04DA,,,,0x1f8_0x224,0,,,"""To be the reason for our poverty. To die, humans, to die!"""
+0x04E0,,,,0x4fb_0x574,0,,,"""Nice place, is it not? I certainly enjoy working here! It brings me much wealth, and I have many opportunities to meet [hmph] such as thyself!"""
+0x04E2,,,,0x5c2,0,,,"[pause] I do not trust 'em. I think they are all hiding something. I think they are all tricksters. Take mine old friend Mole, for example. Well, mine old ex-friend Mole. He has changed a great deal since joining them."""
+0x04E5,,,,0x23e_0x33e_0x33f_0x340,1,,,"""If thou art interested in weapons, armour, provisions, [trail off] or a ship deed..."
+0x0622,,,,0x5_0x1f_0x2f,0,,,"""In how many hours shall [cough soft] wake thee up, [cough soft]?"""
+0x0622,,,,0x32,0,,,"[cough soft] gives you an exasperated look.* ""Never mind, then."""
+0x0623,,,,0x0_0x9,0,,,"""Arise, <PLAYER_NAME>. Time to continue the quest."""
+0x06F6,,,,0x60_0x6b,0,,,"Suprised, the mage looks around and says, ""I don't recall summoning thee. Nevermind, I have no need of thee at the current time. Begone!"" The old man waves his hand, negligently."
+0x06F6,,,,0x1c0b_0x1c20,0,,,"""It would seem that Erethian was correct in his assumption that should I enter this gem, my power would not be set free to use as I wish, instead it is at the beck and call of the one who possesses the gem."""
+0x0800,,,,0x28,0,,,"<PLAYER_NAME> glares. ""This is no time to sleep! Look alive!"""
+0x0841,,,,0x96_0x99,0,,,"""[cough] To be an acceptable price?"""
+0x0845,,,,0x5e_0x73,0,,,"Energy courses from <VAR> into you, restoring your magical reserves, ""It is done, master."""
+0x084C,,,,0x95_0x98,0,,,"""[cough] To be acceptable?"""
+0x0853,,,,0xd4_0xd7,0,,,"""[cough] To be an acceptable price?"""
+0x0855,,,,0x99_0x9c,0,,,"""[cough] Art thou still interested?"""
+0x0856,,,,0x252_0x29e_0x2a6,0,,,"[cough] and Bradman spend some time taking target practice with the bow. Shortly, [cough] notice [cough] a significant increase in hand-eye coordination."
+0x0857,,,,0xbe_0xc8_0xe1,0,,,"""Lovely! [cough]! That means I owe thee [cough] gold. Here thou art! I shall take the pumpkins from thee now!"""
+0x0858,,,,0xa6_0xa9,0,,,"""[cough] Art thou still interested?"""
+0x0859,,,,0xba_0xbd,0,,,"""[cough] Is that acceptable?"""
+0x085A,,,,0x83_0x86,0,,,"""[cough] Art thou still interested?"""
+0x085C,,,,0x79_0x7c,0,,,"""[cough] Art thou willing to pay my price?"""
+0x085D,,,,0x16c_0x16f,0,,,"""[cough]Dost thou accept my price?"""
+0x085E,,,,0x4f_0x52,0,,,"""[cough] Dost thou accept my price?"""
+0x085F,,,,0x1fa_0x228,0,,,[cough] and Chad spar for a few minutes. He teaches [cough] several expert maneuvers that better utilize speed and agility in combat.
+0x0863,,,,0x85_0x88,0,,,"""[cough] Wouldst thou still like to buy?"""
+0x0870,,,,0xe7_0x102,0,,,"""Who dost thou wish to be [cough]?"""
+0x0871,,,,0x120_0x123,0,,,"""[cough] Is that all right?"""
+0x0873,,,,0xa1_0xa4,0,,,"""[cough] Is that acceptable?"""
+0x0875,,,,0x251_0x25e_0x2b8_0x2ba_0x2c7_0x2c9_0x2ef_0x38c_0x38e_0x3c2_0x3dc_0x43c_0x43e_0x47b,0,,,"Denby hands [cough] a chart with runes printed on it. ""Study these runes and memorize them,"" he says. After <VAR> <VAR> this task, <VAR> <VAR> that there is a bit of knowledge in <VAR> mind that was not there earlier."
+0x0875,,,,0x251_0x25e_0x2b8_0x2ba_0x2c7_0x2c9_0x2ef_0x38c_0x38e_0x3c2_0x3dc_0x43c_0x43e_0x47b,1,,,"""Now we shall exercise. Practice what I teach thee at least twice a day. Then thou shalt become more agile and limber."" ^<VAR> <VAR> a while mimicking the movements which Denby shows <VAR>. Finally, Denby teaches <VAR> a few magic words to intone for meditational purposes. When the training session is complete, <VAR> <VAR> much more energized and ready for anything that might come <VAR> way..."
+0x0876,,,,0x122_0x125,0,,,"""[cough] Dost thou find the price acceptable?"""
+0x0878,,,,0x1f0_0x326,1,,,"De Snel straightens suddenly and sheathes his blade. ""That is all for now. If thou dost wish more training, thou couldst most assuredly benefit from mine experience."" He looks <VAR> up and down insolently. ""Thou seemest to be an apt pupil. Thou mayest return at a later time and advance thy training."""
+0x0879,,,,0xbb_0xd9,0,,,"""Whom dost thou wish to have <VAR>?"""
+0x087A,,,,0xa1_0xa4,0,,,"""[cough] Is that acceptable?"""
+0x0889,,,,0x100_0x103,0,,,"""[cough] To agree to the price?"""
+0x088C,,,,0xe0_0xe3,0,,,"""[cough] Does that sound like a fair price?"""
+0x088E,,,,0xb9_0xbc,0,,,"""[cough] Is that acceptable?"""
+0x088F,,,,0x6c_0x6f,0,,,"""[cough] Dost thou think it worth the cost?"""
+0x0897,,,,0xa1_0xa4,0,,,"""[cough] A fair price, yes?"""
+0x0898,,,,0x9a_0x9d,0,,,"""[cough] A fair price, yes?"""
+0x0899,,,,0xa5_0xa8,0,,,"""[cough] That is a fair price, is it not?"""
+0x089A,,,,0x19b_0x218,0,,,"The gargoyle begins with some intense memorization exercises which eventually lead to concepts of spell theory. At the end, <VAR> to notice a change in mental capabilities and thought reaction speed."
+0x089B,,,,0xd4_0xe5,0,,,"After examining <VAR> muscles, he says, ""To be stronger than I. To need no further training in combat."""
+0x089B,,,,0x17a_0x1fa,0,,,"The gargoyle begins with some intense weight-lifting which eventually leads to target practice with throwing axes. At the end, <VAR> to notice a change in physical prowess and hand-eye coordination."
+0x089C,,,,0x5d_0x60,0,,,"""[cough] To be agreeable?"""
+0x089D,,,,0xd1_0xde,0,,,"""To want to <VAR> whom?"""
+0x089E,,,,0xe2_0xfd,0,,,"""Who dost thou wish to be <VAR>?"""
+0x089F,,,,0x252_0x2f2_0x334,0,,,"Jakher's eyes glow bright as he begins to explain some of the strategies used by great military leaders in awesome battles fought in ages past. He whispers to <VAR> conspiratorially as he draws maps in the dirt. After some time, <VAR> can practically feel some of his shrewdness starting to be absorbed."
+0x08A0,,,,0x1b4_0x1b7,0,,,"""[cough] Does that sound like a fair price?"""
+0x08A1,,,,0x9b_0x9e,0,,,"""[cough] Dost thou agree?"""
+0x08A1,,,,0xfc_0xff,0,,,"""[cough] Is that acceptable?"""
+0x08A2,,,,0x20a_0x273_0x27b,0,,,"<VAR> and Jillian study for some time. In addition, she teaches a little on the theory of magic. Afterwards, <VAR> notice<VAR> an increase in knowledge and magical understanding."
+0x08A3,,,,0x4e_0x51,0,,,"""[cough] Is that agreeable?"""
+0x08A4,,,,0x5e_0x61,0,,,"""[cough] Is that agreeable?"""
+0x08A6,,,,0x27_0x39,0,,,"Karenna looks at <VAR> and gives a small laugh. ""Thou art not without skill, but thou art not ready yet."""
+0x08A6,,,,0x141_0x154,0,,,"Karenna glares at <VAR>. ""Thou dost but waste my time. Thou art as swift and cunning as I, and I would wager that thou didst know it. I have not the time for such as thee."""
+0x08A6,,,,0x21b_0x2e5_0x30f_0x311_0x313,0,,,"Karenna leaps like a panther around the padded mat of the training ring. Her movements are so fast, they are a blur. She attacks. At first she lands her blows at will, causing stings of pain that send <VAR> reeling, but as the session progresses, <PRONOUN> <VAR> <PRONOUN> reflexes have been sharpened noticeably."
+0x08A7,,,,0x8a_0x8d,0,,,"""[cough] Wilt thou pay my price?"""
+0x08A8,,,,0xaa_0xad,0,,,"""[cough] Dost thou still wish to trade?"""
+0x08A9,,,,0x87_0x8a,0,,,"""[cough] Is that acceptable?"""
+0x08AA,,,,0x5b_0x5e,0,,,"""[cough] Is that acceptable?"""
+0x08AC,,,,0xe7_0x104,0,,,"""Who dost thou wish to have <VAR>?"""
+0x08AD,,,,0x23a_0x25a_0x25c,0,,,"""It is good to see thee again, <PLAYER_NAME>.<VAR>"""
+0x08AE,,,,0x0_0x2,0,,,"""<VAR>, I am sure that some brave soul will eventually come this way. After all, most of the spirits can wait for all eternity if need be, even if they are in excruciating pain."" He looks a little disappointed as he says his goodbye. However, gratitude is still apparent in his eyes."
+0x08B4,,,,0xd8_0xf3,0,,,"""Who dost thou wish to be <VAR>?"""
+0x08B6,,,,0x467_0x491_0x492_0x494,0,,,"When the training session is over, Lucky <VAR><VAR> <VAR>"
+0x08B7,,,,0x1aa_0x1ad,0,,,"""[cough] Dost thou still want it?"""
+0x08B8,,,,0xb4_0xbe_0xd7,0,,,"""Lovely! <VAR>! That means I owe thee <VAR> gold. Here thou art! I shall take the eggs from thee now!"""
+0x08B9,,,,0x126_0x129,0,,,"""[cough] Too rich for thy blood?"""
+0x08BC,,,,0xf3_0xf5,0,,,"""<VAR> Dost thou like the price?"""
+0x08BE,,,,0x13b_0x175,0,,,"""Thou art already as strong as I!"" he exclaims, noticing <VAR> muscles and build. ""Thou dost certainly know as much as I about building strong muscles."""
+0x08BE,,,,0x201_0x27d,0,,,"He begins with a short, but extensive, weight training program, followed by a sparring match with heavy weaponry. Shortly, <VAR> to feel stronger, and better able to utilize that strength in battle."
+0x08C4,,,,0x6a_0x6d,0,,,"""[cough] Okey-dokey?"""
+0x08C6,,,,0x76_0x79,0,,,"""[cough] Art thou willing to pay that much?"""
+0x08C8,,,,0x208_0x247_0x24d,0,,,"<VAR> and Penni work out and spar for some time. After stretching, <VAR> feel<VAR> a little stronger and a bit more skilled in combat."
+0x08CA,,,,0x28b_0x2ee_0x2f4_0x355_0x357,0,,,"<VAR> and Perrin dive excitedly into the pages of several tomes. Following an intensive study session, <VAR> find<VAR> the ability to comprehend and disseminate much more information than ever before. In addition, <VAR> <VAR> a a better grasp of the theory behind spellcasting."
+0x08CB,,,,0x153_0x156,0,,,"""[cough] Art thou happy with the price?"""
+0x08CC,,,,0x5e_0x61,0,,,"""[cough] Is that price agreeable?"""
+0x08CD,,,,0xbf_0xc2,0,,,"""[cough] Canst thou afford my price?"""
+0x08D0,,,,0x191_0x1aa_0x1d6,0,,,Rayburt first instructs <VAR> to lie on the floor and relax. He teaches <PRONOUN> breathing exercises and techniques with which to cleanse the mind of all thoughts.
+0x08D0,,,,0x2a1_0x31f_0x321,0,,,"Finally, he demonstrates several good moves involving hand-to-hand combat, and combat using a sword. By the end of the hour, <VAR> <VAR> much more knowledgeable and proficient in this unusual form of fighting."
+0x08D2,,,,0x76_0x88,0,,,"""Who needs to be <VAR>?"""
+0x08D3,,,,0xf8_0xfb,0,,,"""[cough]"" Is this price acceptable to thee?"
+0x08D4,,,,0xd7_0xda,0,,,"""[cough] Art thou still interested?"""
+0x08DC,,,,0x76_0x79,0,,,"""[cough] Art thou willing to pay that much?"""
+0x08DE,,,,0x123_0x126,0,,,"""[cough] Dost thou still want it?"""
+0x08E1,,,,0xa7_0xaa,0,,,"""[cough] To be an acceptable price?"""
+0x08E2,,,,0x70_0x73,0,,,"""[cough] To agree to this price?'"
+0x08E3,,,,0x55_0x58,0,,,"""[cough] Art thou willing to pay my price?"""
+0x08E5,,,,0x1be_0x1f0_0x1f2_0x22a_0x22c_0x254_0x2a0_0x2a2_0x2cd_0x305_0x362_0x37a_0x37c_0x399_0x3a1,0,,,"""On guard!"" Sentri cries as he draws his sword. ^<PRONOUN> <VAR> forced to respond with the most easily readied weapon <PRONOUN> <VAR>. Without a word, Sentri advances upon <PRONOUN>, swinging his blade in a seemingly wild, yet entirely controlled manner. ^<PRONOUN> <VAR> forced to block his blows to the best of <PRONOUN> ability. Luckily, Sentri stops just short of striking <PRONOUN>, which he is often able to do. Slowly but surely, over the course of the training session, <PRONOUN> blocking improves and <PRONOUN> <VAR> to get in a few thrusts of <PRONOUN> own. ^<PRONOUN> agility improves, and the improvement is tangibly perceptible."
+0x08F2,,,,0x1_0x3_0xb,0,,,"""[cough]! Thou [cough]!"""
+0x08F2,,,,0x1e_0x40,0,,,"""Shall I have my apology, or thy <VAR>?"""
+0x08F2,,,,0x5f_0x99,0,,,"""Forgive thee! What might I forgive in one such as thee, <VAR>?"""
+0x08F2,,,,0xd3_0xfd,0,,,"""Of what lie speakest thou? Art thou not <VAR>?"""
+0x08F2,,,,0x101_0x118_0x135,0,,,"""Perhaps thou art not <VAR>, for I have never seen the <VAR>. Confess now thy true identity!"""
+0x08F2,,,,0x253_0x255_0x282_0x284,0,,,"""<VAR>! Perhaps honesty shall lift thee above the <VAR> <VAR>..."""
+0x08F2,,,,0x28a_0x28d_0x291,0,,,"""^<VAR>! ^<VAR>! Thy soul shall wail in the catacombs of the netherworld!"""
+0x08F2,,,,0x2cd_0x2d0_0x332,0,,,"""^<VAR>! Fly from this place at once! I shall provide escort for thee with my bow. Return at thy peril, <VAR>."""
+0x08F3,,,,0x3a5_0x3ea,0,,,"""Such weapons require strength and daring! I admire such qualities, <VAR>."""
+0x08F4,,,,0xf_0x12_0x6c,0,,,"""^<VAR>, I have weighed thine actions against thy former conduct. Now that I am travelling with <VAR>..."
+0x08F4,,,,0xa7_0xc1,0,,,"""I enjoy travelling with <VAR>."""
+0x08F4,,,,0x11d_0x130_0x133,0,,,"""How may I assist <VAR>, <VAR>?"""
+0x08F5,,,,0xc4_0xcc,0,,,"""Hush, <VAR>."""
+0x08F5,,,,0x2c0_0x2cc,0,,,"""Greetings <VAR>."""
+0x091D,,,,0x3d_0x3f,0,,,"""[cough] is already healthy!"""
+0x091D,,,,0x3d_0x3f,0,,,"""[cough] is already healthy!"""
+0x091D,,,,0x3d_0x3f,0,,,"""[cough] is already healthy!"""
+0x091D,,,,0x3d_0x3f,0,,,"""[cough] is already healthy!"""
+0x091D,,,,0x3d_0x3f,0,,,"""[cough] is already healthy!"""
+0x091D,,,,0x3d_0x3f,0,,,"""[cough] is already healthy!"""
+0x091D,,,,0x3d_0x3f,0,,,"""[cough] is already healthy!"""
+0x0946,,,,0x7a_0x7d,0,,,"""[cough] A fair price, wouldst thou not agree?"""
+0x0947,,,,0xa9_0xb8_0xd8,0,,,"""Scrumptious! <VAR> loaves! That means I owe thee <VAR> gold. Here thou art! I shall take the loaves from thee now!"""
+0x0948,,,,0xd5_0xe8_0x101,0,,,"""Beautiful flour! <VAR>! That means I owe thee <VAR> gold. Here thou art! I shall take the flour from thee now!"""
+0x0949,,,,0x9d_0x9f,0,,,"""[cough] To accept the price?"""
+0x094A,,,,0x9d_0x9f,0,,,"""[cough] To agree to the cost?"""
+0x094B,,,,0x0_0x1a,0,,,"""To be my final offer -- [cough]."""
+0x094D,,,,0xf0_0xf3,0,,,"""[cough] Is that acceptable?"""
+0x094E,,,,0xbb_0xbe,0,,,"""[cough] Do ye find the price agreeable?"""
+0x094F,,,,0x1f5_0x217_0x223,0,,,"After sparring for half an hour, <VAR> as though <VAR> learned how to better apply force when fighting."
+0x0950,,,,0x25e_0x283_0x325_0x34a_0x34c_0x35d_0x3ac_0x3cb_0x3cd_0x405_0x407_0x409_0x40b,0,,,Zella begins the session by showing <VAR> the proper stance when 'boxing'.
+0x0950,,,,0x25e_0x283_0x325_0x34a_0x34c_0x35d_0x3ac_0x3cb_0x3cd_0x405_0x407_0x409_0x40b,1,,,"""'Tis all contingent on balance. Use thy weight to control thy movement. Step lightly. 'Tis almost like a dance."" Zella shows <VAR> some steps, sparring into the air. <PRONOUN> <VAR> him and slowly <VAR> a feel for the technique. After a while it becomes second nature. The two of <VAR> take jabs at each other, and <VAR> <VAR> proper defensive maneuvers. When the session is over, <PRONOUN> <VAR> <PRONOUN> <VAR> a better grip on the concept of 'boxing'."
+0x0951,,,,0x1c5_0x1c8,0,,,"""[cough] That is a fair price, is it not?"""
+0x0952,,,,0x70_0x73,0,,,"""[cough] Wilt thou buy it at that price?"""
+0x0953,,,,0xcf_0xd2,0,,,"""[cough] Is that acceptable?"""

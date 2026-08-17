@@ -75,62 +75,72 @@ float current_gump_scale = 1.0f;
 
 #include <fstream>
 
-static std::string get_chinese_font_path(Font* font = nullptr, int font_size = -1) {
-	std::string path;
-	if (config) {
-		int f_idx = font ? font->get_font_index() : -1;
-		bool is_woodsign = (f_idx == 1);
-		bool is_tombstone = (f_idx == 3);
-		bool is_goldsign = (f_idx == 6);
-		bool is_serpentine = (f_idx == 8 || f_idx == 10);
-		bool is_sign = (is_woodsign || is_tombstone || is_goldsign || is_serpentine || Font::is_painting_sign);
-		bool is_book = font ? (f_idx != 0 && f_idx != 7 && !is_sign && !font->get_force_not_book()) : false;
+static const std::string& get_chinese_font_path(Font* font = nullptr, int font_size = -1) {
+	static std::string cached_path;
+	static Font*       cached_font = nullptr;
+	static int         cached_size = -1000;
+	if (font != cached_font || font_size != cached_size) {
+		std::string path;
+		if (config) {
+			int  f_idx         = font ? font->get_font_index() : -1;
+			bool is_woodsign   = (f_idx == 1);
+			bool is_tombstone  = (f_idx == 3);
+			bool is_goldsign   = (f_idx == 6);
+			bool is_serpentine = (f_idx == 8 || f_idx == 10);
+			bool is_sign       = (is_woodsign || is_tombstone || is_goldsign || is_serpentine || Font::is_painting_sign);
+			bool is_book       = font ? (f_idx != 0 && f_idx != 7 && !is_sign && !font->get_force_not_book()) : false;
 
-		// 1. Sign-specific font path
-		if (is_sign) {
-			std::string sign_path;
-			config->value("config/video/chinese/sign_font_path", sign_path, "");
-			if (!sign_path.empty()) {
-				std::string sys_sign_path = get_system_path(sign_path);
-				if (U7exists(sys_sign_path)) {
-					return sys_sign_path;
+			// 1. Sign-specific font path
+			if (is_sign) {
+				std::string sign_path;
+				config->value("config/video/chinese/sign_font_path", sign_path, "");
+				if (!sign_path.empty()) {
+					std::string sys_sign_path = get_system_path(sign_path);
+					if (U7exists(sys_sign_path)) {
+						path = sys_sign_path;
+					}
 				}
 			}
-		}
 
-		// 2. Book / Scroll / UI small font path (applies to all book/scroll/UI fonts regardless of font size)
-		if (is_book) {
-			std::string small_path;
-			config->value("config/video/chinese/small_font_path", small_path, "");
-			if (!small_path.empty()) {
-				std::string sys_small_path = get_system_path(small_path);
-				if (U7exists(sys_small_path)) {
-					return sys_small_path;
+			// 2. Book / Scroll / UI small font path (applies to all book/scroll/UI fonts regardless of font size)
+			if (path.empty() && is_book) {
+				std::string small_path;
+				config->value("config/video/chinese/small_font_path", small_path, "");
+				if (!small_path.empty()) {
+					std::string sys_small_path = get_system_path(small_path);
+					if (U7exists(sys_small_path)) {
+						path = sys_small_path;
+					}
 				}
 			}
-		}
 
-		// Also check small_font_path if small_font_path is configured and font_size <= 12
-		if (font_size >= 0 && font_size <= 12) {
-			std::string small_path;
-			config->value("config/video/chinese/small_font_path", small_path, "");
-			if (!small_path.empty()) {
-				std::string sys_small_path = get_system_path(small_path);
-				if (U7exists(sys_small_path)) {
-					return sys_small_path;
+			// 3. Also check small_font_path if configured and font_size <= 12
+			if (path.empty() && font_size >= 0 && font_size <= 12) {
+				std::string small_path;
+				config->value("config/video/chinese/small_font_path", small_path, "");
+				if (!small_path.empty()) {
+					std::string sys_small_path = get_system_path(small_path);
+					if (U7exists(sys_small_path)) {
+						path = sys_small_path;
+					}
 				}
 			}
-		}
 
-		// 3. Main default font_path
-		config->value("config/video/chinese/font_path", path, "<PATCH>/chinese.ttf");
-	} else {
-		path = "<PATCH>/chinese.ttf";
+			// 4. Main default font_path
+			if (path.empty()) {
+				config->value("config/video/chinese/font_path", path, "<PATCH>/chinese.ttf");
+			}
+		} else {
+			path = "<PATCH>/chinese.ttf";
+		}
+		if (path.empty()) {
+			path = "<PATCH>/chinese.ttf";
+		}
+		cached_path = std::move(get_system_path(path));
+		cached_font = font;
+		cached_size = font_size;
 	}
-	if (path.empty()) {
-		path = "<PATCH>/chinese.ttf";
-	}
-	return get_system_path(path);
+	return cached_path;
 }
 
 static int parse_color_value(const char* key, int default_val) {
@@ -590,6 +600,112 @@ int Font::paint_text_box(
 }
 
 /*
+ *  Measure box-formatted text without rendering anything.
+ *
+ *  Uses exactly the same layout walk (and hence page breaks) as
+ *  paint_text_box, but skips all drawing. Output: height filled when
+ *  everything fits, else the negative offset of the first character that
+ *  did not fit.
+ */
+int Font::measure_text_box(const char* text, int x, int y, int w, int h, int vert_lead, bool pbreak) {
+	const char* start = text;    // Remember the start.
+	const bool  has_cjk = Has_non_ascii(start);
+
+	const int endx   = x + w;    // Figure where to stop.
+	int       curx   = x;
+	int       cury   = y;
+	const int height = get_rendered_line_height_for(text) + vert_lead + get_effective_ver_lead();
+	const int space_width = get_text_width(" ", 1, has_cjk);
+	const int   max_lines      = h / height;    // # lines that can be shown.
+	int         cur_line       = 0;
+	const char* last_punct_end = nullptr;    // ->last period, qmark, etc.
+
+	TTF::load_font(get_chinese_font_path(this, get_text_height_for(text)).c_str(), get_text_height_for(text));    // Load default Big5 font
+	while (*text) {
+		switch (*text) {    // Special cases.
+		case '\n':          // Next line.
+			curx = x;
+			text++;
+			cur_line++;
+			cury += height;
+			if (cur_line >= max_lines) {
+				break;    // No more room.
+			}
+			continue;
+		case '\r':    //??
+			text++;
+			continue;
+		case ' ':    // Space.
+		case '\t': {
+			// Pass space.
+			const char* wrd = Pass_space(text);
+			if (wrd != text) {
+				int wpx = get_text_width(text, static_cast<int>(wrd - text), has_cjk);
+				if (wpx <= 0) {
+					wpx = space_width;
+				}
+				curx += (wpx / space_width) * space_width;
+			}
+			text = wrd;
+			break;
+		}
+		}
+		if (cur_line >= max_lines) {
+			break;
+		}
+
+		if (*text == '*') {
+			text++;
+			if (cur_line) {
+				break;
+			}
+		}
+		const bool ucase_next = *text == '^';
+		if (ucase_next) {    // Skip it.
+			text++;
+		}
+		// Pass word & get its width.
+		const char* ewrd = Pass_word(text);
+		int         width;
+		if (ucase_next) {
+			const char c = static_cast<char>(toupper(static_cast<unsigned char>(*text)));
+			width        = get_text_width(&c, 1, has_cjk) + get_text_width(text + 1, static_cast<int>(ewrd - text - 1), has_cjk);
+		} else {
+			width = get_text_width(text, static_cast<int>(ewrd - text), has_cjk);
+		}
+		int wrap_width = width + (has_cjk ? 2 : -hor_lead);
+		if (curx + wrap_width > endx) {
+			// Word-wrap.
+			if (ucase_next) {
+				text--;    // Put the '^' back.
+			}
+			curx = x;
+			cur_line++;
+			cury += height;
+			if (cur_line >= max_lines) {
+				break;    // No more room.
+			}
+		}
+		curx += width;
+		text = ewrd;    // Continue past the word.
+		// Keep loc. of punct. endings.
+		if (text[-1] == '.' || text[-1] == '?' || text[-1] == '!' || text[-1] == ',' || text[-1] == '"') {
+			last_punct_end = text;
+		}
+	}
+	if (*text &&    // Out of room?
+					// Break off at end of punct.
+		pbreak && last_punct_end) {
+		text = Pass_whitespace(last_punct_end);
+	}
+	if (*text) {                                   // Out of room?
+		return -static_cast<int>(text - start);    // Return -offset of end.
+	} else {                                       // Else return height.
+		return cury - y;
+	}
+}
+
+/*
  *  Draw text at a given location (which is the upper-left corner of the
  *  place to draw.
  *
@@ -928,7 +1044,8 @@ int Font::paint_text_fixedwidth(
 
 int Font::get_text_width(const char* text, bool force_cjk) {
 	int width = 0;
-	TTF::load_font(get_chinese_font_path(this, force_cjk ? get_chinese_font_size() : get_text_height_for(text)).c_str(), force_cjk ? get_chinese_font_size() : get_text_height_for(text));
+	const int sz = force_cjk ? get_chinese_font_size() : get_text_height_for(text);
+	TTF::load_font(get_chinese_font_path(this, sz).c_str(), sz);
 	if (font_shapes) {
 		bool is_book = (font_index != 0 && font_index != 7 && !force_not_book);
 		TTF::Render_Style style = get_chinese_ttf_style(this);
@@ -965,7 +1082,8 @@ int Font::get_text_width(
 		bool        force_cjk
 ) {
 	int width = 0;
-	TTF::load_font(get_chinese_font_path(this, force_cjk ? get_chinese_font_size() : get_text_height_for(text, textlen)).c_str(), force_cjk ? get_chinese_font_size() : get_text_height_for(text, textlen));
+	const int sz = force_cjk ? get_chinese_font_size() : get_text_height_for(text, textlen);
+	TTF::load_font(get_chinese_font_path(this, sz).c_str(), sz);
 	if (font_shapes) {
 		bool is_book = (font_index != 0 && font_index != 7 && !force_not_book);
 		TTF::Render_Style style = get_chinese_ttf_style(this);

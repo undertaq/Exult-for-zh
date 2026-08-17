@@ -1,0 +1,13 @@
+{
+  "npc_name": "Gargan",
+  "url": "https://wiki.ultimacodex.com/wiki/Gargan",
+  "title": "Gargan",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Gargan</b> is a <a href=\"/wiki/Shipwright\" title=\"Shipwright\">shipwright</a> in <a href=\"/wiki/Trinsic\" title=\"Trinsic\">Trinsic</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>, running his business on the corner of Chalice Avenue and the Avenue of the Fellowship. He appears to be in possession of some manner of lung ailment (possibly due to tobacco use), and his dialogue is interspersed by narrative text describing him coughing, sneezing and otherwise acting sickly.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Gargan is a shipwright in Trinsic in Ultima VII, running his business on the corner of Chalice Avenue and the Avenue of the Fellowship. He appears to be in possession of some manner of lung ailment (possibly due to tobacco use), and his dialogue is interspersed by narrative text describing him coughing, sneezing and otherwise acting sickly.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "shipwright",
+    "Location": "Trinsic"
+  },
+  "fetched_at": "2026-04-18T20:32:08.046633+00:00"
+}

@@ -1,0 +1,13 @@
+{
+  "npc_name": "Owen",
+  "url": "https://wiki.ultimacodex.com/wiki/Owen",
+  "title": "Owen",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Owen</b> is a world-renowned <a href=\"/wiki/Shipwright\" title=\"Shipwright\">shipwright</a> living in <a href=\"/wiki/Minoc\" title=\"Minoc\">Minoc</a>. He appears in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Owen is a world-renowned shipwright living in Minoc. He appears in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "shipwright",
+    "Location": "Minoc"
+  },
+  "fetched_at": "2026-04-18T20:33:19.047058+00:00"
+}

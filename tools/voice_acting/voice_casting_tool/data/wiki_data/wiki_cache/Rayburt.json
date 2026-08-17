@@ -1,0 +1,13 @@
+{
+  "npc_name": "Rayburt",
+  "url": "https://wiki.ultimacodex.com/wiki/Rayburt",
+  "title": "Rayburt",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Rayburt</b> is a <a href=\"/wiki/Trainer_for_the_Art_of_Fighting\" class=\"mw-redirect\" title=\"Trainer for the Art of Fighting\">fighting trainer</a> in <a href=\"/wiki/Cove\" title=\"Cove\">Cove</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Rayburt is a fighting trainer in Cove in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "trainer",
+    "Location": "Cove"
+  },
+  "fetched_at": "2026-04-18T20:33:32.245743+00:00"
+}

@@ -1,0 +1,12 @@
+{
+  "npc_name": "Brion",
+  "url": "https://wiki.ultimacodex.com/wiki/Brion",
+  "title": "Brion",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Brion</b> is the administrator of the <a href=\"/wiki/Observatory\" title=\"Observatory\">Observatory</a> in <a href=\"/wiki/Moonglow\" title=\"Moonglow\">Moonglow</a>. He appears in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.<sup id=\"cite_ref-bris_job_1-0\" class=\"reference\"><a href=\"#cite_note-bris_job-1\">&#91;1&#93;</a></sup>\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Brion is the administrator of the Observatory in Moonglow. He appears in Ultima VII.[1]",
+  "infobox": {
+    "Species": "human",
+    "Location": "Moonglow"
+  },
+  "fetched_at": "2026-04-18T20:31:23.694921+00:00"
+}

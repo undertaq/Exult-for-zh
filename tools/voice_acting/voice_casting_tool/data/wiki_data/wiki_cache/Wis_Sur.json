@@ -1,0 +1,12 @@
+{
+  "npc_name": "Wis Sur",
+  "url": "https://wiki.ultimacodex.com/wiki/Wis-Sur",
+  "title": "Wis-Sur",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Wis-Sur</b> is a <a href=\"/wiki/Gargoyle\" class=\"mw-redirect\" title=\"Gargoyle\"> Gargish</a> <a href=\"/wiki/Mage\" title=\"Mage\">mage</a> living in <a href=\"/wiki/Vesper\" title=\"Vesper\">Vesper</a> during <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Wis-Sur is a Gargish mage living in Vesper during Ultima VII.",
+  "infobox": {
+    "Species": "gargoyle",
+    "Location": "Vesper"
+  },
+  "fetched_at": "2026-04-18T20:34:11.995784+00:00"
+}

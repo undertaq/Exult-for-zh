@@ -1,0 +1,12 @@
+{
+  "npc_name": "Saralek",
+  "url": "https://wiki.ultimacodex.com/wiki/Saralek",
+  "title": "Saralek",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Saralek</b> is an <a href=\"/wiki/Emps\" title=\"Emps\">emp</a>, who may be found in a small woodland <a href=\"/wiki/Emp_village\" title=\"Emp village\"> village</a> within the <a href=\"/wiki/Deep_Forest\" title=\"Deep Forest\">Deep Forest</a> during <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>",
+  "summary_text": "Saralek is an emp, who may be found in a small woodland village within the Deep Forest during Ultima VII.",
+  "infobox": {
+    "Species": "emp",
+    "Location": "Emp village"
+  },
+  "fetched_at": "2026-04-18T20:33:41.795502+00:00"
+}

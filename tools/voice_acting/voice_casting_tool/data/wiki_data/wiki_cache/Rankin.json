@@ -1,0 +1,12 @@
+{
+  "npc_name": "Rankin",
+  "url": "https://wiki.ultimacodex.com/wiki/Rankin",
+  "title": "Rankin",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Rankin</b> is the <a href=\"/wiki/Fellowship\" title=\"Fellowship\">Fellowship</a> branch leader in <a href=\"/wiki/Moonglow\" title=\"Moonglow\">Moonglow</a>. He appears in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i> \n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Rankin is the Fellowship branch leader in Moonglow. He appears in Ultima VII",
+  "infobox": {
+    "Species": "human",
+    "Location": "Moonglow"
+  },
+  "fetched_at": "2026-04-18T20:33:31.521219+00:00"
+}

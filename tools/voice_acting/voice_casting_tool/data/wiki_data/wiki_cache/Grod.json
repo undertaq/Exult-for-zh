@@ -1,0 +1,12 @@
+{
+  "npc_name": "Grod",
+  "url": "https://wiki.ultimacodex.com/wiki/Grod",
+  "title": "Grod",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Grod</b> is a <a href=\"/wiki/Troll\" class=\"mw-redirect\" title=\"Troll\">troll</a> who works as an enforcer for the <a href=\"/wiki/Fellowship\" title=\"Fellowship\">Fellowship</a> in <a href=\"/wiki/Buccaneer%27s_Den\" title=\"Buccaneer&#39;s Den\">Buccaneer's Den</a>. He appears in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>",
+  "summary_text": "Grod is a troll who works as an enforcer for the Fellowship in Buccaneer's Den. He appears in Ultima VII.",
+  "infobox": {
+    "Species": "troll",
+    "Location": "Buccaneer's Den"
+  },
+  "fetched_at": "2026-04-18T20:32:19.870767+00:00"
+}

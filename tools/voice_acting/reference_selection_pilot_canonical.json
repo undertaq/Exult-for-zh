@@ -1,0 +1,125 @@
+{
+  "selected": {
+    "aimi": {
+      "slug": "aimi",
+      "npc": "Aimi",
+      "english_wav": "aimi/candidate_English_9.ogg",
+      "english_index": 9,
+      "english_seed": 47016,
+      "chinese_wav": "aimi/candidate_Chinese_4.ogg",
+      "chinese_index": 4,
+      "chinese_seed": 47000,
+      "selection_method": "pilot_ecapa"
+    },
+    "batlin": {
+      "slug": "batlin",
+      "npc": "Batlin",
+      "english_wav": "batlin/candidate_English_4.ogg",
+      "english_index": 4,
+      "english_seed": 47032,
+      "chinese_wav": "batlin/candidate_Chinese_4.ogg",
+      "chinese_index": 4,
+      "chinese_seed": 47016,
+      "selection_method": "pilot_ecapa"
+    },
+    "caine": {
+      "slug": "caine",
+      "npc": "Caine",
+      "english_wav": "caine/candidate_English_8.ogg",
+      "english_index": 8,
+      "english_seed": 47048,
+      "chinese_wav": "caine/candidate_Chinese_5.ogg",
+      "chinese_index": 5,
+      "chinese_seed": 47032,
+      "selection_method": "pilot_ecapa"
+    },
+    "chuckles": {
+      "slug": "chuckles",
+      "npc": "Chuckles",
+      "english_wav": "chuckles/candidate_English_8.ogg",
+      "english_index": 8,
+      "english_seed": 47064,
+      "chinese_wav": "chuckles/candidate_Chinese_9.ogg",
+      "chinese_index": 9,
+      "chinese_seed": 47064,
+      "selection_method": "pilot_ecapa"
+    },
+    "draxinusom": {
+      "slug": "draxinusom",
+      "npc": "Draxinusom",
+      "english_wav": "draxinusom/candidate_English_1.ogg",
+      "english_index": 1,
+      "english_seed": 47080,
+      "chinese_wav": "draxinusom/candidate_Chinese_8.ogg",
+      "chinese_index": 8,
+      "chinese_seed": 47080,
+      "selection_method": "pilot_ecapa"
+    },
+    "dupre": {
+      "slug": "dupre",
+      "npc": "Dupre",
+      "english_wav": "dupre/candidate_English_0.ogg",
+      "english_index": 0,
+      "english_seed": 47096,
+      "chinese_wav": "dupre/candidate_Chinese_5.ogg",
+      "chinese_index": 5,
+      "chinese_seed": 47096,
+      "selection_method": "pilot_ecapa"
+    },
+    "erethian": {
+      "slug": "erethian",
+      "npc": "Erethian",
+      "english_wav": "erethian/candidate_English_2.ogg",
+      "english_index": 2,
+      "english_seed": 47128,
+      "chinese_wav": "erethian/candidate_Chinese_4.ogg",
+      "chinese_index": 4,
+      "chinese_seed": 47112,
+      "selection_method": "pilot_ecapa"
+    },
+    "hydra": {
+      "slug": "hydra",
+      "npc": "Hydra",
+      "english_wav": "hydra/candidate_English_1.ogg",
+      "english_index": 1,
+      "english_seed": 47144,
+      "chinese_wav": "hydra/candidate_Chinese_0.ogg",
+      "chinese_index": 0,
+      "chinese_seed": 47128,
+      "selection_method": "pilot_ecapa"
+    },
+    "spark": {
+      "slug": "spark",
+      "npc": "Spark",
+      "english_wav": "spark/candidate_English_0.ogg",
+      "english_index": 0,
+      "english_seed": 47208,
+      "chinese_wav": "spark/candidate_Chinese_2.ogg",
+      "chinese_index": 2,
+      "chinese_seed": 47192,
+      "selection_method": "pilot_ecapa"
+    },
+    "iolo": {
+      "slug": "iolo",
+      "npc": "Iolo",
+      "english_wav": "iolo/candidate_English_2.ogg",
+      "english_index": 2,
+      "english_seed": 47160,
+      "chinese_wav": "iolo/candidate_Chinese_1.ogg",
+      "chinese_index": 1,
+      "chinese_seed": 47160,
+      "selection_method": "pilot_ecapa"
+    },
+    "lord_british": {
+      "slug": "lord_british",
+      "npc": "Lord British",
+      "english_wav": "lord_british/candidate_English_5.ogg",
+      "english_index": 5,
+      "english_seed": 47192,
+      "chinese_wav": "lord_british/candidate_Chinese_7.ogg",
+      "chinese_index": 7,
+      "chinese_seed": 47176,
+      "selection_method": "pilot_ecapa"
+    }
+  }
+}

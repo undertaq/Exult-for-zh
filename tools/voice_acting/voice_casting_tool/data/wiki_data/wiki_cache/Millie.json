@@ -1,0 +1,12 @@
+{
+  "npc_name": "Millie",
+  "url": "https://wiki.ultimacodex.com/wiki/Millie",
+  "title": "Millie",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Millie</b> is a recruiter for the <a href=\"/wiki/Fellowship\" title=\"Fellowship\">Fellowship</a> working in <a href=\"/wiki/Britain\" title=\"Britain\">Britain</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>",
+  "summary_text": "Millie is a recruiter for the Fellowship working in Britain in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Britain"
+  },
+  "fetched_at": "2026-04-18T20:33:08.055295+00:00"
+}

@@ -1,0 +1,13 @@
+{
+  "npc_name": "Penni",
+  "url": "https://wiki.ultimacodex.com/wiki/Penni",
+  "title": "Penni",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Penni</b> is a <a href=\"/wiki/Trainers\" title=\"Trainers\">trainer</a> living in <a href=\"/wiki/Yew\" title=\"Yew\">Yew</a> during <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Penni is a trainer living in Yew during Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "trainer",
+    "Location": "Yew"
+  },
+  "fetched_at": "2026-04-18T20:33:24.881330+00:00"
+}

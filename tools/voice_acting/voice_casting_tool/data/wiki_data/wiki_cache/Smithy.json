@@ -1,0 +1,12 @@
+{
+  "npc_name": "Smithy",
+  "url": "https://wiki.ultimacodex.com/wiki/Smithy",
+  "title": "Smithy",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Smithy</b> is a croupier working at the <a href=\"/wiki/House_of_Games\" title=\"House of Games\">House of Games</a> in <a href=\"/wiki/Buccaneer%27s_Den\" title=\"Buccaneer&#39;s Den\">Buccaneer's Den</a> in <i><a href=\"/wiki/Ultima_VII\" class=\"mw-redirect\" title=\"Ultima VII\">Ultima VII</a></i>.\n</p>",
+  "summary_text": "Smithy is a croupier working at the House of Games in Buccaneer's Den in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Buccaneer's Den"
+  },
+  "fetched_at": "2026-04-18T20:33:52.918883+00:00"
+}

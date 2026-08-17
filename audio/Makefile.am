@@ -31,6 +31,8 @@ libaudio_la_SOURCES =	\
 	RawAudioSample.h  \
 	VocAudioSample.cc \
 	VocAudioSample.h  \
+	VoiceActingManager.cc \
+	VoiceActingManager.h  \
 	WavAudioSample.cc \
 	WavAudioSample.h
 

@@ -105,6 +105,7 @@ AUDIO_OBJS:=\
 	audio/OggAudioSample.o    \
 	audio/RawAudioSample.o    \
 	audio/VocAudioSample.o    \
+	audio/VoiceActingManager.o    \
 	audio/WavAudioSample.o    \
 	$(MIDI_DRV_OBJS)
 # unused: test.o u7audiotool.o

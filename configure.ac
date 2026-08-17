@@ -505,7 +505,7 @@ fi
 # ---------------------------------------------------------------------
 
 if test x$enable_android_apk = xno -a x$enable_exult = xyes; then
-	PKG_CHECK_MODULES(OGG, ogg >= 1.0 vorbis >= 1.0.1 vorbisfile, , AC_MSG_ERROR([*** must have Ogg/Vorbis installed!]))
+	PKG_CHECK_MODULES(OGG, vorbisfile >= 1.0.1 vorbis >= 1.0.1 ogg >= 1.0, , AC_MSG_ERROR([*** must have Ogg/Vorbis installed!]))
 fi
 
 # ---------------------------------------------------------------------

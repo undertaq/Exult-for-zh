@@ -1,0 +1,13 @@
+{
+  "npc_name": "Pamela",
+  "url": "https://wiki.ultimacodex.com/wiki/Pamela",
+  "title": "Pamela",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Pamela</b> is an attractive woman in her thirties who owns <a href=\"/wiki/The_Out%27n%27Inn\" title=\"The Out&#39;n&#39;Inn\">The Out'n'Inn</a> in <a href=\"/wiki/Cove\" title=\"Cove\">Cove</a>.\n</p>",
+  "summary_text": "Pamela is an attractive woman in her thirties who owns The Out'n'Inn in Cove.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "barkeeper",
+    "Location": "Cove"
+  },
+  "fetched_at": "2026-04-18T20:33:20.466064+00:00"
+}

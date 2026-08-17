@@ -1,0 +1,12 @@
+{
+  "npc_name": "John Paul",
+  "url": "https://wiki.ultimacodex.com/wiki/Lord_John-Paul",
+  "title": "Lord John-Paul",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Lord John-Paul</b> is the ruler of <a href=\"/wiki/Serpent%27s_Hold\" title=\"Serpent&#39;s Hold\">Serpent's Hold</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Lord John-Paul is the ruler of Serpent's Hold in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Serpent's Hold"
+  },
+  "fetched_at": "2026-04-18T20:32:35.436336+00:00"
+}

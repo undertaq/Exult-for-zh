@@ -1,0 +1,12 @@
+{
+  "npc_name": "Candice",
+  "url": "https://wiki.ultimacodex.com/wiki/Candice",
+  "title": "Candice",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Candice</b> is the curator of <a href=\"/wiki/Britain\" title=\"Britain\">Britain's</a> <a href=\"/wiki/Royal_Museum\" title=\"Royal Museum\"> Royal Museum</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>. \n</p>",
+  "summary_text": "Candice is the curator of Britain's Royal Museum in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Britain"
+  },
+  "fetched_at": "2026-04-18T20:31:30.506691+00:00"
+}

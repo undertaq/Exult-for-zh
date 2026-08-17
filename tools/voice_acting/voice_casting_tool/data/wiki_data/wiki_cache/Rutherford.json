@@ -1,0 +1,12 @@
+{
+  "npc_name": "Rutherford",
+  "url": "https://wiki.ultimacodex.com/wiki/Rutherford",
+  "title": "Rutherford",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Rutherford</b> is the owner and proprietor of the <a href=\"/wiki/The_Checquered_Cork\" title=\"The Checquered Cork\"> Checquered Cork</a> <a href=\"/wiki/Tavern\" title=\"Tavern\">tavern</a> and <a href=\"/wiki/Inn\" title=\"Inn\">inn</a> of <a href=\"/wiki/Minoc\" title=\"Minoc\">Minoc</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Rutherford is the owner and proprietor of the Checquered Cork tavern and inn of Minoc in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Minoc"
+  },
+  "fetched_at": "2026-04-18T20:33:39.578886+00:00"
+}

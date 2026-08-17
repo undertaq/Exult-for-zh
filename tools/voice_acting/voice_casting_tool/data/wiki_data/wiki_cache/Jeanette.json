@@ -1,0 +1,12 @@
+{
+  "npc_name": "Jeanette",
+  "url": "https://wiki.ultimacodex.com/wiki/Jeanette",
+  "title": "Jeanette",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Jeanette</b> is a barmaid working at the <a href=\"/wiki/Blue_Boar_Tavern\" title=\"Blue Boar Tavern\">Blue Boar Tavern</a> in <a href=\"/wiki/Britain\" title=\"Britain\">Britain</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Jeanette is a barmaid working at the Blue Boar Tavern in Britain in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Britain"
+  },
+  "fetched_at": "2026-04-18T20:32:31.712096+00:00"
+}

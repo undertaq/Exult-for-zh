@@ -1,0 +1,12 @@
+{
+  "npc_name": "Lasher",
+  "url": "https://wiki.ultimacodex.com/wiki/Lasher",
+  "title": "Lasher",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Lasher</b> is a <a href=\"/wiki/Unicorn\" class=\"mw-redirect\" title=\"Unicorn\"> unicorn</a> inhabiting Dungeon <a href=\"/wiki/Destard\" title=\"Destard\">Destard</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Lasher is a unicorn inhabiting Dungeon Destard in Ultima VII.",
+  "infobox": {
+    "Species": "unicorn",
+    "Location": "Destard"
+  },
+  "fetched_at": "2026-04-18T20:32:49.618607+00:00"
+}

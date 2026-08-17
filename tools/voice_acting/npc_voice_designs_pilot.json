@@ -1,0 +1,255 @@
+{
+  "_meta": {
+    "total_entries": 10245,
+    "total_npcs": 11,
+    "total_designs": 11,
+    "unique_designs": 11,
+    "narrator_designs": 0,
+    "group_designs": 0,
+    "group_count": 0
+  },
+  "designs": {
+    "npc_aimi": {
+      "npc": "Aimi",
+      "type": "individual",
+      "npcs": [
+        "Aimi"
+      ],
+      "voice_desc_en": "Gender: female. Age: twenties. Role: monk gardener. Pitch: soft, clear soprano. Pace: slow, deliberate, lyrical. Emotion: serene, gentle, romantic. Characteristics: breathy, warm, slightly resonant. Use case: fantasy RPG dialogue in a monastery garden or tavern banter about flowers.",
+      "voice_desc_zh": "性别：女性。年龄：二十出头。角色：修道院园艺僧。音高：柔和清亮的女高音。语速：缓慢、从容、富有韵律感。情绪：宁静、温柔、略带浪漫。音色特征：气息轻柔、温暖、略带共鸣。语言：标准普通话。使用场景：奇幻RPG中修道院花园对话或酒馆闲谈花事。",
+      "ref_zh_text": "旅人，你好。今天過得如何？",
+      "ref_en_text": "Greetings, traveler. What brings you to these lands this day?",
+      "_portrait_voice_analysis": {
+        "model": "qwen2.5vl:7b",
+        "portrait": "AimiU7.PNG",
+        "apparent_age": "early 20s",
+        "gender_presentation": "female",
+        "visual_traits": "short stature with a distracted look on her face",
+        "temperament": "sad and reflective",
+        "previous_voice_desc_en": "Female, 20s-30s, gentle and soft-spoken young woman, quiet tender voice, speaks in standard Mandarin",
+        "previous_voice_desc_zh": "女性，20-30歲，溫柔輕聲細語的年輕女子，安靜柔和的聲音，用標準的普通話朗讀",
+        "updated_at": "2026-07-10T16:37:56"
+      }
+    },
+    "npc_batlin": {
+      "npc": "Batlin",
+      "type": "individual",
+      "npcs": [
+        "Batlin"
+      ],
+      "voice_desc_en": "Gender: male. Age: fifties. Role: druid antagonist. Pitch: low, resonant baritone with a throaty rasp. Pace: slow, deliberate, with pauses that emphasize menace. Emotion: coldly persuasive, intellectually calculating, subtly sinister. Characteristics: gravelly, textured with a hint of breathy whisper in low tones. Use case: fantasy RPG dialogue during dark ritual or infiltration scenes.",
+      "voice_desc_zh": "性别：男性。年龄：四十多岁。角色：德鲁伊反派领袖。音高：低沉、共鸣强的男中音，带喉音沙哑质感。语速：缓慢、刻意，停顿强调阴险。情绪：冷峻说服力强、智力缜密、潜藏阴险。音色特征：砂砾感明显，低音略带气声。语言：标准普通话。使用场景：奇幻RPG中暗黑仪式或渗透场景对话。",
+      "ref_zh_text": "旅人，你好。今天過得如何？",
+      "ref_en_text": "Greetings, traveler. What brings you to these lands this day?",
+      "_portrait_voice_analysis": {
+        "model": "qwen2.5vl:7b",
+        "portrait": "Batlin.gif",
+        "apparent_age": "50s",
+        "gender_presentation": "masculine",
+        "visual_traits": "weathered, stern, authoritative",
+        "temperament": "coldly determined, commanding",
+        "previous_voice_desc_en": "Male, 40s, charismatic and persuasive cult leader, smooth yet intense, speaks with conviction and subtle menace",
+        "previous_voice_desc_zh": "男性，40多歲，有說服力的，用標準的普通話朗讀",
+        "updated_at": "2026-07-10T16:38:22"
+      }
+    },
+    "npc_caine": {
+      "npc": "Caine",
+      "type": "individual",
+      "npcs": [
+        "Caine"
+      ],
+      "voice_desc_en": "Gender: male. Age: late thirties. Role: tormented ghost alchemist. Pitch: low, hollow baritone with a raspy edge. Pace: slow, tremulous, with heavy pauses that echo his agony. Emotion: profound sorrow, self-blame, haunted resignation. Characteristics: breathy, thin, with a metallic undertone from spectral energy. Use case: fantasy RPG dialogue in a haunted ruin or spectral tavern.",
+      "voice_desc_zh": "性别：男性。年龄：三十余岁。角色：受折磨的炼金术士幽灵。音高：低沉空洞的男中音，带沙哑边缘。语速：缓慢、颤抖，伴随沉重停顿。情绪：深切悲痛、自我责备、被诅咒的沉溺。音色特征：气息微弱、纤细，带有幽灵能量的金属质感。语言：标准普通话。使用场景：奇幻RPG中于被诅咒的废墟或幽灵酒馆对话。",
+      "ref_zh_text": "旅人，你好。今天過得如何？",
+      "ref_en_text": "Greetings, traveler. What brings you to these lands this day?",
+      "_portrait_voice_analysis": {
+        "model": "qwen2.5vl:7b",
+        "portrait": "Caine.PNG",
+        "apparent_age": "mid-thirties",
+        "gender_presentation": "male",
+        "visual_traits": "ghostly man with pained expression",
+        "temperament": "suffering spirit",
+        "previous_voice_desc_en": "Male, ghost, pained and hollow voice, suffering spirit, weak and trembling",
+        "previous_voice_desc_zh": "男，鬼，痛苦空洞，虛弱顫抖，用標準的普通話朗讀",
+        "updated_at": "2026-07-10T16:38:48"
+      }
+    },
+    "npc_chuckles": {
+      "npc": "Chuckles",
+      "type": "individual",
+      "npcs": [
+        "Chuckles"
+      ],
+      "voice_desc_en": "Gender: male. Age: fifties. Role: royal jester. Pitch: crisp, high-pitched baritone. Pace: rapid, bouncy, with playful pauses. Emotion: mischievous, jovial, slightly exasperated. Characteristics: breathy, light, with a twinkle in the tone. Use case: fantasy RPG dialogue in Castle Britannia, teasing players with word games.",
+      "voice_desc_zh": "性别：男性。年龄：三十多岁至四十岁。角色：城堡伯国宫廷皇家小丑。音高：清脆明亮的男中音。语速：快速跳跃、带俏皮停顿。情绪：调皮、欢快、略带无奈。音色特征：气声轻盈、音调带笑意。语言：标准普通话。使用场景：奇幻RPG游戏中于城堡伯国向玩家进行语言游戏式调侃。",
+      "ref_zh_text": "旅人，你好。今天過得如何？",
+      "ref_en_text": "Greetings, traveler. What brings you to these lands this day?",
+      "_portrait_voice_analysis": {
+        "model": "qwen2.5vl:7b",
+        "portrait": "Chuckles.gif",
+        "apparent_age": "40s",
+        "gender_presentation": "masculine",
+        "visual_traits": "wearing a green outfit with purple accents, holding a staff.",
+        "temperament": "mischievous and playful",
+        "previous_voice_desc_en": "Male, 30s-40s, prankster, mischievous teasing voice, speaking exactly 4 words",
+        "previous_voice_desc_zh": "男性，30-40歲，惡作劇者，惡作劇挑逗的準確地說出4個字，用標準的普通話朗讀",
+        "updated_at": "2026-07-10T16:38:58"
+      }
+    },
+    "npc_draxinusom": {
+      "npc": "Draxinusom",
+      "type": "individual",
+      "npcs": [
+        "Draxinusom"
+      ],
+      "voice_desc_en": "Gender: male. Age: elderly. Role: ancient gargoyle king, Grand Inquisitor. Pitch: deep, venerable baritone. Pace: slow, measured, with deliberate pauses. Emotion: wise, gentle, weary, solemn. Characteristics: rich, resonant, slightly gravelly, with a low, echoing timbre. Use case: fantasy RPG dialogue, solemn monologues, political or philosophical narration.",
+      "voice_desc_zh": "性别：男性。年龄：老年。角色：古石像鬼国王，大审问者。音高：低沉庄重的男低音。语速：缓慢、沉稳，带有刻意停顿。情绪：睿智、温和、疲惫、肃穆。音色特征：厚实共鸣、略带砂砾感、低频回响。语言：标准普通话。使用场景：奇幻RPG对话、庄重独白、政治或哲学叙述。",
+      "ref_zh_text": "旅人，你好。今天過得如何？",
+      "ref_en_text": "Greetings, traveler. What brings you to these lands this day?",
+      "_portrait_voice_analysis": {
+        "model": "qwen2.5vl:7b",
+        "portrait": "Draxinusom.PNG",
+        "apparent_age": "elderly",
+        "gender_presentation": "male",
+        "visual_traits": "bent and withered, regal bearing, gentle smile",
+        "temperament": "wise and gentle",
+        "previous_voice_desc_en": "Male, elderly, ancient gargoyle king, deep venerable voice, wise and gentle",
+        "previous_voice_desc_zh": "男性，老年，低沉，睿智溫柔，用標準的普通話朗讀",
+        "updated_at": "2026-07-10T16:39:22"
+      }
+    },
+    "npc_dupre": {
+      "npc": "Dupre",
+      "type": "individual",
+      "npcs": [
+        "Dupre"
+      ],
+      "voice_desc_en": "Gender: male. Age: fifties. Role: knight of Britannia and tavern critic. Pitch: warm, resonant baritone. Pace: bouncy, rhythmic, with pauses for punchlines. Emotion: jovial, loyal, slightly irreverent. Characteristics: crisp, slightly gravelly, with a twinkle in the delivery. Use case: fantasy tavern banter and heroic narration.",
+      "voice_desc_zh": "性别：男性。年龄：四十多岁。角色：不列颠骑士兼酒馆评论家。音高：温暖、共鸣感强的男中音。语速：轻快有节奏，带停顿强调笑点。情绪：欢快、忠诚、略带不羁。音色特征：清脆略带砂砾感，语调中带俏皮。语言：标准普通话。使用场景：奇幻酒馆闲谈与英雄叙事。",
+      "ref_zh_text": "旅人，你好。今天過得如何？",
+      "ref_en_text": "Greetings, traveler. What brings you to these lands this day?",
+      "_portrait_voice_analysis": {
+        "model": "qwen2.5vl:7b",
+        "portrait": "DupreU7.PNG",
+        "apparent_age": "50s",
+        "gender_presentation": "masculine",
+        "visual_traits": "serious expression with a hint of sternness",
+        "temperament": "authoritative yet composed",
+        "previous_voice_desc_en": "Male, 40s, hearty paladin, jovial and warm voice, robust laugh, loyal and brave tone",
+        "previous_voice_desc_zh": "男性，40多歲，快活溫暖，笑聲強勁，語調忠誠勇敢，用標準的普通話朗讀",
+        "updated_at": "2026-07-10T16:39:25"
+      }
+    },
+    "npc_erethian": {
+      "npc": "Erethian",
+      "type": "individual",
+      "npcs": [
+        "Erethian"
+      ],
+      "voice_desc_en": "Gender: male. Age: fifties. Role: blind mage scholar. Pitch: low, resonant baritone with a mystical inflection. Pace: slow, deliberate, with pauses that echo contemplation. Emotion: calm, philosophical, subtly patronizing. Characteristics: rich, slightly gravelly, with a breathy undertone when emphasizing lore. Use case: fantasy RPG dialogue in a ruined castle or submerged isle setting.",
+      "voice_desc_zh": "性别：男性。年龄：五十多岁。角色：盲眼法师学者。音高：低沉、共鸣感强的男中音，带有神秘韵味。语速：缓慢、沉稳，语句间留有沉思停顿。情绪：沉静、哲思，略带居高临下的温和。音色特征：音质醇厚、略带砂砾感，强调典籍时带气声。语言：标准普通话。使用场景：奇幻RPG对话，发生在沉没岛屿或废墟城堡中。",
+      "ref_zh_text": "旅人，你好。今天過得如何？",
+      "ref_en_text": "Greetings, traveler. What brings you to these lands this day?",
+      "_portrait_voice_analysis": {
+        "model": "qwen2.5vl:7b",
+        "portrait": "ErethianU7.png",
+        "apparent_age": "elderly",
+        "gender_presentation": "male",
+        "visual_traits": "wise mage with a calm demeanor",
+        "temperament": "philosophical and authoritative",
+        "previous_voice_desc_en": "Male, elderly, wise mage, calm and philosophical voice with a mystical quality, speaks slowly",
+        "previous_voice_desc_zh": "男性，年長，平靜而哲理的聲音帶著神秘的品質，緩慢地說著，用標準的普通話朗讀",
+        "updated_at": "2026-07-10T16:39:32"
+      }
+    },
+    "npc_hydra": {
+      "npc": "Hydra",
+      "type": "individual",
+      "npcs": [
+        "Hydra"
+      ],
+      "voice_desc_en": "Gender: neuter monster. Age: ancient. Role: three-headed hydra, a colossal serpentine beast guarding its lair. Pitch: very deep, subterranean, guttural. Pace: slow and menacing, with drawn-out syllables. Emotion: primal menace, cold predatory hunger, seething aggression. Characteristics: heavy rumbling growl, gravelly and reverberant, layered as if several throats speak at once, wet snarling texture. Use case: fantasy RPG boss-monster dialogue and threats issued from a swamp cavern.",
+      "voice_desc_zh": "性别：中性。年龄：古老。角色：三头蛇形巨兽，守护巢穴的凶猛守卫者。音高：极低沉、地底般的喉音。语速：缓慢而阴森，字句拖长。情绪：原始的威胁感、冰冷的掠食欲望、沸腾的攻击性。音色特征：沉重低吼、砂砾般粗糙且回荡，似多声喉同时发声，湿滑嘶吼质感。语言：标准普通话。使用场景：奇幻RPG中巨兽Boss的威胁台词与对话，发生在沼泽洞穴内。",
+      "ref_zh_text": "旅人，你好。今天過得如何？",
+      "ref_en_text": "Greetings, traveler. What brings you to these lands this day?",
+      "_portrait_voice_analysis": {
+        "model": "qwen2.5vl:7b",
+        "portrait": "HydraBrothersU7.png",
+        "apparent_age": "mid-thirties",
+        "gender_presentation": "masculine",
+        "visual_traits": "deep rumbling growling monster voice",
+        "temperament": "authoritative and commanding",
+        "previous_voice_desc_en": "Creature, three-headed hydra, deep rumbling growling monster voice",
+        "previous_voice_desc_zh": "男性，低沉的隆隆咆哮的，用標準的普通話朗讀",
+        "updated_at": "2026-07-10T18:23:01"
+      }
+    },
+    "npc_iolo": {
+      "npc": "Iolo",
+      "type": "individual",
+      "npcs": [
+        "Iolo"
+      ],
+      "voice_desc_en": "Gender: male. Age: seventies. Role: wandering bard and bowyer. Pitch: warm, slightly raspy baritone. Pace: slow, rhythmic, with lilting emphasis on lyrics. Emotion: gentle, nostalgic, wistful. Characteristics: soft, resonant, with a touch of gravel from years of travel. Use case: fantasy RPG dialogue, tavern storytelling, poetic narration.",
+      "voice_desc_zh": "性别：男性。年龄：七十余岁。角色：流浪吟游诗人兼弓匠。音高：温暖略带沙哑的男中音。语速：缓慢、有韵律，歌词部分轻柔强调。情绪：温和、怀旧、略带怅惘。音色特征：柔润共鸣、带岁月磨砺的粗粝感。语言：标准普通话。使用场景：奇幻RPG对话、酒馆叙事、诗歌朗诵。",
+      "ref_zh_text": "旅人，你好。今天過得如何？",
+      "ref_en_text": "Greetings, traveler. What brings you to these lands this day?",
+      "_portrait_voice_analysis": {
+        "model": "qwen2.5vl:7b",
+        "portrait": "IoloU7.png",
+        "apparent_age": "elderly",
+        "gender_presentation": "male",
+        "visual_traits": "wise old soul with a gentle chuckle in his voice",
+        "temperament": "warm and friendly companion; wise and authoritative",
+        "previous_voice_desc_en": "Male, elderly, warm and friendly companion, wise old soul with a gentle chuckle in his voice",
+        "previous_voice_desc_zh": "男性，年長，熱情友善，明智的老靈魂，裡帶著溫柔的笑聲，用標準的普通話朗讀",
+        "updated_at": "2026-07-10T15:35:38"
+      }
+    },
+    "npc_lord_british": {
+      "npc": "Lord British",
+      "type": "individual",
+      "npcs": [
+        "Lord British"
+      ],
+      "voice_desc_en": "Gender: male. Age: sixties. Role: reigning monarch of Britannia. Pitch: deep regal baritone. Pace: measured, dignified, with deliberate pauses. Emotion: solemn authority, paternal wisdom, weary resolve. Characteristics: rich, resonant, slight gravel. Use case: fantasy RPG dialogue in Castle Britannia or during courtly narration.",
+      "voice_desc_zh": "性别：男性。年龄：六十余岁。角色：不列颠王国在位君主。音高：低沉庄重的男中音。语速：沉稳、有分寸、带刻意停顿。情绪：肃穆权威、如父辈般睿智、疲惫却坚毅。音色特征：音色饱满、共鸣强、略带沙哑。语言：标准普通话。使用场景：奇幻RPG中于不列颠城堡或宫廷叙事对话。",
+      "ref_zh_text": "旅人，你好。今天過得如何？",
+      "ref_en_text": "Greetings, traveler. What brings you to these lands this day?",
+      "_portrait_voice_analysis": {
+        "model": "qwen2.5vl:7b",
+        "portrait": "BritishU7.PNG",
+        "apparent_age": "elderly",
+        "gender_presentation": "male",
+        "visual_traits": "regal attire with a crown, stern expression",
+        "temperament": "authoritative and commanding",
+        "previous_voice_desc_en": "Male, elderly, regal and authoritative king, deep resonant voice, dignified and measured pace",
+        "previous_voice_desc_zh": "男性，老人，低沉，步伐威嚴，穩重，用標準的普通話朗讀",
+        "updated_at": "2026-07-10T18:23:03"
+      }
+    },
+    "npc_spark": {
+      "npc": "Spark",
+      "type": "individual",
+      "npcs": [
+        "Spark"
+      ],
+      "voice_desc_en": "Gender: male. Age: fourteen. Role: orphaned blacksmith apprentice. Pitch: high-pitched, slightly breathy tenor. Pace: quick, urgent, with sudden pauses when emotional. Emotion: earnest, vulnerable, fiercely determined. Characteristics: crisp, slightly hoarse from labor, with adolescent cracking. Use case: fantasy RPG dialogue, tavern banter, emotional monologues.",
+      "voice_desc_zh": "性别：男性。年龄：十四岁。角色：被遗弃的铁匠学徒。音高：清亮略带气声的男高音。语速：急促、节奏紧凑，情绪激动时突然停顿。情绪：诚恳、脆弱、意志坚定。音色特征：略显沙哑、带少年声带裂纹。语言：标准普通话。使用场景：奇幻RPG对话、酒馆闲聊、情感独白。",
+      "ref_zh_text": "旅人，你好。今天過得如何？",
+      "ref_en_text": "Greetings, traveler. What brings you to these lands this day?",
+      "_portrait_voice_analysis": {
+        "model": "qwen2.5vl:7b",
+        "portrait": "Spark.gif",
+        "apparent_age": "Teenage boy",
+        "gender_presentation": "Male",
+        "visual_traits": "Dirty, unkempt, appears emotional but composed.",
+        "temperament": "Earnest, slightly insecure, with a hint of determination.",
+        "previous_voice_desc_en": "Male, teenage boy, earnest and emotional, voice cracking with adolescence, slightly insecure",
+        "previous_voice_desc_zh": "男性，十幾歲的男孩，認真而情緒化，青春期時聲音嘶啞，有點不安全感，用標準的普通話朗讀",
+        "updated_at": "2026-07-10T16:43:38"
+      }
+    }
+  }
+}

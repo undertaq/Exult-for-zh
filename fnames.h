@@ -97,6 +97,7 @@
 #define PATCH_INITGAME       "<PATCH>/initgame.dat"
 #define USECODE              "<STATIC>/usecode"
 #define PATCH_USECODE        "<PATCH>/usecode"
+#define ZH_USECODE           "<PATCH>/usecode.zh"
 #define POINTERS             "<STATIC>/pointers.shp"
 #define PATCH_POINTERS       "<PATCH>/pointers.shp"
 #define MAINMUS              "<STATIC>/mt32mus.dat"
@@ -178,6 +179,8 @@
 
 #define AUTONOTES       "autonotes.txt"
 #define PATCH_AUTONOTES "<PATCH>/autonotes.txt"
+#define AUTONOTES_ZH     "autonotes_zh.txt"
+#define PATCH_AUTONOTES_ZH "<PATCH>/autonotes_zh.txt"
 
 #define PATCH_KEYS "<PATCH>/patchkeys.txt"
 

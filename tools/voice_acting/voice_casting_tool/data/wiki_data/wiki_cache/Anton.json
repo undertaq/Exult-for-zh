@@ -1,0 +1,12 @@
+{
+  "npc_name": "Anton",
+  "url": "https://wiki.ultimacodex.com/wiki/Anton",
+  "title": "Anton",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Anton</b> is a young scholar apprenticed to the sage <a href=\"/wiki/Alagner\" title=\"Alagner\">Alagner</a>. The <a href=\"/wiki/Avatar\" title=\"Avatar\">Avatar</a> may encounter him in <a href=\"/wiki/Buccaneer%27s_Den\" title=\"Buccaneer&#39;s Den\">Buccaneer's Den</a>. He appears in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Anton is a young scholar apprenticed to the sage Alagner. The Avatar may encounter him in Buccaneer's Den. He appears in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Buccaneer's Den"
+  },
+  "fetched_at": "2026-04-18T20:31:10.458117+00:00"
+}

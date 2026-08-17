@@ -1,0 +1,12 @@
+{
+  "npc_name": "Tavenor",
+  "url": "https://wiki.ultimacodex.com/wiki/Tavenor",
+  "title": "Tavenor",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Tavenor</b> is one of the <a href=\"/wiki/Emps\" title=\"Emps\">emps</a> living in a <a href=\"/wiki/Emp_Village\" class=\"mw-redirect\" title=\"Emp Village\"> village</a> amidst the <a href=\"/wiki/Silverleaf\" title=\"Silverleaf\">silverleaf</a> trees in <i><a href=\"/wiki/Ultima_VII\" class=\"mw-redirect\" title=\"Ultima VII\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Tavenor is one of the emps living in a village amidst the silverleaf trees in Ultima VII.",
+  "infobox": {
+    "Species": "emp",
+    "Location": "Emp Village"
+  },
+  "fetched_at": "2026-04-18T20:33:58.046286+00:00"
+}

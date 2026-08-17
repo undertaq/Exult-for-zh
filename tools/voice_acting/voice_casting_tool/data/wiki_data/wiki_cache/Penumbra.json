@@ -1,0 +1,12 @@
+{
+  "npc_name": "Penumbra",
+  "url": "https://wiki.ultimacodex.com/wiki/Penumbra",
+  "title": "Penumbra",
+  "summary_html": "<div class=\"mw-parser-output\">\n\n\n\n</td></tr></tbody></table>\n<p><b>Penumbra</b>, also known as <b>Daughter of the Eclipse</b>, is a powerful <a href=\"/wiki/Mage\" title=\"Mage\">mage</a> and seer of <a href=\"/wiki/Gypsies\" title=\"Gypsies\"> gypsy</a> descent. She lives in <a href=\"/wiki/Moonglow\" title=\"Moonglow\">Moonglow</a> for over two hundred years.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Penumbra, also known as Daughter of the Eclipse, is a powerful mage and seer of gypsy descent. She lives in Moonglow for over two hundred years.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Moonglow"
+  },
+  "fetched_at": "2026-04-18T20:33:25.639181+00:00"
+}

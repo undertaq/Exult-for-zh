@@ -1,0 +1,13 @@
+{
+  "npc_name": "De Snel",
+  "url": "https://wiki.ultimacodex.com/wiki/De_Snel",
+  "title": "De Snel",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p>Master <b>De Snel</b> is a <a href=\"/wiki/Trainers\" title=\"Trainers\"> trainer</a> and the head of the prestigious fighting academy, the <a href=\"/wiki/Library_of_Scars\" title=\"Library of Scars\">Library of Scars</a>, in <a href=\"/wiki/Jhelom\" title=\"Jhelom\">Jhelom</a> and a former chief assassin for the <a href=\"/wiki/Fellowship\" title=\"Fellowship\">Fellowship</a>. Encountered by the <a href=\"/wiki/Avatar\" title=\"Avatar\">Avatar</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>, De Snel’s past comes back to haunt him when the hero investigates a murder in <a href=\"/wiki/Minoc\" title=\"Minoc\">Minoc</a> linked to his academy. His talent as a fighter, coupled with his ruthless nature, makes him a dangerous adversary.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Master De Snel is a trainer and the head of the prestigious fighting academy, the Library of Scars, in Jhelom and a former chief assassin for the Fellowship. Encountered by the Avatar in Ultima VII, De Snel’s past comes back to haunt him when the hero investigates a murder in Minoc linked to his academy. His talent as a fighter, coupled with his ruthless nature, makes him a dangerous adversary.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "trainer",
+    "Location": "Jhelom"
+  },
+  "fetched_at": "2026-04-18T20:31:45.072536+00:00"
+}

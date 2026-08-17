@@ -1,0 +1,389 @@
+# Canonical English proper-noun list (NPC names + place names).
+# Used by the autonote zh repair pass: these names must stay in English
+# in the Chinese auto-notes - never translated.
+# [NPC]
+...
+Abraham
+Addom
+Adjhar
+Aimi
+Alagner
+Alina
+Amanda
+Amber
+Andrew
+Anmanivas
+Ansikart
+Anton
+Apollonia
+Arcadion
+Aurvidlem
+Auston
+Avatar
+Balayna
+Batlin
+Battles
+Ben
+Bennie
+Betra
+Beverlea
+Blacktooth
+Blorn
+Bollux
+Boots
+Boris
+Bradman
+Brion
+Brita
+Brownie
+Budo
+Burnside
+Cador
+Caine
+Cairbre
+Camille
+Candice
+Carlyn
+Caroline
+Carrocio
+Catherine
+Chad
+Chantu
+Charles
+Chuckles
+Clint
+Constance
+Coop
+Cosmo
+Csil
+Cubolt
+Cynthia
+D Rel
+Danag
+Daphne
+Dark Core
+De Maria
+De Snel
+Dell
+Denby
+Denton
+Diane
+Dracothraxus
+Draxinusom
+Dupre
+Dustin
+Effrem
+Eiko
+Elad
+Eldroth
+Elizabeth
+Ellen
+Elynor
+Erethian
+Fenn
+Feridwyn
+Ferryman
+Figg
+Finnigan
+Finnigan,Spark
+Fodus
+For Lem
+Foranamo
+Forbrak
+Forskis
+Forsythe
+Frank
+Fred
+Gargan
+Garok
+Garritt
+Gaye
+Geoffrey
+Gharl
+Gilberto
+Gladstone
+Glenno
+Gordon
+Gordy
+Gorn
+Goth
+Grayson
+Greg
+Gregor
+Grod
+Guard
+Henry
+Hook
+Horance
+Horffe
+Hydra
+Ian
+Inforlem
+Inmanilem
+Inwisloklem
+Iolo
+Iriale
+Iskander
+Jaana
+Jakher
+James
+Jeanette
+Jehanne
+Jergi
+Jesse
+Jillian
+John Paul
+Johnson
+Jordan
+Joseph
+Judith
+Julia
+Kallibrus
+Karenna
+Karl
+Katrina
+Kelly
+Kessler
+Kissme
+Kliftin
+Klog
+Komor
+Kreg
+Kristy
+Lap Lem
+Lasher
+Leavell
+Leigh
+Liana
+Lord British
+Lord Heather
+Lucky
+Lucy
+Mack
+Magenta
+Malloy
+Mama
+Mandy
+Mara
+Margareta
+Mariah
+Markham
+Markus
+Martine
+Martingo
+Max
+Menion
+Merrick
+Meryl
+Mikos
+Millie
+Miranda
+Mole
+Mordra
+Morfin
+Morz
+Nanna
+Nastassia
+Nell
+Nelson
+Neno
+Nicholas
+Nicodemus
+Nystul
+Ophelia
+Owen
+Owings
+Palace Guard
+Pamela
+Papa
+Patterson
+Paul
+Paulette
+Pendaran
+Penni
+Penumbra
+Perrin
+Petre
+Phearcy
+Polly
+Quaeven
+Quan
+Quenton
+Rankin
+Rayburt
+Raymundo
+Regal
+Reyna
+Richter
+Roberto
+Robin
+Rowena
+Rudyom
+Runeb
+Russell
+Rutherford
+Salamon
+Sam
+Saralek
+Sarpling
+Sasha
+Sean
+Seara
+Sentri
+Shamino
+Shanda
+Shando
+Shandu
+Sherry
+Shrine
+Silamo
+Sintag
+Sir Jeff
+Smith
+Smithy
+Snaz
+Spark
+Sprellic
+Stone Guardian
+Stuart
+Sullivan
+Syria
+Tavenor
+Taylor
+Teregus
+Thad
+Thurston
+Tiery
+Time Lord
+Timmons
+Tobias
+Tolemac
+Tory
+Trellek
+Trent
+Tseramed
+Vokes
+Wayne
+Wench
+Weston
+William
+Willy
+Wis Sur
+Wislem
+Xanthia
+Xorinia
+Yongi
+Yvella
+Zaksam
+Zelda
+Zella
+Zinaida
+Zorn
+# [PLACE]
+Armageddon
+Artist's Guild
+Astronomical Alignment
+Black Gate
+Blackrock
+Britain
+Britannia
+Britannian Mining Company
+Buccaneer's Den
+Castle Britannia
+Cove
+Covetous
+Crown Jewel
+Crown Jewels
+Deceit
+Despise
+Destard
+Doom
+Empath Abbey
+Ethereal Ring
+Farmer's Market
+Fellowship Hall
+Flower Man
+Gilded Lizard
+Golem
+Golem Book
+Great Council
+Great Earth Serpent
+Great Water Serpent
+Hallowed Dock
+Head Servant
+High Court
+Hook Den
+Hythloth
+Inner Voice
+Iskander Ironheart
+Island of the Avatar
+Isle of Fire
+Isle of the Avatar
+Jhelom
+Keg O' Spirits
+Lady Jehanne
+Lady Leigh
+Lock Lake
+Lord British's
+Lord British's Castle
+Lord John
+Magic Storm
+Meditation Retreat
+Minoc
+Mistress Mordra
+Monastery
+Moongates
+Moonglow
+New Magincia
+Ophidian
+Orb of the Moons
+Passage of
+Passion Play
+Paws
+Pothole
+Royal Nursery
+Royal Orchards
+Royal Theatre
+Salty Dog
+Scroll of Infinity
+Serpent Spine
+Serpent's Hold
+Serpent's Spine
+Shade Blade
+Shadowblade
+Shame
+Shrine of Courage
+Shrine of Principles
+Shrine of Truth
+Sir Denton
+Sir Horffe
+Sir John
+Sir Jordan
+Sir Pendaran
+Skara Brae
+Soul Cage
+Star of Unity
+Strange Land
+Talisman of Infinity
+Temple of Honesty
+Temple of Love
+Temple of Sacrifice
+Temple of Spirituality
+Terfin
+The Avatars
+The Baths
+The Blue Boar
+The Bunk
+The Dragon's Breath
+The Emerald
+The Fellowship
+The Fellowship's
+The Music Hall
+The Time Lord
+The Timelord
+Town Hall
+Town Mayor
+Trinsic
+Vesper
+Wrong
+Yew

@@ -1,0 +1,13 @@
+{
+  "npc_name": "Dell",
+  "url": "https://wiki.ultimacodex.com/wiki/Dell",
+  "title": "Dell",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Dell</b> is a <a href=\"/wiki/Provisioner\" title=\"Provisioner\">provisioner</a> in <a href=\"/wiki/Trinsic\" title=\"Trinsic\">Trinsic</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>. His shop is situated along the street called Paladin's Path, a little ways north of <a href=\"/wiki/Chantu\" title=\"Chantu\">Chantu's</a> practice.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Dell is a provisioner in Trinsic in Ultima VII. His shop is situated along the street called Paladin's Path, a little ways north of Chantu's practice.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "provisioner",
+    "Location": "Trinsic"
+  },
+  "fetched_at": "2026-04-18T20:31:45.816100+00:00"
+}

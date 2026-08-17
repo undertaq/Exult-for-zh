@@ -1,0 +1,212 @@
+{
+  "model": "qwen2.5vl:7b",
+  "apply": true,
+  "processed": [
+    {
+      "design_id": "group_child_female",
+      "npc": "child_female",
+      "npcs": [
+        "Catherine",
+        "Kristy"
+      ],
+      "portrait": "Catherine.gif",
+      "portraits": [
+        "Catherine.gif",
+        "Kristy.gif"
+      ],
+      "elapsed_seconds": 10.1,
+      "analysis": {
+        "apparent_age": "5-7 years old",
+        "gender_presentation": "female",
+        "visual_traits": "innocent, playful, expressive eyes",
+        "temperament": "curious, enthusiastic, slightly shy",
+        "voice_desc_en": "A young girl with a high-pitched, innocent voice, speaking in Mandarin with a playful and curious tone."
+      },
+      "changed": true
+    },
+    {
+      "design_id": "group_child_male",
+      "npc": "child_male",
+      "npcs": [
+        "Max",
+        "Nicholas"
+      ],
+      "portrait": "MaxU7.png",
+      "portraits": [
+        "MaxU7.png",
+        "Nicholas.gif"
+      ],
+      "elapsed_seconds": 3.7,
+      "analysis": {
+        "apparent_age": "3-5 years old",
+        "gender_presentation": "male",
+        "visual_traits": "energetic toddler with bright eyes and a playful expression",
+        "temperament": "lively and enthusiastic",
+        "voice_desc_en": "A young, energetic boy with a high-pitched voice, speaking in Mandarin with enthusiasm and a hint of innocence."
+      },
+      "changed": true
+    },
+    {
+      "design_id": "npc_amber",
+      "npc": "Amber",
+      "npcs": [
+        "Amber"
+      ],
+      "portrait": "Amber.gif",
+      "portraits": [
+        "Amber.gif"
+      ],
+      "elapsed_seconds": 2.6,
+      "analysis": {
+        "apparent_age": "30s",
+        "gender_presentation": "female",
+        "visual_traits": "cheerful, playful, mouse costume",
+        "temperament": "warm, friendly, energetic",
+        "voice_desc_en": "A cheerful, youthful female with a warm and engaging voice, conveying playfulness and friendliness."
+      },
+      "changed": true
+    },
+    {
+      "design_id": "npc_de_maria",
+      "npc": "De Maria",
+      "npcs": [
+        "De Maria"
+      ],
+      "portrait": "DeMaria.gif",
+      "portraits": [
+        "DeMaria.gif"
+      ],
+      "elapsed_seconds": 2.7,
+      "analysis": {
+        "apparent_age": "40s-50s",
+        "gender_presentation": "masculine",
+        "visual_traits": "flamboyant, festive aura",
+        "temperament": "warm, authoritative, expressive",
+        "voice_desc_en": "Deep, resonant voice with a warm tone and expressive cadence, conveying authority and warmth."
+      },
+      "changed": true
+    },
+    {
+      "design_id": "npc_dustin",
+      "npc": "Dustin",
+      "npcs": [
+        "Dustin"
+      ],
+      "portrait": "Dustin.gif",
+      "portraits": [
+        "Dustin.gif"
+      ],
+      "elapsed_seconds": 2.6,
+      "analysis": {
+        "apparent_age": "40s",
+        "gender_presentation": "masculine",
+        "visual_traits": "stocky actor with a focused demeanor",
+        "temperament": "serious and concentrated",
+        "voice_desc_en": "Deep, resonant voice with a steady pace, conveying authority and focus."
+      },
+      "changed": true
+    },
+    {
+      "design_id": "npc_jesse",
+      "npc": "Jesse",
+      "npcs": [
+        "Jesse"
+      ],
+      "portrait": "Jesse.jpg",
+      "portraits": [
+        "Jesse.jpg"
+      ],
+      "elapsed_seconds": 2.8,
+      "analysis": {
+        "apparent_age": "40s",
+        "gender_presentation": "masculine",
+        "visual_traits": "tall, thin with knobby knees, wearing a woman's wig in drag",
+        "temperament": "confident and slightly eccentric",
+        "voice_desc_en": "Deep, authoritative voice with a hint of theatrical flair, conveying confidence and warmth."
+      },
+      "changed": true
+    },
+    {
+      "design_id": "npc_judith",
+      "npc": "Judith",
+      "npcs": [
+        "Judith"
+      ],
+      "portrait": "Judith.gif",
+      "portraits": [
+        "Judith.gif"
+      ],
+      "elapsed_seconds": 2.7,
+      "analysis": {
+        "apparent_age": "40s",
+        "gender_presentation": "female",
+        "visual_traits": "warm musical voice with a hint of urgency in her speech.",
+        "temperament": "energetic yet composed performer",
+        "voice_desc_en": "Warm, slightly hurried female voice with a musical texture, conveying both enthusiasm and authority."
+      },
+      "changed": true
+    },
+    {
+      "design_id": "npc_meryl",
+      "npc": "Meryl",
+      "npcs": [
+        "Meryl"
+      ],
+      "portrait": "Meryl.PNG",
+      "portraits": [
+        "Meryl.PNG"
+      ],
+      "elapsed_seconds": 2.7,
+      "analysis": {
+        "apparent_age": "40s",
+        "gender_presentation": "female",
+        "visual_traits": "serious expression, middle-aged actress",
+        "temperament": "focused professional",
+        "voice_desc_en": "Natural female voice, mid-tempo delivery, slightly authoritative and serious tone."
+      },
+      "changed": true
+    },
+    {
+      "design_id": "npc_neno",
+      "npc": "Neno",
+      "npcs": [
+        "Neno"
+      ],
+      "portrait": "Neno.gif",
+      "portraits": [
+        "Neno.gif"
+      ],
+      "elapsed_seconds": 2.8,
+      "analysis": {
+        "apparent_age": "30s",
+        "gender_presentation": "masculine",
+        "visual_traits": "energetic, expressive, slightly hurried",
+        "temperament": "determined yet calm",
+        "voice_desc_en": "A mid-30s man with a lively and determined tone, speaking with a slight urgency but maintaining a warm and authoritative presence."
+      },
+      "changed": true
+    },
+    {
+      "design_id": "npc_stuart",
+      "npc": "Stuart",
+      "npcs": [
+        "Stuart"
+      ],
+      "portrait": "Stuart.jpg",
+      "portraits": [
+        "Stuart.jpg"
+      ],
+      "elapsed_seconds": 2.5,
+      "analysis": {
+        "apparent_age": "30s",
+        "gender_presentation": "masculine",
+        "visual_traits": "assertive, confident",
+        "temperament": "authoritative, commanding",
+        "voice_desc_en": "Deep, authoritative tone with a slight rasp, steady pace, and warm authority."
+      },
+      "changed": true
+    }
+  ],
+  "missing_portraits": [],
+  "errors": []
+}

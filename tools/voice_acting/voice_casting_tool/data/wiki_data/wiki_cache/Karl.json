@@ -1,0 +1,12 @@
+{
+  "npc_name": "Karl",
+  "url": "https://wiki.ultimacodex.com/wiki/Karl",
+  "title": "Karl",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Karl</b> is a misanthropic hermit living in a hut in the wilderness outside <a href=\"/wiki/Minoc\" title=\"Minoc\">Minoc</a>. He appears in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Karl is a misanthropic hermit living in a hut in the wilderness outside Minoc. He appears in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Minoc"
+  },
+  "fetched_at": "2026-04-18T20:32:41.331894+00:00"
+}

@@ -1,0 +1,12 @@
+{
+  "npc_name": "Iskander",
+  "url": "https://wiki.ultimacodex.com/wiki/Iskander",
+  "title": "Iskander",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Iskander</b> is a <a href=\"/wiki/Cyclops\" title=\"Cyclops\">cyclopean</a> hero traveling near the <a href=\"/wiki/Deceit\" title=\"Deceit\">Dungeon Deceit</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>",
+  "summary_text": "Iskander is a cyclopean hero traveling near the Dungeon Deceit in Ultima VII.",
+  "infobox": {
+    "Species": "cyclops",
+    "Location": "Deceit"
+  },
+  "fetched_at": "2026-04-18T20:32:28.759715+00:00"
+}

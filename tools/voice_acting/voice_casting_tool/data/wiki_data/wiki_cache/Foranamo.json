@@ -1,0 +1,12 @@
+{
+  "npc_name": "Foranamo",
+  "url": "https://wiki.ultimacodex.com/wiki/Foranamo",
+  "title": "Foranamo",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table><p><b>Foranamo</b> is a wingless <a href=\"/wiki/Gargoyle\" class=\"mw-redirect\" title=\"Gargoyle\">gargoyle</a> who formerly worked as a miner in <a href=\"/wiki/Vesper\" title=\"Vesper\">Vesper</a> in <i><a href=\"/wiki/Ultima_VII\" class=\"mw-redirect\" title=\"Ultima VII\">Ultima VII</a></i>.\n</p>",
+  "summary_text": "Foranamo is a wingless gargoyle who formerly worked as a miner in Vesper in Ultima VII.",
+  "infobox": {
+    "Species": "gargoyle",
+    "Location": "Vesper"
+  },
+  "fetched_at": "2026-04-18T20:32:03.290809+00:00"
+}

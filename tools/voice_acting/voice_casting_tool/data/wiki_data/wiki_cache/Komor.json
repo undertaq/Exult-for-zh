@@ -1,0 +1,12 @@
+{
+  "npc_name": "Komor",
+  "url": "https://wiki.ultimacodex.com/wiki/Komor",
+  "title": "Komor",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Komor</b> is a crippled <a href=\"/wiki/Beggar\" class=\"mw-redirect\" title=\"Beggar\">beggar</a> living in <a href=\"/wiki/Paws\" title=\"Paws\">Paws</a>, who plies for alms along the town's dirt crossroads with his companion <a href=\"/wiki/Fenn\" title=\"Fenn\">Fenn</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>",
+  "summary_text": "Komor is a crippled beggar living in Paws, who plies for alms along the town's dirt crossroads with his companion Fenn in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Paws"
+  },
+  "fetched_at": "2026-04-18T20:32:46.701468+00:00"
+}

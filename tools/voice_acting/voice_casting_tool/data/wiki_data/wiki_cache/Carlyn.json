@@ -1,0 +1,13 @@
+{
+  "npc_name": "Carlyn",
+  "url": "https://wiki.ultimacodex.com/wiki/Carlyn",
+  "title": "Carlyn",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Carlyn</b> is <a href=\"/wiki/Moonglow\" title=\"Moonglow\">Moonglow's</a> <a href=\"/wiki/Clothier\" title=\"Clothier\">clothier</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Carlyn is Moonglow's clothier in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "clothier",
+    "Location": "Moonglow"
+  },
+  "fetched_at": "2026-04-18T20:31:31.249795+00:00"
+}

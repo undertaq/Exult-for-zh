@@ -1,0 +1,12 @@
+{
+  "npc_name": "Forbrak",
+  "url": "https://wiki.ultimacodex.com/wiki/Forbrak",
+  "title": "Forbrak",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Forbrak</b> is a winged <a href=\"/wiki/Gargoyle\" class=\"mw-redirect\" title=\"Gargoyle\">gargoyle</a> running the <a href=\"/wiki/Hall_of_Refreshment\" title=\"Hall of Refreshment\">Hall of Refreshment</a> in <a href=\"/wiki/Terfin\" title=\"Terfin\">Terfin</a> during <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Forbrak is a winged gargoyle running the Hall of Refreshment in Terfin during Ultima VII.",
+  "infobox": {
+    "Species": "gargoyle",
+    "Location": "Terfin"
+  },
+  "fetched_at": "2026-04-18T20:32:04.010291+00:00"
+}

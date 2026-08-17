@@ -1,0 +1,12 @@
+{
+  "npc_name": "Judith",
+  "url": "https://wiki.ultimacodex.com/wiki/Judith",
+  "title": "Judith",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Judith</b> is the head instructor at <a href=\"/wiki/Britain\" title=\"Britain\">Britain</a>'s <a href=\"/wiki/Music_Hall\" title=\"Music Hall\">Music Hall</a> in <i><a href=\"/wiki/Ultima_VII\" class=\"mw-redirect\" title=\"Ultima VII\">Ultima VII</a></i>.\n</p>",
+  "summary_text": "Judith is the head instructor at Britain's Music Hall in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Britain"
+  },
+  "fetched_at": "2026-04-18T20:32:38.327067+00:00"
+}

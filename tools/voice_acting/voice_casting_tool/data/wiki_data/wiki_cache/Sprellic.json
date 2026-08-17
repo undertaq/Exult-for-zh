@@ -1,0 +1,12 @@
+{
+  "npc_name": "Sprellic",
+  "url": "https://wiki.ultimacodex.com/wiki/Sprellic",
+  "title": "Sprellic",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Sprellic</b> is the owner of the <a href=\"/wiki/Bunk_and_Stool\" class=\"mw-redirect\" title=\"Bunk and Stool\">Bunk and Stool</a>,  a <a href=\"/wiki/Tavern\" title=\"Tavern\">tavern</a> and <a href=\"/wiki/Inn\" title=\"Inn\">inn</a> in <a href=\"/wiki/Jhelom\" title=\"Jhelom\">Jhelom</a>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Sprellic is the owner of the Bunk and Stool, a tavern and inn in Jhelom.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Jhelom"
+  },
+  "fetched_at": "2026-04-18T20:33:55.117357+00:00"
+}

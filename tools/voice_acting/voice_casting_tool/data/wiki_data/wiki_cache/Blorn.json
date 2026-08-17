@@ -1,0 +1,12 @@
+{
+  "npc_name": "Blorn",
+  "url": "https://wiki.ultimacodex.com/wiki/Blorn",
+  "title": "Blorn",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Blorn</b> is a man living in <a href=\"/wiki/Vesper\" title=\"Vesper\">Vesper</a> in <i><a href=\"/wiki/Ultima_VII\" class=\"mw-redirect\" title=\"Ultima VII\">Ultima VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Blorn is a man living in Vesper in Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Vesper"
+  },
+  "fetched_at": "2026-04-18T20:31:20.017248+00:00"
+}

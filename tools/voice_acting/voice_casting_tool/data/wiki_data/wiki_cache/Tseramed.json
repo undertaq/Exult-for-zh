@@ -1,0 +1,12 @@
+{
+  "npc_name": "Tseramed",
+  "url": "https://wiki.ultimacodex.com/wiki/Tseramed",
+  "title": "Tseramed",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Tseramed</b> is a woodsman living in the vicinity of <a href=\"/wiki/Yew\" title=\"Yew\">Yew</a> during <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>. He may join the <a href=\"/wiki/Avatar%27s\" class=\"mw-redirect\" title=\"Avatar&#39;s\">Avatar's</a> party in the course of the hero's adventures.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Tseramed is a woodsman living in the vicinity of Yew during Ultima VII. He may join the Avatar's party in the course of the hero's adventures.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Yew"
+  },
+  "fetched_at": "2026-04-18T20:34:07.646476+00:00"
+}

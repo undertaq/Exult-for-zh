@@ -16,16 +16,16 @@ void Func028A shape#(0x28A) ()
 	var0001 = ((var0000[0x0001] - 0x03A5) / 0x000A);
 	var0002 = ((var0000[0x0002] - 0x046E) / 0x000A);
 	if (!(var0001 < 0x0000)) goto labelFunc028A_0052;
-	var0003 = ((" " + "西经 " + Func0932(var0002)) + " 度");
+	var0003 = ((" " + "西经 " + Func0932(var0001)) + " 度");
 	goto labelFunc028A_0063;
 labelFunc028A_0052:
-	var0003 = ((" " + "东经 " + Func0932(var0002)) + " 度");
+	var0003 = ((" " + "东经 " + Func0932(var0001)) + " 度");
 labelFunc028A_0063:
 	if (!(var0002 < 0x0000)) goto labelFunc028A_0081;
-	var0004 = ((" " + "北纬 " + Func0932(var0001)) + " 度");
+	var0004 = ((" " + "北纬 " + Func0932(var0002)) + " 度");
 	goto labelFunc028A_0092;
 labelFunc028A_0081:
-	var0004 = ((" " + "南纬 " + Func0932(var0001)) + " 度");
+	var0004 = ((" " + "南纬 " + Func0932(var0002)) + " 度");
 labelFunc028A_0092:
 	if (!(!UI_is_pc_inside())) goto labelFunc028A_00A9;
 	UI_item_say(item, (var0004 + var0003));

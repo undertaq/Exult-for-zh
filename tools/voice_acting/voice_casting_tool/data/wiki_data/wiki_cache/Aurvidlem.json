@@ -1,0 +1,13 @@
+{
+  "npc_name": "Aurvidlem",
+  "url": "https://wiki.ultimacodex.com/wiki/Aurvidlem",
+  "title": "Aurvidlem",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Aurvidlem</b> is a winged <a href=\"/wiki/Gargoyle\" class=\"mw-redirect\" title=\"Gargoyle\">gargoyle</a> running a <a href=\"/wiki/Vesper\" title=\"Vesper\">Vesper</a> <a href=\"/wiki/Provisioner\" title=\"Provisioner\">provisions shop</a> in <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>\n<div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\">",
+  "summary_text": "Aurvidlem is a winged gargoyle running a Vesper provisions shop in Ultima VII.",
+  "infobox": {
+    "Species": "gargoyle",
+    "Profession": "provisioner",
+    "Location": "Vesper"
+  },
+  "fetched_at": "2026-04-18T20:31:12.641996+00:00"
+}

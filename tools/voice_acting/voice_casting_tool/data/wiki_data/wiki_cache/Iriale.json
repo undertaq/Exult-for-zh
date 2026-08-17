@@ -1,0 +1,13 @@
+{
+  "npc_name": "Iriale",
+  "url": "https://wiki.ultimacodex.com/wiki/Iriale_Silvermist",
+  "title": "Iriale Silvermist",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Iriale Silvermist</b> is a <a href=\"/wiki/Fighter\" title=\"Fighter\">fighter</a> who guards the <a href=\"/wiki/Guardian%27s\" class=\"mw-redirect\" title=\"Guardian&#39;s\">Guardian's</a> <a href=\"/wiki/Cube_Generator\" title=\"Cube Generator\">Cube Generator</a> during <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>",
+  "summary_text": "Iriale Silvermist is a fighter who guards the Guardian's Cube Generator during Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Profession": "fighter",
+    "Location": "Meditation Retreat"
+  },
+  "fetched_at": "2026-04-18T20:32:28.023206+00:00"
+}

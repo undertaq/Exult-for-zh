@@ -1,0 +1,12 @@
+{
+  "npc_name": "Bennie",
+  "url": "https://wiki.ultimacodex.com/wiki/Bennie",
+  "title": "Bennie",
+  "summary_html": "<div class=\"mw-parser-output\">\n</td></tr></tbody></table>\n<p><b>Bennie</b> is the head butler of <a href=\"/wiki/Castle_Britannia\" title=\"Castle Britannia\">Castle Britannia</a> during <i><a href=\"/wiki/Ultima_VII:_The_Black_Gate\" title=\"Ultima VII: The Black Gate\">Ultima&#160;VII</a></i>.\n</p>",
+  "summary_text": "Bennie is the head butler of Castle Britannia during Ultima VII.",
+  "infobox": {
+    "Species": "human",
+    "Location": "Castle Britannia"
+  },
+  "fetched_at": "2026-04-18T20:31:17.070307+00:00"
+}
