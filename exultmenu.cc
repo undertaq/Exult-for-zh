@@ -78,6 +78,10 @@ public:
 		return get_text_msg(0x2B4);
 	}
 
+	static const char* version_label() {
+		return "Exult_for_zh v1.6 (base on " VERSION ")";
+	}
+
 	static auto SETUP() {
 		return get_text_msg(0x2B5);
 	}
@@ -396,8 +400,8 @@ BaseGameInfo* ExultMenu::show_mods_menu(ModManager* selgame) {
 		// Interferes with the menu.
 		sman->paint_shape(logox, logoy, exultlogo);
 		font->draw_text(
-				gwin->get_win()->get_ib8(), gwin->get_win()->get_end_x() - font->get_text_width(VERSION),
-				gwin->get_win()->get_end_y() - font->get_text_height() - 5, VERSION);
+				gwin->get_win()->get_ib8(), gwin->get_win()->get_end_x() - font->get_text_width(Strings::version_label()),
+				gwin->get_win()->get_end_y() - font->get_text_height() - 5, Strings::version_label());
 		const int choice = menu->handle_events(gwin);
 		switch (choice) {
 		case -10:    // The incompatibility notice; do nothing
@@ -517,8 +521,8 @@ BaseGameInfo* ExultMenu::run() {
 		// Interferes with the menu.
 		sman->paint_shape(logox, logoy, exultlogo);
 		font->draw_text(
-				gwin->get_win()->get_ib8(), gwin->get_win()->get_end_x() - font->get_text_width(VERSION),
-				gwin->get_win()->get_end_y() - font->get_text_height() - 5, VERSION);
+				gwin->get_win()->get_ib8(), gwin->get_win()->get_end_x() - font->get_text_width(Strings::version_label()),
+				gwin->get_win()->get_end_y() - font->get_text_height() - 5, Strings::version_label());
 		const int choice = menu->handle_events(gwin);
 
 		switch (choice) {

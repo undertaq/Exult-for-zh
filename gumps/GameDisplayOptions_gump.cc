@@ -38,6 +38,7 @@
 #endif    // __GNUC__
 
 #include "Configuration.h"
+#include "ChineseFontOptions_gump.h"    // Exult-zh: Chinese font sub-dialog
 #include "Enabled_button.h"
 #include "Face_stats.h"
 #include "GameDisplayOptions_gump.h"
@@ -339,7 +340,7 @@ void GameDisplayOptions_gump::build_buttons() {
 	}
 
 	auto languages_txt = std::vector<std::string>{
-			Strings::Default(), Strings::English(), Strings::French(), Strings::German(), Strings::Spanish()};
+			Strings::Default(), Strings::English(), Strings::French(), Strings::German(), Strings::Spanish(), "Chinese"};
 	buttons[id_language] = std::make_unique<GameDisplayTextToggle>(
 			this, &GameDisplayOptions_gump::toggle_language, languages_txt, language,
 			get_button_pos_for_label(Strings::Language_()), yForRow(++y_index), large_size);
@@ -348,6 +349,14 @@ void GameDisplayOptions_gump::build_buttons() {
 	buttons[id_fonts] = std::make_unique<GameDisplayTextToggle>(
 			this, &GameDisplayOptions_gump::toggle_fonts, fonts_txt, fonts, get_button_pos_for_label(Strings::Fonts_()),
 			yForRow(++y_index), large_size);
+
+	// Exult-zh: Chinese font settings sub-dialog button (always shown last)
+	// The label is intentionally hardcoded in Traditional Chinese as this feature
+	// is exclusively for the Chinese localisation.
+	const char* kChineseFontLabel = "Chinese Setup";
+	buttons[id_chinese_font_options] = std::make_unique<GameDisplayOptions_button>(
+			this, &GameDisplayOptions_gump::chinese_font_options, kChineseFontLabel,
+			get_button_pos_for_label(kChineseFontLabel), yForRow(++y_index), large_size);
 
 	// Risize to fit all
 	ResizeWidthToFitWidgets(tcb::span(buttons.data() + id_first, id_count));
@@ -392,6 +401,8 @@ void GameDisplayOptions_gump::load_settings() {
 		language = 3;
 	} else if (value == "es") {
 		language = 4;
+	} else if (value == "zh" || value == "zh_tw" || value == "chinese") {
+		language = 5;
 	} else {
 		language = 0;
 	}
@@ -405,10 +416,35 @@ void GameDisplayOptions_gump::load_settings() {
 	} else {
 		fonts = 0;    // original
 	}
+
+	if (language == 5) {
+		fonts = 2; // Force Built-in fonts to Disabled when Language is Chinese
+	}
+}
+
+void GameDisplayOptions_gump::toggle_language(int state) {
+	language = state;
+	if (language == 5) { // Chinese
+		fonts = 2; // Force Built-in fonts to Disabled
+		if (buttons[id_fonts]) {
+			buttons[id_fonts]->setselection(2);
+		}
+	}
+}
+
+void GameDisplayOptions_gump::toggle_fonts(int state) {
+	if (language == 5) { // Chinese: lock Built-in fonts to Disabled!
+		fonts = 2;
+		if (buttons[id_fonts]) {
+			buttons[id_fonts]->setselection(2);
+		}
+		return;
+	}
+	fonts = state;
 }
 
 GameDisplayOptions_gump::GameDisplayOptions_gump() : Modal_gump(nullptr, -1) {
-	SetProceduralBackground(TileRect(0, 0, 100, yForRow(13)), -1);
+	SetProceduralBackground(TileRect(0, 0, 100, yForRow(14)), -1);
 
 	for (auto& btn : buttons) {
 		btn.reset();
@@ -473,14 +509,20 @@ void GameDisplayOptions_gump::save_settings() {
 		Android_setAutoLaunch(android_autolaunch != 0);
 	}
 
-	const char* langcodes[] = {"", "en", "fr", "de", "es"};
+	const char* langcodes[] = {"", "en", "fr", "de", "es", "zh"};
 	if (language >= 0 && size_t(language) < std::size(langcodes)) {
 		config->set("config/gameplay/language", langcodes[language], false);
 
 		// Setup text incase language changed
 		Game::setup_text();
+		if (gwin) {
+			gwin->reload_usecode();
+		}
 	}
 
+	if (language == 5) {
+		fonts = 2; // Chinese forces Built-in fonts to Disabled
+	}
 	const char* fontcodes[] = {"original", "serif", "disabled"};
 	if (fonts >= 0 && size_t(fonts) < std::size(fontcodes)) {
 		config->set("config/gameplay/fonts", fontcodes[fonts], false);
@@ -491,6 +533,13 @@ void GameDisplayOptions_gump::save_settings() {
 	}
 
 	config->write_back();
+}
+
+// Exult-zh: open the Chinese font settings sub-dialog
+void GameDisplayOptions_gump::chinese_font_options() {
+	auto* zh_opts = new ChineseFontOptions_gump();
+	gumpman->do_modal_gump(zh_opts, Mouse::hand);
+	delete zh_opts;
 }
 
 void GameDisplayOptions_gump::paint() {
@@ -527,6 +576,12 @@ void GameDisplayOptions_gump::paint() {
 	}
 	if (buttons[id_fonts]) {
 		font->paint_text(iwin->get_ib8(), Strings::Fonts_(), x + label_margin, y + yForRow(++y_index) + 1);
+	}
+	// Exult-zh: label for Chinese font options button
+	if (buttons[id_chinese_font_options]) {
+		const char* kChineseFontLabel = "Chinese Setup";
+		++y_index;    // advance past the button row (button paints its own text)
+		(void)kChineseFontLabel;    // label is painted by the button itself
 	}
 	gwin->set_painted();
 }

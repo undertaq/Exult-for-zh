@@ -144,6 +144,14 @@ namespace {
 // THE game window:
 Game_window* Game_window::game_window = nullptr;
 
+static bool is_serpent_isle_cjk() {
+	return Game::get_game_type() == SERPENT_ISLE;
+}
+
+static uint32_t get_sdl_ticks_cjk() {
+	return SDL_GetTicks();
+}
+
 /*
  *  Provide chirping birds.
  */
@@ -319,6 +327,8 @@ Game_window::Game_window(
 		  walk_in_formation(false), debug(0), blits(0), scrolltx_l(0), scrollty_l(0), scrolltx_lp(0), scrollty_lp(0),
 		  scrolltx_lo(0), scrollty_lo(0), avposx_ld(0), avposy_ld(0), lerping_enabled(0) {
 	game_window = this;    // Set static ->.
+	chinese_is_serpent_isle_pfn = is_serpent_isle_cjk;
+	chinese_get_ticks_pfn = get_sdl_ticks_cjk;
 	clock       = new Game_clock(tqueue);
 	shape_man   = new Shape_manager();    // Create the single instance.
 	maps.push_back(map);                  // Map #0.
@@ -1559,14 +1569,24 @@ void Game_window::read_map() {
  */
 
 void Game_window::reload_usecode() {
-	// Get custom usecode functions.
-	if (is_system_path_defined("<PATCH>") && U7exists(PATCH_USECODE)) {
-		auto pFile = U7open_in(PATCH_USECODE);
-		if (!pFile) {
-			return;
+	if (Game::is_chinese_mode()) {
+		// Get custom Chinese usecode functions.
+		if (is_system_path_defined("<PATCH>") && U7exists(PATCH_USECODE)) {
+			auto pFile = U7open_in(PATCH_USECODE);
+			if (!pFile) {
+				return;
+			}
+			auto& file = *pFile;
+			usecode->read_usecode(file, true);
 		}
-		auto& file = *pFile;
-		usecode->read_usecode(file, true);
+	} else {
+		// Reload original English STATIC usecode when switching away from Chinese
+		if (U7exists(USECODE)) {
+			auto pFile = U7open_in(USECODE);
+			if (pFile) {
+				usecode->read_usecode(*pFile, false);
+			}
+		}
 	}
 }
 
@@ -1988,6 +2008,18 @@ bool Game_window::activate_item(
 		if (obj) {
 			obj->activate();
 			return true;
+		}
+	}
+	// Fallback for keyrings: if searching for BG keyring (1100), try SI keyring (485), and vice-versa
+	if (shnum == 1100 || shnum == 485) {
+		const int alt_shnum = (shnum == 1100) ? 485 : 1100;
+		for (int i = 0; i < cnt; i++) {
+			Actor*       person = party[i];
+			Game_object* obj    = person->find_item(alt_shnum, qual, frnum);
+			if (obj) {
+				obj->activate();
+				return true;
+			}
 		}
 	}
 	// Special case: Archwizard mode spellbook - create a temporary one with

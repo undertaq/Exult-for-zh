@@ -17,7 +17,10 @@
 #include "manip.h"
 #include "gamewin.h"
 #include "imagewin.h"
+#include "iwin8.h"
 #include "ignore_unused_variable_warning.h"
+#include "mouse.h"
+#include "palette.h"
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -64,7 +67,7 @@ void Deferred_text_renderer::set_active(bool enable, int scale_factor, int w, in
 
 void Deferred_text_renderer::clear() {
 	if (text_surface) {
-		SDL_FillSurfaceRect(text_surface, nullptr, 0);
+		std::memset(text_surface->pixels, 0, text_surface->pitch * text_surface->h);
 	}
 }
 
@@ -84,7 +87,20 @@ void Deferred_text_renderer::clear_region(int x, int y, int w, int h) {
 	int oy = ibuf->get_offset_y();
 
 	SDL_Rect rect = { (x + ox + gb) * scale, (y + oy + gb) * scale, w * scale, h * scale };
-	SDL_FillSurfaceRect(text_surface, &rect, 0);
+	
+	// Clip rect to surface bounds to avoid out-of-bounds memset
+	if (rect.x < 0) { rect.w += rect.x; rect.x = 0; }
+	if (rect.y < 0) { rect.h += rect.y; rect.y = 0; }
+	if (rect.x + rect.w > text_surface->w) { rect.w = text_surface->w - rect.x; }
+	if (rect.y + rect.h > text_surface->h) { rect.h = text_surface->h - rect.y; }
+
+	if (rect.w > 0 && rect.h > 0) {
+		auto* pixels = static_cast<uint8_t*>(text_surface->pixels);
+		int pitch = text_surface->pitch;
+		for (int r = 0; r < rect.h; ++r) {
+			std::memset(pixels + (rect.y + r) * pitch + rect.x * 4, 0, rect.w * 4);
+		}
+	}
 }
 
 /*
@@ -95,17 +111,14 @@ static inline void put_pixel_rgba(SDL_Surface* surf, int px, int py, uint8_t r, 
 	if (px < 0 || py < 0 || px >= surf->w || py >= surf->h) {
 		return;
 	}
-	auto* pixels = static_cast<uint32_t*>(surf->pixels);
-	const int pitch_pixels = surf->pitch / 4;
-	uint32_t& dest = pixels[py * pitch_pixels + px];
+	auto* pixels = static_cast<uint8_t*>(surf->pixels);
+	uint32_t* p = reinterpret_cast<uint32_t*>(pixels + py * surf->pitch + px * 4);
 
 	const SDL_PixelFormatDetails* fmt = SDL_GetPixelFormatDetails(surf->format);
+	const SDL_Palette* pal = SDL_GetSurfacePalette(surf);
 
-	// Extract existing RGBA channels based on the format layout
-	uint8_t dr = ((dest >> fmt->Rshift) << (8 - fmt->Rbits)) & 0xff;
-	uint8_t dg = ((dest >> fmt->Gshift) << (8 - fmt->Gbits)) & 0xff;
-	uint8_t db = ((dest >> fmt->Bshift) << (8 - fmt->Bbits)) & 0xff;
-	uint8_t da = fmt->Amask ? (((dest >> fmt->Ashift) << (8 - fmt->Abits)) & 0xff) : 0;
+	uint8_t dr, dg, db, da;
+	SDL_GetRGBA(*p, fmt, pal, &dr, &dg, &db, &da);
 
 	// Alpha blend source over destination
 	uint8_t out_a = a + ((da * (255 - a)) / 255);
@@ -118,13 +131,44 @@ static inline void put_pixel_rgba(SDL_Surface* surf, int px, int py, uint8_t r, 
 		out_r = out_g = out_b = 0;
 	}
 
-	uint32_t pixel = ((out_r >> (8 - fmt->Rbits)) << fmt->Rshift)
-	               | ((out_g >> (8 - fmt->Gbits)) << fmt->Gshift)
-	               | ((out_b >> (8 - fmt->Bbits)) << fmt->Bshift);
-	if (fmt->Amask) {
-		pixel |= ((out_a >> (8 - fmt->Abits)) << fmt->Ashift);
+	*p = SDL_MapRGBA(fmt, pal, out_r, out_g, out_b, out_a);
+}
+
+static SDL_Color resolve_effective_color(int style_color, unsigned char palette_index, Palette* exult_pal, const SDL_Color* palette) {
+	SDL_Color col;
+	if (style_color > 255) {
+		// 24-bit direct RGB (0xRRGGBB / #RRGGBB)
+		col.r = static_cast<uint8_t>((style_color >> 16) & 0xFF);
+		col.g = static_cast<uint8_t>((style_color >> 8) & 0xFF);
+		col.b = static_cast<uint8_t>(style_color & 0xFF);
+	} else if (style_color >= 0) {
+		// 8-bit palette index specified in style
+		if (exult_pal) {
+			col.r = exult_pal->get_red(style_color) * 4;
+			col.g = exult_pal->get_green(style_color) * 4;
+			col.b = exult_pal->get_blue(style_color) * 4;
+		} else {
+			col = palette[style_color];
+		}
+	} else {
+		// Default: lookup palette_index
+		if (exult_pal) {
+			if (palette_index == 255 && exult_pal->get_border_index() == 255) {
+				unsigned char br, bg, bb;
+				Palette::get_border(br, bg, bb);
+				col.r = br;
+				col.g = bg;
+				col.b = bb;
+			} else {
+				col.r = exult_pal->get_red(palette_index) * 4;
+				col.g = exult_pal->get_green(palette_index) * 4;
+				col.b = exult_pal->get_blue(palette_index) * 4;
+			}
+		} else {
+			col = palette[palette_index];
+		}
 	}
-	dest = pixel;
+	return col;
 }
 
 /*
@@ -137,6 +181,14 @@ void Deferred_text_renderer::draw_glyph(
 		bool has_shadow, const Deferred_glyph_style& style,
 		const std::string& font_path, int pixel_size,
 		bool is_book, Image_buffer8* win) {
+	if (wch >= 0x80) {
+		static int draw_glyph_enter_log = 0;
+		if (draw_glyph_enter_log++ < 5) {
+			std::cout << "draw_glyph ENTRANCE: wch=" << wch << ", raw_x=" << x << ", raw_y=" << y 
+			          << ", active=" << active << ", text_surf=" << (void*)text_surface << std::endl;
+		}
+	}
+
 	if (!active || !text_surface) {
 		return;
 	}
@@ -155,16 +207,37 @@ void Deferred_text_renderer::draw_glyph(
 	if (wch == 127) {
 		// Load original font size just to get the ascender
 		int ascender = 10;
+		int ppem = 15;
 		if (TTF::load_font(font_path.c_str(), pixel_size)) {
 			ascender = TTF::face->size->metrics.ascender >> 6;
+			ppem = TTF::face->size->metrics.y_ppem;
 		}
 		int gb = (image_win->get_inter_surface() != image_win->get_display_surface()) ? image_win->get_guard_band() : 0;
-		int scaled_dot_x = (x + win->get_offset_x() + gb + 3) * scale;
-		int scaled_dot_y = (y + win->get_offset_y() + gb + ascender - 5) * scale;
-		int dot_size = 2 * scale;
+		
+		int base_dot_w = std::max(8, ppem / 2 + 1);
+		int base_dot_size = std::max(2, ppem / 7);
+		
+		int scaled_dot_x = (x + win->get_offset_x() + gb + base_dot_w / 2 - base_dot_size / 2) * scale;
+		int scaled_dot_y = (y + win->get_offset_y() + gb + ascender - ppem / 3 - base_dot_size / 2) * scale;
+		int dot_size = base_dot_size * scale;
 
-		SDL_Color fg_rgb = palette[fg_palette];
-		SDL_Color bg_rgb = palette[bg_palette];
+		SDL_Color fg_rgb = resolve_effective_color(style.fg_color, fg_palette, gwin->get_pal(), palette);
+		SDL_Color bg_rgb = resolve_effective_color(style.shadow_color, bg_palette, gwin->get_pal(), palette);
+		// Apply brightness boost for intro/ending scenes to compensate for
+		// anti-aliasing darkening effect on dark backgrounds.
+		if (style.brightness_boost > 1.0f) {
+			auto boost = [](uint8_t v, float f) -> uint8_t {
+				int r = static_cast<int>(v * f);
+				return r > 255 ? 255 : static_cast<uint8_t>(r);
+			};
+			const float b = style.brightness_boost;
+			fg_rgb.r = boost(fg_rgb.r, b);
+			fg_rgb.g = boost(fg_rgb.g, b);
+			fg_rgb.b = boost(fg_rgb.b, b);
+			bg_rgb.r = boost(bg_rgb.r, b);
+			bg_rgb.g = boost(bg_rgb.g, b);
+			bg_rgb.b = boost(bg_rgb.b, b);
+		}
 
 		if (has_shadow) {
 			// Right vertical bar of shadow
@@ -223,9 +296,24 @@ void Deferred_text_renderer::draw_glyph(
 	int left_x = sx + TTF::face->glyph->bitmap_left;
 	int top_y  = sy + ascender - TTF::face->glyph->bitmap_top;
 
-	// Get RGB colors from palette
-	SDL_Color fg_rgb = palette[fg_palette];
-	SDL_Color bg_rgb = palette[bg_palette];
+	// Get RGB colors from palette or direct 24-bit RGB style
+	SDL_Color fg_rgb = resolve_effective_color(style.fg_color, fg_palette, gwin->get_pal(), palette);
+	SDL_Color bg_rgb = resolve_effective_color(style.shadow_color, bg_palette, gwin->get_pal(), palette);
+	// Apply brightness boost for intro/ending scenes to compensate for
+	// anti-aliasing darkening effect on dark backgrounds.
+	if (style.brightness_boost > 1.0f) {
+		auto boost = [](uint8_t v, float f) -> uint8_t {
+			int r = static_cast<int>(v * f);
+			return r > 255 ? 255 : static_cast<uint8_t>(r);
+		};
+		const float b = style.brightness_boost;
+		fg_rgb.r = boost(fg_rgb.r, b);
+		fg_rgb.g = boost(fg_rgb.g, b);
+		fg_rgb.b = boost(fg_rgb.b, b);
+		bg_rgb.r = boost(bg_rgb.r, b);
+		bg_rgb.g = boost(bg_rgb.g, b);
+		bg_rgb.b = boost(bg_rgb.b, b);
+	}
 
 	// For grayscale bitmaps, bitmap.pixel_mode == FT_PIXEL_MODE_GRAY
 	// Each byte is an alpha value 0-255
@@ -297,6 +385,15 @@ void Deferred_text_renderer::draw_glyph(
 			int draw_x = left_x + col;
 			int draw_y = top_y + row;
 
+			if (alpha > 0) {
+				static int glyph_log_cnt = 0;
+				if (glyph_log_cnt++ < 5) {
+					std::cout << "draw_glyph WRITE: draw_x=" << draw_x << ", draw_y=" << draw_y 
+					          << ", font_alpha=" << alpha << ", surface_w=" << text_surface->w 
+					          << ", surface_h=" << text_surface->h << std::endl;
+				}
+			}
+
 			put_pixel_rgba(text_surface, draw_x, draw_y, fg_rgb.r, fg_rgb.g, fg_rgb.b, alpha);
 
 			// Boldness (weight)
@@ -312,11 +409,157 @@ void Deferred_text_renderer::blit(SDL_Surface* inter_surface, int x, int y, int 
 		return;
 	}
 
-	int dx = (x + guard_band) * scale;
-	int dy = (y + guard_band) * scale;
+	auto* gwin = Game_window::get_instance();
+	if (!gwin) return;
+	auto* image_win = gwin->get_win();
+	if (!image_win) return;
+	auto* ibuf = image_win->get_ibuf();
+	if (!ibuf) return;
+
+	int ox = ibuf->get_offset_x();
+	int oy = ibuf->get_offset_y();
+
+	// x, y here are already in ibuf-offset-adjusted coordinates (from show()).
+	// draw_glyph uses sx = (x + offset_x + gb) * scale to draw onto text_surface.
+	// So src coords on text_surface MUST include ox and oy.
+	int src_x = (x + ox + guard_band) * scale;
+	int src_y = (y + oy + guard_band) * scale;
+	// dst coords on inter_surface MUST NOT include ox and oy, because inter_surface 
+	// is scaled directly from draw_surface which handles its own offset.
+	int dst_x = (x + guard_band) * scale;
+	int dst_y = (y + guard_band) * scale;
+	
 	int dw = w * scale;
 	int dh = h * scale;
 
-	SDL_Rect rect = { dx, dy, dw, dh };
-	SDL_BlitSurface(text_surface, &rect, inter_surface, &rect);
+	// Check for mouse to mask out
+	auto* mouse_obj = Mouse::mouse();
+	Shape_frame* cur_frame = nullptr;
+	int cx_start = 0, cy_start = 0;
+	if (mouse_obj && mouse_obj->is_onscreen() && image_win) {
+		cur_frame = mouse_obj->get_current_frame();
+		if (cur_frame) {
+			// Get mouse coordinates relative to the visible screen area
+			int screen_mouse_x = mouse_obj->get_mousex() - image_win->get_start_x();
+			int screen_mouse_y = mouse_obj->get_mousey() - image_win->get_start_y();
+			cx_start = screen_mouse_x - cur_frame->get_xleft();
+			cy_start = screen_mouse_y - cur_frame->get_yabove();
+		}
+	}
+
+	// Clamp to inter_surface bounds
+	if (dst_x < 0) { dw += dst_x; src_x -= dst_x; dst_x = 0; }
+	if (dst_y < 0) { dh += dst_y; src_y -= dst_y; dst_y = 0; }
+	if (dst_x + dw > inter_surface->w) { dw = inter_surface->w - dst_x; }
+	if (dst_y + dh > inter_surface->h) { dh = inter_surface->h - dst_y; }
+
+	// Clamp to text_surface bounds
+	if (src_x < 0) { dw += src_x; dst_x -= src_x; src_x = 0; }
+	if (src_y < 0) { dh += src_y; dst_y -= src_y; src_y = 0; }
+	if (src_x + dw > text_surface->w) { dw = text_surface->w - src_x; }
+	if (src_y + dh > text_surface->h) { dh = text_surface->h - src_y; }
+
+	if (dw <= 0 || dh <= 0) {
+		static int blit_skip_log = 0;
+		if (blit_skip_log++ < 5) {
+			std::cout << "blit SKIPPED: src_x=" << src_x << ", src_y=" << src_y 
+			          << ", dst_x=" << dst_x << ", dst_y=" << dst_y 
+			          << ", dw=" << dw << ", dh=" << dh << std::endl;
+		}
+		return;
+	}
+
+	static int blit_bounds_log = 0;
+	if (blit_bounds_log++ < 5) {
+		std::cout << "blit BOUNDS: src_x=" << src_x << ", src_y=" << src_y 
+		          << ", dst_x=" << dst_x << ", dst_y=" << dst_y 
+		          << ", dw=" << dw << ", dh=" << dh << " | inter_w=" << inter_surface->w 
+		          << ", inter_h=" << inter_surface->h << std::endl;
+	}
+
+	const SDL_PixelFormatDetails* src_fmt = SDL_GetPixelFormatDetails(text_surface->format);
+	const SDL_PixelFormatDetails* dst_fmt = SDL_GetPixelFormatDetails(inter_surface->format);
+	if (!src_fmt || !dst_fmt) return;
+
+	const SDL_Palette* src_pal = SDL_GetSurfacePalette(text_surface);
+	const SDL_Palette* dst_pal = SDL_GetSurfacePalette(inter_surface);
+
+	uint8_t* src_pixels = static_cast<uint8_t*>(text_surface->pixels);
+	uint8_t* dst_pixels = static_cast<uint8_t*>(inter_surface->pixels);
+	int src_pitch = text_surface->pitch;
+	int dst_pitch = inter_surface->pitch;
+
+	for (int r = 0; r < dh; ++r) {
+		uint8_t* src_row = src_pixels + (src_y + r) * src_pitch + src_x * src_fmt->bytes_per_pixel;
+		uint8_t* dst_row = dst_pixels + (dst_y + r) * dst_pitch + dst_x * dst_fmt->bytes_per_pixel;
+		
+		for (int c = 0; c < dw; ++c) {
+			uint32_t sp = *reinterpret_cast<uint32_t*>(src_row + c * 4);
+			uint8_t sr, sg, sb, sa;
+			SDL_GetRGBA(sp, src_fmt, src_pal, &sr, &sg, &sb, &sa);
+			
+			if (sa > 0) {
+				if (cur_frame && mouse_obj->is_onscreen()) {
+					int buffer_x = x + (c / scale);
+					int buffer_y = y + (r / scale);
+					
+					// Convert buffer coordinates to actual screen pixels
+					int sx_pixel = buffer_x + image_win->get_start_x();
+					int sy_pixel = buffer_y + image_win->get_start_y();
+
+					if (sx_pixel >= cx_start && sx_pixel < cx_start + cur_frame->get_width() &&
+						sy_pixel >= cy_start && sy_pixel < cy_start + cur_frame->get_height()) {
+						
+						int mx = sx_pixel - cx_start;
+						int my = sy_pixel - cy_start;
+						if (cur_frame->has_point(mx - cur_frame->get_xleft(), my - cur_frame->get_yabove())) {
+							continue; // Skip drawing text here, let mouse show through
+						}
+					}
+				}
+
+				static int blit_log_cnt = 0;
+				if (blit_log_cnt++ < 10) {
+					std::cout << "blit BLEND: dst[" << dst_x + c << "," << dst_y + r << "], "
+					          << "src_RGBA(" << (int)sr << "," << (int)sg << "," << (int)sb << "," << (int)sa << "), "
+					          << "dst_bpp=" << (int)dst_fmt->bytes_per_pixel << std::endl;
+				}
+
+				uint32_t dp = 0;
+				if (dst_fmt->bytes_per_pixel == 4) dp = *reinterpret_cast<uint32_t*>(dst_row + c * 4);
+				else if (dst_fmt->bytes_per_pixel == 2) dp = *reinterpret_cast<uint16_t*>(dst_row + c * 2);
+				else if (dst_fmt->bytes_per_pixel == 1) dp = *(dst_row + c);
+				else if (dst_fmt->bytes_per_pixel == 3) {
+					dp = dst_row[c*3] | (dst_row[c*3+1] << 8) | (dst_row[c*3+2] << 16);
+				}
+
+				uint8_t dr, dg, db, da;
+				SDL_GetRGBA(dp, dst_fmt, dst_pal, &dr, &dg, &db, &da);
+
+				// Apply global palette brightness to text color to sync with fades
+				Palette* exult_pal = image_win ? Game_window::get_instance()->get_pal() : nullptr;
+				int brightness = exult_pal ? exult_pal->get_brightness() : 100;
+				uint8_t br = (sr * brightness) / 100;
+				uint8_t bg = (sg * brightness) / 100;
+				uint8_t bb = (sb * brightness) / 100;
+
+				// Source over blending
+				uint8_t out_r = (br * sa + dr * (255 - sa)) / 255;
+				uint8_t out_g = (bg * sa + dg * (255 - sa)) / 255;
+				uint8_t out_b = (bb * sa + db * (255 - sa)) / 255;
+				uint8_t out_a = sa + da * (255 - sa) / 255;
+
+				uint32_t out_p = SDL_MapRGBA(dst_fmt, dst_pal, out_r, out_g, out_b, out_a);
+
+				if (dst_fmt->bytes_per_pixel == 4) *reinterpret_cast<uint32_t*>(dst_row + c * 4) = out_p;
+				else if (dst_fmt->bytes_per_pixel == 2) *reinterpret_cast<uint16_t*>(dst_row + c * 2) = static_cast<uint16_t>(out_p);
+				else if (dst_fmt->bytes_per_pixel == 1) *(dst_row + c) = static_cast<uint8_t>(out_p);
+				else if (dst_fmt->bytes_per_pixel == 3) {
+					dst_row[c*3] = out_p & 0xFF;
+					dst_row[c*3+1] = (out_p >> 8) & 0xFF;
+					dst_row[c*3+2] = (out_p >> 16) & 0xFF;
+				}
+			}
+		}
+	}
 }

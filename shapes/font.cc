@@ -19,8 +19,22 @@
 #ifdef HAVE_CONFIG_H
 #	include <config.h>
 #endif
+#include <chrono>
 
 #include "font.h"
+#include "deferred_text.h"
+#include <unordered_map>
+
+Chinese_IsSerpentIsle_Fn chinese_is_serpent_isle_pfn = nullptr;
+Chinese_GetTicks_Fn chinese_get_ticks_pfn = nullptr;
+
+static std::unordered_map<const Font*, std::string> font_names_map;
+
+static bool chinese_in_paint_text_box = false;
+struct PaintTextBoxGuard {
+	PaintTextBoxGuard() { chinese_in_paint_text_box = true; }
+	~PaintTextBoxGuard() { chinese_in_paint_text_box = false; }
+};
 
 #include "U7file.h"
 #include "databuf.h"
@@ -31,13 +45,14 @@
 
 namespace TTF {
     struct Render_Style {
-        int letter_spacing;
-        int weight;
-        int shadow_type;
-        int shadow_offset_x;
-        int shadow_offset_y;
-        int shadow_color;
-        int fg_color;
+        int   letter_spacing;
+        int   weight;
+        int   shadow_type;
+        int   shadow_offset_x;
+        int   shadow_offset_y;
+        int   shadow_color;
+        int   fg_color;
+        float brightness_boost;    // Pre-compensation for anti-aliasing darkening (1.0 = none)
     };
 }
 
@@ -46,26 +61,33 @@ namespace TTF {
 
 bool Font::is_painting_bark = false;
 bool Font::is_painting_sign = false;
+bool Font::is_painting_avatar_choices = false;
+bool Font::is_painting_endgame = false;
+int Font::avatar_choices_font_size_adjust = 0;
+
+// ---------------------------------------------------------------------------
+// Global UI scale factor (1.0 = no scaling).
+// Managed by Gump_scale_guard during paint() of scaled gumps.
+// ---------------------------------------------------------------------------
+float current_gump_scale = 1.0f;
 
 #include "Configuration.h"
 
 #include <fstream>
 
-static std::string get_chinese_font_path(int font_size = -1) {
+static std::string get_chinese_font_path(Font* font = nullptr, int font_size = -1) {
 	std::string path;
 	if (config) {
-		if (font_size >= 0 && font_size <= 10) {
-			std::string small_path;
-			config->value("config/video/chinese/small_font_path", small_path, "");
-			if (!small_path.empty()) {
-				std::string sys_path = get_system_path(small_path);
-				if (U7exists(sys_path)) {
-					return sys_path;
-				}
-			}
-		}
-		// Exult-zh: sign-specific font path — fallback to font_path if not configured
-		if (Font::is_painting_sign) {
+		int f_idx = font ? font->get_font_index() : -1;
+		bool is_woodsign = (f_idx == 1);
+		bool is_tombstone = (f_idx == 3);
+		bool is_goldsign = (f_idx == 6);
+		bool is_serpentine = (f_idx == 8 || f_idx == 10);
+		bool is_sign = (is_woodsign || is_tombstone || is_goldsign || is_serpentine || Font::is_painting_sign);
+		bool is_book = font ? (f_idx != 0 && f_idx != 7 && !is_sign && !font->get_force_not_book()) : false;
+
+		// 1. Sign-specific font path
+		if (is_sign) {
 			std::string sign_path;
 			config->value("config/video/chinese/sign_font_path", sign_path, "");
 			if (!sign_path.empty()) {
@@ -75,21 +97,76 @@ static std::string get_chinese_font_path(int font_size = -1) {
 				}
 			}
 		}
+
+		// 2. Book / Scroll / UI small font path (applies to all book/scroll/UI fonts regardless of font size)
+		if (is_book) {
+			std::string small_path;
+			config->value("config/video/chinese/small_font_path", small_path, "");
+			if (!small_path.empty()) {
+				std::string sys_small_path = get_system_path(small_path);
+				if (U7exists(sys_small_path)) {
+					return sys_small_path;
+				}
+			}
+		}
+
+		// Also check small_font_path if small_font_path is configured and font_size <= 12
+		if (font_size >= 0 && font_size <= 12) {
+			std::string small_path;
+			config->value("config/video/chinese/small_font_path", small_path, "");
+			if (!small_path.empty()) {
+				std::string sys_small_path = get_system_path(small_path);
+				if (U7exists(sys_small_path)) {
+					return sys_small_path;
+				}
+			}
+		}
+
+		// 3. Main default font_path
 		config->value("config/video/chinese/font_path", path, "<PATCH>/chinese.ttf");
 	} else {
+		path = "<PATCH>/chinese.ttf";
+	}
+	if (path.empty()) {
 		path = "<PATCH>/chinese.ttf";
 	}
 	return get_system_path(path);
 }
 
+static int parse_color_value(const char* key, int default_val) {
+	if (!config) return default_val;
+	std::string val_str;
+	config->value(key, val_str, "");
+	if (val_str.empty()) return default_val;
+
+	if (val_str[0] == '#') {
+		return static_cast<int>(strtoul(val_str.c_str() + 1, nullptr, 16));
+	} else if (val_str.size() > 2 && val_str[0] == '0' && (val_str[1] == 'x' || val_str[1] == 'X')) {
+		return static_cast<int>(strtoul(val_str.c_str(), nullptr, 16));
+	}
+
+	try {
+		return std::stoi(val_str);
+	} catch (...) {
+		return default_val;
+	}
+}
+
 static TTF::Render_Style get_chinese_ttf_style(Font* font) {
-	TTF::Render_Style style = {0, 0, -1, 1, 1, -1, -1};
+	TTF::Render_Style style = {0, 0, -1, 1, 1, -1, -1, 1.0f};
 	if (!config) return style;
 
 	bool is_bark = Font::is_painting_bark;
 	int f_idx = font->get_font_index();
-	bool is_intro = font->get_force_not_book() && (f_idx == 11 || f_idx == 3);
-	bool is_ending = font->get_force_not_book() && (f_idx == 12 || f_idx == 13 || f_idx == 14 || f_idx == 4 || f_idx == 5 || f_idx == 0);
+	const std::string& fname = font->get_font_name();
+	bool is_si = chinese_is_serpent_isle_pfn ? chinese_is_serpent_isle_pfn() : false;
+
+	bool is_si_ending = is_si && (Font::is_painting_endgame || fname == "EXULT_END_FONT" || fname == "EXULT_AT_FONT");
+	bool is_si_intro = is_si && !is_si_ending && (fname == "SIINTRO_FONT");
+
+	bool is_bg_intro = !is_si && font->get_force_not_book() && (f_idx == 11 || f_idx == 3);
+	bool is_bg_ending = !is_si && (font->get_force_not_book() && (f_idx == 12 || f_idx == 13 || f_idx == 14 || f_idx == 4 || f_idx == 5 || f_idx == 0 || fname == "NORMAL_FONT"));
+
 	bool is_woodsign = (f_idx == 1);
 	bool is_tombstone = (f_idx == 3);
 	bool is_goldsign = (f_idx == 6);
@@ -97,73 +174,107 @@ static TTF::Render_Style get_chinese_ttf_style(Font* font) {
 	bool is_sign = (is_woodsign || is_tombstone || is_goldsign || is_serpentine);
 	bool is_book = (f_idx != 0 && f_idx != 7 && !is_sign && !font->get_force_not_book());
 
-	if (is_intro) {
+	if (is_si_intro) {
+		config->value("config/video/chinese/letter_spacing", style.letter_spacing, 0);
+		config->value("config/video/chinese/font_weight", style.weight, 0);
+		config->value("config/video/chinese/shadow_type_si_intro", style.shadow_type, -1);
+		config->value("config/video/chinese/shadow_offset_x_si_intro", style.shadow_offset_x, 1);
+		config->value("config/video/chinese/shadow_offset_y_si_intro", style.shadow_offset_y, 1);
+		style.shadow_color = parse_color_value("config/video/chinese/shadow_color_si_intro", -1);
+		style.fg_color = parse_color_value("config/video/chinese/font_color_si_intro", -1);
+		int boost_int = 100;
+		config->value("config/video/chinese/hires_brightness_boost_si_intro", boost_int, 100);
+		style.brightness_boost = boost_int / 100.0f;
+	} else if (is_si_ending) {
+		config->value("config/video/chinese/letter_spacing", style.letter_spacing, 0);
+		config->value("config/video/chinese/font_weight", style.weight, 0);
+		config->value("config/video/chinese/shadow_type_si_ending", style.shadow_type, -1);
+		config->value("config/video/chinese/shadow_offset_x_si_ending", style.shadow_offset_x, 1);
+		config->value("config/video/chinese/shadow_offset_y_si_ending", style.shadow_offset_y, 1);
+		style.shadow_color = parse_color_value("config/video/chinese/shadow_color_si_ending", -1);
+		style.fg_color = parse_color_value("config/video/chinese/font_color_si_ending", -1);
+		int boost_int_e = 100;
+		config->value("config/video/chinese/hires_brightness_boost_si_ending", boost_int_e, 100);
+		style.brightness_boost = boost_int_e / 100.0f;
+	} else if (is_bg_intro) {
 		config->value("config/video/chinese/letter_spacing", style.letter_spacing, 0);
 		config->value("config/video/chinese/font_weight", style.weight, 0);
 		config->value("config/video/chinese/shadow_type_intro", style.shadow_type, -1);
 		config->value("config/video/chinese/shadow_offset_x_intro", style.shadow_offset_x, 1);
 		config->value("config/video/chinese/shadow_offset_y_intro", style.shadow_offset_y, 1);
-		config->value("config/video/chinese/shadow_color_intro", style.shadow_color, -1);
-		config->value("config/video/chinese/font_color_intro", style.fg_color, -1);
-	} else if (is_ending) {
+		style.shadow_color = parse_color_value("config/video/chinese/shadow_color_intro", -1);
+		style.fg_color = parse_color_value("config/video/chinese/font_color_intro", -1);
+		// Brightness boost: compensate for anti-aliasing darkening in high-res mode.
+		// Only read by Deferred_text_renderer; ignored in 8-bit mode.
+		// Stored as integer * 100: e.g. 130 = 1.30x boost. Default 100 = no boost.
+		int boost_int = 100;
+		config->value("config/video/chinese/hires_brightness_boost_intro", boost_int, 100);
+		style.brightness_boost = boost_int / 100.0f;
+	} else if (is_bg_ending) {
 		config->value("config/video/chinese/letter_spacing", style.letter_spacing, 0);
 		config->value("config/video/chinese/font_weight", style.weight, 0);
 		config->value("config/video/chinese/shadow_type_ending", style.shadow_type, -1);
 		config->value("config/video/chinese/shadow_offset_x_ending", style.shadow_offset_x, 1);
 		config->value("config/video/chinese/shadow_offset_y_ending", style.shadow_offset_y, 1);
-		config->value("config/video/chinese/shadow_color_ending", style.shadow_color, -1);
-		config->value("config/video/chinese/font_color_ending", style.fg_color, -1);
+		style.shadow_color = parse_color_value("config/video/chinese/shadow_color_ending", -1);
+		style.fg_color = parse_color_value("config/video/chinese/font_color_ending", -1);
+		// Brightness boost: compensate for anti-aliasing darkening in high-res mode.
+		// Only read by Deferred_text_renderer; ignored in 8-bit mode.
+		// Stored as integer * 100: e.g. 130 = 1.30x boost. Default 100 = no boost.
+		int boost_int_e = 100;
+		config->value("config/video/chinese/hires_brightness_boost_ending", boost_int_e, 100);
+		style.brightness_boost = boost_int_e / 100.0f;
 	} else if (is_woodsign) {
 		config->value("config/video/chinese/letter_spacing_woodsign", style.letter_spacing, 0);
 		config->value("config/video/chinese/font_weight_woodsign", style.weight, 0);
 		config->value("config/video/chinese/shadow_type_woodsign", style.shadow_type, -1);
 		config->value("config/video/chinese/shadow_offset_x_woodsign", style.shadow_offset_x, 1);
 		config->value("config/video/chinese/shadow_offset_y_woodsign", style.shadow_offset_y, 1);
-		config->value("config/video/chinese/shadow_color_woodsign", style.shadow_color, -1);
-		config->value("config/video/chinese/font_color_woodsign", style.fg_color, -1);
+		style.shadow_color = parse_color_value("config/video/chinese/shadow_color_woodsign", -1);
+		style.fg_color = parse_color_value("config/video/chinese/font_color_woodsign", -1);
 	} else if (is_tombstone) {
 		config->value("config/video/chinese/letter_spacing_tombstone", style.letter_spacing, 0);
 		config->value("config/video/chinese/font_weight_tombstone", style.weight, 0);
 		config->value("config/video/chinese/shadow_type_tombstone", style.shadow_type, -1);
 		config->value("config/video/chinese/shadow_offset_x_tombstone", style.shadow_offset_x, 1);
 		config->value("config/video/chinese/shadow_offset_y_tombstone", style.shadow_offset_y, 1);
-		config->value("config/video/chinese/shadow_color_tombstone", style.shadow_color, -1);
-		config->value("config/video/chinese/font_color_tombstone", style.fg_color, -1);
+		style.shadow_color = parse_color_value("config/video/chinese/shadow_color_tombstone", -1);
+		style.fg_color = parse_color_value("config/video/chinese/font_color_tombstone", -1);
 	} else if (is_goldsign) {
 		config->value("config/video/chinese/letter_spacing_goldsign", style.letter_spacing, 0);
 		config->value("config/video/chinese/font_weight_goldsign", style.weight, 0);
 		config->value("config/video/chinese/shadow_type_goldsign", style.shadow_type, -1);
 		config->value("config/video/chinese/shadow_offset_x_goldsign", style.shadow_offset_x, 1);
 		config->value("config/video/chinese/shadow_offset_y_goldsign", style.shadow_offset_y, 1);
-		config->value("config/video/chinese/shadow_color_goldsign", style.shadow_color, -1);
-		config->value("config/video/chinese/font_color_goldsign", style.fg_color, -1);
+		style.shadow_color = parse_color_value("config/video/chinese/shadow_color_goldsign", -1);
+		style.fg_color = parse_color_value("config/video/chinese/font_color_goldsign", -1);
 	} else if (is_sign) {
 		config->value("config/video/chinese/letter_spacing_sign", style.letter_spacing, 0);
 		config->value("config/video/chinese/font_weight_sign", style.weight, 0);
 		config->value("config/video/chinese/shadow_type_sign", style.shadow_type, -1);
 		config->value("config/video/chinese/shadow_offset_x_sign", style.shadow_offset_x, 1);
 		config->value("config/video/chinese/shadow_offset_y_sign", style.shadow_offset_y, 1);
-		config->value("config/video/chinese/shadow_color_sign", style.shadow_color, -1);
-		config->value("config/video/chinese/font_color_sign", style.fg_color, -1);
+		style.shadow_color = parse_color_value("config/video/chinese/shadow_color_sign", -1);
+		style.fg_color = parse_color_value("config/video/chinese/font_color_sign", -1);
 	} else if (is_book && !is_bark) {
 		config->value("config/video/chinese/letter_spacing_book", style.letter_spacing, 0);
 		config->value("config/video/chinese/font_weight_book", style.weight, 0);
 		config->value("config/video/chinese/shadow_type_book", style.shadow_type, -1);
 		config->value("config/video/chinese/shadow_offset_x_book", style.shadow_offset_x, 1);
 		config->value("config/video/chinese/shadow_offset_y_book", style.shadow_offset_y, 1);
-		config->value("config/video/chinese/shadow_color_book", style.shadow_color, -1);
-		config->value("config/video/chinese/font_color_book", style.fg_color, -1);
+		style.shadow_color = parse_color_value("config/video/chinese/shadow_color_book", -1);
+		style.fg_color = parse_color_value("config/video/chinese/font_color_book", -1);
 	} else {
 		config->value("config/video/chinese/letter_spacing", style.letter_spacing, 0);
 		config->value("config/video/chinese/font_weight", style.weight, 0);
 		config->value("config/video/chinese/shadow_type", style.shadow_type, -1);
 		config->value("config/video/chinese/shadow_offset_x", style.shadow_offset_x, 1);
 		config->value("config/video/chinese/shadow_offset_y", style.shadow_offset_y, 1);
-		config->value("config/video/chinese/shadow_color", style.shadow_color, -1);
+		style.shadow_color = parse_color_value("config/video/chinese/shadow_color", -1);
 		if (is_bark) {
-			config->value("config/video/chinese/font_color_bark", style.fg_color, -1);
+			style.fg_color = parse_color_value("config/video/chinese/font_color_bark", -1);
 		} else {
-			config->value("config/video/chinese/font_color_dialog", style.fg_color, -1);
+			style.fg_color = parse_color_value("config/video/chinese/font_color_dialog", -1);
 		}
 	}
 	return style;
@@ -186,11 +297,28 @@ static int get_chinese_line_spacing(int font_size) {
 }
 
 static bool get_chinese_force_ttf_for_english() {
+	if (Deferred_text_renderer::instance().is_active()) {
+		return true;
+	}
 	bool force = false;
 	if (config) {
 		config->value("config/video/chinese/force_ttf_for_english", force, false);
 	}
 	return force;
+}
+
+static bool should_force_ttf_for_english(int font_index) {
+	// Exclude UI/Menu fonts and Runic from forced TTF
+	// 1 = Wood sign, 3 = Tombstone, 5 = Spellbook, 6 = Gold sign, 8/10 = Serpentine (all are runic/special)
+	// 2 = SMALL_BLACK_FONT (Setup menus)
+	// 4 = TINY_BLACK_FONT / Runic
+	// 9, 16, 17 = MENU_FONT (Game menus)
+	// 18-21 = Intro Menu fonts
+	if (font_index == 1 || font_index == 3 || font_index == 5 || font_index == 6 || font_index == 8 || font_index == 10 ||
+	    font_index == 2 || font_index == 4 || font_index == 9 || font_index == 16 || font_index == 17 || (font_index >= 18 && font_index <= 21)) {
+		return false;
+	}
+	return get_chinese_force_ttf_for_english();
 }
 
 
@@ -300,6 +428,11 @@ int Font::paint_text_box(
 		bool           center,             // Center each line.
 		Cursor_info*   cursor,             // We set x, y if not nullptr.
 		unsigned char* trans) {
+	PaintTextBoxGuard guard;
+	bool is_si = chinese_is_serpent_isle_pfn ? chinese_is_serpent_isle_pfn() : false;
+	if (is_si && (get_font_name() == "SIINTRO_FONT" || get_font_name() == "EXULT_END_FONT" || get_font_name() == "EXULT_AT_FONT")) {
+		y -= 10;
+	}
 	const char* start    = text;    // Remember the start.
 	const bool  has_cjk  = Has_non_ascii(start);
 	auto        clipsave = win->SaveClip();
@@ -310,7 +443,7 @@ int Font::paint_text_box(
 	const int endx   = x + w;    // Figure where to stop.
 	int       curx   = x;
 	int       cury   = y;
-	const int height = get_rendered_line_height_for(text) + vert_lead + ver_lead;
+	const int height = (has_cjk ? (get_chinese_font_size() + get_chinese_line_spacing(get_chinese_font_size())) : get_rendered_line_height_for(text)) + vert_lead + get_effective_ver_lead();
 	const int space_width = get_text_width(" ", 1, has_cjk);
 	const int   max_lines      = h / height;    // # lines that can be shown.
 	auto*       lines          = new string[max_lines + 1];
@@ -325,7 +458,7 @@ int Font::paint_text_box(
 		coff      = cursor->offset;
 		cursor->x = -1;
 	}
-	TTF::load_font(get_chinese_font_path(get_text_height_for(text)).c_str(), get_text_height_for(text));    // Load default Big5 font
+	TTF::load_font(get_chinese_font_path(this, get_text_height_for(text)).c_str(), get_text_height_for(text));    // Load default Big5 font
 	while (*text) {
 		if (cursor && text - start == coff) {
 			cursor->set_found(curx, cury, cur_line);
@@ -485,12 +618,21 @@ int Font::paint_text(
 		int xoff, int yoff,        // Upper-left corner of where to start.
 		unsigned char* trans,      // Trans table or nullptr.
 		bool           force_cjk) {
+	bool is_si = chinese_is_serpent_isle_pfn ? chinese_is_serpent_isle_pfn() : false;
+	if (is_si && (get_font_name() == "SIINTRO_FONT" || get_font_name() == "EXULT_END_FONT" || get_font_name() == "EXULT_AT_FONT")) {
+		if (!chinese_in_paint_text_box) {
+			yoff = yoff - 6;
+		}
+	}
 	ignore_unused_variable_warning(win);
 	int x             = xoff;
 	int yoff_original = yoff;
 	int baseline      = force_cjk ? get_chinese_font_size() : get_text_baseline_for(text, textlen);
+	if (current_gump_scale > 1.0f && !force_cjk) {
+		baseline = static_cast<int>(baseline * current_gump_scale);
+	}
 	yoff += baseline;
-	TTF::load_font(get_chinese_font_path(force_cjk ? get_chinese_font_size() : get_text_height_for(text, textlen)).c_str(), force_cjk ? get_chinese_font_size() : get_text_height_for(text, textlen));
+	TTF::load_font(get_chinese_font_path(this, force_cjk ? get_chinese_font_size() : get_text_height_for(text, textlen)).c_str(), force_cjk ? get_chinese_font_size() : get_text_height_for(text, textlen));
 	if (font_shapes) {
 		bool is_book = (font_index != 0 && font_index != 7 && !force_not_book);
 		TTF::Render_Style style = get_chinese_ttf_style(this);
@@ -500,19 +642,27 @@ int Font::paint_text(
 				break;
 			}
 
-			if (wch < 0x80 && wch != 127 && !((is_book || get_chinese_force_ttf_for_english()) && force_cjk)) {
+			if (wch < 0x80 && wch != 127 && !( (is_book && force_cjk) || should_force_ttf_for_english(font_index) )) {
 				Shape_frame* shape = font_shapes->get_frame(wch);
 				if (shape) {
 					if (shape->is_rle()) {
 						if (trans) {
 							shape->paint_rle_remapped(win, x, yoff, trans);
 						} else {
-							shape->paint_rle(win, x, yoff);
+							if (current_gump_scale > 1.0f) {
+								shape->paint_rle_scaled(win, x, yoff, static_cast<int>(current_gump_scale));
+							} else {
+								shape->paint_rle(win, x, yoff);
+							}
 						}
 					} else {
 						shape->paint(win, x, yoff);
 					}
-					x += shape->get_width() + hor_lead;
+					int advance = shape->get_width() + hor_lead;
+					if (current_gump_scale > 1.0f) {
+						advance = static_cast<int>(advance * current_gump_scale);
+					}
+					x += advance;
 				}
 			} else {
 				Shape_frame* sample_shape = font_shapes->get_frame('A');
@@ -550,12 +700,13 @@ int Font::paint_text_box_fixedwidth(
 		int            vert_lead,          // Extra spacing between lines.
 		int            pbreak,             // End at punctuation.
 		unsigned char* trans) {
+	PaintTextBoxGuard guard;
 	const char* start = text;    // Remember the start.
 	win->set_clip(x, y, w, h);
 	const int   endx           = x + w;    // Figure where to stop.
 	int         curx           = x;
 	int         cury           = y;
-	const int   height         = get_text_height() + vert_lead + ver_lead;
+	const int   height         = get_text_height() + vert_lead + get_effective_ver_lead();
 	const int   max_lines      = h / height;    // # lines that can be shown.
 	auto*       lines          = new string[max_lines + 1];
 	int         cur_line       = 0;
@@ -678,14 +829,14 @@ int Font::paint_text_fixedwidth(
 	int x             = xoff;
 	int yoff_original = yoff;
 	yoff += get_text_baseline_for(text);
-	TTF::load_font(get_chinese_font_path(get_text_height_for(text)).c_str(), get_text_height_for(text));
+	TTF::load_font(get_chinese_font_path(this, get_text_height_for(text)).c_str(), get_text_height_for(text));
 	TTF::Render_Style style = get_chinese_ttf_style(this);
 	while (*text != 0) {
 		uint32_t wch = TTF::decode_utf8(text);
 		if (wch == 0) {
 			break;
 		}
-		if (wch < 0x80 && wch != 127) {
+		if (wch < 0x80 && wch != 127 && !(should_force_ttf_for_english(font_index))) {
 			Shape_frame* shape = font_shapes->get_frame(wch);
 			if (shape) {
 				int paint_x = x + (width - shape->get_width()) / 2;
@@ -693,7 +844,11 @@ int Font::paint_text_fixedwidth(
 					if (trans) {
 						shape->paint_rle_remapped(win, paint_x, yoff, trans);
 					} else {
-						shape->paint_rle(win, paint_x, yoff);
+						if (current_gump_scale > 1.0f) {
+							shape->paint_rle_scaled(win, paint_x, yoff, static_cast<int>(current_gump_scale));
+						} else {
+							shape->paint_rle(win, paint_x, yoff);
+						}
 					}
 				} else {
 					shape->paint(win, paint_x, yoff);
@@ -729,14 +884,14 @@ int Font::paint_text_fixedwidth(
 	int x             = xoff;
 	int yoff_original = yoff;
 	yoff += get_text_baseline_for(text, textlen);
-	TTF::load_font(get_chinese_font_path(get_text_height_for(text, textlen)).c_str(), get_text_height_for(text, textlen));
+	TTF::load_font(get_chinese_font_path(this, get_text_height_for(text, textlen)).c_str(), get_text_height_for(text, textlen));
 	TTF::Render_Style style = get_chinese_ttf_style(this);
 	while (textlen > 0) {
 		uint32_t wch = TTF::decode_utf8(text, textlen);
 		if (wch == 0) {
 			break;
 		}
-		if (wch < 0x80 && wch != 127) {
+		if (wch < 0x80 && wch != 127 && !(should_force_ttf_for_english(font_index))) {
 			Shape_frame* shape = font_shapes->get_frame(wch);
 			if (shape) {
 				int paint_x = x + (width - shape->get_width()) / 2;
@@ -744,7 +899,11 @@ int Font::paint_text_fixedwidth(
 					if (trans) {
 						shape->paint_rle_remapped(win, paint_x, yoff, trans);
 					} else {
-						shape->paint_rle(win, paint_x, yoff);
+						if (current_gump_scale > 1.0f) {
+							shape->paint_rle_scaled(win, paint_x, yoff, static_cast<int>(current_gump_scale));
+						} else {
+							shape->paint_rle(win, paint_x, yoff);
+						}
 					}
 				} else {
 					shape->paint(win, paint_x, yoff);
@@ -769,15 +928,19 @@ int Font::paint_text_fixedwidth(
 
 int Font::get_text_width(const char* text, bool force_cjk) {
 	int width = 0;
-	TTF::load_font(get_chinese_font_path(force_cjk ? get_chinese_font_size() : get_text_height_for(text)).c_str(), force_cjk ? get_chinese_font_size() : get_text_height_for(text));
+	TTF::load_font(get_chinese_font_path(this, force_cjk ? get_chinese_font_size() : get_text_height_for(text)).c_str(), force_cjk ? get_chinese_font_size() : get_text_height_for(text));
 	if (font_shapes) {
 		bool is_book = (font_index != 0 && font_index != 7 && !force_not_book);
 		TTF::Render_Style style = get_chinese_ttf_style(this);
 		while (*text != 0) {
-			if (static_cast<unsigned char>(*text) < 0x80 && *text != 127 && !((is_book || get_chinese_force_ttf_for_english()) && force_cjk)) {
+			if (static_cast<unsigned char>(*text) < 0x80 && *text != 127 && !( (is_book && force_cjk) || should_force_ttf_for_english(font_index) )) {
 				Shape_frame* shape = font_shapes->get_frame(static_cast<unsigned char>(*text));
 				if (shape) {
-					width += shape->get_width() + hor_lead;
+					int advance = shape->get_width() + hor_lead;
+					if (current_gump_scale > 1.0f) {
+						advance = static_cast<int>(advance * current_gump_scale);
+					}
+					width += advance;
 				}
 				text++;
 			} else {
@@ -802,15 +965,19 @@ int Font::get_text_width(
 		bool        force_cjk
 ) {
 	int width = 0;
-	TTF::load_font(get_chinese_font_path(force_cjk ? get_chinese_font_size() : get_text_height_for(text, textlen)).c_str(), force_cjk ? get_chinese_font_size() : get_text_height_for(text, textlen));
+	TTF::load_font(get_chinese_font_path(this, force_cjk ? get_chinese_font_size() : get_text_height_for(text, textlen)).c_str(), force_cjk ? get_chinese_font_size() : get_text_height_for(text, textlen));
 	if (font_shapes) {
 		bool is_book = (font_index != 0 && font_index != 7 && !force_not_book);
 		TTF::Render_Style style = get_chinese_ttf_style(this);
 		while (textlen > 0) {
-			if (static_cast<unsigned char>(*text) < 0x80 && *text != 127 && !((is_book || get_chinese_force_ttf_for_english()) && force_cjk)) {
+			if (static_cast<unsigned char>(*text) < 0x80 && *text != 127 && !( (is_book && force_cjk) || should_force_ttf_for_english(font_index) )) {
 				Shape_frame* shape = font_shapes->get_frame(static_cast<unsigned char>(*text));
 				if (shape) {
-					width += shape->get_width() + hor_lead;
+					int advance = shape->get_width() + hor_lead;
+					if (current_gump_scale > 1.0f) {
+						advance = static_cast<int>(advance * current_gump_scale);
+					}
+					width += advance;
 				}
 				text++;
 				textlen--;
@@ -845,7 +1012,7 @@ void Font::get_text_box_dims(const char* text, int& width, int& height, int vert
 				cur_width = 0;
 				continue;
 			}
-			if (static_cast<unsigned char>(*text) < 0x80 && *text != 127 && !((is_book || get_chinese_force_ttf_for_english()) && has_cjk)) {
+			if (static_cast<unsigned char>(*text) < 0x80 && *text != 127 && !( (is_book && has_cjk) || should_force_ttf_for_english(font_index) )) {
 				Shape_frame* shape = font_shapes->get_frame(static_cast<unsigned char>(*text));
 				if (shape) {
 					cur_width += shape->get_width() + hor_lead;
@@ -860,7 +1027,7 @@ void Font::get_text_box_dims(const char* text, int& width, int& height, int vert
 			}
 		}
 		width  = std::max(width, cur_width);
-		height = num_lines * (get_rendered_line_height_for(orig_text) + vert_lead + ver_lead);
+		height = num_lines * (get_rendered_line_height_for(orig_text) + vert_lead + get_effective_ver_lead());
 	}
 }
 
@@ -894,56 +1061,68 @@ int Font::get_original_height() {
 
 int Font::get_chinese_font_size() {
 	int user_size = 0;
+	int final_size = 15;
+
 	if (is_painting_bark) {
 		if (config) config->value("config/video/chinese/font_size_bark", user_size, 0);
-		return user_size > 0 ? user_size : 15;    // Bark default
-	}
-	
-	bool is_intro = force_not_book && (font_index == 11 || font_index == 3);
-	bool is_ending = force_not_book && (font_index == 12 || font_index == 13 || font_index == 14 || font_index == 4 || font_index == 5 || font_index == 0);
+		final_size = user_size > 0 ? user_size : 15;    // Bark default
+	} else {
+		bool is_si = chinese_is_serpent_isle_pfn ? chinese_is_serpent_isle_pfn() : false;
+		bool is_si_ending = is_si && (Font::is_painting_endgame || get_font_name() == "EXULT_END_FONT" || get_font_name() == "EXULT_AT_FONT");
+		bool is_si_intro = is_si && !is_si_ending && (get_font_name() == "SIINTRO_FONT");
+		bool is_bg_intro = !is_si && force_not_book && (font_index == 11 || font_index == 3);
+		bool is_bg_ending = !is_si && (force_not_book && (font_index == 12 || font_index == 13 || font_index == 14 || font_index == 4 || font_index == 5 || font_index == 0 || get_font_name() == "NORMAL_FONT"));
 
-	if (is_intro) {
-		if (config) config->value("config/video/chinese/font_size_intro", user_size, 0);
-		if (user_size > 0) return user_size;
-	} else if (is_ending) {
-		if (config) config->value("config/video/chinese/font_size_ending", user_size, 0);
-		if (user_size > 0) return user_size;
+		if (is_si_intro) {
+			if (config) config->value("config/video/chinese/font_size_si_intro", user_size, 0);
+			final_size = user_size > 0 ? user_size : 15;
+		} else if (is_si_ending) {
+			if (config) config->value("config/video/chinese/font_size_si_ending", user_size, 0);
+			final_size = user_size > 0 ? user_size : 15;
+		} else if (is_bg_intro) {
+			if (config) config->value("config/video/chinese/font_size_intro", user_size, 0);
+			final_size = user_size > 0 ? user_size : 15;
+		} else if (is_bg_ending) {
+			if (config) config->value("config/video/chinese/font_size_ending", user_size, 0);
+			final_size = user_size > 0 ? user_size : 15;
+		} else if (font_index == 0 || font_index == 7 || force_not_book) {
+			if (config) config->value("config/video/chinese/font_size_dialog", user_size, 0);
+			final_size = user_size > 0 ? user_size : 15;    // Dialogues
+		} else if (font_index == 1) { // woodsign
+			if (config) config->value("config/video/chinese/font_size_woodsign", user_size, 0);
+			final_size = user_size > 0 ? user_size : 14;
+		} else if (font_index == 3) { // tombstone
+			if (config) config->value("config/video/chinese/font_size_tombstone", user_size, 0);
+			final_size = user_size > 0 ? user_size : 14;
+		} else if (font_index == 6) { // goldsign
+			if (config) config->value("config/video/chinese/font_size_goldsign", user_size, 0);
+			final_size = user_size > 0 ? user_size : 14;
+		} else if (font_index != 0 && font_index != 7 && !force_not_book) {
+			if (config) config->value("config/video/chinese/font_size_book", user_size, 0);
+			final_size = user_size > 0 ? user_size : 11;    // Books and UI (per user request)
+		} else {
+			// Fallback to height-based calculation
+			int h = get_original_height();
+			if (h <= 10) {
+				final_size = 15; // Enforce a minimum of 15px for readability and correct wrapping
+			} else {
+				final_size = h * 3 / 2;
+			}
+		}
 	}
 
-	if (font_index == 0 || font_index == 7 || force_not_book) {
-		if (config) config->value("config/video/chinese/font_size_dialog", user_size, 0);
-		return user_size > 0 ? user_size : 15;    // Dialogues
-	}
-	
-	// Add specific font size for Signs, Tombstones, and Plaques (Runic fonts)
-	if (font_index == 1) { // woodsign
-		if (config) config->value("config/video/chinese/font_size_woodsign", user_size, 0);
-		return user_size > 0 ? user_size : 14;
-	}
-	if (font_index == 3) { // tombstone
-		if (config) config->value("config/video/chinese/font_size_tombstone", user_size, 0);
-		return user_size > 0 ? user_size : 14;
-	}
-	if (font_index == 6) { // goldsign
-		if (config) config->value("config/video/chinese/font_size_goldsign", user_size, 0);
-		return user_size > 0 ? user_size : 14;
-	}
-	//if (font_index == 8 || font_index == 10) { // serpentine
-	//	if (config) config->value("config/video/chinese/font_size_sign", user_size, 0);
-	//	return user_size > 0 ? user_size : 14;
-	//}
-	
-	if (font_index != 0 && font_index != 7 && !force_not_book) {
-		if (config) config->value("config/video/chinese/font_size_book", user_size, 0);
-		return user_size > 0 ? user_size : 11;    // Books and UI (per user request)
+	if (Font::is_painting_avatar_choices) {
+		final_size -= Font::avatar_choices_font_size_adjust;
+		if (final_size < 10) final_size = 10;
 	}
 
-	// Fallback to height-based calculation
-	int h = get_original_height();
-	if (h <= 10) {
-		return 15; // Enforce a minimum of 15px for readability and correct wrapping
+	// Scale font size when painting inside a scaled gump (Book/Scroll/Sign).
+	// current_gump_scale is set by Gump_scale_guard during paint().
+	if (current_gump_scale > 1.0f && final_size > 0) {
+		final_size = static_cast<int>(final_size * current_gump_scale + 0.5f);
 	}
-	return h * 3 / 2;
+
+	return final_size;
 }
 
 int Font::get_text_height_for(const char* text) {
@@ -979,7 +1158,7 @@ int Font::get_rendered_line_height_for(const char* text, int len) {
 int Font::get_text_baseline_for(const char* text) {
 	if (Has_non_ascii(text)) {
 		int sz = get_chinese_font_size();
-		TTF::load_font(get_chinese_font_path(sz).c_str(), sz);
+		TTF::load_font(get_chinese_font_path(this, sz).c_str(), sz);
 		return TTF::get_ascender() + get_chinese_baseline_adjust();
 	}
 	return get_text_baseline();
@@ -988,7 +1167,7 @@ int Font::get_text_baseline_for(const char* text) {
 int Font::get_text_baseline_for(const char* text, int len) {
 	if (Has_non_ascii(text, len)) {
 		int sz = get_chinese_font_size();
-		TTF::load_font(get_chinese_font_path(sz).c_str(), sz);
+		TTF::load_font(get_chinese_font_path(this, sz).c_str(), sz);
 		return TTF::get_ascender() + get_chinese_baseline_adjust();
 	}
 	return get_text_baseline();
@@ -1021,7 +1200,7 @@ int Font::find_cursor(
 	const int   endx        = x + w;    // Figure where to stop.
 	int         curx        = x;
 	int         cury        = y;
-	const int   height      = get_rendered_line_height_for(text) + vert_lead + ver_lead;
+	const int   height      = get_rendered_line_height_for(text) + vert_lead + get_effective_ver_lead();
 	const bool  has_cjk     = Has_non_ascii(start);
 	const int   space_width = get_text_width(" ", 1, has_cjk);
 	const int   max_lines   = h / height;    // # lines that can be shown.
@@ -1181,6 +1360,7 @@ Font::Font(const File_spec& fname0, const File_spec& fname1, int index, int hlea
 }
 
 void Font::clean_up() {
+	font_names_map.erase(this);
 	font_shapes.reset();
 }
 
@@ -1273,6 +1453,7 @@ void FontManager::add_font(const char* name, const File_spec& fname0, int index,
 	remove_font(name);
 
 	auto font = std::make_shared<Font>(fname0, index, hlead, vlead);
+	font->set_font_name(name);
 
 	if (strstr(name, "END") || strstr(name, "MENU") || strstr(name, "GUARDIAN") || strstr(name, "INTRO") || strstr(name, "AT") || strstr(name, "CREDITS") || strstr(name, "NAV") || strstr(name, "HOT")) {
 		font->set_force_not_book(true);
@@ -1294,12 +1475,32 @@ void FontManager::add_font(const char* name, const File_spec& fname0, const File
 	remove_font(name);
 
 	auto font = std::make_shared<Font>(fname0, fname1, index, hlead, vlead);
+	font->set_font_name(name);
 
 	if (strstr(name, "END") || strstr(name, "MENU") || strstr(name, "GUARDIAN") || strstr(name, "INTRO") || strstr(name, "AT") || strstr(name, "CREDITS") || strstr(name, "NAV") || strstr(name, "HOT")) {
 		font->set_force_not_book(true);
 	}
 
 	fonts[name] = font;
+}
+
+int Font::get_effective_ver_lead() const {
+	bool is_si = chinese_is_serpent_isle_pfn ? chinese_is_serpent_isle_pfn() : false;
+	if (is_si && (get_font_name() == "SIINTRO_FONT" || get_font_name() == "EXULT_END_FONT" || get_font_name() == "EXULT_AT_FONT")) {
+		return ver_lead + 5;
+	}
+	return ver_lead;
+}
+
+void Font::set_font_name(const std::string& name) {
+	font_names_map[this] = name;
+}
+
+const std::string& Font::get_font_name() const {
+	static std::string empty_str;
+	auto it = font_names_map.find(this);
+	if (it != font_names_map.end()) return it->second;
+	return empty_str;
 }
 
 void FontManager::remove_font(const char* name) {

@@ -129,7 +129,11 @@ namespace TTF {
     }
 
     int get_char_width(uint32_t wch, const Render_Style& style) {
-        if (wch == 127) return 8 + style.letter_spacing; // Custom bullet width
+        if (wch == 127) {
+            int ppem = face ? face->size->metrics.y_ppem : 15;
+            int dot_w = std::max(8, ppem / 2 + 1);
+            return dot_w + style.letter_spacing;
+        }
         if (!face) return 16;
         if (FT_Load_Char(face, wch, FT_LOAD_RENDER | FT_LOAD_TARGET_MONO)) {
             return 16;
@@ -200,30 +204,31 @@ namespace TTF {
             }
         }
         
+        // Check for specific core color in row h/4 for book fonts that explicitly define custom text color
         int core_color = -1;
-        for (int r = h / 4; r < (h * 3) / 4; ++r) {
-            for (int c = w / 4; c < (w * 3) / 4; ++c) {
-                unsigned char p = bits[r * w + c];
-                if (p != 0 && p != 255) {
-                    core_color = p;
-                    break;
+        if (is_book) {
+            for (int r = h / 4; r < (h * 3) / 4; ++r) {
+                for (int c = w / 4; c < (w * 3) / 4; ++c) {
+                    unsigned char p = bits[r * w + c];
+                    if (p != 0 && p != 255) {
+                        core_color = p;
+                        break;
+                    }
                 }
+                if (core_color != -1) break;
             }
-            if (core_color != -1) break;
         }
         
-        int final_color = (core_color != -1) ? core_color : ((best_count > 0) ? best_color : 254);
-        
-        // Always update colors!
+        // Coexisting color selection logic:
         if (!is_book) {
-            cached_fg = final_color;
+            // Dialogue / OP / ED / Signs / Barks: Use full-frame histogram frequency count
+            // to reliably pick bright yellow (254) without taking edge shadow pixels.
+            cached_fg = (best_count > 0) ? best_color : 254;
             cached_bg = 255;
         } else {
-            if (core_color != -1) {
-                cached_fg = final_color; // Colored book text (e.g. spell names if they use a colored book font)
-            } else {
-                cached_fg = 255; // Pure black font, force black
-            }
+            // Books & Scrolls: Standard paper fonts use pure black ink (255) on light paper,
+            // unless a book font explicitly has a custom core color.
+            cached_fg = (core_color != -1) ? core_color : 255;
             cached_bg = 0; // Standard book fonts have no outline
         }
     }
@@ -241,36 +246,42 @@ namespace TTF {
                 fg_color = trans[fg_color];
                 bg_color = trans[bg_color];
             }
+            int ppem = face ? face->size->metrics.y_ppem : 15;
+            int dot_w = std::max(8, ppem / 2 + 1);
+
             // Check if deferred mode is active — if so, draw the bullet
             auto& deferred = Deferred_text_renderer::instance();
             if (deferred.is_active()) {
                 Deferred_glyph_style dgs = {style.letter_spacing, style.weight,
                                             style.shadow_type, style.shadow_offset_x,
                                             style.shadow_offset_y, style.shadow_color,
-                                            style.fg_color};
+                                            style.fg_color, style.brightness_boost};
                 deferred.draw_glyph(wch, x, yoff_original, fg_color, bg_color, (bg_color != 0), dgs, loaded_path, loaded_size, is_book, win);
-                return 8;
+                return dot_w;
             }
             int ascender = face ? (face->size->metrics.ascender >> 6) : 10;
-            int dot_x = x + 3;
-            // Center the bullet vertically around 2/3 of ascender height
-            int dot_y = yoff_original + ascender - 5;
+            int dot_size = std::max(2, ppem / 7);
+            int dot_x = x + dot_w / 2 - dot_size / 2;
+            // Center the bullet vertically relative to the baseline (ascender)
+            int dot_y = yoff_original + ascender - ppem / 3 - dot_size / 2;
             
-            // Draw 2x2 dot
-            win->put_pixel8(fg_color, dot_x, dot_y);
-            win->put_pixel8(fg_color, dot_x + 1, dot_y);
-            win->put_pixel8(fg_color, dot_x, dot_y + 1);
-            win->put_pixel8(fg_color, dot_x + 1, dot_y + 1);
+            // Draw dot_size x dot_size dot
+            for (int dy = 0; dy < dot_size; ++dy) {
+                for (int dx = 0; dx < dot_size; ++dx) {
+                    win->put_pixel8(fg_color, dot_x + dx, dot_y + dy);
+                }
+            }
             
             // Draw bottom-right shadow (1px offset)
             if (bg_color != 0) {
-                win->put_pixel8(bg_color, dot_x + 2, dot_y);
-                win->put_pixel8(bg_color, dot_x + 2, dot_y + 1);
-                win->put_pixel8(bg_color, dot_x + 2, dot_y + 2);
-                win->put_pixel8(bg_color, dot_x, dot_y + 2);
-                win->put_pixel8(bg_color, dot_x + 1, dot_y + 2);
+                for (int dy = 0; dy < dot_size + 1; ++dy) {
+                    win->put_pixel8(bg_color, dot_x + dot_size, dot_y + dy);
+                }
+                for (int dx = 0; dx < dot_size; ++dx) {
+                    win->put_pixel8(bg_color, dot_x + dx, dot_y + dot_size);
+                }
             }
-            return 8;
+            return dot_w;
         }
         if (!face) return 16;
         
@@ -340,7 +351,7 @@ namespace TTF {
             Deferred_glyph_style dgs = {style.letter_spacing, style.weight,
                                          style.shadow_type, style.shadow_offset_x,
                                          style.shadow_offset_y, style.shadow_color,
-                                         style.fg_color};
+                                         style.fg_color, style.brightness_boost};
             deferred.draw_glyph(wch, x, yoff_original, fg_color, bg_color, should_draw_shadow, dgs, loaded_path, loaded_size, is_book, win);
             return advance + style.letter_spacing;
         }

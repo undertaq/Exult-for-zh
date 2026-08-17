@@ -44,6 +44,7 @@
 #include "span.h"
 #include "touchui.h"
 #include "txtscroll.h"
+#include "imagewin/deferred_text.h"
 
 #include <array>
 #include <cctype>
@@ -403,8 +404,10 @@ void SI_Game::play_intro() {
 			}
 
 			if (jive) {
+				Deferred_text_renderer::instance().clear();
 				sifont->center_text(ibuf, centerx, centery + 50 + vlead, get_text_msg(dick_castle));
 			} else {
+				Deferred_text_renderer::instance().clear();
 				sifont->center_text(ibuf, centerx, centery + 50 + vlead, get_text_msg(lord_castle));
 			}
 
@@ -452,8 +455,10 @@ void SI_Game::play_intro() {
 				next = fli1.play(win, j, j, next) + 30;
 			}
 
+			const int intro_line_step = sifont->get_chinese_font_size() + 2;
 			for (int i = 0; i < 3; i++) {
-				sifont->center_text(ibuf, centerx, centery + 50 + vlead + 15 * i, get_text_msg(bg_fellow + i));
+				if (i == 0) Deferred_text_renderer::instance().clear();
+				sifont->center_text(ibuf, centerx, centery + 50 + vlead + intro_line_step * i, get_text_msg(bg_fellow + i));
 			}
 
 			prev = num;
@@ -516,8 +521,10 @@ void SI_Game::play_intro() {
 			next = fli2.play(win, j, j, next);
 
 			if (jive) {
+				Deferred_text_renderer::instance().clear();
 				sifont->draw_text(ibuf, centerx + 30, centery + 87 + vlead, get_text_msg(yo_homes));
 			} else if (subtitles) {
+				Deferred_text_renderer::instance().clear();
 				sifont->draw_text(ibuf, centerx + 30, centery + 87 + vlead, get_text_msg(my_leige));
 			}
 
@@ -544,7 +551,9 @@ void SI_Game::play_intro() {
 			next = fli2.play(win, j, j, next);
 
 			if (subtitles || jive) {
-				sifont->draw_text(ibuf, centerx + 150 - sifont->get_text_width(all_we[0]), centery + 74 + vlead, all_we[0]);
+				const int intro_line_step = sifont->get_chinese_font_size() + 2;
+				Deferred_text_renderer::instance().clear();
+				sifont->draw_text(ibuf, centerx + 150 - sifont->get_text_width(all_we[0]), centery + 87 + vlead - intro_line_step, all_we[0]);
 				sifont->draw_text(ibuf, centerx + 160 - sifont->get_text_width(all_we[1]), centery + 87 + vlead, all_we[1]);
 			}
 
@@ -564,8 +573,10 @@ void SI_Game::play_intro() {
 		fli2.play(win, j, j, next);
 
 		if (subtitles || jive) {
-			const char* const and_a[2] = {get_text_msg(and_a0), get_text_msg(and_a0 + 1)};
-			sifont->draw_text(ibuf, centerx + 150 - sifont->get_text_width(and_a[0]), centery + 74 + vlead, and_a[0]);
+			const int         intro_line_step = sifont->get_chinese_font_size() + 2;
+			const char* const and_a[2]        = {get_text_msg(and_a0), get_text_msg(and_a0 + 1)};
+			Deferred_text_renderer::instance().clear();
+			sifont->draw_text(ibuf, centerx + 150 - sifont->get_text_width(and_a[0]), centery + 87 + vlead - intro_line_step, and_a[0]);
 			sifont->draw_text(ibuf, centerx + 150 - sifont->get_text_width(and_a[1]), centery + 87 + vlead, and_a[1]);
 		}
 
@@ -603,9 +614,12 @@ void SI_Game::play_intro() {
 			next = fli2.play(win, j, j, next);
 
 			if (jive) {
+				Deferred_text_renderer::instance().clear();
 				sifont->draw_text(ibuf, topx + 40, centery + 74 + vlead, get_text_msg(iree));
 			} else if (subtitles) {
-				sifont->draw_text(ibuf, topx + 40, centery + 74 + vlead, get_text_msg(indeed));
+				const int intro_line_step = sifont->get_chinese_font_size() + 2;
+				Deferred_text_renderer::instance().clear();
+				sifont->draw_text(ibuf, topx + 40, centery + 87 + vlead - intro_line_step, get_text_msg(indeed));
 				sifont->draw_text(ibuf, topx + 40, centery + 87 + vlead, get_text_msg(indeed + 1));
 			}
 
@@ -653,8 +667,10 @@ void SI_Game::play_intro() {
 			next = fli3.play(win, j, j, next) + 20;
 
 			if (jive) {
+				Deferred_text_renderer::instance().clear();
 				sifont->draw_text(ibuf, topx + 70, centery + 60 + vlead, get_text_msg(jump_back));
 			} else if (subtitles) {
+				Deferred_text_renderer::instance().clear();
 				sifont->draw_text(ibuf, topx + 70, centery + 60 + vlead, get_text_msg(stand_back));
 			}
 
@@ -705,22 +721,31 @@ void SI_Game::play_intro() {
 			}
 
 			if (j < 100 && jive) {
+				Deferred_text_renderer::instance().clear();
 				sifont->center_text(ibuf, centerx, centery + 74 + vlead, get_text_msg(batlin2));
 				sifont->center_text(ibuf, centerx, centery + 87 + vlead, get_text_msg(batlin2 + 1));
 			} else if (j < 200 && jive) {
+				Deferred_text_renderer::instance().clear();
 				sifont->center_text(ibuf, centerx, centery + 74 + vlead, get_text_msg(you_must));
 				sifont->center_text(ibuf, centerx, centery + 87 + vlead, get_text_msg(you_must + 1));
 			} else if (j < 300 && jive) {
+				Deferred_text_renderer::instance().clear();
 				sifont->center_text(ibuf, centerx, centery + 74 + vlead, get_text_msg(soon_i));
 				sifont->center_text(ibuf, centerx, centery + 87 + vlead, get_text_msg(soon_i + 1));
 			} else if (j < 100 && (subtitles)) {
-				sifont->center_text(ibuf, centerx, centery + 74 + vlead, get_text_msg(batlin));
+				const int intro_line_step = sifont->get_chinese_font_size() + 2;
+				Deferred_text_renderer::instance().clear();
+				sifont->center_text(ibuf, centerx, centery + 87 + vlead - intro_line_step, get_text_msg(batlin));
 				sifont->center_text(ibuf, centerx, centery + 87 + vlead, get_text_msg(batlin + 1));
 			} else if (j < 200 && (subtitles)) {
-				sifont->center_text(ibuf, centerx, centery + 74 + vlead, get_text_msg(you_shall));
+				const int intro_line_step = sifont->get_chinese_font_size() + 2;
+				Deferred_text_renderer::instance().clear();
+				sifont->center_text(ibuf, centerx, centery + 87 + vlead - intro_line_step, get_text_msg(you_shall));
 				sifont->center_text(ibuf, centerx, centery + 87 + vlead, get_text_msg(you_shall + 1));
 			} else if (j < 300 && (subtitles)) {
-				sifont->center_text(ibuf, centerx, centery + 74 + vlead, get_text_msg(there_i));
+				const int intro_line_step = sifont->get_chinese_font_size() + 2;
+				Deferred_text_renderer::instance().clear();
+				sifont->center_text(ibuf, centerx, centery + 87 + vlead - intro_line_step, get_text_msg(there_i));
 				sifont->center_text(ibuf, centerx, centery + 87 + vlead, get_text_msg(there_i + 1));
 			}
 
@@ -771,9 +796,12 @@ void SI_Game::play_intro() {
 			next = fli5.play(win, j, j, next) + 30;
 
 			if (j < 20 && (subtitles || jive)) {
+				Deferred_text_renderer::instance().clear();
 				sifont->center_text(ibuf, centerx, centery + 74 + vlead, get_text_msg(tis_my));
 			} else if (j > 22 && (subtitles || jive)) {
-				sifont->center_text(ibuf, centerx, centery + 74 + vlead, get_text_msg(tis_my + 1));
+				const int intro_line_step = sifont->get_chinese_font_size() + 2;
+				Deferred_text_renderer::instance().clear();
+				sifont->center_text(ibuf, centerx, centery + 87 + vlead - intro_line_step, get_text_msg(tis_my + 1));
 				sifont->center_text(ibuf, centerx, centery + 87 + vlead, get_text_msg(tis_my + 2));
 			}
 
@@ -813,6 +841,7 @@ void SI_Game::play_intro() {
 			next = fli7.play(win, j, j, next) + 30;
 
 			if (j > 55 && jive) {
+				Deferred_text_renderer::instance().clear();
 				sifont->center_text(ibuf, centerx, centery + 74 + vlead, zot);
 			}
 
@@ -1023,19 +1052,9 @@ struct ExSubEvent {
 			: time(t), first_sub(first), num_subs(cnt), sub_font(fnt) {}
 
 	void show_sub(Image_buffer8* ibuf, int centerx, int centery) {
-		int suby;
-		switch (num_subs) {
-		case 1:
-			suby = centery + 87 + vlead;
-			break;
-		case 2:
-			suby = centery + 74 + vlead;
-			break;
-		default:
-			suby = centery + 61 + vlead;
-			break;
-		}
-		for (int ii = first_sub; ii < first_sub + num_subs; ii++, suby += 13) {
+		const int line_step = sub_font->get_chinese_font_size() + 2;
+		int       suby      = centery + 87 + vlead - (num_subs - 1) * line_step;
+		for (int ii = first_sub; ii < first_sub + num_subs; ii++, suby += line_step) {
 			sub_font->draw_text(ibuf, centerx - sub_font->get_text_width(get_text_msg(ii)) / 2, suby, get_text_msg(ii));
 		}
 	}
@@ -1050,6 +1069,10 @@ std::vector<unsigned int> SI_Game::get_congratulations_messages() {
 // Serpent Isle Endgame
 //
 void SI_Game::end_game(bool success, bool within_game) {
+	struct EndgameGuard {
+		EndgameGuard() { Font::is_painting_endgame = true; }
+		~EndgameGuard() { Font::is_painting_endgame = false; }
+	} endgame_guard;
 	ignore_unused_variable_warning(success);
 	waitforspeech();
 	Audio* audio = Audio::get_ptr();
@@ -1289,6 +1312,9 @@ void SI_Game::end_game(bool success, bool within_game) {
 		if (cur_sub < last_sub && subs[cur_sub + 1].time <= time) {
 			cur_sub++;
 			if (subtitles) {
+				// Clear old subtitle from deferred text surface before
+				// drawing the new one to avoid CJK text stacking.
+				Deferred_text_renderer::instance().clear();
 				showing_subs = true;
 				COUT("Subtitle at time: " << subs[cur_sub].time);
 			}
@@ -1316,6 +1342,8 @@ void SI_Game::end_game(bool success, bool within_game) {
 		// Need to go to the next subtitle?
 		if ((subtitles) && showing_subs && cur_sub <= last_sub) {
 			updated = true;
+			// Clear before redrawing to prevent per-frame alpha accumulation
+			Deferred_text_renderer::instance().clear();
 			subs[cur_sub].show_sub(ibuf, centerx, centery);
 		}
 
@@ -1336,6 +1364,7 @@ void SI_Game::end_game(bool success, bool within_game) {
 		// Fade out for 1 sec (50 cycles)
 		pal->set_brightness(80);    // Set readable brightness
 		win->fill8(0);
+		Deferred_text_renderer::instance().clear();
 		win->ShowFillGuardBand();
 
 		// Congratulations screen
