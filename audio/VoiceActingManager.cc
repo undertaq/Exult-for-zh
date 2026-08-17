@@ -215,7 +215,6 @@ bool VoiceActingManager::find_in_pak(
  */
 bool VoiceActingManager::try_play_packed(
 		const std::string& name, const std::vector<char>& data) {
-	fprintf(stderr, "[AUDIODBG] voice try_play_packed name=%s\n", name.c_str());
 	const std::string& lang = get_voice_language();
 	std::string temp_path = get_system_path(
 		"<PATCH>/voice_acting/" + lang + "/." + name + ".ogg");

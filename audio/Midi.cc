@@ -115,7 +115,6 @@ std::unique_ptr<IDataSource> open_music_flex(const std::string& flex, int num) {
 }
 
 bool MyMidiPlayer::start_music(int num, bool repeat, ForceType force, std::string flex) {
-	fprintf(stderr, "[AUDIODBG] MidiPlayer::start_music num=%d\n", num);
 	// Check output for no output device
 	if (force == Force_None && (!ogg_enabled) && !midi_driver && !init_device(true)) {
 		return false;

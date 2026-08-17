@@ -429,7 +429,6 @@ sint32 Audio::copy_and_play_sfx(const uint8* sound_data, uint32 len, bool wait, 
 
 sint32 Audio::play(std::unique_ptr<uint8[]> sound_data, uint32 len, bool wait, int volume) {
 	ignore_unused_variable_warning(wait);
-	fprintf(stderr, "[AUDIODBG] Audio::play len=%u vol=%d\n", len, volume);
 	if (!audio_enabled || !len) {
 		cerr << "Audio::play: disabled or empty (len=" << len << ")" << endl;
 		return -1;
@@ -502,7 +501,6 @@ bool Audio::playing() {
 }
 
 bool Audio::start_music(int num, bool continuous, MyMidiPlayer::ForceType force, const std::string& flex) {
-	fprintf(stderr, "[AUDIODBG] start_music num=%d en=%d mus=%d\n", num, int(audio_enabled), int(music_enabled));
 #ifdef DEBUG
 	cout << formatTicks() << "Audio subsystem request: Music start " << num << " in flex " << flex << endl;
 #endif
@@ -517,7 +515,6 @@ void Audio::change_repeat(bool newrepeat) {
 }
 
 bool Audio::start_music(const std::string& fname, int num, bool continuous, MyMidiPlayer::ForceType force) {
-	fprintf(stderr, "[AUDIODBG] start_music file=%s num=%d en=%d mus=%d\n", fname.c_str(), num, int(audio_enabled), int(music_enabled));
 #ifdef DEBUG
 	cout << formatTicks() << "Audio subsystem request: Music start " << num << " in file " << fname << endl;
 #endif
@@ -541,7 +538,6 @@ void Audio::stop_music() {
 }
 
 bool Audio::start_speech(int num, bool wait) {
-	fprintf(stderr, "[AUDIODBG] start_speech num=%d\n", num);
 	if (!audio_enabled || !speech_enabled) {
 		return false;
 	}
@@ -653,7 +649,6 @@ int Audio::wait_for_speech(std::function<int(Uint32 ms)> waitfunc) {
  *	This returns a 'unique' ID, but only for .wav SFX's (for now).
  */
 int Audio::play_sound_effect(int num, int volume, int balance, int repeat, int distance) {
-	fprintf(stderr, "[AUDIODBG] play_sound_effect num=%d en=%d efx=%d\n", num, int(audio_enabled), int(effects_enabled));
 #ifdef DEBUG
 	cout << formatTicks() << "Audio subsystem request: Sound Effect play " << num << " volume " << volume << " balance " << balance
 		 << " distance " << distance << endl;
