@@ -8,7 +8,7 @@
 
 class Usecode_machine;
 
-enum class TextLanguage { ENGLISH = 0, CHINESE = 1 };
+enum class TextLanguage { ENGLISH = 0, CHINESE = 1, DUAL = 2 };
 
 struct VoiceMapping {
     int zh_func_id;
@@ -38,6 +38,18 @@ public:
                     int& out_segment);
 
     bool is_bilingual_available() const { return usecode_zh != nullptr; }
+    bool is_dual_available() const { return usecode_dual != nullptr; }
+    // True when the current text mode renders Chinese (ZH or DUAL).
+    bool is_zh_text() const {
+        return current_lang == TextLanguage::CHINESE
+               || current_lang == TextLanguage::DUAL;
+    }
+    // Language used for non-dialogue UI lookups (spell names etc.):
+    // DUAL behaves as CHINESE.
+    TextLanguage script_language() const {
+        return (current_lang == TextLanguage::DUAL) ? TextLanguage::CHINESE
+                                                    : current_lang;
+    }
 
 private:
     BilingualManager() = default;
@@ -47,6 +59,8 @@ private:
     TextLanguage current_lang = TextLanguage::ENGLISH;
     Usecode_machine* usecode_en = nullptr;
     Usecode_machine* usecode_zh = nullptr;
+    Usecode_machine* usecode_dual = nullptr;
+    std::vector<VoiceMapping> dual_map;    // dual->zh / dual->en rows (BLM2)
     std::vector<VoiceMapping> bilingual_map;
 };
 

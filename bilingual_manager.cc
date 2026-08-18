@@ -21,7 +21,9 @@ void BilingualManager::init() {
     // Write text language default back so config always has the key
     config->set("config/audio/text/language", text_lang_str, false);
 
-    current_lang = (text_lang_str == "zh") ? TextLanguage::CHINESE : TextLanguage::ENGLISH;
+    current_lang = (text_lang_str == "zh")   ? TextLanguage::CHINESE
+                   : (text_lang_str == "dual") ? TextLanguage::DUAL
+                                               : TextLanguage::ENGLISH;
 
     load_usecode_files();
     load_bilingual_map();
@@ -42,6 +44,8 @@ void BilingualManager::init() {
 void BilingualManager::shutdown() {
     delete usecode_zh;
     usecode_zh = nullptr;
+    delete usecode_dual;
+    usecode_dual = nullptr;
 }
 
 void BilingualManager::load_usecode_files() {
@@ -61,6 +65,25 @@ void BilingualManager::load_usecode_files() {
             std::cerr << "[Bilingual] Failed to load Chinese usecode: "
                       << e.what() << std::endl;
             usecode_zh = nullptr;
+        }
+    }
+
+    if (is_system_path_defined("<PATCH>")) {
+        if (U7exists(DUAL_USECODE)) {
+            try {
+                auto pFile = U7open_in(DUAL_USECODE);
+                if (pFile) {
+                    usecode_dual = Usecode_machine::create();
+                    usecode_dual->read_usecode(*pFile);
+                }
+            } catch (const std::exception& e) {
+                std::cerr << "[Bilingual] Failed to load dual usecode: "
+                          << e.what() << std::endl;
+                usecode_dual = nullptr;
+            }
+        } else {
+            std::cout << "[Bilingual] usecode.dual not found; "
+                         "dual mode will fall back to Chinese" << std::endl;
         }
     }
 }
@@ -146,11 +169,22 @@ void BilingualManager::set_text_language(TextLanguage lang) {
 }
 
 Usecode_machine* BilingualManager::get_active_usecode() {
-    return (current_lang == TextLanguage::CHINESE && usecode_zh)
-           ? usecode_zh : usecode_en;
+    return (current_lang == TextLanguage::DUAL) ? get_usecode(TextLanguage::DUAL)
+           : (current_lang == TextLanguage::CHINESE && usecode_zh)
+                   ? usecode_zh
+                   : usecode_en;
 }
 
 Usecode_machine* BilingualManager::get_usecode(TextLanguage lang) {
+    if (lang == TextLanguage::DUAL) {
+        if (usecode_dual) {
+            return usecode_dual;
+        }
+        if (usecode_zh) {    // File fallback: Chinese.
+            return usecode_zh;
+        }
+        return usecode_en;
+    }
     return (lang == TextLanguage::CHINESE) ? usecode_zh : usecode_en;
 }
 
