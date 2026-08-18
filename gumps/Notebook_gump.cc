@@ -562,7 +562,7 @@ void Notebook_chip_button::paint() {
 	Image_window8* win  = gwin->get_win();
 	const int      x    = parent->get_x() + rx;
 	const int      y    = parent->get_y() + ry;
-	const bool     chinese = BilingualManager::get().get_text_language() == TextLanguage::CHINESE;
+	const bool     chinese = BilingualManager::get().is_zh_text();
 	// Parchment-ish background + dark border, from the game palette.
 	const int      border_px   = sman->get_special_pixel(BLACK_PIXEL);
 	const int      parchment_px = sman->get_special_pixel(PROTECT_PIXEL);
@@ -1027,7 +1027,7 @@ bool Notebook_gump::paint_page(
 	// height in endoff when the note finished on this page). Label follows
 	// the game's text-language setting.
 	if (endoff > 0 && endoff < box.h && !note->get_npcs().empty()) {
-		const bool   zh  = BilingualManager::get().get_text_language() == TextLanguage::CHINESE;
+		const bool   zh  = BilingualManager::get().is_zh_text();
 		const string rel = (zh ? u8"相關：" : "Related: ") + note->get_npcs();
 		// Like paint_text_box, force the CJK TTF path when the line has
 		// non-ASCII so the English names match the Chinese font. Solid red
@@ -1580,7 +1580,7 @@ void Notebook_gump::add_gflag_text(int gflag, const string& text) {
 	if (gwin->get_allow_autonotes()) {
 		instance->add_new_with_line_breaks(text, gflag);
 		if (gwin && gwin->get_effects() && gwin->get_main_actor()) {
-			const bool  chinese = BilingualManager::get().get_text_language() == TextLanguage::CHINESE;
+			const bool  chinese = BilingualManager::get().is_zh_text();
 			const char* toast   = chinese ? u8"日誌更新" : "Journal Updated";
 			const int   ticks   = std::max(10, 3000 / std::max(1, gwin->get_std_delay()));
 			gwin->get_effects()->add_text(toast, gwin->get_main_actor(), ticks);
@@ -1793,7 +1793,7 @@ void Notebook_gump::read_auto_text() {
 		const bool have_en = Load_autonotes(PATCH_AUTONOTES, "config/autonotes", en);
 		const bool have_zh = Load_autonotes(PATCH_AUTONOTES_ZH, "config/autonotes_zh", zh);
 		auto_text.clear();
-		if (BilingualManager::get().get_text_language() == TextLanguage::CHINESE && have_zh) {
+		if (BilingualManager::get().is_zh_text() && have_zh) {
 			// Chinese wins; untranslated flags fall back to English so no
 			// note is ever dropped (missing entries arrive as "").
 			if (have_en) {

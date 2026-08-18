@@ -593,7 +593,7 @@ void Spellbook_gump::paint() {
 		bookmark->paint();
 		
 		// Paint custom spell name at the bottom of the spellbook
-		int lang = static_cast<int>(BilingualManager::get().get_text_language());
+		int lang = static_cast<int>(BilingualManager::get().script_language());
 		Load_spell_names(lang);
 		int spell = book->bookmark;
 if (spell >= 0 && spell < 72 && !custom_spell_names[lang][spell].empty()) {
