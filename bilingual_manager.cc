@@ -88,23 +88,23 @@ void BilingualManager::load_usecode_files() {
     }
 }
 
-void BilingualManager::load_bilingual_map() {
-    bilingual_map.clear();
+void BilingualManager::load_map_file(const std::string& map_path,
+                                     std::vector<VoiceMapping>& out) {
+    out.clear();
 
     if (!is_system_path_defined("<PATCH>")) {
         return;
     }
 
-    std::string map_path = std::string("<PATCH>/voice_acting/bilingual_map.dat");
     if (!U7exists(map_path)) {
-        std::cout << "[Bilingual] No bilingual map found at " << map_path << std::endl;
+        std::cout << "[Bilingual] No voice map found at " << map_path << std::endl;
         return;
     }
 
     try {
-	auto pFile = U7open_in(map_path.c_str());
+        auto pFile = U7open_in(map_path.c_str());
         if (!pFile) {
-            std::cerr << "[Bilingual] Failed to open bilingual map" << std::endl;
+            std::cerr << "[Bilingual] Failed to open voice map " << map_path << std::endl;
             return;
         }
         auto& file = *pFile;
@@ -113,16 +113,16 @@ void BilingualManager::load_bilingual_map() {
         file.read(header, 4);
         bool is_v2 = std::memcmp(header, "BLM2", 4) == 0;
         if (!is_v2 && std::memcmp(header, "BLMP", 4) != 0) {
-            std::cerr << "[Bilingual] Invalid map header" << std::endl;
+            std::cerr << "[Bilingual] Invalid map header in " << map_path << std::endl;
             return;
         }
 
         uint32_t count;
         file.read(reinterpret_cast<char*>(&count), 4);
-        std::cout << "[Bilingual] Loading " << count << " voice mappings (v"
-                  << (is_v2 ? "2" : "1") << ")" << std::endl;
+        std::cout << "[Bilingual] Loading " << count << " voice mappings from "
+                  << map_path << " (v" << (is_v2 ? "2" : "1") << ")" << std::endl;
 
-        bilingual_map.reserve(count);
+        out.reserve(count);
         for (uint32_t i = 0; i < count; i++) {
             VoiceMapping m;
 
@@ -144,16 +144,22 @@ void BilingualManager::load_bilingual_map() {
                 m.en_segment = segment_raw;
             }
 
-            bilingual_map.push_back(std::move(m));
+            out.push_back(std::move(m));
         }
 
-        std::cout << "[Bilingual] Successfully loaded " << bilingual_map.size()
-                  << " voice mappings" << std::endl;
+        std::cout << "[Bilingual] Successfully loaded " << out.size()
+                  << " voice mappings from " << map_path << std::endl;
 
     } catch (const std::exception& e) {
-        std::cerr << "[Bilingual] Error loading bilingual map: " << e.what() << std::endl;
-        bilingual_map.clear();
+        std::cerr << "[Bilingual] Error loading voice map " << map_path << ": "
+                  << e.what() << std::endl;
+        out.clear();
     }
+}
+
+void BilingualManager::load_bilingual_map() {
+    load_map_file("<PATCH>/voice_acting/bilingual_map.dat", bilingual_map);
+    load_map_file("<PATCH>/voice_acting/dual_map.dat", dual_map);
 }
 
 void BilingualManager::set_text_language(TextLanguage lang) {
@@ -210,6 +216,16 @@ bool BilingualManager::map_offset(TextLanguage from_lang, int func_id,
                 out_func_id = m.zh_func_id;
                 out_offset_key = m.zh_offset_key;
                 out_segment = m.zh_segment;
+                return true;
+            }
+        }
+    } else if (from_lang == TextLanguage::DUAL) {
+        for (const auto& m : dual_map) {
+            if (m.zh_func_id == func_id && m.zh_offset_key == offset_key
+                    && m.zh_segment == segment) {
+                out_func_id = m.en_func_id;
+                out_offset_key = m.en_offset_key;
+                out_segment = m.en_segment;
                 return true;
             }
         }

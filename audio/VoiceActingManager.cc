@@ -473,11 +473,16 @@ bool VoiceActingManager::play_for_conversation(
 	// the target voice directory, translate so we look up the right file.
 	const std::string& cur_voice_lang = get_voice_language();
 	TextLanguage	   text_lang	   = BilingualManager::get().get_text_language();
-	if (BilingualManager::get().is_bilingual_available()
-		&& ((cur_voice_lang == "en" && text_lang == TextLanguage::CHINESE)
-			|| (cur_voice_lang == "zh" && text_lang == TextLanguage::ENGLISH))) {
-		TextLanguage from_lang
-				= (cur_voice_lang == "en") ? TextLanguage::CHINESE : TextLanguage::ENGLISH;
+	bool map_needed = false;
+	if (text_lang == TextLanguage::DUAL) {
+		map_needed = BilingualManager::get().is_dual_available();
+	} else if (cur_voice_lang == "en" && text_lang == TextLanguage::CHINESE) {
+		map_needed = true;
+	} else if (cur_voice_lang == "zh" && text_lang == TextLanguage::ENGLISH) {
+		map_needed = true;
+	}
+	if (BilingualManager::get().is_bilingual_available() && map_needed) {
+		TextLanguage from_lang = text_lang;    // CHINESE, ENGLISH or DUAL.
 		int			target_func_id;
 		std::string target_offset_key;
 		int			target_segment;

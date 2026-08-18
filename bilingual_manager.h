@@ -54,6 +54,7 @@ public:
 private:
     BilingualManager() = default;
     void load_usecode_files();
+    void load_map_file(const std::string& path, std::vector<VoiceMapping>& out);
     void load_bilingual_map();
 
     TextLanguage current_lang = TextLanguage::ENGLISH;
