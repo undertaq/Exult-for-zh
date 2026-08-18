@@ -416,6 +416,15 @@ void Conversation::show_npc_message(const char* msg) {
 		}
 	}
 
+	int pairs = 1;    // # of "ZH\nEN" pairs (1 if no embedded newline).
+	if (display) {
+		for (const char* p = display; *p; p++) {
+			if (*p == '\n') {
+				pairs++;
+			}
+		}
+	}
+
 	int line_height = sman->get_text_line_height(0);
 	if (has_chinese) {
 		line_height = std::max(line_height, 22);
@@ -424,8 +433,11 @@ void Conversation::show_npc_message(const char* msg) {
 	if (info->large_face && has_chinese) {
 		info->text_rect.x = 8;
 		info->text_rect.w = gwin->get_width() - 16;
-		
+
 		int needed_h = line_height * 2;
+		if (pairs > 1) {
+			needed_h = std::min(pairs * 2, 6) * line_height;
+		}
 		if (info->text_rect.h < needed_h) {
 			info->text_rect.h = needed_h;
 			info->text_rect.y = gwin->get_height() - needed_h - 4;
@@ -439,6 +451,9 @@ void Conversation::show_npc_message(const char* msg) {
 	int height;    // Break at punctuation.
 	
 	int render_box_h = 4 * line_height;
+	if (pairs > 1) {
+		render_box_h = std::max(render_box_h, std::min(pairs * 2, 6) * line_height);
+	}
 	if (render_box_h > box.h) {
 		render_box_h = box.h;
 	}
