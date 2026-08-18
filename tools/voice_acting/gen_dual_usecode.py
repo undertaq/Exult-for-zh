@@ -189,6 +189,7 @@ def generate(zh_blob, review):
     while offset < len(zh_blob):
         sym_next = dis.skip_symbol_table(zh_blob, offset)
         if sym_next > offset:
+            out += zh_blob[offset:sym_next]    # preserve the symbol table verbatim
             offset = sym_next
             continue
         try:
@@ -255,7 +256,7 @@ def generate(zh_blob, review):
                                   "en_func_id": fid, "en_offset_key": key,
                                   "en_segment": seg})                # dual->zh
                 info = info_per_seg.get(seg)
-                if info and info["text"]:
+                if info and info["text"] and info["en_func_id"]:
                     dual_rows.append({"zh_func_id": fid,
                                       "zh_offset_key": new_key,
                                       "zh_segment": seg,

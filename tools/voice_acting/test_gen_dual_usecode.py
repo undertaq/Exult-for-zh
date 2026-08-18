@@ -128,3 +128,16 @@ def test_blm2_roundtrip(tmp_path):
     p = tmp_path / "dual_map.dat"
     g.write_blm2(p, rows)
     assert g.read_blm2(p) == rows
+
+
+def test_generate_preserves_symbol_table():
+    # Exult symbol table: ffffffff "YSCU" magic + scope count + version.
+    symtab = struct.pack("<II", 0xFFFFFFFF, 0x55435359) + struct.pack("<II", 0, 0)
+    data = b"HELLO\0"
+    code = struct.pack("<B", ADDSI) + struct.pack("<H", 0) + struct.pack("<B", SAY)
+    zh = symtab + build_func(0x0123, code, data)
+    dual, rows, skipped = g.generate(zh, [])
+    assert skipped == []
+    assert dual[:len(symtab)] == symtab            # table copied verbatim
+    assert dual[len(symtab):] == build_func(0x0123, code, data)
+    assert rows == []
