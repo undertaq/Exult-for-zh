@@ -132,7 +132,7 @@ static inline void add_text_internal(vector<string>& src, unsigned num, const ch
  */
 
 int get_num_item_names() {
-	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	int lang = static_cast<int>(BilingualManager::get().script_language());
 	if (item_names[lang].empty()) {
 		lang = 0;
 	}
@@ -143,7 +143,7 @@ int get_num_item_names() {
  *  Get an item name.
  */
 const char* get_item_name(unsigned num) {
-	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	int lang = static_cast<int>(BilingualManager::get().script_language());
 	if (item_names[lang].empty()) {
 		lang = 0;
 	}
@@ -154,7 +154,7 @@ const char* get_item_name(unsigned num) {
  *  Create an item name.
  */
 void Set_item_name(unsigned num, const char* name) {
-	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	int lang = static_cast<int>(BilingualManager::get().script_language());
 	if (item_names[lang].empty()) {
 		lang = 0;
 	}
@@ -166,7 +166,7 @@ void Set_item_name(unsigned num, const char* name) {
  */
 
 int get_num_text_msgs() {
-	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	int lang = static_cast<int>(BilingualManager::get().script_language());
 	if (text_msgs[lang].empty()) {
 		lang = 0;
 	}
@@ -177,7 +177,7 @@ int get_num_text_msgs() {
  *  Get a text message.
  */
 const char* get_text_msg(unsigned num) {
-	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	int lang = static_cast<int>(BilingualManager::get().script_language());
 	if (text_msgs[lang].empty()) {
 		lang = 0;
 	}
@@ -188,7 +188,7 @@ const char* get_text_msg(unsigned num) {
  *  Create a text message.
  */
 void Set_text_msg(unsigned num, const char* msg) {
-	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	int lang = static_cast<int>(BilingualManager::get().script_language());
 	if (text_msgs[lang].empty()) {
 		lang = 0;
 	}
@@ -200,7 +200,7 @@ void Set_text_msg(unsigned num, const char* msg) {
  */
 
 int get_num_misc_names() {
-	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	int lang = static_cast<int>(BilingualManager::get().script_language());
 	if (misc_names[lang].empty()) {
 		lang = 0;
 	}
@@ -211,7 +211,7 @@ int get_num_misc_names() {
  *  Get a misc name.
  */
 const char* get_misc_name(unsigned num) {
-	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	int lang = static_cast<int>(BilingualManager::get().script_language());
 	if (misc_names[lang].empty()) {
 		lang = 0;
 	}
@@ -222,7 +222,7 @@ const char* get_misc_name(unsigned num) {
  *  Create a misc name.
  */
 void Set_misc_name(unsigned num, const char* name) {
-	int lang = static_cast<int>(BilingualManager::get().get_text_language());
+	int lang = static_cast<int>(BilingualManager::get().script_language());
 	if (misc_names[lang].empty()) {
 		lang = 0;
 	}
