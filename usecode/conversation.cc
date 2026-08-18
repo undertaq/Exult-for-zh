@@ -451,7 +451,7 @@ void Conversation::show_npc_message(const char* msg) {
 	int height;    // Break at punctuation.
 	
 	int render_box_h = 4 * line_height;
-	if (pairs > 1) {
+	if (pairs > 1 && has_chinese) {
 		render_box_h = std::max(render_box_h, std::min(pairs * 2, 6) * line_height);
 	}
 	if (render_box_h > box.h) {
