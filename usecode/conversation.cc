@@ -505,6 +505,43 @@ void Conversation::clear_text_pending() {
 	}
 }
 
+namespace {
+// # of rendered rows for a choice: 1 + count of embedded '\n'.
+int choice_line_count(const char* choice) {
+	int lines = 1;
+	for (const char* p = choice; p && *p; p++) {
+		if (*p == '\n') {
+			lines++;
+		}
+	}
+	return lines;
+}
+// Display width: max over '\n'-split parts; the circle prefix is
+// prepended to the first (Chinese) part only.
+int choice_max_line_width(const char* choice, bool has_chinese) {
+	const char* start = choice;
+	int         part  = 0;
+	int         maxw  = 0;
+	for (const char* p = choice;; p++) {
+		if (*p == '\n' || *p == '\0') {
+			std::string piece;
+			if (part == 0) {
+				piece.push_back(static_cast<char>(127));
+			}
+			piece.append(start, p - start);
+			maxw = std::max(maxw,
+							Shape_manager::get_instance()->get_text_width(0, piece.c_str(), has_chinese));
+			part++;
+			if (*p == '\0') {
+				break;
+			}
+			start = p + 1;
+		}
+	}
+	return maxw;
+}
+}    // namespace
+
 /*
  *  Show the Avatar's conversation choices (and face).
  */
@@ -631,13 +668,16 @@ void Conversation::show_avatar_choices(int num_choices, char** choices) {
 			int temp_y = 0;
 			int temp_line_step = has_chinese ? line_height : line_height - 1;
 			for (int i = 0; i < num_choices; i++) {
-				char text[256];
+				const bool multiline = strchr(choices[i], '\n') != nullptr;
+				const int  lines     = choice_line_count(choices[i]);
+				char       text[512];
 				text[0] = 127;    // A circle.
 				strcpy(&text[1], choices[i]);
-				const int width = sman->get_text_width(0, text, has_chinese);
-				if (temp_x > 0 && temp_x + width >= test_tbox_w) {
+				const int width = multiline ? choice_max_line_width(choices[i], has_chinese)
+				                            : sman->get_text_width(0, text, has_chinese);
+				if (multiline || (temp_x > 0 && temp_x + width >= test_tbox_w)) {
 					temp_x = 0;
-					temp_y += temp_line_step;
+					temp_y += temp_line_step * (multiline ? lines : 1);
 				}
 				temp_x += width + space_width;
 			}
@@ -690,24 +730,29 @@ void Conversation::show_avatar_choices(int num_choices, char** choices) {
 	const int bg_offset = has_chinese ? 0 : (sman->get_text_height(0) - line_height) / 2;
 	// First pass: determine positions and draw all backgrounds.
 	for (int i = 0; i < num_choices; i++) {
-		char text[256];
+		const bool multiline = strchr(choices[i], '\n') != nullptr;
+		const int  nlines    = choice_line_count(choices[i]);
+		char       text[512];
 		text[0] = 127;    // A circle.
 		strcpy(&text[1], choices[i]);
-		const int width = sman->get_text_width(0, text, has_chinese);
-		if (x > 0 && x + width >= tbox.w) {
-			// Start a new line.
+		const int width = multiline ? choice_max_line_width(choices[i], has_chinese)
+		                            : sman->get_text_width(0, text, has_chinese);
+		if (multiline || (x > 0 && x + width >= tbox.w)) {
+			// Dual rows always start on a fresh line.
 			x = 0;
-			y += has_chinese ? line_height : line_height - 1;
+			y += nlines * (has_chinese ? line_height : line_height - 1);
 		}
 		// Store info.
 		int hit_h = line_height;
 		std::shared_ptr<Font> font0 = sman->get_font(0);
-		if (has_chinese && font0) {
+		if (has_chinese && font0 && !multiline) {
 			// Dynamically expand hit box to cover TTF ascender offsets and descenders
 			int baseline = font0->get_text_baseline_for("\x80");
 			int text_h = font0->get_text_height_for("\x80");
-			int text_bottom = baseline + text_h / 4 + 2; 
+			int text_bottom = baseline + text_h / 4 + 2;
 			hit_h = std::max(line_height, text_bottom);
+		} else if (multiline) {
+			hit_h = nlines * line_height;
 		}
 		conv_choices[i] = TileRect(tbox.x + x, tbox.y + y, width, hit_h);
 		conv_choices[i] = conv_choices[i].intersect(sbox);
@@ -715,13 +760,13 @@ void Conversation::show_avatar_choices(int num_choices, char** choices) {
 		// Draw shading with line_height, shifted down to align with text.
 		if (text_bg >= 0) {
 			gwin->get_win()->fill_translucent8(
-					0, width + space_width, line_height, tbox.x + x, tbox.y + y + bg_offset, sman->get_xform(text_bg));
+					0, width + space_width, hit_h, tbox.x + x, tbox.y + y + bg_offset, sman->get_xform(text_bg));
 		}
 		x += width + space_width;
 	}
 	// Second pass: draw all text on top of backgrounds.
 	for (int i = 0; i < num_choices; i++) {
-		char text[256];
+		char text[512];
 		text[0] = 127;    // A circle.
 		strcpy(&text[1], choices[i]);
 		sman->paint_text(0, text, conv_choices[i].x, conv_choices[i].y, has_chinese);
