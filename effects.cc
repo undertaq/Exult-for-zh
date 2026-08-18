@@ -1013,6 +1013,16 @@ void Homing_projectile::paint() {
  */
 
 TileRect Text_effect::Figure_text_pos() {
+	int th = sman->get_text_height(0);
+	if (msg.find('\n') != std::string::npos) {
+		int lines = 1;
+		for (char c : msg) {
+			if (c == '\n') {
+				lines++;
+			}
+		}
+		th *= lines;
+	}
 	const Game_object_shared item_obj = item.lock();
 	if (item_obj) {
 		Gump_manager* gumpman = gwin->get_gump_man();
@@ -1020,9 +1030,6 @@ TileRect Text_effect::Figure_text_pos() {
 		Gump* gump = gumpman->find_gump(item_obj.get());
 		if (gump) {
 			TileRect r = gump->get_shape_rect(item_obj.get());
-			Font::is_painting_bark = true;
-			int th = sman->get_text_height(0);
-			Font::is_painting_bark = false;
 			r.y -= th;
 			return r;
 		} else {
@@ -1033,9 +1040,6 @@ TileRect Text_effect::Figure_text_pos() {
 			TileRect r = gwin->get_shape_rect(outer);
 			r.x -= gwin->get_scrolltx_lo();
 			r.y -= gwin->get_scrollty_lo();
-			Font::is_painting_bark = true;
-			int th = sman->get_text_height(0);
-			Font::is_painting_bark = false;
 			r.y -= th;
 			return r;
 		}
@@ -1043,9 +1047,6 @@ TileRect Text_effect::Figure_text_pos() {
 		int x;
 		int y;
 		gwin->get_shape_location(tpos, x, y);
-		Font::is_painting_bark = true;
-		int th = sman->get_text_height(0);
-		Font::is_painting_bark = false;
 		return TileRect(x, y - th, c_tilesize, c_tilesize);
 	}
 }
@@ -1070,6 +1071,25 @@ void Text_effect::init() {
 	Font::is_painting_bark = true;
 	width  = 8 + sman->get_text_width(0, msg.c_str());
 	height = 8 + sman->get_text_height(0);
+	const size_t nl = msg.find('\n');
+	if (nl != std::string::npos) {
+		int    maxw  = 0;
+		int    lines = 1;
+		size_t start = 0;
+		for (;;) {
+			const size_t end = msg.find('\n', start);
+			const std::string piece
+					= msg.substr(start, end == std::string::npos ? std::string::npos : end - start);
+			maxw = std::max(maxw, sman->get_text_width(0, piece.c_str()));
+			if (end == std::string::npos) {
+				break;
+			}
+			lines++;
+			start = end + 1;
+		}
+		width  = 8 + maxw;
+		height = 8 + lines * sman->get_text_height(0);
+	}
 	Font::is_painting_bark = false;
 	add_dirty();    // Force first paint.
 	// Start immediately.
@@ -1169,9 +1189,21 @@ Text_effect::~Text_effect() {
 
 void Text_effect::paint() {
 	const char* ptr = msg.c_str();
-	const int   len = strlen(ptr);
 	Font::is_painting_bark = true;
-	sman->paint_text(0, ptr, len, pos.x, pos.y);
+	const int   lh   = sman->get_text_height(0);
+	const int   len  = strlen(ptr);
+	int         step = 0;
+	for (const char* p = ptr;;) {
+		const char* nl   = strchr(p, '\n');
+		const int   plen = nl ? static_cast<int>(nl - p)
+		                      : len - static_cast<int>(p - ptr);
+		sman->paint_text(0, p, plen, pos.x, pos.y + step);
+		if (!nl) {
+			break;
+		}
+		step += lh;
+		p = nl + 1;
+	}
 	Font::is_painting_bark = false;
 }
 
