@@ -206,6 +206,23 @@ The final `bilingual_mapping_review.json` feeds two main pipelines:
 - Generates `.ogg` audio files via Qwen3-TTS
 - Orchestrated by `run_phase_c.sh`, `run_fast.sh`, etc.
 
+### 10. Dual Subtitle usecode.dual Generation
+
+1. Ensure `_live/usecode.zh` is the current compiled ZH binary and
+   `bilingual_mapping_review.json` is up to date.
+2. Run:
+   `python gen_dual_usecode.py`
+   (paths via `--zh/--review/--out/--map-out`; defaults: `_live/usecode.zh`,
+   `bilingual_mapping_review.json`, outputs into `_live/`).
+3. Outputs: `_live/usecode.dual` (dialogue strings merged as `ZH\nEN`) and
+   `_live/dual_map.dat` (dual->zh and dual->en voice key rows, BLM2).
+4. `deploy.ps1` copies both into the distribution's patch dir.
+
+Invariant: every original data offset and every non-dialogue byte in
+`usecode.dual` is byte-identical to `usecode.zh`; only mapped dialogue
+traces redirect their first `addsi` to an appended merged string. Voice
+lookup in dual text mode goes through `dual_map.dat` (`map_offset(DUAL)`).
+
 ## Historical Steps (do NOT run)
 
 ### Function ID Correction — REMOVED (obsolete)

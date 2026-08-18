@@ -19,6 +19,10 @@ if (-not (Test-Path $patchDest)) { New-Item -ItemType Directory -Path $patchDest
 if (Test-Path "$workspace\tools\voice_acting\_live\usecode.zh") {
     Copy-Item -Path "$workspace\tools\voice_acting\_live\usecode.zh" -Destination "$patchDest\" -Force
 }
+if (Test-Path "$workspace\tools\voice_acting\_live\usecode.dual") {
+    Copy-Item -Path "$workspace\tools\voice_acting\_live\usecode.dual" -Destination "$patchDest\" -Force
+    Copy-Item -Path "$workspace\tools\voice_acting\_live\dual_map.dat" -Destination "$voiceDest\" -Force
+}
 
 Write-Host "=== Step 2b: Copy autonote files ==="
 foreach ($file in @("autonotes.txt", "autonotes_zh.txt")) {
