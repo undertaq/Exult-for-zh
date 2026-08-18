@@ -26,23 +26,28 @@ dialogue strings are merged `ZH\nEN` pairs.
 ## 1. `usecode.dual` content
 
 - Sibling of `usecode.zh`, same function table and data layout.
-- Every dialogue row present in `bilingual_map.dat` becomes
+- Every dialogue row present in `bilingual_mapping_review.json` becomes
   `<ZH text>\n<EN text>`.
 - ZH row with no EN counterpart keeps ZH text alone (pair-fallback ZH).
 - Rows not present in the map keep their ZH text unchanged.
-- All voice keys, function IDs, and offsets remain identical to
-  `usecode.zh` — no runtime pairing, no runtime text lookup.
+- All non-dialogue bytes and all untouched string offsets are byte-identical
+  to `usecode.zh`; merged strings are appended to the function's data
+  segment and only the mapped trace's first `addsi` operand is redirected
+  (remaining `addsi` operands of the trace point to one shared empty
+  string). Merged strings therefore have new data offsets — their runtime
+  voice keys shift, see §5 (`dual_map.dat`). No runtime text pairing.
 
 ### Generation tool
 
 New script `tools/voice_acting/gen_dual_usecode.py`:
 
-- Inputs: `usecode.zh`, `bilingual_map.dat` (BLM2/BLMP format, same reader
-  as `BilingualManager::load_bilingual_map`).
+- Inputs: `usecode.zh`, `bilingual_mapping_review.json` (per-segment
+  ZH/EN texts; the BLM2 `bilingual_map.dat` only carries keys, not texts).
 - Reuses the existing disassembly/pairing/text-replacement machinery from
   the documented pipeline (`docs/voice_acting_guide.md` /
   `tools/voice_acting/doc/bilingual_mapping_generation.md`).
-- Output: `patch/usecode.dual`.
+- Output: `patch/usecode.dual` and `patch/voice_acting/dual_map.dat`
+  (BLM2, rows dual→zh and dual→en for voice key lookup, see §5).
 - Doc section added explaining how to run it.
 
 ## 2. Engine loading & language state
@@ -62,8 +67,10 @@ New script `tools/voice_acting/gen_dual_usecode.py`:
   - `get_active_usecode()`/`set_text_language()` handle DUAL like CHINESE
     (dual binary shares zh's layout).
   - `shutdown()` deletes `usecode_dual`.
-  - `map_offset()` unchanged (dual text never needs runtime
-    cross-language mapping for subtitles).
+  - `map_offset()` gains a `TextLanguage::DUAL` case resolving voice keys
+    through `dual_map` (BLM2 `dual_map.dat` loaded from
+    `<PATCH>/voice_acting/dual_map.dat`, see §5); subtitle rendering never
+    calls it.
 
 ## 3. Rendering
 
@@ -111,12 +118,19 @@ are gated on "string contains `\n`" and are inert for EN/ZH modes.
 
 ## 5. Voice — `audio/VoiceActingManager.cc`
 
-- Dual text counts as ZH-side: the cross-language condition
-  (`play_for_conversation`, ~line 475) gains
+- Merged dialogue strings live at new data offsets, so their runtime voice
+  keys differ from both `usecode.zh` and the EN binary. The generator
+  therefore emits `dual_map.dat` (BLM2): one dual→zh row and one dual→en
+  row per merged segment, keyed by the dual binary's
+  `(func_id, new_offset_key, segment)`.
+- `BilingualManager` loads `dual_map.dat` (`<PATCH>/voice_acting/dual_map.dat`)
+  and `map_offset(TextLanguage::DUAL, ...)` resolves dual keys → zh keys
+  (dual→zh rows) and → en keys (dual→en rows).
+- `VoiceActingManager::play_for_conversation` (~line 475): when the active
+  usecode is the dual binary, look up the voice file via the dual map with
+  `dual_map.dat` keys; voice=zh resolves to the zh side, voice=en to the en
+  side — both play correctly. The cross-language condition gains
   `|| text_lang == TextLanguage::DUAL`.
-- voice=zh → plays directly (dual layout = zh func/offset keys).
-- voice=en → ZH→EN cross-map as today.
-- No other voice logic changes.
 
 ## 6. Edge integration
 
@@ -141,7 +155,8 @@ are gated on "string contains `\n`" and are inert for EN/ZH modes.
 4. Without `usecode.dual`: dual mode falls back to `usecode.zh` with a
    startup warning.
 5. Generate a BG sample `usecode.dual`; spot-check 3–5 rows against
-   `bilingual_map.dat` ZH/EN pairs.
+   `bilingual_mapping_review.json` ZH/EN pairs; verify `dual_map.dat`
+   rows resolve to the same voice files as the zh/en keys.
 
 ## Out of scope
 
