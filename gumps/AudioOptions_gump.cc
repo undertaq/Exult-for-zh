@@ -345,7 +345,7 @@ void AudioOptions_gump::rebuild_buttons() {
             get_button_pos_for_label(Strings::Speech_()), yForRow(12), 108);
 
 	// text language toggle
-	std::vector<std::string> lang_options = {"English", "Chinese"};
+	std::vector<std::string> lang_options = {"English", "Chinese", "Dual"};
 	buttons[id_text_language]             = std::make_unique<AudioTextToggle>(
             this, &AudioOptions_gump::toggle_text_language,
             std::move(lang_options), text_language,
@@ -488,7 +488,9 @@ void AudioOptions_gump::load_settings() {
 	std::string text_lang_str, voice_lang_str;
 	config->value("config/audio/text/language", text_lang_str, "en");
 	config->value("config/audio/speech/voice/language", voice_lang_str, "zh");
-	text_language   = (text_lang_str == "zh") ? 1 : 0;
+	text_language   = (text_lang_str == "zh")   ? 1
+	                  : (text_lang_str == "dual") ? 2
+	                                              : 0;
 	voice_language  = (voice_lang_str == "zh") ? 1 : 0;
 	midi_looping = Audio::get_ptr()->get_music_looping();
 	speaker_type = true;    // stereo
@@ -708,10 +710,12 @@ void AudioOptions_gump::save_settings() {
 	config->set("config/audio/effects/enabled", sfx_enabled ? "yes" : "no", false);
 	config->set("config/audio/speech/enabled", (speech_option != speech_off) ? "yes" : "no", false);
 	config->set("config/audio/speech/with_subs", (speech_option == speech_on_with_subtitles) ? "yes" : "no", false);
-	config->set("config/audio/text/language", text_language == 1 ? "zh" : "en", false);
+	config->set("config/audio/text/language",
+	            text_language == 2 ? "dual" : (text_language == 1 ? "zh" : "en"), false);
 	config->set("config/audio/speech/voice/language", voice_language == 1 ? "zh" : "en", false);
 	BilingualManager::get().set_text_language(
-			text_language == 1 ? TextLanguage::CHINESE : TextLanguage::ENGLISH);
+			text_language == 2 ? TextLanguage::DUAL
+			: (text_language == 1 ? TextLanguage::CHINESE : TextLanguage::ENGLISH));
 	// Existing auto-notes are re-read and re-translated; manual notes
 	// keep their text.
 	Notebook_gump::refresh_auto_text_notes();
