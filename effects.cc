@@ -1021,7 +1021,7 @@ TileRect Text_effect::Figure_text_pos() {
 				lines++;
 			}
 		}
-		th *= lines;
+		th = std::max(sman->get_text_line_height(0), 22) * lines;
 	}
 	const Game_object_shared item_obj = item.lock();
 	if (item_obj) {
@@ -1088,7 +1088,8 @@ void Text_effect::init() {
 			start = end + 1;
 		}
 		width  = 8 + maxw;
-		height = 8 + lines * sman->get_text_height(0);
+		const int lh = std::max(sman->get_text_line_height(0), 22);
+		height = 8 + lines * lh;
 	}
 	Font::is_painting_bark = false;
 	add_dirty();    // Force first paint.
@@ -1190,7 +1191,7 @@ Text_effect::~Text_effect() {
 void Text_effect::paint() {
 	const char* ptr = msg.c_str();
 	Font::is_painting_bark = true;
-	const int   lh   = sman->get_text_height(0);
+	const int   lh   = std::max(sman->get_text_line_height(0), 22);
 	const int   len  = strlen(ptr);
 	int         step = 0;
 	for (const char* p = ptr;;) {
