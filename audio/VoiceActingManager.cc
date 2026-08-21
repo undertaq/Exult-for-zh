@@ -487,8 +487,11 @@ bool VoiceActingManager::play_for_conversation(
 		std::string target_offset_key;
 		int			target_segment;
 		if (BilingualManager::get().map_offset(from_lang, function_id,
-											   offset_key, segment, target_func_id,
-											   target_offset_key, target_segment)) {
+											   offset_key, segment,
+											   cur_voice_lang,
+											   target_func_id,
+											   target_offset_key,
+											   target_segment)) {
 			char target_hex[16];
 			std::snprintf(target_hex, sizeof(target_hex), "%04x", target_func_id);
 			base = std::string(target_hex) + "_" + target_offset_key + "_"

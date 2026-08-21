@@ -121,7 +121,7 @@ public:
 	// Text rendering:
 	int paint_text_box(
 			Image_buffer8* win, const char* text, int x, int y, int w, int h, int vert_lead = 0, bool pbreak = false,
-			bool center = false, Cursor_info* cursor = nullptr, unsigned char* trans = nullptr);
+			bool center = false, Cursor_info* cursor = nullptr, unsigned char* trans = nullptr, bool force_cjk = false);
 	// Measure box-formatted text without rendering anything. Uses the same
 	// layout walk as paint_text_box, so page breaks match exactly. Returns
 	// the height filled when everything fits, else the negative offset of

@@ -26,6 +26,7 @@
 #include "Gump_manager.h"
 #include "ShortcutBar_gump.h"
 #include "actors.h"
+#include "bilingual_manager.h"
 #include "data/exult_bg_flx.h"
 #include "effects.h"
 #include "exult.h"
@@ -37,6 +38,9 @@
 #include "touchui.h"
 #include "tqueue.h"
 #include "useval.h"
+#include <algorithm>
+#include <cstring>
+#include <iostream>
 
 using std::size_t;
 using std::string;
@@ -61,10 +65,13 @@ public:
 	TileRect face_rect;           // Rectangle where face is shown.
 	TileRect text_rect;           // Rectangle NPC statement is shown in.
 	bool     large_face;          // Guardian, snake.
+	bool     cjk_mode;            // Whole message contains CJK; every page
+	                              // must render with CJK metrics.
 	int      last_text_height;    // Height of last text painted.
 	string   cur_text;            // Current text being shown.
 
-	Npc_face_info(ShapeID& sid, int num) : shape(sid), face_num(num), text_pending(false), no_show_face(false), large_face(false) {}
+	Npc_face_info(ShapeID& sid, int num)
+		: shape(sid), face_num(num), text_pending(false), no_show_face(false), large_face(false), cjk_mode(false) {}
 };
 
 Conversation::~Conversation() {
@@ -362,6 +369,65 @@ void Conversation::remove_slot_face(int slot) {
  *  Show what the NPC had to say.
  */
 
+namespace {
+// Runtime variable substitution for zh/dual dialogue. Merged "ZH\nEN"
+// pairs carry placeholder tokens (<PLAYER_NAME>, <HONORIFIC>, <PRONOUN>,
+// <GENDER_FLAG>, <VAR>) baked in by the dual-usecode generator. Only the
+// runtime knows the avatar's name/gender, so tokens resolve here, using
+// zh words in the zh half of the pair and en words in the en half.
+std::string resolve_dialogue_tokens(std::string text) {
+	Actor*      avatar = Game_window::get_instance()->get_main_actor();
+	std::string pname;
+	std::string honor_zh, honor_en, pronoun_zh, pronoun_en, flag_zh, flag_en;
+	if (avatar) {
+		pname = avatar->get_npc_name();
+		if (avatar->get_type_flag(Actor::tf_sex)) {    // Female.
+			honor_zh   = "\xe5\xa5\xb3\xe5\xa3\xab";    // 女士
+			honor_en   = "madam";
+			pronoun_zh = "\xe5\xa5\xb9";                // 她
+			pronoun_en = "she";
+			flag_zh    = "\xe5\xa5\xb3\xe6\x80\xa7";    // 女性
+			flag_en    = "woman";
+		} else {                                       // Male.
+			honor_zh   = "\xe5\x85\x88\xe7\x94\x9f";    // 先生
+			honor_en   = "sir";
+			pronoun_zh = "\xe4\xbb\x96";                // 他
+			pronoun_en = "he";
+			flag_zh    = "\xe7\x94\xb7\xe6\x80\xa7";    // 男性
+			flag_en    = "man";
+		}
+	}
+	auto replace = [](std::string& s, const char* what, const std::string& with) {
+		if (!*what) {
+			return;
+		}
+		size_t at = 0;
+		const size_t wlen = std::strlen(what);
+		while ((at = s.find(what, at)) != std::string::npos) {
+			s.replace(at, wlen, with);
+		}
+	};
+	const size_t bnd     = text.find('\n');
+	std::string  zhpart  = text.substr(0, bnd);
+	std::string  enpart  = bnd == std::string::npos ? "" : text.substr(bnd);
+	const char*  ztoks[] = { "<PLAYER_NAME>", "<HONORIFIC>", "<PRONOUN>",
+		"<GENDER_FLAG>", "<VAR>" };
+	const std::string zw[] = { pname, honor_zh, pronoun_zh, flag_zh, "" };
+	const std::string ew[] = { pname, honor_en, pronoun_en, flag_en, "" };
+	for (int i = 0; i < 5; i++) {
+		replace(zhpart, ztoks[i], zw[i]);
+		replace(enpart, ztoks[i], ew[i]);
+	}
+	std::string out = zhpart + enpart;
+	// Collapse double spaces left by removed <VAR> tokens.
+	size_t d = 0;
+	while ((d = out.find("  ", d)) != std::string::npos) {
+		out.erase(d, 1);
+	}
+	return out;
+}
+}    // namespace
+
 void Conversation::show_npc_message(const char* msg) {
 	if (last_face_shown == -1) {
 		return;
@@ -377,6 +443,13 @@ void Conversation::show_npc_message(const char* msg) {
 		if (!clean.empty() && clean.back() == '@')
 			clean.pop_back();
 		display = clean.c_str();
+	}
+	// Resolve <PLAYER_NAME>/<HONORIFIC>/... tokens baked into merged
+	// zh/dual strings at generation time (runtime knows the avatar).
+	std::string resolved;
+	if (BilingualManager::get().is_zh_text()) {
+		resolved = resolve_dialogue_tokens(display);
+		display  = resolved.c_str();
 	}
 	// Voice playback is now triggered from say_string() in ucinternal.cc
 	// using usecode function ID + segment index as the key.
@@ -414,6 +487,21 @@ void Conversation::show_npc_message(const char* msg) {
 			has_chinese = true;
 			break;
 		}
+	}
+
+	if (BilingualManager::get().get_text_language() == TextLanguage::DUAL) {
+		const size_t dlen   = std::strlen(display);
+		const size_t show   = std::min<size_t>(dlen, 96);
+		std::cerr << "[DUALDBG] gwin_machine=" << (const void*)gwin->get_usecode()
+				  << " active_machine=" << (const void*)BilingualManager::get().get_active_usecode()
+				  << " en=" << (const void*)BilingualManager::get().get_usecode(TextLanguage::ENGLISH)
+				  << " zh=" << (const void*)BilingualManager::get().get_usecode(TextLanguage::CHINESE)
+				  << " dual=" << (const void*)BilingualManager::get().get_usecode(TextLanguage::DUAL)
+				  << " len=" << dlen << " hex=";
+		for (size_t i = 0; i < show; i++) {
+			std::cerr << std::hex << (static_cast<unsigned char>(display[i]) & 0xff) << ' ';
+		}
+		std::cerr << std::dec << " utf8=" << std::string(display, show) << std::endl;
 	}
 
 	int pairs = 1;    // # of "ZH\nEN" pairs (1 if no embedded newline).
@@ -459,8 +547,12 @@ void Conversation::show_npc_message(const char* msg) {
 	}
 
 	int shading = info->large_face ? -1 : gwin->get_text_bg();
+	// Keep the CJK font mode that the WHOLE message needs on every page, so a
+	// page-2 tail that is pure English doesn't switch to the (larger) pixel
+	// font metrics.
+	info->cjk_mode = has_chinese;
 	/* NOTE:  The original centers text for Guardian, snake.    */
-	while ((height = sman->paint_text_box(font, display, box.x, box.y, box.w, render_box_h, -1, true, info->large_face, shading))
+	while ((height = sman->paint_text_box(font, display, box.x, box.y, box.w, render_box_h, -1, true, info->large_face, shading, nullptr, has_chinese))
 		   < 0) {
 		// More to do?
 		info->cur_text = string(display, -height);
@@ -910,7 +1002,8 @@ void Conversation::paint_faces(
 			}
 			int shading = finfo->large_face ? -1 : gwin->get_text_bg();
 			sman->paint_text_box(
-					font, finfo->cur_text.c_str(), box.x, box.y, box.w, box.h, -1, true, finfo->large_face, shading);
+					font, finfo->cur_text.c_str(), box.x, box.y, box.w, box.h, -1, true, finfo->large_face, shading, nullptr,
+					finfo->cjk_mode);
 		}
 	}
 }

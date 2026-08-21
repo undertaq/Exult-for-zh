@@ -160,6 +160,21 @@ void BilingualManager::load_map_file(const std::string& map_path,
 void BilingualManager::load_bilingual_map() {
     load_map_file("<PATCH>/voice_acting/bilingual_map.dat", bilingual_map);
     load_map_file("<PATCH>/voice_acting/dual_map.dat", dual_map);
+
+    bilingual_by_zh.clear();
+    bilingual_by_en.clear();
+    for (const auto& m : bilingual_map) {
+        bilingual_by_zh.emplace(
+            VoiceMappingKey{m.zh_func_id, m.zh_offset_key, m.zh_segment}, m);
+        bilingual_by_en.emplace(
+            VoiceMappingKey{m.en_func_id, m.en_offset_key, m.en_segment}, m);
+    }
+
+    dual_by_zh.clear();
+    for (const auto& m : dual_map) {
+        dual_by_zh.emplace(
+            VoiceMappingKey{m.zh_func_id, m.zh_offset_key, m.zh_segment}, m);
+    }
 }
 
 void BilingualManager::set_text_language(TextLanguage lang) {
@@ -197,38 +212,77 @@ Usecode_machine* BilingualManager::get_usecode(TextLanguage lang) {
 bool BilingualManager::map_offset(TextLanguage from_lang, int func_id,
                                    const std::string& offset_key,
                                    int segment,
+                                   const std::string& voice_lang,
                                    int& out_func_id, std::string& out_offset_key,
                                    int& out_segment) {
     if (from_lang == TextLanguage::CHINESE) {
-        for (const auto& m : bilingual_map) {
-            if (m.zh_func_id == func_id && m.zh_offset_key == offset_key
-                    && m.zh_segment == segment) {
-                out_func_id = m.en_func_id;
-                out_offset_key = m.en_offset_key;
-                out_segment = m.en_segment;
+        const auto it = bilingual_by_zh.find(
+            VoiceMappingKey{func_id, offset_key, segment});
+        if (it == bilingual_by_zh.end()) {
+            return false;
+        }
+        out_func_id = it->second.en_func_id;
+        out_offset_key = it->second.en_offset_key;
+        out_segment = it->second.en_segment;
+        return true;
+    }
+    if (from_lang == TextLanguage::ENGLISH) {
+        const auto it = bilingual_by_en.find(
+            VoiceMappingKey{func_id, offset_key, segment});
+        if (it == bilingual_by_en.end()) {
+            return false;
+        }
+        out_func_id = it->second.zh_func_id;
+        out_offset_key = it->second.zh_offset_key;
+        out_segment = it->second.zh_segment;
+        return true;
+    }
+    if (from_lang == TextLanguage::DUAL) {
+        const auto it = dual_by_zh.find(
+            VoiceMappingKey{func_id, offset_key, segment});
+        if (it != dual_by_zh.end()) {
+            // The row's en side is the original Chinese key; for EN voice,
+            // chain through the bilingual map to get the EN-side key.
+            if (voice_lang == "en") {
+                const auto en_it = bilingual_by_zh.find(VoiceMappingKey{
+                    it->second.en_func_id, it->second.en_offset_key,
+                    it->second.en_segment});
+                if (en_it != bilingual_by_zh.end()) {
+                    out_func_id = en_it->second.en_func_id;
+                    out_offset_key = en_it->second.en_offset_key;
+                    out_segment = en_it->second.en_segment;
+                    return true;
+                }
+                // No EN recording for this line: fall back to the zh key so
+                // the caller's zh fallback still plays.
+                out_func_id = it->second.en_func_id;
+                out_offset_key = it->second.en_offset_key;
+                out_segment = it->second.en_segment;
                 return true;
             }
+            out_func_id = it->second.en_func_id;
+            out_offset_key = it->second.en_offset_key;
+            out_segment = it->second.en_segment;
+            return true;
         }
-    } else if (from_lang == TextLanguage::ENGLISH) {
-        for (const auto& m : bilingual_map) {
-            if (m.en_func_id == func_id && m.en_offset_key == offset_key
-                    && m.en_segment == segment) {
-                out_func_id = m.zh_func_id;
-                out_offset_key = m.zh_offset_key;
-                out_segment = m.zh_segment;
-                return true;
+        // Unmerged slice: the executed offsets are the original Chinese
+        // offsets, so the single-language maps apply directly.
+        if (voice_lang == "en") {
+            const auto en_it = bilingual_by_zh.find(
+                VoiceMappingKey{func_id, offset_key, segment});
+            if (en_it == bilingual_by_zh.end()) {
+                return false;
             }
+            out_func_id = en_it->second.en_func_id;
+            out_offset_key = en_it->second.en_offset_key;
+            out_segment = en_it->second.en_segment;
+            return true;
         }
-    } else if (from_lang == TextLanguage::DUAL) {
-        for (const auto& m : dual_map) {
-            if (m.zh_func_id == func_id && m.zh_offset_key == offset_key
-                    && m.zh_segment == segment) {
-                out_func_id = m.en_func_id;
-                out_offset_key = m.en_offset_key;
-                out_segment = m.en_segment;
-                return true;
-            }
-        }
+        // voice == "zh": the executed key already matches the zh voice pack.
+        out_func_id = func_id;
+        out_offset_key = offset_key;
+        out_segment = segment;
+        return true;
     }
     return false;
 }

@@ -236,16 +236,16 @@ with:
 			: (text_language == 1 ? TextLanguage::CHINESE : TextLanguage::ENGLISH));
 ```
 
-- [ ] **Step 4: Build**
+- [ ] **Step 5: Build**
 
 Run: `msbuild msvcstuff/vs2019/Exult.sln -p:Configuration=Release -p:Platform=x64 -m`
 Expected: `Build succeeded`.
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 6: Commit**
 
 ```bash
-git add gumps/AudioOptions_gump.cc
-git commit -m "feat(dual): add Dual option to AudioOptions text-language toggle"
+git add effects.cc
+git commit -m "feat(dual): size, position and paint bark bubbles for dual subtitle lines"
 ```
 
 ---
@@ -377,56 +377,35 @@ Replace the `calc_height` lambda (lines 613-630):
 			int temp_x = 0;
 			int temp_y = 0;
 			int temp_line_step = has_chinese ? line_height : line_height - 1;
-			for (int i = 0; i < num_choices; i++) {
-				const bool  multiline = strchr(choices[i], '\n') != nullptr;
-				const int   lines     = choice_line_count(choices[i]);
-				const int   width     = multiline ? choice_max_line_width(choices[i], has_chinese)
-				                                  : sman->get_text_width(0, text_with_circle(choices[i]), has_chinese);
-				if (multiline || (temp_x > 0 && temp_x + width >= test_tbox_w)) {
-					temp_x = 0;
-					temp_y += temp_line_step * (multiline ? lines : 1);
-				}
-				temp_x += width + space_width;
-			}
-			return temp_y + line_height;
-		};
-```
-
-Note: `text_with_circle` does not exist — use the existing inline pattern from the original code:
-
-```cpp
-			char text[512];
-			text[0] = 127;
-			strcpy(&text[1], choices[i]);
-			const int width = multiline ? choice_max_line_width(choices[i], has_chinese)
-			                            : sman->get_text_width(0, text, has_chinese);
-```
-
-So the full replacement is:
-
-```cpp
-		auto calc_height = [&]() {
-			int test_tbox_w = sbox.w - fx - face->get_width() - tbox_w_offset;
-			int temp_x = 0;
-			int temp_y = 0;
-			int temp_line_step = has_chinese ? line_height : line_height - 1;
+			int temp_bottom = 0;
 			for (int i = 0; i < num_choices; i++) {
 				const bool multiline = strchr(choices[i], '\n') != nullptr;
-				const int  lines     = choice_line_count(choices[i]);
+				const int  nlines    = choice_line_count(choices[i]);
 				char       text[512];
 				text[0] = 127;    // A circle.
 				strcpy(&text[1], choices[i]);
 				const int width = multiline ? choice_max_line_width(choices[i], has_chinese)
 				                            : sman->get_text_width(0, text, has_chinese);
-				if (multiline || (temp_x > 0 && temp_x + width >= test_tbox_w)) {
+				// Single-line wrap only: multiline choices occupy their own rows.
+				if (!multiline && temp_x > 0 && temp_x + width >= test_tbox_w) {
 					temp_x = 0;
-					temp_y += temp_line_step * (multiline ? lines : 1);
+					temp_y += temp_line_step;
 				}
-				temp_x += width + space_width;
+				// Bottom of the block tracks the tallest item (multiline rows).
+				temp_bottom = std::max(temp_bottom,
+				                       temp_y + (multiline ? nlines : 1) * temp_line_step);
+				if (multiline) {
+					temp_y = temp_bottom;
+					temp_x = 0;
+				} else {
+					temp_x += width + space_width;
+				}
 			}
-			return temp_y + line_height;
+			return temp_bottom;
 		};
 ```
+
+Note: `text_with_circle` does not exist — the circle-prefixed string is built inline (`char text[512]; text[0] = 127; strcpy(&text[1], choices[i]);`), matching the first-pass pattern. Adjust Step 3 (below) must mirror this layout model exactly: single-line wrap advances one row; multiline places at the current row then advances `nlines` rows and resets `x` to 0; block height = max over items of (item top + rowh span).
 
 - [ ] **Step 3: First pass (positions + backgrounds) handles dual rows**
 
@@ -441,10 +420,10 @@ Replace the first pass loop (lines 677-706):
 		strcpy(&text[1], choices[i]);
 		const int width = multiline ? choice_max_line_width(choices[i], has_chinese)
 		                            : sman->get_text_width(0, text, has_chinese);
-		if (multiline || (x > 0 && x + width >= tbox.w)) {
-			// Dual rows always start on a fresh line.
+		// Single-line wrap only: multiline choices occupy their own rows.
+		if (!multiline && x > 0 && x + width >= tbox.w) {
 			x = 0;
-			y += nlines * (has_chinese ? line_height : line_height - 1);
+			y += has_chinese ? line_height : line_height - 1;
 		}
 		// Store info.
 		int hit_h = line_height;
@@ -466,24 +445,49 @@ Replace the first pass loop (lines 677-706):
 			gwin->get_win()->fill_translucent8(
 					0, width + space_width, hit_h, tbox.x + x, tbox.y + y + bg_offset, sman->get_xform(text_bg));
 		}
-		x += width + space_width;
+		if (multiline) {
+			// Occupy the stacked rows; followers start on a fresh line below.
+			y += nlines * (has_chinese ? line_height : line_height - 1);
+			x = 0;
+		} else {
+			x += width + space_width;
+		}
 	}
 ```
 
-- [ ] **Step 4: Second pass (text paint) uses the enlarged buffer**
+**IMPORTANT (code review finding):** `Font::paint_text` (shapes/font.cc:730-790) does NOT handle `\n`
+(no line-break case; a 0x0A frame paints nothing with zero advance), so stacked text must be
+painted part-by-part. Only `paint_text_box` is `\n`-aware.
 
-Replace the second pass loop (lines 708-713):
+- [ ] **Step 4: Second pass (text paint) paints each `\n`-part on its own row**
+
+`Font::paint_text` does NOT break lines on `\n` (font.cc:730-790 lacks a newline case — a 0x0A shape paints nothing with zero advance), so paint the parts explicitly, circle-prefixing only the first part:
 
 ```cpp
 	for (int i = 0; i < num_choices; i++) {
-		char text[512];
-		text[0] = 127;    // A circle.
-		strcpy(&text[1], choices[i]);
-		sman->paint_text(0, text, conv_choices[i].x, conv_choices[i].y, has_chinese);
+		const char* part  = choices[i];
+		int         pno   = 0;
+		int         py    = 0;
+		std::string piece;
+		for (;;) {
+			const char* nl = strchr(part, '\n');
+			piece.clear();
+			if (pno == 0) {
+				piece.push_back(static_cast<char>(127));    // A circle.
+			}
+			piece.append(part, nl ? static_cast<int>(nl - part)
+			                      : static_cast<int>(strlen(part)));
+			sman->paint_text(0, piece.c_str(), conv_choices[i].x,
+			                 conv_choices[i].y + py, has_chinese);
+			if (!nl) {
+				break;
+			}
+			pno++;
+			py += has_chinese ? line_height : line_height - 1;
+			part = nl + 1;
+		}
 	}
 ```
-
-(Only the buffer size changed from 256 to 512; `paint_text` renders the `\n` as a line break natively.)
 
 - [ ] **Step 5: Build**
 
@@ -556,16 +560,46 @@ At the top of `Text_effect::Figure_text_pos()` (before the `if (item_obj)` branc
 
 Then replace each of the three `Font::is_painting_bark = true; int th = sman->get_text_height(0); Font::is_painting_bark = false;` sequences (lines 1023-1025, 1036-1038, 1046-1048) with nothing (the variable is now computed once at the top); the surrounding `r.y -= th;` / `return TileRect(x, y - th, ...)` lines stay as they are.
 
-- [ ] **Step 3: Build**
+- [ ] **Step 3: Paint each `\n`-part on its own row (code review finding)**
+
+`Text_effect::paint()` (effects.cc:1170-1176) paints via `Font::paint_text`, which does NOT break
+lines on `\n` (font.cc:730-790 has no newline case). Replace the paint body:
+
+```cpp
+void Text_effect::paint() {
+	const char* ptr = msg.c_str();
+	Font::is_painting_bark = true;
+	const int   lh   = sman->get_text_height(0);
+	const int   len  = strlen(ptr);
+	int         step = 0;
+	for (const char* p = ptr;;) {
+		const char* nl   = strchr(p, '\n');
+		const int   plen = nl ? static_cast<int>(nl - p)
+		                      : len - static_cast<int>(p - ptr);
+		sman->paint_text(0, p, plen, pos.x, pos.y + step);
+		if (!nl) {
+			break;
+		}
+		step += lh;
+		p = nl + 1;
+	}
+	Font::is_painting_bark = false;
+}
+```
+
+(Keep the `Font::is_painting_bark` guard. `lh` = per-bark line height, the same value `init()`
+uses; `pos.y` already accounts for the taller bubble via `Figure_text_pos`.)
+
+- [ ] **Step 4: Build**
 
 Run: `msbuild msvcstuff/vs2019/Exult.sln -p:Configuration=Release -p:Platform=x64 -m`
 Expected: `Build succeeded`.
 
-- [ ] **Step 4: Commit**
+- [ ] **Step 5: Commit**
 
 ```bash
 git add effects.cc
-git commit -m "feat(dual): size and position bark bubbles for dual subtitle lines"
+git commit -m "feat(dual): size, position and paint bark bubbles for dual subtitle lines"
 ```
 
 ---
@@ -715,11 +749,16 @@ git commit -m "feat(dual): voice key cross-map via dual_map.dat for dual text mo
 
 ---
 
-### Task 7: Spellbook + Notebook integration
+### Task 7: Spellbook + Notebook + items integration
 
 **Files:**
 - Modify: `gumps/Spellbook_gump.cc:596`
 - Modify: `gumps/Notebook_gump.cc:565, 1030, 1583, 1796`
+- Modify: `shapes/items.cc`
+
+- [ ] **Step 0: items.cc index clamp (code review finding)**
+
+`shapes/items.cc` declares `vector<string> item_names[2]; text_msgs[2]; misc_names[2];` and its getters index with `int lang = static_cast<int>(BilingualManager::get().get_text_language())` (lines ~146, 180, 214, and the sibling getters). With DUAL (=2) selectable from AudioOptions since Task 2, `lang == 2` reads one past the array end (UB). Replace every such cast with `static_cast<int>(BilingualManager::get().script_language())` — grep `get_text_language()` in `shapes/items.cc` (expect ~9 sites across `get_item_name`, `get_text_msg`, `get_misc_name`, `get_item_shape_hint`-style getters) and clamp them all with script_language().
 
 - [ ] **Step 1: Spellbook clamps DUAL**
 

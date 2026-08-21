@@ -437,14 +437,15 @@ int Font::paint_text_box(
 		bool           pbreak,             // End at punctuation.
 		bool           center,             // Center each line.
 		Cursor_info*   cursor,             // We set x, y if not nullptr.
-		unsigned char* trans) {
+		unsigned char* trans,
+		bool           force_cjk) {
 	PaintTextBoxGuard guard;
 	bool is_si = chinese_is_serpent_isle_pfn ? chinese_is_serpent_isle_pfn() : false;
 	if (is_si && (get_font_name() == "SIINTRO_FONT" || get_font_name() == "EXULT_END_FONT" || get_font_name() == "EXULT_AT_FONT")) {
 		y -= 10;
 	}
 	const char* start    = text;    // Remember the start.
-	const bool  has_cjk  = Has_non_ascii(start);
+	const bool  has_cjk  = force_cjk || Has_non_ascii(start);
 	auto        clipsave = win->SaveClip();
 	// Expand the clipping rectangle slightly to ensure text shadows/outlines aren't cut off
 	auto        newclip  = clipsave.Rect().intersect(TileRect(x - 4, y - 4, w + 8, h + 8));

@@ -19,6 +19,23 @@ struct VoiceMapping {
     int en_segment;
 };
 
+struct VoiceMappingKey {
+    int func_id;
+    std::string offset_key;
+    int segment;
+
+    bool operator<(const VoiceMappingKey& o) const {
+        if (func_id != o.func_id) {
+            return func_id < o.func_id;
+        }
+        const int c = offset_key.compare(o.offset_key);
+        if (c != 0) {
+            return c < 0;
+        }
+        return segment < o.segment;
+    }
+};
+
 class BilingualManager {
 public:
     static BilingualManager& get();
@@ -34,6 +51,7 @@ public:
 
     bool map_offset(TextLanguage from_lang, int func_id,
                     const std::string& offset_key, int segment,
+                    const std::string& voice_lang,
                     int& out_func_id, std::string& out_offset_key,
                     int& out_segment);
 
@@ -63,6 +81,9 @@ private:
     Usecode_machine* usecode_dual = nullptr;
     std::vector<VoiceMapping> dual_map;    // dual->zh / dual->en rows (BLM2)
     std::vector<VoiceMapping> bilingual_map;
+    std::map<VoiceMappingKey, VoiceMapping> dual_by_zh;
+    std::map<VoiceMappingKey, VoiceMapping> bilingual_by_zh;
+    std::map<VoiceMappingKey, VoiceMapping> bilingual_by_en;
 };
 
 #endif

@@ -465,11 +465,11 @@ Shape_manager::~Shape_manager() {
  */
 int Shape_manager::paint_text_box(
 		int fontnum, const char* text, int x, int y, int w, int h, int vert_lead, bool pbreak, bool center, int shading,
-		Cursor_info* cursor) {
+		Cursor_info* cursor, bool force_cjk) {
 	if (shading >= 0) {
 		gwin->get_win()->fill_translucent8(0, w, h, x, y, xforms[shading]);
 	}
-	return fonts->paint_text_box(gwin->get_win()->get_ib8(), fontnum, text, x, y, w, h, vert_lead, pbreak, center, cursor);
+	return fonts->paint_text_box(gwin->get_win()->get_ib8(), fontnum, text, x, y, w, h, vert_lead, pbreak, center, cursor, force_cjk);
 }
 
 int Shape_manager::paint_text(int fontnum, const char* text, int xoff, int yoff, bool force_cjk) {

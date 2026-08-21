@@ -46,8 +46,8 @@ public:
 	// Text rendering:
 	int paint_text_box(
 			Image_buffer8* win, int fontnum, const char* text, int x, int y, int w, int h, int vert_lead = 0, bool pbreak = false,
-			bool center = false, Cursor_info* cursor = nullptr) {
-		return fonts[fontnum]->paint_text_box(win, text, x, y, w, h, vert_lead, pbreak, center, cursor);
+			bool center = false, Cursor_info* cursor = nullptr, bool force_cjk = false) {
+		return fonts[fontnum]->paint_text_box(win, text, x, y, w, h, vert_lead, pbreak, center, cursor, nullptr, force_cjk);
 	}
 
 	int paint_text(Image_buffer8* win, int fontnum, const char* text, int xoff, int yoff, bool force_cjk = false) {

@@ -25,6 +25,20 @@ def build_merged(zh, en):
     return zh + "\n" + en
 
 
+def undo_latin1_mojibake(text):
+    """Reverse disassemble_usecode's latin-1 string decoding.
+
+    disassemble_usecode decodes usecode string bytes with latin-1, so
+    'text' carries each original byte as a Latin-1 char (UTF-8 mojibake).
+    Re-encoding to latin-1 restores the original bytes; UTF-8 decoding
+    yields the proper string. Pure-ASCII text round-trips unchanged.
+    """
+    if not text:
+        return text
+    return text.encode("latin-1", errors="surrogateescape").decode(
+        "utf-8", errors="surrogateescape")
+
+
 def offset_key_for(addsi_offsets):
     """hex offsets joined by '_' — matches review JSON / runtime keys."""
     return "_".join("%x" % o for o in addsi_offsets)
@@ -83,6 +97,44 @@ def iter_addsi(code, extended):
             ip += 1
 
 
+def iter_all_instrs(code, extended):
+    """Yield (ip, opcode, fmt) for every instruction in order."""
+    ip = 0
+    while ip < len(code):
+        start = ip
+        op = code[ip]
+        ip += 1
+        info = dis.OPCODES.get(op)
+        if info is None:
+            yield start, op, None
+            ip += 1
+            continue
+        fmt = info[1]
+        if fmt == "si":
+            ip += 4 if extended else 2
+        elif fmt in ("w", "s", "ji"):
+            ip += 2
+        elif fmt == "b":
+            ip += 1
+        elif fmt == "ci":
+            ip += 3
+        elif fmt == "cs":
+            ip += 4
+        elif fmt == "lt":
+            ip += 10
+        elif fmt == "ww":
+            ip += 4
+        elif fmt == "n":
+            pass
+        else:
+            ip += 1
+        yield start, op, fmt
+
+
+def read_si_operand(code, ip, extended):
+    return dis.read4s(code, ip) if extended else dis.read2(code, ip)
+
+
 def parse_parts(func_data, extended):
     """Return (old_data, nargs, nvars, externs, old_code)."""
     pos = 0
@@ -100,11 +152,14 @@ def parse_parts(func_data, extended):
     return old_data, nargs, nvars, externs, func_data[pos:]
 
 
-def rebuild_function(func_data, extended, traces):
+def rebuild_function(func_data, extended, traces, neutralize_addsv_ips=None):
     """Append merged strings; redirect addsi operands.
 
     traces: {addsi_tuple: merged_str}
-    Returns (new_func_blob, first_offsets, empty_off).
+    neutralize_addsv_ips: optional set of code-relative IPs of addsv
+        instructions that must push nothing (replaced by addsi of the shared
+        empty string, same length in normal mode).
+    Returns (new_func_blob, first_offsets, empty_off, redirect).
     Raises ValueError if two traces claim the same first addsi offset.
     """
     old_data, nargs, nvars, externs, old_code = parse_parts(func_data, extended)
@@ -138,6 +193,17 @@ def rebuild_function(func_data, extended, traces):
             else:
                 new_code[instr_ip + 1:instr_ip + 3] = struct.pack("<H", new_off)
 
+    # Neutralize addsv instructions that push variable values (avatar name,
+    # honorific, pronouns) into merged strings: the values are already baked
+    # in as <PLAYER_NAME>/<HONORIFIC>/<PRONOUN>/... tokens at generation
+    # time, so a trailing raw push would duplicate the word at the end of the
+    # displayed line. addsv (0x2F) and addsi (0x1C) are both 3 bytes in the
+    # normal encoding, so swapping in `addsi <empty_off>` is length-neutral.
+    if neutralize_addsv_ips and not extended:
+        for ip in sorted(neutralize_addsv_ips):
+            new_code[ip] = 0x1C
+            new_code[ip + 1:ip + 3] = struct.pack("<H", empty_off)
+
     if extended:
         data_len_bytes = struct.pack("<i", len(new_data))
     else:
@@ -145,7 +211,7 @@ def rebuild_function(func_data, extended, traces):
     blob = (data_len_bytes + bytes(new_data)
             + struct.pack("<HHH", nargs, nvars, len(externs) // 2)
             + externs + bytes(new_code))
-    return blob, first_offsets, empty_off
+    return blob, first_offsets, empty_off, redirect
 
 
 def write_blm2(path, rows):
@@ -213,7 +279,7 @@ def generate(zh_blob, review):
                 continue          # not in the review: leave byte-identical
             merged_parts = []
             for line in seg_lines:
-                zh = line["text"]
+                zh = undo_latin1_mojibake(line["text"])
                 en = info_per_seg.get(line["segment"], {}).get("text", "")
                 merged_parts.append(build_merged(zh, en) if en else zh)
             if not merged_parts:
@@ -227,8 +293,33 @@ def generate(zh_blob, review):
             out += zh_blob[offset:nxt]
             offset = nxt
             continue
+        # Collect addsi/addsv instruction IPs to locate variables inside each
+        # merged trace's instruction span (first addsi .. say).
+        old_data, nargs, nvars, externs, old_code = parse_parts(fdata, ext)
+        addsi_ip_by_off = {}
+        addsv_ips = []
+        for ip, op, fmt in iter_all_instrs(old_code, ext):
+            if op == 0x1C and fmt == "si":
+                addsi_ip_by_off[read_si_operand(old_code, ip + 1, ext)] = ip
+            elif op == 0x2F and fmt == "w":
+                addsv_ips.append(ip)
+        neutralize = set()
+        for key, seg_lines in groups.items():
+            t = tuple(seg_lines[0]["addsi_offsets"])
+            if t not in traces:
+                continue
+            say_addr = seg_lines[0]["code_addr"]
+            ips = [ip for off in t
+                   for ip in ([addsi_ip_by_off.get(off)] if addsi_ip_by_off.get(off) is not None else [])]
+            if not ips:
+                continue
+            lo = min(ips)
+            for ip in addsv_ips:
+                if lo < ip < say_addr:
+                    neutralize.add(ip)
         try:
-            new_blob, first_offsets, _ = rebuild_function(fdata, ext, traces)
+            new_blob, first_offsets, empty_off, redirect = rebuild_function(
+                fdata, ext, traces, neutralize)
         except (ValueError, struct.error, IndexError) as e:
             skipped.append((fid_hex, str(e)))
             out += zh_blob[offset:nxt]
@@ -247,7 +338,25 @@ def generate(zh_blob, review):
             t = tuple(seg_lines[0]["addsi_offsets"])
             if t not in first_offsets:
                 continue
-            new_key = "%x" % first_offsets[t]
+            # Executed key: the trace's addsi offsets redirected in code
+            # order, with neutralized addsv variables contributing the empty
+            # offset (the runtime records them via addsi in voice_string_trace).
+            say_addr = seg_lines[0]["code_addr"]
+            ips = [ip for off in t
+                   for ip in ([addsi_ip_by_off.get(off)] if addsi_ip_by_off.get(off) is not None else [])]
+            lo = min(ips) if ips else 0
+            key_parts = []
+            for ip, op, fmt in iter_all_instrs(old_code, ext):
+                if ip < lo:
+                    continue
+                if ip > say_addr:
+                    break
+                if op == 0x1C and fmt == "si":
+                    off = read_si_operand(old_code, ip + 1, ext)
+                    key_parts.append("%x" % redirect.get(off, off))
+                elif op == 0x2F and fmt == "w" and ip in neutralize:
+                    key_parts.append("%x" % empty_off)
+            new_key = "_".join(key_parts) or ("%x" % redirect.get(t[0]))
             info_per_seg = by_key.get((fid_hex, key)) or {}
             for line in seg_lines:
                 seg = line["segment"]
