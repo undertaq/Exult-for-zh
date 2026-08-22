@@ -224,6 +224,11 @@ void Conversation::set_face_rect(Npc_face_info* info, Npc_face_info* prev, int s
  */
 
 void Conversation::show_face(int shape, int frame, int slot) {
+	// Clamp out-of-range slots (-1 = find a free spot); face_info has only
+	// two entries and an OOB index here would be a write past the array.
+	if (slot < -1 || slot >= static_cast<int>(face_info.size())) {
+		slot = -1;
+	}
 	ShapeID face_sid(shape, frame, SF_FACES_VGA);
 
 	// Make sure mode is set right.
@@ -478,6 +483,13 @@ void Conversation::show_npc_message(const char* msg) {
 		}
 		eman->set_sprites_always(false);
 		gwin->get_tqueue()->resume(SDL_GetTicks());
+	}
+	// Guard against stale/out-of-range face indices (e.g. -1 reintroduced
+	// by reentrant queue callbacks between the early-out above and here):
+	// face_info[-1] aliases the object's vptr, which crashed as a write into
+	// read-only memory when assigned through.
+	if (static_cast<unsigned>(last_face_shown) >= face_info.size() || !face_info[last_face_shown]) {
+		return;
 	}
 	Npc_face_info* info = face_info[last_face_shown];
 	int font = info->large_face ? 7 : 0;

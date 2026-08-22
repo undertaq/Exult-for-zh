@@ -39,7 +39,7 @@ public:
 private:
 	std::array<Npc_face_info*, 2> face_info{nullptr, nullptr};    // NPC's on-screen faces in convers.
 	int                           num_faces       = 0;
-	int                           last_face_shown = 0;               // Index of last npc face shown.
+	int                           last_face_shown = -1;              // Index of last npc face shown (-1 = none yet).
 	TileRect                      avatar_face     = {0, 0, 0, 0};    // Area take by Avatar in conversation.
 	TileRect*                     conv_choices    = nullptr;         // Choices during a conversation.
 
