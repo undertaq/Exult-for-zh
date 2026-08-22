@@ -40,7 +40,6 @@
 #include "useval.h"
 #include <algorithm>
 #include <cstring>
-#include <iostream>
 
 using std::size_t;
 using std::string;
@@ -158,7 +157,16 @@ void Conversation::init_faces() {
 
 void Conversation::set_face_rect(Npc_face_info* info, Npc_face_info* prev, int screenw, int screenh) {
 	const int base_text_height = sman->get_text_line_height(0);
-	const int max_text_height = std::max(base_text_height, 22);
+	int max_text_height = std::max(base_text_height, 22);
+	// For Chinese text, use the actual rendered CJK line height so that
+	// font_size_dialog changes affect the dialogue box layout.
+	if (BilingualManager::get().is_zh_text()) {
+		std::shared_ptr<Font> font0 = sman->get_font(0);
+		if (font0) {
+			int cjk_h = font0->get_rendered_line_height_for("\x80");
+			max_text_height = std::max(max_text_height, cjk_h);
+		}
+	}
 	// Figure starting y-coord.
 	// Get character's portrait.
 	Shape_frame* face   = info->shape.get_shapenum() >= 0 ? info->shape.get_shape() : nullptr;
@@ -488,20 +496,12 @@ void Conversation::show_npc_message(const char* msg) {
 			break;
 		}
 	}
-
-	if (BilingualManager::get().get_text_language() == TextLanguage::DUAL) {
-		const size_t dlen   = std::strlen(display);
-		const size_t show   = std::min<size_t>(dlen, 96);
-		std::cerr << "[DUALDBG] gwin_machine=" << (const void*)gwin->get_usecode()
-				  << " active_machine=" << (const void*)BilingualManager::get().get_active_usecode()
-				  << " en=" << (const void*)BilingualManager::get().get_usecode(TextLanguage::ENGLISH)
-				  << " zh=" << (const void*)BilingualManager::get().get_usecode(TextLanguage::CHINESE)
-				  << " dual=" << (const void*)BilingualManager::get().get_usecode(TextLanguage::DUAL)
-				  << " len=" << dlen << " hex=";
-		for (size_t i = 0; i < show; i++) {
-			std::cerr << std::hex << (static_cast<unsigned char>(display[i]) & 0xff) << ' ';
-		}
-		std::cerr << std::dec << " utf8=" << std::string(display, show) << std::endl;
+	// In zh/dual text mode the NPC dialogue must render with the CJK TTF font
+	// at the dialogue size (font_size_dialog), even for a message that is pure
+	// English (no merged Chinese half). Otherwise those rows fall back to the
+	// fixed-size bitmap font and ignore the font setting entirely.
+	if (BilingualManager::get().is_zh_text()) {
+		has_chinese = true;
 	}
 
 	int pairs = 1;    // # of "ZH\nEN" pairs (1 if no embedded newline).
@@ -515,7 +515,15 @@ void Conversation::show_npc_message(const char* msg) {
 
 	int line_height = sman->get_text_line_height(0);
 	if (has_chinese) {
-		line_height = std::max(line_height, 22);
+		// Use the actual rendered CJK line height so that font_size_dialog
+		// changes affect the dialogue box layout, not just the glyph size.
+		std::shared_ptr<Font> font0 = sman->get_font(0);
+		if (font0) {
+			int cjk_h = font0->get_rendered_line_height_for("\x80");
+			line_height = std::max(line_height, cjk_h);
+		} else {
+			line_height = std::max(line_height, 22);
+		}
 	}
 
 	if (info->large_face && has_chinese) {
@@ -659,6 +667,12 @@ void Conversation::show_avatar_choices(int num_choices, char** choices) {
 		if (has_chinese) {
 			break;
 		}
+	}
+	// In zh/dual text mode the question rows must render with the CJK TTF
+	// font at the dialogue size (font_size_dialog), even if a given choice
+	// is pure English, so the options scale with the font setting.
+	if (BilingualManager::get().is_zh_text()) {
+		has_chinese = true;
 	}
 	struct AvatarChoicesFontAdjuster {
 		AvatarChoicesFontAdjuster() {

@@ -303,13 +303,21 @@ void ChineseFontOptions_gump::save_settings() {
 
 	// Settings take effect automatically on the next frame because
 	// get_chinese_ttf_style() reads config directly on every draw call.
-	// However, post_scale_rendering requires the scaler surfaces to be re-evaluated.
-	Image_window8* iwin = gwin->get_win();
-	gwin->resized(
-			iwin->get_display_width(), iwin->get_display_height(), iwin->is_fullscreen(),
-			iwin->get_game_width(), iwin->get_game_height(), iwin->get_scale_factor(),
-			iwin->get_scaler(), iwin->get_fill_mode(), iwin->get_fill_scaler()
-	);
+	// Only re-create the render surfaces when a display-affecting setting
+	// actually changed (post_scale_rendering / scale_ui). For a plain font
+	// size/spacing change an unconditional resize here would free and
+	// recreate the surface while leaving stale deferred-text glyphs behind,
+	// which is what made the dual text render English-only until restart.
+	bool display_changed = post_scale_rendering != initial_main_snapshot.post_scale_rendering
+	                       || scale_ui_val != initial_main_snapshot.scale_ui_val;
+	if (display_changed) {
+		Image_window8* iwin = gwin->get_win();
+		gwin->resized(
+				iwin->get_display_width(), iwin->get_display_height(), iwin->is_fullscreen(),
+				iwin->get_game_width(), iwin->get_game_height(), iwin->get_scale_factor(),
+				iwin->get_scaler(), iwin->get_fill_mode(), iwin->get_fill_scaler()
+		);
+	}
 	gclock->reset_palette();
 	gwin->set_all_dirty();
 }

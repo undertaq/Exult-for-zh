@@ -583,7 +583,7 @@ int Font::paint_text_box(
 			len = last_punct_offset;
 		}
 		if (center) {
-			center_text(win, x + w / 2, cury, str, trans);
+			center_text(win, x + w / 2, cury, str, trans, has_cjk);
 		} else {
 			paint_text(win, str, len, x, cury, trans, has_cjk);
 		}
@@ -1525,8 +1525,8 @@ int Font::load(const File_spec& fname0, const File_spec& fname1, int index, int 
 	return load_internal(data, hlead, vlead);
 }
 
-int Font::center_text(Image_buffer8* win, int x, int y, const char* s, unsigned char* trans) {
-	bool has_cjk = Has_non_ascii(s);
+int Font::center_text(Image_buffer8* win, int x, int y, const char* s, unsigned char* trans, bool force_cjk) {
+	bool has_cjk = force_cjk || Has_non_ascii(s);
 	return paint_text(win, s, x - get_text_width(s, has_cjk) / 2, y, trans, has_cjk);
 }
 

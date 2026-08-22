@@ -1572,6 +1572,22 @@ void Game_window::read_map() {
  */
 
 void Game_window::reload_usecode() {
+	// In zh/dual text mode the active machine (gwin->usecode) is a bilingual
+	// machine (usecode_zh / usecode_dual). Reload it from its own source file
+	// so the gameplay-language branch below doesn't clobber it with the
+	// English base usecode — which made dual dialogue render English-only
+	// until a restart.
+	const TextLanguage tlang = BilingualManager::get().get_text_language();
+	if (tlang != TextLanguage::ENGLISH) {
+		const char* ucode = (tlang == TextLanguage::DUAL) ? DUAL_USECODE : ZH_USECODE;
+		if (is_system_path_defined("<PATCH>") && U7exists(ucode)) {
+			auto pFile = U7open_in(ucode);
+			if (pFile) {
+				usecode->read_usecode(*pFile, false);
+			}
+		}
+		return;
+	}
 	if (Game::is_chinese_mode()) {
 		// Get custom Chinese usecode functions.
 		if (is_system_path_defined("<PATCH>") && U7exists(PATCH_USECODE)) {

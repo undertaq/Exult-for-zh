@@ -1013,6 +1013,15 @@ void Homing_projectile::paint() {
  */
 
 TileRect Text_effect::Figure_text_pos() {
+	struct BarkFlagGuard {
+		const bool saved;
+		BarkFlagGuard() : saved(Font::is_painting_bark) {
+			Font::is_painting_bark = true;    // Text_effect is overhead (bark) text
+		}
+		~BarkFlagGuard() {
+			Font::is_painting_bark = saved;
+		}
+	} bark_guard;
 	int th = sman->get_text_height(0);
 	if (msg.find('\n') != std::string::npos) {
 		int lines = 1;
@@ -1021,7 +1030,17 @@ TileRect Text_effect::Figure_text_pos() {
 				lines++;
 			}
 		}
-		th = std::max(sman->get_text_line_height(0), 22) * lines;
+		{
+			int cjk_lh = sman->get_text_line_height(0);
+			std::shared_ptr<Font> font0 = sman->get_font(0);
+			if (font0) {
+				int cjk_h = font0->get_rendered_line_height_for("\x80");
+				cjk_lh = std::max(cjk_lh, cjk_h);
+			} else {
+				cjk_lh = std::max(cjk_lh, 22);
+			}
+			th = cjk_lh * lines;
+		}
 	}
 	const Game_object_shared item_obj = item.lock();
 	if (item_obj) {
@@ -1088,7 +1107,16 @@ void Text_effect::init() {
 			start = end + 1;
 		}
 		width  = 8 + maxw;
-		const int lh = std::max(sman->get_text_line_height(0), 22);
+		int lh = sman->get_text_line_height(0);
+		{
+			std::shared_ptr<Font> font0 = sman->get_font(0);
+			if (font0) {
+				int cjk_h = font0->get_rendered_line_height_for("\x80");
+				lh = std::max(lh, cjk_h);
+			} else {
+				lh = std::max(lh, 22);
+			}
+		}
 		height = 8 + lines * lh;
 	}
 	Font::is_painting_bark = false;
@@ -1191,7 +1219,16 @@ Text_effect::~Text_effect() {
 void Text_effect::paint() {
 	const char* ptr = msg.c_str();
 	Font::is_painting_bark = true;
-	const int   lh   = std::max(sman->get_text_line_height(0), 22);
+	int lh = sman->get_text_line_height(0);
+	{
+		std::shared_ptr<Font> font0 = sman->get_font(0);
+		if (font0) {
+			int cjk_h = font0->get_rendered_line_height_for("\x80");
+			lh = std::max(lh, cjk_h);
+		} else {
+			lh = std::max(lh, 22);
+		}
+	}
 	const int   len  = strlen(ptr);
 	int         step = 0;
 	for (const char* p = ptr;;) {

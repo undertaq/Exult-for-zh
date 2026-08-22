@@ -172,7 +172,7 @@ public:
 		return paint_text_box(win, s, x, y, w, h, 0, false, false, nullptr, trans);
 	}
 
-	int center_text(Image_buffer8* iwin, int x, int y, const char* s, unsigned char* trans = nullptr);
+	int center_text(Image_buffer8* iwin, int x, int y, const char* s, unsigned char* trans = nullptr, bool force_cjk = false);
 };
 
 /*
