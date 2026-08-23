@@ -461,6 +461,7 @@ void ChineseFontOptions_gump::build_buttons() {
 	bark_size_slider.reset();
 	dialog_spacing_slider.reset();
 	book_size_slider.reset();
+	book_spacing_slider.reset();
 	sign_size_slider.reset();
 	sign_spacing_slider.reset();
 	baseline_adjust_slider.reset();
@@ -489,6 +490,10 @@ void ChineseFontOptions_gump::build_buttons() {
 		// Row 2: Sign Text Setup
 		buttons.push_back(std::make_unique<ChineseFontOptions_button>(
 				this, &ChineseFontOptions_gump::open_sign_setup, "Sign Text Setup", 0, yForRow(2), 120));
+
+		// Row 3: Book Text Setup
+		buttons.push_back(std::make_unique<ChineseFontOptions_button>(
+				this, &ChineseFontOptions_gump::open_book_setup, "Book Text Setup", 0, yForRow(3), 120));
 
 		// Row 4: Shadow Type
 		buttons.push_back(std::make_unique<ChineseFontTextToggle>(
@@ -542,10 +547,17 @@ void ChineseFontOptions_gump::build_buttons() {
 		setting_widgets.push_back(dialog_spacing_slider.get());
 
 	} else if (current_page == PAGE_SMALL) {
-		// Row 0: Font Type
+		// Row 0: Font Type (small UI text only; books have their own page)
 		auto choices = get_choices_helper(ttf_names, true);
 		buttons.push_back(std::make_unique<ChineseFontTextToggle>(
 				this, &ChineseFontOptions_gump::toggle_small_font_path, choices, small_font_path_idx, get_button_pos_for_label("Font Type:"), yForRow(0), large_size));
+		setting_widgets.push_back(buttons.back().get());
+
+	} else if (current_page == PAGE_BOOK) {
+		// Row 0: Font Type
+		auto choices = get_choices_helper(ttf_names, true);
+		buttons.push_back(std::make_unique<ChineseFontTextToggle>(
+				this, &ChineseFontOptions_gump::toggle_book_font_path, choices, book_font_path_idx, get_button_pos_for_label("Font Type:"), yForRow(0), large_size));
 		setting_widgets.push_back(buttons.back().get());
 
 		// Row 2: Book/Scroll Font Size
@@ -608,7 +620,7 @@ void ChineseFontOptions_gump::build_buttons() {
 	}
 
 	if (current_page == PAGE_MAIN && num_btns >= 5) {
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 4; i++) {
 			Gump_button* sub_btn[] = { buttons[i].get() };
 			HorizontalArrangeWidgets(tcb::span(sub_btn, 1));
 		}
@@ -656,6 +668,9 @@ void ChineseFontOptions_gump::paint() {
 		}
 
 	} else if (current_page == PAGE_SMALL) {
+		font->paint_text(iwin->get_ib8(), "Font Type:", x + label_margin, y + yForRow(0) + 1);
+
+	} else if (current_page == PAGE_BOOK) {
 		font->paint_text(iwin->get_ib8(), "Font Type:", x + label_margin, y + yForRow(0) + 1);
 		if (book_size_slider) {
 			PaintSlider(iwin, book_size_slider.get(), "Book/Scroll Font Size:");
@@ -805,6 +820,9 @@ bool ChineseFontOptions_gump::run() {
 	}
 	if (book_size_slider) {
 		res |= book_size_slider->run();
+	}
+	if (book_spacing_slider) {
+		res |= book_spacing_slider->run();
 	}
 	if (sign_size_slider) {
 		res |= sign_size_slider->run();
