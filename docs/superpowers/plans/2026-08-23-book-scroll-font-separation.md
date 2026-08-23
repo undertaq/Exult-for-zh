@@ -1,6 +1,6 @@
 # Separate Book/Scroll Font Type from Dialogue Font Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Make the book/scroll font *type* (TTF file) fully independent of the dialogue font by adding a dedicated `config/video/chinese/book_font_path` key and a new "Book Text Setup" page in the Chinese Font Options gump.
 
@@ -36,7 +36,7 @@ Expected: `Build succeeded` with no new warnings/errors.
 **Files:**
 - Modify: `shapes/font.cc:105-132` (the numbered path-resolution steps inside `get_chinese_font_path`)
 
-- [ ] **Step 1: Rework the book/scroll resolution branch**
+- [x] **Step 1: Rework the book/scroll resolution branch**
 
 In `shapes/font.cc`, locate `get_chinese_font_path()` steps 2–4 (lines ~105–132). Replace this exact block:
 
@@ -119,12 +119,12 @@ with:
 
 Key points: the `is_book` branch always ends with a non-empty `path` (explicit built-in default), so books can never reach step 4; the ≤12px rule now applies only to non-book fonts (`else if`); the sign branch above is untouched.
 
-- [ ] **Step 2: Build**
+- [x] **Step 2: Build**
 
 Run: `msbuild msvcstuff/vs2019/Exult.sln -p:Configuration=Release -p:Platform=x64 -m`
 Expected: `Build succeeded`, no new warnings.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```powershell
 git add shapes/font.cc
@@ -139,7 +139,7 @@ git commit -m "feat(font): resolve book/scroll TTF via dedicated book_font_path 
 - Modify: `gumps/ChineseFontOptions_gump.h:34-39,50-51,69-86,125-136`
 - Modify: `gumps/ChineseFontOptions_gump.cc` (`load_settings`, `save_settings`, `take_snapshot`, `restore_snapshot`, navigation methods)
 
-- [ ] **Step 1: Add `PAGE_BOOK` to the enum**
+- [x] **Step 1: Add `PAGE_BOOK` to the enum**
 
 In `gumps/ChineseFontOptions_gump.h:34-39`:
 
@@ -153,7 +153,7 @@ In `gumps/ChineseFontOptions_gump.h:34-39`:
 	};
 ```
 
-- [ ] **Step 2: Add the state member**
+- [x] **Step 2: Add the state member**
 
 In the "Current values" section, next to the other path indices (~line 51):
 
@@ -163,7 +163,7 @@ In the "Current values" section, next to the other path indices (~line 51):
 	int sign_font_path_idx;     // sign font selection index (0 = default, index+1 in ttf_paths)
 ```
 
-- [ ] **Step 3: Add snapshot field**
+- [x] **Step 3: Add snapshot field**
 
 In `SettingsSnapshot` (~line 71):
 
@@ -175,7 +175,7 @@ In `SettingsSnapshot` (~line 71):
 		int sign_font_path_idx;
 ```
 
-- [ ] **Step 4: Add navigation + toggle callback declarations**
+- [x] **Step 4: Add navigation + toggle callback declarations**
 
 In the public "Navigation & toggle callbacks" section (~line 130):
 
@@ -192,7 +192,7 @@ In the public "Navigation & toggle callbacks" section (~line 130):
 	void toggle_sign_font_path(int state)     { sign_font_path_idx = state; }
 ```
 
-- [ ] **Step 5: Load the new key in `load_settings()`**
+- [x] **Step 5: Load the new key in `load_settings()`**
 
 In `gumps/ChineseFontOptions_gump.cc`, right after the sign-font-path block (after line 187) and before the `// 4. Other numeric and toggle settings` comment, insert:
 
@@ -217,7 +217,7 @@ and renumber the following comment from `// 4.` to `// 5.`:
 	// 5. Other numeric and toggle settings
 ```
 
-- [ ] **Step 6: Save the new key in `save_settings()`**
+- [x] **Step 6: Save the new key in `save_settings()`**
 
 Right after the sign-path write block (after line 272), insert:
 
@@ -232,7 +232,7 @@ Right after the sign-path write block (after line 272), insert:
 	}
 ```
 
-- [ ] **Step 7: Snapshot/restore the new index**
+- [x] **Step 7: Snapshot/restore the new index**
 
 In `take_snapshot()` add after `snapshot.small_font_path_idx = small_font_path_idx;`:
 
@@ -246,7 +246,7 @@ In `restore_snapshot()` add after `small_font_path_idx = snapshot.small_font_pat
 	book_font_path_idx = snapshot.book_font_path_idx;
 ```
 
-- [ ] **Step 8: Add `open_book_setup()`**
+- [x] **Step 8: Add `open_book_setup()`**
 
 Directly below `open_small_setup()` (~line 403):
 
@@ -259,12 +259,12 @@ void ChineseFontOptions_gump::open_book_setup() {
 }
 ```
 
-- [ ] **Step 9: Build**
+- [x] **Step 9: Build**
 
 Run: `msbuild msvcstuff/vs2019/Exult.sln -p:Configuration=Release -p:Platform=x64 -m`
 Expected: `Build succeeded` (member/method may warn as unused only if Task 3 hasn't run yet — MSVC does not emit such warnings here, so expect none).
 
-- [ ] **Step 10: Commit**
+- [x] **Step 10: Commit**
 
 ```powershell
 git add gumps/ChineseFontOptions_gump.h gumps/ChineseFontOptions_gump.cc
@@ -275,10 +275,12 @@ git commit -m "feat(gumps): plumb book_font_path setting through ChineseFontOpti
 
 ### Task 3: Gump UI — Book Text Setup page, relocate book widgets
 
+> **Execution note (deviation):** code review found `book_spacing_slider` missing from the `build_buttons()` reset list and from the `run()` pump at base; both fixes were folded into Task 3's commit (`238d6cb49`) since the slider relocated to PAGE_BOOK.
+
 **Files:**
 - Modify: `gumps/ChineseFontOptions_gump.cc` (`build_buttons` MAIN/SMALL blocks, new BOOK block, `paint()`)
 
-- [ ] **Step 1: Add the MAIN-page button**
+- [x] **Step 1: Add the MAIN-page button**
 
 In `build_buttons()`, after the "Row 2: Sign Text Setup" button push (~line 460):
 
@@ -290,7 +292,7 @@ In `build_buttons()`, after the "Row 2: Sign Text Setup" button push (~line 460)
 
 (Row 3 was previously free; Shadow Type starts at Row 4, so nothing shifts.)
 
-- [ ] **Step 2: Update the MAIN-page arrange loop**
+- [x] **Step 2: Update the MAIN-page arrange loop**
 
 Later in `build_buttons()` (~line 579), extend the loop from 3 to 4 sub-buttons:
 
@@ -303,7 +305,7 @@ Later in `build_buttons()` (~line 579), extend the loop from 3 to 4 sub-buttons:
 	}
 ```
 
-- [ ] **Step 3: Slim down PAGE_SMALL**
+- [x] **Step 3: Slim down PAGE_SMALL**
 
 Replace the whole `current_page == PAGE_SMALL` block (~lines 513-528) with:
 
@@ -339,7 +341,7 @@ Replace the whole `current_page == PAGE_SMALL` block (~lines 513-528) with:
 
 The `book_size_slider` / `book_spacing_slider` members, their entries in `GetSlider()`, `run()`, the widget-collection lists, and `OnSliderValueChanged()` all keep working unchanged — they simply now live on PAGE_BOOK instead of PAGE_SMALL.
 
-- [ ] **Step 4: Update `paint()` labels**
+- [x] **Step 4: Update `paint()` labels**
 
 In `paint()`, replace the `current_page == PAGE_SMALL` branch (~lines 627-634) with:
 
@@ -361,12 +363,12 @@ In `paint()`, replace the `current_page == PAGE_SMALL` branch (~lines 627-634) w
 
 (Again, the trailing `PAGE_SIGN` line is pre-existing context.)
 
-- [ ] **Step 5: Build**
+- [x] **Step 5: Build**
 
 Run: `msbuild msvcstuff/vs2019/Exult.sln -p:Configuration=Release -p:Platform=x64 -m`
 Expected: `Build succeeded`, no new warnings.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```powershell
 git add gumps/ChineseFontOptions_gump.cc
@@ -380,7 +382,7 @@ git commit -m "feat(gumps): add Book Text Setup page; move book controls off Sma
 **Files:**
 - Modify: `README_Chinese_Config.md` (section 4, ~line 105; example XML, ~line 240)
 
-- [ ] **Step 1: Add the parameter doc to section 4 (Book / Scroll)**
+- [x] **Step 1: Add the parameter doc to section 4 (Book / Scroll)**
 
 In `README_Chinese_Config.md`, immediately under the `### 4. 書本與卷軸字型設定 (Book / Scroll)` intro sentence (~line 107), insert:
 
@@ -389,7 +391,7 @@ In `README_Chinese_Config.md`, immediately under the `### 4. 書本與卷軸字�
     *   說明：書本與卷軸的字型「類型」完全獨立於對話主字型 (`font_path`)——變更對話字型不會影響書本/卷軸。解析優先順序：`book_font_path` → 舊版 `small_font_path`（相容既有設定）→ 內建 `chinese.ttf`。
 ```
 
-- [ ] **Step 2: Add the example XML entry**
+- [x] **Step 2: Add the example XML entry**
 
 In the example config block, directly after the `<small_font_path>` line (~line 240), insert:
 
@@ -398,7 +400,7 @@ In the example config block, directly after the `<small_font_path>` line (~line 
       <book_font_path> C:\YourGame\static\patch\book.ttf </book_font_path>
 ```
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```powershell
 git add README_Chinese_Config.md
@@ -411,31 +413,31 @@ git commit -m "docs: document book_font_path in README_Chinese_Config"
 
 **Files:** none (runtime verification only)
 
-- [ ] **Step 1: Launch the freshly built Exult**
+- [x] **Step 1: Launch the freshly built Exult**
 
 Run the Release x64 build produced by `msvcstuff/vs2019/Exult.sln` against the normally-installed game (same way previous manual verifications were run). Open the menu chain: in-game menu → Display Options → the Chinese font settings entry (`GameDisplayOptions_gump.cc:538` opens `ChineseFontOptions_gump`).
 
-- [ ] **Step 2: Verify decoupling from the dialogue font**
+- [x] **Step 2: Verify decoupling from the dialogue font**
 
 Dialog Text Setup → cycle "Font Type" to a different TTF → OK. Open any readable book/scroll in-game.
 Expected: the book's glyph style is **unchanged** by the dialogue font switch (was the bug: books followed `font_path` while Small font sat at Default).
 
-- [ ] **Step 3: Verify the new Book Text Setup page**
+- [x] **Step 3: Verify the new Book Text Setup page**
 
 Main Chinese-font page → "Book Text Setup" (new fourth button). Pick a distinct TTF under "Font Type" → OK. Open a book/scroll again.
 Expected: books/scrolls render with the chosen font; dialogue, overhead barks, signs, menus unchanged. Re-open the dialog: the chosen name is still selected (persisted via `exult.cfg`).
 
-- [ ] **Step 4: Verify Default state**
+- [x] **Step 4: Verify Default state**
 
 Book Text Setup → set "Font Type" back to "Default" → OK.
 Expected: books render with the built-in `<PATCH>/chinese.ttf`; `exult.cfg` contains an empty `<book_font_path>`.
 
-- [ ] **Step 5: Verify legacy compat**
+- [x] **Step 5: Verify legacy compat**
 
 Temporarily edit `exult.cfg`: clear `<book_font_path>` and set `<small_font_path>` to one of the scanned TTFs → relaunch → open a book.
 Expected: book uses that `small_font_path` font (legacy layer), dialogue unaffected. Restore your config afterward.
 
-- [ ] **Step 6: Final clean build + working-tree check**
+- [x] **Step 6: Final clean build + working-tree check**
 
 Run: `msbuild msvcstuff/vs2019/Exult.sln -p:Configuration=Release -p:Platform=x64 -m`
 Expected: `Build succeeded`. Then `git status --porcelain` shows only pre-existing unrelated changes (none of the four touched files should remain modified).
