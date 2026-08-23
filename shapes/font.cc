@@ -102,8 +102,33 @@ static const std::string& get_chinese_font_path(Font* font = nullptr, int font_s
 				}
 			}
 
-			// 2. Book / Scroll / UI small font path (applies to all book/scroll/UI fonts regardless of font size)
-			if (path.empty() && is_book) {
+			// 2. Book / Scroll: dedicated book_font_path, then legacy small_font_path
+			//    (compat with old configs), then the built-in default. Books must
+			//    NEVER fall through to the dialogue's font_path (fully decoupled).
+			if (is_book) {
+				std::string book_path;
+				config->value("config/video/chinese/book_font_path", book_path, "");
+				if (!book_path.empty()) {
+					std::string sys_book_path = get_system_path(book_path);
+					if (U7exists(sys_book_path)) {
+						path = sys_book_path;
+					}
+				}
+				if (path.empty()) {
+					std::string small_path;
+					config->value("config/video/chinese/small_font_path", small_path, "");
+					if (!small_path.empty()) {
+						std::string sys_small_path = get_system_path(small_path);
+						if (U7exists(sys_small_path)) {
+							path = sys_small_path;
+						}
+					}
+				}
+				if (path.empty()) {
+					path = "<PATCH>/chinese.ttf";
+				}
+			} else if (path.empty() && font_size >= 0 && font_size <= 12) {
+				// 3. Non-book tiny text keeps the legacy small_font_path behavior
 				std::string small_path;
 				config->value("config/video/chinese/small_font_path", small_path, "");
 				if (!small_path.empty()) {
@@ -114,19 +139,7 @@ static const std::string& get_chinese_font_path(Font* font = nullptr, int font_s
 				}
 			}
 
-			// 3. Also check small_font_path if configured and font_size <= 12
-			if (path.empty() && font_size >= 0 && font_size <= 12) {
-				std::string small_path;
-				config->value("config/video/chinese/small_font_path", small_path, "");
-				if (!small_path.empty()) {
-					std::string sys_small_path = get_system_path(small_path);
-					if (U7exists(sys_small_path)) {
-						path = sys_small_path;
-					}
-				}
-			}
-
-			// 4. Main default font_path
+			// 4. Main default font_path (dialogue and everything else; books never reach this)
 			if (path.empty()) {
 				config->value("config/video/chinese/font_path", path, "<PATCH>/chinese.ttf");
 			}
