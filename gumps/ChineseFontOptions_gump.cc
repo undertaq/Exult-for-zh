@@ -186,7 +186,20 @@ void ChineseFontOptions_gump::load_settings() {
 		}
 	}
 
-	// 4. Other numeric and toggle settings
+	// 4. Load book font path index
+	string book_font_path;
+	config->value("config/video/chinese/book_font_path", book_font_path, "");
+	book_font_path_idx = 0; // Default
+	if (!book_font_path.empty()) {
+		for (size_t i = 0; i < ttf_paths.size(); i++) {
+			if (ttf_paths[i] == book_font_path) {
+				book_font_path_idx = i + 1;
+				break;
+			}
+		}
+	}
+
+	// 5. Other numeric and toggle settings
 	config->value("config/video/chinese/font_size_dialog", dialog_font_size, 15);
 	dialog_font_size = std::clamp(dialog_font_size, 9, 72);
 
@@ -271,6 +284,15 @@ void ChineseFontOptions_gump::save_settings() {
 		}
 	}
 
+	if (book_font_path_idx == 0) {
+		config->set("config/video/chinese/book_font_path", "", false);
+	} else {
+		int idx = book_font_path_idx - 1;
+		if (idx >= 0 && idx < static_cast<int>(ttf_paths.size())) {
+			config->set("config/video/chinese/book_font_path", ttf_paths[idx], false);
+		}
+	}
+
 	// 2. Write numeric/toggle settings
 	config->set("config/video/chinese/font_size_dialog", dialog_font_size, false);
 	config->set("config/video/chinese/font_size_bark", bark_font_size, false);
@@ -325,6 +347,7 @@ void ChineseFontOptions_gump::save_settings() {
 void ChineseFontOptions_gump::take_snapshot() {
 	snapshot.font_path_idx = font_path_idx;
 	snapshot.small_font_path_idx = small_font_path_idx;
+	snapshot.book_font_path_idx = book_font_path_idx;
 	snapshot.sign_font_path_idx = sign_font_path_idx;
 	snapshot.dialog_font_size = dialog_font_size;
 	snapshot.bark_font_size = bark_font_size;
@@ -344,6 +367,7 @@ void ChineseFontOptions_gump::take_snapshot() {
 void ChineseFontOptions_gump::restore_snapshot() {
 	font_path_idx = snapshot.font_path_idx;
 	small_font_path_idx = snapshot.small_font_path_idx;
+	book_font_path_idx = snapshot.book_font_path_idx;
 	sign_font_path_idx = snapshot.sign_font_path_idx;
 	dialog_font_size = snapshot.dialog_font_size;
 	bark_font_size = snapshot.bark_font_size;
@@ -398,6 +422,13 @@ void ChineseFontOptions_gump::open_dialog_setup() {
 void ChineseFontOptions_gump::open_small_setup() {
 	take_snapshot();
 	current_page = PAGE_SMALL;
+	build_buttons();
+	gwin->set_all_dirty();
+}
+
+void ChineseFontOptions_gump::open_book_setup() {
+	take_snapshot();
+	current_page = PAGE_BOOK;
 	build_buttons();
 	gwin->set_all_dirty();
 }

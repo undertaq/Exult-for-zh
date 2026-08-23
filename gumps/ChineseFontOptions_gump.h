@@ -35,6 +35,7 @@ public:
 		PAGE_MAIN,
 		PAGE_DIALOG,
 		PAGE_SMALL,
+		PAGE_BOOK,
 		PAGE_SIGN
 	};
 
@@ -48,6 +49,7 @@ private:
 	// ---- Current values of settings ----
 	int font_path_idx;          // main font selection index in ttf_paths
 	int small_font_path_idx;    // small font selection index (0 = default, index+1 in ttf_paths)
+	int book_font_path_idx;     // book/scroll font selection index (0 = default, index+1 in ttf_paths)
 	int sign_font_path_idx;     // sign font selection index (0 = default, index+1 in ttf_paths)
 
 	int dialog_font_size;       // config/video/chinese/font_size_dialog (9..72)
@@ -69,6 +71,7 @@ private:
 	struct SettingsSnapshot {
 		int font_path_idx;
 		int small_font_path_idx;
+		int book_font_path_idx;
 		int sign_font_path_idx;
 		int dialog_font_size;
 		int bark_font_size;
@@ -124,11 +127,13 @@ public:
 	// Navigation & toggle callbacks
 	void open_dialog_setup();
 	void open_small_setup();
+	void open_book_setup();
 	void open_sign_setup();
 	void go_back();
 
 	void toggle_font_path(int state)          { font_path_idx = state; }
 	void toggle_small_font_path(int state)    { small_font_path_idx = state; }
+	void toggle_book_font_path(int state)     { book_font_path_idx = state; }
 	void toggle_sign_font_path(int state)     { sign_font_path_idx = state; }
 	void toggle_shadow_type(int state)        { shadow_type = state; }
 	void toggle_post_scale_rendering(int state) { post_scale_rendering = state; }
