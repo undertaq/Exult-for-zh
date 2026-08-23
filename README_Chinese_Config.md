@@ -240,7 +240,7 @@
       <font_path> C:\YourGame\static\patch\NotoSansTC.ttf </font_path>
       <!-- 小字型 (選填) -->
       <small_font_path> C:\YourGame\static\patch\small.ttf </small_font_path>
-      <!-- 書本/卷軸專屬字型 (選填；未設定則使用內建 chinese.ttf，與對話字型完全獨立) -->
+      <!-- 書本/卷軸專屬字型 (選填；未設定則依序使用舊版 small_font_path、內建 chinese.ttf，與對話字型完全獨立) -->
       <book_font_path> C:\YourGame\static\patch\book.ttf </book_font_path>
       <!-- 招牌專屬字型 (選填，未設定則繼承 font_path)-->
       <sign_font_path> C:\YourGame\static\patch\sign.ttf </sign_font_path>
