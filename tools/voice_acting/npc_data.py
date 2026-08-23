@@ -75,7 +75,9 @@ NPC_NUMBERS = {
     "Dracothraxus": 293,
     # Guards and misc NPCs (not in bgkeyring)
     "Guard": 259, "Palace Guard": 258,
-    "Arcadion": 273,
+    # Arcadion shows face NPC 290 in usecode (func 0x6F6 pushes -0x122 before
+    # show_npc_face). NPC 273 is a different speaker (func 0x608).
+    "Arcadion": 290,
     # Hydra heads (Ambrosia)
     "Shandu": 280, "Shando": 281, "Shanda": 282,
 }
