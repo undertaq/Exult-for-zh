@@ -106,6 +106,8 @@
 
 針對書本和卷軸可以完全獨立設定，以獲得不同的閱讀體驗：
 
+*   `<book_font_path>`：**書本/卷軸專屬字型檔 (預設值: 空白 = 內建 `<PATCH>/chinese.ttf`)**
+    *   說明：書本與卷軸的字型「類型」完全獨立於對話主字型 (`font_path`)——變更對話字型不會影響書本/卷軸。解析優先順序：`book_font_path` → 舊版 `small_font_path`（相容既有設定）→ 內建 `chinese.ttf`。
 *   `<font_size_book>`：書本字型大小 (預設值: `11`)
 *   `<font_color_book>`：書本字體顏色 (預設值: `-1`)
 *   `<letter_spacing_book>`：書本字元間距 (預設值: `0`)
@@ -238,6 +240,8 @@
       <font_path> C:\YourGame\static\patch\NotoSansTC.ttf </font_path>
       <!-- 小字型 (選填) -->
       <small_font_path> C:\YourGame\static\patch\small.ttf </small_font_path>
+      <!-- 書本/卷軸專屬字型 (選填；未設定則使用內建 chinese.ttf，與對話字型完全獨立) -->
+      <book_font_path> C:\YourGame\static\patch\book.ttf </book_font_path>
       <!-- 招牌專屬字型 (選填，未設定則繼承 font_path)-->
       <sign_font_path> C:\YourGame\static\patch\sign.ttf </sign_font_path>
 
