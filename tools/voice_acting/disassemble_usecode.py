@@ -32,6 +32,34 @@ def read4s(data, offset):
 
 from npc_data import get_npc_name_by_func as get_npc_name
 
+# Curated speaker overrides applied after face/caller inference.
+# Needed where show_npc_face encoding cannot resolve a speaker:
+#  - FoV faces without NPC slots (n_MIRROR_FACE -290 -> func 0x522 unmapped)
+#  - face-id collisions (n_GEM_FACE -291 -> 0x400+291 == Hook's slot) while
+#    Arcadion speaks through the gem/sword
+# Sourced from arcadion_attribution_table.TABLE + fov_scene_attribution_table.TABLE
+# (see fix_arcadion_attribution.py).
+try:
+    from arcadion_attribution_table import TABLE as _CURATED_SPEAKERS
+except ImportError:  # table module optional for plain disassembly use
+    _CURATED_SPEAKERS = []
+try:
+    from fov_scene_attribution_table import TABLE as _FOV_SCENE_SPEAKERS
+    _CURATED_SPEAKERS = _CURATED_SPEAKERS + _FOV_SCENE_SPEAKERS
+except ImportError:
+    pass
+SPEAKER_OVERRIDES = {
+    (int(fid, 16), off, seg): speaker
+    for fid, off, seg, speaker, _expected_npc, _prefix in _CURATED_SPEAKERS
+}
+
+
+def _norm_offset_key(offset_key):
+    """Map disassembler keys ('0x60_0x6b') to review-JSON style ('60_6b')."""
+    return "_".join(
+        p[2:] if p.startswith("0x") else p for p in offset_key.split("_")
+    )
+
 
 # Full opcode table: opcode -> (name, param_format, [extra])
 # param_format: 'n'=none, 'w'=word, 's'=signed word, 'ji'=jump offset,
@@ -892,6 +920,10 @@ def extract_say_lines(func):
                     current = current[1:]
 
             for seg_idx, seg_text in enumerate(segments):
+                seg_speaker = SPEAKER_OVERRIDES.get(
+                    (func['id'], _norm_offset_key(offset_key), seg_idx),
+                    speaker_npc,
+                )
                 lines.append({
                     'func_id': func['id'],
                     'offset_key': offset_key,
@@ -901,7 +933,7 @@ def extract_say_lines(func):
                     'has_var': has_var,
                     'var_info': say_var_info,
                     'is_book': is_book,
-                    'speaker': speaker_npc,
+                    'speaker': seg_speaker,
                     'speaker_func_id': current_face_npc,
                     'addsi_offsets': [e[1] for e in accum if e[0] == 'addsi'],
                     'code_addr': addr,
