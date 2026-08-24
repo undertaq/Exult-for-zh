@@ -14,7 +14,7 @@ to an Arcadion/Erethian row. Idempotent.
 
 Engine alias policy (safe because npc291/npc292 files exist ONLY in 0x06F6 and
 0x009A -- no legit Hook/Dark Core dialogue elsewhere):
-  - Arcadion 0x06F6 + 0x009A rows  -> also provide _npc291, _npc292
+  - Arcadion (npc 290) 0x06F6 + 0x009A rows -> also provide _npc291, _npc292
   - Erethian 0x009A rows           -> also provide _npc292
   - orphan _npc291/_npc292 files   -> remove
 """
@@ -45,8 +45,8 @@ def main():
         target = None
         aliases = []
         if npc == "Arcadion":
-            target = "npc273"
-            aliases = ["npc273", "npc291", "npc292"]
+            target = "npc290"
+            aliases = ["npc290", "npc291", "npc292"]
         elif npc == "Erethian":
             target = "npc286"
             aliases = ["npc286", "npc292"]
