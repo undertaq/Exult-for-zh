@@ -71,6 +71,18 @@ int Text_gump::paint_page(const TileRect& box, int start) {
 	char*     str        = text + start;
 	curend               = start;    // Initialize curend to the starting position
 
+	// Decide the font mode once for the whole document, not per paragraph.
+	// Text is painted one say()-segment at a time below; if the choice were
+	// made per segment, pages mixing translated (CJK) paragraphs with
+	// untranslated (ASCII-only) ones would render in two different fonts.
+	bool contains_cjk = false;
+	for (const char* p = text; p && *p; ++p) {
+		if (static_cast<unsigned char>(*p) >= 0x80) {
+			contains_cjk = true;
+			break;
+		}
+	}
+
 	char* lineBreak     = nullptr;
 	char* pageBreakStar = nullptr;
 	char* extraBreak    = nullptr;
@@ -113,7 +125,7 @@ int Text_gump::paint_page(const TileRect& box, int start) {
 		const char eolchr = *eol;
 		*eol              = '\0';
 
-		int endoff = sman->paint_text_box(font, str, x + box.x, y + box.y + ypos, box.w, box.h - ypos, vlead);
+		int endoff = sman->paint_text_box(font, str, x + box.x, y + box.y + ypos, box.w, box.h - ypos, vlead, false, false, -1, nullptr, contains_cjk);
 		// Restore the character at eol.
 		*eol = eolchr;
 
@@ -161,7 +173,7 @@ int Text_gump::paint_page(const TileRect& box, int start) {
 							font, eol + (epage == extraBreak ? 3 : 1), x + box.x,
 							-1000,    // off-screen y coordinate for
 									  // measurement only
-							box.w, available, vlead);
+							box.w, available, vlead, false, false, -1, nullptr, contains_cjk);
 					// Restore the character we replaced.
 					*earliest = saved;
 

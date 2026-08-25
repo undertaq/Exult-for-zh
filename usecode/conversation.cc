@@ -207,7 +207,12 @@ void Conversation::set_face_rect(Npc_face_info* info, Npc_face_info* prev, int s
 	}
 	info->face_rect      = gwin->clip_to_win(TileRect(startx, starty, face_w + extraw, face_h + extrah));
 	const TileRect& fbox = info->face_rect;
-	int lines_allowed = 5; // Allow up to 5 lines to prevent text overflowing bounding box and overlapping the next portrait
+	// DUAL mode stacks the zh and en halves, so a wrapped sentence needs
+	// about twice the rows; allow up to 8 so long sentences fit on one page.
+	// Otherwise allow up to 5 lines to prevent text overflowing bounding box
+	// and overlapping the next portrait.
+	const bool dual_text = BilingualManager::get().get_text_language() == TextLanguage::DUAL;
+	const int lines_allowed = dual_text ? 8 : 5;
 	if (info->large_face) {
 		info->text_rect = gwin->clip_to_win(TileRect(fbox.x + 8, fbox.y + fbox.h + 8, fbox.w - 16, lines_allowed * max_text_height));
 		info->last_text_height = info->text_rect.h;
@@ -538,14 +543,16 @@ void Conversation::show_npc_message(const char* msg) {
 		}
 	}
 
+	const bool dual_text = BilingualManager::get().get_text_language() == TextLanguage::DUAL;
 	if (info->large_face && has_chinese) {
 		info->text_rect.x = 8;
 		info->text_rect.w = gwin->get_width() - 16;
 
-		int needed_h = line_height * 2;
-		if (pairs > 1) {
-			needed_h = std::min(pairs * 2, 6) * line_height;
-		}
+		// Flat 8-row budget in DUAL mode (see render_box_h below); a
+		// pairs-based cap would evaluate to 4 rows for a normal "ZH\nEN"
+		// message (pairs == 2).
+		const int rows    = dual_text ? 8 : std::min(pairs * 2, 6);
+		int       needed_h = std::max(line_height * 2, rows * line_height);
 		if (info->text_rect.h < needed_h) {
 			info->text_rect.h = needed_h;
 			info->text_rect.y = gwin->get_height() - needed_h - 4;
@@ -557,10 +564,16 @@ void Conversation::show_npc_message(const char* msg) {
 	//	paint_faces();
 	gwin->paint();
 	int height;    // Break at punctuation.
-	
+
 	int render_box_h = 4 * line_height;
-	if (pairs > 1 && has_chinese) {
-		render_box_h = std::max(render_box_h, std::min(pairs * 2, 6) * line_height);
+	if (has_chinese) {
+		// DUAL mode: flat 8-row budget so the wrapped zh+en halves of a
+		// long sentence stay on one page. (A pairs-based formula is wrong
+		// here: a normal "ZH\nEN" message has pairs==2, and any cap of
+		// min(pairs*2, N) then evaluates to 4 rows again.) Other modes keep
+		// their conservative cap.
+		const int rows = dual_text ? 8 : std::min(pairs * 2, 6);
+		render_box_h = std::max(render_box_h, rows * line_height);
 	}
 	if (render_box_h > box.h) {
 		render_box_h = box.h;
@@ -685,6 +698,22 @@ void Conversation::show_avatar_choices(int num_choices, char** choices) {
 	// is pure English, so the options scale with the font setting.
 	if (BilingualManager::get().is_zh_text()) {
 		has_chinese = true;
+	}
+	// Dual-mode answers are merged "ZH\nEN" templates that may carry
+	// <PLAYER_NAME>/<HONORIFIC>/<VAR>-style tokens baked in at generation
+	// time; resolve them here so the avatar's questions match the rest of
+	// the bilingual dialogue.
+	std::vector<std::string> resolved_choices;
+	std::vector<char*>       resolved_ptrs;
+	if (BilingualManager::get().is_zh_text()) {
+		resolved_choices.reserve(num_choices);
+		resolved_ptrs.reserve(num_choices);
+		for (int i = 0; i < num_choices; i++) {
+			resolved_choices.push_back(
+					choices[i] ? resolve_dialogue_tokens(choices[i]) : std::string());
+			resolved_ptrs.push_back(resolved_choices.back().data());
+		}
+		choices = resolved_ptrs.data();    // local param copy; vectors outlive use
 	}
 	struct AvatarChoicesFontAdjuster {
 		AvatarChoicesFontAdjuster() {
