@@ -78,8 +78,9 @@ SPLICE_FADE_MS = 30
 # (do_sample=True, temperature=0.9) by default, so the same name (e.g. "Rudyom")
 # can be voiced differently across runs. Pinning a generator seed makes each
 # character's pronunciation stable run-to-run. Change only if you want to
-# re-roll the entire voice cast.
-TTS_SEED = 20240718
+# re-roll the entire voice cast. Overridable via OPCODE_TTS_SEED to re-roll just a
+# subset of lines (e.g. regeneration of degenerated clips) without re-rolling all.
+TTS_SEED = int(os.environ.get("OPCODE_TTS_SEED", "20240718"))
 
 RUNE_SIGN_CONTEXT_SPEAKERS = [
     'Iolo',
@@ -357,29 +358,99 @@ def fade_splice_chunk(wav, sr):
     return wav
 
 
+def strip_outer_delimiters(text):
+    """Remove a single matching outer quote-delimiter pair before synthesis.
+
+    ``single_clone`` already strips the pair from the embedded description; the
+    audio must be synthesised from the inner text too, otherwise the model voices
+    (or mangles) the literal 「」/"" brackets and can collapse to near-silence.
+    """
+    pairs = (('「', '」'), ('“', '”'), ('"', '"'))
+    text = text or ''
+    for left, right in pairs:
+        if text.startswith(left) and text.endswith(right) and len(text) >= 2:
+            return text[1:-1].strip()
+    return text
+
+
+def split_long_text(text, lang, max_chars=200):
+    """Break a long single-voice span into synthesis-sized chunks at clause/sentence
+    boundaries so one ``generate_voice_clone`` call never runs into the model's
+    max-output cap (which otherwise produces repetition loops on ~300-char lines).
+
+    The description metadata keeps the FULL original text; only the audio is chunked.
+    """
+    import re
+    text = strip_outer_delimiters(text)
+    text = text.strip()
+    if len(text) <= max_chars:
+        return [text]
+    if lang == 'zh':
+        sentence_split = r'(?<=[。！？])'
+        clause_split = r'(?<=[，、；：])'
+    else:
+        sentence_split = r"(?<=[.!?])"
+        clause_split = r"(?<=,;:)"
+    chunks = [c.strip() for c in re.split(sentence_split, text) if c.strip()]
+    out = []
+    for c in chunks:
+        if len(c) <= max_chars:
+            out.append(c)
+            continue
+        out.extend(s.strip() for s in re.split(clause_split, c) if s.strip())
+    final = []
+    for c in out:
+        if len(c) <= max_chars:
+            final.append(c)
+        else:
+            for i in range(0, len(c), max_chars):
+                final.append(c[i:i + max_chars])
+    return final or [text]
+
+
+def render_clone_chunks(model, text, lang, prompt, generator=None):
+    """Synthesize ``text`` (possibly long) as fade-spliced chunks, one call per chunk.
+
+    Each chunk is bounded by ``max_chars`` so the model stays well under its
+    output cap; long narration no longer degenerates into repetition loops.
+    Returns the concatenated waveform and sample rate.
+    """
+    lang_label = 'Chinese' if lang == 'zh' else 'English'
+    chunks = split_long_text(text, lang)
+    rendered = [tc2sc(c, 'zh-cn') if lang == 'zh' else c for c in chunks]
+    wavs = []
+    sr = None
+    for c in rendered:
+        generated, sr = model.generate_voice_clone(
+            text=[c],
+            language=[lang_label],
+            voice_clone_prompt=prompt,
+            max_new_tokens=SHORT_MAX_TOKENS,
+            generator=generator,
+        )
+        wav = generated[0] if isinstance(generated, (list, tuple)) else generated
+        wavs.append(fade_splice_chunk(np.asarray(wav, dtype=np.float32), sr))
+    gap = np.zeros(int(sr * SPLICE_GAP_MS / 1000), dtype=np.float32) if sr else np.zeros(0)
+    joined = []
+    for idx, wav in enumerate(wavs):
+        if idx:
+            joined.append(gap)
+        joined.append(np.asarray(wav, dtype=np.float32))
+    wav = np.concatenate(joined) if joined else np.zeros(int(sr * 0.5), dtype=np.float32)
+    return wav, sr
+
+
 def generate_delimited_voice(model, parts, lang, speaker_prompt, narrator_prompt, generator=None):
     """Generate one output waveform from narrator/speaker chunks."""
-    lang_label = 'Chinese' if lang == 'zh' else 'English'
-    max_tokens = SHORT_MAX_TOKENS
     rendered_parts = []
     for role, text in parts:
         rendered = tc2sc(text, 'zh-cn') if lang == 'zh' else text
         rendered_parts.append((role, rendered))
-        if len(text) > LONG_TEXT_THRESHOLD:
-            max_tokens = LONG_MAX_TOKENS
-
     wavs = []
     sr = None
     for role, text in rendered_parts:
         prompt = narrator_prompt if role == 'narrator' and narrator_prompt is not None else speaker_prompt
-        generated, sr = model.generate_voice_clone(
-            text=[text],
-            language=[lang_label],
-            voice_clone_prompt=prompt,
-            max_new_tokens=max_tokens,
-            generator=generator,
-        )
-        wav = generated[0] if isinstance(generated, (list, tuple)) else generated
+        wav, sr = render_clone_chunks(model, text, lang, prompt, generator)
         wavs.append(fade_splice_chunk(wav, sr))
 
     gap = np.zeros(int(sr * SPLICE_GAP_MS / 1000), dtype=np.float32)
@@ -456,22 +527,11 @@ def generate_single_part_batch(model, bucket, lang_label, lang, out_dir, args, n
     failed = []
     for j in bucket:
         prompt = j['prompt']
-        text = tc2sc(j['text'], 'zh-cn') if lang == 'zh' else j['text']
-        max_tokens = LONG_MAX_TOKENS if j['length_class'] == 'long' else SHORT_MAX_TOKENS
         try:
-            wavs, sr = model.generate_voice_clone(
-                text=[text],
-                language=[lang_label],
-                voice_clone_prompt=prompt,
-                max_new_tokens=max_tokens,
-                generator=generator,
-            )
+            wav, sr = render_clone_chunks(model, j['text'], lang, prompt, generator)
         except Exception:
             failed.append(j)
             continue
-        if not isinstance(wavs, (list, tuple)):
-            wavs = [wavs]
-        wav = wavs[0]
         e = j['entry']
         try:
             prepare_voice_output_path(e['_ogg_path'])
@@ -805,8 +865,37 @@ def _append_unique_known_npc(names, name):
     names.append(name)
 
 
+try:
+    from arcadion_attribution_table import TABLE as _CURATED_SPEAKERS
+except ImportError:  # curation table optional
+    _CURATED_SPEAKERS = []
+try:
+    from fov_scene_attribution_table import TABLE as _FOV_SCENE_SPEAKERS
+    _CURATED_SPEAKERS = _CURATED_SPEAKERS + _FOV_SCENE_SPEAKERS
+except ImportError:  # companion curation table optional
+    pass
+# (en_func_id, en_offset_key, en_segment) -> curated speaker. These rows carry
+# reviewed attributions that outrank heuristic CSV metadata (FoV mirror/gem
+# faces cannot be resolved by show_npc_face; see arcadion_attribution_table).
+CURATED_SPEAKER_MAP = {
+    (
+        normalize_func_id(fid),
+        normalize_offset_key(off),
+        int(seg or 0),
+    ): speaker
+    for fid, off, seg, speaker, _expected_npc, _prefix in _CURATED_SPEAKERS
+}
+
+
 def voice_speaker_candidates(entry):
     """Return NPC names whose own voice should be generated for this row."""
+    curated = CURATED_SPEAKER_MAP.get((
+        normalize_func_id(entry.get('en_func_id', '')),
+        normalize_offset_key(entry.get('en_offset_key', '')),
+        int(entry.get('en_segment') or 0),
+    ))
+    if curated:
+        return [curated], 'curated_override'
     if normalize_func_id(entry.get('zh_func_id', '')) == '095f':
         return RUNE_SIGN_CONTEXT_SPEAKERS, 'contextual_sign_reader'
 
@@ -837,7 +926,7 @@ def voice_speaker_candidates(entry):
     # Empty / UNKNOWN → try to identify from function context
     if not npc or npc == 'UNKNOWN':
         fid = normalize_func_id(entry.get('en_func_id', ''))
-        COMPANION_BARK_FUNCS = {'0622', '0623', '0800', '08D5'}
+        COMPANION_BARK_FUNCS = {'0622', '0623', '0800', '08d5', '02f8'}
         if fid in COMPANION_BARK_FUNCS:
             return list(COMPANION_NPCS), 'companion_bark'
         if fid == '06f6':

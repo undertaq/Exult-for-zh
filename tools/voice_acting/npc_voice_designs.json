@@ -5853,8 +5853,8 @@
    "npcs": [
     "Arcadion"
    ],
-   "voice_desc_en": "Male gargoyle voice, deeply hostile and hateful, filled with bitterness and rage, echoing with stone-like gravel and a guttural, low-frequency growl, as if carved from ancient rock and simmering with resentment toward humanity.",
-   "voice_desc_zh": "性别：男性。角色：石像鬼守卫，曾为矿工，现因深仇人类而憎恨暴怒。音高：低沉沙哑、类似岩石摩擦的喉音，带有低频咆哮质感。语速：缓慢、压抑、充满怒火，停顿沉重。情绪：极端敌意、怀恨在心、暴怒易燃。音色特征：粗粝、石质共鸣、喉音浓重。语言：标准普通话。使用场景：角色扮演中对玩家（视为‘假先知’）发起攻击或怒斥时使用。",
+   "voice_desc_en": "Ancient male daemon, crystalline voice whispers with cold amusement, smooth yet authoritative; retain character context: Male daemon bound inside a gem, crystalline and resonant voice, smooth but dangerous, speaks with cold amusement; visible traits: crystalline and resonant; speaking pace: slow and measured, with deliberate pauses; pitch: low, resonant chest voice",
+   "voice_desc_zh": "男性，年長，沉穩有權威感，低沉有質感，語速沉穩，語速偏慢，停頓沉穩，音高偏低，胸腔共鳴明顯，角色音色細節：Ancient male daemon, crystalline voice whispers with cold amusement, smooth yet authoritative; retain character context: Male daemon bound inside a gem, crystalline and resonant voice, smooth but dangerous, speaks with cold amusement; visible traits: crystalline and resonant; speaking pace: slow and measured, with deliberate pauses; pitch: low, resonant chest voice，用標準的普通話朗讀",
    "ref_zh_text": "旅人，你好。今天過得如何？",
    "ref_en_text": "Greetings, traveler. What brings you to these lands this day?",
    "_donor": "npc_anmanivas",

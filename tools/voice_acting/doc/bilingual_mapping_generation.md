@@ -62,6 +62,7 @@ Reads the compiled usecode binary (Ultima VII's bytecode) and extracts every dia
 - For each function, traces `addsi` (push string) + `addsv` (push variable) → `say` sequences
 - Detects `show_npc_face`/`remove_npc_face` calls to assign speakers
 - Infers speakers for non-NPC functions via call-graph traversal
+- Applies curated `SPEAKER_OVERRIDES` (from `arcadion_attribution_table.TABLE`) after face/caller inference — needed where face encoding cannot resolve a speaker (e.g. Forge of Virtue faces without NPC slots like Arcadion's mirror `-290`, or collisions like gem face `-291` resolving to Hook's slot)
 - Splits `~~`-delimited multi-page lines into separate segments
 - Tracks `<PLAYER_NAME>`, `<PRONOUN>`, `<HONORIFIC>`, `<GENDER_FLAG>` placeholders
 
