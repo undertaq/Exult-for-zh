@@ -167,24 +167,31 @@ def parse_parts(func_data, extended):
 
 
 def rebuild_function(func_data, extended, traces, neutralize_addsv_ips=None,
-                     answer_redirect=None):
-    """Append merged strings; redirect addsi operands.
+                     answer_redirect=None, first_ip_redirect=None):
+    """Append merged strings; redirect addsi operands by instruction IP.
 
-    traces: {addsi_tuple: merged_str}
+    traces: {addsi_tuple: merged_str}  (later offsets -> shared empty string)
+    first_ip_redirect: optional {instr_ip: merged_str} for each trace's FIRST
+        addsi, keyed by instruction IP. Two traces may push the same data
+        offset (a shared string literal) at different sites; IP keying lets
+        each site be redirected independently.
     neutralize_addsv_ips: optional set of code-relative IPs of addsv
         instructions that must push nothing (replaced by addsi of the shared
         empty string, same length in normal mode).
     answer_redirect: optional {data_off: merged_str} for pushs operands
-        (avatar answers); appended like trace strings and redirected too.
-        Offsets already claimed by a trace are skipped (say wins).
-    Returns (new_func_blob, first_offsets, empty_off, redirect).
-    Raises ValueError if two traces claim the same first addsi offset.
+        (avatar answers / barks); appended like trace strings and redirected
+        by data offset (pushs sites share the string).
+    Returns (blob, first_offsets, empty_off, redirect, new_code).
     """
     old_data, nargs, nvars, externs, old_code = parse_parts(func_data, extended)
 
+    addsi_ips = {}
+    for ip, op, fmt in iter_all_instrs(old_code, extended):
+        if op == 0x1C and fmt == "si":
+            addsi_ips.setdefault(
+                read_si_operand(old_code, ip + 1, extended), []).append(ip)
+
     new_data = bytearray(old_data)
-    first_offsets = {}
-    redirect = {}
     empty_off = None
 
     def alloc_empty():
@@ -194,46 +201,50 @@ def rebuild_function(func_data, extended, traces, neutralize_addsv_ips=None,
             new_data += b"\0"
         return empty_off
 
-    for t, merged in traces.items():
-        t_first = t[0]
-        if t_first in redirect:
-            raise ValueError("addsi %x claimed by two traces" % t_first)
-        first_offsets[t] = len(new_data)
+    ip_target = {}
+    first_offsets = {}
+    for ip, merged in (first_ip_redirect or {}).items():
+        ip_target[ip] = len(new_data)
         new_data += merged.encode("utf-8") + b"\0"
-        redirect[t_first] = first_offsets[t]
+    for t in traces:
+        first_offsets[t] = None          # membership marker
+
+    # later offsets -> shared empty string, keyed by their instruction IPs
     for t in traces:
         for later in t[1:]:
-            if later in redirect:
-                continue          # already a trace start (or previously claimed)
-            redirect[later] = alloc_empty()
+            for lip in addsi_ips.get(later, []):
+                if lip not in ip_target:
+                    ip_target[lip] = alloc_empty()
+
+    redirect = {}
     if answer_redirect:
         for off in sorted(answer_redirect):
             if off in redirect:
                 continue          # say-trace owns this string
-            merged = answer_redirect[off]
             redirect[off] = len(new_data)
-            new_data += merged.encode("utf-8") + b"\0"
+            new_data += answer_redirect[off].encode("utf-8") + b"\0"
 
     new_code = bytearray(old_code)
-    # addsi AND pushs operands both carry si encodings; rewrite every op
-    # whose offset was redirected.
-    for instr_ip, data_off in iter_addsi(old_code, extended, ops=(0x1C, 0x1D)):
-        if data_off in redirect:
-            new_off = redirect[data_off]
+    # addsi (0x1C) operands keyed by instruction IP; pushs (0x1D) by data
+    # offset. Both carry the same si encoding.
+    for ip, op, fmt in iter_all_instrs(old_code, extended):
+        if op == 0x1C and fmt == "si":
+            off = read_si_operand(old_code, ip + 1, extended)
+            new_off = ip_target.get(ip)
+            if new_off is None:
+                new_off = redirect.get(off)
+        elif op == 0x1D and fmt == "si":
+            off = read_si_operand(old_code, ip + 1, extended)
+            new_off = redirect.get(off)
+        else:
+            continue
+        if new_off is not None:
             if extended:
-                new_code[instr_ip + 1:instr_ip + 5] = struct.pack("<i", new_off)
+                new_code[ip + 1:ip + 5] = struct.pack("<i", new_off)
             else:
-                new_code[instr_ip + 1:instr_ip + 3] = struct.pack("<H", new_off)
+                new_code[ip + 1:ip + 3] = struct.pack("<H", new_off)
 
-    # Neutralize addsv instructions that push variable values (avatar name,
-    # honorific, pronouns) into merged strings: the values are already baked
-    # in as <PLAYER_NAME>/<HONORIFIC>/<PRONOUN>/... tokens at generation
-    # time, so a trailing raw push would duplicate the word at the end of the
-    # displayed line. Generic <VAR> addsv are NOT neutralized: they stay live
-    # so the engine's ADDSV handler can substitute real runtime values into
-    # the pending "<VAR>" slots. addsv (0x2F) and addsi (0x1C) are both 3
-    # bytes in the normal encoding, so swapping in `addsi <empty_off>` is
-    # length-neutral.
+    # Neutralize addsv variables (see caller docstring); length-neutral.
     if neutralize_addsv_ips and not extended:
         for ip in sorted(neutralize_addsv_ips):
             new_code[ip] = 0x1C
@@ -246,7 +257,7 @@ def rebuild_function(func_data, extended, traces, neutralize_addsv_ips=None,
     blob = (data_len_bytes + bytes(new_data)
             + struct.pack("<HHH", nargs, nvars, len(externs) // 2)
             + externs + bytes(new_code))
-    return blob, first_offsets, empty_off, redirect
+    return blob, first_offsets, empty_off, redirect, new_code
 
 
 def write_blm2(path, rows):
@@ -480,12 +491,13 @@ def generate(zh_blob, review, en_blob=None):
         # Collect addsi/addsv instruction IPs to locate variables inside each
         # merged trace's instruction span (first addsi .. say).
         old_data, nargs, nvars, externs, old_code = parse_parts(fdata, ext)
-        addsi_ip_by_off = {}
+        addsi_ips_all = {}
         addsv_ips = []
         pushs_offs = []
         for ip, op, fmt in iter_all_instrs(old_code, ext):
             if op == 0x1C and fmt == "si":
-                addsi_ip_by_off[read_si_operand(old_code, ip + 1, ext)] = ip
+                addsi_ips_all.setdefault(
+                    read_si_operand(old_code, ip + 1, ext), []).append(ip)
             elif op == 0x2F and fmt == "w":
                 addsv_ips.append(ip)
             elif op == 0x1D and fmt == "si":
@@ -535,17 +547,37 @@ def generate(zh_blob, review, en_blob=None):
                             zh_text = zh_text[1:-1].strip()
                         func_answer_redirect[last_pushs] = zh_text + "\n" + en_text
             last_pushs = None
+        # Assign each trace an instruction IP for its FIRST addsi. When
+        # several traces share the same first data offset (a shared string
+        # literal pushed at different sites), order them by their say-site
+        # address and zip against the ascending instruction IPs.
+        trace_ips = {}
+        groups_by_first = {}
+        for key, seg_lines in groups.items():
+            t = tuple(seg_lines[0]["addsi_offsets"])
+            if t in traces:
+                groups_by_first.setdefault(t[0], []).append(seg_lines[0])
+        for off, firsts in groups_by_first.items():
+            ips = sorted(addsi_ips_all.get(off, []))
+            firsts.sort(key=lambda ln: ln["code_addr"])
+            for ln, ip in zip(firsts, ips):
+                t = tuple(ln["addsi_offsets"])
+                if t in traces and t not in trace_ips:
+                    trace_ips[t] = ip
+
+        first_ip_redirect = {
+            ip: traces[t] for t, ip in trace_ips.items()
+        }
+
         neutralize = set()
         for key, seg_lines in groups.items():
             t = tuple(seg_lines[0]["addsi_offsets"])
             if t not in traces:
                 continue
             say_addr = seg_lines[0]["code_addr"]
-            ips = [ip for off in t
-                   for ip in ([addsi_ip_by_off.get(off)] if addsi_ip_by_off.get(off) is not None else [])]
-            if not ips:
+            lo = trace_ips.get(t)
+            if lo is None:
                 continue
-            lo = min(ips)
             labels = seg_lines[0].get("addsv_labels") or []
             span_addsv = [ip for ip in addsv_ips if lo < ip < say_addr]
             # Neutralize only semantic-label addsv (<PLAYER_NAME> etc.);
@@ -554,9 +586,10 @@ def generate(zh_blob, review, en_blob=None):
                 if label != "<VAR>":
                     neutralize.add(ip)
         try:
-            new_blob, first_offsets, empty_off, redirect = rebuild_function(
+            new_blob, first_offsets, empty_off, redirect, new_code = rebuild_function(
                 fdata, ext, traces, neutralize,
-                answer_redirect=func_answer_redirect or None)
+                answer_redirect=func_answer_redirect or None,
+                first_ip_redirect=first_ip_redirect or None)
         except (ValueError, struct.error, IndexError) as e:
             skipped.append((fid_hex, str(e)))
             out += zh_blob[offset:nxt]
@@ -579,36 +612,28 @@ def generate(zh_blob, review, en_blob=None):
             # order, with neutralized addsv variables contributing the empty
             # offset (the runtime records them via addsi in voice_string_trace).
             say_addr = seg_lines[0]["code_addr"]
-            ips = [ip for off in t
-                   for ip in ([addsi_ip_by_off.get(off)] if addsi_ip_by_off.get(off) is not None else [])]
-            lo = min(ips) if ips else 0
+            lo = trace_ips.get(t)
             key_parts = []
-            for ip, op, fmt in iter_all_instrs(old_code, ext):
+            for ip, op, fmt in iter_all_instrs(new_code, ext):
                 if ip < lo:
                     continue
                 if ip > say_addr:
                     break
                 if op == 0x1C and fmt == "si":
-                    off = read_si_operand(old_code, ip + 1, ext)
-                    key_parts.append("%x" % redirect.get(off, off))
-                elif op == 0x2F and fmt == "w" and ip in neutralize:
-                    key_parts.append("%x" % empty_off)
-            new_key = "_".join(key_parts) or ("%x" % redirect.get(t[0]))
-            info_per_seg = by_key.get((fid_hex, key)) or {}
+                    off = read_si_operand(new_code, ip + 1, ext)
+                    key_parts.append("%x" % off)
+            new_key = "_".join(key_parts) if key_parts else None
             for line in seg_lines:
                 seg = line["segment"]
+                # dual->zh ONLY: the row's EN side is the ORIGINAL zh key the
+                # engine needs for zh voice (and bilingual_by_zh chains it to
+                # the real EN key for en voice). Emitting dual->en rows too
+                # would shadow the zh key in dual_by_zh and break zh voice for
+                # lines whose zh/en offsets differ.
                 dual_rows.append({"zh_func_id": fid, "zh_offset_key": new_key,
                                   "zh_segment": seg,
                                   "en_func_id": fid, "en_offset_key": key,
                                   "en_segment": seg})                # dual->zh
-                info = info_per_seg.get(seg)
-                if info and info["text"] and info["en_func_id"]:
-                    dual_rows.append({"zh_func_id": fid,
-                                      "zh_offset_key": new_key,
-                                      "zh_segment": seg,
-                                      "en_func_id": int(info["en_func_id"], 16),
-                                      "en_offset_key": info["en_offset_key"],
-                                      "en_segment": info["en_segment"]})  # dual->en
         offset = nxt
     return bytes(out), dual_rows, skipped
 
