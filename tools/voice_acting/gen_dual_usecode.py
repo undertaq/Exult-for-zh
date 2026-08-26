@@ -502,6 +502,39 @@ def generate(zh_blob, review, en_blob=None):
                 en_text = answer_map.get(zh_text)
                 if en_text:
                     func_answer_redirect[off] = build_merged_answer(zh_text, en_text)
+        # Companion/Avatar BARKS (pushs -> call [extern 0x08FF]): merge as
+        # "ZH\nEN"; the bark-bubble renderer splits embedded newlines. EN
+        # comes from the review rows ingested by ingest_bark_lines.py,
+        # keyed by the pushs data offset.
+        ext_map = {}
+        for i in range(len(externs) // 2):
+            if i * 2 + 2 <= len(externs):
+                ext_map[i] = dis.read2(externs, i * 2)
+        last_pushs = None
+        for ip, op, fmt in iter_all_instrs(old_code, ext):
+            if op == 0x1D and fmt == "si":
+                last_pushs = read_si_operand(old_code, ip + 1, ext)
+                continue
+            if op == 0x24 and fmt == "w":
+                ext_idx = dis.read2(old_code, ip + 1)
+                if (
+                    last_pushs is not None
+                    and ext_map.get(ext_idx) == 0x08FF
+                    and last_pushs not in func_answer_redirect
+                ):
+                    bark_info = by_key.get((fid_hex, "%x" % last_pushs)) or {}
+                    en_text = (bark_info.get(0) or {}).get("text", "")
+                    raw = func["strings"].get(last_pushs)
+                    if en_text and raw:
+                        zh_text = undo_latin1_mojibake(raw).strip()
+                        if (
+                            zh_text.startswith("@")
+                            and zh_text.endswith("@")
+                            and len(zh_text) >= 2
+                        ):
+                            zh_text = zh_text[1:-1].strip()
+                        func_answer_redirect[last_pushs] = zh_text + "\n" + en_text
+            last_pushs = None
         neutralize = set()
         for key, seg_lines in groups.items():
             t = tuple(seg_lines[0]["addsi_offsets"])

@@ -654,6 +654,24 @@ void Usecode_internal::say_string() {
 		std::snprintf(hexbuf, sizeof(hexbuf), "%x", off_raw);
 		voice_offset_key += hexbuf;
 	}
+	if (voice_offset_key.empty() && !voice_string_trace.empty()) {
+		// Bark-style lines (FoV companion helper 0x8FF/0x903): the text was
+		// pushs-pushed in a CALLER frame, so the current function contributes
+		// no addsi. Fall back to the last pushs entry so playback addresses
+		// <caller_func>_<pushs_off>_<segment> clips.
+		for (auto it = voice_string_trace.rbegin();
+				it != voice_string_trace.rend(); ++it) {
+			if (it->second != VOICE_TRACE_ADDSV
+				&& (it->second & VOICE_TRACE_PUSHS_FLAG)) {
+				voice_func_id = it->first;
+				char hexbuf[16];
+				std::snprintf(hexbuf, sizeof(hexbuf), "%x",
+							  it->second & ~VOICE_TRACE_PUSHS_FLAG);
+				voice_offset_key = hexbuf;
+				break;
+			}
+		}
+	}
 	voice_string_trace.clear();
 
 	int  segment = 0;

@@ -8914,3 +8914,43 @@ func_id,npc,speaker,caller_guess,offset_key,segment,total_segments,has_var,text
 0x0903,,,,0_9,0,1,False,"""看來附近的島嶼一點也不穩定。"""
 0x0903,Iolo,,,38_9,0,1,False,"""不列顛尼亞似乎有些不對勁。也許不列顛王會知道這場地震背後的原因。"""
 0x02F8,,,,0xAD,0,1,False,我相信寶石必須握在持武器的手中，才能打破鏡子。
+0x0096,UNKNOWN,,,0,0,1,False,在收起跳板之前，必須先降下船帆。
+0x0096,UNKNOWN,,,33,0,1,False,我想跳板被擋住了。
+0x00FB,UNKNOWN,,,0,0,1,False,必須先購買這艘船的契約。
+0x00FB,UNKNOWN,,,27,0,1,False,在我們開船之前，必須先購買這艘船的契約。
+0x0105,UNKNOWN,,,0,0,1,False,我相信在使用織布機之前，得先穿線。
+0x011C,UNKNOWN,,,11,0,1,False,"「聖者, 我確信...『日晷』需要...『日頭』才能使用！」"
+0x0154,UNKNOWN,,,0,0,1,False,這是什麼！
+0x0247,UNKNOWN,,,0,0,1,False,那裡沒有空間放你的睡袋。
+0x0270,Avatar,,,0,0,1,False,你必須把它拿在手上。
+0x0270,UNKNOWN,,,21,0,1,False,這棵樹似乎不會產出任何有價值的東西。
+0x0270,UNKNOWN,,,58,0,1,False,看來那不需要用到十字鎬。
+0x0273,UNKNOWN,,,2c,0,1,False,試著用在鎖住的箱子或門上。
+0x02BA,UNKNOWN,,,0,0,1,False,把它們用來把布料剪成繃帶不是挺方便的嗎？
+0x02DA,UNKNOWN,,,55,0,1,False,抱歉了我的朋友，你不覺得那樣會有點擠嗎？
+0x02F8,Avatar,,,5e,0,1,False,我相信必須把寶石拿在武器手上才能打破鏡子。
+0x030D,UNKNOWN,,,0,0,1,False,在放下跳板之前，必須先降下船帆。
+0x030D,UNKNOWN,,,33,0,1,False,我想跳板被擋住了。
+0x030E,UNKNOWN,,,0,0,1,False,或許你該用它來攻擊。
+0x033B,UNKNOWN,,,0,0,1,False,看起來似乎不需要包紮。
+0x0348,UNKNOWN,,,0,0,1,False,我不認為我們能在這裡安全登陸。
+0x035F,Iolo,,,0,0,1,False,為何不先將麵粉放在桌上呢？
+0x0638,UNKNOWN,,,0,0,1,False,真奇怪。這裡被泥土弄髒了，我看不太清這些文字。
+0x0638,UNKNOWN,,,48,0,1,False,哎呀，這本書掉出了一頁！
+0x06F8,UNKNOWN,,,0,0,1,False,Erethian 對力量的渴望讓他落得如此邪惡的下場，真是令人悲哀。
+0x06F8,UNKNOWN,,,57,0,1,False,也許他終於得到了安息。
+0x06F8,Lord British,,,7b,0,1,False,我確信不列顛王此刻正在等待 Exodus 被放逐的消息。
+0x06F8,UNKNOWN,,,c2,0,1,False,是時候離開這座荒涼的島嶼了。
+0x06FA,UNKNOWN,,,0,0,1,False,「看來附近的島嶼一點也不穩定。」
+0x06FA,UNKNOWN,,,31,0,1,False,「不列顛尼亞似乎有些不對勁。也許不列顛王會知道這場地震背後的原因。」
+0x0710,UNKNOWN,,,18e,0,1,False,他獻出了自己的心... 為了讓 Adjhar 活下去！* 好了，不想說得太悲傷，但我想咒語現在應該能起作用了。
+0x0714,UNKNOWN,,,0,0,1,False,心臟必須放在身體裡。
+0x0714,UNKNOWN,,,21,0,1,False,根據古籍，執行這個儀式需要一顆『心臟』。
+0x0809,UNKNOWN,,,12,0,1,False,必須先購買這輛馬車的產權。
+0x0809,UNKNOWN,,,3c,0,1,False,我們必須先購買這輛馬車的產權。
+0x080E,UNKNOWN,,,0,0,1,False,我相信橋被擋住了。
+0x0818,UNKNOWN,,,0,0,1,False,門似乎被擋住了。
+0x0831,UNKNOWN,,,0,0,1,False,其中一個跳板似乎被擋住了。必須降下來才能開船。
+0x0891,Bollux,,,1a7,0,1,False,我無意冒犯，但如果這件事不涉及死亡，這會是一個滑稽的景象：兩個魔像把『心臟』傳給對方，然後一個個倒下又起來...
+0x0894,UNKNOWN,,,12e,0,1,False,天哪，群星在上，我相信這是一隻生物！
+0x0928,UNKNOWN,,,e4,0,1,False,嗯……我敢打賭那肯定能讓人解渴。

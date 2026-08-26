@@ -8915,3 +8915,44 @@ func_id,npc,speaker,caller_guess,offset_key,segment,total_segments,has_var,text
 0x095F,,,,0x0,0,1,False,"nowadays only these 'retro-style' signs remain in use!"""
 0x095F,,,,0x146,0,1,False,"However, I've heard the British King possesses a 'Translation of Ancient Texts' that could solve this problem."
 0x02F8,,,,0xAD,0,1,False,I believe the gem must be held in the weapon hand to break the mirror.
+0x0096,UNKNOWN,,,0,0,1,False,The sails must be furled before the planks are raised.
+0x0096,UNKNOWN,,,33,0,1,False,I think the gangplank is blocked.
+0x00FB,UNKNOWN,,,0,0,1,False,The deed for this vessel must first be purchased.
+0x00FB,UNKNOWN,,,27,0,1,False,We must purchase the deed for this vessel before we sail her.
+0x0105,UNKNOWN,,,0,0,1,False,I believe that one threads a loom before using it.
+0x011C,UNKNOWN,,,11,0,1,False,"^<Avatar>, I believe the key word in sundial is `sun'."
+0x0154,UNKNOWN,,,0,0,1,False,What is this!
+0x0247,UNKNOWN,,,0,0,1,False,There is no room for thy bedroll there.
+0x0270,Avatar,,,0,0,1,False,Thou must hold that in thine hand.
+0x0270,UNKNOWN,,,21,0,1,False,It seems the tree will yield nothing of value.
+0x0270,UNKNOWN,,,58,0,1,False,It seems that a pick is not needed for that.
+0x0273,UNKNOWN,,,2c,0,1,False,Try those on a locked chest or door.
+0x02BA,UNKNOWN,,,0,0,1,False,Might not those come in handy for cutting cloth into bandages?
+0x02DA,UNKNOWN,,,55,0,1,False,"Pardon me my friend, dost thou not think that would be a little crowded?"
+0x02F8,Avatar,,,5e,0,1,False,I believe the gem must be held in the weapon hand to break the mirror.
+0x030D,UNKNOWN,,,0,0,1,False,The sails must be furled before the planks can be lowered.
+0x030D,UNKNOWN,,,33,0,1,False,I think the gangplank is blocked.
+0x030E,UNKNOWN,,,0,0,1,False,Perhaps thou shouldst attack with it.
+0x033B,UNKNOWN,,,0,0,1,False,It does not appear as though a bandage is needed.
+0x0348,UNKNOWN,,,0,0,1,False,I do not believe that we can land here safely.
+0x035F,Iolo,,,0,0,1,False,Why not put the flour on the table first?
+0x0638,UNKNOWN,,,0,0,1,False,Odd. The page is smudged with dirt here. I cannot make out this text.
+0x0638,UNKNOWN,,,48,0,1,False,"Why, a page has fallen out of the book!"
+0x06F8,UNKNOWN,,,0,0,1,False,'Tis sad that Erethian's lust for power has brought him to this evil pass.
+0x06F8,UNKNOWN,,,57,0,1,False,"Perhaps, at last, he is at rest."
+0x06F8,Lord British,,,7b,0,1,False,I am sure that Lord British even now awaits news of Exodus' exile.
+0x06F8,UNKNOWN,,,c2,0,1,False,It is time to leave this barren island behind.
+0x06FA,UNKNOWN,,,0,0,1,False,It would seem the nearby island is not at all stable.
+0x06FA,UNKNOWN,,,31,0,1,False,All is not right in Britannia. Perhaps Lord British will know the reason behind this tremor.
+0x0710,UNKNOWN,,,18e,0,1,False,"He gave up his heart... so that Adjhar may live!* Well, not to be morbid, but I suppose the incantation should work now."
+0x0714,UNKNOWN,,,0,0,1,False,The heart must be placed in the body.
+0x0714,UNKNOWN,,,21,0,1,False,"According to the tome, a `heart' will be necessary to perform this ritual."
+0x0809,UNKNOWN,,,12,0,1,False,The title for this cart must first be purchased.
+0x0809,UNKNOWN,,,3c,0,1,False,We must first purchase the title for this cart.
+0x080E,UNKNOWN,,,0,0,1,False,I believe the bridge is blocked.
+0x0818,UNKNOWN,,,0,0,1,False,The door appears blocked.
+0x0831,UNKNOWN,,,0,0,1,False,One of the gangplanks seems to be blocked. It must be lowered to sail.
+0x0891,Bollux,,,1a7,0,1,False,"I don't mean to be irreverent, but did the matter not involve death, 'twould be a humorous sight: the two golems popping up and down as each one passed the `heart' to the other...@"
+0x0894,UNKNOWN,,,12e,0,1,False,"Why, by the stars, I believe it 
+				is a creature!"
+0x0928,UNKNOWN,,,e4,0,1,False,mmmm... I bet that would sure wet a body's whistle.
