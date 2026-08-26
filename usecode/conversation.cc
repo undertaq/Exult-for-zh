@@ -81,6 +81,41 @@ void Conversation::clear_answers() {
 	answers.clear();
 }
 
+namespace {
+/*
+ *  Canonical form of an answer for usecode matching: in dual text mode the
+ *  generator renders topic keywords as "ZH(EN)"; comparisons against the
+ *  usecode's own ZH literals must strip the parenthesized English part
+ *  (and any '
+'-stacked part) before matching/returning the choice.
+ */
+std::string canonical_answer_text(const char* str) {
+	std::string s(str ? str : "");
+	const size_t nl = s.find('\n');
+	if (nl != string::npos) {
+		s.resize(nl);
+	}
+	const size_t paren = s.find('(');
+	if (paren != string::npos && paren > 0) {
+		bool ascii_tail = true;
+		for (size_t i = paren + 1; i < s.size(); ++i) {
+			unsigned char c = static_cast<unsigned char>(s[i]);
+			if (c >= 0x80) {
+				ascii_tail = false;
+				break;
+			}
+		}
+		if (ascii_tail) {
+			s.resize(paren);
+		}
+	}
+	while (!s.empty() && (s.back() == ' ' || s.back() == '\t')) {
+		s.pop_back();
+	}
+	return s;
+}
+}    // namespace
+
 void Conversation::add_answer(const char* str) {
 	remove_answer(str);
 	const string s(str);
@@ -104,10 +139,14 @@ void Conversation::add_answer(Usecode_value& val) {
 }
 
 void Conversation::remove_answer(const char* str) {
-	auto it = std::find(answers.cbegin(), answers.cend(), str);
-
-	if (it != answers.cend()) {
-		answers.erase(it);
+	const string key = canonical_answer_text(str);
+	auto it = answers.begin();
+	while (it != answers.end()) {
+		if (canonical_answer_text(it->c_str()) == key) {
+			it = answers.erase(it);
+		} else {
+			++it;
+		}
 	}
 }
 
@@ -1039,9 +1078,10 @@ void Conversation::paint_faces(
  */
 
 int Conversation::locate_answer(const char* str) {
+	const string key = canonical_answer_text(str);
 	int num = 0;
 	for (auto& answer : answers) {
-		if (answer == str) {
+		if (canonical_answer_text(answer.c_str()) == key) {
 			return num;
 		}
 		num++;

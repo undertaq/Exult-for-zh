@@ -26,6 +26,7 @@
 
 #include "Audio.h"
 #include "VoiceActingManager.h"
+#include "bilingual_manager.h"
 #include "Face_stats.h"
 #include "Gump.h"
 #include "Gump_manager.h"
@@ -1927,8 +1928,36 @@ int Usecode_internal::get_user_choice_num() {
 	while (choice_num < 0 || choice_num >= conv->get_num_answers());
 
 	conv->clear_avatar_choices();
-	// Store ->answer string.
-	user_choice = newstrdup(conv->get_answer(choice_num));
+	// Store ->answer string. In dual text mode the displayed choice is
+	// "ZH(EN)" (merged by the dual-usecode generator); the usecode matches
+	// against its own ZH literals, so normalize back to the ZH part.
+	const char* ans = conv->get_answer(choice_num);
+	if (BilingualManager::get().get_text_language() == TextLanguage::DUAL) {
+		std::string canon(ans ? ans : "");
+		const size_t nl = canon.find('\n');
+		if (nl != std::string::npos) {
+			canon.resize(nl);
+		}
+		const size_t paren = canon.find('(');
+		if (paren != std::string::npos && paren > 0) {
+			bool ascii_tail = true;
+			for (size_t i = paren + 1; i < canon.size(); ++i) {
+				if (static_cast<unsigned char>(canon[i]) >= 0x80) {
+					ascii_tail = false;
+					break;
+				}
+			}
+			if (ascii_tail) {
+				canon.resize(paren);
+			}
+		}
+		while (!canon.empty() && (canon.back() == ' ' || canon.back() == '\t')) {
+			canon.pop_back();
+		}
+		user_choice = newstrdup(canon.c_str());
+	} else {
+		user_choice = newstrdup(ans);
+	}
 	return choice_num;    // Return choice #.
 }
 

@@ -44,6 +44,56 @@ def offset_key_for(addsi_offsets):
     return "_".join("%x" % o for o in addsi_offsets)
 
 
+def old_data_for_func(func_data, extended):
+    old_data, *_ = parse_parts(func_data, extended)
+    return old_data
+
+
+def extract_answer_keywords(func, data_seg, extended):
+    """Ordered [(pushs_data_off, keyword)] for add_answer (calli intrinsic 5).
+
+    Handles the two emission patterns:
+      pushs K            ; calli 5          (single keyword)
+      pushs K1..Kn ; arrc N ; calli 5        (keyword array)
+    """
+    instrs = func["instructions"]
+
+    def text_at(off):
+        end = data_seg.find(b"\0", off)
+        if end < 0:
+            end = len(data_seg)
+        return undo_latin1_mojibake(data_seg[off:end].decode("latin-1", errors="surrogateescape"))
+
+    out = []
+    for i, (addr, raw, name, params, comment) in enumerate(instrs):
+        if not (name == "calli" and params and params[0] == 5):
+            continue
+        j = i - 1
+        if j < 0:
+            continue
+        n2, p2 = instrs[j][2], instrs[j][3]
+        if n2 == "arrc":
+            # walk back over the N pushs feeding the array
+            cnt = p2[0] if p2 else 0
+            k = j - 1
+            group = []
+            while k >= 0 and cnt > 0:
+                n3, p3 = instrs[k][2], instrs[k][3]
+                if n3 == "pushs" and len(p3) >= 1:
+                    group.append((p3[0], text_at(p3[0])))
+                    cnt -= 1
+                elif n3 in ("pushs",):
+                    pass
+                else:
+                    break
+                k -= 1
+            out.extend(reversed(group))
+        elif n2 == "pushs" and len(p2) >= 1:
+            off = p2[0]
+            out.append((off, text_at(off)))
+    return out
+
+
 def load_en_by_key(review):
     """{(func_hex, offset_key): {segment: en_info_dict}}"""
     by_key = {}
@@ -152,7 +202,8 @@ def parse_parts(func_data, extended):
     return old_data, nargs, nvars, externs, func_data[pos:]
 
 
-def rebuild_function(func_data, extended, traces, neutralize_addsv_ips=None):
+def rebuild_function(func_data, extended, traces, neutralize_addsv_ips=None,
+                     pushs_redirect=None):
     """Append merged strings; redirect addsi operands.
 
     traces: {addsi_tuple: merged_str}
@@ -168,6 +219,10 @@ def rebuild_function(func_data, extended, traces, neutralize_addsv_ips=None):
     first_offsets = {}
     redirect = {}
     empty_off = None
+    pushs_new_off = {}
+    for data_off, merged in (pushs_redirect or {}).items():
+        pushs_new_off[data_off] = len(new_data)
+        new_data += merged.encode("utf-8") + b"\0"
     for t, merged in traces.items():
         t_first = t[0]
         if t_first in redirect:
@@ -185,13 +240,17 @@ def rebuild_function(func_data, extended, traces, neutralize_addsv_ips=None):
             redirect[later] = empty_off
 
     new_code = bytearray(old_code)
-    for instr_ip, data_off in iter_addsi(old_code, extended):
-        if data_off in redirect:
-            new_off = redirect[data_off]
-            if extended:
-                new_code[instr_ip + 1:instr_ip + 5] = struct.pack("<i", new_off)
-            else:
-                new_code[instr_ip + 1:instr_ip + 3] = struct.pack("<H", new_off)
+    for ip, op, fmt in iter_all_instrs(old_code, extended):
+        if op in (0x1C, 0x1D) and fmt == "si":
+            data_off = read_si_operand(old_code, ip + 1, extended)
+            new_off = redirect.get(data_off)
+            if new_off is None and op == 0x1D:
+                new_off = pushs_new_off.get(data_off)
+            if new_off is not None:
+                if extended:
+                    new_code[ip + 1:ip + 5] = struct.pack("<i", new_off)
+                else:
+                    new_code[ip + 1:ip + 3] = struct.pack("<H", new_off)
 
     # Neutralize addsv instructions that push variable values (avatar name,
     # honorific, pronouns) into merged strings: the values are already baked
@@ -245,9 +304,32 @@ def read_blm2(path):
     return rows
 
 
-def generate(zh_blob, review):
+def generate(zh_blob, review, en_blob=None):
     """Returns (dual_blob, dual_rows, skipped)."""
     by_key = load_en_by_key(review)
+    # English answer keywords per func (ordinal-aligned with the zh list).
+    en_answers = {}
+    if en_blob:
+        en_off = 0
+        while en_off < len(en_blob):
+            sym = dis.skip_symbol_table(en_blob, en_off)
+            if sym > en_off:
+                en_off = sym
+                continue
+            try:
+                e_fid, e_fdata, e_ext, e_nxt = dis.parse_function(en_blob, en_off)
+            except Exception:
+                break
+            if e_nxt <= en_off:
+                break
+            try:
+                e_old_data, _, _, _, _ = parse_parts(e_fdata, e_ext)
+                e_func = dis.disassemble_function(e_fid, e_fdata, e_ext)
+                en_answers[e_fid] = [t for _, t in extract_answer_keywords(
+                    e_func, e_old_data, e_ext)]
+            except Exception:
+                pass
+            en_off = e_nxt
     out = bytearray()
     dual_rows = []
     skipped = []
@@ -289,7 +371,26 @@ def generate(zh_blob, review):
                 skipped.append((fid_hex, key, "duplicate trace"))
                 continue
             traces[t] = "~".join(merged_parts)
-        if not traces:
+
+        # Avatar topic keywords: merge as "ZH(EN)" so dual mode shows both.
+        # The engine normalizes user_choice back to the ZH part on selection.
+        say_claimed_offsets = set()
+        for t in traces:
+            say_claimed_offsets.update(t)
+        pushs_redirect = {}
+        zh_ans = extract_answer_keywords(
+            dis.disassemble_function(fid, fdata, ext), old_data_for_func(fdata, ext), ext)
+        en_ans = en_answers.get(fid, [])
+        for k, (off, ztext) in enumerate(zh_ans):
+            if k >= len(en_ans):
+                break
+            etext = en_ans[k]
+            if not etext or etext == ztext or not etext.isascii():
+                continue
+            if off in say_claimed_offsets:
+                continue      # never clobber a say-trace operand
+            pushs_redirect[off] = f"{ztext}({etext})"
+        if not traces and not pushs_redirect:
             out += zh_blob[offset:nxt]
             offset = nxt
             continue
@@ -319,7 +420,7 @@ def generate(zh_blob, review):
                     neutralize.add(ip)
         try:
             new_blob, first_offsets, empty_off, redirect = rebuild_function(
-                fdata, ext, traces, neutralize)
+                fdata, ext, traces, neutralize, pushs_redirect)
         except (ValueError, struct.error, IndexError) as e:
             skipped.append((fid_hex, str(e)))
             out += zh_blob[offset:nxt]
@@ -380,6 +481,8 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--zh",
                     default=str(Path(__file__).parent / "_live" / "usecode.zh"))
+    ap.add_argument("--en",
+                    default=str(Path(__file__).parent / "_live" / "usecode.en"))
     ap.add_argument("--review",
                     default=str(Path(__file__).parent / "bilingual_mapping_review.json"))
     ap.add_argument("--out",
@@ -390,7 +493,13 @@ def main():
 
     zh_blob = Path(args.zh).read_bytes()
     review = json.loads(Path(args.review).read_text(encoding="utf-8"))
-    dual_blob, dual_rows, skipped = generate(zh_blob, review)
+    en_blob = None
+    en_path = Path(args.en)
+    if en_path.exists():
+        en_blob = en_path.read_bytes()
+    else:
+        print(f"  note: {en_path} not found; topics stay ZH-only", file=sys.stderr)
+    dual_blob, dual_rows, skipped = generate(zh_blob, review, en_blob)
     Path(args.out).write_bytes(dual_blob)
     write_blm2(args.map_out, dual_rows)
     print(f"Wrote {args.out}: {len(dual_blob)} bytes")
