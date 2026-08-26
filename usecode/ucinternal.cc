@@ -1929,36 +1929,13 @@ int Usecode_internal::get_user_choice_num() {
 	while (choice_num < 0 || choice_num >= conv->get_num_answers());
 
 	conv->clear_avatar_choices();
-	// Store ->answer string. In dual text mode the displayed choice is
-	// "ZH(EN)" (merged by the dual-usecode generator); the usecode matches
-	// against its own ZH literals, so normalize back to the ZH part.
+	// Store ->answer string verbatim. The dual-usecode generator merges
+	// topic keywords as "ZH(EN)" on ALL pushs sites -- add_answer arrays
+	// AND the in/cmps comparisons against user_choice (e.g. func 0x401
+	// pushes L450D "姓名(name)" to both). Stripping the "(EN)" tail here
+	// would make every topic comparison miss and stall the conversation.
 	const char* ans = conv->get_answer(choice_num);
-	if (BilingualManager::get().get_text_language() == TextLanguage::DUAL) {
-		std::string canon(ans ? ans : "");
-		const size_t nl = canon.find('\n');
-		if (nl != std::string::npos) {
-			canon.resize(nl);
-		}
-		const size_t paren = canon.find('(');
-		if (paren != std::string::npos && paren > 0) {
-			bool ascii_tail = true;
-			for (size_t i = paren + 1; i < canon.size(); ++i) {
-				if (static_cast<unsigned char>(canon[i]) >= 0x80) {
-					ascii_tail = false;
-					break;
-				}
-			}
-			if (ascii_tail) {
-				canon.resize(paren);
-			}
-		}
-		while (!canon.empty() && (canon.back() == ' ' || canon.back() == '\t')) {
-			canon.pop_back();
-		}
-		user_choice = newstrdup(canon.c_str());
-	} else {
-		user_choice = newstrdup(ans);
-	}
+	user_choice = newstrdup(ans ? ans : "");
 	return choice_num;    // Return choice #.
 }
 
