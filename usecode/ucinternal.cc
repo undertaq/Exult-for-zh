@@ -37,6 +37,7 @@
 #include "actors.h"
 #include "animate.h"
 #include "barge.h"
+#include "bilingual_manager.h"
 #include "chunks.h"
 #include "conversation.h"
 #include "databuf.h"
@@ -2738,20 +2739,41 @@ int Usecode_internal::run() {
 				voice_string_trace.push_back({frame->function->id, VOICE_TRACE_ADDSV});
 
 				const char* str = frame->locals[offset].get_str_value();
-				if (str) {
-					append_string(str);
-				} else {    // Convert integer.
+				char         numbuf[24];
+				if (!str) {    // Convert integer.
 					// 25-09-2001 - Changed to >= 0 to fix money-counting in SI.
 					//              if (locals[offset].get_int_value() != 0) {
 					if (frame->locals[offset].get_int_value() >= 0) {
-						char buf[20];
-						snprintf(buf, sizeof(buf), "%ld", frame->locals[offset].get_int_value());
-						append_string(buf);
+						snprintf(numbuf, sizeof(numbuf), "%ld",
+						         frame->locals[offset].get_int_value());
+						str = numbuf;
 					}
 				}
+				if (!str) {
+					break;    // Negative int: nothing appended (as before).
+				}
+				// Dual/zh merged templates carry "<VAR>" slots where the
+				// generator kept the addsv alive; substitute the value into
+				// every pending slot instead of appending at the end, so the
+				// number lands inside both the zh and en halves of the line.
+				if (*str && BilingualManager::get().is_zh_text() && String != nullptr
+				    && strstr(String, "<VAR>") != nullptr) {
+					std::string s(String);
+					const std::string tok("<VAR>");
+					std::string       val(str);
+					size_t            at = 0;
+					while ((at = s.find(tok, at)) != std::string::npos) {
+						s.replace(at, tok.size(), val);
+						at += val.size();
+					}
+					delete[] String;
+					String = new char[s.size() + 1];
+					memcpy(String, s.c_str(), s.size() + 1);
+				} else {
+					append_string(str);
+				}
 				break;
-			}
-			case UC_IN: {    // IN.  Is a val. in an array?
+			}			case UC_IN: {    // IN.  Is a val. in an array?
 				Usecode_value arr = pop();
 				// If an array, use 1st elem.
 				const Usecode_value val = pop().get_elem0();

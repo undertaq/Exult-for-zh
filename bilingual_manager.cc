@@ -182,7 +182,24 @@ void BilingualManager::set_text_language(TextLanguage lang) {
 
     Game_window* gwin = Game_window::get_instance();
     if (gwin) {
-        gwin->set_usecode(get_usecode(lang));
+        Usecode_machine* oldm = gwin->get_usecode();
+        Usecode_machine* newm = get_usecode(lang);
+        // Mid-game the outgoing machine owns the saved-game state (global
+        // flags, timers, usecode statics). Only the active machine ever gets
+        // Usecode_internal::read() during setup_game, so swapping machines
+        // without transferring state made the next save write an empty
+        // flaginit/timers - permanently destroying the savegame.
+        if (oldm != nullptr && newm != nullptr && oldm != newm
+                && gwin->get_main_actor() != nullptr) {
+            try {
+                oldm->write();    // flush live state to <GAMEDAT> files.
+                newm->read();     // load it into the incoming machine.
+            } catch (const std::exception& e) {
+                std::cerr << "[Bilingual] Failed to transfer usecode state on language switch: "
+                          << e.what() << std::endl;
+            }
+        }
+        gwin->set_usecode(newm);
         Game_singletons::init(gwin);
         current_lang = lang;
         gwin->set_all_dirty();

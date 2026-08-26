@@ -209,20 +209,34 @@ The final `bilingual_mapping_review.json` feeds two main pipelines:
 
 ### 10. Dual Subtitle usecode.dual Generation
 
-1. Ensure `_live/usecode.zh` is the current compiled ZH binary and
+1. Ensure `_live/usecode.zh` is the current compiled ZH binary,
+   `_live/usecode.en` is the matching English binary, and
    `bilingual_mapping_review.json` is up to date.
 2. Run:
    `python gen_dual_usecode.py`
-   (paths via `--zh/--review/--out/--map-out`; defaults: `_live/usecode.zh`,
-   `bilingual_mapping_review.json`, outputs into `_live/`).
+   (paths via `--zh/--en/--review/--out/--map-out`; defaults: `_live/usecode.zh`,
+   `_live/usecode.en`, `bilingual_mapping_review.json`, outputs into `_live/`.
+   `--no-answers` skips answer merging.)
 3. Outputs: `_live/usecode.dual` (dialogue strings merged as `ZH\nEN`) and
    `_live/dual_map.dat` (dual->zh and dual->en voice key rows, BLM2).
 4. `deploy.ps1` copies both into the distribution's patch dir.
 
-Invariant: every original data offset and every non-dialogue byte in
-`usecode.dual` is byte-identical to `usecode.zh`; only mapped dialogue
-traces redirect their first `addsi` to an appended merged string. Voice
-lookup in dual text mode goes through `dual_map.dat` (`map_offset(DUAL)`).
+Invariants:
+
+- every original data offset and every non-dialogue byte in `usecode.dual`
+  is byte-identical to `usecode.zh`; only mapped dialogue traces redirect
+  their first `addsi` to an appended merged string. Voice lookup in dual
+  text mode goes through `dual_map.dat` (`map_offset(DUAL)`).
+- addsv feeding semantic tokens (<PLAYER_NAME>/<HONORIFIC>/<PRONOUN>/
+  <GENDER_FLAG>) is neutralized; generic `<VAR>` addsv stays live so the
+  engine's ADDSV handler substitutes the real runtime value (numbers etc.)
+  into the pending `<VAR>` slots of both halves.
+- when `usecode.en` is available, answer strings (`pushs`) inside
+  cmps-bearing conversation functions are paired between the binaries and
+  merged inline as `ZH(EN)` (single row: `職業(job)`), so the avatar's
+  question list is fully bilingual. Equal-count functions pair
+  positionally; count-mismatched ones use anchor-seeded segment alignment;
+  ambiguous zh texts keep translating with their most frequent EN partner.
 
 ## Historical Steps (do NOT run)
 

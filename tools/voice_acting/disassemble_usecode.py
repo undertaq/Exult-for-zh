@@ -886,12 +886,14 @@ def extract_say_lines(func):
             # Build the template text with labeled placeholders
             template_parts = []
             has_var = False
+            addsv_labels = []
             for typ, val, text in accum:
                 if typ == 'addsi':
                     template_parts.append(text)
                 else:
                     label = var_labels.get(val, "<VAR>")
                     template_parts.append(label)
+                    addsv_labels.append(label)
                     has_var = True
             full_template = "".join(template_parts)
 
@@ -931,6 +933,7 @@ def extract_say_lines(func):
                     'total_segments': len(segments),
                     'text': seg_text,
                     'has_var': has_var,
+                    'addsv_labels': addsv_labels,
                     'var_info': say_var_info,
                     'is_book': is_book,
                     'speaker': seg_speaker,
