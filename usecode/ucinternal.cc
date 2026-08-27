@@ -2782,40 +2782,57 @@ int Usecode_internal::run() {
 					break;    // Negative int: nothing appended (as before).
 				}
 				// Dual/zh merged templates carry "<VAR>" slots where the
-				// generator kept the addsv alive; substitute the value into
-				// every pending slot instead of appending at the end, so the
-				// value lands inside both the zh and en halves of the line.
+				// generator kept the addsv alive. Multiple addsv ops fill the
+				// slots SEQUENTIALLY: each value replaces the first remaining
+				// "<VAR>" in the ZH half and the matching one in the EN half
+				// (translated to English when known), so a line like
+				// "我該如何協助 <VAR>，<VAR>？\nHow may I assist <VAR>, <VAR>?"
+				// renders as "我該如何協助 你們隊伍，聖者？\nHow may I assist
+				// your party, Avatar?".
 				if (*str && BilingualManager::get().is_zh_text() && String != nullptr
 				    && strstr(String, "<VAR>") != nullptr) {
 					std::string s(String);
 					const std::string tok("<VAR>");
 					std::string       val(str);
-					// In DUAL the template is "zh\nen". A value with any ASCII
-					// content (a number, an ASCII name, or a bilingual token
-					// like "你(thee)") is acceptable in both halves, so
-					// substitute it everywhere. A PURELY Chinese value (no
-					// ASCII at all, e.g. the party name "你們隊伍") has no
-					// English equivalent at runtime, so render the line
-					// ZH-only instead of corrupting the English half.
-					bool val_has_ascii = false;
-					for (char c : val) {
-						if (static_cast<unsigned char>(c) < 0x80) {
-							val_has_ascii = true;
-							break;
+					// English rendering of common runtime <VAR> values
+					// (the ZH usecode's addsv only carries the Chinese form).
+					std::string en_val = val;
+					if (val == "你")            en_val = "thee";
+					else if (val == "你們隊伍") en_val = "your party";
+					else if (val == "聖者")     en_val = "Avatar";
+					else if (val == "他")       en_val = "him";
+					else if (val == "她")       en_val = "her";
+					const bool in_dual =
+					    BilingualManager::get().get_text_language()
+					    == TextLanguage::DUAL;
+					if (in_dual) {
+						// Fill ZH half then EN half independently, each
+						// sequentially (first unfilled slot per addsv).
+						const size_t nl = s.find('\n');
+						std::string  zh = (nl == std::string::npos)
+						                      ? s
+						                      : s.substr(0, nl);
+						std::string  en = (nl == std::string::npos)
+						                      ? ""
+						                      : s.substr(nl + 1);
+						auto fill_first = [&tok](std::string& t,
+						                          const std::string& v) {
+							const size_t at = t.find(tok);
+							if (at != std::string::npos) {
+								t.replace(at, tok.size(), v);
+							}
+						};
+						fill_first(zh, val);
+						if (!en.empty()) {
+							fill_first(en, en_val);
 						}
-					}
-					if (BilingualManager::get().get_text_language()
-					        == TextLanguage::DUAL
-					    && !val_has_ascii) {
-						size_t nl = s.find('\n');
-						if (nl != std::string::npos) {
-							s = s.substr(0, nl);
+						s = en.empty() ? zh : zh + "\n" + en;
+					} else {
+						size_t at = 0;
+						while ((at = s.find(tok, at)) != std::string::npos) {
+							s.replace(at, tok.size(), val);
+							at += val.size();
 						}
-					}
-					size_t at = 0;
-					while ((at = s.find(tok, at)) != std::string::npos) {
-						s.replace(at, tok.size(), val);
-						at += val.size();
 					}
 					delete[] String;
 					String = new char[s.size() + 1];
