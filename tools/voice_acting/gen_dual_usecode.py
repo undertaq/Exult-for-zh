@@ -472,8 +472,19 @@ def generate(zh_blob, review, en_blob=None):
             info_per_seg = by_key.get((fid_hex, key)) or {}
             if not info_per_seg:
                 continue          # not in the review: leave byte-identical
-            merged_parts = []
+            # The same line is often said from multiple conversation
+            # branches (duplicate addsi->say sites with equal offsets). Merge
+            # only ONE site: group by code_addr, pick the largest site (the
+            # canonical multi-segment one), and keep its segments in order.
+            # Otherwise duplicate sites inflate the merged string (e.g. a
+            # doubled "zh\\nen~zh\\nen" that the engine then splits on '~').
+            sites = {}
             for line in seg_lines:
+                sites.setdefault(line["code_addr"], []).append(line)
+            site = max(sites.values(), key=len, default=[])
+            site.sort(key=lambda ln: ln["segment"])
+            merged_parts = []
+            for line in site:
                 zh = undo_latin1_mojibake(line["text"])
                 en = info_per_seg.get(line["segment"], {}).get("text", "")
                 merged_parts.append(build_merged(zh, en) if en else zh)
@@ -558,7 +569,8 @@ def generate(zh_blob, review, en_blob=None):
         for key, seg_lines in groups.items():
             t = tuple(seg_lines[0]["addsi_offsets"])
             if t in traces:
-                groups_by_first.setdefault(t[0], []).append(seg_lines[0])
+                for ln in seg_lines:
+                    groups_by_first.setdefault(t[0], []).append(ln)
         for off, firsts in groups_by_first.items():
             ips = sorted(addsi_ips_all.get(off, []))
             firsts.sort(key=lambda ln: ln["code_addr"])
@@ -567,9 +579,23 @@ def generate(zh_blob, review, en_blob=None):
                 if t in traces and t not in trace_ips:
                     trace_ips[t] = ip
 
-        first_ip_redirect = {
-            ip: traces[t] for t, ip in trace_ips.items()
-        }
+        # Every say site of a trace redirects to the SAME merged string.
+        # groups_by_first groups sites by their first addsi offset, so a
+        # trace said from multiple conversation branches gets one redirect
+        # per site. Keep trace_ips (first site, used for addsv spans).
+        first_ip_redirect = {ip: traces[t] for t, ip in trace_ips.items()}
+        for off, firsts in groups_by_first.items():
+            if off not in addsi_ips_all:
+                continue
+            ips = sorted(addsi_ips_all.get(off, []))
+            ordered = sorted(firsts, key=lambda l: l["code_addr"])
+            for ln in firsts:
+                t = tuple(ln["addsi_offsets"])
+                if t not in traces:
+                    continue
+                ip = ips[ordered.index(ln)] if len(ips) >= len(ordered) else None
+                if ip is not None:
+                    first_ip_redirect.setdefault(ip, traces[t])
 
         neutralize = set()
         for key, seg_lines in groups.items():
@@ -625,29 +651,48 @@ def generate(zh_blob, review, en_blob=None):
             # Executed key: the trace's addsi offsets redirected in code
             # order, with neutralized addsv variables contributing the empty
             # offset (the runtime records them via addsi in voice_string_trace).
-            say_addr = seg_lines[0]["code_addr"]
-            lo = trace_ips.get(t)
-            key_parts = []
-            for ip, op, fmt in iter_all_instrs(new_code, ext):
-                if ip < lo:
+            # Each say site (conversation branch) computes its OWN executed
+            # key from its instruction span, so every branch gets a dual_map
+            # row back to the same original clip.
+            seen_keys = set()
+            for site in sorted({ln["code_addr"] for ln in seg_lines}):
+                site_lines = [ln for ln in seg_lines if ln["code_addr"] == site]
+                say_addr = site_lines[0]["code_addr"]
+                # This site's own addsi instruction IP: the one immediately
+                # before its say address (addsi_ips_all holds all addsi IPs
+                # for the trace's first data offset).
+                t_first = t[0]
+                site_ips = [ip for ip in sorted(addsi_ips_all.get(t_first, []))
+                            if ip < say_addr]
+                lo = site_ips[-1] if site_ips else trace_ips.get(t)
+                if lo is None:
                     continue
-                if ip > say_addr:
-                    break
-                if op == 0x1C and fmt == "si":
-                    off = read_si_operand(new_code, ip + 1, ext)
-                    key_parts.append("%x" % off)
-            new_key = "_".join(key_parts) if key_parts else None
-            for line in seg_lines:
-                seg = line["segment"]
-                # dual->zh ONLY: the row's EN side is the ORIGINAL zh key the
-                # engine needs for zh voice (and bilingual_by_zh chains it to
-                # the real EN key for en voice). Emitting dual->en rows too
-                # would shadow the zh key in dual_by_zh and break zh voice for
-                # lines whose zh/en offsets differ.
-                dual_rows.append({"zh_func_id": fid, "zh_offset_key": new_key,
-                                  "zh_segment": seg,
-                                  "en_func_id": fid, "en_offset_key": key,
-                                  "en_segment": seg})                # dual->zh
+                key_parts = []
+                for ip, op, fmt in iter_all_instrs(new_code, ext):
+                    if ip < lo:
+                        continue
+                    if ip > say_addr:
+                        break
+                    if op == 0x1C and fmt == "si":
+                        off = read_si_operand(new_code, ip + 1, ext)
+                        key_parts.append("%x" % off)
+                new_key = "_".join(key_parts) if key_parts else None
+                if new_key is None or new_key in seen_keys:
+                    continue
+                seen_keys.add(new_key)
+                for line in site_lines:
+                    seg = line["segment"]
+                    # dual->zh ONLY: the row's EN side is the ORIGINAL zh key
+                    # the engine needs for zh voice (and bilingual_by_zh chains
+                    # it to the real EN key for en voice). Emitting dual->en
+                    # rows too would shadow the zh key in dual_by_zh and break
+                    # zh voice for lines whose zh/en offsets differ.
+                    dual_rows.append({"zh_func_id": fid,
+                                      "zh_offset_key": new_key,
+                                      "zh_segment": seg,
+                                      "en_func_id": fid,
+                                      "en_offset_key": key,
+                                      "en_segment": seg})   # dual->zh
         offset = nxt
     return bytes(out), dual_rows, skipped
 
