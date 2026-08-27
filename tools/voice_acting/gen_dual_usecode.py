@@ -522,6 +522,7 @@ def generate(zh_blob, review, en_blob=None):
         for i in range(len(externs) // 2):
             if i * 2 + 2 <= len(externs):
                 ext_map[i] = dis.read2(externs, i * 2)
+        bark_offsets = []          # pushs offsets of bark lines in THIS func
         last_pushs = None
         for ip, op, fmt in iter_all_instrs(old_code, ext):
             if op == 0x1D and fmt == "si":
@@ -546,6 +547,7 @@ def generate(zh_blob, review, en_blob=None):
                         ):
                             zh_text = zh_text[1:-1].strip()
                         func_answer_redirect[last_pushs] = zh_text + "\n" + en_text
+                        bark_offsets.append(last_pushs)
             last_pushs = None
         # Assign each trace an instruction IP for its FIRST addsi. When
         # several traces share the same first data offset (a shared string
@@ -604,6 +606,18 @@ def generate(zh_blob, review, en_blob=None):
         else:
             out += struct.pack("<HH", fid, len(new_blob))
         out += new_blob
+        # Bark (pushs) lines: their operand was redirected by
+        # answer_redirect, so the runtime pushes the appended merged offset.
+        # Emit a dual_map row executed(pushs)->original so the engine maps
+        # back to the clip named by the original offset (e.g. 0891_1a7_0).
+        for off in bark_offsets:
+            exec_off = redirect.get(off, off)
+            dual_rows.append({"zh_func_id": fid,
+                              "zh_offset_key": "%x" % exec_off,
+                              "zh_segment": 0,
+                              "en_func_id": fid,
+                              "en_offset_key": "%x" % off,
+                              "en_segment": 0})
         for key, seg_lines in groups.items():
             t = tuple(seg_lines[0]["addsi_offsets"])
             if t not in first_offsets:
