@@ -637,28 +637,47 @@ void Usecode_internal::say_string() {
 	// functions (e.g. egg-triggered barks where the egg pushes text then
 	// calls the speech function).
 	std::string voice_offset_key;
-	for (const auto& [fid, off_raw] : voice_string_trace) {
-		if (off_raw == VOICE_TRACE_ADDSV) {
-			continue;    // Skip variable insertions.
+	// Bark-style lines (FoV companion helper 0x8FF -> 0x900 -> 0x903): the
+	// text was pushs-pushed in a CALLER frame, and the current (helper)
+	// function says it via its own template addsi. That template offset is
+	// not the real text, so when a pushs entry comes from a DIFFERENT
+	// function, prefer it and address <caller_func>_<pushs_off>_<segment>
+	// clips instead of the helper's template clip.
+	for (auto it = voice_string_trace.rbegin();
+			it != voice_string_trace.rend(); ++it) {
+		if (it->second != VOICE_TRACE_ADDSV
+			&& (it->second & VOICE_TRACE_PUSHS_FLAG)
+			&& it->first != voice_func_id) {
+			voice_func_id = it->first;
+			char hexbuf[16];
+			std::snprintf(hexbuf, sizeof(hexbuf), "%x",
+						  it->second & ~VOICE_TRACE_PUSHS_FLAG);
+			voice_offset_key = hexbuf;
+			break;
 		}
-		if (fid != voice_func_id) {
-			continue;    // Only entries from the current function.
+	}
+	if (voice_offset_key.empty()) {
+		for (const auto& [fid, off_raw] : voice_string_trace) {
+			if (off_raw == VOICE_TRACE_ADDSV) {
+				continue;    // Skip variable insertions.
+			}
+			if (fid != voice_func_id) {
+				continue;    // Only entries from the current function.
+			}
+			if (off_raw & VOICE_TRACE_PUSHS_FLAG) {
+				continue;    // Skip pushs, only addsi entries.
+			}
+			if (!voice_offset_key.empty()) {
+				voice_offset_key += "_";
+			}
+			char hexbuf[16];
+			std::snprintf(hexbuf, sizeof(hexbuf), "%x", off_raw);
+			voice_offset_key += hexbuf;
 		}
-		if (off_raw & VOICE_TRACE_PUSHS_FLAG) {
-			continue;    // Skip pushs, only addsi entries.
-		}
-		if (!voice_offset_key.empty()) {
-			voice_offset_key += "_";
-		}
-		char hexbuf[16];
-		std::snprintf(hexbuf, sizeof(hexbuf), "%x", off_raw);
-		voice_offset_key += hexbuf;
 	}
 	if (voice_offset_key.empty() && !voice_string_trace.empty()) {
-		// Bark-style lines (FoV companion helper 0x8FF/0x903): the text was
-		// pushs-pushed in a CALLER frame, so the current function contributes
-		// no addsi. Fall back to the last pushs entry so playback addresses
-		// <caller_func>_<pushs_off>_<segment> clips.
+		// Final fallback: the current function still contributed no addsi.
+		// Use the last pushs entry (same-function egg-triggered barks).
 		for (auto it = voice_string_trace.rbegin();
 				it != voice_string_trace.rend(); ++it) {
 			if (it->second != VOICE_TRACE_ADDSV
