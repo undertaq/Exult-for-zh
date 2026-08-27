@@ -601,7 +601,7 @@ void Usecode_internal::say_string() {
 		return;
 	}
 	show_pending_text();    // Make sure prev. text was seen.
-	const int voice_func_id = frame ? frame->function->id : -1;
+	int      voice_func_id = frame ? frame->function->id : -1;
 
 	// Determine the caller NPC from the call stack (who initiated the conversation).
 	// NPC numbers are stored as negative values to match usecode convention
