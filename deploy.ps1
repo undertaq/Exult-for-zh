@@ -40,7 +40,7 @@ Write-Host "=== Step 3: 7z compress (exclude STATIC + gamedat) ==="
 $dateTag = (Get-Date -Format "yyyyMMdd")
 $out = Join-Path (Split-Path $dist -Parent) "U7_dual_$dateTag.7z"
 if (Test-Path $out) { Remove-Item $out -Force }
-& 7z a -t7z -mx=9 -mfb=273 -ms=on -r "$out" "$dist\*" "-x!Ultima_7\STATIC\*" "-x!Exult\blackgate\gamedat\*"
+& 7z a -t7z -mx=9 -mfb=273 -ms=on -r "$out" "$dist\*" "-x!Ultima_7\STATIC\*" "-x!Exult\blackgate\gamedat\*" "-x!Exult\blackgate\*.sav" "-x!Ultima_7\patch\voice_acting\voice_acting_log.csv"
 if ($LASTEXITCODE -ne 0 -and $LASTEXITCODE -ne 1) {
     throw "7z failed with exit code $LASTEXITCODE"
 }
