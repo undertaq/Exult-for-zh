@@ -2796,12 +2796,19 @@ int Usecode_internal::run() {
 					std::string       val(str);
 					// English rendering of common runtime <VAR> values
 					// (the ZH usecode's addsv only carries the Chinese form).
-					std::string en_val = val;
-					if (val == "你")            en_val = "thee";
-					else if (val == "你們隊伍") en_val = "your party";
-					else if (val == "聖者")     en_val = "Avatar";
-					else if (val == "他")       en_val = "him";
-					else if (val == "她")       en_val = "her";
+					// Compare against UTF-8 byte strings (no /utf-8 on MSVC,
+					// so raw Chinese literals would not compile).
+					const std::string b_you("\xe4\xbd\xa0");                 // 你
+					const std::string b_party("\xe4\xbd\xa0\xe5\x80\x91\xe9\x9a\x8a\xe4\xbc\x8d");  // 你們隊伍
+					const std::string b_avatar("\xe8\x81\x96\xe8\x80\x85");   // 聖者
+					const std::string b_him("\xe4\xbb\x96");                  // 他
+					const std::string b_her("\xe5\xa5\xb9");                  // 她
+					std::string       en_val = val;
+					if (val == b_you)            en_val = "thee";
+					else if (val == b_party)     en_val = "your party";
+					else if (val == b_avatar)    en_val = "Avatar";
+					else if (val == b_him)       en_val = "him";
+					else if (val == b_her)       en_val = "her";
 					const bool in_dual =
 					    BilingualManager::get().get_text_language()
 					    == TextLanguage::DUAL;
