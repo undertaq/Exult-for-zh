@@ -639,33 +639,35 @@ void Usecode_internal::say_string() {
 	std::string voice_offset_key;
 	// Bark-style lines (FoV companion helper 0x8FF -> 0x900 -> 0x903): the
 	// text was pushs-pushed in a CALLER frame, and the current (helper)
-	// function says it via its own template addsi. That template offset is
-	// not the real text, so when a pushs entry comes from a DIFFERENT
-	// function AND the current function's say is a template (it has an
-	// addsv pulling the pushed text in), prefer the caller's pushs offset
-	// and address <caller_func>_<pushs_off>_<segment> clips. The current-
-	// function addsv requirement keeps answer-keyword pushs (e.g. func
-	// 0x090A's Yes/No, called before a normal say) from being mistaken for
-	// barks.
-	bool cur_has_addsv = false;
-	for (const auto& [fid, off_raw] : voice_string_trace) {
-		if (fid == voice_func_id && off_raw == VOICE_TRACE_ADDSV) {
-			cur_has_addsv = true;
-			break;
-		}
-	}
-	if (cur_has_addsv) {
-		for (auto it = voice_string_trace.rbegin();
-				it != voice_string_trace.rend(); ++it) {
-			if (it->second != VOICE_TRACE_ADDSV
-				&& (it->second & VOICE_TRACE_PUSHS_FLAG)
-				&& it->first != voice_func_id) {
-				voice_func_id = it->first;
-				char hexbuf[16];
-				std::snprintf(hexbuf, sizeof(hexbuf), "%x",
-							  it->second & ~VOICE_TRACE_PUSHS_FLAG);
-				voice_offset_key = hexbuf;
+	// function 0x0903 says it via its own template addsi. That template
+	// offset is not the real text, so when the say is in func 0x0903 AND its
+	// template uses addsv (pulling the pushed text in), prefer the caller's
+	// pushs offset and address <caller_func>_<pushs_off>_<segment> clips.
+	// Gating on func 0x0903 keeps other conversation helpers (e.g. Tseramed's
+	// 0x08F2, which also uses addsv + say) from mistaking caller topic-keyword
+	// pushs for barks, and the addsv check keeps the no-addsv 'Oink' path on
+	// its own template clip.
+	if (voice_func_id == 0x0903) {
+		bool cur_has_addsv = false;
+		for (const auto& [fid, off_raw] : voice_string_trace) {
+			if (fid == voice_func_id && off_raw == VOICE_TRACE_ADDSV) {
+				cur_has_addsv = true;
 				break;
+			}
+		}
+		if (cur_has_addsv) {
+			for (auto it = voice_string_trace.rbegin();
+					it != voice_string_trace.rend(); ++it) {
+				if (it->second != VOICE_TRACE_ADDSV
+					&& (it->second & VOICE_TRACE_PUSHS_FLAG)
+					&& it->first != voice_func_id) {
+					voice_func_id = it->first;
+					char hexbuf[16];
+					std::snprintf(hexbuf, sizeof(hexbuf), "%x",
+								  it->second & ~VOICE_TRACE_PUSHS_FLAG);
+					voice_offset_key = hexbuf;
+					break;
+				}
 			}
 		}
 	}
@@ -2788,22 +2790,23 @@ int Usecode_internal::run() {
 					std::string s(String);
 					const std::string tok("<VAR>");
 					std::string       val(str);
-					// In DUAL the template is "zh\nen". A language-neutral
-					// value (ASCII: a number, an ASCII name) is correct for
-					// both halves, so substitute it everywhere. A Chinese
-					// value has no English equivalent available at runtime
-					// (only the ZH usecode's addsv runs), so render the line
+					// In DUAL the template is "zh\nen". A value with any ASCII
+					// content (a number, an ASCII name, or a bilingual token
+					// like "你(thee)") is acceptable in both halves, so
+					// substitute it everywhere. A PURELY Chinese value (no
+					// ASCII at all, e.g. the party name "你們隊伍") has no
+					// English equivalent at runtime, so render the line
 					// ZH-only instead of corrupting the English half.
-					bool val_is_ascii = true;
+					bool val_has_ascii = false;
 					for (char c : val) {
-						if (static_cast<unsigned char>(c) >= 0x80) {
-							val_is_ascii = false;
+						if (static_cast<unsigned char>(c) < 0x80) {
+							val_has_ascii = true;
 							break;
 						}
 					}
 					if (BilingualManager::get().get_text_language()
 					        == TextLanguage::DUAL
-					    && !val_is_ascii) {
+					    && !val_has_ascii) {
 						size_t nl = s.find('\n');
 						if (nl != std::string::npos) {
 							s = s.substr(0, nl);
