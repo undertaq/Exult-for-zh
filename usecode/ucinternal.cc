@@ -2794,8 +2794,13 @@ int Usecode_internal::run() {
 					std::string s(String);
 					const std::string tok("<VAR>");
 					std::string       val(str);
-					// English rendering of common runtime <VAR> values
-					// (the ZH usecode's addsv only carries the Chinese form).
+					// Split a value that is already bilingual "ZH(EN)" (topic
+					// keywords like "英勇的戰士(valiant warrior)" are stored
+					// that way): the ZH half gets the leading Chinese, the EN
+					// half gets the parenthesized English. Otherwise the ZH
+					// half keeps the value and the EN half uses a small
+					// translation map (the ZH addsv only carries Chinese) or
+					// the value itself.
 					// Compare against UTF-8 byte strings (no /utf-8 on MSVC,
 					// so raw Chinese literals would not compile).
 					const std::string b_you("\xe4\xbd\xa0");                 // 你
@@ -2803,12 +2808,30 @@ int Usecode_internal::run() {
 					const std::string b_avatar("\xe8\x81\x96\xe8\x80\x85");   // 聖者
 					const std::string b_him("\xe4\xbb\x96");                  // 他
 					const std::string b_her("\xe5\xa5\xb9");                  // 她
+					std::string       zh_val = val;
 					std::string       en_val = val;
-					if (val == b_you)            en_val = "thee";
-					else if (val == b_party)     en_val = "your party";
-					else if (val == b_avatar)    en_val = "Avatar";
-					else if (val == b_him)       en_val = "him";
-					else if (val == b_her)       en_val = "her";
+					const size_t      lp     = val.rfind('(');
+					if (lp != std::string::npos && lp > 0 && val.back() == ')') {
+						bool ascii_tail = true;
+						for (size_t i = lp + 1; i + 1 < val.size(); ++i) {
+							if (static_cast<unsigned char>(val[i]) >= 0x80) {
+								ascii_tail = false;
+								break;
+							}
+						}
+						if (ascii_tail) {
+							zh_val = val.substr(0, lp);
+							en_val = val.substr(lp + 1, val.size() - lp - 2);
+						}
+					}
+					if (zh_val == val) {    // Not "ZH(EN)": use the map.
+						if (val == b_you)            en_val = "thee";
+						else if (val == b_party)     en_val = "your party";
+						else if (val == b_avatar)    en_val = "Avatar";
+						else if (val == b_him)       en_val = "him";
+						else if (val == b_her)       en_val = "her";
+						else                         en_val = val;
+					}
 					const bool in_dual =
 					    BilingualManager::get().get_text_language()
 					    == TextLanguage::DUAL;
@@ -2829,7 +2852,7 @@ int Usecode_internal::run() {
 								t.replace(at, tok.size(), v);
 							}
 						};
-						fill_first(zh, val);
+						fill_first(zh, zh_val);
 						if (!en.empty()) {
 							fill_first(en, en_val);
 						}
