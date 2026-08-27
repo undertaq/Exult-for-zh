@@ -1,4 +1,4 @@
-﻿"""Tests for gen_dual_usecode.py."""
+"""Tests for gen_dual_usecode.py."""
 import struct
 import sys
 from pathlib import Path
@@ -61,12 +61,11 @@ def test_generate_merges_and_preserves_unmerged():
     assert any(l["text"] == "HELLO\nNIHAO" for l in lines)
     # second function byte-identical
     assert dual[nxt:] == f2
-    # dual->zh + dual->en rows
-    assert len(rows) == 2
+    # dual->zh rows (one row per review entry; en_func_id matches zh_func_id)
+    assert len(rows) == 1
     zh_rows = [r for r in rows if r["en_func_id"] == 0x0123]
-    en_rows = [r for r in rows if r["en_func_id"] == 0x0402]
-    assert len(zh_rows) == 1 and len(en_rows) == 1
-    assert en_rows[0]["zh_offset_key"] == "%x" % len(data)  # appended offset
+    # en_rows no longer emitted; en_func_id matches zh_func_id
+    assert len(zh_rows) == 1
 
 
 def test_generate_two_traces_redirects_later_addsi_to_empty():
@@ -94,7 +93,7 @@ def test_generate_two_traces_redirects_later_addsi_to_empty():
     lines = g.dis.extract_say_lines(func)
     texts = sorted(l["text"] for l in lines)
     assert texts == ["AAABBB\nEN1", "CCC\nEN2"]
-    assert len(rows) == 4
+    assert len(rows) == 2
     # both merged strings present in the data segment
     merged = [s for s in func["strings"].values() if "\n" in s]
     assert len(merged) == 2
