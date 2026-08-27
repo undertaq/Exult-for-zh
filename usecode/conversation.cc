@@ -510,6 +510,19 @@ void Conversation::show_npc_message(const char* msg) {
 	}
 	// Voice playback is now triggered from say_string() in ucinternal.cc
 	// using usecode function ID + segment index as the key.
+	// Remember the speaker's portrait before waiting for sprites. Reentrant
+	// time-queue callbacks fired during the wait below (e.g. weapon-hit
+	// effect usecode in the endgame fight) can run call_usecode(), whose
+	// tail cleanup calls init_faces() and wipes the conversation's face
+	// state; without restoring it, this message's text (and the portrait)
+	// would silently disappear even though the voice plays.
+	const int  saved_last_face = last_face_shown;
+	int        saved_shape_num = -1;
+	int        saved_frame     = 0;
+	if (static_cast<unsigned>(saved_last_face) < face_info.size() && face_info[saved_last_face]) {
+		saved_shape_num = face_info[saved_last_face]->shape.get_shapenum();
+		saved_frame     = face_info[saved_last_face]->shape.get_framenum();
+	}
 	// Wait for any sprite effects to finish before showing text.
 	Effects_manager* eman = gwin->get_effects();
 	if (eman->has_active_sprites()) {
@@ -533,7 +546,14 @@ void Conversation::show_npc_message(const char* msg) {
 	// face_info[-1] aliases the object's vptr, which crashed as a write into
 	// read-only memory when assigned through.
 	if (static_cast<unsigned>(last_face_shown) >= face_info.size() || !face_info[last_face_shown]) {
-		return;
+		// A reentrant callback cleared the face during the sprite wait.
+		// Restore the speaker's portrait so the dialogue still displays.
+		if (saved_shape_num >= 0) {
+			show_face(saved_shape_num, saved_frame, -1);
+		}
+		if (static_cast<unsigned>(last_face_shown) >= face_info.size() || !face_info[last_face_shown]) {
+			return;
+		}
 	}
 	Npc_face_info* info = face_info[last_face_shown];
 	int font = info->large_face ? 7 : 0;

@@ -1,0 +1,222 @@
+
+================================================================================
+VERIFICATION for 0x0401 (54 mapped entries)
+================================================================================
+
+   0. [af_151_254           seg0] -> [b4_139_1f3           seg0]
+     EN: A rather large, familiar man looks up and sees you. The shock that is evident fr
+     ZH: ä¸åå¥å£¯çèé ­æéèä½ ï¼ä»çèµ·ä¾æé»é¢çãä»åæ¯æ£ä½ï¼
+
+   1. [af_151_254           seg1] -> [b4_139_1f3           seg1]
+     EN: "<PLAYER_NAME>! If I did not trust the infallibility of mine own eyes, I would n
+     ZH:  åï¼ä½ å¯ç¥éï¼<PLAYER_NAME>ãå¾ä¸æ¬¡è¦é¢å°ç¾å¨ï¼Britannia å·²ç¶
+
+   2. [2b1                  seg0] -> [24c                  seg0]
+     EN: Iolo winks conspiratorially. He whispers, "Due no doubt to the difference in the
+     ZH: Iolo å´è£¡åå¥èï¼ãçä¾å¤§æ¦ Britannia çæéçµæ§ä¸åï¼åï¼é
+
+   3. [2b1                  seg1] -> [24c                  seg1]
+     EN: He resumes speaking aloud. "I have aged a little, as thou canst see. But of cour
+     ZH: ä»æ¢å¾©äºæ­£å¸¸çé³éããå¥½å§ï¼æç¢ºå¯¦èäºä¸é»ãæ²è¾¦æ³ï¼é
+
+   4. [2b1                  seg2] -> [24c                  seg2]
+     EN: "Oh, but Avatar! Wait until I tell the others! They will be happy to see thee! W
+     ZH:  ãä¸é...èèï¼ç­æåè¨´å¶ä»äººï¼ä»åä¸å®å¾é«èè¦å°ä½ ï¼æ
+
+   5. [437_466              seg0] -> [39d_3d6              seg0]
+     EN: The distraught peasant interrupts Iolo. "Show <PRONOUN> the stables, milord. 'Ti
+     ZH: èæ¥çè¾²å¤«ææ· Ioloï¼ãåçï¼ä½ è¦ä¸è¦å¸¶<VAR> é¦¬å»å»ççï¼
+
+   6. [48d                  seg0] -> [3ff                  seg0]
+     EN: Iolo nods, his joy fading quickly as he is reminded of the reason he was standin
+     ZH: Iolo çµæ¼æ³èµ·çºä»ä»éº¼ä¾ Trinsicï¼èä¸çç¬å®¹æ²äºãä»é»äºé»é
+
+   7. [48d                  seg1] -> [3ff                  seg1]
+     EN:  "Ah, yes. Our friend Petre here discovered something truly ghastly this morning
+     ZH:  ãåå°ï¼éä½æå Petre ä»å¤©æ©ä¸çå°ä¸å¤ªå¥½çæ±è¥¿ãé¦¬å»è£¡
+
+   8. [585                  seg0] -> [4c8                  seg0]
+     EN: Iolo takes you aside and whispers, "Avatar, for the sake of our mutual sanity, I
+     ZH: Iolo æä½ æå°ä¸æä½è²èªªï¼ãèèï¼çºäºæåå±åççæºèæ³
+
+   9. [61a                  seg0] -> [55b                  seg0]
+     EN: "I am sorry, I do not join thieves."
+     ZH: ãæ±æ­ï¼æä¸è·å°å·çºä¼ãã
+
+  10. [63f                  seg0] -> [583                  seg0]
+     EN: "All right, I suppose thou hast learned thy lesson. I shall rejoin."
+     ZH: ãå¥½å§ï¼ææ³ä½ å·²ç¶å­¸å°æè¨äºãææéæ°å å¥éä¼ãã
+
+  11. [6bf                  seg0] -> [603                  seg0]
+     EN: "Yes, my friend?" Iolo asks.
+     ZH: ãæçèæåï¼ä½ éè¦ä»éº¼ï¼ã Iolo ééº¼åéã
+
+  12. [6e1_70e              seg0] -> [650_681              seg0]
+     EN: Your friend snorts. "What, art thou joking, <HONORIFIC>? Thou dost not know thin
+     ZH: ä½ æåå¼äºä¸è²ããä½ å¨éç©ç¬åï¼<HONORIFIC>ï¼èªä¸åºä½ çè
+
+  13. [748_765              seg0] -> [6af                  seg0]
+     EN: "Thou must see for thyself, <PLAYER_NAME>. Brace thyself, my friend. 'Tis truly 
+     ZH: ãå¤æè­¯æ¬ï¼æè½èªªä¸åé¡çæä¸æ¬ï¼éæ¯è½è®äººè¼é¬é±è®ç
+
+  14. [7a4                  seg0] -> [71c                  seg0]
+     EN: "Why, right now 'tis adventuring with that most courageous of all legendary hero
+     ZH: ãèªªå¯¦è©±ï¼æå¹³æå¹¾ä¹æ²æå¨ä½¿ç¨éäºå¤æäºãç¾å¨åªæå¨ä¸
+
+  15. [817_847              seg0] -> [798                  seg0]
+     EN: "Why, there is no doubt -thou- art the Avatar, <PLAYER_NAME>! However, thou maye
+     ZH: ãé èªå·±æ¢æ¢è§£è®å¶å¯¦æé»ç´¯â¦ï¼æäºå®ï¼å¨ä¸åé¡å°¼äºçæ
+
+  16. [8f4                  seg0] -> [808_830              seg0]
+     EN: "Well, after all, thou hast been gone for 200 years! Most of those who would rec
+     ZH: ãæè¦ºå¾ä½ æå¥½è¦ªèªå»ççï¼<PLAYER_NAME>ç¶å¾âè¦æé»å¿çæºå
+
+  17. [9a6                  seg0] -> [86d                  seg0]
+     EN: "Ugly, is it not? From what I have heard, neither Christopher nor Inamo deserved
+     ZH: ãåï¼ç¶ç¶æ¯åå³èªªä¸­çè±é ââ èèä¸èµ·åéªåï¼ã
+
+  18. [a54                  seg0] -> [8bf_8e7              seg0]
+     EN: "I wish thee luck in determining what is going on. I haven't a clue!" Iolo grins
+     ZH: ãæ¯«ç¡çåï¼-ä½ - å°±æ¯èèï¼<PLAYER_NAME>ï¼ä¸éï¼ä½ å¯è½å¾é£è
+
+  19. [adb                  seg0] -> [981                  seg0]
+     EN: "Well, between thee and me, I think that he hath aged much more than I!"
+     ZH: ãå¯ï¼ç¢ç«ä½ å·²ç¶é¢éå©ç¾å¹´äºï¼å¤§å¤æ¸èªå¾ä½ çäººæ©å°±ä¸å
+
+  20. [b24                  seg0] -> [a18                  seg0]
+     EN: "Full of information, that chap. But he never seems to leave Britain anymore."
+     ZH: ãççå¾æ½æï¼å°å§ï¼æåäººæ¯è¦ºå¾ Christopher å Inamo é½ä¸æ
+
+  21. [b73                  seg0] -> [ac0                  seg0]
+     EN: "My liege will be enormously pleased to see thee. We should travel to Britain po
+     ZH: ãééå¾é ä½ ææè¾¦æ³ï¼ææ¯æ²å¥é ­ç·ãã Iolo å§èå´ç¬ï¼æ
+
+  22. [c84                  seg0] -> [b31                  seg0]
+     EN: "Certainly. LB is always a repository of the most amazing facts, eh? Probably so
+     ZH: ãå¯ï¼éæåç§ä¸è¬ï¼ä»çèµ·ä¾æ¯æèå¤äºï¼ã
+
+  23. [d0a                  seg0] -> [b71                  seg0]
+     EN: "Right, Shamino?"
+     ZH: ãé£å¢ä¼ç¥éå¾å¤äºæãä½ä»ç¾å¨å¾å°ãå¹¾ä¹ä¸åºåäºãã
+
+  24. [d58                  seg0] -> [bc0                  seg0]
+     EN: "Speaking of information, reminds me of something! I have a little item which mi
+     ZH: ãLBçå°ä½ ä¸å®æ¨å£äºãæåå¾è¶å¿«å» Britain ä¸è¶ãä»ç¥éç
+
+  25. [e08                  seg0] -> [c6e                  seg0]
+     EN: "Thou must mean Shamino and Dupre."
+     ZH: ãç¶ç¶ãLB ç¸½æ¯æè¨±å¤é©äººçæå ±ï¼å°å§ï¼ä»è©±å¯è½ä¸å¤ï¼ä½
+
+  26. [e48_e62              seg0] -> [cff                  seg0]
+     EN: "Why, he is right there, <HONORIFIC>."
+     ZH: ãä½ èªªå°å§ï¼Shaminoï¼ã
+
+  27. [e66_e79              seg0] -> [d5b                  seg0]
+     EN: "I am right here, <HONORIFIC>."
+     ZH: ãèªªå°æå ±ï¼åæ¯æéäºæä¸ä»¶äºï¼æåæ±è¥¿å¯è½å°ä½ æç¨â
+
+  28. [e7d                  seg0] -> [dd7                  seg0]
+     EN: "See? I told thee!"
+     ZH: ãä½ æ¯èªª Shamino å Dupreå°å§ï¼ä¸å®æ¯ãã
+
+  29. [e91                  seg0] -> [e1c_e35              seg0]
+     EN: "I am sure we shall find him somewhere. Last I heard, he was in Jhelom. Didst th
+     ZH: ãååï¼ä»å¨åï¼<HONORIFIC>.ã
+
+  30. [efb                  seg0] -> [e3a_e59              seg0]
+     EN: "Hard to believe, is it not?"
+     ZH: ãå°åï¼æäººå¨éå¦ï¼<HONORIFIC>ãã
+
+  31. [f19                  seg0] -> [e60                  seg0]
+     EN: "It's true! Lord British knighted him recently. Why he did so, I cannot imagine!
+     ZH: ãçå§ï¼æå°±èªªï¼ã
+
+  32. [f86_fa0              seg0] -> [e7c                  seg0]
+     EN: "Why, he is right there, <HONORIFIC>."
+     ZH: ãä»ä¸å®å¨æåå°æ¹ï¼æå¾ä¸æ¬¡è½èªªæ¯å¨ Jhelomãè©±èªªï¼ä½ ç¥é
+
+  33. [fa4_fb7              seg0] -> [ef0                  seg0]
+     EN: "I am right here, <HONORIFIC>."
+     ZH: ãæ¯ä¸æ¯é£ä»¥ç½®ä¿¡ï¼ã
+
+  34. [fbb                  seg0] -> [f0f                  seg0]
+     EN: "See? I told thee!"
+     ZH: ãéæ¯ççï¼LBæè¿ççå°ä»ç¶é¨å£«äºãä¸ç¥éå¾çååº...å¨
+
+  35. [fcf                  seg0] -> [f6c_e35              seg0]
+     EN: "Thy best bet in finding that rascal is to look in Britain. He has a girlfriend 
+     ZH: ãååï¼ä»äººå°±å¨éï¼<HONORIFIC>.ã
+
+  36. [1065                 seg0] -> [f8b_e59              seg0]
+     EN: "The town has changed little, has it not? Everyone seems a little defensive, tho
+     ZH: ãå°åæå¨éï¼<HONORIFIC>ãã
+
+  37. [1140                 seg0] -> [fa1                  seg0]
+     EN: "I think it best for thee to speak with them thyself. There have been many chang
+     ZH: ãçå§ï¼æå°±è·ä½ è¬ï¼ã
+
+  38. [1209                 seg0] -> [fc3                  seg0]
+     EN: "It has grown since thou last saw it. Paws is now a virtual township of Britain!
+     ZH: ãä½ è¦æ¾é£åå¢ä¼çè©±...å» Britain ççãä»å¥³æåå¨çå®¶åé
+
+  39. [12df                 seg0] -> [1024                 seg0]
+     EN: "It still lies between Britain and Trinsic, but it has grown further into Britai
+     ZH: ãéè£¡è®åä¸å¤§ï¼ä¸ééç·å¼µæå»...å¤§å®¶é²åå¿æ¯è¼éãä½ å¾
+
+  40. [1348                 seg0] -> [10d1                 seg0]
+     EN: "He is a good man. The Mayor of Trinsic, he is. I have known him for years."
+     ZH: ãææ³æå¥½éæ¯ä½ èªå·±å»åææ°èèãä½ ä¸æ¬¡ä¾å°ç¾å¨å·²ç¶ç
+
+  41. [13aa_13c0            seg0] -> [117e                 seg0]
+     EN: "I did not know him, <HONORIFIC>."
+     ZH: ãå¾ä½ ä¸æ¬¡ä¾å°ç¾å¨ï¼å®åè®å¤§äºãPaws ç¾å¨å·²ç¶æ¯ãBritain å
+
+  42. [13d5                 seg0] -> [125b                 seg0]
+     EN: "I never spoke with him. It is truly a shame. There are not many gargoyles livin
+     ZH: ãå®åºæ¬ä¸éæ¯å¨ Britain å Trinsic ä¹éï¼ä½åå°ç¯åå·²ç¶æ´å
+
+  43. [1484                 seg0] -> [12c2                 seg0]
+     EN: Iolo looks hurt. "Thou dost really want me to leave?"
+     ZH: ãä»æ¯åå¥½äººãèº«çº Trinsic çé®é·ï¼æèªè­ä»å¥½å¹¾å¹´äºãã
+
+  44. [14ba                 seg0] -> [1311_e59             seg0]
+     EN: "Dost thou want me to wait here or dost thou want me to go home to Yew?"
+     ZH: ãæä¸èªè­ä»ï¼<HONORIFIC>ãã
+
+  45. [151f                 seg0] -> [1327                 seg0]
+     EN: "Very well. I shall wait here until thou dost return and ask me to rejoin."
+     ZH: ãææ²è·ä»è¬éè©±ãéçæ¯å¤ªéºæ¾äºãè·äººé¡çæ´»çç³åé¬¼æ
+
+  46. [156c                 seg0] -> [13aa                 seg0]
+     EN: "Farewell, then. I shall always rejoin if thou dost so desire." Iolo turns away 
+     ZH: Iolo çèµ·ä¾å¾åå·ããä½ ççè¦æé¢éåï¼ã
+
+  47. [15c7                 seg0] -> [13e6                 seg0]
+     EN: "Whew. Thou didst frighten me!"
+     ZH: ãä½ æ¯è¦æçå¨éè£¡ç­ä½ ï¼éæ¯è¦æå Yew çå®¶ï¼ã
+
+  48. [15ec                 seg0] -> [143f                 seg0]
+     EN: "I was waiting until thou didst ask me!"
+     ZH: ãå¾å¥½ãææå¨éè£¡ç­ä½ åä¾ï¼ä¸¦éè«æéæ°å å¥ãã
+
+  49. [1620                 seg0] -> [1488                 seg0]
+     EN: "It seems that thou hast enough members travelling with thee already! I shall wa
+     ZH: ãé£éº¼ï¼åæäºãåªè¦ä½ å¸æï¼æé¨æé½é¡æéæ°å å¥ãã I
+
+  50. [169e                 seg0] -> [14ed                 seg0]
+     EN: "Since thou wert last in Britannia, the Gargoyles have begun to integrate with t
+     ZH: ãå¼ï¼ä½ å¯åæ­»æäºï¼ã
+
+  51. [1795                 seg0] -> [150f                 seg0]
+     EN: "I do not know much about them, except that they originated about twenty Britann
+     ZH: ãæä¸ç´å¨ç­ä½ éå£å¢ï¼ã
+
+  52. [18af                 seg0] -> [1534                 seg0]
+     EN: "He is just an acquaintance."
+     ZH: ãçä¾èä½ åè¡çæå¡å·²ç¶å¤ å¤äºï¼ææç­å°æäººé¢ééä¼æ
+
+  53. [18d7                 seg0] -> [1595                 seg0]
+     EN: "'Tis always a pleasure to speak with thee, my friend."
+     ZH: ãä½ ä¸æ¬¡é¢é Britannia å¾ï¼ç³åé¬¼ å·²ç¶éå§èäººé¡çæ´»å¨ä¸èµ
+
+--- Func 0x0401 summary: 54 entries ---
