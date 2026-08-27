@@ -2750,13 +2750,34 @@ int Usecode_internal::run() {
 				// Dual/zh merged templates carry "<VAR>" slots where the
 				// generator kept the addsv alive; substitute the value into
 				// every pending slot instead of appending at the end, so the
-				// number lands inside both the zh and en halves of the line.
+				// value lands inside both the zh and en halves of the line.
 				if (*str && BilingualManager::get().is_zh_text() && String != nullptr
 				    && strstr(String, "<VAR>") != nullptr) {
 					std::string s(String);
 					const std::string tok("<VAR>");
 					std::string       val(str);
-					size_t            at = 0;
+					// In DUAL the template is "zh\nen". A language-neutral
+					// value (ASCII: a number, an ASCII name) is correct for
+					// both halves, so substitute it everywhere. A Chinese
+					// value has no English equivalent available at runtime
+					// (only the ZH usecode's addsv runs), so render the line
+					// ZH-only instead of corrupting the English half.
+					bool val_is_ascii = true;
+					for (char c : val) {
+						if (static_cast<unsigned char>(c) >= 0x80) {
+							val_is_ascii = false;
+							break;
+						}
+					}
+					if (BilingualManager::get().get_text_language()
+					        == TextLanguage::DUAL
+					    && !val_is_ascii) {
+						size_t nl = s.find('\n');
+						if (nl != std::string::npos) {
+							s = s.substr(0, nl);
+						}
+					}
+					size_t at = 0;
 					while ((at = s.find(tok, at)) != std::string::npos) {
 						s.replace(at, tok.size(), val);
 						at += val.size();
