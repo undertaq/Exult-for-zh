@@ -641,19 +641,32 @@ void Usecode_internal::say_string() {
 	// text was pushs-pushed in a CALLER frame, and the current (helper)
 	// function says it via its own template addsi. That template offset is
 	// not the real text, so when a pushs entry comes from a DIFFERENT
-	// function, prefer it and address <caller_func>_<pushs_off>_<segment>
-	// clips instead of the helper's template clip.
-	for (auto it = voice_string_trace.rbegin();
-			it != voice_string_trace.rend(); ++it) {
-		if (it->second != VOICE_TRACE_ADDSV
-			&& (it->second & VOICE_TRACE_PUSHS_FLAG)
-			&& it->first != voice_func_id) {
-			voice_func_id = it->first;
-			char hexbuf[16];
-			std::snprintf(hexbuf, sizeof(hexbuf), "%x",
-						  it->second & ~VOICE_TRACE_PUSHS_FLAG);
-			voice_offset_key = hexbuf;
+	// function AND the current function's say is a template (it has an
+	// addsv pulling the pushed text in), prefer the caller's pushs offset
+	// and address <caller_func>_<pushs_off>_<segment> clips. The current-
+	// function addsv requirement keeps answer-keyword pushs (e.g. func
+	// 0x090A's Yes/No, called before a normal say) from being mistaken for
+	// barks.
+	bool cur_has_addsv = false;
+	for (const auto& [fid, off_raw] : voice_string_trace) {
+		if (fid == voice_func_id && off_raw == VOICE_TRACE_ADDSV) {
+			cur_has_addsv = true;
 			break;
+		}
+	}
+	if (cur_has_addsv) {
+		for (auto it = voice_string_trace.rbegin();
+				it != voice_string_trace.rend(); ++it) {
+			if (it->second != VOICE_TRACE_ADDSV
+				&& (it->second & VOICE_TRACE_PUSHS_FLAG)
+				&& it->first != voice_func_id) {
+				voice_func_id = it->first;
+				char hexbuf[16];
+				std::snprintf(hexbuf, sizeof(hexbuf), "%x",
+							  it->second & ~VOICE_TRACE_PUSHS_FLAG);
+				voice_offset_key = hexbuf;
+				break;
+			}
 		}
 	}
 	if (voice_offset_key.empty()) {
