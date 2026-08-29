@@ -29,5 +29,8 @@ IsoRaster decode_raw_raster(
 IsoRaster decode_rle_raster(
 		const unsigned char* encoded, int width, int height, int xleft, int yabove);
 IsoRaster transform_iso_raster(const IsoRaster& source, IsoKind kind);
+IsoRaster transform_iso_sprite_raster(
+		const IsoRaster& source, IsoKind kind, int footprint_width,
+		int footprint_height, int elevation_height);
 
 #endif

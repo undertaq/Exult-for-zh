@@ -172,9 +172,20 @@ public:
 		}
 	}
 
-	void paint_world_tile(int xoff, int yoff, Shape_frame* shape, bool translucent = false, unsigned char* trans = nullptr) {
+	void paint_world_tile(
+			int xoff, int yoff, Shape_frame* shape, bool translucent = false,
+			unsigned char* trans = nullptr, int footprint_width = c_tilesize,
+			int footprint_height = c_tilesize, int elevation_height = c_tilesize) {
 		if (!shape || !shape->get_data()) {
 			CERR("nullptr SHAPE!!!");
+			return;
+		}
+		// RLE entries in terrain chunks are placed world art (walls, roofs,
+		// and similar overlays). Only raw 8x8 frames are ground-plane tiles.
+		if (shape->is_rle()) {
+			paint_world_shape(
+					xoff, yoff, shape, translucent, trans, footprint_width,
+					footprint_height, elevation_height);
 			return;
 		}
 		const IsoKind kind = IsoProjection::current().kind;
@@ -189,7 +200,10 @@ public:
 		}
 	}
 
-	void paint_world_shape(int xoff, int yoff, Shape_frame* shape, bool translucent = false, unsigned char* trans = nullptr) {
+	void paint_world_shape(
+			int xoff, int yoff, Shape_frame* shape, bool translucent = false,
+			unsigned char* trans = nullptr, int footprint_width = c_tilesize,
+			int footprint_height = c_tilesize, int elevation_height = c_tilesize) {
 		if (!shape || !shape->get_data()) {
 			CERR("nullptr SHAPE!!!");
 			return;
@@ -198,11 +212,17 @@ public:
 		if (kind == IsoKind::Legacy) {
 			paint_shape(xoff, yoff, shape, translucent, trans);
 		} else if (trans) {
-			shape->paint_projected(xoff, yoff, kind, nullptr, 0, trans);
+			shape->paint_projected_world(
+					xoff, yoff, kind, nullptr, 0, trans, footprint_width,
+					footprint_height, elevation_height);
 		} else if (!translucent) {
-			shape->paint_projected(xoff, yoff, kind, nullptr, 0, nullptr);
+			shape->paint_projected_world(
+					xoff, yoff, kind, nullptr, 0, nullptr, footprint_width,
+					footprint_height, elevation_height);
 		} else {
-			shape->paint_projected(xoff, yoff, kind, xforms.data(), xforms.size(), nullptr);
+			shape->paint_projected_world(
+					xoff, yoff, kind, xforms.data(), xforms.size(), nullptr,
+					footprint_width, footprint_height, elevation_height);
 		}
 	}
 
@@ -401,7 +421,12 @@ public:
 		if (palette_transform != 0) {
 			transtable = Get_palette_transform_table(table);
 		}
-		sman->paint_world_shape(xoff, yoff, cache.shape, force_trans ? *force_trans : cache.has_trans, transtable);
+		const Shape_info& info = get_info();
+		sman->paint_world_shape(
+				xoff, yoff, cache.shape, force_trans ? *force_trans : cache.has_trans,
+				transtable, std::max(1, info.get_3d_xtiles(framenum)) * c_tilesize,
+				std::max(1, info.get_3d_ytiles(framenum)) * c_tilesize,
+				std::max(0, info.get_3d_height()) * c_tilesize / 2);
 	}
 
 	void paint_shape_scaled(int xoff, int yoff, int scale, std::optional<bool> force_trans = std::nullopt) const {
@@ -430,7 +455,18 @@ public:
 		if (palette_transform != 0) {
 			transtable = Get_palette_transform_table(table);
 		}
-		sman->paint_world_tile(xoff, yoff, cache.shape, force_trans ? *force_trans : cache.has_trans, transtable);
+		if (!cache.shape || !cache.shape->is_rle()) {
+			sman->paint_world_tile(
+					xoff, yoff, cache.shape,
+					force_trans ? *force_trans : cache.has_trans, transtable);
+			return;
+		}
+		const Shape_info& info = get_info();
+		sman->paint_world_tile(
+				xoff, yoff, cache.shape, force_trans ? *force_trans : cache.has_trans,
+				transtable, std::max(1, info.get_3d_xtiles(framenum)) * c_tilesize,
+				std::max(1, info.get_3d_ytiles(framenum)) * c_tilesize,
+				std::max(0, info.get_3d_height()) * c_tilesize / 2);
 	}
 
 	int  get_num_frames() const;

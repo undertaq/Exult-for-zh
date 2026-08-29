@@ -46,5 +46,35 @@ int main() {
 	expect(Get_direction_from_tile_delta(1, 0) == east);
 	expect(Get_direction_from_tile_delta(0, 1) == south);
 	expect(Get_direction_from_tile_delta(-1, 0) == west);
+
+	// A raised 8x8 top face must remain a translated copy of the terrain
+	// diamond. Treating source Y alone as height bends one edge and creates
+	// the visible staircase along adjacent wall sections.
+	const IsoProjection true_iso(IsoKind::TrueIso);
+	true_iso.project_sprite_pixel(-16, -8, sx, sy);
+	expect(sx == -7 && sy == -16);
+	true_iso.project_sprite_pixel(-8, -8, sx, sy);
+	expect(sx == 0 && sy == -12);
+	true_iso.project_sprite_pixel(-8, -16, sx, sy);
+	expect(sx == 7 && sy == -16);
+
+	const IsoProjection dimetric(IsoKind::Dimetric);
+	dimetric.project_sprite_pixel(-16, -8, sx, sy);
+	expect(sx == -7 && sy == -13);
+	dimetric.project_sprite_pixel(-8, -8, sx, sy);
+	expect(sx == 0 && sy == -10);
+	dimetric.project_sprite_pixel(-8, -16, sx, sy);
+	expect(sx == 7 && sy == -13);
+
+	// Multi-tile walls use their actual footprint. A 1x3 wall top must keep
+	// the same long edge as three adjacent projected terrain tiles.
+	true_iso.project_sprite_pixel(-8, -32, 8, 24, 8, sx, sy);
+	expect(sx == 21 && sy == -24);
+	true_iso.project_sprite_pixel(-8, -8, 8, 24, 8, sx, sy);
+	expect(sx == 0 && sy == -12);
+	dimetric.project_sprite_pixel(-8, -32, 8, 24, 8, sx, sy);
+	expect(sx == 21 && sy == -19);
+	dimetric.project_sprite_pixel(-8, -8, 8, 24, 8, sx, sy);
+	expect(sx == 0 && sy == -10);
 	return 0;
 }

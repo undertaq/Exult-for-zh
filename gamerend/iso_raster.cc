@@ -44,6 +44,183 @@ void put_pixel(IsoRaster& raster, int x, int y, unsigned char pixel) {
 	}
 }
 
+using Raster_projector = void (*)(
+		const IsoProjection&, int, int, int&, int&);
+
+struct Sprite_projector {
+	int footprint_width;
+	int footprint_height;
+	int elevation_height;
+};
+
+void project_tile_pixel(
+		const IsoProjection& projection, int px, int py, int& sx, int& sy) {
+	projection.project_pixel(px, py, sx, sy);
+}
+
+void unproject_tile_pixel(
+		const IsoProjection& projection, int sx, int sy, int& px, int& py) {
+	projection.unproject_pixel(sx, sy, px, py);
+}
+
+IsoRaster transform_raster(
+		const IsoRaster& source, IsoKind kind, Raster_projector project,
+		Raster_projector unproject, bool identity_in_diamond) {
+	if (kind == IsoKind::Legacy || (identity_in_diamond && kind == IsoKind::Diamond)
+			|| source.width == 0 || source.height == 0) {
+		return source;
+	}
+
+	int min_x = 0;
+	int max_x = 0;
+	int min_y = 0;
+	int max_y = 0;
+	bool initialized = false;
+	const IsoProjection projection(kind);
+	for (int y = 0; y < source.height; ++y) {
+		for (int x = 0; x < source.width; ++x) {
+			int projected_x = 0;
+			int projected_y = 0;
+			project(projection, x - source.xleft, y - source.yabove, projected_x, projected_y);
+			if (!initialized) {
+				min_x = max_x = projected_x;
+				min_y = max_y = projected_y;
+				initialized = true;
+			} else {
+				min_x = std::min(min_x, projected_x);
+				max_x = std::max(max_x, projected_x);
+				min_y = std::min(min_y, projected_y);
+				max_y = std::max(max_y, projected_y);
+			}
+		}
+	}
+
+	IsoRaster transformed{
+			max_x - min_x + 1, max_y - min_y + 1, -min_x, -min_y,
+			std::vector<unsigned char>(static_cast<size_t>(max_x - min_x + 1)
+										* static_cast<size_t>(max_y - min_y + 1), 0),
+			std::vector<unsigned char>(static_cast<size_t>(max_x - min_x + 1)
+										* static_cast<size_t>(max_y - min_y + 1), 0)};
+	// Preserve source samples first. Some projections round several source
+	// pixels to the same destination coordinate.
+	for (int y = 0; y < source.height; ++y) {
+		for (int x = 0; x < source.width; ++x) {
+			const size_t index = static_cast<size_t>(y) * source.width + x;
+			if (!source.is_covered(index)) {
+				continue;
+			}
+			int projected_x = 0;
+			int projected_y = 0;
+			project(projection, x - source.xleft, y - source.yabove, projected_x, projected_y);
+			put_pixel(transformed, projected_x - min_x, projected_y - min_y, source.pixels[index]);
+		}
+	}
+	// Fill gaps introduced by scaling/rounding from the nearest source pixel.
+	for (int y = 0; y < transformed.height; ++y) {
+		for (int x = 0; x < transformed.width; ++x) {
+			const size_t index = static_cast<size_t>(y) * transformed.width + x;
+			if (transformed.is_covered(index)) {
+				continue;
+			}
+			int source_x = 0;
+			int source_y = 0;
+			unproject(projection, x + min_x, y + min_y, source_x, source_y);
+			source_x += source.xleft;
+			source_y += source.yabove;
+			if (source_x < 0 || source_x >= source.width || source_y < 0 || source_y >= source.height) {
+				continue;
+			}
+			const size_t source_index = static_cast<size_t>(source_y) * source.width + source_x;
+			if (source.is_covered(source_index)) {
+				put_pixel(transformed, x, y, source.pixels[source_index]);
+			}
+		}
+	}
+	return transformed;
+}
+
+IsoRaster transform_sprite_raster(
+		const IsoRaster& source, IsoKind kind, const Sprite_projector& projector) {
+	if (kind == IsoKind::Legacy || kind == IsoKind::Diamond
+			|| source.width == 0 || source.height == 0) {
+		return source;
+	}
+	const IsoProjection projection(kind);
+	auto project = [&](int px, int py, int& sx, int& sy) {
+		projection.project_sprite_pixel(
+				px, py, projector.footprint_width, projector.footprint_height,
+				projector.elevation_height, sx, sy);
+	};
+	auto unproject = [&](int sx, int sy, int& px, int& py) {
+		projection.unproject_sprite_pixel(
+				sx, sy, projector.footprint_width, projector.footprint_height,
+				projector.elevation_height, px, py);
+	};
+
+	int min_x = 0;
+	int max_x = 0;
+	int min_y = 0;
+	int max_y = 0;
+	bool initialized = false;
+	for (int y = 0; y < source.height; ++y) {
+		for (int x = 0; x < source.width; ++x) {
+			int projected_x = 0;
+			int projected_y = 0;
+			project(x - source.xleft, y - source.yabove, projected_x, projected_y);
+			if (!initialized) {
+				min_x = max_x = projected_x;
+				min_y = max_y = projected_y;
+				initialized = true;
+			} else {
+				min_x = std::min(min_x, projected_x);
+				max_x = std::max(max_x, projected_x);
+				min_y = std::min(min_y, projected_y);
+				max_y = std::max(max_y, projected_y);
+			}
+		}
+	}
+
+	IsoRaster transformed{
+			max_x - min_x + 1, max_y - min_y + 1, -min_x, -min_y,
+			std::vector<unsigned char>(static_cast<size_t>(max_x - min_x + 1)
+										* static_cast<size_t>(max_y - min_y + 1), 0),
+			std::vector<unsigned char>(static_cast<size_t>(max_x - min_x + 1)
+										* static_cast<size_t>(max_y - min_y + 1), 0)};
+	for (int y = 0; y < source.height; ++y) {
+		for (int x = 0; x < source.width; ++x) {
+			const size_t index = static_cast<size_t>(y) * source.width + x;
+			if (!source.is_covered(index)) {
+				continue;
+			}
+			int projected_x = 0;
+			int projected_y = 0;
+			project(x - source.xleft, y - source.yabove, projected_x, projected_y);
+			put_pixel(transformed, projected_x - min_x, projected_y - min_y, source.pixels[index]);
+		}
+	}
+	for (int y = 0; y < transformed.height; ++y) {
+		for (int x = 0; x < transformed.width; ++x) {
+			const size_t index = static_cast<size_t>(y) * transformed.width + x;
+			if (transformed.is_covered(index)) {
+				continue;
+			}
+			int source_x = 0;
+			int source_y = 0;
+			unproject(x + min_x, y + min_y, source_x, source_y);
+			source_x += source.xleft;
+			source_y += source.yabove;
+			if (source_x < 0 || source_x >= source.width || source_y < 0 || source_y >= source.height) {
+				continue;
+			}
+			const size_t source_index = static_cast<size_t>(source_y) * source.width + source_x;
+			if (source.is_covered(source_index)) {
+				put_pixel(transformed, x, y, source.pixels[source_index]);
+			}
+		}
+	}
+	return transformed;
+}
+
 }    // namespace
 
 IsoRaster decode_raw_raster(
@@ -104,76 +281,14 @@ IsoRaster decode_rle_raster(
 }
 
 IsoRaster transform_iso_raster(const IsoRaster& source, IsoKind kind) {
-	if (kind == IsoKind::Legacy || source.width == 0 || source.height == 0) {
-		return source;
-	}
+	return transform_raster(source, kind, project_tile_pixel, unproject_tile_pixel, false);
+}
 
-	int min_x = 0;
-	int max_x = 0;
-	int min_y = 0;
-	int max_y = 0;
-	bool initialized = false;
-	for (int y = 0; y < source.height; ++y) {
-		for (int x = 0; x < source.width; ++x) {
-			int projected_x = 0;
-			int projected_y = 0;
-			IsoProjection(kind).project_pixel(x - source.xleft, y - source.yabove, projected_x, projected_y);
-			if (!initialized) {
-				min_x = max_x = projected_x;
-				min_y = max_y = projected_y;
-				initialized = true;
-			} else {
-				min_x = std::min(min_x, projected_x);
-				max_x = std::max(max_x, projected_x);
-				min_y = std::min(min_y, projected_y);
-				max_y = std::max(max_y, projected_y);
-			}
-		}
-	}
-
-	IsoRaster transformed{max_x - min_x + 1, max_y - min_y + 1, -min_x, -min_y,
-							std::vector<unsigned char>(static_cast<size_t>(max_x - min_x + 1)
-																* static_cast<size_t>(max_y - min_y + 1), 0),
-							std::vector<unsigned char>(static_cast<size_t>(max_x - min_x + 1)
-																* static_cast<size_t>(max_y - min_y + 1), 0)};
-	const IsoProjection projection(kind);
-	// Preserve source samples first. Some projections downsample the source,
-	// so this keeps distinct source colors that would otherwise collide under
-	// inverse nearest-neighbor sampling.
-	for (int y = 0; y < source.height; ++y) {
-		for (int x = 0; x < source.width; ++x) {
-			const size_t index = static_cast<size_t>(y) * source.width + x;
-			if (!source.is_covered(index)) {
-				continue;
-			}
-			const unsigned char pixel = source.pixels[index];
-			int projected_x = 0;
-			int projected_y = 0;
-			projection.project_pixel(x - source.xleft, y - source.yabove, projected_x, projected_y);
-			put_pixel(transformed, projected_x - min_x, projected_y - min_y, pixel);
-		}
-	}
-	for (int y = 0; y < transformed.height; ++y) {
-		for (int x = 0; x < transformed.width; ++x) {
-			const size_t index = static_cast<size_t>(y) * transformed.width + x;
-			if (transformed.is_covered(index)) {
-				continue;
-			}
-			const int projected_x = x + min_x;
-			const int projected_y = y + min_y;
-			int       source_x    = 0;
-			int       source_y    = 0;
-			projection.unproject_pixel(projected_x, projected_y, source_x, source_y);
-			source_x += source.xleft;
-			source_y += source.yabove;
-			if (source_x < 0 || source_x >= source.width || source_y < 0 || source_y >= source.height) {
-				continue;
-			}
-			const size_t source_index = static_cast<size_t>(source_y) * source.width + source_x;
-			if (source.is_covered(source_index)) {
-				put_pixel(transformed, x, y, source.pixels[source_index]);
-			}
-		}
-	}
-	return transformed;
+IsoRaster transform_iso_sprite_raster(
+		const IsoRaster& source, IsoKind kind, int footprint_width,
+		int footprint_height, int elevation_height) {
+	return transform_sprite_raster(
+			source, kind,
+			{std::max(1, footprint_width), std::max(1, footprint_height),
+			 std::max(0, elevation_height)});
 }

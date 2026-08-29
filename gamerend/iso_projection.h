@@ -60,6 +60,20 @@ struct IsoProjection {
 	// Inverse of project_pixel, rounded to the nearest source pixel.
 	void unproject_pixel(int sx, int sy, int& px, int& py) const;
 
+	// Reproject a world-sprite pixel from the original world view. The
+	// overload with dimensions uses the object's 3D box to distinguish its
+	// ground footprint from elevation, preserving projected top-face edges.
+	void project_sprite_pixel(int px, int py, int& sx, int& sy) const;
+	void project_sprite_pixel(
+			int px, int py, int footprint_width, int footprint_height,
+			int elevation_height, int& sx, int& sy) const;
+
+	// Inverse of project_sprite_pixel(), rounded to the source pixel.
+	void unproject_sprite_pixel(int sx, int sy, int& px, int& py) const;
+	void unproject_sprite_pixel(
+			int sx, int sy, int footprint_width, int footprint_height,
+			int elevation_height, int& px, int& py) const;
+
 	// Return a padded logical tile range that may intersect a screen rectangle.
 	IsoTileRange visible_tiles(int sx, int sy, int width, int height, int padding = 1) const;
 

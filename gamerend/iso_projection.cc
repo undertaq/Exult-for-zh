@@ -41,6 +41,28 @@ constexpr double kTrueIsoX = 0.8660254037844386 * c_tilesize;
 constexpr double kTrueIsoY = 0.5 * c_tilesize;
 constexpr double kDimetricX = kTrueIsoX;
 constexpr double kDimetricY = 0.4 * c_tilesize;
+// Standing art above its world origin needs a little more vertical span,
+// while pixels on the ground must retain the terrain's exact edge angle.
+constexpr double kWorldSpriteVerticalScale = 1.5;
+
+double sprite_elevation_for(
+		int px, int py, int footprint_width, int footprint_height,
+		int elevation_height) {
+	const double highest = std::min(
+			{static_cast<double>(std::max(0, elevation_height)),
+			 static_cast<double>(-px), static_cast<double>(-py)});
+	const double lowest = std::max(
+			{0.0, static_cast<double>(-std::max(1, footprint_width) - px),
+			 static_cast<double>(-std::max(1, footprint_height) - py)});
+	if (highest >= lowest) {
+		return highest;
+	}
+	// Decorative pixels can extend outside the collision box. Keep them at
+	// the closest valid elevation instead of introducing a discontinuity.
+	return std::clamp(
+			std::min(static_cast<double>(-px), static_cast<double>(-py)),
+			0.0, static_cast<double>(std::max(0, elevation_height)));
+}
 
 inline Basis basis_for(IsoKind k) {
 	switch (k) {
@@ -133,6 +155,64 @@ void IsoProjection::unproject_pixel(int sx, int sy, int& px, int& py) const {
 	const double b = sy * c_tilesize / basis.y;
 	px = static_cast<int>(std::lround((a + b) * 0.5));
 	py = static_cast<int>(std::lround((b - a) * 0.5));
+}
+
+void IsoProjection::project_sprite_pixel(int px, int py, int& sx, int& sy) const {
+	project_sprite_pixel(
+			px, py, c_tilesize, c_tilesize, c_tilesize, sx, sy);
+}
+
+void IsoProjection::project_sprite_pixel(
+		int px, int py, int footprint_width, int footprint_height,
+		int elevation_height, int& sx, int& sy) const {
+	if (kind == IsoKind::Legacy || kind == IsoKind::Diamond) {
+		sx = px;
+		sy = py;
+		return;
+	}
+	const Basis basis = basis_for(kind);
+	const double ground_x = basis.x / c_tilesize;
+	const double ground_y = basis.y / c_tilesize;
+	const double elevation = sprite_elevation_for(
+			px, py, footprint_width, footprint_height, elevation_height);
+	sx = static_cast<int>(std::lround((px - py) * ground_x));
+	sy = static_cast<int>(std::lround(
+			(px + py - 2.0 * (kWorldSpriteVerticalScale - 1.0) * elevation)
+			* ground_y));
+}
+
+void IsoProjection::unproject_sprite_pixel(int sx, int sy, int& px, int& py) const {
+	unproject_sprite_pixel(
+			sx, sy, c_tilesize, c_tilesize, c_tilesize, px, py);
+}
+
+void IsoProjection::unproject_sprite_pixel(
+		int sx, int sy, int footprint_width, int footprint_height,
+		int elevation_height, int& px, int& py) const {
+	if (kind == IsoKind::Legacy || kind == IsoKind::Diamond) {
+		px = sx;
+		py = sy;
+		return;
+	}
+	const Basis basis = basis_for(kind);
+	const double ground_x = basis.x / c_tilesize;
+	const double ground_y = basis.y / c_tilesize;
+	const double a = sx / ground_x;
+	const double b = sy / ground_y;
+	const double projected_x = (a + b) * 0.5;
+	const double projected_y = (b - a) * 0.5;
+	double source_x = projected_x;
+	double source_y = projected_y;
+	for (int i = 0; i < 6; ++i) {
+		const double elevation = sprite_elevation_for(
+				static_cast<int>(std::lround(source_x)),
+				static_cast<int>(std::lround(source_y)), footprint_width,
+				footprint_height, elevation_height);
+		source_x = projected_x + (kWorldSpriteVerticalScale - 1.0) * elevation;
+		source_y = projected_y + (kWorldSpriteVerticalScale - 1.0) * elevation;
+	}
+	px = static_cast<int>(std::lround(source_x));
+	py = static_cast<int>(std::lround(source_y));
 }
 
 IsoTileRange IsoProjection::visible_tiles(int sx, int sy, int width, int height, int padding) const {

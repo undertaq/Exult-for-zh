@@ -1258,7 +1258,12 @@ TileRect Game_window::get_shape_rect(const Game_object* obj) const {
 		int width = 0;
 		int height = 0;
 		get_shape_location(obj, ox, oy);
-		s->get_projected_bounds(iso_projection.kind, xleft, yabove, width, height);
+		const Shape_info& info = obj->get_info();
+		s->get_projected_bounds(
+				iso_projection.kind, xleft, yabove, width, height,
+				std::max(1, info.get_3d_xtiles(obj->get_framenum())) * c_tilesize,
+				std::max(1, info.get_3d_ytiles(obj->get_framenum())) * c_tilesize,
+				std::max(0, info.get_3d_height()) * c_tilesize / 2);
 		return TileRect(ox - xleft, oy - yabove, width, height);
 	}
 	Tile_coord t      = obj->get_tile();    // Get tile coords.
@@ -2294,9 +2299,14 @@ Game_object* Game_window::find_object(
 				int          ox;
 				int          oy;
 				get_shape_location(obj, ox, oy);
+				const Shape_info& info = obj->get_info();
 				const bool hit = iso_projection.is_legacy()
 						? s->has_point(x - ox, y - oy)
-						: s->has_projected_point(x - ox, y - oy, iso_projection.kind);
+						: s->has_projected_point(
+								x - ox, y - oy, iso_projection.kind,
+								std::max(1, info.get_3d_xtiles(obj->get_framenum())) * c_tilesize,
+								std::max(1, info.get_3d_ytiles(obj->get_framenum())) * c_tilesize,
+								std::max(0, info.get_3d_height()) * c_tilesize / 2);
 				if (!hit) {
 					continue;
 				}

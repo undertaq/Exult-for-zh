@@ -55,6 +55,10 @@ class Shape_frame {
 	short                            ybelow;    // Extent below origin.
 	bool                             rle;       // Run-length encoded.
 	mutable std::array<std::unique_ptr<IsoRaster>, 4> projected_rasters;
+	mutable std::array<std::unique_ptr<IsoRaster>, 4> projected_sprite_rasters;
+	mutable std::array<int, 4>                        projected_sprite_widths{};
+	mutable std::array<int, 4>                        projected_sprite_heights{};
+	mutable std::array<int, 4>                        projected_sprite_elevations{};
 	static Image_buffer8*            scrwin;    // Screen window to render to.
 
 	// Create RLE data & store in frame.
@@ -101,6 +105,20 @@ public:
 			const Xform_palette* xforms, int xfcnt, const unsigned char* trans) {
 		paint_projected(scrwin, xoff, yoff, kind, xforms, xfcnt, trans);
 	}
+	void paint_projected_world(
+			Image_buffer8* win, int xoff, int yoff, IsoKind kind,
+			const Xform_palette* xforms, int xfcnt, const unsigned char* trans,
+			int footprint_width = c_tilesize, int footprint_height = c_tilesize,
+			int elevation_height = c_tilesize);
+	void paint_projected_world(
+			int xoff, int yoff, IsoKind kind,
+			const Xform_palette* xforms, int xfcnt, const unsigned char* trans,
+			int footprint_width = c_tilesize, int footprint_height = c_tilesize,
+			int elevation_height = c_tilesize) {
+		paint_projected_world(
+				scrwin, xoff, yoff, kind, xforms, xfcnt, trans, footprint_width,
+				footprint_height, elevation_height);
+	}
 	void paint_rle_translucent(Image_buffer8* win, int xoff, int yoff, const Xform_palette* xforms, int xfcnt);
 	void paint_rle_transformed(Image_buffer8* win, int xoff, int yoff, const Xform_palette& xform);
 	void paint_rle_outline(Image_buffer8* win, int xoff, int yoff, unsigned char color);
@@ -146,8 +164,13 @@ public:
 
 	// Point-in-shape check for scaled rendering (inverse-scales the point).
 	bool has_point_scaled(int x, int y, int scale) const;
-	bool has_projected_point(int x, int y, IsoKind kind) const;
-	void get_projected_bounds(IsoKind kind, int& xleft, int& yabove, int& width, int& height) const;
+	bool has_projected_point(
+			int x, int y, IsoKind kind, int footprint_width = c_tilesize,
+			int footprint_height = c_tilesize, int elevation_height = c_tilesize) const;
+	void get_projected_bounds(
+			IsoKind kind, int& xleft, int& yabove, int& width, int& height,
+			int footprint_width = c_tilesize, int footprint_height = c_tilesize,
+			int elevation_height = c_tilesize) const;
 
 	bool has_point(int x, int y) const;    // Is a point within the shape?
 
@@ -193,6 +216,9 @@ public:
 
 private:
 	const IsoRaster& get_projected_raster(IsoKind kind) const;
+	const IsoRaster& get_projected_sprite_raster(
+			IsoKind kind, int footprint_width, int footprint_height,
+			int elevation_height) const;
 };
 
 /*
