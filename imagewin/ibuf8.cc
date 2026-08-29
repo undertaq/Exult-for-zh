@@ -512,6 +512,44 @@ void Image_buffer8::copy_transparent8(
 	}
 }
 
+void Image_buffer8::copy_transparent8(
+		const unsigned char* src_pixels, int srcw, int srch, int destx, int desty,
+		const Xform_palette* xforms, int xfcnt, const unsigned char* trans) {
+	int       srcx = 0;
+	int       srcy = 0;
+	const int src_width = srcw;
+	if (!clip(srcx, srcy, srcw, srch, destx, desty)) {
+		return;
+	}
+
+	const int xfstart = 0xff - xfcnt;
+	unsigned char*       to = bits + desty * line_width + destx;
+	const unsigned char* from = src_pixels + srcy * src_width + srcx;
+	const int             to_next = line_width - srcw;
+	const int             from_next = src_width - srcw;
+	while (srch--) {
+		for (int x = 0; x < srcw; ++x) {
+			unsigned char pixel = from[x];
+			if (!pixel) {
+				continue;
+			}
+			if (trans) {
+				pixel = trans[pixel];
+				if (pixel == 255) {
+					continue;
+				}
+			}
+			if (xforms && pixel >= xfstart && pixel <= 0xfe) {
+				to[x] = xforms[pixel - xfstart][to[x]];
+			} else {
+				to[x] = pixel;
+			}
+		}
+		to += to_next;
+		from += from_next;
+	}
+}
+
 // Slightly Optimized RLE Painter
 void Image_buffer8::paint_rle(int xoff, int yoff, const unsigned char* inptr) {
 	const uint8* in = inptr;
