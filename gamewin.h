@@ -23,6 +23,7 @@
 #define GAMEWIN_H
 
 #include "flags.h"
+#include "dir.h"
 #include "gamerend/iso_projection.h"
 #include "iwin8.h"
 #include "rect.h"
@@ -781,6 +782,7 @@ public:
 	// Start moving actor.
 	void start_actor_alt(int winx, int winy, int speed);
 	void start_actor(int winx, int winy, int speed = 125);
+	void start_actor_direction(Direction direction, int speed = 125);
 	void start_actor_along_path(int winx, int winy, int speed = 125);
 	void stop_actor();    // Stop main actor.
 

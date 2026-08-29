@@ -1,6 +1,7 @@
 #include "iso_projection.h"
 
 #include "ibuf8.h"
+#include "shapeid.h"
 #include "vgafile.h"
 
 #include <algorithm>
@@ -51,6 +52,21 @@ static std::vector<unsigned char> render_unprojected(Shape_frame& frame) {
 	return std::vector<unsigned char>(target.get_bits(), target.get_bits() + 64 * 64);
 }
 
+static std::vector<unsigned char> render_world_shape(Shape_frame& frame, IsoKind kind) {
+	IsoProjection::set_current(kind);
+	Image_buffer8 target(64, 64);
+	target.fill8(0);
+	target.set_clip(0, 0, 64, 64);
+	Shape_frame::set_to_render(&target);
+	// paint_world_shape is independent of Shape_manager state for an opaque
+	// shape. Use unconstructed storage so this focused test need not load VGA
+	// assets just to exercise the routing decision.
+	alignas(Shape_manager) unsigned char storage[sizeof(Shape_manager)]{};
+	auto* manager = reinterpret_cast<Shape_manager*>(storage);
+	manager->paint_world_shape(32, 32, &frame, false, nullptr);
+	return std::vector<unsigned char>(target.get_bits(), target.get_bits() + 64 * 64);
+}
+
 int main() {
 	Shape_frame raw(sample_pixels(), 8, 8, 4, 4, false);
 	Shape_frame rle(sample_pixels(), 8, 8, 4, 4, true);
@@ -64,11 +80,10 @@ int main() {
 	const auto  true_iso_255 = render_shape(opaque_255, IsoKind::TrueIso, 7);
 	assert(std::find(true_iso_255.begin(), true_iso_255.end(), 255) != true_iso_255.end());
 
-	// Ground tiles are explicitly projected, while billboard-shaped world
-	// sprites retain their source geometry until projection-aware assets exist.
+	// World sprites use the selected projection too, not only ground tiles.
 	Shape_frame sprite(sample_sprite_pixels(), 16, 16, 8, 8, true);
 	const auto source_sprite = render_unprojected(sprite);
 	assert(source_sprite == render_shape(sprite, IsoKind::Legacy));
-	assert(source_sprite != render_shape(sprite, IsoKind::Dimetric));
+	assert(source_sprite != render_world_shape(sprite, IsoKind::Dimetric));
 	return 0;
 }

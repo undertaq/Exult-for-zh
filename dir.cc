@@ -71,6 +71,10 @@ Direction Get_direction(int deltay, int deltax) {
 	return Get_direction_NoWrap(Wrap_Delta(deltay), Wrap_Delta(deltax));
 }
 
+Direction Get_direction_from_tile_delta(int delta_tx, int delta_ty) {
+	return Get_direction(-delta_ty, delta_tx);
+}
+
 /*
  *  Return the direction for a given slope (0-7), rounded to NSEW.
  *  NOTE:  Assumes cartesian coords, NOT screen coords. (which have y

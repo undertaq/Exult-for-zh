@@ -190,7 +190,20 @@ public:
 	}
 
 	void paint_world_shape(int xoff, int yoff, Shape_frame* shape, bool translucent = false, unsigned char* trans = nullptr) {
-		paint_shape(xoff, yoff, shape, translucent, trans);
+		if (!shape || !shape->get_data()) {
+			CERR("nullptr SHAPE!!!");
+			return;
+		}
+		const IsoKind kind = IsoProjection::current().kind;
+		if (kind == IsoKind::Legacy) {
+			paint_shape(xoff, yoff, shape, translucent, trans);
+		} else if (trans) {
+			shape->paint_projected(xoff, yoff, kind, nullptr, 0, trans);
+		} else if (!translucent) {
+			shape->paint_projected(xoff, yoff, kind, nullptr, 0, nullptr);
+		} else {
+			shape->paint_projected(xoff, yoff, kind, xforms.data(), xforms.size(), nullptr);
+		}
 	}
 
 	// Paint scaled shape in window.

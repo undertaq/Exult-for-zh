@@ -66,9 +66,8 @@ struct IsoProjection {
 	// Per-projection tile bounding rect in screen pixels (used for hit-tests).
 	void tile_bounds(int tx, int ty, int tz, int& x, int& y, int& w, int& h) const;
 
-	// Lift-to-pixel helper. Diamond == tz * c_tilesize / 2 (current).
-	// TrueIso / Dimetric are TBD (the shape bitmaps are still drawn as the
-	// 2:1 diamond; only the camera ratio can differ today).
+	// Lift-to-pixel helper. All selectable projections currently use the
+	// original 4-pixel vertical lift per world Z step.
 	int liftpix_for(int tz) const;
 
 	// Pixels occupied by one tile on the y axis. Diamond == c_tilesize/2.

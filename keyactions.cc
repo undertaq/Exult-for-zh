@@ -676,56 +676,56 @@ int get_walking_speed(const int* params) {
 void ActionWalkWest(const int* params) {
 	Game_window* gwin  = Game_window::get_instance();
 	const int    speed = get_walking_speed(params);
-	gwin->start_actor(gwin->get_width() / 2 - 50, gwin->get_height() / 2, speed);
+	gwin->start_actor_direction(west, speed);
 }
 
 //  { ActionWalkEast, 0, "Walk east", normal_keys, NONE },
 void ActionWalkEast(const int* params) {
 	Game_window* gwin  = Game_window::get_instance();
 	const int    speed = get_walking_speed(params);
-	gwin->start_actor(gwin->get_width() / 2 + 50, gwin->get_height() / 2, speed);
+	gwin->start_actor_direction(east, speed);
 }
 
 //  { ActionWalkNorth, 0, "Walk north", normal_keys, NONE },
 void ActionWalkNorth(const int* params) {
 	Game_window* gwin  = Game_window::get_instance();
 	const int    speed = get_walking_speed(params);
-	gwin->start_actor(gwin->get_width() / 2, gwin->get_height() / 2 - 50, speed);
+	gwin->start_actor_direction(north, speed);
 }
 
 //  { ActionWalkSouth, 0, "Walk south", normal_keys, NONE },
 void ActionWalkSouth(const int* params) {
 	Game_window* gwin  = Game_window::get_instance();
 	const int    speed = get_walking_speed(params);
-	gwin->start_actor(gwin->get_width() / 2, gwin->get_height() / 2 + 50, speed);
+	gwin->start_actor_direction(south, speed);
 }
 
 //  { ActionWalkNorthEast, 0, "Walk north-east", normal_keys, NONE },
 void ActionWalkNorthEast(const int* params) {
 	Game_window* gwin  = Game_window::get_instance();
 	const int    speed = get_walking_speed(params);
-	gwin->start_actor(gwin->get_width() / 2 + 50, gwin->get_height() / 2 - 50, speed);
+	gwin->start_actor_direction(northeast, speed);
 }
 
 //  { ActionWalkSouthEast, 0, "Walk south-east", normal_keys, NONE },
 void ActionWalkSouthEast(const int* params) {
 	Game_window* gwin  = Game_window::get_instance();
 	const int    speed = get_walking_speed(params);
-	gwin->start_actor(gwin->get_width() / 2 + 50, gwin->get_height() / 2 + 50, speed);
+	gwin->start_actor_direction(southeast, speed);
 }
 
 //  { ActionWalkNorthWest, 0, "Walk north-west", normal_keys, NONE },
 void ActionWalkNorthWest(const int* params) {
 	Game_window* gwin  = Game_window::get_instance();
 	const int    speed = get_walking_speed(params);
-	gwin->start_actor(gwin->get_width() / 2 - 50, gwin->get_height() / 2 - 50, speed);
+	gwin->start_actor_direction(northwest, speed);
 }
 
 //  { ActionWalkSouthWest, 0, "Walk south-west", normal_keys, NONE },
 void ActionWalkSouthWest(const int* params) {
 	Game_window* gwin  = Game_window::get_instance();
 	const int    speed = get_walking_speed(params);
-	gwin->start_actor(gwin->get_width() / 2 - 50, gwin->get_height() / 2 + 50, speed);
+	gwin->start_actor_direction(southwest, speed);
 }
 
 //  { ActionStopWalking, 0, "Stop Walking", cheat_keys, NONE },

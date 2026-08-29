@@ -40,6 +40,10 @@ Direction Get_direction_NoWrap(int deltay, int deltax);
 Direction Get_direction(int deltay, int deltax);
 Direction Get_direction4(int deltay, int deltax);
 
+// Convert a tile-coordinate delta (where positive Y is south) to a logical
+// direction (where positive Y is north).
+Direction Get_direction_from_tile_delta(int delta_tx, int delta_ty);
+
 int Get_direction16(int deltay, int deltax);
 
 #endif

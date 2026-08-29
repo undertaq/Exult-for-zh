@@ -1253,8 +1253,13 @@ TileRect Game_window::get_shape_rect(const Game_object* obj) const {
 	if (!iso_projection.is_legacy()) {
 		int ox = 0;
 		int oy = 0;
+		int xleft = 0;
+		int yabove = 0;
+		int width = 0;
+		int height = 0;
 		get_shape_location(obj, ox, oy);
-		return TileRect(ox - s->get_xleft(), oy - s->get_yabove(), s->get_width(), s->get_height());
+		s->get_projected_bounds(iso_projection.kind, xleft, yabove, width, height);
+		return TileRect(ox - xleft, oy - yabove, width, height);
 	}
 	Tile_coord t      = obj->get_tile();    // Get tile coords.
 	const int  lftpix = (c_tilesize * t.tz) / 2;
@@ -1824,7 +1829,7 @@ void Game_window::start_actor_alt(
 		if (dx == 0 && dy == 0) {
 			return;
 		}
-		dir = Get_direction(dy, dx);
+		dir = Get_direction_from_tile_delta(dx, dy);
 		if (blocked[dir] && !blocked[(dir + 1) % 8]) {
 			dir = (dir + 1) % 8;
 		} else if (blocked[dir] && !blocked[(dir + 7) % 8]) {
@@ -1997,6 +2002,61 @@ void Game_window::start_actor(
 		// Going to use the alternative function for this at the moment
 		start_actor_alt(winx, winy, speed);
 	}
+}
+
+void Game_window::start_actor_direction(Direction direction, int speed) {
+	if (iso_projection.is_legacy()) {
+		const int x = get_width() / 2;
+		const int y = get_height() / 2;
+		const int delta = 50;
+		int       dx = 0;
+		int       dy = 0;
+		switch (direction) {
+		case north:
+			dy = -delta;
+			break;
+		case northeast:
+			dx = delta;
+			dy = -delta;
+			break;
+		case east:
+			dx = delta;
+			break;
+		case southeast:
+			dx = delta;
+			dy = delta;
+			break;
+		case south:
+			dy = delta;
+			break;
+		case southwest:
+			dx = -delta;
+			dy = delta;
+			break;
+		case west:
+			dx = -delta;
+			break;
+		case northwest:
+			dx = -delta;
+			dy = -delta;
+			break;
+		}
+		start_actor(x + dx, y + dy, speed);
+		return;
+	}
+
+	int ax = 0;
+	int ay = 0;
+	get_shape_location(main_actor, ax, ay);
+	const Tile_coord start = main_actor->get_tile();
+	const Tile_coord target = start.get_neighbor(direction);
+	const int        dx = Tile_coord::delta(start.tx, target.tx);
+	const int        dy = Tile_coord::delta(start.ty, target.ty);
+	int              sx = 0;
+	int              sy = 0;
+	int              depth = 0;
+	iso_projection.project(dx, dy, 0, sx, sy, depth);
+	start_actor(ax + sx, ay + sy, speed);
 }
 
 /*
@@ -2234,7 +2294,10 @@ Game_object* Game_window::find_object(
 				int          ox;
 				int          oy;
 				get_shape_location(obj, ox, oy);
-				if (!s->has_point(x - ox, y - oy)) {
+				const bool hit = iso_projection.is_legacy()
+						? s->has_point(x - ox, y - oy)
+						: s->has_projected_point(x - ox, y - oy, iso_projection.kind);
+				if (!hit) {
 					continue;
 				}
 				// Fixes key under rock in BG at [915, 2434, 0]; need to

@@ -5,7 +5,8 @@ TESTS = $(check_PROGRAMS)
 
 iso_projection_test_SOURCES = \
 	iso_projection_test.cc \
-	$(top_srcdir)/gamerend/iso_projection.cc
+	$(top_srcdir)/gamerend/iso_projection.cc \
+	$(top_srcdir)/dir.cc
 
 iso_projection_test_LDADD = $(SYSLIBS)
 

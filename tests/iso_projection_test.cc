@@ -1,4 +1,5 @@
 #include "iso_projection.h"
+#include "dir.h"
 
 #include <cassert>
 #include <string>
@@ -38,5 +39,12 @@ int main() {
 	const IsoTileRange visible = IsoProjection(IsoKind::Diamond).visible_tiles(-4, 0, 8, 4, 1);
 	expect(visible.min_tx <= 0 && visible.max_tx >= 1);
 	expect(visible.min_ty <= 0 && visible.max_ty >= 1);
+
+	// Tile coordinates grow southward on Y, while Get_direction uses
+	// Cartesian Y where positive means north.
+	expect(Get_direction_from_tile_delta(0, -1) == north);
+	expect(Get_direction_from_tile_delta(1, 0) == east);
+	expect(Get_direction_from_tile_delta(0, 1) == south);
+	expect(Get_direction_from_tile_delta(-1, 0) == west);
 	return 0;
 }
