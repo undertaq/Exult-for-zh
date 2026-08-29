@@ -34,5 +34,9 @@ int main() {
 
 	expect(IsoProjection::from_name("invalid").kind == IsoKind::Legacy);
 	expect(std::string(IsoProjection(IsoKind::Diamond).name()) == "diamond");
+
+	const IsoTileRange visible = IsoProjection(IsoKind::Diamond).visible_tiles(-4, 0, 8, 4, 1);
+	expect(visible.min_tx <= 0 && visible.max_tx >= 1);
+	expect(visible.min_ty <= 0 && visible.max_ty >= 1);
 	return 0;
 }

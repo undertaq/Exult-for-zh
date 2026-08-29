@@ -111,6 +111,42 @@ bool IsoProjection::unproject(int sx, int sy, int& tx, int& ty) const {
 	return true;
 }
 
+void IsoProjection::project_pixel(int px, int py, int& sx, int& sy) const {
+	if (kind == IsoKind::Legacy) {
+		sx = px;
+		sy = py;
+		return;
+	}
+	const Basis basis = basis_for(kind);
+	sx = static_cast<int>(std::lround((px - py) * basis.x / c_tilesize));
+	sy = static_cast<int>(std::lround((px + py) * basis.y / c_tilesize));
+}
+
+IsoTileRange IsoProjection::visible_tiles(int sx, int sy, int width, int height, int padding) const {
+	const int corners[4][2] = {{sx, sy}, {sx + width, sy}, {sx, sy + height}, {sx + width, sy + height}};
+	IsoTileRange range{0, 0, 0, 0};
+	for (int i = 0; i < 4; ++i) {
+		int tx = 0;
+		int ty = 0;
+		if (!unproject(corners[i][0], corners[i][1], tx, ty)) {
+			continue;
+		}
+		if (i == 0) {
+			range = {tx, ty, tx, ty};
+		} else {
+			range.min_tx = std::min(range.min_tx, tx);
+			range.min_ty = std::min(range.min_ty, ty);
+			range.max_tx = std::max(range.max_tx, tx);
+			range.max_ty = std::max(range.max_ty, ty);
+		}
+	}
+	range.min_tx -= padding;
+	range.min_ty -= padding;
+	range.max_tx += padding;
+	range.max_ty += padding;
+	return range;
+}
+
 void IsoProjection::tile_bounds(int tx, int ty, int tz, int& x, int& y, int& w, int& h) const {
 	const int corners[4][2] = {{tx, ty}, {tx + 1, ty}, {tx, ty + 1}, {tx + 1, ty + 1}};
 	int       min_x = 0;

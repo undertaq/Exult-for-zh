@@ -37,6 +37,7 @@
 #include "gamemap.h"
 #include "gamewin.h"
 #include "ignore_unused_variable_warning.h"
+#include "gamerend/iso_projection.h"
 #include "objiter.h"
 
 #include <algorithm>
@@ -157,6 +158,10 @@ void Game_render::paint_terrain_only(int start_chunkx, int start_chunky, int sto
 	Game_window*   gwin = Game_window::get_instance();
 	Game_map*      map  = gwin->map;
 	Shape_manager* sman = Shape_manager::get_instance();
+	if (!IsoProjection::current().is_legacy()) {
+		paint_projected_map(0, 0, gwin->get_width(), gwin->get_height());
+		return;
+	}
 	int            cx;
 	int            cy;    // Chunk #'s.
 	// Paint all the flat scenery.
@@ -181,6 +186,51 @@ void Game_render::paint_terrain_only(int start_chunkx, int start_chunky, int sto
 	}
 }
 
+void Game_render::paint_projected_tile(int tx, int ty, int tz) {
+	Game_window* const gwin = Game_window::get_instance();
+	Game_map* const map = gwin->map;
+	const int world_tx = (tx % c_num_tiles + c_num_tiles) % c_num_tiles;
+	const int world_ty = (ty % c_num_tiles + c_num_tiles) % c_num_tiles;
+	const int cx = world_tx / c_tiles_per_chunk;
+	const int cy = world_ty / c_tiles_per_chunk;
+	const ShapeID tile = map->get_chunk(cx, cy)->get_flat(
+			world_tx % c_tiles_per_chunk, world_ty % c_tiles_per_chunk);
+	if (tile.is_invalid()) {
+		return;
+	}
+	int rel_tx = tx - gwin->scrolltx + 1;
+	int rel_ty = ty - gwin->scrollty + 1;
+	if (rel_tx < -c_num_tiles / 2) {
+		rel_tx += c_num_tiles;
+	}
+	if (rel_ty < -c_num_tiles / 2) {
+		rel_ty += c_num_tiles;
+	}
+	int screen_x, screen_y, depth;
+	IsoProjection::current().project(rel_tx, rel_ty, tz, screen_x, screen_y, depth);
+	tile.paint_world_shape(
+			screen_x - 1 - gwin->get_scrolltx_lo(),
+			screen_y - 1 - gwin->get_scrollty_lo());
+}
+
+void Game_render::paint_projected_map(int x, int y, int w, int h) {
+	Game_window* const gwin = Game_window::get_instance();
+	const IsoProjection projection = IsoProjection::current();
+	const IsoTileRange range = projection.visible_tiles(
+			x + gwin->get_scrolltx_lo(), y + gwin->get_scrollty_lo(), w, h, 2);
+	for (int depth = range.min_tx + range.min_ty; depth <= range.max_tx + range.max_ty; ++depth) {
+		const int min_tx = std::max(range.min_tx, depth - range.max_ty);
+		const int max_tx = std::min(range.max_tx, depth - range.min_ty);
+		for (int rel_tx = min_tx; rel_tx <= max_tx; ++rel_tx) {
+			const int rel_ty = depth - rel_tx;
+			paint_projected_tile(
+					gwin->scrolltx + rel_tx - 1,
+					gwin->scrollty + rel_ty - 1,
+					0);
+		}
+	}
+}
+
 /*
  *  Paint just the map and its objects (no gumps, effects).
  *  (The caller should set/clear clip area.)
@@ -196,6 +246,10 @@ int Game_render::paint_map(
 	Shape_manager* sman = gwin->shape_man;
 	render_seq++;    // Increment sequence #.
 	gwin->painted = true;
+	if (!IsoProjection::current().is_legacy()) {
+		paint_projected_map(x, y, w, h);
+		return 0;
+	}
 
 	const int scrolltx      = gwin->scrolltx;
 	const int scrollty      = gwin->scrollty;

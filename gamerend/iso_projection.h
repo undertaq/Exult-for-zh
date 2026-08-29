@@ -31,6 +31,13 @@ enum class IsoKind : int {
 	Dimetric = 3,
 };
 
+struct IsoTileRange {
+	int min_tx;
+	int min_ty;
+	int max_tx;
+	int max_ty;
+};
+
 struct IsoProjection {
 	IsoKind kind;
 
@@ -45,6 +52,13 @@ struct IsoProjection {
 	// Inverse of project. Used by click-to-tile.
 	// Returns false if the screen point is outside the world footprint.
 	bool unproject(int sx, int sy, int& tx, int& ty) const;
+
+	// Project a pixel offset relative to a world-shape origin. This is used
+	// when a source bitmap has to be re-rasterized for the selected basis.
+	void project_pixel(int px, int py, int& sx, int& sy) const;
+
+	// Return a padded logical tile range that may intersect a screen rectangle.
+	IsoTileRange visible_tiles(int sx, int sy, int width, int height, int padding = 1) const;
 
 	// Per-projection tile bounding rect in screen pixels (used for hit-tests).
 	void tile_bounds(int tx, int ty, int tz, int& x, int& y, int& w, int& h) const;

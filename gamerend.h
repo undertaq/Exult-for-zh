@@ -35,6 +35,8 @@ class Game_render {
 
 public:
 	void paint_terrain_only(int start_chunkx, int start_chunky, int stop_chunkx, int stop_chunky);
+	void paint_projected_map(int x, int y, int w, int h);
+	void paint_projected_tile(int tx, int ty, int tz);
 	// Render the map & objects.
 	int paint_map(int x, int y, int w, int h);
 	// Paint "flat" scenery in a chunk.
