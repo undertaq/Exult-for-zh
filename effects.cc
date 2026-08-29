@@ -118,8 +118,10 @@ void Effects_manager::add_text(const char* msg, Game_object* item, int max_ticks
  */
 
 void Effects_manager::add_text(const char* msg, int x, int y) {
-	texts.emplace_front(
-			std::make_unique<Text_effect>(msg, gwin->get_scrolltx() + x / c_tilesize, gwin->get_scrollty() + y / c_tilesize, gwin));
+	Tile_coord tile;
+	if (gwin->screen_to_tile(x, y, tile)) {
+		texts.emplace_front(std::make_unique<Text_effect>(msg, tile.tx, tile.ty, gwin));
+	}
 }
 
 /**
@@ -1105,8 +1107,10 @@ TileRect Text_effect::Figure_text_pos() {
 				return pos;
 			}
 			TileRect r = gwin->get_shape_rect(outer);
-			r.x -= gwin->get_scrolltx_lo();
-			r.y -= gwin->get_scrollty_lo();
+			if (gwin->get_projection().is_legacy()) {
+				r.x -= gwin->get_scrolltx_lo();
+				r.y -= gwin->get_scrollty_lo();
+			}
 			r.y -= th;
 			return r;
 		}

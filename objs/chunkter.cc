@@ -296,7 +296,15 @@ void Chunk_terrain::render_all(
 			if (!shape) {
 				continue;
 			}
-			if (!shape->is_rle() && pass == 1) {
+			if (!gwin->get_projection().is_legacy()) {
+				int x;
+				int y;
+				const Tile_coord tile(ctx + tilex, cty + tiley, 0);
+				gwin->get_shape_location(tile, x, y);
+				if ((shape->is_rle() && pass == 2) || (!shape->is_rle() && pass == 1)) {
+					sman->paint_world_shape(x, y, shape);
+				}
+			} else if (!shape->is_rle() && pass == 1) {
 				iwin->copy8(
 						shape->get_data(), c_tilesize, c_tilesize, (ctx + tilex - scrolltx) * c_tilesize,
 						(cty + tiley - scrollty) * c_tilesize);

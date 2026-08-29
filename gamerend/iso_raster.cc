@@ -133,7 +133,8 @@ IsoRaster transform_iso_raster(const IsoRaster& source, IsoKind kind) {
 	for (int y = 0; y < source.height; ++y) {
 		for (int x = 0; x < source.width; ++x) {
 			const unsigned char pixel = source.pixels[static_cast<size_t>(y) * source.width + x];
-			if (!pixel) {
+			// RLE gaps are decoded as zero; raw shape transparency is 255.
+			if (pixel == 0 || pixel == 255) {
 				continue;
 			}
 			int projected_x = 0;

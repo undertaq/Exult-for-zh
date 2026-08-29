@@ -24,7 +24,7 @@
 
 #include "common_types.h"
 #include "exult_constants.h"
-#include "iso_raster.h"
+#include "gamerend/iso_raster.h"
 #include "imagebuf.h"
 
 #include <array>
@@ -100,6 +100,10 @@ public:
 			int xoff, int yoff, IsoKind kind,
 			const Xform_palette* xforms, int xfcnt, const unsigned char* trans) {
 		paint_projected(scrwin, xoff, yoff, kind, xforms, xfcnt, trans);
+	}
+	void paint_projected_outline(Image_buffer8* win, int xoff, int yoff, IsoKind kind, unsigned char color);
+	void paint_projected_outline(int xoff, int yoff, IsoKind kind, unsigned char color) {
+		paint_projected_outline(scrwin, xoff, yoff, kind, color);
 	}
 	void paint_rle_translucent(Image_buffer8* win, int xoff, int yoff, const Xform_palette* xforms, int xfcnt);
 	void paint_rle_transformed(Image_buffer8* win, int xoff, int yoff, const Xform_palette& xform);

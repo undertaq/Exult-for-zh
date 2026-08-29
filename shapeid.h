@@ -189,6 +189,18 @@ public:
 		}
 	}
 
+	void paint_world_outline(int xoff, int yoff, Shape_frame* shape, int special_pixel) {
+		if (!shape) {
+			return;
+		}
+		const IsoKind kind = IsoProjection::current().kind;
+		if (kind == IsoKind::Legacy) {
+			paint_outline(xoff, yoff, shape, special_pixel);
+		} else {
+			shape->paint_projected_outline(xoff, yoff, kind, get_special_pixel(special_pixel));
+		}
+	}
+
 	// Paint scaled shape in window.
 	void paint_shape_scaled(int xoff, int yoff, int scale, Shape_frame* shape, bool translucent = false, unsigned char* trans = nullptr) {
 		if (!shape || !shape->get_data()) {
@@ -404,6 +416,10 @@ public:
 	// Paint outline around a shape.
 	inline void paint_outline(int xoff, int yoff, Pixel_colors pix) const {
 		sman->paint_outline(xoff, yoff, get_shape(), pix);
+	}
+
+	inline void paint_world_outline(int xoff, int yoff, Pixel_colors pix) const {
+		sman->paint_world_outline(xoff, yoff, get_shape(), pix);
 	}
 
 	int  get_num_frames() const;

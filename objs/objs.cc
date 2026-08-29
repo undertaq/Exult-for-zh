@@ -968,7 +968,7 @@ void Game_object::paint_outline(Pixel_colors pix    // Color to use.
 	int x;
 	int y;
 	gwin->get_shape_location(this, x, y);
-	ShapeID::paint_outline(x, y, pix);
+	ShapeID::paint_world_outline(x, y, pix);
 }
 
 void Game_object::paint_bbox(int pix) {

@@ -558,6 +558,43 @@ void Shape_frame::paint_projected(
 			xoff - raster.xleft, yoff - raster.yabove, xforms, xfcnt, trans);
 }
 
+void Shape_frame::paint_projected_outline(
+		Image_buffer8* win, int xoff, int yoff, IsoKind kind, unsigned char color) {
+	if (kind == IsoKind::Legacy) {
+		paint_rle_outline(win, xoff, yoff, color);
+		return;
+	}
+	const IsoRaster& raster = get_projected_raster(kind);
+	const int        draw_x = xoff - raster.xleft;
+	const int        draw_y = yoff - raster.yabove;
+	for (int y = 0; y < raster.height; ++y) {
+		for (int x = 0; x < raster.width; ++x) {
+			const size_t index = static_cast<size_t>(y) * raster.width + x;
+			if (raster.pixels[index] == 0) {
+				continue;
+			}
+			bool edge = false;
+			for (int dy = -1; dy <= 1 && !edge; ++dy) {
+				for (int dx = -1; dx <= 1; ++dx) {
+					if (dx == 0 && dy == 0) {
+						continue;
+					}
+					const int nx = x + dx;
+					const int ny = y + dy;
+					if (nx < 0 || nx >= raster.width || ny < 0 || ny >= raster.height
+							|| raster.pixels[static_cast<size_t>(ny) * raster.width + nx] == 0) {
+						edge = true;
+						break;
+					}
+				}
+			}
+			if (edge) {
+				win->put_pixel8(color, draw_x + x, draw_y + y);
+			}
+		}
+	}
+}
+
 /*
  *  Show a Run-Length_Encoded shape with translucency.
  */
