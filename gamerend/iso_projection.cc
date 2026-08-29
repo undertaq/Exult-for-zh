@@ -108,8 +108,40 @@ IsoProjection IsoProjection::from_name(const std::string& value) {
 	return IsoProjection(IsoKind::Legacy);
 }
 
+double IsoProjection::projected_depth(int tx, int ty, int tz) const {
+	if (kind == IsoKind::Legacy) {
+		return tx + ty;
+	}
+	const Basis basis = basis_for(kind);
+	// Express lift in the same depth units as the two ground axes. This gives
+	// Diamond = 1, True Iso = 2, and Dimetric = 1.6 per lift.
+	const double lift_depth = basis.y / 2.0;
+	return tx + ty + tz * lift_depth;
+}
+
+int IsoProjection::compare_projected_objects(
+		int tx1, int ty1, int tz1, int tx2, int ty2, int tz2) const {
+	const double depth1 = projected_depth(tx1, ty1, tz1);
+	const double depth2 = projected_depth(tx2, ty2, tz2);
+	if (std::abs(depth1 - depth2) > 1e-9) {
+		return depth1 < depth2 ? -1 : 1;
+	}
+	// The two ground axes can have the same depth (a diagonal row). Keep
+	// this order stable with paint_projected_map(), which visits tx from
+	// low to high for such a row.
+	if (tx1 != tx2) {
+		return tx1 < tx2 ? -1 : 1;
+	}
+	if (ty1 != ty2) {
+		return ty1 > ty2 ? -1 : 1;
+	}
+	return 0;
+}
+
 void IsoProjection::project(int tx, int ty, int tz, int& sx, int& sy, int& depth) const {
-	depth = tx + ty;
+	depth = kind == IsoKind::Legacy
+			? projected_object_depth(tx, ty)
+			: static_cast<int>(std::lround(projected_depth(tx, ty, tz)));
 	if (kind == IsoKind::Legacy) {
 		const int lift = (tz * c_tilesize) / 2;
 		sx = tx * c_tilesize - lift;

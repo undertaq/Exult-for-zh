@@ -48,6 +48,7 @@
 #include "objiter.cc" /* Yes we #include the .cc here on purpose! Please don't "fix" this */
 #include "objiter.h"
 #include "objs.h"
+#include "ordinfo.h"
 #include "shapeinf.h"
 #include "spellbook.h"
 #include "ucsched.h"
@@ -101,6 +102,67 @@ static char v2hdr[]           = {static_cast<char>(0xff),
 Map_chunk* Game_map::create_chunk(int cx, int cy) {
 	objects[cx][cy] = std::make_unique<Map_chunk>(this, cx, cy);
 	return get_chunk_unsafe(cx, cy);
+}
+
+void Game_map::rebuild_render_dependencies() {
+	const int chunk_count = c_num_chunks * c_num_chunks;
+	vector<Map_chunk*>           chunks(chunk_count);
+	vector<vector<Game_object*>> render_objects(chunk_count);
+
+	for (int cx = 0; cx < c_num_chunks; ++cx) {
+		for (int cy = 0; cy < c_num_chunks; ++cy) {
+			Map_chunk* chunk = objects[cx][cy].get();
+			if (!chunk) {
+				continue;
+			}
+			const int chunk_index = cx * c_num_chunks + cy;
+			chunks[chunk_index] = chunk;
+			chunk->clear_render_dependencies();
+			Nonflat_object_iterator next(chunk);
+			Game_object*            object;
+			while ((object = next.get_next()) != nullptr) {
+				render_objects[chunk_index].push_back(object);
+			}
+		}
+	}
+
+	// The normal insertion path only compares objects in the same chunk and
+	// the adjacent chunks that a footprint can cross. Recreate those pairs
+	// after the projection changes, using the current projected rectangles and
+	// comparator. Each pair is processed once so dependency overrides remain
+	// deterministic.
+	for (int cx = 0; cx < c_num_chunks; ++cx) {
+		for (int cy = 0; cy < c_num_chunks; ++cy) {
+			const int first_index = cx * c_num_chunks + cy;
+			Map_chunk* first_chunk = chunks[first_index];
+			if (!first_chunk) {
+				continue;
+			}
+			const auto& first_objects = render_objects[first_index];
+			for (size_t i = 0; i < first_objects.size(); ++i) {
+				Ordering_info info(Game_window::get_instance(), first_objects[i]);
+				for (size_t j = i + 1; j < first_objects.size(); ++j) {
+					first_chunk->add_dependency_pair(first_objects[i], info, first_objects[j]);
+				}
+				for (int dx = 0; dx <= 1; ++dx) {
+					for (int dy = -1; dy <= 1; ++dy) {
+						if (dx == 0 && dy <= 0) {
+							continue;
+						}
+						const int nx = (cx + dx + c_num_chunks) % c_num_chunks;
+						const int ny = (cy + dy + c_num_chunks) % c_num_chunks;
+						const int second_index = nx * c_num_chunks + ny;
+						if (!chunks[second_index]) {
+							continue;
+						}
+						for (auto* second : render_objects[second_index]) {
+							first_chunk->add_dependency_pair(first_objects[i], info, second);
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 /*

@@ -737,6 +737,100 @@ void Map_chunk::set_terrain(Chunk_terrain* ter) {
 	}
 }
 
+int Map_chunk::compare_for_dependency(
+		Game_object*   newobj,
+		Ordering_info& newinfo,
+		Game_object*   obj) {
+	/* Compare returns -1 if lt, 0 if dont_care, 1 if gt. */
+	int cmp = Game_object::compare(newinfo, obj);
+	// TODO: Fix this properly, instead of with an ugly hack.
+	// This fixes relative ordering between the Y depression and the Y
+	// shapes in SI. Done so in a way that the depression is not clickable.
+	if (!cmp && GAME_SI && newobj->get_shapenum() == 0xd1 && obj->get_shapenum() == 0xd1 && obj->get_framenum() == 17) {
+		cmp = 1;
+	}
+	// Sleeping NPCs should render before bedspread covers but after bed
+	// frames.  Only when they actually overlap on screen and share the
+	// same Z level, to avoid affecting walls and objects on the other
+	// side.
+	const Actor* actor = newobj->as_actor();
+	if (actor && (actor->get_framenum() & 0xf) == Actor::sleep_frame) {
+		const int bedshape = obj->get_shapenum();
+		if (bedshape == 696 || bedshape == 1011 || bedshape == 363 || bedshape == 312) {
+			const int frnum   = obj->get_framenum();
+			const int spread0 = GAME_SI ? 7 : 3;
+			const int spread1 = GAME_SI ? 20 : 16;
+			if (frnum >= spread0 && frnum <= spread1 && !(frnum % 2) && newinfo.tz == obj->get_lift()
+				&& newinfo.area.intersects(gwin->get_shape_rect(obj))) {
+				cmp = -1;    // NPC renders before bedspread.
+			}
+		}
+	}
+	// Sleeping actors should render below awake actors.
+	// Override compare() for actor-vs-actor with screen overlap,
+	// but skip if the override would create a dependency cycle
+	// through a third object (e.g., a wall between them).
+	{
+		const Actor* newactor = newobj->as_actor();
+		const Actor* objactor = obj->as_actor();
+		if (newactor && objactor) {
+			const bool new_asleep = (newactor->get_framenum() & 0xf) == Actor::sleep_frame;
+			const bool obj_asleep = (objactor->get_framenum() & 0xf) == Actor::sleep_frame;
+			if (new_asleep != obj_asleep) {
+				const TileRect r2 = gwin->get_shape_rect(obj);
+				if (newinfo.area.intersects(r2)) {
+					// Check for potential 3-node cycle:
+					// A cycle forms if object D exists where
+					// both actors relate to D in conflicting
+					// directions.
+					bool would_cycle = false;
+					// Objects that render after obj: if newobj
+					// would also depend on any of them, cycle.
+					for (auto* dep : obj->dependors) {
+						if (dep != newobj && Game_object::compare(newinfo, dep) > 0) {
+							would_cycle = true;
+							break;
+						}
+					}
+					// Objects that render before obj: if they
+					// would depend on newobj, cycle.
+					if (!would_cycle) {
+						for (auto* dep : obj->dependencies) {
+							if (dep != newobj && Game_object::compare(newinfo, dep) < 0) {
+								would_cycle = true;
+								break;
+							}
+						}
+					}
+					if (!would_cycle) {
+						cmp = new_asleep ? -1 : 1;
+					}
+				}
+			}
+		}
+	}
+	return cmp;
+}
+
+void Map_chunk::clear_render_dependencies() {
+	Object_iterator next(objects);
+	Game_object*   obj;
+	while ((obj = next.get_next()) != nullptr) {
+		obj->clear_dependencies();
+	}
+}
+
+void Map_chunk::add_dependency_pair(Game_object* obj1, Ordering_info& info1, Game_object* obj2) {
+	const int cmp = compare_for_dependency(obj1, info1, obj2);
+	if (cmp == 1) {
+		obj1->dependencies.insert(obj2);
+		obj2->dependors.insert(obj1);
+	} else if (cmp == -1) {
+		obj2->dependencies.insert(obj1);
+		obj1->dependors.insert(obj2);
+	}
+}
+
 /*
  *  Add rendering dependencies for a new object.
  */
@@ -748,75 +842,7 @@ void Map_chunk::add_dependencies(
 	Game_object*            obj;    // Figure dependencies.
 	Nonflat_object_iterator next(this);
 	while ((obj = next.get_next()) != nullptr) {
-		// cout << "Here " << __LINE__ << " " << obj << endl;
-		/* Compare returns -1 if lt, 0 if dont_care, 1 if gt. */
-		int cmp = Game_object::compare(newinfo, obj);
-		// TODO: Fix this properly, instead of with an ugly hack.
-		// This fixes relative ordering between the Y depression and the Y
-		// shapes in SI. Done so in a way that the depression is not clickable.
-		if (!cmp && GAME_SI && newobj->get_shapenum() == 0xd1 && obj->get_shapenum() == 0xd1 && obj->get_framenum() == 17) {
-			cmp = 1;
-		}
-		// Sleeping NPCs should render before bedspread covers but after bed
-		// frames.  Only when they actually overlap on screen and share the
-		// same Z level, to avoid affecting walls and objects on the other
-		// side.
-		const Actor* actor = newobj->as_actor();
-		if (actor && (actor->get_framenum() & 0xf) == Actor::sleep_frame) {
-			const int bedshape = obj->get_shapenum();
-			if (bedshape == 696 || bedshape == 1011 || bedshape == 363 || bedshape == 312) {
-				const int frnum   = obj->get_framenum();
-				const int spread0 = GAME_SI ? 7 : 3;
-				const int spread1 = GAME_SI ? 20 : 16;
-				if (frnum >= spread0 && frnum <= spread1 && !(frnum % 2) && newinfo.tz == obj->get_lift()
-					&& newinfo.area.intersects(gwin->get_shape_rect(obj))) {
-					cmp = -1;    // NPC renders before bedspread.
-				}
-			}
-		}
-		// Sleeping actors should render below awake actors.
-		// Override compare() for actor-vs-actor with screen overlap,
-		// but skip if the override would create a dependency cycle
-		// through a third object (e.g., a wall between them).
-		{
-			const Actor* newactor = newobj->as_actor();
-			const Actor* objactor = obj->as_actor();
-			if (newactor && objactor) {
-				const bool new_asleep = (newactor->get_framenum() & 0xf) == Actor::sleep_frame;
-				const bool obj_asleep = (objactor->get_framenum() & 0xf) == Actor::sleep_frame;
-				if (new_asleep != obj_asleep) {
-					const TileRect r2 = gwin->get_shape_rect(obj);
-					if (newinfo.area.intersects(r2)) {
-						// Check for potential 3-node cycle:
-						// A cycle forms if object D exists where
-						// both actors relate to D in conflicting
-						// directions.
-						bool would_cycle = false;
-						// Objects that render after obj: if newobj
-						// would also depend on any of them, cycle.
-						for (auto* dep : obj->dependors) {
-							if (dep != newobj && Game_object::compare(newinfo, dep) > 0) {
-								would_cycle = true;
-								break;
-							}
-						}
-						// Objects that render before obj: if they
-						// would depend on newobj, cycle.
-						if (!would_cycle) {
-							for (auto* dep : obj->dependencies) {
-								if (dep != newobj && Game_object::compare(newinfo, dep) < 0) {
-									would_cycle = true;
-									break;
-								}
-							}
-						}
-						if (!would_cycle) {
-							cmp = new_asleep ? -1 : 1;
-						}
-					}
-				}
-			}
-		}
+		const int cmp = compare_for_dependency(newobj, newinfo, obj);
 		if (cmp == 1) {    // Bigger than this object?
 			newobj->dependencies.insert(obj);
 			obj->dependors.insert(newobj);

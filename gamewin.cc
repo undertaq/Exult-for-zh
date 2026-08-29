@@ -1210,6 +1210,7 @@ bool Game_window::screen_to_tile(int x, int y, Tile_coord& tile) const {
 }
 
 void Game_window::set_projection(IsoKind kind) {
+	const bool changed = iso_projection.kind != kind;
 	iso_projection = IsoProjection(kind);
 	IsoProjection::set_current(kind);
 	if (config) {
@@ -1221,6 +1222,9 @@ void Game_window::set_projection(IsoKind kind) {
 	scrollty_l = scrollty_lp = scrollty;
 	scrolltx_lo = scrollty_lo = 0;
 	avposx_ld = avposy_ld = 0;
+	if (changed && map) {
+		map->rebuild_render_dependencies();
+	}
 	set_all_dirty();
 }
 

@@ -49,6 +49,23 @@ struct IsoProjection {
 	// their projected ground-plane basis and a vertical lift.
 	void project(int tx, int ty, int tz, int& sx, int& sy, int& depth) const;
 
+	// Return the front-to-back depth of an object's nearest ground-plane
+	// corner. Object tile coordinates are anchored at that corner, so the
+	// projected depth is independent of the selected ground-plane basis.
+	int projected_object_depth(int tx, int ty) const {
+		return tx + ty;
+	}
+
+	// Full projected depth, including lift. The lift coefficient follows the
+	// selected ground-plane basis so True Iso and Dimetric remain consistent.
+	double projected_depth(int tx, int ty, int tz) const;
+
+	// Compare two projected object anchors from far to near. Ground-plane
+	// depth is primary; elevation is a deterministic tie-break for stacked
+	// floors that share the same ground-plane depth.
+	int compare_projected_objects(
+			int tx1, int ty1, int tz1, int tx2, int ty2, int tz2) const;
+
 	// Inverse of project. Used by click-to-tile.
 	// Returns false if the screen point is outside the world footprint.
 	bool unproject(int sx, int sy, int& tx, int& ty) const;

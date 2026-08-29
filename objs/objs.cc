@@ -1298,6 +1298,18 @@ int Game_object::compare(
 		return 0;    // No overlap on screen.
 	}
 	const Ordering_info inf2(gwin, obj2, r2);
+	if (!gwin->get_projection().is_legacy()) {
+		const int projected_cmp = gwin->get_projection().compare_projected_objects(
+				inf1.tx, inf1.ty, inf1.tz, inf2.tx, inf2.ty, inf2.tz);
+		if (projected_cmp) {
+			// The legacy AABB comparator is expressed in the unprojected world
+			// axes. Those axes can disagree after projection (especially for
+			// diagonal wall sections), producing direction-dependent edges and
+			// cycles in the dependency graph. Use the projection's single,
+			// transitive far-to-near order whenever the screen areas overlap.
+			return TRACE_COMPARE(projected_cmp);
+		}
+	}
 #ifdef DEBUGLT
 	Debug_lt(inf1.tx, inf1.ty, inf2.tx, inf2.ty);
 #endif

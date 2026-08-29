@@ -164,11 +164,15 @@ class Map_chunk : public Game_singletons {
 	bool                   selected;    // For 'select_chunks' mode.
 	void                   add_dungeon_levels(TileRect& tiles, unsigned int lift);
 	void                   add_dependencies(Game_object* newobj, Ordering_info& newinfo);
+	int                    compare_for_dependency(Game_object* newobj, Ordering_info& newinfo, Game_object* obj);
+	void                   clear_render_dependencies();
+	void                   add_dependency_pair(Game_object* obj1, Ordering_info& info1, Game_object* obj2);
 	static Map_chunk*      add_outside_dependencies(int cx, int cy, Game_object* newobj, Ordering_info& newinfo);
 
 public:
 	friend class Npc_actor;
 	friend class Game_object;
+	friend class Game_map;
 	Map_chunk(Game_map* m, int chunkx, int chunky);
 
 	Game_map* get_map() const {

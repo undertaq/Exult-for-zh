@@ -221,6 +221,8 @@ public:
 	Ifix_game_object_shared create_ifix_object(int shnum, int frnum);
 	// Get all superchunk objects.
 	void get_superchunk_objects(int schunk);
+	// Recompute object render dependencies after a projection change.
+	void rebuild_render_dependencies();
 	bool is_tile_occupied(const Tile_coord& tile);
 	// Locate chunk with desired terrain.
 	bool        locate_terrain(int tnum, int& cx, int& cy, bool upwards = false);

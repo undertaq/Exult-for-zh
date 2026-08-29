@@ -51,6 +51,26 @@ int main() {
 	// diamond. Treating source Y alone as height bends one edge and creates
 	// the visible staircase along adjacent wall sections.
 	const IsoProjection true_iso(IsoKind::TrueIso);
+	// An object's render depth is determined by its nearest ground-plane
+	// corner. This keeps a character in front of a second-floor wall when
+	// their projected pixels overlap.
+	expect(true_iso.projected_object_depth(11, 20) > true_iso.projected_object_depth(10, 20));
+	expect(true_iso.projected_object_depth(10, 20) == 30);
+	expect(IsoProjection(IsoKind::Dimetric).projected_object_depth(10, 20) == 30);
+	// Objects on opposite world axes can overlap after projection. Their
+	// painter order must still follow projected depth, with elevation deciding
+	// the order of stacked floors at the same ground depth.
+	expect(true_iso.compare_projected_objects(10, 20, 0, 11, 19, 0) < 0);
+	expect(true_iso.compare_projected_objects(11, 19, 0, 10, 20, 0) > 0);
+	expect(true_iso.compare_projected_objects(10, 20, 0, 11, 19, 1) < 0);
+	expect(true_iso.compare_projected_objects(10, 20, 1, 11, 19, 0) > 0);
+	// True Iso's vertical basis is twice the ground depth increment for a
+	// one-axis step. This case must not collapse to the lexicographic
+	// tx+ty/tz tie-break used by the old comparator.
+	expect(true_iso.compare_projected_objects(10, 20, 2, 13, 20, 0) > 0);
+	// Dimetric uses a different, fractional vertical depth contribution.
+	const IsoProjection dimetric_depth(IsoKind::Dimetric);
+	expect(dimetric_depth.compare_projected_objects(10, 20, 2, 13, 20, 0) > 0);
 	true_iso.project_sprite_pixel(-16, -8, sx, sy);
 	expect(sx == -7 && sy == -16);
 	true_iso.project_sprite_pixel(-8, -8, sx, sy);
