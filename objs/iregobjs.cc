@@ -61,7 +61,7 @@ void Ireg_game_object::paint() {
 	if (flags & (1L << Obj_flags::invisible)) {
 		paint_invisible(x, y);
 	} else {
-		paint_shape(x, y);
+		paint_world_shape(x, y);
 	}
 }
 

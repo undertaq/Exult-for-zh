@@ -22,6 +22,7 @@
 #include "endianio.h"
 #include "exult_constants.h"
 #include "fontvga.h"
+#include "gamerend/iso_projection.h"
 #include "shapevga.h"
 #include "singles.h"
 
@@ -168,6 +169,23 @@ public:
 			shape->paint_rle(xoff, yoff);
 		} else {
 			shape->paint_rle_translucent(xoff, yoff, xforms.data(), xforms.size());
+		}
+	}
+
+	void paint_world_shape(int xoff, int yoff, Shape_frame* shape, bool translucent = false, unsigned char* trans = nullptr) {
+		if (!shape || !shape->get_data()) {
+			CERR("nullptr SHAPE!!!");
+			return;
+		}
+		const IsoKind kind = IsoProjection::current().kind;
+		if (kind == IsoKind::Legacy) {
+			paint_shape(xoff, yoff, shape, translucent, trans);
+		} else if (trans) {
+			shape->paint_projected(xoff, yoff, kind, nullptr, 0, trans);
+		} else if (!translucent) {
+			shape->paint_projected(xoff, yoff, kind, nullptr, 0, nullptr);
+		} else {
+			shape->paint_projected(xoff, yoff, kind, xforms.data(), xforms.size(), nullptr);
 		}
 	}
 
@@ -357,6 +375,16 @@ public:
 			transtable = Get_palette_transform_table(table);
 		}
 		sman->paint_shape(xoff, yoff, cache.shape, force_trans ? *force_trans : cache.has_trans, transtable);
+	}
+
+	void paint_world_shape(int xoff, int yoff, std::optional<bool> force_trans = std::nullopt) const {
+		auto           cache      = cache_shape();
+		unsigned char* transtable = nullptr;
+		unsigned char  table[256];
+		if (palette_transform != 0) {
+			transtable = Get_palette_transform_table(table);
+		}
+		sman->paint_world_shape(xoff, yoff, cache.shape, force_trans ? *force_trans : cache.has_trans, transtable);
 	}
 
 	void paint_shape_scaled(int xoff, int yoff, int scale, std::optional<bool> force_trans = std::nullopt) const {

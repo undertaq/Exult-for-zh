@@ -956,7 +956,7 @@ void Game_object::paint() {
 	int x;
 	int y;
 	gwin->get_shape_location(this, x, y);
-	paint_shape(x, y);
+	paint_world_shape(x, y);
 }
 
 /*

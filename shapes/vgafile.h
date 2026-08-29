@@ -24,8 +24,10 @@
 
 #include "common_types.h"
 #include "exult_constants.h"
+#include "iso_raster.h"
 #include "imagebuf.h"
 
+#include <array>
 #include <cassert>
 #include <fstream>
 #include <iostream>
@@ -52,6 +54,7 @@ class Shape_frame {
 	short                            yabove;    // Extent above origin.
 	short                            ybelow;    // Extent below origin.
 	bool                             rle;       // Run-length encoded.
+	mutable std::array<std::unique_ptr<IsoRaster>, 4> projected_rasters;
 	static Image_buffer8*            scrwin;    // Screen window to render to.
 
 	// Create RLE data & store in frame.
@@ -90,6 +93,14 @@ public:
 	void paint_rle(Image_buffer8* win, int xoff, int yoff);
 	void paint_rle_remapped(Image_buffer8* win, int xoff, int yoff, const unsigned char* trans);
 	void paint(Image_buffer8* win, int xoff, int yoff);
+	void paint_projected(
+			Image_buffer8* win, int xoff, int yoff, IsoKind kind,
+			const Xform_palette* xforms, int xfcnt, const unsigned char* trans);
+	void paint_projected(
+			int xoff, int yoff, IsoKind kind,
+			const Xform_palette* xforms, int xfcnt, const unsigned char* trans) {
+		paint_projected(scrwin, xoff, yoff, kind, xforms, xfcnt, trans);
+	}
 	void paint_rle_translucent(Image_buffer8* win, int xoff, int yoff, const Xform_palette* xforms, int xfcnt);
 	void paint_rle_transformed(Image_buffer8* win, int xoff, int yoff, const Xform_palette& xform);
 	void paint_rle_outline(Image_buffer8* win, int xoff, int yoff, unsigned char color);
@@ -135,6 +146,7 @@ public:
 
 	// Point-in-shape check for scaled rendering (inverse-scales the point).
 	bool has_point_scaled(int x, int y, int scale) const;
+	bool has_projected_point(int x, int y, IsoKind kind) const;
 
 	bool has_point(int x, int y) const;    // Is a point within the shape?
 
@@ -177,6 +189,9 @@ public:
 	Shape_frame& operator=(const Shape_frame&)     = delete;
 	Shape_frame(Shape_frame&&) noexcept            = default;
 	Shape_frame& operator=(Shape_frame&&) noexcept = default;
+
+private:
+	const IsoRaster& get_projected_raster(IsoKind kind) const;
 };
 
 /*

@@ -2024,7 +2024,7 @@ void Actor::paint() {
 		} else if (invis) {
 			paint_invisible(xoff, yoff);
 		} else {
-			paint_shape(xoff, yoff, true);
+			paint_world_shape(xoff, yoff, true);
 		}
 
 		paint_weapon();
@@ -2076,7 +2076,7 @@ void Actor::paint_weapon() {
 		if (flags & (1L << Obj_flags::invisible)) {
 			wsid.paint_invisible(xoff, yoff);
 		} else {
-			wsid.paint_shape(xoff, yoff);
+			wsid.paint_world_shape(xoff, yoff);
 		}
 	} else {
 		weapon_rect.w = 0;

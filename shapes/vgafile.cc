@@ -533,6 +533,31 @@ void Shape_frame::paint(
 	}
 }
 
+const IsoRaster& Shape_frame::get_projected_raster(IsoKind kind) const {
+	const int index = static_cast<int>(kind);
+	assert(index >= 0 && index < static_cast<int>(projected_rasters.size()));
+	if (!projected_rasters[index]) {
+		const IsoRaster source = rle
+				? decode_rle_raster(data.get(), get_width(), get_height(), xleft, yabove)
+				: decode_raw_raster(data.get(), c_tilesize, c_tilesize, xleft, yabove);
+		projected_rasters[index] = std::make_unique<IsoRaster>(transform_iso_raster(source, kind));
+	}
+	return *projected_rasters[index];
+}
+
+void Shape_frame::paint_projected(
+		Image_buffer8* win, int xoff, int yoff, IsoKind kind,
+		const Xform_palette* xforms, int xfcnt, const unsigned char* trans) {
+	if (kind == IsoKind::Legacy) {
+		paint(win, xoff, yoff);
+		return;
+	}
+	const IsoRaster& raster = get_projected_raster(kind);
+	win->copy_transparent8(
+			raster.pixels.data(), raster.width, raster.height,
+			xoff - raster.xleft, yoff - raster.yabove, xforms, xfcnt, trans);
+}
+
 /*
  *  Show a Run-Length_Encoded shape with translucency.
  */
@@ -731,6 +756,17 @@ bool Shape_frame::has_point_scaled(int sx, int sy, int scale) const {
 	return has_point(lx, ly);
 }
 
+bool Shape_frame::has_projected_point(int x, int y, IsoKind kind) const {
+	if (kind == IsoKind::Legacy) {
+		return has_point(x, y);
+	}
+	const IsoRaster& raster = get_projected_raster(kind);
+	const int        raster_x = x + raster.xleft;
+	const int        raster_y = y + raster.yabove;
+	return raster_x >= 0 && raster_x < raster.width && raster_y >= 0 && raster_y < raster.height
+			&& raster.pixels[static_cast<size_t>(raster_y) * raster.width + raster_x] != 0;
+}
+
 /*
  *  See if a point, relative to the shape's 'origin', actually within the
  *  shape.
@@ -781,6 +817,9 @@ bool Shape_frame::has_point(
 void Shape_frame::set_offset(int new_xright, int new_ybelow) {
 	if (!rle) {
 		return;    // Can do it for 8x8 tiles.
+	}
+	for (auto& raster : projected_rasters) {
+		raster.reset();
 	}
 	const int w = get_width();
 	const int h = get_height();
