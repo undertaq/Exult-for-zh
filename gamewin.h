@@ -23,6 +23,7 @@
 #define GAMEWIN_H
 
 #include "flags.h"
+#include "gamerend/iso_projection.h"
 #include "iwin8.h"
 #include "rect.h"
 #include "shapeid.h"
@@ -97,6 +98,7 @@ class Game_window {
 	Game_clock*            clock;        // Keeps track of time.
 	std::vector<Game_map*> maps;         // Hold all terrain.
 	Game_map*              map;          // The current map.
+	IsoProjection          iso_projection;
 	Game_render*           render;       // Helps with rendering.
 	Gump_manager*          gump_man;     // Open containers on screen.
 	Party_manager*         party_man;    // Keeps party list.
@@ -671,7 +673,7 @@ public:
 	void center_view(const Tile_coord& t);    // Center view around t.
 	void set_camera_actor(Actor* a);
 
-	Actor* get_camera_actor() {
+	Actor* get_camera_actor() const {
 		return camera_actor;
 	}
 
@@ -688,6 +690,12 @@ public:
 
 	// Show abs. location of mouse.
 	void show_game_location(int x, int y);
+	bool screen_to_tile(int x, int y, Tile_coord& tile) const;
+	const IsoProjection& get_projection() const {
+		return iso_projection;
+	}
+	void set_projection(IsoKind kind);
+	void set_projection(const std::string& name);
 
 	// Get screen area of shape at pt.
 	TileRect get_shape_rect(const Shape_frame* s, int x, int y) const {
@@ -697,8 +705,8 @@ public:
 	// Get screen area used by object.
 	TileRect get_shape_rect(const Game_object* obj) const;
 	// Get screen loc. of object.
-	void get_shape_location(const Game_object* obj, int& x, int& y);
-	void get_shape_location(const Tile_coord& t, int& x, int& y);
+	void get_shape_location(const Game_object* obj, int& x, int& y) const;
+	void get_shape_location(const Tile_coord& t, int& x, int& y) const;
 	void plasma(int w, int h, int x, int y, int startc, int endc);
 	/*
 	 *  Save/restore/startup:

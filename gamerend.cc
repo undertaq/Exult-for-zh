@@ -231,6 +231,21 @@ void Game_render::paint_projected_map(int x, int y, int w, int h) {
 	}
 }
 
+int Game_render::paint_projected_objects() {
+	int light_sources = 0;
+	// Projected depth is tx + ty, so walk chunks in diagonal order. The
+	// object iterator retains the existing per-chunk dependency handling.
+	for (int depth = 0; depth < 2 * c_num_chunks - 1; ++depth) {
+		for (int cx = 0; cx < c_num_chunks; ++cx) {
+			const int cy = depth - cx;
+			if (cy >= 0 && cy < c_num_chunks) {
+				light_sources += paint_chunk_objects(cx, cy);
+			}
+		}
+	}
+	return light_sources;
+}
+
 /*
  *  Paint just the map and its objects (no gumps, effects).
  *  (The caller should set/clear clip area.)
@@ -248,7 +263,10 @@ int Game_render::paint_map(
 	gwin->painted = true;
 	if (!IsoProjection::current().is_legacy()) {
 		paint_projected_map(x, y, w, h);
-		return 0;
+		if (!gwin->skip_lift) {
+			return 10;    // Terrain editor: pretend there's lots of light.
+		}
+		return paint_projected_objects();
 	}
 
 	const int scrolltx      = gwin->scrolltx;
@@ -555,9 +573,14 @@ void Game_window::paint_lerped(int factor) {
 		dy = 0;
 	}
 
-	// Set pixel offset needed for lerping
-	scrolltx_lo = dx;
-	scrollty_lo = dy;
+	// Set pixel offset needed for lerping. In projected views, the two
+	// fractional world-axis deltas must be converted to screen axes first.
+	if (iso_projection.is_legacy()) {
+		scrolltx_lo = dx;
+		scrollty_lo = dy;
+	} else {
+		iso_projection.project_pixel(dx, dy, scrolltx_lo, scrollty_lo);
+	}
 
 	paint();
 

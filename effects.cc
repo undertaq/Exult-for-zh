@@ -366,12 +366,21 @@ inline void Sprites_effect::add_dirty(int frnum) {
 		return;    // Already at destination.
 	}
 	Shape_frame* shape = sprite.get_shape();
-	const int    lp    = pos.tz / 2;
+	int          shape_x;
+	int          shape_y;
+	if (gwin->get_projection().is_legacy()) {
+		const int lp = pos.tz / 2;
+		shape_x = xoff + (pos.tx - lp - gwin->get_scrolltx()) * c_tilesize;
+		shape_y = yoff + (pos.ty - lp - gwin->get_scrollty()) * c_tilesize;
+	} else {
+		gwin->get_shape_location(pos, shape_x, shape_y);
+		shape_x += xoff - 7;
+		shape_y += yoff - 7;
+	}
 
 	gwin->add_dirty(gwin->clip_to_win(gwin->get_shape_rect(
-												  shape, xoff + (pos.tx - lp - gwin->get_scrolltx()) * c_tilesize,
-												  yoff + (pos.ty - lp - gwin->get_scrollty()) * c_tilesize)
-											  .enlarge((3 * c_tilesize) / 2)));
+															  shape, shape_x, shape_y)
+															  .enlarge((3 * c_tilesize) / 2)));
 }
 
 bool Sprites_effect::pause_while_faded(unsigned long curtime, uintptr udata) {
@@ -459,10 +468,17 @@ void Sprites_effect::paint() {
 	if (sprite.get_framenum() >= frames) {
 		return;
 	}
-	const int lp = pos.tz / 2;    // Account for lift.
-	sprite.paint_shape(
-			xoff + (pos.tx - lp - gwin->get_scrolltx()) * c_tilesize - gwin->get_scrolltx_lo(),
-			yoff + (pos.ty - lp - gwin->get_scrollty()) * c_tilesize - gwin->get_scrolltx_lo());
+	if (gwin->get_projection().is_legacy()) {
+		const int lp = pos.tz / 2;    // Account for lift.
+		sprite.paint_shape(
+				xoff + (pos.tx - lp - gwin->get_scrolltx()) * c_tilesize - gwin->get_scrolltx_lo(),
+				yoff + (pos.ty - lp - gwin->get_scrollty()) * c_tilesize - gwin->get_scrollty_lo());
+		return;
+	}
+	int shape_x;
+	int shape_y;
+	gwin->get_shape_location(pos, shape_x, shape_y);
+	sprite.paint_world_shape(shape_x + xoff - 7, shape_y + yoff - 7);
 }
 
 static inline int get_explosion_shape(int weap, int proj) {
@@ -711,12 +727,21 @@ inline void Projectile_effect::add_dirty() {
 		return;
 	}
 	Shape_frame* shape = sprite.get_shape();
-	// Force repaint of prev. position.
-	const int liftpix = pos.tz * c_tilesize / 2;
+	int shape_x;
+	int shape_y;
+	if (gwin->get_projection().is_legacy()) {
+		// Force repaint of prev. position.
+		const int liftpix = pos.tz * c_tilesize / 2;
+		shape_x = (pos.tx - gwin->get_scrolltx()) * c_tilesize - liftpix;
+		shape_y = (pos.ty - gwin->get_scrollty()) * c_tilesize - liftpix;
+	} else {
+		gwin->get_shape_location(pos, shape_x, shape_y);
+		shape_x -= 7;
+		shape_y -= 7;
+	}
 	gwin->add_dirty(gwin->clip_to_win(gwin->get_shape_rect(
-												  shape, (pos.tx - gwin->get_scrolltx()) * c_tilesize - liftpix,
-												  (pos.ty - gwin->get_scrollty()) * c_tilesize - liftpix)
-											  .enlarge(c_tilesize / 2)));
+															  shape, shape_x, shape_y)
+															  .enlarge(c_tilesize / 2)));
 }
 
 /**
@@ -862,10 +887,17 @@ void Projectile_effect::paint() {
 	if (skip_render) {
 		return;
 	}
-	const int liftpix = pos.tz * c_tilesize / 2;
-	sprite.paint_shape(
-			(pos.tx - gwin->get_scrolltx()) * c_tilesize - liftpix - gwin->get_scrolltx_lo(),
-			(pos.ty - gwin->get_scrollty()) * c_tilesize - liftpix - gwin->get_scrollty_lo());
+	if (gwin->get_projection().is_legacy()) {
+		const int liftpix = pos.tz * c_tilesize / 2;
+		sprite.paint_shape(
+				(pos.tx - gwin->get_scrolltx()) * c_tilesize - liftpix - gwin->get_scrolltx_lo(),
+				(pos.ty - gwin->get_scrollty()) * c_tilesize - liftpix - gwin->get_scrollty_lo());
+		return;
+	}
+	int shape_x;
+	int shape_y;
+	gwin->get_shape_location(pos, shape_x, shape_y);
+	sprite.paint_world_shape(shape_x - 7, shape_y - 7);
 }
 
 /**
@@ -904,11 +936,20 @@ Homing_projectile::Homing_projectile(    // A better name is welcome...
 
 inline int Homing_projectile::add_dirty() {
 	Shape_frame* shape   = sprite.get_shape();
-	const int    liftpix = pos.tz * c_tilesize / 2;
+	int          shape_x;
+	int          shape_y;
+	if (gwin->get_projection().is_legacy()) {
+		const int liftpix = pos.tz * c_tilesize / 2;
+		shape_x = (pos.tx - gwin->get_scrolltx()) * c_tilesize - liftpix;
+		shape_y = (pos.ty - gwin->get_scrollty()) * c_tilesize - liftpix;
+	} else {
+		gwin->get_shape_location(pos, shape_x, shape_y);
+		shape_x -= 7;
+		shape_y -= 7;
+	}
 	gwin->add_dirty(gwin->clip_to_win(gwin->get_shape_rect(
-												  shape, (pos.tx - gwin->get_scrolltx()) * c_tilesize - liftpix,
-												  (pos.ty - gwin->get_scrollty()) * c_tilesize - liftpix)
-											  .enlarge(c_tilesize / 2)));
+															  shape, shape_x, shape_y)
+															  .enlarge(c_tilesize / 2)));
 	return shape->get_width();
 }
 
@@ -1002,10 +1043,17 @@ void Homing_projectile::handle_event(
  */
 
 void Homing_projectile::paint() {
-	const int liftpix = pos.tz * c_tilesize / 2;
-	sprite.paint_shape(
-			(pos.tx - gwin->get_scrolltx()) * c_tilesize - liftpix - gwin->get_scrolltx_lo(),
-			(pos.ty - gwin->get_scrollty()) * c_tilesize - liftpix - gwin->get_scrollty_lo());
+	if (gwin->get_projection().is_legacy()) {
+		const int liftpix = pos.tz * c_tilesize / 2;
+		sprite.paint_shape(
+				(pos.tx - gwin->get_scrolltx()) * c_tilesize - liftpix - gwin->get_scrolltx_lo(),
+				(pos.ty - gwin->get_scrollty()) * c_tilesize - liftpix - gwin->get_scrollty_lo());
+		return;
+	}
+	int shape_x;
+	int shape_y;
+	gwin->get_shape_location(pos, shape_x, shape_y);
+	sprite.paint_world_shape(shape_x - 7, shape_y - 7);
 }
 
 /**

@@ -1,6 +1,6 @@
 AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/headers
 
-check_PROGRAMS = iso_projection_test iso_raster_test iso_shape_test
+check_PROGRAMS = iso_projection_test iso_raster_test iso_shape_test gamewin_projection_test
 TESTS = $(check_PROGRAMS)
 
 iso_projection_test_SOURCES = \
@@ -25,3 +25,6 @@ iso_shape_test_LDADD = \
 	$(top_builddir)/imagewin/libimagewin.la \
 	$(top_builddir)/files/libu7file.la \
 	$(SYSLIBS)
+
+gamewin_projection_test_SOURCES = gamewin_projection_test.cc
+gamewin_projection_test_LDADD = $(SYSLIBS)

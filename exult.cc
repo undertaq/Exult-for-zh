@@ -1186,8 +1186,12 @@ static void Paint_with_shape(
 	int y;
 	gwin->get_win()->screen_to_game(event.button.x, event.button.y, false, x, y);
 
-	const int tx = (gwin->get_scrolltx() + x / c_tilesize);
-	const int ty = (gwin->get_scrollty() + y / c_tilesize);
+	Tile_coord clicked;
+	if (!gwin->screen_to_tile(x, y, clicked)) {
+		return;
+	}
+	const int tx = clicked.tx;
+	const int ty = clicked.ty;
 	if (dragging) {    // See if moving to a new tile.
 		if (tx == lasttx && ty == lastty) {
 			return;
@@ -1225,8 +1229,12 @@ static void Paint_with_chunk(
 	int        x;
 	int        y;
 	gwin->get_win()->screen_to_game(event.button.x, event.button.y, false, x, y);
-	const int cx = (gwin->get_scrolltx() + x / c_tilesize) / c_tiles_per_chunk;
-	const int cy = (gwin->get_scrollty() + y / c_tilesize) / c_tiles_per_chunk;
+	Tile_coord clicked;
+	if (!gwin->screen_to_tile(x, y, clicked)) {
+		return;
+	}
+	const int cx = clicked.tx / c_tiles_per_chunk;
+	const int cy = clicked.ty / c_tiles_per_chunk;
 	if (dragging) {    // See if moving to a new chunk.
 		if (cx == lastcx && cy == lastcy) {
 			return;
@@ -1251,8 +1259,12 @@ static void Select_chunks(
 	int        x;
 	int        y;
 	gwin->get_win()->screen_to_game(event.button.x, event.button.y, false, x, y);
-	const int cx = (gwin->get_scrolltx() + x / c_tilesize) / c_tiles_per_chunk;
-	const int cy = (gwin->get_scrollty() + y / c_tilesize) / c_tiles_per_chunk;
+	Tile_coord clicked;
+	if (!gwin->screen_to_tile(x, y, clicked)) {
+		return;
+	}
+	const int cx = clicked.tx / c_tiles_per_chunk;
+	const int cy = clicked.ty / c_tiles_per_chunk;
 	if (dragging) {    // See if moving to a new chunk.
 		if (cx == lastcx && cy == lastcy) {
 			return;
@@ -3214,8 +3226,12 @@ static void Drop_dragged_shape(
 	gwin->get_win()->screen_to_game(x, y, false, x, y);
 	const ShapeID sid(shape, frame);
 	if (gwin->skip_lift == 0) {    // Editing terrain?
-		int            tx    = (gwin->get_scrolltx() + x / c_tilesize) % c_num_tiles;
-		int            ty    = (gwin->get_scrollty() + y / c_tilesize) % c_num_tiles;
+		Tile_coord clicked;
+		if (!gwin->screen_to_tile(x, y, clicked)) {
+			return;
+		}
+		int            tx    = clicked.tx;
+		int            ty    = clicked.ty;
 		const int      cx    = tx / c_tiles_per_chunk;
 		const int      cy    = ty / c_tiles_per_chunk;
 		Map_chunk*     chunk = gwin->get_map()->get_chunk(cx, cy);
@@ -3257,8 +3273,12 @@ static void Drop_dragged_chunk(
 	cout << "Last drag pos: (" << x << ", " << y << ')' << endl;
 	cout << "Set chunk (" << chunknum << ')' << endl;
 	// Need chunk-coordinates.
-	const int tx = (gwin->get_scrolltx() + x / c_tilesize) % c_num_tiles;
-	const int ty = (gwin->get_scrollty() + y / c_tilesize) % c_num_tiles;
+	Tile_coord clicked;
+	if (!gwin->screen_to_tile(x, y, clicked)) {
+		return;
+	}
+	const int tx = clicked.tx;
+	const int ty = clicked.ty;
 	const int cx = tx / c_tiles_per_chunk;
 	const int cy = ty / c_tiles_per_chunk;
 	gwin->get_map()->set_chunk_terrain(cx, cy, chunknum);
@@ -3311,11 +3331,19 @@ void Drop_dragged_combo(
 	cheat.clear_selected();    // Remove old selected.
 	gwin->get_win()->screen_to_game(x, y, false, x, y);
 	const int at_lift = cheat.get_edit_lift();
-	x += at_lift * 4 - 1;    // Take lift into account, round.
-	y += at_lift * 4 - 1;
 	// Figure tile at mouse pos.
-	const int tx = (gwin->get_scrolltx() + x / c_tilesize) % c_num_tiles;
-	const int ty = (gwin->get_scrollty() + y / c_tilesize) % c_num_tiles;
+	Tile_coord clicked;
+	if (gwin->get_projection().is_legacy()) {
+		x += at_lift * 4 - 1;    // Take lift into account, round.
+		y += at_lift * 4 - 1;
+	} else {
+		y += at_lift * 4 - 1;
+	}
+	if (!gwin->screen_to_tile(x, y, clicked)) {
+		return;
+	}
+	const int tx = clicked.tx;
+	const int ty = clicked.ty;
 	for (int i = 0; i < cnt; i++) {
 		// Drop each shape.
 		const U7_combo_data& elem = combo[i];

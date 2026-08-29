@@ -722,10 +722,22 @@ void Game_window::stop_dragging() {
 int Game_window::drop_at_lift(
 		Game_object* to_drop, int x, int y,    // Pixel coord. in window.
 		int at_lift) {
-	x += at_lift * 4 - 1;    // Take lift into account, round.
-	y += at_lift * 4 - 1;
-	const int         tx    = (scrolltx + x / c_tilesize) % c_num_tiles;
-	const int         ty    = (scrollty + y / c_tilesize) % c_num_tiles;
+	int tx;
+	int ty;
+	if (iso_projection.is_legacy()) {
+		x += at_lift * 4 - 1;    // Take lift into account, round.
+		y += at_lift * 4 - 1;
+		tx = (scrolltx + x / c_tilesize) % c_num_tiles;
+		ty = (scrollty + y / c_tilesize) % c_num_tiles;
+	} else {
+		// A projected lift changes screen Y, but not screen X.
+		Tile_coord tile;
+		if (!screen_to_tile(x, y + at_lift * 4 - 1, tile)) {
+			return 0;
+		}
+		tx = tile.tx;
+		ty = tile.ty;
+	}
 	const int         cx    = tx / c_tiles_per_chunk;
 	const int         cy    = ty / c_tiles_per_chunk;
 	Map_chunk*        chunk = map->get_chunk(cx, cy);

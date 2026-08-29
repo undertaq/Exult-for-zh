@@ -715,10 +715,15 @@ static void Handle_client_message(int& fd    // Socket to client.  May be closed
 		}
 		// Convert screen pixel coords to tile coords.
 		Actor*    main_actor = gwin->get_main_actor();
-		const int lift       = main_actor ? main_actor->get_lift() : 0;
-		const int liftpixels = 4 * lift;
-		int       tx         = gwin->get_scrolltx() + (x + liftpixels) / c_tilesize;
-		int       ty         = gwin->get_scrollty() + (y + liftpixels) / c_tilesize;
+		const int lift = main_actor ? main_actor->get_lift() : 0;
+		Tile_coord clicked;
+		const int click_offset = gwin->get_projection().is_legacy() ? 4 * lift : 0;
+		if (!gwin->screen_to_tile(x + click_offset, y + click_offset, clicked)) {
+			Exult_server::Send_data(client_socket, Exult_server::cancel);
+			break;
+		}
+		int tx = clicked.tx;
+		int ty = clicked.ty;
 		// Wrap coordinates.
 		tx = (tx + c_num_tiles) % c_num_tiles;
 		ty = (ty + c_num_tiles) % c_num_tiles;

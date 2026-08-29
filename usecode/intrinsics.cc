@@ -1156,7 +1156,9 @@ USECODE_INTRINSIC(click_on_item) {
 			return Usecode_value(0);
 		}
 		// Get abs. tile coords. clicked on.
-		t = Tile_coord(gwin->get_scrolltx() + x / c_tilesize, gwin->get_scrollty() + y / c_tilesize, 0);
+		if (!gwin->screen_to_tile(x, y, t)) {
+			return Usecode_value(0);
+		}
 		// Look for obj. in open gump.
 		Gump* gump = gumpman->find_gump(x, y);
 		if (gump) {
@@ -2876,9 +2878,10 @@ USECODE_INTRINSIC(is_water) {
 		// The original completely ignores the third coordinate.
 		const int xpos = parms[0].get_elem(0 + off).get_int_value();
 		const int ypos = parms[0].get_elem(1 + off).get_int_value();
-		const int x    = (xpos - gwin->get_scrolltx()) * c_tilesize;
-		const int y    = (ypos - gwin->get_scrollty()) * c_tilesize;
-		ShapeID   sid  = gwin->get_flat(x, y);
+		int       x;
+		int       y;
+		gwin->get_shape_location(Tile_coord(xpos, ypos, 0), x, y);
+		ShapeID sid = gwin->get_flat(x, y);
 		if (sid.is_invalid()) {
 			return Usecode_value(0);
 		}

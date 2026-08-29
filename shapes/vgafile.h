@@ -147,6 +147,7 @@ public:
 	// Point-in-shape check for scaled rendering (inverse-scales the point).
 	bool has_point_scaled(int x, int y, int scale) const;
 	bool has_projected_point(int x, int y, IsoKind kind) const;
+	void get_projected_bounds(IsoKind kind, int& xleft, int& yabove, int& width, int& height) const;
 
 	bool has_point(int x, int y) const;    // Is a point within the shape?
 

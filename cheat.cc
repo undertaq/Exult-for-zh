@@ -1298,7 +1298,10 @@ void Cheat::cursor_teleport() const {
 
 	int        x = Mouse::mouse()->get_mousex();
 	int        y = Mouse::mouse()->get_mousey();
-	Tile_coord t(gwin->get_scrolltx() + x / c_tilesize, gwin->get_scrollty() + y / c_tilesize, 0);
+	Tile_coord t;
+	if (!gwin->screen_to_tile(x, y, t)) {
+		return;
+	}
 	t.fixme();
 	gwin->teleport_party(t);
 	eman->center_text(Strings::Teleport());

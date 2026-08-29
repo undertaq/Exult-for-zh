@@ -767,6 +767,14 @@ bool Shape_frame::has_projected_point(int x, int y, IsoKind kind) const {
 			&& raster.pixels[static_cast<size_t>(raster_y) * raster.width + raster_x] != 0;
 }
 
+void Shape_frame::get_projected_bounds(IsoKind kind, int& xleft, int& yabove, int& width, int& height) const {
+	const IsoRaster& raster = get_projected_raster(kind);
+	xleft = raster.xleft;
+	yabove = raster.yabove;
+	width = raster.width;
+	height = raster.height;
+}
+
 /*
  *  See if a point, relative to the shape's 'origin', actually within the
  *  shape.

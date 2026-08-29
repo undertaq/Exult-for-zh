@@ -312,6 +312,11 @@ void GameDisplayOptions_gump::build_buttons() {
             this, &GameDisplayOptions_gump::toggle_smooth_scrolling, std::move(smooth_text), smooth_scrolling,
             get_button_pos_for_label(Strings::Smoothscrolling_()), yForRow(++y_index), small_size);
 
+	const std::vector<std::string> projection_text = {"Legacy", "Diamond", "True Iso", "Dimetric"};
+	buttons[id_projection] = std::make_unique<GameDisplayTextToggle>(
+			this, &GameDisplayOptions_gump::toggle_projection, projection_text, projection,
+			get_button_pos_for_label("Projection"), yForRow(++y_index), large_size);
+
 	buttons[id_menu_intro] = std::make_unique<GameDisplayTextToggle>(
 			this, &GameDisplayOptions_gump::toggle_menu_intro, yesNo, menu_intro, get_button_pos_for_label(Strings::Skipintro_()),
 			yForRow(++y_index), small_size);
@@ -389,6 +394,7 @@ void GameDisplayOptions_gump::load_settings() {
 	paperdolls       = sman->are_paperdolls_enabled();
 	text_bg          = gwin->get_text_bg() + 1;
 	smooth_scrolling = gwin->is_lerping_enabled() / 25;
+	projection       = static_cast<int>(gwin->get_projection().kind);
 
 	android_autolaunch = Android_getAutoLaunch ? Android_getAutoLaunch() : 0;
 	config->value("config/gameplay/language", value, "");
@@ -444,7 +450,7 @@ void GameDisplayOptions_gump::toggle_fonts(int state) {
 }
 
 GameDisplayOptions_gump::GameDisplayOptions_gump() : Modal_gump(nullptr, -1) {
-	SetProceduralBackground(TileRect(0, 0, 100, yForRow(14)), -1);
+	SetProceduralBackground(TileRect(0, 0, 100, yForRow(15)), -1);
 
 	for (auto& btn : buttons) {
 		btn.reset();
@@ -497,6 +503,10 @@ void GameDisplayOptions_gump::save_settings() {
 	}
 	gwin->set_lerping_enabled(smooth_scrolling * 25);
 	config->set("config/gameplay/smooth_scrolling", smooth_scrolling * 25, false);
+	if (projection < static_cast<int>(IsoKind::Legacy) || projection > static_cast<int>(IsoKind::Dimetric)) {
+		projection = static_cast<int>(IsoKind::Legacy);
+	}
+	gwin->set_projection(static_cast<IsoKind>(projection));
 	config->set("config/gameplay/skip_intro", usecode_intro ? "yes" : "no", false);
 	config->set("config/gameplay/extended_intro", extended_intro ? "yes" : "no", false);
 	gwin->set_extended_intro(extended_intro);
@@ -558,6 +568,7 @@ void GameDisplayOptions_gump::paint() {
 	font->paint_text(iwin->get_ib8(), Strings::Hidemissingitems_(), x + label_margin, y + yForRow(++y_index) + 1);
 	font->paint_text(iwin->get_ib8(), Strings::TextBackground_(), x + label_margin, y + yForRow(++y_index) + 1);
 	font->paint_text(iwin->get_ib8(), Strings::Smoothscrolling_(), x + label_margin, y + yForRow(++y_index) + 1);
+	font->paint_text(iwin->get_ib8(), "Projection", x + label_margin, y + yForRow(++y_index) + 1);
 	font->paint_text(iwin->get_ib8(), Strings::Skipintro_(), x + label_margin, y + yForRow(++y_index) + 1);
 	if (buttons[id_usecode_intro]) {
 		font->paint_text(iwin->get_ib8(), Strings::Skipscriptedfirstscene_(), x + label_margin, y + yForRow(++y_index) + 1);

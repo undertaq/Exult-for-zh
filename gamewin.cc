@@ -341,6 +341,11 @@ Game_window::Game_window(
 	Shape_frame::set_to_render(win->get_ib8());
 
 	string str;
+	string projection_name;
+	config->value("config/video/projection", projection_name, "legacy");
+	iso_projection = IsoProjection::from_name(projection_name);
+	IsoProjection::set_current(iso_projection.kind);
+	config->set("config/video/projection", iso_projection.name(), false);
 	config->value("config/gameplay/textbackground", text_bg, -1);
 	config->value("config/gameplay/mouse3rd", str, "no");
 	if (str == "yes") {
@@ -1176,9 +1181,51 @@ bool Game_window::scroll_if_needed(Tile_coord t) {
 void Game_window::show_game_location(
 		int x, int y    // Point on screen.
 ) {
-	x = get_scrolltx() + x / c_tilesize;
-	y = get_scrollty() + y / c_tilesize;
-	cout << "Game location is (" << x << ", " << y << ")" << endl;
+	Tile_coord tile;
+	if (screen_to_tile(x, y, tile)) {
+		cout << "Game location is (" << tile.tx << ", " << tile.ty << ")" << endl;
+	}
+}
+
+bool Game_window::screen_to_tile(int x, int y, Tile_coord& tile) const {
+	if (iso_projection.is_legacy()) {
+		tile = Tile_coord(get_scrolltx() + x / c_tilesize, get_scrollty() + y / c_tilesize, 0);
+		return true;
+	}
+	int rel_tx = 0;
+	int rel_ty = 0;
+	if (!iso_projection.unproject(x + scrolltx_lo, y + scrollty_lo, rel_tx, rel_ty)) {
+		return false;
+	}
+	tile.tx = (get_scrolltx() + rel_tx - 1) % c_num_tiles;
+	tile.ty = (get_scrollty() + rel_ty - 1) % c_num_tiles;
+	if (tile.tx < 0) {
+		tile.tx += c_num_tiles;
+	}
+	if (tile.ty < 0) {
+		tile.ty += c_num_tiles;
+	}
+	tile.tz = 0;
+	return true;
+}
+
+void Game_window::set_projection(IsoKind kind) {
+	iso_projection = IsoProjection(kind);
+	IsoProjection::set_current(kind);
+	if (config) {
+		config->set("config/video/projection", iso_projection.name(), false);
+	}
+	// A changed basis invalidates interpolated pixel offsets and all world
+	// regions painted under the old projection.
+	scrolltx_l = scrolltx_lp = scrolltx;
+	scrollty_l = scrollty_lp = scrollty;
+	scrolltx_lo = scrollty_lo = 0;
+	avposx_ld = avposy_ld = 0;
+	set_all_dirty();
+}
+
+void Game_window::set_projection(const std::string& name) {
+	set_projection(IsoProjection::from_name(name).kind);
 }
 
 /*
@@ -1202,6 +1249,17 @@ TileRect Game_window::get_shape_rect(const Game_object* obj) const {
 		std::cerr << "Betcha it's a little doggie." << std::endl;
 #endif
 		return TileRect(0, 0, 0, 0);
+	}
+	if (!iso_projection.is_legacy()) {
+		int ox = 0;
+		int oy = 0;
+		int xleft = 0;
+		int yabove = 0;
+		int width = 0;
+		int height = 0;
+		get_shape_location(obj, ox, oy);
+		s->get_projected_bounds(iso_projection.kind, xleft, yabove, width, height);
+		return TileRect(ox - xleft, oy - yabove, width, height);
 	}
 	Tile_coord t      = obj->get_tile();    // Get tile coords.
 	const int  lftpix = (c_tilesize * t.tz) / 2;
@@ -1240,26 +1298,50 @@ inline void Get_shape_location(Tile_coord t, int scrolltx, int scrollty, int& x,
  *  Get screen loc. of object which MUST be on the map (no owner).
  */
 
-void Game_window::get_shape_location(const Game_object* obj, int& x, int& y) {
-	Get_shape_location(obj->get_tile(), scrolltx, scrollty, x, y);
+void Game_window::get_shape_location(const Game_object* obj, int& x, int& y) const {
+	if (iso_projection.is_legacy()) {
+		Get_shape_location(obj->get_tile(), scrolltx, scrollty, x, y);
+	} else {
+		get_shape_location(obj->get_tile(), x, y);
+	}
 	// Smooth scroll the avatar as well, if possible
 	const Actor* actor = obj->as_actor();
+	int           smooth_x = avposx_ld;
+	int           smooth_y = avposy_ld;
+	if (!iso_projection.is_legacy()) {
+		iso_projection.project_pixel(avposx_ld, avposy_ld, smooth_x, smooth_y);
+	}
 	if (obj == get_camera_actor()) {
-		x += avposx_ld;
-		y += avposy_ld;
+		x += smooth_x;
+		y += smooth_y;
 	} else if (actor && actor->is_in_party() && lerping_enabled) {
 		// Apply the same lerping offset to party members
-		x += avposx_ld;
-		y += avposy_ld;
+		x += smooth_x;
+		y += smooth_y;
 	}
 	x -= scrolltx_lo;
 	y -= scrollty_lo;
 }
 
-void Game_window::get_shape_location(const Tile_coord& t, int& x, int& y) {
-	Get_shape_location(t, scrolltx, scrollty, x, y);
-	x -= scrolltx_lo;
-	y -= scrollty_lo;
+void Game_window::get_shape_location(const Tile_coord& t, int& x, int& y) const {
+	if (iso_projection.is_legacy()) {
+		Get_shape_location(t, scrolltx, scrollty, x, y);
+		x -= scrolltx_lo;
+		y -= scrollty_lo;
+		return;
+	}
+	int rel_tx = t.tx + 1 - scrolltx;
+	int rel_ty = t.ty + 1 - scrollty;
+	if (rel_tx < -c_num_tiles / 2) {
+		rel_tx += c_num_tiles;
+	}
+	if (rel_ty < -c_num_tiles / 2) {
+		rel_ty += c_num_tiles;
+	}
+	int depth = 0;
+	iso_projection.project(rel_tx, rel_ty, t.tz, x, y, depth);
+	x -= 1 + scrolltx_lo;
+	y -= 1 + scrollty_lo;
 }
 
 /*
@@ -1737,6 +1819,36 @@ void Game_window::start_actor_alt(
 			blocked[dir] = true;
 		}
 	}
+	if (!iso_projection.is_legacy()) {
+		Tile_coord target;
+		if (!screen_to_tile(winx, winy, target)) {
+			return;
+		}
+		const int dx = Tile_coord::delta(start.tx, target.tx);
+		const int dy = Tile_coord::delta(start.ty, target.ty);
+		if (dx == 0 && dy == 0) {
+			return;
+		}
+		dir = Get_direction(dy, dx);
+		if (blocked[dir] && !blocked[(dir + 1) % 8]) {
+			dir = (dir + 1) % 8;
+		} else if (blocked[dir] && !blocked[(dir + 7) % 8]) {
+			dir = (dir + 7) % 8;
+		} else if (blocked[dir]) {
+			Game_object* block = main_actor->is_moving() ? nullptr : main_actor->find_blocking(start.get_neighbor(dir), dir);
+			if (!block || !block->move_aside(main_actor, dir)) {
+				stop_actor();
+				return;
+			}
+		}
+		main_actor->walk_to_tile(start.get_neighbor(dir), speed, 0);
+		if (walk_in_formation && main_actor->get_action()) {
+			main_actor->get_action()->set_get_party(true);
+		} else {
+			main_actor->get_followers();
+		}
+		return;
+	}
 
 	dir = Get_direction_NoWrap(ay - winy, winx - ax);
 
@@ -1847,12 +1959,20 @@ void Game_window::start_actor(
 	if (moving_barge) {
 		// Want to move center there.
 		const int lift       = main_actor->get_lift();
-		const int liftpixels = 4 * lift;    // Figure abs. tile.
-		int       tx         = get_scrolltx() + (winx + liftpixels) / c_tilesize;
-		int       ty         = get_scrollty() + (winy + liftpixels) / c_tilesize;
+		Tile_coord target;
+		if (iso_projection.is_legacy()) {
+			const int liftpixels = 4 * lift;    // Figure abs. tile.
+			target = Tile_coord(
+					get_scrolltx() + (winx + liftpixels) / c_tilesize,
+					get_scrollty() + (winy + liftpixels) / c_tilesize, lift);
+		} else if (!screen_to_tile(winx, winy, target)) {
+			return;
+		} else {
+			target.tz = lift;
+		}
 		// Wrap:
-		tx                     = (tx + c_num_tiles) % c_num_tiles;
-		ty                     = (ty + c_num_tiles) % c_num_tiles;
+		const int tx = (target.tx + c_num_tiles) % c_num_tiles;
+		const int ty = (target.ty + c_num_tiles) % c_num_tiles;
 		const Tile_coord atile = moving_barge->get_center();
 		const Tile_coord btile = moving_barge->get_tile();
 		// Go faster than walking.
@@ -1901,10 +2021,18 @@ void Game_window::start_actor_along_path(
 		return;
 	}
 	//	teleported = 0;
-	const int        lift       = main_actor->get_lift();
-	const int        liftpixels = 4 * lift;    // Figure abs. tile.
-	const Tile_coord dest(
-			get_scrolltx() + (winx + liftpixels) / c_tilesize, get_scrollty() + (winy + liftpixels) / c_tilesize, lift);
+	const int lift = main_actor->get_lift();
+	Tile_coord dest;
+	if (iso_projection.is_legacy()) {
+		const int liftpixels = 4 * lift;    // Figure abs. tile.
+		dest = Tile_coord(
+				get_scrolltx() + (winx + liftpixels) / c_tilesize,
+				get_scrollty() + (winy + liftpixels) / c_tilesize, lift);
+	} else if (!screen_to_tile(winx, winy, dest)) {
+		return;
+	} else {
+		dest.tz = lift;
+	}
 	if (!main_actor->walk_path_to_tile(dest, speed)) {
 		cout << "Couldn't find path for Avatar." << endl;
 		if (touch_pathfind) {
@@ -2063,15 +2191,33 @@ Game_object* Game_window::find_object(
 		int x, int y    // Pos. on screen.
 ) {
 #ifdef DEBUG
-	cout << "Clicked at tile (" << get_scrolltx() + x / c_tilesize << ", " << get_scrollty() + y / c_tilesize << ")" << endl;
+	Tile_coord debug_tile;
+	if (screen_to_tile(x, y, debug_tile)) {
+		cout << "Clicked at tile (" << debug_tile.tx << ", " << debug_tile.ty << ")" << endl;
+	}
 #endif
 	const int not_above = get_render_skip_lift();
 	// Figure chunk #'s.
-	const int start_cx = ((scrolltx + x / c_tilesize) / c_tiles_per_chunk) % c_num_chunks;
-	const int start_cy = ((scrollty + y / c_tilesize) / c_tiles_per_chunk) % c_num_chunks;
-	// Check 1 chunk down & right too.
-	const int stop_cx = (2 + (scrolltx + (x + 4 * not_above) / c_tilesize) / c_tiles_per_chunk) % c_num_chunks;
-	const int stop_cy = (2 + (scrollty + (y + 4 * not_above) / c_tilesize) / c_tiles_per_chunk) % c_num_chunks;
+	int start_cx;
+	int start_cy;
+	int stop_cx;
+	int stop_cy;
+	if (iso_projection.is_legacy()) {
+		start_cx = ((scrolltx + x / c_tilesize) / c_tiles_per_chunk) % c_num_chunks;
+		start_cy = ((scrollty + y / c_tilesize) / c_tiles_per_chunk) % c_num_chunks;
+		// Check 1 chunk down & right too.
+		stop_cx = (2 + (scrolltx + (x + 4 * not_above) / c_tilesize) / c_tiles_per_chunk) % c_num_chunks;
+		stop_cy = (2 + (scrollty + (y + 4 * not_above) / c_tilesize) / c_tiles_per_chunk) % c_num_chunks;
+	} else {
+		Tile_coord tile;
+		if (!screen_to_tile(x, y, tile)) {
+			return nullptr;
+		}
+		start_cx = (tile.tx / c_tiles_per_chunk - 1 + c_num_chunks) % c_num_chunks;
+		start_cy = (tile.ty / c_tiles_per_chunk - 1 + c_num_chunks) % c_num_chunks;
+		stop_cx = (start_cx + 3) % c_num_chunks;
+		stop_cy = (start_cy + 3) % c_num_chunks;
+	}
 
 	Game_object* best  = nullptr;    // Find 'best' one.
 	bool         trans = true;       // Try to avoid 'transparent' objs.
@@ -2093,7 +2239,8 @@ Game_object* Game_window::find_object(
 				int          ox;
 				int          oy;
 				get_shape_location(obj, ox, oy);
-				if (!s->has_point(x - ox, y - oy)) {
+				if (iso_projection.is_legacy() ? !s->has_point(x - ox, y - oy)
+											 : !s->has_projected_point(x - ox, y - oy, iso_projection.kind)) {
 					continue;
 				}
 				// Fixes key under rock in BG at [915, 2434, 0]; need to
@@ -2352,9 +2499,16 @@ void Game_window::paused_combat_select(
 	obj = find_object(x, y);    // Find it.
 	if (!obj) {                 // Nothing?  Walk there.
 		// Needs work if lift > 0.
-		const int        lift       = npc->get_lift();
-		const int        liftpixels = 4 * lift;
-		const Tile_coord dest(scrolltx + (x + liftpixels) / c_tilesize, scrollty + (y + liftpixels) / c_tilesize, lift);
+		const int lift = npc->get_lift();
+		Tile_coord dest;
+		if (iso_projection.is_legacy()) {
+			const int liftpixels = 4 * lift;
+			dest = Tile_coord(scrolltx + (x + liftpixels) / c_tilesize, scrollty + (y + liftpixels) / c_tilesize, lift);
+		} else if (!screen_to_tile(x, y, dest)) {
+			return;
+		} else {
+			dest.tz = lift;
+		}
 		// Aim within 1 tile.
 		if (!npc->walk_path_to_tile(dest, std_delay, 0, 1)) {
 			Mouse::mouse()->flash_shape(Mouse::blocked);
@@ -2388,8 +2542,12 @@ void Game_window::paused_combat_select(
 ShapeID Game_window::get_flat(
 		int x, int y    // Window point.
 ) {
-	int       tx     = (get_scrolltx() + x / c_tilesize) % c_num_tiles;
-	int       ty     = (get_scrollty() + y / c_tilesize) % c_num_tiles;
+	Tile_coord tile;
+	if (!screen_to_tile(x, y, tile)) {
+		return ShapeID();
+	}
+	int       tx     = tile.tx;
+	int       ty     = tile.ty;
 	const int cx     = tx / c_tiles_per_chunk;
 	const int cy     = ty / c_tiles_per_chunk;
 	tx               = tx % c_tiles_per_chunk;
