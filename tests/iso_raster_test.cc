@@ -28,7 +28,7 @@ static std::vector<unsigned char> make_raw_rle(const IsoRaster& source) {
 }
 
 static IsoRaster sample() {
-	IsoRaster raster{8, 8, 4, 4, std::vector<unsigned char>(64, 0)};
+	IsoRaster raster{8, 8, 4, 4, std::vector<unsigned char>(64, 255)};
 	raster.pixels[0]  = 1;
 	raster.pixels[7]  = 2;
 	raster.pixels[56] = 3;
@@ -54,7 +54,7 @@ static void assert_no_projected_holes(const IsoRaster& source, IsoKind kind) {
 			const int projected_x = x - transformed.xleft;
 			const int projected_y = y - transformed.yabove;
 			if (projected_point_is_inside_source(source, kind, projected_x, projected_y)) {
-				assert(transformed.pixels[static_cast<size_t>(y) * transformed.width + x] != 0);
+				assert(transformed.pixels[static_cast<size_t>(y) * transformed.width + x] != 255);
 			}
 		}
 	}
@@ -79,7 +79,7 @@ int main() {
 	for (unsigned char pixel : {1, 2, 3, 4}) {
 		assert(std::find(diamond.pixels.begin(), diamond.pixels.end(), pixel) != diamond.pixels.end());
 	}
-	assert(std::find(diamond.pixels.begin(), diamond.pixels.end(), 0) != diamond.pixels.end());
+	assert(std::find(diamond.pixels.begin(), diamond.pixels.end(), 255) != diamond.pixels.end());
 	assert(transform_iso_raster(source, IsoKind::Legacy).pixels == source.pixels);
 	assert(source.pixels == sample().pixels);
 
@@ -99,9 +99,15 @@ int main() {
 	table[254] = 255;
 	target.copy_transparent8(remapped, 4, 1, 0, 0, nullptr, 0, table);
 	assert(target.get_pixel8(0, 0) == 1);
-	assert(target.get_pixel8(1, 0) == 7);
+	assert(target.get_pixel8(1, 0) == 0);
 	assert(target.get_pixel8(2, 0) == 4);
 	assert(target.get_pixel8(3, 0) == 7);
+
+	target.fill8(7);
+	const unsigned char projected[] = {0, 255};
+	target.copy_transparent8(projected, 2, 1, 0, 0, nullptr, 0, nullptr);
+	assert(target.get_pixel8(0, 0) == 0);
+	assert(target.get_pixel8(1, 0) == 7);
 
 	Xform_palette xform{};
 	xform.colors[7] = 9;
@@ -109,7 +115,7 @@ int main() {
 	const unsigned char translucent[] = {254, 0, 1, 2};
 	target.copy_transparent8(translucent, 4, 1, 0, 0, &xform, 1, nullptr);
 	assert(target.get_pixel8(0, 0) == 9);
-	assert(target.get_pixel8(1, 0) == 7);
+	assert(target.get_pixel8(1, 0) == 0);
 	assert(target.get_pixel8(2, 0) == 1);
 	assert(target.get_pixel8(3, 0) == 2);
 	return 0;

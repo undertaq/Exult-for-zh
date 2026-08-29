@@ -21,7 +21,7 @@ IsoRaster make_raster(int width, int height, int xleft, int yabove) {
 		width = height = 0;
 	}
 	return IsoRaster{width, height, xleft, yabove,
-					 std::vector<unsigned char>(static_cast<size_t>(width) * static_cast<size_t>(height), 0)};
+					 std::vector<unsigned char>(static_cast<size_t>(width) * static_cast<size_t>(height), 255)};
 }
 
 std::uint16_t read_le16(const unsigned char*& in) {
@@ -129,7 +129,7 @@ IsoRaster transform_iso_raster(const IsoRaster& source, IsoKind kind) {
 
 	IsoRaster transformed{max_x - min_x + 1, max_y - min_y + 1, -min_x, -min_y,
 							std::vector<unsigned char>(static_cast<size_t>(max_x - min_x + 1)
-																	* static_cast<size_t>(max_y - min_y + 1), 0)};
+																* static_cast<size_t>(max_y - min_y + 1), 255)};
 	const IsoProjection projection(kind);
 	// Preserve source samples first. Some projections downsample the source,
 	// so this keeps distinct source colors that would otherwise collide under
@@ -137,8 +137,9 @@ IsoRaster transform_iso_raster(const IsoRaster& source, IsoKind kind) {
 	for (int y = 0; y < source.height; ++y) {
 		for (int x = 0; x < source.width; ++x) {
 			const unsigned char pixel = source.pixels[static_cast<size_t>(y) * source.width + x];
-			// RLE gaps are decoded as zero; raw shape transparency is 255.
-			if (pixel == 0 || pixel == 255) {
+			// Shape transparency and RLE gaps use palette index 255. Palette
+			// index 0 is a valid opaque terrain color.
+			if (pixel == 255) {
 				continue;
 			}
 			int projected_x = 0;
@@ -149,7 +150,7 @@ IsoRaster transform_iso_raster(const IsoRaster& source, IsoKind kind) {
 	}
 	for (int y = 0; y < transformed.height; ++y) {
 		for (int x = 0; x < transformed.width; ++x) {
-			if (transformed.pixels[static_cast<size_t>(y) * transformed.width + x] != 0) {
+			if (transformed.pixels[static_cast<size_t>(y) * transformed.width + x] != 255) {
 				continue;
 			}
 			const int projected_x = x + min_x;
@@ -163,8 +164,7 @@ IsoRaster transform_iso_raster(const IsoRaster& source, IsoKind kind) {
 				continue;
 			}
 			const unsigned char pixel = source.pixels[static_cast<size_t>(source_y) * source.width + source_x];
-			// RLE gaps are decoded as zero; raw shape transparency is 255.
-			if (pixel != 0 && pixel != 255) {
+			if (pixel != 255) {
 				transformed.pixels[static_cast<size_t>(y) * transformed.width + x] = pixel;
 			}
 		}

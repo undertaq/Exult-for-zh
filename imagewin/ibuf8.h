@@ -79,8 +79,8 @@ public:
 	void fill_translucent8(unsigned char val, int srcw, int srch, int destx, int desty, const Xform_palette& xform) override;
 	// Copy rect. with transp. color.
 	void copy_transparent8(const unsigned char* src_pixels, int srcw, int srch, int destx, int desty) override;
-	// Copy a transformed indexed raster with transparent color, optional
-	// palette remapping, and optional translucency xforms.
+	// Copy a transformed indexed raster with palette index 255 transparent,
+	// optional palette remapping, and optional translucency xforms.
 	void copy_transparent8(
 			const unsigned char* src_pixels, int srcw, int srch, int destx, int desty,
 			const Xform_palette* xforms, int xfcnt, const unsigned char* trans);

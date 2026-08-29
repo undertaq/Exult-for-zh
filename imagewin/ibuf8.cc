@@ -530,7 +530,9 @@ void Image_buffer8::copy_transparent8(
 	while (srch--) {
 		for (int x = 0; x < srcw; ++x) {
 			unsigned char pixel = from[x];
-			if (!pixel) {
+			// Projected shape rasters use Exult's palette index 255 as their
+			// transparent sentinel. Palette index 0 remains opaque.
+			if (pixel == 255) {
 				continue;
 			}
 			if (trans) {
