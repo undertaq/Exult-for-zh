@@ -128,8 +128,12 @@ IsoRaster transform_iso_raster(const IsoRaster& source, IsoKind kind) {
 	}
 
 	IsoRaster transformed{max_x - min_x + 1, max_y - min_y + 1, -min_x, -min_y,
-						 std::vector<unsigned char>(static_cast<size_t>(max_x - min_x + 1)
-													* static_cast<size_t>(max_y - min_y + 1), 0)};
+							std::vector<unsigned char>(static_cast<size_t>(max_x - min_x + 1)
+																	* static_cast<size_t>(max_y - min_y + 1), 0)};
+	const IsoProjection projection(kind);
+	// Preserve source samples first. Some projections downsample the source,
+	// so this keeps distinct source colors that would otherwise collide under
+	// inverse nearest-neighbor sampling.
 	for (int y = 0; y < source.height; ++y) {
 		for (int x = 0; x < source.width; ++x) {
 			const unsigned char pixel = source.pixels[static_cast<size_t>(y) * source.width + x];
@@ -139,8 +143,30 @@ IsoRaster transform_iso_raster(const IsoRaster& source, IsoKind kind) {
 			}
 			int projected_x = 0;
 			int projected_y = 0;
-			IsoProjection(kind).project_pixel(x - source.xleft, y - source.yabove, projected_x, projected_y);
+			projection.project_pixel(x - source.xleft, y - source.yabove, projected_x, projected_y);
 			put_pixel(transformed, projected_x - min_x, projected_y - min_y, pixel);
+		}
+	}
+	for (int y = 0; y < transformed.height; ++y) {
+		for (int x = 0; x < transformed.width; ++x) {
+			if (transformed.pixels[static_cast<size_t>(y) * transformed.width + x] != 0) {
+				continue;
+			}
+			const int projected_x = x + min_x;
+			const int projected_y = y + min_y;
+			int       source_x    = 0;
+			int       source_y    = 0;
+			projection.unproject_pixel(projected_x, projected_y, source_x, source_y);
+			source_x += source.xleft;
+			source_y += source.yabove;
+			if (source_x < 0 || source_x >= source.width || source_y < 0 || source_y >= source.height) {
+				continue;
+			}
+			const unsigned char pixel = source.pixels[static_cast<size_t>(source_y) * source.width + source_x];
+			// RLE gaps are decoded as zero; raw shape transparency is 255.
+			if (pixel != 0 && pixel != 255) {
+				transformed.pixels[static_cast<size_t>(y) * transformed.width + x] = pixel;
+			}
 		}
 	}
 	return transformed;

@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <cmath>
 #include <cstdint>
 #include <vector>
 
@@ -35,6 +36,30 @@ static IsoRaster sample() {
 	return raster;
 }
 
+static bool projected_point_is_inside_source(
+		const IsoRaster& source, IsoKind kind, int projected_x, int projected_y) {
+	const double basis_x = 0.8660254037844386 * c_tilesize;
+	const double basis_y = kind == IsoKind::Dimetric ? 0.4 * c_tilesize : 0.5 * c_tilesize;
+	const double a = projected_x * c_tilesize / basis_x;
+	const double b = projected_y * c_tilesize / basis_y;
+	const int source_x = static_cast<int>(std::lround((a + b) * 0.5)) + source.xleft;
+	const int source_y = static_cast<int>(std::lround((b - a) * 0.5)) + source.yabove;
+	return source_x >= 0 && source_x < source.width && source_y >= 0 && source_y < source.height;
+}
+
+static void assert_no_projected_holes(const IsoRaster& source, IsoKind kind) {
+	const IsoRaster transformed = transform_iso_raster(source, kind);
+	for (int y = 0; y < transformed.height; ++y) {
+		for (int x = 0; x < transformed.width; ++x) {
+			const int projected_x = x - transformed.xleft;
+			const int projected_y = y - transformed.yabove;
+			if (projected_point_is_inside_source(source, kind, projected_x, projected_y)) {
+				assert(transformed.pixels[static_cast<size_t>(y) * transformed.width + x] != 0);
+			}
+		}
+	}
+}
+
 int main() {
 	const IsoRaster source = sample();
 	const IsoRaster raw = decode_raw_raster(source.pixels.data(), source.width, source.height, source.xleft, source.yabove);
@@ -57,6 +82,10 @@ int main() {
 	assert(std::find(diamond.pixels.begin(), diamond.pixels.end(), 0) != diamond.pixels.end());
 	assert(transform_iso_raster(source, IsoKind::Legacy).pixels == source.pixels);
 	assert(source.pixels == sample().pixels);
+
+	const IsoRaster solid{8, 8, 4, 4, std::vector<unsigned char>(64, 7)};
+	assert_no_projected_holes(solid, IsoKind::TrueIso);
+	assert_no_projected_holes(solid, IsoKind::Dimetric);
 
 	Image_buffer8 target(4, 1);
 	target.fill8(7);

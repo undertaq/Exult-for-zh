@@ -122,6 +122,19 @@ void IsoProjection::project_pixel(int px, int py, int& sx, int& sy) const {
 	sy = static_cast<int>(std::lround((px + py) * basis.y / c_tilesize));
 }
 
+void IsoProjection::unproject_pixel(int sx, int sy, int& px, int& py) const {
+	if (kind == IsoKind::Legacy) {
+		px = sx;
+		py = sy;
+		return;
+	}
+	const Basis basis = basis_for(kind);
+	const double a = sx * c_tilesize / basis.x;
+	const double b = sy * c_tilesize / basis.y;
+	px = static_cast<int>(std::lround((a + b) * 0.5));
+	py = static_cast<int>(std::lround((b - a) * 0.5));
+}
+
 IsoTileRange IsoProjection::visible_tiles(int sx, int sy, int width, int height, int padding) const {
 	const int corners[4][2] = {{sx, sy}, {sx + width, sy}, {sx, sy + height}, {sx + width, sy + height}};
 	IsoTileRange range{0, 0, 0, 0};
