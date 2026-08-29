@@ -72,6 +72,10 @@ EXULTSOURCES =	\
 	gamemap.h	\
 	gamerend.cc	\
 	gamerend.h	\
+	gamerend/iso_projection.cc \
+	gamerend/iso_projection.h \
+	gamerend/iso_raster.cc \
+	gamerend/iso_raster.h \
 	gamewin.cc	\
 	gamewin.h	\
 	headers/gamma.h	\

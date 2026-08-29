@@ -18,6 +18,8 @@ MAIN_OBJS:=actions.o \
 	gamedat.o \
 	gamemap.o \
 	gamerend.o \
+	gamerend/iso_projection.o \
+	gamerend/iso_raster.o \
 	gamewin.o \
 	istring.o \
 	keys.o \

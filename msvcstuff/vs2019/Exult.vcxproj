@@ -445,6 +445,8 @@ for /f "tokens=* delims=" %%u in ('git ls-remote --get-url') do echo #define GIT
     <ClCompile Include="..\..\gamemgr\modmgr.cc" />
     <ClCompile Include="..\..\gamemgr\sigame.cc" />
     <ClCompile Include="..\..\gamerend.cc" />
+    <ClCompile Include="..\..\gamerend\iso_projection.cc" />
+    <ClCompile Include="..\..\gamerend\iso_raster.cc" />
     <ClCompile Include="..\..\gamewin.cc" />
     <ClCompile Include="..\..\gumps\Actor_gump.cc" />
     <ClCompile Include="..\..\gumps\AudioOptions_gump.cc" />
@@ -677,6 +679,8 @@ for /f "tokens=* delims=" %%u in ('git ls-remote --get-url') do echo #define GIT
     <ClInclude Include="..\..\gamemgr\modmgr.h" />
     <ClInclude Include="..\..\gamemgr\sigame.h" />
     <ClInclude Include="..\..\gamerend.h" />
+    <ClInclude Include="..\..\gamerend\iso_projection.h" />
+    <ClInclude Include="..\..\gamerend\iso_raster.h" />
     <ClInclude Include="..\..\gamewin.h" />
     <ClInclude Include="..\..\gitinfo.h" />
     <ClInclude Include="..\..\gumps\Actor_gump.h" />
