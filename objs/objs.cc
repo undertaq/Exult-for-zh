@@ -956,7 +956,11 @@ void Game_object::paint() {
 	int x;
 	int y;
 	gwin->get_shape_location(this, x, y);
-	paint_world_shape(x, y);
+	if (!gwin->get_projection().is_legacy() && as_terrain()) {
+		paint_world_tile(x, y);
+	} else {
+		paint_world_shape(x, y);
+	}
 }
 
 /*
@@ -968,7 +972,7 @@ void Game_object::paint_outline(Pixel_colors pix    // Color to use.
 	int x;
 	int y;
 	gwin->get_shape_location(this, x, y);
-	ShapeID::paint_world_outline(x, y, pix);
+	ShapeID::paint_outline(x, y, pix);
 }
 
 void Game_object::paint_bbox(int pix) {

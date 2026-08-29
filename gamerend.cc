@@ -208,7 +208,7 @@ void Game_render::paint_projected_tile(int tx, int ty, int tz) {
 	}
 	int screen_x, screen_y, depth;
 	IsoProjection::current().project(rel_tx, rel_ty, tz, screen_x, screen_y, depth);
-	tile.paint_world_shape(
+	tile.paint_world_tile(
 			screen_x - 1 - gwin->get_scrolltx_lo(),
 			screen_y - 1 - gwin->get_scrollty_lo());
 }

@@ -302,7 +302,7 @@ void Chunk_terrain::render_all(
 				const Tile_coord tile(ctx + tilex, cty + tiley, 0);
 				gwin->get_shape_location(tile, x, y);
 				if ((shape->is_rle() && pass == 2) || (!shape->is_rle() && pass == 1)) {
-					sman->paint_world_shape(x, y, shape);
+					sman->paint_world_tile(x, y, shape);
 				}
 			} else if (!shape->is_rle() && pass == 1) {
 				iwin->copy8(

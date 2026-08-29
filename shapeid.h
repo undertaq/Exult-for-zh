@@ -172,7 +172,7 @@ public:
 		}
 	}
 
-	void paint_world_shape(int xoff, int yoff, Shape_frame* shape, bool translucent = false, unsigned char* trans = nullptr) {
+	void paint_world_tile(int xoff, int yoff, Shape_frame* shape, bool translucent = false, unsigned char* trans = nullptr) {
 		if (!shape || !shape->get_data()) {
 			CERR("nullptr SHAPE!!!");
 			return;
@@ -189,16 +189,8 @@ public:
 		}
 	}
 
-	void paint_world_outline(int xoff, int yoff, Shape_frame* shape, int special_pixel) {
-		if (!shape) {
-			return;
-		}
-		const IsoKind kind = IsoProjection::current().kind;
-		if (kind == IsoKind::Legacy) {
-			paint_outline(xoff, yoff, shape, special_pixel);
-		} else {
-			shape->paint_projected_outline(xoff, yoff, kind, get_special_pixel(special_pixel));
-		}
+	void paint_world_shape(int xoff, int yoff, Shape_frame* shape, bool translucent = false, unsigned char* trans = nullptr) {
+		paint_shape(xoff, yoff, shape, translucent, trans);
 	}
 
 	// Paint scaled shape in window.
@@ -418,8 +410,14 @@ public:
 		sman->paint_outline(xoff, yoff, get_shape(), pix);
 	}
 
-	inline void paint_world_outline(int xoff, int yoff, Pixel_colors pix) const {
-		sman->paint_world_outline(xoff, yoff, get_shape(), pix);
+	void paint_world_tile(int xoff, int yoff, std::optional<bool> force_trans = std::nullopt) const {
+		auto           cache      = cache_shape();
+		unsigned char* transtable = nullptr;
+		unsigned char  table[256];
+		if (palette_transform != 0) {
+			transtable = Get_palette_transform_table(table);
+		}
+		sman->paint_world_tile(xoff, yoff, cache.shape, force_trans ? *force_trans : cache.has_trans, transtable);
 	}
 
 	int  get_num_frames() const;

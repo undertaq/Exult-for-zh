@@ -2029,21 +2029,21 @@ void Actor::paint() {
 
 		paint_weapon();
 		if (hit) {    // Want a momentary red outline.
-			ShapeID::paint_world_outline(xoff, yoff, HIT_PIXEL);
+			ShapeID::paint_outline(xoff, yoff, HIT_PIXEL);
 		} else if (
 				flags
 				& ((1L << Obj_flags::protection) | (1L << Obj_flags::poisoned) | (1 << Obj_flags::cursed)
 				   | (1 << Obj_flags::charmed) | (1 << Obj_flags::paralyzed))) {
 			if (flags & (1L << Obj_flags::charmed)) {
-				ShapeID::paint_world_outline(xoff, yoff, CHARMED_PIXEL);
+				ShapeID::paint_outline(xoff, yoff, CHARMED_PIXEL);
 			} else if (flags & (1L << Obj_flags::paralyzed)) {
-				ShapeID::paint_world_outline(xoff, yoff, PARALYZE_PIXEL);
+				ShapeID::paint_outline(xoff, yoff, PARALYZE_PIXEL);
 			} else if (flags & (1L << Obj_flags::protection)) {
-				ShapeID::paint_world_outline(xoff, yoff, PROTECT_PIXEL);
+				ShapeID::paint_outline(xoff, yoff, PROTECT_PIXEL);
 			} else if (flags & (1L << Obj_flags::cursed)) {
-				ShapeID::paint_world_outline(xoff, yoff, CURSED_PIXEL);
+				ShapeID::paint_outline(xoff, yoff, CURSED_PIXEL);
 			} else {
-				ShapeID::paint_world_outline(xoff, yoff, POISON_PIXEL);
+				ShapeID::paint_outline(xoff, yoff, POISON_PIXEL);
 			}
 		}
 	}

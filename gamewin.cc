@@ -1253,13 +1253,8 @@ TileRect Game_window::get_shape_rect(const Game_object* obj) const {
 	if (!iso_projection.is_legacy()) {
 		int ox = 0;
 		int oy = 0;
-		int xleft = 0;
-		int yabove = 0;
-		int width = 0;
-		int height = 0;
 		get_shape_location(obj, ox, oy);
-		s->get_projected_bounds(iso_projection.kind, xleft, yabove, width, height);
-		return TileRect(ox - xleft, oy - yabove, width, height);
+		return TileRect(ox - s->get_xleft(), oy - s->get_yabove(), s->get_width(), s->get_height());
 	}
 	Tile_coord t      = obj->get_tile();    // Get tile coords.
 	const int  lftpix = (c_tilesize * t.tz) / 2;
@@ -2239,8 +2234,7 @@ Game_object* Game_window::find_object(
 				int          ox;
 				int          oy;
 				get_shape_location(obj, ox, oy);
-				if (iso_projection.is_legacy() ? !s->has_point(x - ox, y - oy)
-											 : !s->has_projected_point(x - ox, y - oy, iso_projection.kind)) {
+				if (!s->has_point(x - ox, y - oy)) {
 					continue;
 				}
 				// Fixes key under rock in BG at [915, 2434, 0]; need to
