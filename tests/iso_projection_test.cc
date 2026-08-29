@@ -64,19 +64,35 @@ int main() {
 	expect(true_iso.compare_projected_objects(11, 19, 0, 10, 20, 0) > 0);
 	expect(true_iso.compare_projected_objects(10, 20, 0, 11, 19, 1) < 0);
 	expect(true_iso.compare_projected_objects(10, 20, 1, 11, 19, 0) > 0);
-	// True Iso's vertical basis is twice the ground depth increment for a
-	// one-axis step. This case must not collapse to the lexicographic
-	// tx+ty/tz tie-break used by the old comparator.
-	expect(true_iso.compare_projected_objects(10, 20, 2, 13, 20, 0) > 0);
+	// Two True Iso lift units have the same projected depth as three ground
+	// units. This case must not collapse to the lexicographic tx+ty/tz
+	// tie-break used by the old comparator.
+	expect(true_iso.compare_projected_objects(10, 20, 2, 12, 20, 0) > 0);
 	// Dimetric uses a different, fractional vertical depth contribution.
 	const IsoProjection dimetric_depth(IsoKind::Dimetric);
-	expect(dimetric_depth.compare_projected_objects(10, 20, 2, 13, 20, 0) > 0);
+	expect(dimetric_depth.compare_projected_objects(10, 20, 2, 12, 20, 0) > 0);
+	// Ordering must use the full ground footprint. A wide object can reach
+	// the same projected depth as a later anchor, so anchor-only ordering
+	// would incorrectly force a dependency between the two shapes.
+	expect(true_iso.compare_projected_objects(10, 20, 0, 1, 1, 1, 12, 20, 0, 5, 1, 1) == 0);
+	// The painter depth must use the same lift scale as transformed sprites.
+	expect(true_iso.projected_depth(0, 0, 2) == 3.0);
+	expect(dimetric_depth.projected_depth(0, 0, 2) == 3.0);
 	true_iso.project_sprite_pixel(-16, -8, sx, sy);
 	expect(sx == -7 && sy == -16);
 	true_iso.project_sprite_pixel(-8, -8, sx, sy);
 	expect(sx == 0 && sy == -12);
 	true_iso.project_sprite_pixel(-8, -16, sx, sy);
 	expect(sx == 7 && sy == -16);
+	// A separately placed upper-floor object must use the same vertical
+	// displacement as the transformed top of the wall supporting it.
+	int wall_top_x = 0;
+	int wall_top_y = 0;
+	int upper_x = 0;
+	int upper_y = 0;
+	true_iso.project_sprite_pixel(-20, -20, 8, 8, 20, wall_top_x, wall_top_y);
+	true_iso.project(0, 0, 5, upper_x, upper_y, depth);
+	expect(upper_x == wall_top_x && upper_y == wall_top_y);
 
 	const IsoProjection dimetric(IsoKind::Dimetric);
 	dimetric.project_sprite_pixel(-16, -8, sx, sy);
@@ -85,6 +101,9 @@ int main() {
 	expect(sx == 0 && sy == -10);
 	dimetric.project_sprite_pixel(-8, -16, sx, sy);
 	expect(sx == 7 && sy == -13);
+	dimetric.project_sprite_pixel(-20, -20, 8, 8, 20, wall_top_x, wall_top_y);
+	dimetric.project(0, 0, 5, upper_x, upper_y, depth);
+	expect(upper_x == wall_top_x && upper_y == wall_top_y);
 
 	// Multi-tile walls use their actual footprint. A 1x3 wall top must keep
 	// the same long edge as three adjacent projected terrain tiles.

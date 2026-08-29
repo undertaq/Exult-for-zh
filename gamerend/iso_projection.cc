@@ -45,6 +45,10 @@ constexpr double kDimetricY = 0.4 * c_tilesize;
 // while pixels on the ground must retain the terrain's exact edge angle.
 constexpr double kWorldSpriteVerticalScale = 1.5;
 
+double projected_lift_depth(IsoKind kind) {
+	return kind == IsoKind::Diamond ? 2.0 : kWorldSpriteVerticalScale;
+}
+
 double sprite_elevation_for(
 		int px, int py, int footprint_width, int footprint_height,
 		int elevation_height) {
@@ -112,11 +116,7 @@ double IsoProjection::projected_depth(int tx, int ty, int tz) const {
 	if (kind == IsoKind::Legacy) {
 		return tx + ty;
 	}
-	const Basis basis = basis_for(kind);
-	// Express lift in the same depth units as the two ground axes. This gives
-	// Diamond = 1, True Iso = 2, and Dimetric = 1.6 per lift.
-	const double lift_depth = basis.y / 2.0;
-	return tx + ty + tz * lift_depth;
+	return tx + ty + tz * projected_lift_depth(kind);
 }
 
 int IsoProjection::compare_projected_objects(
@@ -126,14 +126,37 @@ int IsoProjection::compare_projected_objects(
 	if (std::abs(depth1 - depth2) > 1e-9) {
 		return depth1 < depth2 ? -1 : 1;
 	}
-	// The two ground axes can have the same depth (a diagonal row). Keep
-	// this order stable with paint_projected_map(), which visits tx from
-	// low to high for such a row.
 	if (tx1 != tx2) {
 		return tx1 < tx2 ? -1 : 1;
 	}
 	if (ty1 != ty2) {
 		return ty1 > ty2 ? -1 : 1;
+	}
+	return 0;
+}
+
+int IsoProjection::compare_projected_objects(
+		int tx1, int ty1, int tz1, int xs1, int ys1, int zs1,
+		int tx2, int ty2, int tz2, int xs2, int ys2, int zs2) const {
+	const int xspan1 = std::max(1, xs1);
+	const int yspan1 = std::max(1, ys1);
+	const int zspan1 = std::max(1, zs1);
+	const int xspan2 = std::max(1, xs2);
+	const int yspan2 = std::max(1, ys2);
+	const int zspan2 = std::max(1, zs2);
+	const double far1 = projected_depth(
+			tx1 - xspan1 + 1, ty1 - yspan1 + 1, tz1);
+	const double near1 = projected_depth(
+			tx1, ty1, tz1 + zspan1 - 1);
+	const double far2 = projected_depth(
+			tx2 - xspan2 + 1, ty2 - yspan2 + 1, tz2);
+	const double near2 = projected_depth(
+			tx2, ty2, tz2 + zspan2 - 1);
+	if (near1 < far2 - 1e-9) {
+		return -1;
+	}
+	if (far1 > near2 + 1e-9) {
+		return 1;
 	}
 	return 0;
 }
@@ -150,7 +173,7 @@ void IsoProjection::project(int tx, int ty, int tz, int& sx, int& sy, int& depth
 	}
 	const Basis basis = basis_for(kind);
 	sx = static_cast<int>(std::lround((tx - ty) * basis.x));
-	sy = static_cast<int>(std::lround((tx + ty) * basis.y - (tz * c_tilesize) / 2.0));
+	sy = static_cast<int>(std::lround((tx + ty) * basis.y)) - liftpix_for(tz);
 }
 
 bool IsoProjection::unproject(int sx, int sy, int& tx, int& ty) const {
@@ -300,7 +323,11 @@ void IsoProjection::tile_bounds(int tx, int ty, int tz, int& x, int& y, int& w, 
 }
 
 int IsoProjection::liftpix_for(int tz) const {
-	return (tz * c_tilesize) / 2;
+	if (kind == IsoKind::Legacy || kind == IsoKind::Diamond) {
+		return (tz * c_tilesize) / 2;
+	}
+	const Basis basis = basis_for(kind);
+	return static_cast<int>(std::lround(tz * basis.y * kWorldSpriteVerticalScale));
 }
 
 int IsoProjection::tile_pixels_y() const {

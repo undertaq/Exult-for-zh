@@ -50,21 +50,25 @@ struct IsoProjection {
 	void project(int tx, int ty, int tz, int& sx, int& sy, int& depth) const;
 
 	// Return the front-to-back depth of an object's nearest ground-plane
-	// corner. Object tile coordinates are anchored at that corner, so the
-	// projected depth is independent of the selected ground-plane basis.
+	// corner. Object tile coordinates are anchored at that corner.
 	int projected_object_depth(int tx, int ty) const {
 		return tx + ty;
 	}
 
-	// Full projected depth, including lift. The lift coefficient follows the
-	// selected ground-plane basis so True Iso and Dimetric remain consistent.
+	// Full projected depth, including lift. The lift coefficient matches the
+	// vertical scale used by transformed world sprites.
 	double projected_depth(int tx, int ty, int tz) const;
 
-	// Compare two projected object anchors from far to near. Ground-plane
-	// depth is primary; elevation is a deterministic tie-break for stacked
-	// floors that share the same ground-plane depth.
+	// Compare two one-tile projected object anchors from far to near.
 	int compare_projected_objects(
 			int tx1, int ty1, int tz1, int tx2, int ty2, int tz2) const;
+
+	// Compare two projected object boxes from far to near. Return zero when
+	// their projected depth ranges overlap and another ordering rule is
+	// needed for the pixel-level overlap.
+	int compare_projected_objects(
+			int tx1, int ty1, int tz1, int xs1, int ys1, int zs1,
+			int tx2, int ty2, int tz2, int xs2, int ys2, int zs2) const;
 
 	// Inverse of project. Used by click-to-tile.
 	// Returns false if the screen point is outside the world footprint.
@@ -97,8 +101,8 @@ struct IsoProjection {
 	// Per-projection tile bounding rect in screen pixels (used for hit-tests).
 	void tile_bounds(int tx, int ty, int tz, int& x, int& y, int& w, int& h) const;
 
-	// Lift-to-pixel helper. All selectable projections currently use the
-	// original 4-pixel vertical lift per world Z step.
+	// Lift-to-pixel helper. Projected world lifts use the same vertical scale
+	// as transformed sprite elevation so separately stacked shapes still meet.
 	int liftpix_for(int tz) const;
 
 	// Pixels occupied by one tile on the y axis. Diamond == c_tilesize/2.

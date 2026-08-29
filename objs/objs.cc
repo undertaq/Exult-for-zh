@@ -1300,13 +1300,12 @@ int Game_object::compare(
 	const Ordering_info inf2(gwin, obj2, r2);
 	if (!gwin->get_projection().is_legacy()) {
 		const int projected_cmp = gwin->get_projection().compare_projected_objects(
-				inf1.tx, inf1.ty, inf1.tz, inf2.tx, inf2.ty, inf2.tz);
+				inf1.tx, inf1.ty, inf1.tz, inf1.xs, inf1.ys, inf1.zs,
+				inf2.tx, inf2.ty, inf2.tz, inf2.xs, inf2.ys, inf2.zs);
 		if (projected_cmp) {
-			// The legacy AABB comparator is expressed in the unprojected world
-			// axes. Those axes can disagree after projection (especially for
-			// diagonal wall sections), producing direction-dependent edges and
-			// cycles in the dependency graph. Use the projection's single,
-			// transitive far-to-near order whenever the screen areas overlap.
+			// Use the projected order only when the objects' full 3D boxes are
+			// separated in depth. If their depth ranges overlap, retain the
+			// legacy shape-specific rules for the pixel-level overlap.
 			return TRACE_COMPARE(projected_cmp);
 		}
 	}
