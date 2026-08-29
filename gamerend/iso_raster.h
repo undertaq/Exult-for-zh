@@ -15,6 +15,13 @@ struct IsoRaster {
 	int                      xleft;
 	int                      yabove;
 	std::vector<unsigned char> pixels;
+	// Coverage is separate from the indexed palette so every palette entry,
+	// including 0 and 255, can remain opaque.
+	std::vector<unsigned char> coverage;
+
+	bool is_covered(size_t index) const {
+		return coverage.empty() || coverage[index] != 0;
+	}
 };
 
 IsoRaster decode_raw_raster(

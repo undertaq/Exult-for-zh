@@ -17,22 +17,33 @@ static void write_le16(std::vector<unsigned char>& bytes, std::int16_t value) {
 static std::vector<unsigned char> make_raw_rle(const IsoRaster& source) {
 	std::vector<unsigned char> encoded;
 	for (int y = 0; y < source.height; ++y) {
-		write_le16(encoded, static_cast<std::int16_t>(source.width * 2));
-		write_le16(encoded, static_cast<std::int16_t>(-source.xleft));
-		write_le16(encoded, static_cast<std::int16_t>(y - source.yabove));
-		encoded.insert(encoded.end(), source.pixels.begin() + y * source.width,
-					   source.pixels.begin() + (y + 1) * source.width);
+		for (int x = 0; x < source.width;) {
+			if (!source.is_covered(static_cast<size_t>(y) * source.width + x)) {
+				++x;
+				continue;
+			}
+			const int start = x;
+			while (x < source.width && source.is_covered(static_cast<size_t>(y) * source.width + x)) {
+				++x;
+			}
+			write_le16(encoded, static_cast<std::int16_t>((x - start) * 2));
+			write_le16(encoded, static_cast<std::int16_t>(start - source.xleft));
+			write_le16(encoded, static_cast<std::int16_t>(y - source.yabove));
+			encoded.insert(encoded.end(), source.pixels.begin() + y * source.width + start,
+					   source.pixels.begin() + y * source.width + x);
+		}
 	}
 	write_le16(encoded, 0);
 	return encoded;
 }
 
 static IsoRaster sample() {
-	IsoRaster raster{8, 8, 4, 4, std::vector<unsigned char>(64, 255)};
+	IsoRaster raster{8, 8, 4, 4, std::vector<unsigned char>(64, 255), std::vector<unsigned char>(64, 0)};
 	raster.pixels[0]  = 1;
 	raster.pixels[7]  = 2;
 	raster.pixels[56] = 3;
 	raster.pixels[63] = 4;
+	raster.coverage[0] = raster.coverage[7] = raster.coverage[56] = raster.coverage[63] = 1;
 	return raster;
 }
 
@@ -54,7 +65,7 @@ static void assert_no_projected_holes(const IsoRaster& source, IsoKind kind) {
 			const int projected_x = x - transformed.xleft;
 			const int projected_y = y - transformed.yabove;
 			if (projected_point_is_inside_source(source, kind, projected_x, projected_y)) {
-				assert(transformed.pixels[static_cast<size_t>(y) * transformed.width + x] != 255);
+				assert(transformed.is_covered(static_cast<size_t>(y) * transformed.width + x));
 			}
 		}
 	}
@@ -66,7 +77,13 @@ int main() {
 	const std::vector<unsigned char> encoded = make_raw_rle(source);
 	const IsoRaster rle = decode_rle_raster(encoded.data(), source.width, source.height, source.xleft, source.yabove);
 	assert(raw.pixels == source.pixels);
-	assert(rle.pixels == source.pixels);
+	assert(std::all_of(raw.coverage.begin(), raw.coverage.end(), [](unsigned char covered) { return covered != 0; }));
+	assert(rle.coverage == source.coverage);
+	for (size_t index = 0; index < source.pixels.size(); ++index) {
+		if (source.is_covered(index)) {
+			assert(rle.pixels[index] == source.pixels[index]);
+		}
+	}
 
 	const IsoRaster diamond = transform_iso_raster(source, IsoKind::Diamond);
 	const IsoRaster true_iso = transform_iso_raster(source, IsoKind::TrueIso);
@@ -79,7 +96,7 @@ int main() {
 	for (unsigned char pixel : {1, 2, 3, 4}) {
 		assert(std::find(diamond.pixels.begin(), diamond.pixels.end(), pixel) != diamond.pixels.end());
 	}
-	assert(std::find(diamond.pixels.begin(), diamond.pixels.end(), 255) != diamond.pixels.end());
+	assert(std::find(diamond.coverage.begin(), diamond.coverage.end(), 0) != diamond.coverage.end());
 	assert(transform_iso_raster(source, IsoKind::Legacy).pixels == source.pixels);
 	assert(source.pixels == sample().pixels);
 
@@ -91,13 +108,14 @@ int main() {
 	target.fill8(7);
 	target.set_clip(0, 0, 4, 1);
 	const unsigned char remapped[] = {1, 0, 2, 254};
+	const unsigned char remapped_coverage[] = {1, 1, 1, 1};
 	unsigned char       table[256];
 	for (int i = 0; i < 256; ++i) {
 		table[i] = static_cast<unsigned char>(i);
 	}
 	table[2]   = 4;
 	table[254] = 255;
-	target.copy_transparent8(remapped, 4, 1, 0, 0, nullptr, 0, table);
+	target.copy_masked8(remapped, 4, 1, 0, 0, remapped_coverage, nullptr, 0, table);
 	assert(target.get_pixel8(0, 0) == 1);
 	assert(target.get_pixel8(1, 0) == 0);
 	assert(target.get_pixel8(2, 0) == 4);
@@ -105,7 +123,8 @@ int main() {
 
 	target.fill8(7);
 	const unsigned char projected[] = {0, 255};
-	target.copy_transparent8(projected, 2, 1, 0, 0, nullptr, 0, nullptr);
+	const unsigned char projected_coverage[] = {1, 0};
+	target.copy_masked8(projected, 2, 1, 0, 0, projected_coverage, nullptr, 0, nullptr);
 	assert(target.get_pixel8(0, 0) == 0);
 	assert(target.get_pixel8(1, 0) == 7);
 
@@ -113,10 +132,24 @@ int main() {
 	xform.colors[7] = 9;
 	target.fill8(7);
 	const unsigned char translucent[] = {254, 0, 1, 2};
-	target.copy_transparent8(translucent, 4, 1, 0, 0, &xform, 1, nullptr);
+	const unsigned char translucent_coverage[] = {1, 1, 1, 1};
+	target.copy_masked8(translucent, 4, 1, 0, 0, translucent_coverage, &xform, 1, nullptr);
 	assert(target.get_pixel8(0, 0) == 9);
 	assert(target.get_pixel8(1, 0) == 0);
 	assert(target.get_pixel8(2, 0) == 1);
 	assert(target.get_pixel8(3, 0) == 2);
+
+	// A projected raster must advance to the next source row after each
+	// destination row; reusing row zero creates the repeated terrain bands.
+	Image_buffer8 stride_target(2, 2);
+	stride_target.fill8(7);
+	stride_target.set_clip(0, 0, 2, 2);
+	const unsigned char rows[] = {1, 2, 3, 4};
+	const unsigned char rows_coverage[] = {1, 1, 1, 1};
+	stride_target.copy_masked8(rows, 2, 2, 0, 0, rows_coverage, nullptr, 0, nullptr);
+	assert(stride_target.get_pixel8(0, 0) == 1);
+	assert(stride_target.get_pixel8(1, 0) == 2);
+	assert(stride_target.get_pixel8(0, 1) == 3);
+	assert(stride_target.get_pixel8(1, 1) == 4);
 	return 0;
 }

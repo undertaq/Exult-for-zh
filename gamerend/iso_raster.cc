@@ -21,7 +21,8 @@ IsoRaster make_raster(int width, int height, int xleft, int yabove) {
 		width = height = 0;
 	}
 	return IsoRaster{width, height, xleft, yabove,
-					 std::vector<unsigned char>(static_cast<size_t>(width) * static_cast<size_t>(height), 255)};
+					 std::vector<unsigned char>(static_cast<size_t>(width) * static_cast<size_t>(height), 0),
+					 std::vector<unsigned char>(static_cast<size_t>(width) * static_cast<size_t>(height), 0)};
 }
 
 std::uint16_t read_le16(const unsigned char*& in) {
@@ -37,7 +38,9 @@ std::int16_t read_signed_le16(const unsigned char*& in) {
 
 void put_pixel(IsoRaster& raster, int x, int y, unsigned char pixel) {
 	if (x >= 0 && x < raster.width && y >= 0 && y < raster.height) {
-		raster.pixels[static_cast<size_t>(y) * raster.width + x] = pixel;
+		const size_t index = static_cast<size_t>(y) * raster.width + x;
+		raster.pixels[index] = pixel;
+		raster.coverage[index] = 1;
 	}
 }
 
@@ -50,6 +53,7 @@ IsoRaster decode_raw_raster(
 		return raster;
 	}
 	std::copy(pixels, pixels + raster.pixels.size(), raster.pixels.begin());
+	std::fill(raster.coverage.begin(), raster.coverage.end(), 1);
 	return raster;
 }
 
@@ -129,19 +133,20 @@ IsoRaster transform_iso_raster(const IsoRaster& source, IsoKind kind) {
 
 	IsoRaster transformed{max_x - min_x + 1, max_y - min_y + 1, -min_x, -min_y,
 							std::vector<unsigned char>(static_cast<size_t>(max_x - min_x + 1)
-																* static_cast<size_t>(max_y - min_y + 1), 255)};
+																* static_cast<size_t>(max_y - min_y + 1), 0),
+							std::vector<unsigned char>(static_cast<size_t>(max_x - min_x + 1)
+																* static_cast<size_t>(max_y - min_y + 1), 0)};
 	const IsoProjection projection(kind);
 	// Preserve source samples first. Some projections downsample the source,
 	// so this keeps distinct source colors that would otherwise collide under
 	// inverse nearest-neighbor sampling.
 	for (int y = 0; y < source.height; ++y) {
 		for (int x = 0; x < source.width; ++x) {
-			const unsigned char pixel = source.pixels[static_cast<size_t>(y) * source.width + x];
-			// Shape transparency and RLE gaps use palette index 255. Palette
-			// index 0 is a valid opaque terrain color.
-			if (pixel == 255) {
+			const size_t index = static_cast<size_t>(y) * source.width + x;
+			if (!source.is_covered(index)) {
 				continue;
 			}
+			const unsigned char pixel = source.pixels[index];
 			int projected_x = 0;
 			int projected_y = 0;
 			projection.project_pixel(x - source.xleft, y - source.yabove, projected_x, projected_y);
@@ -150,7 +155,8 @@ IsoRaster transform_iso_raster(const IsoRaster& source, IsoKind kind) {
 	}
 	for (int y = 0; y < transformed.height; ++y) {
 		for (int x = 0; x < transformed.width; ++x) {
-			if (transformed.pixels[static_cast<size_t>(y) * transformed.width + x] != 255) {
+			const size_t index = static_cast<size_t>(y) * transformed.width + x;
+			if (transformed.is_covered(index)) {
 				continue;
 			}
 			const int projected_x = x + min_x;
@@ -163,9 +169,9 @@ IsoRaster transform_iso_raster(const IsoRaster& source, IsoKind kind) {
 			if (source_x < 0 || source_x >= source.width || source_y < 0 || source_y >= source.height) {
 				continue;
 			}
-			const unsigned char pixel = source.pixels[static_cast<size_t>(source_y) * source.width + source_x];
-			if (pixel != 255) {
-				transformed.pixels[static_cast<size_t>(y) * transformed.width + x] = pixel;
+			const size_t source_index = static_cast<size_t>(source_y) * source.width + source_x;
+			if (source.is_covered(source_index)) {
+				put_pixel(transformed, x, y, source.pixels[source_index]);
 			}
 		}
 	}

@@ -553,9 +553,9 @@ void Shape_frame::paint_projected(
 		return;
 	}
 	const IsoRaster& raster = get_projected_raster(kind);
-	win->copy_transparent8(
+	win->copy_masked8(
 			raster.pixels.data(), raster.width, raster.height,
-			xoff - raster.xleft, yoff - raster.yabove, xforms, xfcnt, trans);
+			xoff - raster.xleft, yoff - raster.yabove, raster.coverage.data(), xforms, xfcnt, trans);
 }
 
 /*
@@ -764,7 +764,7 @@ bool Shape_frame::has_projected_point(int x, int y, IsoKind kind) const {
 	const int        raster_x = x + raster.xleft;
 	const int        raster_y = y + raster.yabove;
 	return raster_x >= 0 && raster_x < raster.width && raster_y >= 0 && raster_y < raster.height
-			&& raster.pixels[static_cast<size_t>(raster_y) * raster.width + raster_x] != 0;
+			&& raster.is_covered(static_cast<size_t>(raster_y) * raster.width + raster_x);
 }
 
 void Shape_frame::get_projected_bounds(IsoKind kind, int& xleft, int& yabove, int& width, int& height) const {

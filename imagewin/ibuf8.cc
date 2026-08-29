@@ -512,9 +512,9 @@ void Image_buffer8::copy_transparent8(
 	}
 }
 
-void Image_buffer8::copy_transparent8(
+void Image_buffer8::copy_masked8(
 		const unsigned char* src_pixels, int srcw, int srch, int destx, int desty,
-		const Xform_palette* xforms, int xfcnt, const unsigned char* trans) {
+		const unsigned char* coverage, const Xform_palette* xforms, int xfcnt, const unsigned char* trans) {
 	int       srcx = 0;
 	int       srcy = 0;
 	const int src_width = srcw;
@@ -525,16 +525,13 @@ void Image_buffer8::copy_transparent8(
 	const int xfstart = 0xff - xfcnt;
 	unsigned char*       to = bits + desty * line_width + destx;
 	const unsigned char* from = src_pixels + srcy * src_width + srcx;
-	const int             to_next = line_width - srcw;
-	const int             from_next = src_width - srcw;
+	const unsigned char* mask = coverage + srcy * src_width + srcx;
 	while (srch--) {
 		for (int x = 0; x < srcw; ++x) {
-			unsigned char pixel = from[x];
-			// Projected shape rasters use Exult's palette index 255 as their
-			// transparent sentinel. Palette index 0 remains opaque.
-			if (pixel == 255) {
+			if (!mask[x]) {
 				continue;
 			}
+			unsigned char pixel = from[x];
 			if (trans) {
 				pixel = trans[pixel];
 				if (pixel == 255) {
@@ -547,8 +544,9 @@ void Image_buffer8::copy_transparent8(
 				to[x] = pixel;
 			}
 		}
-		to += to_next;
-		from += from_next;
+		to += line_width;
+		from += src_width;
+		mask += src_width;
 	}
 }
 

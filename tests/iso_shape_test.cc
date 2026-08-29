@@ -8,9 +8,9 @@
 #include <memory>
 #include <vector>
 
-static std::vector<unsigned char> render_shape(Shape_frame& frame, IsoKind kind) {
+static std::vector<unsigned char> render_shape(Shape_frame& frame, IsoKind kind, unsigned char background = 0) {
 	Image_buffer8 target(64, 64);
-	target.fill8(0);
+	target.fill8(background);
 	target.set_clip(0, 0, 64, 64);
 	frame.paint_projected(&target, 32, 32, kind, nullptr, 0, nullptr);
 	return std::vector<unsigned char>(target.get_bits(), target.get_bits() + 64 * 64);
@@ -37,6 +37,12 @@ static std::unique_ptr<unsigned char[]> sample_sprite_pixels() {
 	return pixels;
 }
 
+static std::unique_ptr<unsigned char[]> opaque_palette_255_tile() {
+	auto pixels = std::make_unique<unsigned char[]>(64);
+	std::fill_n(pixels.get(), 64, 255);
+	return pixels;
+}
+
 static std::vector<unsigned char> render_unprojected(Shape_frame& frame) {
 	Image_buffer8 target(64, 64);
 	target.fill8(0);
@@ -52,6 +58,11 @@ int main() {
 	const auto diamond = render_shape(raw, IsoKind::Diamond);
 	assert(legacy != diamond);
 	assert(diamond == render_shape(rle, IsoKind::Diamond));
+
+	// Raw terrain tiles are always opaque, including palette index 255.
+	Shape_frame opaque_255(opaque_palette_255_tile(), 8, 8, 4, 4, false);
+	const auto  true_iso_255 = render_shape(opaque_255, IsoKind::TrueIso, 7);
+	assert(std::find(true_iso_255.begin(), true_iso_255.end(), 255) != true_iso_255.end());
 
 	// Ground tiles are explicitly projected, while billboard-shaped world
 	// sprites retain their source geometry until projection-aware assets exist.
