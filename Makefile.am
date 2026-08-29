@@ -10,7 +10,7 @@ AM_CPPFLAGS = -I$(srcdir) -I$(srcdir)/headers -I$(srcdir)/imagewin -I$(srcdir)/s
 
 SUBDIRS = files conf data shapes imagewin pathfinder \
 	gamemgr flic usecode tools audio gumps objs server \
-	mapedit desktop docs
+	mapedit desktop docs tests
 
 if BUILD_MODS
 SUBDIRS += content

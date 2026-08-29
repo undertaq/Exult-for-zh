@@ -1400,6 +1400,7 @@ shapes/shapeinf/Makefile
 usecode/Makefile
 mapedit/Makefile
 server/Makefile
+tests/Makefile
 ])
 AC_OUTPUT
 
