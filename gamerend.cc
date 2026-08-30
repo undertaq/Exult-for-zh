@@ -239,6 +239,11 @@ int Game_render::paint_projected_objects() {
 		for (int cx = 0; cx < c_num_chunks; ++cx) {
 			const int cy = depth - cx;
 			if (cy >= 0 && cy < c_num_chunks) {
+				// Ground-level RLE objects (for example, dead bodies) are kept
+				// in the flat-object portion of the chunk list. The projected
+				// renderer bypasses the legacy flat-RLE pass, so paint them here
+				// before the non-flat objects in the same projected depth band.
+				paint_chunk_flat_rles(cx, cy, 0, 0);
 				light_sources += paint_chunk_objects(cx, cy);
 			}
 		}
