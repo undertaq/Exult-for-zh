@@ -2104,6 +2104,10 @@ bool Actor::figure_weapon_pos(
 	unsigned char actor_y;
 	unsigned char wx;
 	unsigned char wy;
+	if (!gwin->get_projection().is_legacy() && get_dir_facing() == north
+			&& get_casting_mode() != Actor::show_casting_frames) {
+		return false;    // Hide the weapon when the actor faces away from camera.
+	}
 	if ((spots[lhand] == nullptr) && (get_casting_mode() != Actor::show_casting_frames)) {
 		return false;
 	}
@@ -2162,6 +2166,14 @@ bool Actor::figure_weapon_pos(
 		// Need to swap offsets if actor's shape is reflected
 		if (myframe & 32) {
 			swap(weapon_x, weapon_y);
+		}
+		if (!gwin->get_projection().is_legacy()) {
+			int projected_x = 0;
+			int projected_y = 0;
+			gwin->get_projection().project_sprite_pixel(
+					weapon_x, weapon_y, projected_x, projected_y);
+			weapon_x = projected_x;
+			weapon_y = projected_y;
 		}
 		// Combat frames are already done.
 		return true;

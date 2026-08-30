@@ -213,6 +213,31 @@ void Game_render::paint_projected_tile(int tx, int ty, int tz) {
 			screen_y - 1 - gwin->get_scrollty_lo());
 }
 
+void Game_render::paint_projected_flat_objects(int tx, int ty) {
+	Game_window* const gwin = Game_window::get_instance();
+	Game_map* const map = gwin->map;
+	const int world_tx = (tx % c_num_tiles + c_num_tiles) % c_num_tiles;
+	const int world_ty = (ty % c_num_tiles + c_num_tiles) % c_num_tiles;
+	Map_chunk* const chunk = map->get_chunk(
+			world_tx / c_tiles_per_chunk, world_ty / c_tiles_per_chunk);
+	Flat_object_iterator next(chunk);
+	Game_object*       obj;
+	while ((obj = next.get_next()) != nullptr) {
+		const Tile_coord object_tile = obj->get_tile();
+		const int object_tx = (object_tile.tx % c_num_tiles + c_num_tiles) % c_num_tiles;
+		const int object_ty = (object_tile.ty % c_num_tiles + c_num_tiles) % c_num_tiles;
+		// Terrain RLE entries are already painted by paint_projected_tile().
+		// The remaining flat objects (including dead bodies) must be painted
+		// immediately after their tile, before later projected objects can
+		// occlude them.
+		if (!obj->as_terrain() && object_tx == world_tx && object_ty == world_ty
+				&& obj->render_seq != render_seq) {
+			obj->render_seq = render_seq;
+			obj->paint();
+		}
+	}
+}
+
 void Game_render::paint_projected_map(int x, int y, int w, int h) {
 	Game_window* const gwin = Game_window::get_instance();
 	const IsoProjection projection = IsoProjection::current();
@@ -223,10 +248,10 @@ void Game_render::paint_projected_map(int x, int y, int w, int h) {
 		const int max_tx = std::min(range.max_tx, depth - range.min_ty);
 		for (int rel_tx = min_tx; rel_tx <= max_tx; ++rel_tx) {
 			const int rel_ty = depth - rel_tx;
-			paint_projected_tile(
-					gwin->scrolltx + rel_tx - 1,
-					gwin->scrollty + rel_ty - 1,
-					0);
+			const int tx = gwin->scrolltx + rel_tx - 1;
+			const int ty = gwin->scrollty + rel_ty - 1;
+			paint_projected_tile(tx, ty, 0);
+			paint_projected_flat_objects(tx, ty);
 		}
 	}
 }
@@ -239,11 +264,6 @@ int Game_render::paint_projected_objects() {
 		for (int cx = 0; cx < c_num_chunks; ++cx) {
 			const int cy = depth - cx;
 			if (cy >= 0 && cy < c_num_chunks) {
-				// Ground-level RLE objects (for example, dead bodies) are kept
-				// in the flat-object portion of the chunk list. The projected
-				// renderer bypasses the legacy flat-RLE pass, so paint them here
-				// before the non-flat objects in the same projected depth band.
-				paint_chunk_flat_rles(cx, cy, 0, 0);
 				light_sources += paint_chunk_objects(cx, cy);
 			}
 		}
