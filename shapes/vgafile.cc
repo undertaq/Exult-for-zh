@@ -570,6 +570,25 @@ const IsoRaster& Shape_frame::get_projected_sprite_raster(
 	return *projected_sprite_rasters[index];
 }
 
+const IsoRaster& Shape_frame::get_projected_wall_raster(
+		IsoKind kind, const IsoWallProfile& profile) const {
+	const int index = static_cast<int>(kind) * 2
+			+ static_cast<int>(profile.orientation);
+	assert(index >= 0 && index < static_cast<int>(projected_wall_rasters.size()));
+	const int wall_height_lifts = std::max(0, profile.wall_height_lifts);
+	if (!projected_wall_rasters[index]
+			|| projected_wall_heights[index] != wall_height_lifts) {
+		const IsoRaster source = rle
+				? decode_rle_raster(data.get(), get_width(), get_height(), xleft, yabove)
+				: decode_raw_raster(data.get(), c_tilesize, c_tilesize, xleft, yabove);
+		projected_wall_rasters[index]
+				= std::make_unique<IsoRaster>(transform_iso_wall_atlas_raster(
+						source, kind, profile));
+		projected_wall_heights[index] = wall_height_lifts;
+	}
+	return *projected_wall_rasters[index];
+}
+
 void Shape_frame::paint_projected(
 		Image_buffer8* win, int xoff, int yoff, IsoKind kind,
 		const Xform_palette* xforms, int xfcnt, const unsigned char* trans) {
@@ -593,6 +612,21 @@ void Shape_frame::paint_projected_world(
 	}
 	const IsoRaster& raster = get_projected_sprite_raster(
 			kind, footprint_width, footprint_height, elevation_height);
+	win->copy_masked8(
+			raster.pixels.data(), raster.width, raster.height,
+			xoff - raster.xleft, yoff - raster.yabove, raster.coverage.data(), xforms, xfcnt, trans);
+}
+
+void Shape_frame::paint_projected_world_wall(
+		Image_buffer8* win, int xoff, int yoff, IsoKind kind,
+		const Xform_palette* xforms, int xfcnt, const unsigned char* trans,
+		const IsoWallProfile& profile) {
+	if (kind == IsoKind::Legacy) {
+		paint(win, xoff, yoff);
+		return;
+	}
+	const IsoRaster& raster = get_projected_wall_raster(
+			kind, profile);
 	win->copy_masked8(
 			raster.pixels.data(), raster.width, raster.height,
 			xoff - raster.xleft, yoff - raster.yabove, raster.coverage.data(), xforms, xfcnt, trans);
@@ -876,6 +910,9 @@ void Shape_frame::set_offset(int new_xright, int new_ybelow) {
 		raster.reset();
 	}
 	for (auto& raster : projected_sprite_rasters) {
+		raster.reset();
+	}
+	for (auto& raster : projected_wall_rasters) {
 		raster.reset();
 	}
 	const int w = get_width();

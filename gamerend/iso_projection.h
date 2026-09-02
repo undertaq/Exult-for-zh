@@ -77,6 +77,8 @@ struct IsoProjection {
 	// Project a pixel offset relative to a world-shape origin. This is used
 	// when a source bitmap has to be re-rasterized for the selected basis.
 	void project_pixel(int px, int py, int& sx, int& sy) const;
+	// Continuous form used to precompute fixed-point raster coefficients.
+	void project_pixel(double px, double py, double& sx, double& sy) const;
 
 	// Inverse of project_pixel, rounded to the nearest source pixel.
 	void unproject_pixel(int sx, int sy, int& px, int& py) const;

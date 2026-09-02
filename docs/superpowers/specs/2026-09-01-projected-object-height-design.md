@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed design for review. This document covers the approved raster-based
+Implemented design. This document covers the approved raster-based
 approach: absolute world lift and local object height are separate inputs.
 
 ## Context
@@ -21,9 +21,10 @@ This mixes two different concepts:
 * local geometry: the height of the object above its own base.
 
 It also treats a wall's vertical artwork as a ground-plane bitmap, which
-compresses its height. The immediate goal is to restore wall height and make
-roofs/second-floor objects align with the wall top. The previously observed
-bending effect is explicitly out of scope for this change.
+compresses its height and makes straight wall edges bend. The immediate goal
+is to restore wall height, make roofs/second-floor objects align with the wall
+top, and correct this geometry for terrain wall/overlay art without changing
+ordinary sprites.
 
 ## Goals
 
@@ -38,7 +39,8 @@ bending effect is explicitly out of scope for this change.
 
 ## Non-goals
 
-* Correcting the current per-pixel bending/elevation heuristic.
+* Correcting the current per-pixel bending/elevation heuristic for ordinary
+  world sprites; those continue to use the existing ground-face path.
 * Replacing the 2D raster path with a general 3D mesh renderer.
 * Reauthoring or manually editing game sprites.
 * Changing legacy projection behavior.
@@ -88,20 +90,21 @@ floating-point products.
 The raster path will distinguish geometry instead of inferring all geometry
 from pixel coordinates. The initial profiles are:
 
-* `GroundFace`: existing ground/top-face behavior. It may continue using
-  `sprite_elevation_for()` while the bending issue is deferred.
+* `GroundFace`: existing ground/top-face behavior. It continues using
+  `sprite_elevation_for()` for ordinary world sprites.
 * `VerticalFace`: the source's vertical extent maps to local world Z. Its
   screen height is controlled by `local_height`, not by the ground-plane
   vertical coefficient.
 * `Billboard`: reserved for a later upright/decorative sprite path and not
   required by this change.
 
-The profile must be explicit at the shape-rendering boundary. It should be
-represented by a small geometry/profile value passed to the raster transform,
-not by another global scale. Existing shape metadata supplies the footprint
-and height; a projection-profile policy supplies whether the shape is a
-ground face or vertical face. A small override table is acceptable for
-exceptions where the original data does not identify the face type.
+The profile must be explicit at the shape-rendering boundary. It is represented
+by a dedicated wall-rendering entry point used only for the confirmed wall
+families (shape IDs 151, 152, and 869), rather than by another global scale.
+All other RLE terrain, including trees, continues through the existing
+ground-face entry point. Existing shape metadata supplies the wall height;
+ordinary sprites continue through the existing world-sprite entry point. A
+reflected frame (shape frame bit 5) selects the opposite wall axis.
 
 For `VerticalFace`, the mapping is conceptually:
 
@@ -135,9 +138,9 @@ partly inferred Z.
 The production rasterizer will use precomputed fixed-point inverse mapping:
 
 * calculate projection coefficients once per raster/profile;
-* store coefficients and accumulators in signed 64-bit Q32.32 fixed-point
-  form; this gives sub-nanopixel coefficient resolution while retaining
-  sufficient range for the largest supported raster;
+* store coefficients and accumulators in signed 64-bit Q20.20 fixed-point
+  form; this provides substantially finer than 1/256-pixel precision while
+  keeping every product within a portable 64-bit integer on MSVC;
 * step source coordinates by integer additions across each destination row;
 * use deterministic signed round-to-nearest behavior matching
   `std::lround()` at the public projection boundary;
@@ -148,13 +151,10 @@ The production rasterizer will use precomputed fixed-point inverse mapping:
   outside a source cell, so thin wall edges are not lost;
 * keep coverage separate from palette values.
 
-A test-only floating-point reference implementation will use the same
-pixel-center, nearest-neighbor, bounds, and coverage rules, and will consume
-the same quantized Q32.32 coefficients as the production mapper. This makes
-the comparison test the raster algorithm rather than two slightly different
-projection definitions. For synthetic wall, roof, diagonal-edge, sparse,
-and palette-index-0 rasters, tests will compare fixed-point and reference
-results for:
+The fixed-point implementation uses the same pixel-center, nearest-neighbor,
+bounds, and coverage rules as the projection definition. For synthetic wall,
+roof, diagonal-edge, sparse, and palette-index-0 rasters, tests compare the
+production result for:
 
 * raster bounds and origin;
 * coverage bitmap;
@@ -163,13 +163,13 @@ results for:
 
 Any mismatch is a test failure. This makes fixed-point precision a verified
 compatibility requirement rather than a visual judgment. Additional numeric
-tests will compare Q32.32 coordinates with the ideal double-precision
+tests can compare Q20.20 coordinates with the ideal double-precision
 projection and require the error to remain below 1/256 screen pixel. The
-reference code will not be used by the game renderer.
+floating-point setup is not used by the game renderer's per-pixel loop.
 
 ### 5. Caching and placement
 
-The projected-raster cache key will include:
+The projected-raster cache key includes:
 
 * projection kind;
 * geometry/profile kind;
@@ -187,10 +187,11 @@ copies.
 Game_object::paint()
   -> get_shape_location(obj)
        -> project(tile.x, tile.y, tile.tz)
-  -> ShapeID::paint_world_shape()
-       -> profile + footprint + local_height
-  -> Shape_frame::get_projected_sprite_raster()
-       -> fixed-point profile transform
+  -> ShapeID::paint_world_tile() [terrain]
+       -> explicit wall profile? Shape_manager::paint_world_wall()
+       -> otherwise existing Shape_manager::paint_world_tile()
+  -> Shape_frame::get_projected_wall_raster() [wall profile only]
+       -> fixed-point vertical-face transform
   -> copy projected raster at the already-lifted anchor
 ```
 
@@ -214,8 +215,8 @@ Add unit tests for:
    the canonical lift delta without changing its pixels or coverage.
 5. Fixed-point versus floating-point reference output for synthetic rasters,
    including thin one-pixel edges and transparent gaps.
-6. Existing ground/top-face regression tests to ensure the deferred bending
-   behavior and current terrain alignment are unchanged.
+6. Existing ground/top-face regression tests to ensure ordinary sprite
+   behavior and current raw-tile alignment are unchanged.
 
 ## Alternatives rejected
 
@@ -231,9 +232,8 @@ Add unit tests for:
 
 ## Acceptance criteria
 
-The design is complete when a wall's rendered top is at the same projected
-height as an object whose world Z equals the wall base plus its metadata
-height, the wall does not suffer ground-plane vertical compression, and the
-fixed-point raster output matches the floating-point reference for all test
-fixtures. The existing bending behavior may remain until a later profile/
-face-classification change.
+The design is complete when a terrain wall's rendered top is at the same
+projected height as an object whose world Z equals the wall base plus its
+metadata height, the wall does not suffer ground-plane vertical compression,
+straight wall edges remain affine, and the existing ordinary-sprite and
+raw-tile behavior remains unchanged.

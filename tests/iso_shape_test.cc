@@ -101,6 +101,11 @@ static std::pair<int, int> occupied_size(const std::vector<unsigned char>& pixel
 int main() {
 	Shape_frame raw(sample_pixels(), 8, 8, 4, 4, false);
 	Shape_frame rle(sample_pixels(), 8, 8, 4, 4, true);
+	assert(iso_wall_orientation_for_shape(151, 0) == IsoWallOrientation::WorldY);
+	assert(iso_wall_orientation_for_shape(151, 32) == IsoWallOrientation::WorldX);
+	assert(iso_wall_orientation_for_shape(152, 0) == IsoWallOrientation::WorldX);
+	assert(iso_wall_orientation_for_shape(869, 0) == IsoWallOrientation::WorldX);
+	assert(!iso_wall_orientation_for_shape(18).has_value());
 	const auto legacy = render_shape(raw, IsoKind::Legacy);
 	const auto diamond = render_shape(raw, IsoKind::Diamond);
 	assert(legacy != diamond);
@@ -151,9 +156,15 @@ int main() {
 	assert(sprite_x == 7);
 	assert(sprite_y == -4);
 
-	// RLE entries in terrain chunks are world sprites, not raw ground tiles.
+	// Generic RLE terrain (for example trees) follows the same projected
+	// terrain path as before. Only an explicitly classified wall shape may opt
+	// into the dedicated wall profile.
 	assert(source_sprite == render_world_tile(sprite, IsoKind::Diamond));
 	assert(source_sprite != render_world_tile(sprite, IsoKind::TrueIso));
 	assert(source_sprite != render_world_tile(sprite, IsoKind::Dimetric));
+	assert(render_shape(sprite, IsoKind::TrueIso) == render_world_tile(sprite, IsoKind::TrueIso));
+	assert(render_shape(sprite, IsoKind::Dimetric) == render_world_tile(sprite, IsoKind::Dimetric));
+	assert(true_iso_sprite != render_world_tile(sprite, IsoKind::TrueIso));
+	assert(dimetric_sprite != render_world_tile(sprite, IsoKind::Dimetric));
 	return 0;
 }

@@ -22,10 +22,12 @@
 #include "endianio.h"
 #include "exult_constants.h"
 #include "fontvga.h"
+#include "gamerend/iso_raster.h"
 #include "gamerend/iso_projection.h"
 #include "shapevga.h"
 #include "singles.h"
 
+#include <algorithm>
 #include <memory>
 #include <optional>
 #include <vector>
@@ -51,6 +53,144 @@ enum ShapeFile {
 	SF_OTHER,    // Other unknown FLX
 	SF_COUNT     // # of preceding entries.
 };
+
+// The original VGA data does not carry a general-purpose draw-type field.
+// Keep this table deliberately conservative: only shape families explicitly
+// identified as walls opt into the vertical-face rasterizer. All other terrain
+// remains on the existing projected terrain path.
+inline std::optional<IsoWallOrientation> iso_wall_orientation_for_shape(
+		int shapenum, int framenum = 0) {
+	std::optional<IsoWallOrientation> orientation;
+	const int base_frame = framenum & 31;
+	switch (shapenum) {
+	case 151:    // 8x32 wall family: runs along the world-Y axis.
+		if (base_frame >= 12) {
+			return std::nullopt;
+		}
+		orientation = IsoWallOrientation::WorldY;
+		break;
+	case 152:    // 32x8 wall family: runs along the world-X axis.
+		if (base_frame >= 14) {
+			return std::nullopt;
+		}
+		orientation = IsoWallOrientation::WorldX;
+		break;
+	case 869:    // Additional 32x8 wall family.
+		if (base_frame != 8 && base_frame != 9 && base_frame != 13) {
+			return std::nullopt;
+		}
+		orientation = IsoWallOrientation::WorldX;
+		break;
+	default:
+		return std::nullopt;
+	}
+	// Bit 5 denotes the reflected frame in Exult's shape encoding. Reflection
+	// swaps the two world-facing wall axes, so it must also select the opposite
+	// projected plane.
+	if ((framenum & (1 << 5)) != 0) {
+		*orientation = *orientation == IsoWallOrientation::WorldX
+				? IsoWallOrientation::WorldY
+				: IsoWallOrientation::WorldX;
+	}
+	return orientation;
+}
+
+// Build the cuboid atlas profile used by the explicitly identified wall
+// frames. The source rectangles follow the compact VGA layout used by U7:
+// the top face is at the upper-left, the long vertical face is below it, and
+// the short vertical face is to its right. Reflected frames exchange the
+// long world axis and therefore use the transposed layout.
+inline std::optional<IsoWallProfile> iso_wall_profile_for_shape(
+		int shapenum, int framenum, int source_width, int source_height,
+		int wall_height_lifts) {
+	const auto orientation = iso_wall_orientation_for_shape(shapenum, framenum);
+	if (!orientation || source_width <= 0 || source_height <= 0) {
+		return std::nullopt;
+	}
+
+	const int base_frame = framenum & 31;
+	const bool reflected = (framenum & (1 << 5)) != 0;
+	const auto clamp_face = [source_width, source_height](
+			int x, int y, int width, int height) {
+		IsoWallFace face;
+		face.x = std::max(0, std::min(x, source_width));
+		face.y = std::max(0, std::min(y, source_height));
+		face.width = std::max(0, std::min(width, source_width - face.x));
+		face.height = std::max(0, std::min(height, source_height - face.y));
+		return face;
+	};
+
+	IsoWallProfile profile;
+	profile.orientation = *orientation;
+	profile.wall_height_lifts = std::max(1, wall_height_lifts);
+	IsoWallFace canonical_top;
+	IsoWallFace canonical_front;
+	IsoWallFace canonical_right;
+	if (shapenum == 151) {
+		// The reference layout has a narrow-X/long-Y footprint. The face
+		// rectangles vary slightly with the frame's artwork, so retain the
+		// explicit atlas measurements rather than deriving them from the
+		// bounding box.
+		static constexpr int narrow_layouts[12][4] = {
+				{32, 22, 8, 25}, {31, 22, 3, 25}, {31, 22, 3, 25},
+				{32, 21, 8, 20}, {32, 20, 8, 20}, {32, 19, 8, 20},
+				{32, 24, 8, 28}, {32, 24, 8, 25}, {32, 22, 8, 21},
+				{32, 23, 8, 59}, {32, 20, 8, 20}, {32, 21, 8, 18}};
+		const auto& layout = narrow_layouts[base_frame];
+		profile.footprint_width_tiles = 1;
+		profile.footprint_height_tiles = 4;
+		canonical_top = clamp_face(0, 0, 8, 32);
+		canonical_front = clamp_face(0, layout[0], 8, layout[1]);
+		canonical_right = clamp_face(layout[2], 0, layout[3], 32);
+	} else {
+		// Shapes 152 and the confirmed wall frames of 869 use the
+		// long-X/narrow-Y atlas layout.
+		static constexpr int long_layouts[14][4] = {
+				{8, 27, 32, 20}, {8, 20, 32, 21}, {1, 27, 32, 20},
+				{8, 20, 32, 21}, {8, 20, 32, 19}, {8, 20, 32, 19},
+				{8, 25, 32, 27}, {8, 26, 32, 30}, {8, 24, 32, 22},
+				{8, 20, 32, 21}, {8, 20, 32, 23}, {8, 20, 32, 21},
+				{8, 20, 32, 21}, {8, 6, 32, 19}};
+		int front_y = 8;
+		int front_height = source_height - front_y;
+		int right_width = source_width - 32;
+		if (shapenum == 152) {
+			const auto& layout = long_layouts[base_frame];
+			front_y = layout[0];
+			front_height = layout[1];
+			right_width = layout[3];
+		} else {
+			// Only frames 8, 9 and 13 reach this branch. Their layouts are
+			// the wall_*.gltf variants in U7Revisited's shape table.
+			front_height = 17;
+			right_width = base_frame == 9 ? 19 : 20;
+		}
+		profile.footprint_width_tiles = 4;
+		profile.footprint_height_tiles = 1;
+		canonical_top = clamp_face(0, 0, 32, 8);
+		canonical_front = clamp_face(0, front_y, 32, front_height);
+		canonical_right = clamp_face(32, 0, right_width, 8);
+	}
+	if (!reflected) {
+		profile.top = canonical_top;
+		profile.front = canonical_front;
+		profile.right = canonical_right;
+	} else {
+		// Shape_frame::reflect transposes the square source canvas. The
+		// original right face becomes the reflected front face and vice
+		// versa, while the footprint axes exchange their lengths.
+		const auto transpose = [&clamp_face](const IsoWallFace& face) {
+			return clamp_face(face.y, face.x, face.height, face.width);
+		};
+		profile.top = transpose(canonical_top);
+		profile.front = transpose(canonical_right);
+		profile.right = transpose(canonical_front);
+		std::swap(
+				profile.footprint_width_tiles,
+				profile.footprint_height_tiles);
+	}
+	return profile;
+}
 
 // Special pixels.
 enum Pixel_colors {
@@ -223,6 +363,32 @@ public:
 			shape->paint_projected_world(
 					xoff, yoff, kind, xforms.data(), xforms.size(), nullptr,
 					footprint_width, footprint_height, elevation_height);
+		}
+	}
+
+	// Paint terrain wall/overlay art with the dedicated vertical-plane
+	// transform. This is intentionally separate from paint_world_shape so
+	// ordinary projected sprites keep their existing rasterization.
+	void paint_world_wall(
+			int xoff, int yoff, Shape_frame* shape, bool translucent,
+			unsigned char* trans, const IsoWallProfile& profile) {
+		if (!shape || !shape->get_data()) {
+			CERR("nullptr SHAPE!!!");
+			return;
+		}
+		const IsoKind kind = IsoProjection::current().kind;
+		if (kind == IsoKind::Legacy) {
+			paint_shape(xoff, yoff, shape, translucent, trans);
+		} else if (trans) {
+			shape->paint_projected_world_wall(
+					xoff, yoff, kind, nullptr, 0, trans, profile);
+		} else if (!translucent) {
+			shape->paint_projected_world_wall(
+					xoff, yoff, kind, nullptr, 0, nullptr, profile);
+		} else {
+			shape->paint_projected_world_wall(
+					xoff, yoff, kind, xforms.data(), xforms.size(), nullptr,
+					profile);
 		}
 	}
 
@@ -429,6 +595,34 @@ public:
 				std::max(0, info.get_3d_height()) * c_tilesize / 2);
 	}
 
+	// Try the dedicated wall transform for a fixed-scene object. Returning
+	// false leaves non-wall IFIX objects on the normal world-sprite path.
+	bool paint_world_wall_if_applicable(
+			int xoff, int yoff,
+			std::optional<bool> force_trans = std::nullopt) const {
+		auto           cache      = cache_shape();
+		unsigned char* transtable = nullptr;
+		unsigned char  table[256];
+		if (palette_transform != 0) {
+			transtable = Get_palette_transform_table(table);
+		}
+		if (!cache.shape || !cache.shape->is_rle()) {
+			return false;
+		}
+		const Shape_info& info = get_info();
+		const auto wall_profile = iso_wall_profile_for_shape(
+				shapenum, framenum, cache.shape->get_width(),
+				cache.shape->get_height(), std::max(1, info.get_3d_height()));
+		if (!wall_profile) {
+			return false;
+		}
+		sman->paint_world_wall(
+				xoff, yoff, cache.shape,
+				force_trans ? *force_trans : cache.has_trans, transtable,
+				*wall_profile);
+		return true;
+	}
+
 	void paint_shape_scaled(int xoff, int yoff, int scale, std::optional<bool> force_trans = std::nullopt) const {
 		auto           cache      = cache_shape();
 		unsigned char* transtable = nullptr;
@@ -462,11 +656,21 @@ public:
 			return;
 		}
 		const Shape_info& info = get_info();
-		sman->paint_world_tile(
+		const auto wall_profile = iso_wall_profile_for_shape(
+				shapenum, framenum, cache.shape->get_width(),
+				cache.shape->get_height(), std::max(1, info.get_3d_height()));
+		if (!wall_profile) {
+			sman->paint_world_tile(
+					xoff, yoff, cache.shape,
+					force_trans ? *force_trans : cache.has_trans, transtable,
+					std::max(1, info.get_3d_xtiles(framenum)) * c_tilesize,
+					std::max(1, info.get_3d_ytiles(framenum)) * c_tilesize,
+					std::max(0, info.get_3d_height()) * c_tilesize / 2);
+			return;
+		}
+		sman->paint_world_wall(
 				xoff, yoff, cache.shape, force_trans ? *force_trans : cache.has_trans,
-				transtable, std::max(1, info.get_3d_xtiles(framenum)) * c_tilesize,
-				std::max(1, info.get_3d_ytiles(framenum)) * c_tilesize,
-				std::max(0, info.get_3d_height()) * c_tilesize / 2);
+				transtable, *wall_profile);
 	}
 
 	int  get_num_frames() const;

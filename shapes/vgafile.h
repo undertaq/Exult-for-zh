@@ -56,9 +56,11 @@ class Shape_frame {
 	bool                             rle;       // Run-length encoded.
 	mutable std::array<std::unique_ptr<IsoRaster>, 4> projected_rasters;
 	mutable std::array<std::unique_ptr<IsoRaster>, 4> projected_sprite_rasters;
+	mutable std::array<std::unique_ptr<IsoRaster>, 8> projected_wall_rasters;
 	mutable std::array<int, 4>                        projected_sprite_widths{};
 	mutable std::array<int, 4>                        projected_sprite_heights{};
 	mutable std::array<int, 4>                        projected_sprite_elevations{};
+	mutable std::array<int, 8>                        projected_wall_heights{};
 	static Image_buffer8*            scrwin;    // Screen window to render to.
 
 	// Create RLE data & store in frame.
@@ -118,6 +120,17 @@ public:
 		paint_projected_world(
 				scrwin, xoff, yoff, kind, xforms, xfcnt, trans, footprint_width,
 				footprint_height, elevation_height);
+	}
+	void paint_projected_world_wall(
+			Image_buffer8* win, int xoff, int yoff, IsoKind kind,
+			const Xform_palette* xforms, int xfcnt, const unsigned char* trans,
+			const IsoWallProfile& profile);
+	void paint_projected_world_wall(
+			int xoff, int yoff, IsoKind kind,
+			const Xform_palette* xforms, int xfcnt, const unsigned char* trans,
+			const IsoWallProfile& profile) {
+		paint_projected_world_wall(
+				scrwin, xoff, yoff, kind, xforms, xfcnt, trans, profile);
 	}
 	void paint_rle_translucent(Image_buffer8* win, int xoff, int yoff, const Xform_palette* xforms, int xfcnt);
 	void paint_rle_transformed(Image_buffer8* win, int xoff, int yoff, const Xform_palette& xform);
@@ -219,6 +232,8 @@ private:
 	const IsoRaster& get_projected_sprite_raster(
 			IsoKind kind, int footprint_width, int footprint_height,
 			int elevation_height) const;
+	const IsoRaster& get_projected_wall_raster(
+			IsoKind kind, const IsoWallProfile& profile) const;
 };
 
 /*

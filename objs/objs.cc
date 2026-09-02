@@ -1706,6 +1706,17 @@ void Terrain_game_object::paint_terrain() {
  *  location is invalid (chunk = nullptr).
  */
 
+void Ifix_game_object::paint() {
+	int x;
+	int y;
+	gwin->get_shape_location(this, x, y);
+	if (!gwin->get_projection().is_legacy()
+			&& paint_world_wall_if_applicable(x, y)) {
+		return;
+	}
+	Game_object::paint();
+}
+
 void Ifix_game_object::move(int newtx, int newty, int newlift, int newmap) {
 	const bool caching_out = gwin->get_map()->is_caching_out();
 	if (chunk && !caching_out) {    // Mark superchunk as 'modified'.

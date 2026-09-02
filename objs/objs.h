@@ -599,6 +599,9 @@ public:
 			: Game_object(shapenum, framenum, tilex, tiley, lft) {}
 
 	~Ifix_game_object() override = default;
+	// Render fixed scenery. Classified wall frames use the wall-only
+	// projection; every other fixed object keeps Game_object::paint().
+	void paint() override;
 	// Move to new abs. location.
 	void move(int newtx, int newty, int newlift, int newmap = -1) override;
 	// Remove/delete this object.

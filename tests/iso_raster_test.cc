@@ -47,6 +47,24 @@ static IsoRaster sample() {
 	return raster;
 }
 
+static IsoRaster wall_column() {
+	return IsoRaster{
+			1, 17, 8, 16, std::vector<unsigned char>(17, 7),
+			std::vector<unsigned char>(17, 1)};
+}
+
+static IsoRaster wall_line() {
+	IsoRaster raster{
+			9, 1, 4, 12, std::vector<unsigned char>(9, 0),
+			std::vector<unsigned char>(9, 0)};
+	for (int x = 0; x < raster.width; ++x) {
+		const size_t index = static_cast<size_t>(x);
+		raster.pixels[index] = static_cast<unsigned char>(x + 1);
+		raster.coverage[index] = 1;
+	}
+	return raster;
+}
+
 static bool projected_point_is_inside_source(
 		const IsoRaster& source, IsoKind kind, int projected_x, int projected_y) {
 	const double basis_x = 0.8660254037844386 * c_tilesize;
@@ -56,6 +74,23 @@ static bool projected_point_is_inside_source(
 	const int source_x = static_cast<int>(std::lround((a + b) * 0.5)) + source.xleft;
 	const int source_y = static_cast<int>(std::lround((b - a) * 0.5)) + source.yabove;
 	return source_x >= 0 && source_x < source.width && source_y >= 0 && source_y < source.height;
+}
+
+static void assert_column_is_continuous(const IsoRaster& raster) {
+	int first = -1;
+	int last  = -1;
+	for (int y = 0; y < raster.height; ++y) {
+		if (raster.is_covered(static_cast<size_t>(y) * raster.width)) {
+			if (first < 0) {
+				first = y;
+			}
+			last = y;
+		}
+	}
+	assert(first >= 0 && last >= first);
+	for (int y = first; y <= last; ++y) {
+		assert(raster.is_covered(static_cast<size_t>(y) * raster.width));
+	}
 }
 
 static void assert_no_projected_holes(const IsoRaster& source, IsoKind kind) {
@@ -103,6 +138,30 @@ int main() {
 	const IsoRaster solid{8, 8, 4, 4, std::vector<unsigned char>(64, 7)};
 	assert_no_projected_holes(solid, IsoKind::TrueIso);
 	assert_no_projected_holes(solid, IsoKind::Dimetric);
+
+	// Terrain wall profiles use an explicit vertical plane. The old generic
+	// sprite path remains unchanged for non-terrain sprites.
+	const IsoRaster column = wall_column();
+	const IsoRaster generic_column = transform_iso_sprite_raster(
+			column, IsoKind::TrueIso, 8, 8, 16);
+	const IsoRaster wall_column_raster = transform_iso_wall_raster(
+			column, IsoKind::TrueIso, 4);
+	assert(generic_column.height == 13);
+	assert(wall_column_raster.height == 26);
+	assert_column_is_continuous(wall_column_raster);
+
+	// A horizontal wall edge must remain one affine line. A varying inferred
+	// elevation would increase this line's projected height.
+	const IsoRaster line = wall_line();
+	const IsoRaster wall_line_raster = transform_iso_wall_raster(
+			line, IsoKind::TrueIso, 4);
+	assert(wall_line_raster.height == 6);
+	const IsoRaster wall_world_x = transform_iso_wall_raster(
+			line, IsoKind::TrueIso, 4, IsoWallOrientation::WorldX);
+	const IsoRaster wall_world_y = transform_iso_wall_raster(
+			line, IsoKind::TrueIso, 4, IsoWallOrientation::WorldY);
+	assert(wall_world_x.pixels != wall_world_y.pixels);
+	assert(wall_world_x.coverage != wall_world_y.coverage);
 
 	Image_buffer8 target(4, 1);
 	target.fill8(7);

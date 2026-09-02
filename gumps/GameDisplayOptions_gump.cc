@@ -312,7 +312,7 @@ void GameDisplayOptions_gump::build_buttons() {
             this, &GameDisplayOptions_gump::toggle_smooth_scrolling, std::move(smooth_text), smooth_scrolling,
             get_button_pos_for_label(Strings::Smoothscrolling_()), yForRow(++y_index), small_size);
 
-	const std::vector<std::string> projection_text = {"Legacy", "Diamond", "True Iso", "Dimetric"};
+	const std::vector<std::string> projection_text = {"Legacy", "Isometric"};
 	buttons[id_projection] = std::make_unique<GameDisplayTextToggle>(
 			this, &GameDisplayOptions_gump::toggle_projection, projection_text, projection,
 			get_button_pos_for_label("Projection"), yForRow(++y_index), large_size);
@@ -394,7 +394,7 @@ void GameDisplayOptions_gump::load_settings() {
 	paperdolls       = sman->are_paperdolls_enabled();
 	text_bg          = gwin->get_text_bg() + 1;
 	smooth_scrolling = gwin->is_lerping_enabled() / 25;
-	projection       = static_cast<int>(gwin->get_projection().kind);
+	projection       = gwin->get_projection().kind == IsoKind::TrueIso ? 1 : 0;
 
 	android_autolaunch = Android_getAutoLaunch ? Android_getAutoLaunch() : 0;
 	config->value("config/gameplay/language", value, "");
@@ -503,10 +503,10 @@ void GameDisplayOptions_gump::save_settings() {
 	}
 	gwin->set_lerping_enabled(smooth_scrolling * 25);
 	config->set("config/gameplay/smooth_scrolling", smooth_scrolling * 25, false);
-	if (projection < static_cast<int>(IsoKind::Legacy) || projection > static_cast<int>(IsoKind::Dimetric)) {
+	if (projection < 0 || projection > 1) {
 		projection = static_cast<int>(IsoKind::Legacy);
 	}
-	gwin->set_projection(static_cast<IsoKind>(projection));
+	gwin->set_projection(projection == 1 ? IsoKind::TrueIso : IsoKind::Legacy);
 	config->set("config/gameplay/skip_intro", usecode_intro ? "yes" : "no", false);
 	config->set("config/gameplay/extended_intro", extended_intro ? "yes" : "no", false);
 	gwin->set_extended_intro(extended_intro);

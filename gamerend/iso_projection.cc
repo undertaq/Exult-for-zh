@@ -88,26 +88,21 @@ const char* IsoProjection::name() const {
 	switch (kind) {
 	case IsoKind::Legacy:
 		return "legacy";
-	case IsoKind::Diamond:
-		return "diamond";
 	case IsoKind::TrueIso:
-		return "true_iso";
+		return "isometric";
+	case IsoKind::Diamond:
 	case IsoKind::Dimetric:
-		return "dimetric";
+		// These implementations remain available internally for compatibility,
+		// but are no longer selectable projection modes.
+		return "legacy";
 	default:
 		return "legacy";
 	}
 }
 
 IsoProjection IsoProjection::from_name(const std::string& value) {
-	if (value == "diamond") {
-		return IsoProjection(IsoKind::Diamond);
-	}
-	if (value == "true_iso") {
+	if (value == "isometric" || value == "true_iso") {
 		return IsoProjection(IsoKind::TrueIso);
-	}
-	if (value == "dimetric") {
-		return IsoProjection(IsoKind::Dimetric);
 	}
 	return IsoProjection(IsoKind::Legacy);
 }
@@ -197,6 +192,18 @@ void IsoProjection::project_pixel(int px, int py, int& sx, int& sy) const {
 	const Basis basis = basis_for(kind);
 	sx = static_cast<int>(std::lround((px - py) * basis.x / c_tilesize));
 	sy = static_cast<int>(std::lround((px + py) * basis.y / c_tilesize));
+}
+
+void IsoProjection::project_pixel(
+		double px, double py, double& sx, double& sy) const {
+	if (kind == IsoKind::Legacy) {
+		sx = px;
+		sy = py;
+		return;
+	}
+	const Basis basis = basis_for(kind);
+	sx = (px - py) * basis.x / c_tilesize;
+	sy = (px + py) * basis.y / c_tilesize;
 }
 
 void IsoProjection::unproject_pixel(int sx, int sy, int& px, int& py) const {
