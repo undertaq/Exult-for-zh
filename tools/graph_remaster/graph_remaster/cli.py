@@ -121,36 +121,54 @@ def _run_controls_stage(args: argparse.Namespace) -> int:
     """Prepare deterministic source-authoritative controls without generation backends."""
 
     from .config import load_config
-    from .controls.prepare import persist_controls, prepare_controls
+    from .controls.prepare import CanvasSpec, build_tile_atlas, persist_controls, persist_tile_atlas, prepare_controls
     from .controls.profiles import AssetType, get_profile
     from .db import AssetStore
+    from .reporting import write_stage_html_report
 
     config = load_config(args.config)
     run_id = args.run_id or "default"
     stage_dir = config.paths.controls / run_id
     report_path = config.paths.reports / run_id / "prepare-controls-error.json"
+    html_report_path = report_path.with_name("prepare-controls.html")
     stage_dir.mkdir(parents=True, exist_ok=True)
     try:
         store = AssetStore.open(args.database or config.paths.work / "graph.sqlite3")
         try:
             store.migrate()
             frames = store.list_all_frames(args.selector)
+            flat_frames: dict[object, list[object]] = {}
             for frame in frames:
                 asset_type = AssetType(frame.metadata.get("asset_type", AssetType.FLAT_TILE.value))
                 configured = next((item for item in config.asset_profiles if item.name == asset_type.value), None)
-                bundle = prepare_controls(frame, configured or get_profile(asset_type))
+                profile = configured or get_profile(asset_type)
+                bundle = prepare_controls(frame, profile)
                 persist_controls(store, stage_dir, bundle)
+                if asset_type is AssetType.FLAT_TILE:
+                    flat_frames.setdefault(profile, []).append(frame)
+            atlas_count = 0
+            for profile, grouped_frames in flat_frames.items():
+                canvas = CanvasSpec(profile.atlas_columns, profile.atlas_rows, profile.tile_width, profile.tile_height)
+                capacity = canvas.columns * canvas.rows
+                for start in range(0, len(grouped_frames), capacity):
+                    members = grouped_frames[start:start + capacity]
+                    persist_tile_atlas(store, stage_dir, members, profile, build_tile_atlas(members, config.render.scale, canvas))
+                    atlas_count += 1
         finally:
             store.close()
+        payload = {"stage": args.command, "run_id": run_id, "frame_count": len(frames), "atlas_count": atlas_count}
         (stage_dir / "stage.json").write_text(
-            json.dumps({"stage": args.command, "run_id": run_id, "frame_count": len(frames)}, sort_keys=True),
+            json.dumps(payload, sort_keys=True),
             encoding="utf-8",
         )
+        write_stage_html_report(html_report_path, "Controls prepared", payload)
         return 0
     except (OSError, ValueError) as exc:
         report_path.parent.mkdir(parents=True, exist_ok=True)
+        payload = {"stage": args.command, "run_id": run_id, "error": str(exc)}
         report_path.write_text(
-            json.dumps({"stage": args.command, "run_id": run_id, "error": str(exc)}, sort_keys=True),
+            json.dumps(payload, sort_keys=True),
             encoding="utf-8",
         )
+        write_stage_html_report(html_report_path, "Preparation failed", payload)
         return 2

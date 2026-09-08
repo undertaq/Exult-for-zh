@@ -86,3 +86,62 @@ Fresh verification:
 - `git diff --check` — no whitespace errors.
 
 The package lock contains Pillow 12.3.0 for the current resolved environment.
+
+## Review-fix report
+
+### Flat-tile atlas persistence
+
+`prepare-controls` now groups `flat_tile` frames by their effective serialized
+profile, chunks each group by the fixed grid capacity, builds each chunk with
+the required sixfold nearest-neighbour scale, and persists the result under its
+PNG content SHA-256. Every member frame receives an idempotent `control_maps`
+link of kind `atlas` to that same artifact, with the grid dimensions and scale
+recorded in metadata.
+
+The new CLI regression creates a two-cell 4x3 tile grid, verifies the persisted
+48x18 atlas is content-addressed, and verifies that both frame links refer to
+the same SQLite artifact path.
+
+### Offline reports and structured errors
+
+Added `graph_remaster.reporting.write_stage_html_report`, a deliberately small
+self-contained HTML writer. It uses only inline CSS and escaped JSON payloads;
+it makes no CDN, network, or absolute-asset references, so a later Task 9
+reporting implementation can replace its presentation without changing this
+stage contract.
+
+Successful preparation writes `reports/<run-id>/prepare-controls.html` with
+the stage, run ID, frame count, and atlas count. Failures continue to write the
+structured JSON error contract at `prepare-controls-error.json` and now replace
+the same HTML report with an offline failure report.
+
+### Canonical profile overrides
+
+Canonical profiles are now centralized in `config.py`. TOML overrides inherit
+their canonical defaults, but their controls must match exactly:
+
+- `flat_tile`: `canny`
+- `npc_rle`: `edge`, `silhouette`
+- `building_combo`: `canny`, `depth`
+
+Invalid additions, omissions, and substitutions raise `ConfigError`; threshold,
+denoise, and fixed-grid values remain configurable and serializable.
+
+### Synthetic-depth alpha protection
+
+After Gaussian blur, synthetic depth is multiplied by the authoritative alpha
+mask. Fully transparent source pixels are therefore exactly black even when
+they neighbour an opaque silhouette. The stable building-depth byte hash was
+updated to cover this corrected result.
+
+### Fix verification
+
+- `uv run --project tools/graph_remaster pytest tools/graph_remaster/tests/test_controls.py -q`
+  — `11 passed in 11.67s`.
+- `uv run --project tools/graph_remaster pytest tools/graph_remaster/tests/test_controls.py tools/graph_remaster/tests/test_config.py tools/graph_remaster/tests/test_source_io.py -q`
+  — `31 passed in 16.48s`.
+- `uv run --project tools/graph_remaster python -m compileall -q tools/graph_remaster/graph_remaster`
+  — exit 0.
+- `PYTHONPATH=tools/graph_remaster uv run --project tools/graph_remaster python -m graph_remaster prepare-controls --help`
+  — exit 0.
+- `git diff --check` — no whitespace errors.

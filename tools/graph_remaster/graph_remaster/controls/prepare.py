@@ -8,7 +8,7 @@ from io import BytesIO
 from pathlib import Path
 from typing import Mapping, Sequence, TYPE_CHECKING
 
-from PIL import Image, ImageFilter
+from PIL import Image, ImageChops, ImageFilter
 
 from ..config import AssetProfile
 from ..models import FrameKey, FrameRecord
@@ -137,9 +137,10 @@ def make_synthetic_depth(mask: Image.Image, asset_type: AssetType | str) -> Imag
         raise ValueError("synthetic depth is only defined for building_combo assets")
     alpha = mask.convert("L")
     # A soft, repeatable depth ramp derived from the protected silhouette.
-    return alpha.filter(ImageFilter.GaussianBlur(radius=2)).point(
+    blurred = alpha.filter(ImageFilter.GaussianBlur(radius=2)).point(
         lambda value: value if value >= 2 else 0, mode="L"
     )
+    return ImageChops.multiply(blurred, alpha)
 
 
 def prepare_controls(frame: FrameRecord, profile: AssetProfile) -> ControlBundle:
@@ -188,6 +189,26 @@ def persist_controls(store: "AssetStore", root: Path, bundle: ControlBundle) -> 
     return paths
 
 
+def persist_tile_atlas(
+    store: "AssetStore", root: Path, frames: Sequence[FrameRecord], profile: AssetProfile,
+    atlas: AtlasBundle,
+) -> Path:
+    """Persist one fixed-grid flat-tile atlas and link it to every member frame."""
+
+    digest, payload = _png_digest(atlas.image)
+    path = _write_content_addressed_png(Path(root), digest, payload)
+    metadata = {
+        "sha256": digest,
+        "profile": asdict(profile),
+        "atlas": {"columns": atlas.canvas.columns, "rows": atlas.canvas.rows,
+                  "tile_width": atlas.canvas.tile_width, "tile_height": atlas.canvas.tile_height,
+                  "scale": atlas.scale},
+    }
+    for frame in frames:
+        store.upsert_control_map(frame.key, "atlas", digest, path, metadata)
+    return path
+
+
 def _load_source_image(frame: FrameRecord) -> Image.Image:
     source = frame.metadata.get("rgba_preview_path")
     if not isinstance(source, str) or not source:
@@ -201,3 +222,11 @@ def _png_digest(image: Image.Image) -> tuple[str, bytes]:
     image.save(output, format="PNG", optimize=False, compress_level=9)
     payload = output.getvalue()
     return sha256(payload).hexdigest(), payload
+
+
+def _write_content_addressed_png(root: Path, digest: str, payload: bytes) -> Path:
+    path = root / digest[:2] / f"{digest}.png"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if not path.exists():
+        path.write_bytes(payload)
+    return path

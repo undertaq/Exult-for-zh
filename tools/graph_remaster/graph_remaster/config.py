@@ -63,6 +63,25 @@ class AssetProfile:
     tile_height: int = 8
 
 
+CANONICAL_ASSET_PROFILES = {
+    "flat_tile": AssetProfile(
+        "flat_tile", ("canny",), 0.05, 0.20, 80, 160, 8, 8, 8, 8
+    ),
+    "npc_rle": AssetProfile(
+        "npc_rle", ("edge", "silhouette"), 0.20, 0.40, 60, 140, 1, 1, 8, 16
+    ),
+    "building_combo": AssetProfile(
+        "building_combo", ("canny", "depth"), 0.30, 0.55, 100, 200, 1, 1, 8, 8
+    ),
+}
+
+
+def canonical_asset_profile(name: str) -> AssetProfile:
+    """Return the approved defaults for one canonical asset type."""
+
+    return CANONICAL_ASSET_PROFILES[name]
+
+
 @dataclass(frozen=True)
 class PipelineConfig:
     project_name: str
@@ -204,18 +223,23 @@ def _profiles(value: Any) -> tuple[AssetProfile, ...]:
     for name, raw in value.items():
         if not isinstance(raw, Mapping):
             raise ConfigError(f"asset_profiles.{name} must be a table")
-        profiles.append(
-            AssetProfile(
-                name=str(name),
-                controls=tuple(str(control) for control in raw.get("controls", ())),
-                denoise_min=float(raw.get("denoise_min", 0.0)),
-                denoise_max=float(raw.get("denoise_max", 1.0)),
-                threshold_low=_int_value(raw, "threshold_low", 100),
-                threshold_high=_int_value(raw, "threshold_high", 200),
-                atlas_columns=_int_value(raw, "atlas_columns", 1),
-                atlas_rows=_int_value(raw, "atlas_rows", 1),
-                tile_width=_int_value(raw, "tile_width", 8),
-                tile_height=_int_value(raw, "tile_height", 8),
-            )
+        profile_name = str(name)
+        defaults = CANONICAL_ASSET_PROFILES.get(profile_name, AssetProfile(profile_name))
+        profile = AssetProfile(
+            name=profile_name,
+            controls=tuple(str(control) for control in raw.get("controls", defaults.controls)),
+            denoise_min=float(raw.get("denoise_min", defaults.denoise_min)),
+            denoise_max=float(raw.get("denoise_max", defaults.denoise_max)),
+            threshold_low=_int_value(raw, "threshold_low", defaults.threshold_low),
+            threshold_high=_int_value(raw, "threshold_high", defaults.threshold_high),
+            atlas_columns=_int_value(raw, "atlas_columns", defaults.atlas_columns),
+            atlas_rows=_int_value(raw, "atlas_rows", defaults.atlas_rows),
+            tile_width=_int_value(raw, "tile_width", defaults.tile_width),
+            tile_height=_int_value(raw, "tile_height", defaults.tile_height),
         )
+        if profile_name in CANONICAL_ASSET_PROFILES and profile.controls != defaults.controls:
+            raise ConfigError(
+                f"asset_profiles.{profile_name} controls must match canonical controls {defaults.controls}"
+            )
+        profiles.append(profile)
     return tuple(profiles)
