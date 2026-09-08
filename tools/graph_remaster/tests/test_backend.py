@@ -260,6 +260,133 @@ def test_sdxl_falls_back_to_offload_attention_slicing_and_vae_tiling_after_fp16_
     }
 
 
+@pytest.mark.parametrize(
+    ("mode", "runtime_name", "expected_quantizer"),
+    [
+        ("fp8", "torchao", "TorchAoConfig"),
+        ("int8", "bitsandbytes", "BitsAndBytesConfig"),
+        ("int4", "bitsandbytes", "BitsAndBytesConfig"),
+    ],
+)
+def test_sdxl_applies_available_quantized_precision_modes_without_downloading_weights(
+    monkeypatch: pytest.MonkeyPatch,
+    mode: str,
+    runtime_name: str,
+    expected_quantizer: str,
+) -> None:
+    calls: list[dict[str, object]] = []
+
+    class FakeCuda:
+        @staticmethod
+        def is_available() -> bool:
+            return True
+
+    class FakeTorch:
+        cuda = FakeCuda()
+        float8_e4m3fn = "float8"
+
+        class Generator:
+            def __init__(self, device: str) -> None:
+                self.device = device
+
+            def manual_seed(self, seed: int) -> "FakeTorch.Generator":
+                return self
+
+    class TorchAoConfig:
+        def __init__(self, mode: str) -> None:
+            self.mode = mode
+
+    class BitsAndBytesConfig:
+        def __init__(self, **kwargs: object) -> None:
+            self.kwargs = kwargs
+
+    class FakeControlNet:
+        @staticmethod
+        def from_pretrained(*args: object, **kwargs: object) -> object:
+            calls.append(kwargs)
+            return object()
+
+    class FakePipeline:
+        def to(self, device: str) -> "FakePipeline":
+            return self
+
+        def __call__(self, **kwargs: object) -> object:
+            return type("Result", (), {"images": [Image.new("RGB", (12, 9))]})()
+
+    class FakePipelineFactory:
+        @staticmethod
+        def from_pretrained(*args: object, **kwargs: object) -> FakePipeline:
+            calls.append(kwargs)
+            return FakePipeline()
+
+    FakeDiffusers = type(
+        "FakeDiffusers",
+        (),
+        {
+            "ControlNetModel": FakeControlNet,
+            "StableDiffusionXLControlNetImg2ImgPipeline": FakePipelineFactory,
+            "TorchAoConfig": TorchAoConfig,
+            "BitsAndBytesConfig": BitsAndBytesConfig,
+        },
+    )
+
+    def fake_import(name: str) -> object:
+        return {
+            "torch": FakeTorch,
+            "diffusers": FakeDiffusers,
+            runtime_name: object(),
+        }[name]
+
+    monkeypatch.setattr("graph_remaster.backends.sdxl_controlnet.import_module", fake_import)
+    backend = SdxlControlNetBackend(ModelConfig())
+
+    backend.load("cuda:0", mode)
+    candidate = backend.generate(_request())
+
+    assert candidate.metadata["precision"]["applied_mode"] == mode
+    assert candidate.metadata["precision"]["attempts"] == [
+        {"mode": mode, "outcome": "applied", "reason": "loaded successfully"}
+    ]
+    assert type(calls[0]["quantization_config"]).__name__ == expected_quantizer
+
+
+def test_sdxl_quantized_precision_failure_names_the_required_extra(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class FakeCuda:
+        @staticmethod
+        def is_available() -> bool:
+            return True
+
+    class FakeTorch:
+        cuda = FakeCuda()
+
+        class Generator:
+            def __init__(self, device: str) -> None:
+                self.device = device
+
+            def manual_seed(self, seed: int) -> "FakeTorch.Generator":
+                return self
+
+    class FakeDiffusers:
+        class BitsAndBytesConfig:
+            pass
+
+    def fake_import(name: str) -> object:
+        if name == "torch":
+            return FakeTorch
+        if name == "diffusers":
+            return FakeDiffusers
+        raise ImportError(name)
+
+    monkeypatch.setattr("graph_remaster.backends.sdxl_controlnet.import_module", fake_import)
+    backend = SdxlControlNetBackend(ModelConfig())
+
+    backend.load("cuda:0", "int8")
+    with pytest.raises(BackendUnavailable, match=r"sdxl-quantized"):
+        backend.generate(_request())
+
+
 def test_sdxl_backend_rejects_a_non_cuda_device_without_importing_optional_runtime() -> None:
     backend = SdxlControlNetBackend(ModelConfig())
 

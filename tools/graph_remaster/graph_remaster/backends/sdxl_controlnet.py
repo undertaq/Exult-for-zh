@@ -233,7 +233,10 @@ class SdxlControlNetBackend:
             try:
                 import_module("torchao")
             except ImportError:
-                return "FP8 requires the optional torchao runtime"
+                return (
+                    "FP8 requires the optional torchao runtime; install it with "
+                    "`uv sync --extra sdxl --extra sdxl-fp8`"
+                )
             return None
         if mode in {"int8", "int4"}:
             if not hasattr(self._diffusers, "BitsAndBytesConfig"):
@@ -241,7 +244,10 @@ class SdxlControlNetBackend:
             try:
                 import_module("bitsandbytes")
             except ImportError:
-                return f"{mode.upper()} requires the optional bitsandbytes runtime"
+                return (
+                    f"{mode.upper()} requires the optional bitsandbytes runtime; install it with "
+                    "`uv sync --extra sdxl --extra sdxl-quantized`"
+                )
             return None
         return f"unknown precision mode {mode!r}"
 

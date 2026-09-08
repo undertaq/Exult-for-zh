@@ -13,6 +13,8 @@ sdxl = [
     "torch>=2.1",
     "transformers>=4.38",
 ]
+sdxl-fp8 = ["torchao>=0.7"]
+sdxl-quantized = ["bitsandbytes>=0.43"]
 
 [build-system]
 requires = ["setuptools>=68"]
