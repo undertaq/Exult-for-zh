@@ -125,6 +125,17 @@ def test_png_metadata_rejects_missing_iend_and_bad_chunk_crc(tmp_path: Path, mal
         read_png_metadata(image)
 
 
+def test_png_metadata_rejects_duplicate_transparency_chunk(tmp_path: Path) -> None:
+    image = tmp_path / "duplicate-trns.png"
+    duplicate = b"\x00\x00\x00\x02tRNS\x00\xff" + struct.pack(">I", zlib.crc32(b"tRNS\x00\xff") & 0xffffffff)
+    png = indexed_png()
+    idat_start = png.index(b"IDAT") - 4
+    image.write_bytes(png[:idat_start] + duplicate + png[idat_start:])
+
+    with pytest.raises(PNGMetadataError, match="duplicate tRNS"):
+        read_png_metadata(image)
+
+
 def test_inventory_and_extract_cli_persist_idempotent_stage_records(tmp_path: Path) -> None:
     archive = tmp_path / "shapes.vga"
     archive.write_bytes(b"fixture archive")

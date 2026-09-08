@@ -44,7 +44,7 @@ def read_png_metadata(path: Path) -> PNGMetadata:
     offset = (0, 0)
     offset_implicit = True
     image_data = bytearray()
-    saw_ihdr = saw_plte = saw_idat = saw_iend = False
+    saw_ihdr = saw_plte = saw_trns = saw_offs = saw_idat = saw_iend = False
     while position < len(data):
         if position + 12 > len(data):
             raise PNGMetadataError(f"truncated PNG chunk: {path}")
@@ -71,12 +71,18 @@ def read_png_metadata(path: Path) -> PNGMetadata:
             saw_plte = True
             palette = tuple(tuple(payload[index:index + 3]) for index in range(0, len(payload), 3))
         elif chunk_type == b"tRNS":
+            if saw_trns:
+                raise PNGMetadataError(f"duplicate tRNS chunk: {path}")
             if not saw_plte or saw_idat:
                 raise PNGMetadataError(f"invalid tRNS chunk order: {path}")
+            saw_trns = True
             transparency = payload
         elif chunk_type == b"oFFs":
+            if saw_offs:
+                raise PNGMetadataError(f"duplicate oFFs chunk: {path}")
             if length != 9:
                 raise PNGMetadataError(f"invalid oFFs chunk: {path}")
+            saw_offs = True
             x, y, unit = struct.unpack(">iiB", payload)
             if unit != 0:
                 raise PNGMetadataError(f"unsupported oFFs unit: {path}")
