@@ -224,6 +224,9 @@ def test_cli_device_override_accepts_numeric_cuda_indexes_without_changing_exist
 def test_generate_cli_routes_selected_job_through_worker_pool_without_constructing_a_real_backend(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
 ) -> None:
+    import graph_remaster.cli as cli
+
+    assert not hasattr(cli, "probe_devices")
     config = tmp_path / "pipeline.toml"
     config.write_text(
         """[project]\nname = 'black-gate'\n[paths]\ndata = 'data'\nwork = 'work'\n[render]\nscale = 6\nlogical_width = 320\nlogical_height = 200\n""",
@@ -247,10 +250,15 @@ def test_generate_cli_routes_selected_job_through_worker_pool_without_constructi
         def close(self) -> None:
             selected["closed"] = True
 
-    monkeypatch.setattr("graph_remaster.cli.probe_devices", lambda: [_devices()[0]])
+    def unexpected_parent_probe() -> None:
+        raise AssertionError("the CLI parent must not probe CUDA devices")
+
+    monkeypatch.setattr("graph_remaster.cli.probe_devices", unexpected_parent_probe, raising=False)
     monkeypatch.setattr("graph_remaster.cli.WorkerPool", FakePool)
 
     assert main(["generate", "--config", str(config), "--backend", "mock", "job"]) == 0
     assert selected["job_id"] == "job"
     assert selected["closed"] is True
+    assert selected["devices"] is None
+    assert selected["device_selectors"] == ("cuda:0", "cuda:1")
     assert set(selected["requests"]) == {"job"}

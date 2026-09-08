@@ -10,7 +10,6 @@ from pathlib import Path
 import tomllib
 from typing import Sequence
 
-from .workers.devices import probe_devices
 from .workers.scheduler import WorkerPool
 
 
@@ -263,13 +262,15 @@ def _run_worker_pool_generate(args: argparse.Namespace) -> int:
     request = InferenceRequest(job, source, prepare_controls(frame, profile))
     backend_name = args.backend or job.backend or config.model.backend
     pool = WorkerPool(
-        probe_devices(),
+        None,
         _BackendFactory(backend_name, config.model),
         {args.selector: request},
         candidates_dir=config.paths.candidates / (args.run_id or "default"),
         database=database,
         reports_dir=config.paths.reports / (args.run_id or "default"),
         device=args.device,
+        device_selectors=config.gpu.devices,
+        workers=config.gpu.workers,
     )
     try:
         pool.submit(args.selector).result()

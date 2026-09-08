@@ -156,3 +156,39 @@ Fresh verification after the review fixes:
   — exit 0.
 - `uv run --project tools/graph_remaster pytest tools/graph_remaster/tests -q`
   — `81 passed in 72.84s`.
+
+### Re-review fix: child-only production discovery
+
+The production `generate` adapter no longer imports or calls `probe_devices`.
+It now passes only `None` for discovered devices, configured serializable device
+selectors, worker count, and any explicit `--device` override to `WorkerPool`.
+The pool starts a short-lived `spawn` bootstrap process that performs both CUDA
+device discovery and optional-quantizer capability probing, then returns plain
+`CudaDeviceInfo`/`CapabilitySet` records to the scheduler. The subsequent
+per-device workers retain their own fresh child-side device probes before they
+construct a backend.
+
+This preserves automatic free-VRAM assignment and numeric/CUDA-form overrides,
+but makes no-CUDA discovery failures actionable: the bootstrap reports that no
+CUDA device was found and directs the operator to install CUDA-enabled PyTorch
+and verify the NVIDIA driver. Synthetic/pre-probed direct pool callers retain a
+conservative base capability set unless they explicitly supply capabilities;
+the production CLI always uses the child-discovered set.
+
+The CLI integration regression now asserts that the CLI module has no
+`probe_devices` import and installs a trap that fails if a parent call appears.
+It still proves `generate` selects `WorkerPool` with `None` device facts and
+the configured `("cuda:0", "cuda:1")` selectors, without creating a model.
+
+Fresh verification for this re-review fix:
+
+- `uv run --project tools/graph_remaster pytest tools/graph_remaster/tests/test_workers.py -q`
+  — `8 passed in 23.45s`.
+- `uv run --project tools/graph_remaster pytest tools/graph_remaster/tests/test_backend.py -q`
+  — `18 passed in 1.14s`.
+- `uv run --project tools/graph_remaster pytest tools/graph_remaster/tests/test_config.py -q`
+  — `10 passed in 0.41s`.
+- `uv run --project tools/graph_remaster python -m compileall -q tools/graph_remaster/graph_remaster`
+  — exit 0.
+- `uv run --project tools/graph_remaster pytest tools/graph_remaster/tests -q`
+  — `81 passed in 91.30s`.

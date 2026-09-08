@@ -56,6 +56,41 @@ class _Slot:
     busy_job_id: str | None = None
 
 
+def _probe_environment_main(outcomes: object) -> None:
+    """Spawn entry point for CUDA and optional-quantizer discovery."""
+
+    try:
+        outcomes.put((probe_devices(), CapabilitySet.probe(), None))
+    except BaseException:
+        outcomes.put(([], CapabilitySet(), traceback.format_exc()))
+
+
+def _probe_environment_in_child() -> tuple[list[CudaDeviceInfo], CapabilitySet]:
+    """Discover runtime facts without importing or initializing CUDA in the parent."""
+
+    context = mp.get_context("spawn")
+    outcomes = context.Queue()
+    process = context.Process(target=_probe_environment_main, args=(outcomes,), daemon=True)
+    process.start()
+    try:
+        devices, capabilities, error = outcomes.get(timeout=15)
+    except Empty as exc:
+        process.terminate()
+        process.join(timeout=5)
+        raise ValueError("spawned CUDA discovery worker did not return device information") from exc
+    finally:
+        if process.is_alive():
+            process.join(timeout=5)
+    if error is not None:
+        raise ValueError(f"spawned CUDA discovery worker failed:\n{error}")
+    if not devices:
+        raise ValueError(
+            "no CUDA devices discovered in spawned worker; install a CUDA-enabled PyTorch runtime "
+            "and verify the NVIDIA driver"
+        )
+    return devices, capabilities
+
+
 def is_cuda_oom(error: BaseException) -> bool:
     """Recognize Torch and driver OOM errors without importing Torch in the parent."""
 
@@ -164,7 +199,7 @@ class WorkerPool:
 
     def __init__(
         self,
-        devices: list[CudaDeviceInfo],
+        devices: list[CudaDeviceInfo] | None,
         backend_factory: Callable[[], InferenceBackend],
         requests: Mapping[str, InferenceRequest],
         *,
@@ -173,7 +208,16 @@ class WorkerPool:
         reports_dir: Path | None = None,
         device: int | str | None = None,
         capabilities: CapabilitySet | None = None,
+        device_selectors: tuple[str, ...] | None = None,
+        workers: int | None = None,
     ) -> None:
+        if devices is None:
+            devices, discovered_capabilities = _probe_environment_in_child()
+            capabilities = capabilities or discovered_capabilities
+        elif capabilities is None:
+            # Callers supplying synthetic/pre-probed devices get the conservative
+            # base ladder; production discovery always occurs in the child above.
+            capabilities = CapabilitySet()
         if not devices:
             raise ValueError("WorkerPool requires at least one discovered CUDA device")
         if len({info.index for info in devices}) != len(devices):
@@ -185,11 +229,21 @@ class WorkerPool:
         self._reports_dir = None if reports_dir is None else Path(reports_dir)
         self._candidates_dir = Path(candidates_dir)
         self._candidates_dir.mkdir(parents=True, exist_ok=True)
-        self._capabilities = capabilities or CapabilitySet.probe()
+        self._capabilities = capabilities
         self._device_override = _device_index(device)
-        eligible = [info for info in devices if self._device_override is None or info.index == self._device_override]
+        selected_indexes = None if device_selectors is None else {_device_index(item) for item in device_selectors}
+        eligible = [
+            info for info in devices
+            if (selected_indexes is None or info.index in selected_indexes)
+            and (self._device_override is None or info.index == self._device_override)
+        ]
+        if workers is not None:
+            if workers < 1:
+                raise ValueError("WorkerPool workers must be positive")
+            eligible = eligible[:workers]
         if not eligible:
-            raise ValueError(f"requested CUDA device {device!r} was not discovered")
+            selection = device if self._device_override is not None else device_selectors
+            raise ValueError(f"requested CUDA device selection {selection!r} was not discovered")
         self._outcomes = self._context.Queue()
         self._slots = [self._start_slot(info, backend_factory) for info in sorted(eligible, key=lambda item: item.index)]
         self._futures: dict[str, Future[Candidate]] = {}
