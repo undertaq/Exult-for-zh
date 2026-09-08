@@ -562,6 +562,18 @@ class AssetStore:
         self._connection.commit()
         return candidate_id
 
+    def get_candidate(self, candidate_id: str) -> Candidate:
+        """Load one candidate and its immutable generation-job link."""
+
+        row = self._connection.execute(
+            """SELECT job_id, artifact_path, artifact_sha256, metadata_json, candidate_id
+            FROM candidates WHERE candidate_id = ?""",
+            (candidate_id,),
+        ).fetchone()
+        if row is None:
+            raise KeyError(f"unknown candidate {candidate_id!r}")
+        return Candidate(row[0], row[1], row[2], json.loads(row[3]), row[4])
+
     def add_validation(self, result: ValidationResult) -> None:
         self._connection.execute(
             """INSERT INTO validation_results

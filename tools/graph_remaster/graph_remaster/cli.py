@@ -58,6 +58,9 @@ def build_parser() -> argparse.ArgumentParser:
             subparser.set_defaults(handler=_run_controls_stage)
         elif command == "generate":
             subparser.set_defaults(handler=_run_generate_stage)
+        elif command == "validate":
+            subparser.add_argument("--database", type=Path)
+            subparser.set_defaults(handler=_run_validate_stage)
         else:
             subparser.set_defaults(handler=_not_implemented)
     return parser
@@ -277,6 +280,37 @@ def _run_worker_pool_generate(args: argparse.Namespace) -> int:
     finally:
         pool.close()
     return 0
+
+
+def _run_validate_stage(args: argparse.Namespace) -> int:
+    """Validate one generated candidate and retain review-gated approval."""
+
+    from .config import load_config
+    from .db import AssetStore
+    from .reporting import write_stage_html_report
+    from .validation.runner import run_validation
+
+    if not args.selector:
+        raise ValueError("validate requires a candidate id selector")
+    config = load_config(args.config)
+    run_id = args.run_id or "default"
+    report_path = config.paths.reports / run_id / "validate-error.json"
+    store = AssetStore.open(args.database or config.paths.work / "graph.sqlite3")
+    try:
+        store.migrate()
+        report = run_validation(args.selector, store)
+    except (OSError, ValueError, KeyError) as exc:
+        payload = {"stage": "validate", "candidate_id": args.selector, "error": str(exc)}
+        report_path.parent.mkdir(parents=True, exist_ok=True)
+        report_path.write_text(json.dumps(payload, sort_keys=True), encoding="utf-8")
+        write_stage_html_report(report_path.with_suffix(".html"), "Validation failed", payload)
+        return 2
+    finally:
+        store.close()
+    write_stage_html_report(
+        config.paths.reports / run_id / "validate.html", "Validation report", report.as_dict()
+    )
+    return 0 if report.passed else 2
 
 
 def _run_source_stage(args: argparse.Namespace) -> int:
