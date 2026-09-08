@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import sqlite3
+from hashlib import sha256
 from datetime import datetime, timezone
 from pathlib import Path
 from uuid import uuid4
@@ -324,6 +325,21 @@ class AssetStore:
             for row in rows
         ]
 
+    def list_all_frames(self, archive_sha256: str | None = None) -> list[FrameRecord]:
+        query = """SELECT archive_sha256, archive_index, shape_id, frame_id, width, height,
+        has_alpha, metadata_json FROM frames"""
+        parameters: tuple[object, ...] = ()
+        if archive_sha256 is not None:
+            query += " WHERE archive_sha256 = ?"
+            parameters = (archive_sha256,)
+        rows = self._connection.execute(
+            query + " ORDER BY archive_sha256, archive_index, shape_id, frame_id", parameters
+        ).fetchall()
+        return [
+            FrameRecord(FrameKey(*row[:4]), row[4], row[5], bool(row[6]), json.loads(row[7]))
+            for row in rows
+        ]
+
     def upsert_shape(self, record: ShapeRecord) -> None:
         now = _now()
         self._connection.execute(
@@ -352,6 +368,34 @@ class AssetStore:
             metadata_json=excluded.metadata_json, updated_at=excluded.updated_at""",
             (key.archive_sha256, key.archive_index, key.shape_id, key.frame_id,
              record.width, record.height, int(record.has_alpha), _json(record.metadata), now, now),
+        )
+        self._connection.commit()
+
+    def upsert_mask(
+        self, frame: FrameKey, kind: str, artifact_sha256: str, artifact_path: Path,
+        metadata: dict[str, object] | None = None,
+    ) -> None:
+        self._upsert_frame_artifact("masks", "mask_id", frame, kind, artifact_sha256, artifact_path, metadata)
+
+    def upsert_control_map(
+        self, frame: FrameKey, kind: str, artifact_sha256: str, artifact_path: Path,
+        metadata: dict[str, object] | None = None,
+    ) -> None:
+        self._upsert_frame_artifact("control_maps", "control_map_id", frame, kind, artifact_sha256, artifact_path, metadata)
+
+    def _upsert_frame_artifact(
+        self, table: str, id_column: str, frame: FrameKey, kind: str, artifact_sha256: str,
+        artifact_path: Path, metadata: dict[str, object] | None,
+    ) -> None:
+        record_id = sha256(f"{frame!r}:{kind}:{artifact_sha256}".encode()).hexdigest()
+        self._connection.execute(
+            f"""INSERT INTO {table} ({id_column}, archive_sha256, archive_index, shape_id, frame_id,
+            kind, artifact_path, metadata_json) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(archive_sha256, archive_index, shape_id, frame_id, kind) DO UPDATE SET
+            {id_column}=excluded.{id_column}, artifact_path=excluded.artifact_path,
+            metadata_json=excluded.metadata_json""",
+            (record_id, frame.archive_sha256, frame.archive_index, frame.shape_id, frame.frame_id,
+             kind, str(artifact_path), _json(metadata or {})),
         )
         self._connection.commit()
 

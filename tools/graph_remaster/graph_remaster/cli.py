@@ -38,6 +38,9 @@ def build_parser() -> argparse.ArgumentParser:
             subparser.add_argument("--palette", type=Path)
             subparser.add_argument("--database", type=Path)
             subparser.set_defaults(handler=_run_source_stage)
+        elif command == "prepare-controls":
+            subparser.add_argument("--database", type=Path)
+            subparser.set_defaults(handler=_run_controls_stage)
         else:
             subparser.set_defaults(handler=_not_implemented)
     return parser
@@ -111,4 +114,43 @@ def _run_source_stage(args: argparse.Namespace) -> int:
         if isinstance(exc, SourceToolError):
             payload.update({"command": list(exc.command), "returncode": exc.returncode, "stdout": exc.stdout, "stderr": exc.stderr})
         report_path.write_text(json.dumps(payload, sort_keys=True), encoding="utf-8")
+        return 2
+
+
+def _run_controls_stage(args: argparse.Namespace) -> int:
+    """Prepare deterministic source-authoritative controls without generation backends."""
+
+    from .config import load_config
+    from .controls.prepare import persist_controls, prepare_controls
+    from .controls.profiles import AssetType, get_profile
+    from .db import AssetStore
+
+    config = load_config(args.config)
+    run_id = args.run_id or "default"
+    stage_dir = config.paths.controls / run_id
+    report_path = config.paths.reports / run_id / "prepare-controls-error.json"
+    stage_dir.mkdir(parents=True, exist_ok=True)
+    try:
+        store = AssetStore.open(args.database or config.paths.work / "graph.sqlite3")
+        try:
+            store.migrate()
+            frames = store.list_all_frames(args.selector)
+            for frame in frames:
+                asset_type = AssetType(frame.metadata.get("asset_type", AssetType.FLAT_TILE.value))
+                configured = next((item for item in config.asset_profiles if item.name == asset_type.value), None)
+                bundle = prepare_controls(frame, configured or get_profile(asset_type))
+                persist_controls(store, stage_dir, bundle)
+        finally:
+            store.close()
+        (stage_dir / "stage.json").write_text(
+            json.dumps({"stage": args.command, "run_id": run_id, "frame_count": len(frames)}, sort_keys=True),
+            encoding="utf-8",
+        )
+        return 0
+    except (OSError, ValueError) as exc:
+        report_path.parent.mkdir(parents=True, exist_ok=True)
+        report_path.write_text(
+            json.dumps({"stage": args.command, "run_id": run_id, "error": str(exc)}, sort_keys=True),
+            encoding="utf-8",
+        )
         return 2

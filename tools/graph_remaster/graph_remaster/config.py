@@ -55,6 +55,12 @@ class AssetProfile:
     controls: tuple[str, ...] = ()
     denoise_min: float = 0.0
     denoise_max: float = 1.0
+    threshold_low: int = 100
+    threshold_high: int = 200
+    atlas_columns: int = 1
+    atlas_rows: int = 1
+    tile_width: int = 8
+    tile_height: int = 8
 
 
 @dataclass(frozen=True)
@@ -204,6 +210,12 @@ def _profiles(value: Any) -> tuple[AssetProfile, ...]:
                 controls=tuple(str(control) for control in raw.get("controls", ())),
                 denoise_min=float(raw.get("denoise_min", 0.0)),
                 denoise_max=float(raw.get("denoise_max", 1.0)),
+                threshold_low=_int_value(raw, "threshold_low", 100),
+                threshold_high=_int_value(raw, "threshold_high", 200),
+                atlas_columns=_int_value(raw, "atlas_columns", 1),
+                atlas_rows=_int_value(raw, "atlas_rows", 1),
+                tile_width=_int_value(raw, "tile_width", 8),
+                tile_height=_int_value(raw, "tile_height", 8),
             )
         )
     return tuple(profiles)
