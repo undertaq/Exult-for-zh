@@ -24,9 +24,9 @@ class CapabilitySet:
 PRECISION_COMPONENTS: dict[str, dict[str, str]] = {
     "fp16": {"unet": "float16", "text_encoder": "float16", "text_encoder_2": "float16", "vae": "float16", "controlnet": "float16"},
     "fp16_offload_attention_slicing_vae_tiling": {"unet": "float16_cpu_offload", "text_encoder": "float16_cpu_offload", "text_encoder_2": "float16_cpu_offload", "vae": "float16_tiled", "controlnet": "float16_cpu_offload"},
-    "fp8": {"unet": "float8_weight_only", "text_encoder_2": "float8_weight_only", "vae": "float16", "controlnet": "float16"},
-    "int8": {"unet": "int8_weight_only", "text_encoder_2": "int8_weight_only", "vae": "float16", "controlnet": "float16"},
-    "int4": {"unet": "int4_weight_only", "text_encoder_2": "int4_weight_only", "vae": "float16", "controlnet": "float16"},
+    "fp8": {"unet": "float8_weight_only", "text_encoder": "float8_weight_only", "text_encoder_2": "float8_weight_only", "vae": "float16", "controlnet": "float16"},
+    "int8": {"unet": "int8_weight_only", "text_encoder": "int8_weight_only", "text_encoder_2": "int8_weight_only", "vae": "float16", "controlnet": "float16"},
+    "int4": {"unet": "int4_weight_only", "text_encoder": "int4_weight_only", "text_encoder_2": "int4_weight_only", "vae": "float16", "controlnet": "float16"},
 }
 
 

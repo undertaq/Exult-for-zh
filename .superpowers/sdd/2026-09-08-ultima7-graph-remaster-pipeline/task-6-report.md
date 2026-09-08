@@ -101,3 +101,58 @@ Fresh verification performed after the final worker-probe change:
 The full legacy SQLite parameterized suite is intentionally not a model/GPU
 test; focused Task 6 coverage plus the adjacent migration regression above
 cover the schema change and worker behavior directly.
+
+## Review-fix appendix
+
+### Complete fallback and provenance
+
+The worker no longer truncates the resolved precision sequence after the first
+two entries. An OOM now clears cache, unloads the backend, and continues in
+Task 5 order through every capability-supported profile: FP16, offload with
+attention slicing/VAE tiling, FP8, INT8, and INT4. Each attempted profile adds
+its outcome and concrete exception reason to the existing Task 5 precision
+metadata. A successful earlier profile still stops fallback as intended.
+
+The quantized provenance maps now explicitly include both `text_encoder` and
+`text_encoder_2`, alongside UNet, VAE, and ControlNet. The final selected (or
+last attempted) component mapping and all attempt records are persisted into
+the job parameters.
+
+### Terminal failure reports and state
+
+Any worker outcome with no candidate, including a non-OOM backend exception,
+now takes the declared terminal transition
+`QUEUED -> GENERATED -> RESOURCE_FAILED`. The original traceback is preserved
+in SQLite. Worker failure reporting writes both the existing JSON payload and a
+self-contained HTML document at the same base path using the offline report
+writer; this applies to OOM, non-OOM backend failures, and unexpected worker
+exit paths.
+
+### Production generate adapter
+
+The non-smoke `generate` command now requires a queued job-id selector,
+reconstructs a Pillow/ControlNet request from the persisted frame and source
+preview, and dispatches it through `WorkerPool`. It passes a picklable lazy
+factory: mock or SDXL backends are imported only in the spawned child when work
+arrives. `--real-model-smoke` retains its prior direct single-request behavior.
+
+### Review-fix regression coverage and verification
+
+`test_workers.py` now proves all five supported profiles are attempted during
+an all-OOM run; every failed attempt has a reason; final INT4 provenance names
+both text encoders; JSON and offline HTML reports exist; a non-OOM backend
+failure becomes `RESOURCE_FAILED` with traceback; and the CLI selects a
+monkeypatched `WorkerPool` without constructing a real CUDA backend.
+
+Fresh verification after the review fixes:
+
+- `uv run --project tools/graph_remaster pytest tools/graph_remaster/tests/test_workers.py -q`
+  — `8 passed in 19.78s`.
+- `uv run --project tools/graph_remaster pytest tools/graph_remaster/tests/test_backend.py -q`
+  — `18 passed in 1.33s`.
+- `uv run --project tools/graph_remaster pytest tools/graph_remaster/tests/test_db.py -q`
+  — `23 passed in 58.75s`.
+- `uv run --project tools/graph_remaster python -m compileall -q tools/graph_remaster/graph_remaster`
+  — exit 0.
+- `uv run --project tools/graph_remaster pytest tools/graph_remaster/tests -q`
+  — `81 passed in 72.84s`.

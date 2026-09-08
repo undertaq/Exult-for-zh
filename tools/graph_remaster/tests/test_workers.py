@@ -8,7 +8,7 @@ import pytest
 from PIL import Image
 
 from graph_remaster.backends.base import GeneratedImage, InferenceRequest
-from graph_remaster.cli import _normalize_cuda_device
+from graph_remaster.cli import _normalize_cuda_device, main
 from graph_remaster.controls.prepare import ControlBundle, MaskRecord
 from graph_remaster.db import AssetStore
 from graph_remaster.models import FrameKey, FrameRecord, GenerationJob, ShapeRecord, SourceArchive
@@ -52,6 +52,11 @@ class AlwaysOomBackend(RecordingBackend):
         raise RuntimeError("CUDA out of memory while allocating")
 
 
+class BrokenBackend(RecordingBackend):
+    def generate(self, request: InferenceRequest) -> GeneratedImage:
+        raise RuntimeError("invalid model component")
+
+
 def _devices() -> list[CudaDeviceInfo]:
     return [
         CudaDeviceInfo(0, "RTX 3060", 12_000, 6_000, (8, 6), "12.8", "started"),
@@ -75,9 +80,11 @@ def _seed_job(database: Path, job_id: str) -> None:
     store = AssetStore.open(database)
     store.migrate()
     key = FrameKey("a" * 64, 0, 1, 0)
+    source = database.parent / f"{job_id}.png"
+    Image.new("RGBA", (12, 9), (1, 2, 3, 255)).save(source)
     store.upsert_source_archive(SourceArchive(key.archive_sha256, "source.ipf"))
     store.upsert_shape(ShapeRecord(key.archive_sha256, key.archive_index, key.shape_id, 12, 9))
-    store.upsert_frame(FrameRecord(key, 12, 9))
+    store.upsert_frame(FrameRecord(key, 12, 9, metadata={"rgba_preview_path": str(source)}))
     store.create_generation_job(GenerationJob(key, "QUEUED", "flat_tile", "fake", {"seed": 7}, job_id))
     store.close()
 
@@ -146,6 +153,59 @@ def test_repeated_oom_records_resource_failure_and_traceback_in_sqlite(tmp_path:
     assert metadata["precision"]["components"]["unet"] == "float16_cpu_offload"
 
 
+def test_full_supported_ladder_records_each_oom_attempt_and_writes_json_and_html_reports(tmp_path: Path) -> None:
+    database = tmp_path / "state.sqlite3"
+    _seed_job(database, "job")
+    reports = tmp_path / "reports"
+    pool = WorkerPool(
+        [_devices()[1]], AlwaysOomBackend, {"job": _request("job")}, database=database,
+        candidates_dir=tmp_path / "candidates", reports_dir=reports,
+        capabilities=CapabilitySet(torchao=True, bitsandbytes=True),
+    )
+    try:
+        with pytest.raises(ResourceFailed):
+            pool.submit("job").result(timeout=10)
+    finally:
+        pool.close()
+
+    store = AssetStore.open(database)
+    error = store.get_job_error("job")
+    metadata = store.job_parameters("job")
+    store.close()
+    assert [attempt["mode"] for attempt in metadata["precision"]["attempts"]] == [
+        "fp16", "fp16_offload_attention_slicing_vae_tiling", "fp8", "int8", "int4"
+    ]
+    assert all(attempt["outcome"] == "failed" for attempt in metadata["precision"]["attempts"])
+    assert metadata["precision"]["components"]["text_encoder"] == "int4_weight_only"
+    assert error is not None
+    report = Path(error["report_path"])
+    assert report.is_file()
+    assert report.with_suffix(".html").is_file()
+    assert "CUDA out of memory" in report.with_suffix(".html").read_text(encoding="utf-8")
+
+
+def test_non_oom_backend_failure_is_terminal_resource_failure_with_json_html_and_traceback(tmp_path: Path) -> None:
+    database = tmp_path / "state.sqlite3"
+    _seed_job(database, "job")
+    pool = WorkerPool(
+        [_devices()[0]], BrokenBackend, {"job": _request("job")}, database=database,
+        candidates_dir=tmp_path / "candidates", reports_dir=tmp_path / "reports",
+    )
+    try:
+        with pytest.raises(ResourceFailed, match="invalid model component"):
+            pool.submit("job").result(timeout=10)
+    finally:
+        pool.close()
+
+    store = AssetStore.open(database)
+    assert store.job_state("job").value == "RESOURCE_FAILED"
+    error = store.get_job_error("job")
+    store.close()
+    assert error is not None
+    assert "Traceback" in error["traceback"]
+    assert Path(error["report_path"]).with_suffix(".html").is_file()
+
+
 def test_precision_resolution_filters_quantizers_by_runtime_and_device_capability() -> None:
     assert resolve_precision(_devices()[0], CapabilitySet(torchao=True, bitsandbytes=True)) == [
         "fp16", "fp16_offload_attention_slicing_vae_tiling", "int8", "int4"
@@ -159,3 +219,38 @@ def test_cli_device_override_accepts_numeric_cuda_indexes_without_changing_exist
     assert _normalize_cuda_device("0") == "cuda:0"
     assert _normalize_cuda_device("cuda:1") == "cuda:1"
     assert _normalize_cuda_device("cpu") == "cpu"
+
+
+def test_generate_cli_routes_selected_job_through_worker_pool_without_constructing_a_real_backend(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    config = tmp_path / "pipeline.toml"
+    config.write_text(
+        """[project]\nname = 'black-gate'\n[paths]\ndata = 'data'\nwork = 'work'\n[render]\nscale = 6\nlogical_width = 320\nlogical_height = 200\n""",
+        encoding="utf-8",
+    )
+    database = tmp_path / "work" / "graph.sqlite3"
+    _seed_job(database, "job")
+    selected: dict[str, object] = {}
+
+    class FakePool:
+        def __init__(self, devices: object, backend_factory: object, requests: object, **kwargs: object) -> None:
+            selected.update({"devices": devices, "backend_factory": backend_factory, "requests": requests, **kwargs})
+
+        def submit(self, job_id: str):
+            selected["job_id"] = job_id
+            from concurrent.futures import Future
+            future = Future()
+            future.set_result(None)
+            return future
+
+        def close(self) -> None:
+            selected["closed"] = True
+
+    monkeypatch.setattr("graph_remaster.cli.probe_devices", lambda: [_devices()[0]])
+    monkeypatch.setattr("graph_remaster.cli.WorkerPool", FakePool)
+
+    assert main(["generate", "--config", str(config), "--backend", "mock", "job"]) == 0
+    assert selected["job_id"] == "job"
+    assert selected["closed"] is True
+    assert set(selected["requests"]) == {"job"}

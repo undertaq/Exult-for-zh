@@ -17,6 +17,7 @@ from typing import Callable, Mapping
 from ..backends.base import GeneratedImage, InferenceBackend, InferenceRequest, PrecisionAttempt, precision_metadata
 from ..db import AssetStore
 from ..models import Candidate, JobState
+from ..reporting import write_stage_html_report
 from .devices import CudaDeviceInfo, probe_devices
 from .precision import CapabilitySet, precision_components, resolve_precision
 
@@ -100,7 +101,7 @@ def _worker_main(device: CudaDeviceInfo, tasks: object, outcomes: object, backen
             assert isinstance(task, _Task)
             attempts: list[PrecisionAttempt] = []
             outcome: _Outcome | None = None
-            for retry, profile in enumerate(task.profiles[:2]):
+            for retry, profile in enumerate(task.profiles):
                 try:
                     if backend is None or current_profile != profile:
                         if backend is not None:
@@ -128,7 +129,7 @@ def _worker_main(device: CudaDeviceInfo, tasks: object, outcomes: object, backen
                 except BaseException as exc:  # Worker errors must cross the process boundary as data.
                     oom = is_cuda_oom(exc)
                     attempts.append(PrecisionAttempt(profile, "failed", str(exc)))
-                    if oom and retry == 0 and len(task.profiles) > 1:
+                    if oom and retry < len(task.profiles) - 1:
                         _empty_cuda_cache()
                         if backend is not None:
                             try:
@@ -303,8 +304,7 @@ class WorkerPool:
             store = AssetStore.open(self._database)
             try:
                 store.transition_job(job_id, JobState.QUEUED, JobState.GENERATED)
-                if resource_failure:
-                    store.transition_job(job_id, JobState.GENERATED, JobState.RESOURCE_FAILED)
+                store.transition_job(job_id, JobState.GENERATED, JobState.RESOURCE_FAILED)
                 if metadata is not None:
                     store.record_job_metadata(job_id, metadata)
                 store.record_job_error(job_id, error, traceback_text, str(report_path))
@@ -312,14 +312,15 @@ class WorkerPool:
                 store.close()
         future = self._futures.get(job_id)
         if future is not None and not future.done():
-            exception: BaseException = ResourceFailed(error) if resource_failure else RuntimeError(error)
-            future.set_exception(exception)
+            future.set_exception(ResourceFailed(error))
 
     def _write_failure_report(self, job_id: str, error: str, traceback_text: str) -> Path:
         directory = self._reports_dir or self._candidates_dir
         directory.mkdir(parents=True, exist_ok=True)
         path = directory / f"{job_id}.resource-failure.json"
-        path.write_text(json.dumps({"job_id": job_id, "error": error, "traceback": traceback_text}, indent=2, sort_keys=True), encoding="utf-8")
+        payload = {"job_id": job_id, "error": error, "traceback": traceback_text}
+        path.write_text(json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8")
+        write_stage_html_report(path.with_suffix(".html"), "Generation worker failed", payload)
         return path
 
     def close(self) -> None:

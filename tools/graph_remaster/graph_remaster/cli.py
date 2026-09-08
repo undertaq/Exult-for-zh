@@ -4,10 +4,14 @@ from __future__ import annotations
 
 import argparse
 from collections.abc import Callable, Mapping
+from dataclasses import dataclass
 import json
 from pathlib import Path
 import tomllib
 from typing import Sequence
+
+from .workers.devices import probe_devices
+from .workers.scheduler import WorkerPool
 
 
 COMMANDS = (
@@ -77,7 +81,7 @@ def _run_generate_stage(args: argparse.Namespace) -> int:
     """Run the explicit real-model smoke test without changing default generation behavior."""
 
     if not args.real_model_smoke:
-        return _not_implemented(args)
+        return _run_worker_pool_generate(args)
 
     from PIL import Image
 
@@ -205,6 +209,73 @@ def _normalize_cuda_device(value: str) -> str:
     """Accept the scheduler's concise numeric overrides without changing CUDA names."""
 
     return f"cuda:{value}" if value.isdecimal() else value
+
+
+@dataclass(frozen=True)
+class _BackendFactory:
+    """Picklable, lazy backend constructor passed across the spawn boundary."""
+
+    backend_name: str
+    model_config: object
+
+    def __call__(self):
+        if self.backend_name == "mock":
+            from .backends.mock import MockBackend
+            return MockBackend()
+        if self.backend_name == "sdxl_controlnet":
+            from .backends.sdxl_controlnet import SdxlControlNetBackend
+            return SdxlControlNetBackend(self.model_config)
+        raise ValueError(f"unsupported generation backend {self.backend_name!r}")
+
+
+def _run_worker_pool_generate(args: argparse.Namespace) -> int:
+    """Dispatch one persisted queued job through the process-isolated worker pool."""
+
+    from PIL import Image
+
+    from .backends.base import InferenceRequest
+    from .config import canonical_asset_profile, load_config
+    from .controls.prepare import prepare_controls
+    from .db import AssetStore
+    from .models import JobState
+
+    if not args.selector:
+        raise ValueError("generate requires a queued job id selector unless --real-model-smoke is used")
+    config = load_config(args.config)
+    database = config.paths.work / "graph.sqlite3"
+    store = AssetStore.open(database)
+    try:
+        store.migrate()
+        job = store.get_generation_job(args.selector)
+        if job.state == JobState.CONTROLS_READY:
+            store.transition_job(job.job_id or args.selector, JobState.CONTROLS_READY, JobState.QUEUED)
+            job = store.get_generation_job(args.selector)
+        if job.state != JobState.QUEUED:
+            raise ValueError(f"generation job {args.selector!r} must be QUEUED, not {job.state}")
+        frame = store.get_frame(job.frame)
+    finally:
+        store.close()
+
+    configured_profile = next((item for item in config.asset_profiles if item.name == job.profile), None)
+    profile = configured_profile or canonical_asset_profile(job.profile)
+    with Image.open(str(frame.metadata["rgba_preview_path"])) as source_image:
+        source = source_image.convert("RGBA")
+    request = InferenceRequest(job, source, prepare_controls(frame, profile))
+    backend_name = args.backend or job.backend or config.model.backend
+    pool = WorkerPool(
+        probe_devices(),
+        _BackendFactory(backend_name, config.model),
+        {args.selector: request},
+        candidates_dir=config.paths.candidates / (args.run_id or "default"),
+        database=database,
+        reports_dir=config.paths.reports / (args.run_id or "default"),
+        device=args.device,
+    )
+    try:
+        pool.submit(args.selector).result()
+    finally:
+        pool.close()
+    return 0
 
 
 def _run_source_stage(args: argparse.Namespace) -> int:

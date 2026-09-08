@@ -443,6 +443,32 @@ class AssetStore:
         self._connection.commit()
         return job_id
 
+    def get_generation_job(self, job_id: str) -> GenerationJob:
+        """Load one persisted job for scheduler dispatch."""
+
+        row = self._connection.execute(
+            """SELECT archive_sha256, archive_index, shape_id, frame_id, state, profile,
+            backend, parameters_json, job_id FROM generation_jobs WHERE job_id = ?""",
+            (job_id,),
+        ).fetchone()
+        if row is None:
+            raise KeyError(f"unknown generation job {job_id!r}")
+        return GenerationJob(
+            FrameKey(*row[:4]), row[4], row[5], row[6], json.loads(row[7]), row[8]
+        )
+
+    def get_frame(self, key: FrameKey) -> FrameRecord:
+        """Load one persisted frame required to reconstruct a worker request."""
+
+        row = self._connection.execute(
+            """SELECT width, height, has_alpha, metadata_json FROM frames
+            WHERE archive_sha256 = ? AND archive_index = ? AND shape_id = ? AND frame_id = ?""",
+            (key.archive_sha256, key.archive_index, key.shape_id, key.frame_id),
+        ).fetchone()
+        if row is None:
+            raise KeyError(f"unknown frame {key!r}")
+        return FrameRecord(key, row[0], row[1], bool(row[2]), json.loads(row[3]))
+
     def transition_job(
         self, job_id: str, expected: JobState | str, new: JobState | str
     ) -> None:
