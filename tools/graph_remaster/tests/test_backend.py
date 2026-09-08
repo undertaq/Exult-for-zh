@@ -8,11 +8,22 @@ from pathlib import Path
 import pytest
 from PIL import Image
 
-from graph_remaster.backends.base import BackendUnavailable, InferenceRequest
+from graph_remaster.backends.base import (
+    BackendUnavailable,
+    GeneratedImage,
+    InferenceRequest,
+    precision_fallback_ladder,
+)
 from graph_remaster.backends.mock import MockBackend
 from graph_remaster.backends.sdxl_controlnet import SdxlControlNetBackend
 from graph_remaster.cli import build_parser, main
-from graph_remaster.config import ModelConfig, PipelineConfig, canonical_asset_profile
+from graph_remaster.config import (
+    ConfigError,
+    ControlNetConfig,
+    ModelConfig,
+    PipelineConfig,
+    canonical_asset_profile,
+)
 from graph_remaster.controls.prepare import ControlBundle, MaskRecord
 from graph_remaster.models import FrameKey, FrameRecord, GenerationJob
 
@@ -42,6 +53,9 @@ def _image_hash(image: Image.Image) -> str:
     return sha256(image.tobytes()).hexdigest()
 
 
+PIN = "a" * 40
+
+
 def test_mock_backend_returns_a_marked_deterministic_candidate_with_job_metadata() -> None:
     request = _request()
 
@@ -59,6 +73,12 @@ def test_mock_backend_returns_a_marked_deterministic_candidate_with_job_metadata
         "is_real_ai_candidate": False,
         "job_id": "job-42",
         "profile": "flat_tile",
+        "precision": {
+            "requested_precision": "fp16",
+            "attempts": [{"mode": "mock", "outcome": "applied", "reason": "deterministic Pillow backend"}],
+            "applied_mode": "mock",
+            "reasons": ["deterministic Pillow backend"],
+        },
         "seed": 1729,
         "source_size": [4, 3],
         "width": 12,
@@ -74,6 +94,170 @@ def test_mock_backend_is_repeatable_for_the_same_request_and_seed() -> None:
 
     assert _image_hash(first.image) == _image_hash(second.image)
     assert first.metadata == second.metadata
+
+
+def test_mock_backend_accepts_npc_controls_and_records_reusable_precision_metadata() -> None:
+    request = _request()
+    npc = canonical_asset_profile("npc_rle")
+    request = InferenceRequest(
+        job=GenerationJob(
+            frame=request.job.frame,
+            state="QUEUED",
+            profile=npc.name,
+            backend="mock",
+            parameters=request.job.parameters,
+            job_id=request.job.job_id,
+        ),
+        source=request.source,
+        controls=ControlBundle(
+            frame=request.controls.frame,
+            profile=npc,
+            masks=request.controls.masks,
+            controls={"edge": Image.new("L", (4, 3), 80), "silhouette": Image.new("L", (4, 3), 255)},
+        ),
+        reference=None,
+    )
+    backend = MockBackend()
+
+    backend.load("cpu", "int8")
+    candidate = backend.generate(request)
+
+    assert candidate.metadata["control_kinds"] == ["edge", "silhouette"]
+    assert candidate.metadata["precision"] == {
+        "requested_precision": "int8",
+        "attempts": [{"mode": "mock", "outcome": "applied", "reason": "deterministic Pillow backend"}],
+        "applied_mode": "mock",
+        "reasons": ["deterministic Pillow backend"],
+    }
+
+
+def test_precision_fallback_ladder_is_ordered_and_preserves_non_fp16_requests() -> None:
+    assert precision_fallback_ladder("fp16") == (
+        "fp16",
+        "fp16_offload_attention_slicing_vae_tiling",
+        "fp8",
+        "int8",
+        "int4",
+    )
+    assert precision_fallback_ladder("int8") == ("int8", "int4")
+
+
+def test_sdxl_load_accepts_non_fp16_requests_and_exposes_pending_fallback_provenance(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class FakeCuda:
+        @staticmethod
+        def is_available() -> bool:
+            return True
+
+    class FakeTorch:
+        cuda = FakeCuda()
+
+    class FakeDiffusers:
+        pass
+
+    monkeypatch.setattr(
+        "graph_remaster.backends.sdxl_controlnet.import_module",
+        lambda name: {"torch": FakeTorch, "diffusers": FakeDiffusers}[name],
+    )
+    backend = SdxlControlNetBackend(ModelConfig())
+
+    backend.load("cuda:0", "int8")
+
+    assert backend.precision_provenance == {
+        "requested_precision": "int8",
+        "attempts": [],
+        "applied_mode": None,
+        "reasons": [],
+    }
+
+
+def test_sdxl_falls_back_to_offload_attention_slicing_and_vae_tiling_after_fp16_failure(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    calls: list[str] = []
+
+    class FakeCuda:
+        @staticmethod
+        def is_available() -> bool:
+            return True
+
+        @staticmethod
+        def empty_cache() -> None:
+            calls.append("empty_cache")
+
+    class FakeTorch:
+        cuda = FakeCuda()
+        float16 = "float16"
+
+        class Generator:
+            def __init__(self, device: str) -> None:
+                self.device = device
+
+            def manual_seed(self, seed: int) -> "FakeTorch.Generator":
+                return self
+
+    class FakeControlNet:
+        @staticmethod
+        def from_pretrained(*args: object, **kwargs: object) -> object:
+            return object()
+
+    class FakePipeline:
+        def __init__(self, first: bool) -> None:
+            self.first = first
+
+        def to(self, device: str) -> "FakePipeline":
+            if self.first:
+                raise RuntimeError("out of memory")
+            return self
+
+        def enable_model_cpu_offload(self) -> None:
+            calls.append("offload")
+
+        def enable_attention_slicing(self) -> None:
+            calls.append("attention_slicing")
+
+        def enable_vae_tiling(self) -> None:
+            calls.append("vae_tiling")
+
+        def __call__(self, **kwargs: object) -> object:
+            return type("Result", (), {"images": [Image.new("RGB", (12, 9))]})()
+
+    class FakePipelineFactory:
+        count = 0
+
+        @classmethod
+        def from_pretrained(cls, *args: object, **kwargs: object) -> FakePipeline:
+            cls.count += 1
+            return FakePipeline(first=cls.count == 1)
+
+    class FakeDiffusers:
+        ControlNetModel = FakeControlNet
+        StableDiffusionXLControlNetImg2ImgPipeline = FakePipelineFactory
+
+    monkeypatch.setattr(
+        "graph_remaster.backends.sdxl_controlnet.import_module",
+        lambda name: {"torch": FakeTorch, "diffusers": FakeDiffusers}[name],
+    )
+    backend = SdxlControlNetBackend(ModelConfig())
+
+    backend.load("cuda:0", "fp16")
+    candidate = backend.generate(_request())
+
+    assert calls == ["empty_cache", "offload", "attention_slicing", "vae_tiling"]
+    assert candidate.metadata["precision"] == {
+        "requested_precision": "fp16",
+        "attempts": [
+            {"mode": "fp16", "outcome": "failed", "reason": "out of memory"},
+            {
+                "mode": "fp16_offload_attention_slicing_vae_tiling",
+                "outcome": "applied",
+                "reason": "loaded successfully",
+            },
+        ],
+        "applied_mode": "fp16_offload_attention_slicing_vae_tiling",
+        "reasons": ["out of memory", "loaded successfully"],
+    }
 
 
 def test_sdxl_backend_rejects_a_non_cuda_device_without_importing_optional_runtime() -> None:
@@ -101,21 +285,36 @@ def test_model_config_reads_each_sdxl_and_controlnet_revision_from_pipeline_conf
             "render": {"scale": 6, "logical_width": 320, "logical_height": 200},
             "model": {
                 "base_model": "base-model",
-                "revision": "base-revision",
-                "canny_controlnet": "canny-model",
-                "canny_revision": "canny-revision",
-                "depth_controlnet": "depth-model",
-                "depth_revision": "depth-revision",
+                "revision": PIN,
+                "controlnets": {
+                    "canny": {"model": "canny-model", "revision": PIN},
+                    "depth": {"model": "depth-model", "revision": PIN},
+                    "edge": {"model": "edge-model", "revision": PIN},
+                    "silhouette": {"model": "silhouette-model", "revision": PIN},
+                },
             },
         }
     )
 
     assert config.model.base_model == "base-model"
-    assert config.model.revision == "base-revision"
+    assert config.model.revision == PIN
     assert config.model.controlnet_model("canny") == "canny-model"
-    assert config.model.controlnet_revision("canny") == "canny-revision"
+    assert config.model.controlnet_revision("canny") == PIN
     assert config.model.controlnet_model("depth") == "depth-model"
-    assert config.model.controlnet_revision("depth") == "depth-revision"
+    assert config.model.controlnet_revision("depth") == PIN
+    assert config.model.controlnet_model("edge") == "edge-model"
+    assert config.model.controlnet_model("silhouette") == "silhouette-model"
+
+
+def test_real_model_config_rejects_mutable_revisions() -> None:
+    config = ModelConfig(
+        base_model="base-model",
+        revision="main",
+        controlnets=(ControlNetConfig("canny", "canny-model", PIN),),
+    )
+
+    with pytest.raises(ConfigError, match="pinned commit SHA"):
+        config.validate_for_real_model()
 
 
 def test_sdxl_backend_lazily_uses_configured_revisions_and_profile_controls(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -178,7 +377,7 @@ def test_sdxl_backend_lazily_uses_configured_revisions_and_profile_controls(monk
 
     monkeypatch.setattr("graph_remaster.backends.sdxl_controlnet.import_module", fake_import)
     request = _request(seed=77)
-    building_profile = canonical_asset_profile("building_combo")
+    building_profile = canonical_asset_profile("npc_rle")
     request = InferenceRequest(
         job=GenerationJob(
             frame=request.job.frame,
@@ -189,7 +388,7 @@ def test_sdxl_backend_lazily_uses_configured_revisions_and_profile_controls(monk
                 "seed": 77,
                 "width": 16,
                 "height": 8,
-                "controlnet_conditioning_scale": {"canny": 0.7, "depth": 0.4},
+                "controlnet_conditioning_scale": {"edge": 0.7, "silhouette": 0.4},
             },
             job_id="job-sdxl",
         ),
@@ -198,17 +397,17 @@ def test_sdxl_backend_lazily_uses_configured_revisions_and_profile_controls(monk
             frame=request.controls.frame,
             profile=building_profile,
             masks=request.controls.masks,
-            controls={"canny": request.controls.controls["canny"], "depth": Image.new("L", (4, 3), 80)},
+            controls={"edge": Image.new("L", (4, 3), 80), "silhouette": Image.new("L", (4, 3), 255)},
         ),
         reference=None,
     )
     config = ModelConfig(
         base_model="base-model",
-        revision="base-revision",
-        canny_controlnet="canny-model",
-        canny_revision="canny-revision",
-        depth_controlnet="depth-model",
-        depth_revision="depth-revision",
+        revision=PIN,
+        controlnets=(
+            ControlNetConfig("edge", "edge-model", PIN),
+            ControlNetConfig("silhouette", "silhouette-model", PIN),
+        ),
     )
     backend = SdxlControlNetBackend(config)
 
@@ -216,17 +415,17 @@ def test_sdxl_backend_lazily_uses_configured_revisions_and_profile_controls(monk
     candidate = backend.generate(request)
 
     assert calls["controls"] == [
-        ("canny-model", {"revision": "canny-revision", "torch_dtype": "float16"}),
-        ("depth-model", {"revision": "depth-revision", "torch_dtype": "float16"}),
+        ("edge-model", {"revision": PIN, "torch_dtype": "float16"}),
+        ("silhouette-model", {"revision": PIN, "torch_dtype": "float16"}),
     ]
     assert calls["pipelines"] == [
         (
             "base-model",
             {
-                "revision": "base-revision",
+                "revision": PIN,
                 "controlnet": [
-                    ("canny-model", {"revision": "canny-revision", "torch_dtype": "float16"}),
-                    ("depth-model", {"revision": "depth-revision", "torch_dtype": "float16"}),
+                    ("edge-model", {"revision": PIN, "torch_dtype": "float16"}),
+                    ("silhouette-model", {"revision": PIN, "torch_dtype": "float16"}),
                 ],
                 "torch_dtype": "float16",
             },
@@ -238,14 +437,27 @@ def test_sdxl_backend_lazily_uses_configured_revisions_and_profile_controls(monk
     assert generated["generator"].device == "cuda:1"
     assert generated["generator"].seed == 77
     assert generated["control_image"] == [
-        request.controls.controls["canny"].convert("RGB"),
-        request.controls.controls["depth"].convert("RGB"),
+        request.controls.controls["edge"].convert("RGB"),
+        request.controls.controls["silhouette"].convert("RGB"),
     ]
     assert generated["controlnet_conditioning_scale"] == [0.7, 0.4]
     assert candidate.image.size == (16, 8)
     assert candidate.metadata["controlnet_revisions"] == {
-        "canny": "canny-revision",
-        "depth": "depth-revision",
+        "edge": PIN,
+        "silhouette": PIN,
+    }
+    assert candidate.metadata["precision"] == {
+        "requested_precision": "fp16",
+        "attempts": [{"mode": "fp16", "outcome": "applied", "reason": "loaded successfully"}],
+        "applied_mode": "fp16",
+        "reasons": ["loaded successfully"],
+    }
+    assert candidate.metadata["resolved_model_revisions"] == {
+        "base_model": {"model": "base-model", "revision": PIN},
+        "controlnets": {
+            "edge": {"model": "edge-model", "revision": PIN},
+            "silhouette": {"model": "silhouette-model", "revision": PIN},
+        },
     }
 
 
@@ -267,3 +479,72 @@ def test_real_model_smoke_returns_actionable_nonzero_failure_without_downloading
     assert status == 2
     assert report["status"] == "failed"
     assert "CUDA device" in report["error"]
+    html = (tmp_path / "work" / "candidates" / "default" / "real-model-smoke.html").read_text(
+        encoding="utf-8"
+    )
+    assert "Real model smoke failed" in html
+
+
+def test_real_model_smoke_rejects_mutable_model_revision_and_writes_offline_html(tmp_path: Path) -> None:
+    config_path = tmp_path / "pipeline.toml"
+    config_path.write_text(
+        "[project]\nname = 'black-gate'\n[paths]\ndata = 'game'\nwork = 'work'\n"
+        "[render]\nscale = 6\nlogical_width = 320\nlogical_height = 200\n"
+        "[model]\nrevision = 'main'\n",
+        encoding="utf-8",
+    )
+
+    status = main(["generate", "--config", str(config_path), "--real-model-smoke", "--device", "cuda:0"])
+
+    report_root = tmp_path / "work" / "candidates" / "default"
+    report = json.loads((report_root / "real-model-smoke.json").read_text(encoding="utf-8"))
+    html = (report_root / "real-model-smoke.html").read_text(encoding="utf-8")
+    assert status == 2
+    assert "pinned commit SHA" in report["error"]
+    assert "Real model smoke failed" in html
+
+
+def test_real_model_smoke_writes_an_offline_html_report_on_success(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    config_path = tmp_path / "pipeline.toml"
+    config_path.write_text(
+        "[project]\nname = 'black-gate'\n[paths]\ndata = 'game'\nwork = 'work'\n"
+        "[render]\nscale = 6\nlogical_width = 320\nlogical_height = 200\n",
+        encoding="utf-8",
+    )
+
+    class FakeCuda:
+        @staticmethod
+        def reset_peak_memory_stats(device: str) -> None:
+            return None
+
+        @staticmethod
+        def max_memory_allocated(device: str) -> int:
+            return 123
+
+    class FakeBackend:
+        torch_runtime = type("FakeTorch", (), {"cuda": FakeCuda()})()
+
+        def __init__(self, config: ModelConfig) -> None:
+            self.config = config
+
+        def load(self, device: str, precision: str) -> None:
+            return None
+
+        def generate(self, request: InferenceRequest) -> GeneratedImage:
+            return GeneratedImage(Image.new("RGBA", (64, 64)), "real-model-smoke", 8675309, {})
+
+        def unload(self) -> None:
+            return None
+
+    monkeypatch.setattr("graph_remaster.backends.sdxl_controlnet.SdxlControlNetBackend", FakeBackend)
+
+    status = main(["generate", "--config", str(config_path), "--real-model-smoke", "--device", "cuda:0"])
+
+    html = (tmp_path / "work" / "candidates" / "default" / "real-model-smoke.html").read_text(
+        encoding="utf-8"
+    )
+    assert status == 0
+    assert "Real model smoke completed" in html
+    assert "peak_vram_bytes" in html

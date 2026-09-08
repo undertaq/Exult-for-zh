@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
+import re
 from typing import Any, Mapping
 import tomllib
 
@@ -43,28 +44,72 @@ class GPUConfig:
 
 
 @dataclass(frozen=True)
+class ControlNetConfig:
+    """One named control image's compatible ControlNet weights."""
+
+    name: str
+    model: str
+    revision: str
+
+
+_SDXL_BASE_REVISION = "462165984030d82259a11f4367a4eed129e94a7b"
+_CANNY_REVISION = "af5cf1ff5d508d8c0cba290a68e13b328bc1432e"
+_DEPTH_REVISION = "17bb97973f29801224cd66f192c5ffacf82648b4"
+_PINNED_REVISION = re.compile(r"[0-9a-f]{40,64}")
+
+
+@dataclass(frozen=True)
 class ModelConfig:
     backend: str = "sdxl_controlnet"
     base_model: str = "stabilityai/stable-diffusion-xl-base-1.0"
-    revision: str = "main"
-    canny_controlnet: str = "diffusers/controlnet-canny-sdxl-1.0"
-    canny_revision: str = "main"
-    depth_controlnet: str = "diffusers/controlnet-depth-sdxl-1.0"
-    depth_revision: str = "main"
+    revision: str = _SDXL_BASE_REVISION
+    controlnets: tuple[ControlNetConfig, ...] = (
+        ControlNetConfig("canny", "diffusers/controlnet-canny-sdxl-1.0", _CANNY_REVISION),
+        ControlNetConfig("depth", "diffusers/controlnet-depth-sdxl-1.0", _DEPTH_REVISION),
+        ControlNetConfig("edge", "diffusers/controlnet-canny-sdxl-1.0", _CANNY_REVISION),
+        ControlNetConfig("silhouette", "diffusers/controlnet-canny-sdxl-1.0", _CANNY_REVISION),
+    )
 
     def controlnet_model(self, kind: str) -> str:
-        if kind == "canny":
-            return self.canny_controlnet
-        if kind == "depth":
-            return self.depth_controlnet
-        raise ValueError(f"unsupported SDXL ControlNet kind {kind!r}")
+        return self.controlnet(kind).model
 
     def controlnet_revision(self, kind: str) -> str:
-        if kind == "canny":
-            return self.canny_revision
-        if kind == "depth":
-            return self.depth_revision
-        raise ValueError(f"unsupported SDXL ControlNet kind {kind!r}")
+        return self.controlnet(kind).revision
+
+    def controlnet(self, kind: str) -> ControlNetConfig:
+        for controlnet in self.controlnets:
+            if controlnet.name == kind:
+                return controlnet
+        raise ValueError(f"no configured ControlNet mapping for control {kind!r}")
+
+    def validate_for_real_model(self) -> None:
+        """Reject mutable refs before a real runtime can resolve different weights."""
+
+        _require_pinned_revision("model.revision", self.revision)
+        if not self.controlnets:
+            raise ConfigError("model.controlnets must configure at least one control mapping")
+        names: set[str] = set()
+        for controlnet in self.controlnets:
+            if not controlnet.name or not controlnet.model:
+                raise ConfigError("model.controlnets entries require non-empty name and model")
+            if controlnet.name in names:
+                raise ConfigError(f"model.controlnets contains duplicate control {controlnet.name!r}")
+            names.add(controlnet.name)
+            _require_pinned_revision(
+                f"model.controlnets.{controlnet.name}.revision", controlnet.revision
+            )
+
+    def resolved_revisions(self, control_kinds: tuple[str, ...] | None = None) -> dict[str, object]:
+        """Return the pinned base and selected control revisions for persisted provenance."""
+
+        selected = control_kinds or tuple(controlnet.name for controlnet in self.controlnets)
+        return {
+            "base_model": {"model": self.base_model, "revision": self.revision},
+            "controlnets": {
+                kind: {"model": self.controlnet_model(kind), "revision": self.controlnet_revision(kind)}
+                for kind in selected
+            },
+        }
 
 
 @dataclass(frozen=True)
@@ -167,10 +212,7 @@ class PipelineConfig:
                 backend=str(model.get("backend", "sdxl_controlnet")),
                 base_model=str(model.get("base_model", ModelConfig.base_model)),
                 revision=str(model.get("revision", ModelConfig.revision)),
-                canny_controlnet=str(model.get("canny_controlnet", ModelConfig.canny_controlnet)),
-                canny_revision=str(model.get("canny_revision", ModelConfig.canny_revision)),
-                depth_controlnet=str(model.get("depth_controlnet", ModelConfig.depth_controlnet)),
-                depth_revision=str(model.get("depth_revision", ModelConfig.depth_revision)),
+                controlnets=_controlnets(model),
             ),
             asset_profiles=_profiles(mapping.get("asset_profiles", {})),
         )
@@ -265,3 +307,30 @@ def _profiles(value: Any) -> tuple[AssetProfile, ...]:
             )
         profiles.append(profile)
     return tuple(profiles)
+
+
+def _controlnets(model: Mapping[str, Any]) -> tuple[ControlNetConfig, ...]:
+    raw = model.get("controlnets")
+    if raw is None:
+        return ModelConfig.controlnets
+    if not isinstance(raw, Mapping):
+        raise ConfigError("model.controlnets must be a table")
+    controlnets = []
+    for name, value in raw.items():
+        if not isinstance(name, str) or not name:
+            raise ConfigError("model.controlnets names must be non-empty strings")
+        if not isinstance(value, Mapping):
+            raise ConfigError(f"model.controlnets.{name} must be a table")
+        model_id = value.get("model")
+        revision = value.get("revision")
+        if not isinstance(model_id, str) or not model_id:
+            raise ConfigError(f"model.controlnets.{name}.model is required")
+        if not isinstance(revision, str) or not revision:
+            raise ConfigError(f"model.controlnets.{name}.revision is required")
+        controlnets.append(ControlNetConfig(name, model_id, revision))
+    return tuple(controlnets)
+
+
+def _require_pinned_revision(name: str, revision: str) -> None:
+    if not _PINNED_REVISION.fullmatch(revision):
+        raise ConfigError(f"{name} must be a pinned commit SHA; mutable refs such as 'main' are forbidden")

@@ -6,7 +6,13 @@ from hashlib import sha256
 
 from PIL import Image
 
-from .base import GeneratedImage, InferenceRequest, PrecisionProfile
+from .base import (
+    GeneratedImage,
+    InferenceRequest,
+    PrecisionAttempt,
+    PrecisionProfile,
+    precision_metadata,
+)
 
 
 class MockBackend:
@@ -14,7 +20,7 @@ class MockBackend:
 
     def __init__(self) -> None:
         self._device: str | None = None
-        self._precision: PrecisionProfile | None = None
+        self._precision: PrecisionProfile = "fp16"
 
     def load(self, device: str, precision: PrecisionProfile) -> None:
         self._device = device
@@ -40,6 +46,11 @@ class MockBackend:
             "is_real_ai_candidate": False,
             "job_id": job_id,
             "profile": request.job.profile or request.controls.profile.name,
+            "precision": precision_metadata(
+                self._precision,
+                [PrecisionAttempt("mock", "applied", "deterministic Pillow backend")],
+                "mock",
+            ),
             "seed": seed,
             "source_size": list(request.source.size),
             "width": width,
@@ -48,7 +59,7 @@ class MockBackend:
 
     def unload(self) -> None:
         self._device = None
-        self._precision = None
+        self._precision = "fp16"
 
 
 def _seed(request: InferenceRequest) -> int:

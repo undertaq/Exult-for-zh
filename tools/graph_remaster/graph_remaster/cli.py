@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+from collections.abc import Callable, Mapping
 import json
 from pathlib import Path
 import tomllib
@@ -85,14 +86,17 @@ def _run_generate_stage(args: argparse.Namespace) -> int:
     from .config import canonical_asset_profile, load_config
     from .controls.prepare import ControlBundle, MaskRecord
     from .models import FrameKey, FrameRecord, GenerationJob
+    from .reporting import write_stage_html_report
 
     run_id = args.run_id or "default"
     backend = None
-    output_dir: Path | None = None
+    report_path = _fallback_real_model_smoke_report_path(args.config, run_id)
     try:
         config = load_config(args.config)
         output_dir = config.paths.candidates / run_id
         output_dir.mkdir(parents=True, exist_ok=True)
+        report_path = output_dir / "real-model-smoke.json"
+        config.model.validate_for_real_model()
         device = args.device or config.gpu.devices[0]
         source = Image.new("RGBA", (64, 64), (46, 75, 102, 255))
         frame = FrameRecord(FrameKey("0" * 64, 0, 0, 0), 64, 64)
@@ -132,32 +136,69 @@ def _run_generate_stage(args: argparse.Namespace) -> int:
         payload = {
             "device": device,
             "image": str(image_path),
-            "model_revisions": {
-                "base_model": config.model.base_model,
-                "base_model_revision": config.model.revision,
-                "canny_controlnet": config.model.canny_controlnet,
-                "canny_revision": config.model.canny_revision,
-                "depth_controlnet": config.model.depth_controlnet,
-                "depth_revision": config.model.depth_revision,
-            },
+            "model_revisions": config.model.resolved_revisions(("canny",)),
             "peak_vram_bytes": int(torch.cuda.max_memory_allocated(device)),
+            "precision": candidate.metadata.get("precision", {}),
             "seed": candidate.seed,
             "status": "ok",
         }
-        (output_dir / "real-model-smoke.json").write_text(
-            json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8"
-        )
+        _write_real_model_smoke_reports(report_path, "Real model smoke completed", payload, write_stage_html_report)
         return 0
     except (BackendUnavailable, OSError, ValueError) as exc:
-        if output_dir is not None:
-            (output_dir / "real-model-smoke.json").write_text(
-                json.dumps({"error": str(exc), "status": "failed"}, indent=2, sort_keys=True),
-                encoding="utf-8",
-            )
+        payload: dict[str, object] = {"error": str(exc), "status": "failed"}
+        if backend is not None:
+            provenance = getattr(backend, "precision_provenance", None)
+            if isinstance(provenance, dict):
+                payload["precision"] = provenance
+        _write_real_model_smoke_reports(
+            report_path,
+            "Real model smoke failed",
+            payload,
+            write_stage_html_report,
+        )
         return 2
     finally:
         if backend is not None:
             backend.unload()
+
+
+def _write_real_model_smoke_reports(
+    report_path: Path,
+    title: str,
+    payload: dict[str, object],
+    write_html: Callable[[Path, str, Mapping[str, object]], None],
+) -> None:
+    """Persist the smoke result in machine-readable JSON and offline HTML."""
+
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.write_text(json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8")
+    write_html(report_path.with_suffix(".html"), title, payload)
+
+
+def _fallback_real_model_smoke_report_path(config_path: Path, run_id: str) -> Path:
+    """Find a local report destination even when typed configuration cannot load."""
+
+    config_path = Path(config_path)
+    default = config_path.parent / "candidates" / run_id / "real-model-smoke.json"
+    try:
+        with config_path.open("rb") as stream:
+            mapping = tomllib.load(stream)
+        paths = mapping.get("paths", {})
+        if not isinstance(paths, dict):
+            return default
+        work = paths.get("work")
+        candidates = paths.get("candidates")
+        raw = candidates if isinstance(candidates, str) and candidates else None
+        if raw is None and isinstance(work, str) and work:
+            raw = str(Path(work) / "candidates")
+        if raw is None:
+            return default
+        root = Path(raw)
+        if not root.is_absolute():
+            root = config_path.parent / root
+        return root / run_id / "real-model-smoke.json"
+    except (OSError, tomllib.TOMLDecodeError):
+        return default
 
 
 def _run_source_stage(args: argparse.Namespace) -> int:

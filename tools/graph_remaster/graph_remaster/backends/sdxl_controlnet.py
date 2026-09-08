@@ -8,7 +8,16 @@ from typing import Any
 from PIL import Image
 
 from ..config import ModelConfig
-from .base import BackendUnavailable, GeneratedImage, InferenceRequest, PrecisionProfile
+from ..errors import ConfigError
+from .base import (
+    BackendUnavailable,
+    GeneratedImage,
+    InferenceRequest,
+    PrecisionAttempt,
+    PrecisionProfile,
+    precision_fallback_ladder,
+    precision_metadata,
+)
 from .mock import _dimensions, _seed
 
 
@@ -18,16 +27,19 @@ class SdxlControlNetBackend:
     def __init__(self, config: ModelConfig) -> None:
         self._config = config
         self._device: str | None = None
-        self._precision: PrecisionProfile | None = None
+        self._requested_precision: PrecisionProfile = "fp16"
         self._torch: Any | None = None
         self._diffusers: Any | None = None
         self._pipelines: dict[tuple[str, ...], Any] = {}
+        self._precision_attempts: list[PrecisionAttempt] = []
+        self._applied_precision: str | None = None
 
     def load(self, device: str, precision: PrecisionProfile) -> None:
-        if precision != "fp16":
-            raise BackendUnavailable(
-                f"SDXL ControlNet requires the pipeline's fp16 profile, not {precision!r}"
-            )
+        try:
+            self._config.validate_for_real_model()
+            precision_fallback_ladder(precision)
+        except (ConfigError, ValueError) as exc:
+            raise BackendUnavailable(f"SDXL ControlNet configuration is not runnable: {exc}") from exc
         if not device.startswith("cuda"):
             raise BackendUnavailable(
                 f"SDXL ControlNet requires a CUDA device; got {device!r}. Pass --device cuda:N."
@@ -46,9 +58,11 @@ class SdxlControlNetBackend:
                 "Install a CUDA-enabled torch build and pass --device cuda:N."
             )
         self._device = device
-        self._precision = precision
+        self._requested_precision = precision
         self._torch = torch
         self._diffusers = diffusers
+        self._precision_attempts = []
+        self._applied_precision = None
 
     def generate(self, request: InferenceRequest) -> GeneratedImage:
         if self._device is None:
@@ -100,10 +114,19 @@ class SdxlControlNetBackend:
                 "height": height,
                 "is_real_ai_candidate": True,
                 "job_id": job_id,
-                "precision": self._precision,
+                "precision": self.precision_provenance,
+                "resolved_model_revisions": self._config.resolved_revisions(control_kinds),
                 "seed": seed,
                 "width": width,
             },
+        )
+
+    @property
+    def precision_provenance(self) -> dict[str, object]:
+        """Return scheduler-compatible fallback state before or after generation."""
+
+        return precision_metadata(
+            self._requested_precision, self._precision_attempts, self._applied_precision
         )
 
     @property
@@ -116,20 +139,26 @@ class SdxlControlNetBackend:
 
     def unload(self) -> None:
         self._pipelines.clear()
-        if self._torch is not None and self._torch.cuda.is_available():
+        if (
+            self._torch is not None
+            and self._torch.cuda.is_available()
+            and hasattr(self._torch.cuda, "empty_cache")
+        ):
             self._torch.cuda.empty_cache()
         self._device = None
-        self._precision = None
+        self._requested_precision = "fp16"
         self._torch = None
         self._diffusers = None
+        self._precision_attempts = []
+        self._applied_precision = None
 
     def _controls_for(self, request: InferenceRequest) -> tuple[tuple[str, ...], list[Image.Image]]:
         kinds = tuple(request.controls.profile.controls)
-        unsupported = tuple(kind for kind in kinds if kind not in {"canny", "depth"})
-        if unsupported:
+        unmapped = tuple(kind for kind in kinds if not self._has_controlnet(kind))
+        if unmapped:
             raise BackendUnavailable(
-                "SDXL ControlNet supports only configured canny/depth controls; "
-                f"profile {request.controls.profile.name!r} requested {', '.join(unsupported)}."
+                f"profile {request.controls.profile.name!r} requested controls without configured "
+                f"ControlNet mappings: {', '.join(unmapped)}."
             )
         missing = tuple(kind for kind in kinds if kind not in request.controls.controls)
         if missing:
@@ -144,35 +173,95 @@ class SdxlControlNetBackend:
         cached = self._pipelines.get(control_kinds)
         if cached is not None:
             return cached
-        try:
-            control_nets = [
-                self._diffusers.ControlNetModel.from_pretrained(
-                    self._config.controlnet_model(kind),
-                    revision=self._config.controlnet_revision(kind),
-                    torch_dtype=self._torch.float16,
-                )
-                for kind in control_kinds
-            ]
-            controlnet: Any = control_nets[0] if len(control_nets) == 1 else control_nets
-            pipeline = self._diffusers.StableDiffusionXLControlNetImg2ImgPipeline.from_pretrained(
-                self._config.base_model,
-                revision=self._config.revision,
-                controlnet=controlnet,
-                torch_dtype=self._torch.float16,
-            ).to(self._device)
-        except Exception as exc:
-            raise BackendUnavailable(
-                "Unable to load configured SDXL/ControlNet weights. Check network/cache access and "
-                "that base_model, revision, and requested ControlNet revisions are compatible. "
-                f"Base: {self._config.base_model}@{self._config.revision}; controls: "
-                + ", ".join(
-                    f"{self._config.controlnet_model(kind)}@{self._config.controlnet_revision(kind)}"
-                    for kind in control_kinds
-                )
-                + f". Error: {exc}"
-            ) from exc
-        self._pipelines[control_kinds] = pipeline
+        for mode in precision_fallback_ladder(self._requested_precision):
+            unavailable_reason = self._unsupported_precision_reason(mode)
+            if unavailable_reason is not None:
+                self._precision_attempts.append(PrecisionAttempt(mode, "skipped", unavailable_reason))
+                continue
+            try:
+                pipeline = self._load_pipeline(control_kinds, mode)
+            except Exception as exc:
+                self._precision_attempts.append(PrecisionAttempt(mode, "failed", str(exc)))
+                if hasattr(self._torch.cuda, "empty_cache"):
+                    self._torch.cuda.empty_cache()
+                continue
+            self._precision_attempts.append(PrecisionAttempt(mode, "applied", "loaded successfully"))
+            self._applied_precision = mode
+            self._pipelines[control_kinds] = pipeline
+            return pipeline
+        details = "; ".join(
+            f"{attempt.mode}: {attempt.reason}" for attempt in self._precision_attempts
+        )
+        raise BackendUnavailable(
+            "Unable to load configured SDXL/ControlNet weights with the requested precision ladder. "
+            f"Attempts: {details}"
+        )
+
+    def _load_pipeline(self, control_kinds: tuple[str, ...], mode: str) -> Any:
+        kwargs = self._precision_kwargs(mode)
+        control_nets = [
+            self._diffusers.ControlNetModel.from_pretrained(
+                self._config.controlnet_model(kind),
+                revision=self._config.controlnet_revision(kind),
+                **kwargs,
+            )
+            for kind in control_kinds
+        ]
+        controlnet: Any = control_nets[0] if len(control_nets) == 1 else control_nets
+        pipeline = self._diffusers.StableDiffusionXLControlNetImg2ImgPipeline.from_pretrained(
+            self._config.base_model,
+            revision=self._config.revision,
+            controlnet=controlnet,
+            **kwargs,
+        )
+        if mode == "fp16_offload_attention_slicing_vae_tiling":
+            pipeline.enable_model_cpu_offload()
+            pipeline.enable_attention_slicing()
+            pipeline.enable_vae_tiling()
+        else:
+            pipeline = pipeline.to(self._device)
         return pipeline
+
+    def _unsupported_precision_reason(self, mode: str) -> str | None:
+        if mode in {"fp16", "fp16_offload_attention_slicing_vae_tiling"}:
+            return None if hasattr(self._torch, "float16") else "torch does not expose float16"
+        if mode == "fp8":
+            if not hasattr(self._torch, "float8_e4m3fn"):
+                return "torch does not expose FP8 dtypes"
+            if not hasattr(self._diffusers, "TorchAoConfig"):
+                return "installed diffusers lacks TorchAoConfig FP8 support"
+            try:
+                import_module("torchao")
+            except ImportError:
+                return "FP8 requires the optional torchao runtime"
+            return None
+        if mode in {"int8", "int4"}:
+            if not hasattr(self._diffusers, "BitsAndBytesConfig"):
+                return "installed diffusers lacks BitsAndBytesConfig support"
+            try:
+                import_module("bitsandbytes")
+            except ImportError:
+                return f"{mode.upper()} requires the optional bitsandbytes runtime"
+            return None
+        return f"unknown precision mode {mode!r}"
+
+    def _precision_kwargs(self, mode: str) -> dict[str, Any]:
+        if mode in {"fp16", "fp16_offload_attention_slicing_vae_tiling"}:
+            return {"torch_dtype": self._torch.float16}
+        if mode == "fp8":
+            return {"quantization_config": self._diffusers.TorchAoConfig("float8wo")}
+        if mode == "int8":
+            return {"quantization_config": self._diffusers.BitsAndBytesConfig(load_in_8bit=True)}
+        if mode == "int4":
+            return {"quantization_config": self._diffusers.BitsAndBytesConfig(load_in_4bit=True)}
+        raise AssertionError(f"unhandled precision mode {mode!r}")
+
+    def _has_controlnet(self, kind: str) -> bool:
+        try:
+            self._config.controlnet(kind)
+        except ValueError:
+            return False
+        return True
 
 
 def _conditioning_scale(parameters: dict[str, Any], kind: str) -> float:
