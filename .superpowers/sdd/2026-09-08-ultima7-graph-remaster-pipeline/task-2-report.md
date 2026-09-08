@@ -55,3 +55,23 @@ illegal edge raises `InvalidStateTransition`.
 The test suite covers migration idempotency, compare-and-set behavior, every
 legal transition, upsert idempotency, related-record persistence, JSON-backed
 fields, and deterministic SHA-256 hashing.
+
+## Reviewer-fix report
+
+Addressed the two Task 2 review findings without changing the migration or
+upsert idempotency contract:
+
+- Restored the composite foreign key from
+  `generation_jobs(archive_sha256, archive_index, shape_id, frame_id)` to the
+  corresponding `frames` key. CAS fixtures now create source archive, shape,
+  and frame rows first; a generation job referring to a missing frame raises
+  SQLite `IntegrityError`.
+- Added the public `JobState` string enum with all lifecycle states and
+  exported it from both `graph_remaster.models` and the package root. Job
+  creation and CAS transitions coerce valid strings to the enum and reject
+  arbitrary initial, expected, or target values with `InvalidStateTransition`.
+
+Added regressions for missing-frame rejection, public enum exposure, valid
+enum/string CAS values, and unknown state rejection. The full package suite
+passes with `31 passed in 42.23s`; bytecode compilation exits `0`, and
+`git diff --check` reports no whitespace errors.

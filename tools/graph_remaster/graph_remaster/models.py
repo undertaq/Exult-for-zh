@@ -3,7 +3,23 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from enum import Enum
 from typing import Any
+
+
+class JobState(str, Enum):
+    """Allowed persisted states for a generation job."""
+
+    DISCOVERED = "DISCOVERED"
+    EXTRACTED = "EXTRACTED"
+    CONTROLS_READY = "CONTROLS_READY"
+    QUEUED = "QUEUED"
+    GENERATED = "GENERATED"
+    VALIDATED = "VALIDATED"
+    APPROVED = "APPROVED"
+    PACKAGED = "PACKAGED"
+    RESOURCE_FAILED = "RESOURCE_FAILED"
+    REJECTED = "REJECTED"
 
 
 @dataclass(frozen=True)
@@ -49,7 +65,7 @@ class FrameRecord:
 @dataclass(frozen=True)
 class GenerationJob:
     frame: FrameKey
-    state: str = "DISCOVERED"
+    state: JobState | str = JobState.DISCOVERED
     profile: str = ""
     backend: str = ""
     parameters: dict[str, Any] = field(default_factory=dict)

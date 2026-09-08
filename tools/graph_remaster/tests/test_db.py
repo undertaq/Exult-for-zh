@@ -1,15 +1,18 @@
 from pathlib import Path
+import sqlite3
 
 import pytest
 
 from graph_remaster.db import AssetStore
 from graph_remaster.errors import InvalidStateTransition
 from graph_remaster.hashing import sha256_file
+from graph_remaster import JobState as PublicJobState
 from graph_remaster.models import (
     Candidate,
     FrameKey,
     FrameRecord,
     GenerationJob,
+    JobState,
     ReviewDecision,
     ShapeRecord,
     SourceArchive,
@@ -27,9 +30,17 @@ def make_job(state: str = "QUEUED") -> GenerationJob:
     )
 
 
+def seed_frame(store: AssetStore, key: FrameKey) -> None:
+    store.upsert_source_archive(SourceArchive(key.archive_sha256, "source.ipf"))
+    store.upsert_shape(ShapeRecord(key.archive_sha256, key.archive_index, key.shape_id, 10, 20))
+    store.upsert_frame(FrameRecord(key, 10, 20))
+
+
 def test_job_transition_is_compare_and_set(tmp_path: Path) -> None:
     store = AssetStore.open(tmp_path / "graph.sqlite3")
     store.migrate()
+    key = FrameKey("a" * 64, 0, 12, 3)
+    seed_frame(store, key)
     job_id = store.create_generation_job(make_job())
 
     store.transition_job(job_id, "QUEUED", "GENERATED")
@@ -97,11 +108,59 @@ def test_asset_records_upsert_and_related_records_are_idempotent(tmp_path: Path)
 def test_allowed_job_transitions(tmp_path: Path, old: str, new: str) -> None:
     store = AssetStore.open(tmp_path / "graph.sqlite3")
     store.migrate()
+    seed_frame(store, FrameKey("a" * 64, 0, 12, 3))
     job_id = store.create_generation_job(make_job(old))
     store.transition_job(job_id, old, new)
     assert store._connection.execute(
         "SELECT state FROM generation_jobs WHERE job_id = ?", (job_id,)
     ).fetchone()[0] == new
+
+
+def test_generation_job_requires_existing_frame(tmp_path: Path) -> None:
+    store = AssetStore.open(tmp_path / "graph.sqlite3")
+    store.migrate()
+
+    with pytest.raises(sqlite3.IntegrityError):
+        store.create_generation_job(make_job())
+
+
+@pytest.mark.parametrize("state", ["UNKNOWN", "", "queued"])
+def test_generation_job_rejects_unknown_initial_state(tmp_path: Path, state: str) -> None:
+    store = AssetStore.open(tmp_path / "graph.sqlite3")
+    store.migrate()
+    seed_frame(store, FrameKey("a" * 64, 0, 12, 3))
+
+    with pytest.raises(InvalidStateTransition):
+        store.create_generation_job(make_job(state))
+
+
+def test_job_state_is_public_and_valid_transition_arguments_are_coerced(tmp_path: Path) -> None:
+    store = AssetStore.open(tmp_path / "graph.sqlite3")
+    store.migrate()
+    seed_frame(store, FrameKey("a" * 64, 0, 12, 3))
+    job_id = store.create_generation_job(GenerationJob(
+        FrameKey("a" * 64, 0, 12, 3), JobState.QUEUED
+    ))
+
+    store.transition_job(job_id, JobState.QUEUED, JobState.GENERATED)
+
+    assert store._connection.execute(
+        "SELECT state FROM generation_jobs WHERE job_id = ?", (job_id,)
+    ).fetchone()[0] == JobState.GENERATED.value
+    assert PublicJobState is JobState
+
+
+@pytest.mark.parametrize("expected,new", [("not-a-state", "GENERATED"), ("QUEUED", "not-a-state")])
+def test_transition_rejects_unknown_states(
+    tmp_path: Path, expected: str, new: str
+) -> None:
+    store = AssetStore.open(tmp_path / "graph.sqlite3")
+    store.migrate()
+    seed_frame(store, FrameKey("a" * 64, 0, 12, 3))
+    job_id = store.create_generation_job(make_job())
+
+    with pytest.raises(InvalidStateTransition):
+        store.transition_job(job_id, expected, new)
 
 
 def test_sha256_file_hashes_binary_content(tmp_path: Path) -> None:

@@ -13,6 +13,7 @@ from .models import (
     Candidate,
     FrameRecord,
     GenerationJob,
+    JobState,
     ReviewDecision,
     ShapeRecord,
     SourceArchive,
@@ -21,14 +22,14 @@ from .models import (
 
 SCHEMA_VERSION = 1
 ALLOWED_TRANSITIONS = {
-    "DISCOVERED": {"EXTRACTED"},
-    "EXTRACTED": {"CONTROLS_READY"},
-    "CONTROLS_READY": {"QUEUED"},
-    "QUEUED": {"GENERATED"},
-    "GENERATED": {"VALIDATED", "RESOURCE_FAILED", "REJECTED"},
-    "VALIDATED": {"APPROVED"},
-    "APPROVED": {"PACKAGED"},
-    "REJECTED": {"QUEUED"},
+    JobState.DISCOVERED: {JobState.EXTRACTED},
+    JobState.EXTRACTED: {JobState.CONTROLS_READY},
+    JobState.CONTROLS_READY: {JobState.QUEUED},
+    JobState.QUEUED: {JobState.GENERATED},
+    JobState.GENERATED: {JobState.VALIDATED, JobState.RESOURCE_FAILED, JobState.REJECTED},
+    JobState.VALIDATED: {JobState.APPROVED},
+    JobState.APPROVED: {JobState.PACKAGED},
+    JobState.REJECTED: {JobState.QUEUED},
 }
 
 
@@ -38,6 +39,13 @@ def _now() -> str:
 
 def _json(value: object) -> str:
     return json.dumps(value, sort_keys=True, separators=(",", ":"))
+
+
+def _job_state(value: JobState | str) -> JobState:
+    try:
+        return value if isinstance(value, JobState) else JobState(value)
+    except (TypeError, ValueError) as exc:
+        raise InvalidStateTransition(f"unknown job state: {value!r}") from exc
 
 
 class AssetStore:
@@ -137,7 +145,9 @@ class AssetStore:
                 backend TEXT NOT NULL,
                 parameters_json TEXT NOT NULL DEFAULT '{}',
                 created_at TEXT NOT NULL,
-                updated_at TEXT NOT NULL
+                updated_at TEXT NOT NULL,
+                FOREIGN KEY (archive_sha256, archive_index, shape_id, frame_id)
+                    REFERENCES frames(archive_sha256, archive_index, shape_id, frame_id)
             );
             CREATE TABLE IF NOT EXISTS candidates (
                 candidate_id TEXT PRIMARY KEY,
@@ -232,6 +242,7 @@ class AssetStore:
         self._connection.commit()
 
     def create_generation_job(self, request: GenerationJob) -> str:
+        state = _job_state(request.state)
         job_id = request.job_id or str(uuid4())
         key = request.frame
         now = _now()
@@ -244,21 +255,27 @@ class AssetStore:
             backend=excluded.backend, parameters_json=excluded.parameters_json,
             updated_at=excluded.updated_at""",
             (job_id, key.archive_sha256, key.archive_index, key.shape_id, key.frame_id,
-             request.state, request.profile, request.backend, _json(request.parameters), now, now),
+             state.value, request.profile, request.backend, _json(request.parameters), now, now),
         )
         self._connection.commit()
         return job_id
 
-    def transition_job(self, job_id: str, expected: str, new: str) -> None:
-        if new not in ALLOWED_TRANSITIONS.get(expected, set()):
+    def transition_job(
+        self, job_id: str, expected: JobState | str, new: JobState | str
+    ) -> None:
+        expected_state = _job_state(expected)
+        new_state = _job_state(new)
+        if new_state not in ALLOWED_TRANSITIONS.get(expected_state, set()):
             raise InvalidStateTransition(f"invalid job transition {expected} -> {new}")
         cursor = self._connection.execute(
             "UPDATE generation_jobs SET state = ?, updated_at = ? WHERE job_id = ? AND state = ?",
-            (new, _now(), job_id, expected),
+            (new_state.value, _now(), job_id, expected_state.value),
         )
         if cursor.rowcount != 1:
             self._connection.rollback()
-            raise InvalidStateTransition(f"job {job_id} is not in expected state {expected}")
+            raise InvalidStateTransition(
+                f"job {job_id} is not in expected state {expected_state.value}"
+            )
         self._connection.commit()
 
     def add_candidate(self, candidate: Candidate) -> str:
