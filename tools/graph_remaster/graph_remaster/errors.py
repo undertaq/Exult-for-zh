@@ -7,3 +7,7 @@ class ConfigError(ValueError):
 
 class InvalidStateTransition(ValueError):
     """Raised when a job state change is not an allowed compare-and-set."""
+
+
+class MigrationError(RuntimeError):
+    """Raised when a database migration cannot preserve its existing state."""

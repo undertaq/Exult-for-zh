@@ -4,7 +4,7 @@ import sqlite3
 import pytest
 
 from graph_remaster.db import AssetStore
-from graph_remaster.errors import InvalidStateTransition
+from graph_remaster.errors import InvalidStateTransition, MigrationError
 from graph_remaster.hashing import sha256_file
 from graph_remaster import JobState as PublicJobState
 from graph_remaster.models import (
@@ -36,6 +36,73 @@ def seed_frame(store: AssetStore, key: FrameKey) -> None:
     store.upsert_frame(FrameRecord(key, 10, 20))
 
 
+def make_legacy_v1_database(path: Path, *, orphan: bool = False) -> FrameKey:
+    key = FrameKey("c" * 64, 2, 7, 4)
+    connection = sqlite3.connect(path)
+    connection.executescript(
+        """
+        CREATE TABLE schema_version (version INTEGER NOT NULL);
+        INSERT INTO schema_version VALUES (1);
+        CREATE TABLE source_archives (
+            archive_sha256 TEXT PRIMARY KEY, path TEXT NOT NULL,
+            size_bytes INTEGER NOT NULL DEFAULT 0, metadata_json TEXT NOT NULL DEFAULT '{}',
+            created_at TEXT NOT NULL, updated_at TEXT NOT NULL
+        );
+        CREATE TABLE shapes (
+            archive_sha256 TEXT NOT NULL, archive_index INTEGER NOT NULL,
+            shape_id INTEGER NOT NULL, width INTEGER NOT NULL, height INTEGER NOT NULL,
+            frame_count INTEGER NOT NULL DEFAULT 0, metadata_json TEXT NOT NULL DEFAULT '{}',
+            created_at TEXT NOT NULL, updated_at TEXT NOT NULL,
+            PRIMARY KEY (archive_sha256, archive_index, shape_id)
+        );
+        CREATE TABLE frames (
+            archive_sha256 TEXT NOT NULL, archive_index INTEGER NOT NULL,
+            shape_id INTEGER NOT NULL, frame_id INTEGER NOT NULL,
+            width INTEGER NOT NULL, height INTEGER NOT NULL, has_alpha INTEGER NOT NULL,
+            metadata_json TEXT NOT NULL DEFAULT '{}', created_at TEXT NOT NULL,
+            updated_at TEXT NOT NULL,
+            PRIMARY KEY (archive_sha256, archive_index, shape_id, frame_id)
+        );
+        CREATE TABLE generation_jobs (
+            job_id TEXT PRIMARY KEY, archive_sha256 TEXT NOT NULL,
+            archive_index INTEGER NOT NULL, shape_id INTEGER NOT NULL, frame_id INTEGER NOT NULL,
+            state TEXT NOT NULL, profile TEXT NOT NULL, backend TEXT NOT NULL,
+            parameters_json TEXT NOT NULL DEFAULT '{}', created_at TEXT NOT NULL,
+            updated_at TEXT NOT NULL
+        );
+        CREATE TABLE candidates (
+            candidate_id TEXT PRIMARY KEY, job_id TEXT NOT NULL,
+            artifact_path TEXT NOT NULL, artifact_sha256 TEXT NOT NULL,
+            metadata_json TEXT NOT NULL DEFAULT '{}', created_at TEXT NOT NULL,
+            FOREIGN KEY (job_id) REFERENCES generation_jobs(job_id)
+        );
+        """
+    )
+    connection.execute(
+        "INSERT INTO source_archives VALUES (?, ?, 0, '{}', 't', 't')",
+        (key.archive_sha256, "source.ipf"),
+    )
+    connection.execute(
+        "INSERT INTO shapes VALUES (?, ?, ?, 10, 20, 1, '{}', 't', 't')",
+        (key.archive_sha256, key.archive_index, key.shape_id),
+    )
+    if not orphan:
+        connection.execute(
+            "INSERT INTO frames VALUES (?, ?, ?, ?, 10, 20, 1, '{}', 't', 't')",
+            (key.archive_sha256, key.archive_index, key.shape_id, key.frame_id),
+        )
+    connection.execute(
+        "INSERT INTO generation_jobs VALUES (?, ?, ?, ?, ?, 'QUEUED', 'character', 'mock', '{}', 't', 't')",
+        ("legacy-job", key.archive_sha256, key.archive_index, key.shape_id, key.frame_id),
+    )
+    connection.execute(
+        "INSERT INTO candidates VALUES ('legacy-candidate', 'legacy-job', 'candidate.png', '', '{}', 't')"
+    )
+    connection.commit()
+    connection.close()
+    return key
+
+
 def test_job_transition_is_compare_and_set(tmp_path: Path) -> None:
     store = AssetStore.open(tmp_path / "graph.sqlite3")
     store.migrate()
@@ -63,6 +130,48 @@ def test_schema_and_migrations_are_idempotent(tmp_path: Path) -> None:
     assert reopened.table_names() == first_tables
     assert reopened.schema_version() == first_version
     reopened.close()
+
+
+def test_migrates_v1_generation_jobs_and_preserves_valid_rows(tmp_path: Path) -> None:
+    database = tmp_path / "legacy.sqlite3"
+    key = make_legacy_v1_database(database)
+    store = AssetStore.open(database)
+
+    store.migrate()
+
+    assert store.schema_version() == 2
+    row = store._connection.execute(
+        "SELECT job_id, state, archive_sha256, archive_index, shape_id, frame_id "
+        "FROM generation_jobs"
+    ).fetchone()
+    assert row == ("legacy-job", "QUEUED", key.archive_sha256, 2, 7, 4)
+    assert store._connection.execute("SELECT job_id FROM candidates").fetchone()[0] == "legacy-job"
+    store.add_candidate(Candidate("legacy-job", "new-candidate.png", candidate_id="new-candidate"))
+    foreign_keys = store._connection.execute(
+        "PRAGMA foreign_key_list(generation_jobs)"
+    ).fetchall()
+    assert {(row[3], row[4]) for row in foreign_keys} == {
+        ("archive_sha256", "archive_sha256"),
+        ("archive_index", "archive_index"),
+        ("shape_id", "shape_id"),
+        ("frame_id", "frame_id"),
+    }
+
+    store.migrate()
+    assert store.schema_version() == 2
+    assert store._connection.execute("SELECT COUNT(*) FROM generation_jobs").fetchone()[0] == 1
+
+
+def test_v1_migration_rejects_orphaned_legacy_jobs_without_loss(tmp_path: Path) -> None:
+    database = tmp_path / "orphaned.sqlite3"
+    make_legacy_v1_database(database, orphan=True)
+    store = AssetStore.open(database)
+
+    with pytest.raises(MigrationError, match="orphaned generation_jobs"):
+        store.migrate()
+
+    assert store.schema_version() == 1
+    assert store._connection.execute("SELECT COUNT(*) FROM generation_jobs").fetchone()[0] == 1
 
 
 def test_asset_records_upsert_and_related_records_are_idempotent(tmp_path: Path) -> None:

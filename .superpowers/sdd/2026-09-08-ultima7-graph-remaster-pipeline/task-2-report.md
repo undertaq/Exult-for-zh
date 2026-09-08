@@ -72,6 +72,27 @@ upsert idempotency contract:
   arbitrary initial, expected, or target values with `InvalidStateTransition`.
 
 Added regressions for missing-frame rejection, public enum exposure, valid
-enum/string CAS values, and unknown state rejection. The full package suite
-passes with `31 passed in 42.23s`; bytecode compilation exits `0`, and
+enum/string CAS values, and unknown state rejection. The package suite at
+that point passed with `31 passed in 42.23s`; bytecode compilation exited `0`, and
 `git diff --check` reports no whitespace errors.
+
+## Migration re-review fix
+
+Implemented a real versioned migration from schema version 1 to version 2.
+`SCHEMA_VERSION` is now `2`; fresh databases create the composite
+`generation_jobs` foreign key directly, while version-1 databases are upgraded
+by rebuilding that table inside a transaction and preserving all columns and
+rows.
+
+Before rebuilding, migration checks every legacy job against `frames`. If any
+orphan exists, migration raises `MigrationError` with the job ID and referenced
+frame key, leaves schema version 1, and leaves the legacy table/data intact.
+No orphan rows are silently deleted or rewritten. Valid version-1 databases
+upgrade to version 2 and a second migration is a no-op.
+
+Added regression fixtures for a base-format version-1 database, valid-row
+preservation, composite-FK inspection, rerun idempotency, and deterministic
+orphan rejection, and preservation of an existing candidate row that references
+the rebuilt jobs table. Focused Task 2 verification: `23 passed in 43.76s`.
+Final package verification after these changes: `33 passed in 40.69s`;
+compilation exited `0` and `git diff --check` passed.

@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from uuid import uuid4
 
-from .errors import InvalidStateTransition
+from .errors import InvalidStateTransition, MigrationError
 from .models import (
     Candidate,
     FrameRecord,
@@ -20,7 +20,7 @@ from .models import (
     ValidationResult,
 )
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 ALLOWED_TRANSITIONS = {
     JobState.DISCOVERED: {JobState.EXTRACTED},
     JobState.EXTRACTED: {JobState.CONTROLS_READY},
@@ -183,10 +183,94 @@ class AssetStore:
                 UNIQUE (candidate_id, package_path),
                 FOREIGN KEY (candidate_id) REFERENCES candidates(candidate_id)
             );
-            UPDATE schema_version SET version = 1;
             """,
         )
+
+        version = self.schema_version()
+        if version > SCHEMA_VERSION:
+            raise MigrationError(
+                f"database schema version {version} is newer than supported version {SCHEMA_VERSION}"
+            )
+        if version == 1:
+            self._migrate_v1_to_v2()
+        self._connection.execute("UPDATE schema_version SET version = ?", (SCHEMA_VERSION,))
         self._connection.commit()
+
+    def _migrate_v1_to_v2(self) -> None:
+        if self._has_generation_job_frame_fk():
+            return
+
+        orphan = self._connection.execute(
+            """SELECT job_id, archive_sha256, archive_index, shape_id, frame_id
+            FROM generation_jobs AS jobs
+            WHERE NOT EXISTS (
+                SELECT 1 FROM frames
+                WHERE frames.archive_sha256 = jobs.archive_sha256
+                  AND frames.archive_index = jobs.archive_index
+                  AND frames.shape_id = jobs.shape_id
+                  AND frames.frame_id = jobs.frame_id
+            )
+            ORDER BY job_id
+            LIMIT 1"""
+        ).fetchone()
+        if orphan is not None:
+            raise MigrationError(
+                "cannot migrate schema version 1: orphaned generation_jobs row "
+                f"{orphan[0]!r} references frame "
+                f"({orphan[1]}, {orphan[2]}, {orphan[3]}, {orphan[4]})"
+            )
+
+        self._connection.execute("PRAGMA foreign_keys = OFF")
+        try:
+            self._connection.execute("BEGIN")
+            self._connection.execute(self._generation_jobs_table_sql("generation_jobs_v2"))
+            self._connection.execute(
+                """INSERT INTO generation_jobs_v2
+                SELECT job_id, archive_sha256, archive_index, shape_id, frame_id,
+                       state, profile, backend, parameters_json, created_at, updated_at
+                FROM generation_jobs"""
+            )
+            self._connection.execute("DROP TABLE generation_jobs")
+            self._connection.execute("ALTER TABLE generation_jobs_v2 RENAME TO generation_jobs")
+            self._connection.commit()
+        except Exception:
+            self._connection.rollback()
+            raise
+        finally:
+            self._connection.execute("PRAGMA foreign_keys = ON")
+
+    def _has_generation_job_frame_fk(self) -> bool:
+        foreign_keys = self._connection.execute(
+            "PRAGMA foreign_key_list(generation_jobs)"
+        ).fetchall()
+        return {
+            (row[3], row[4])
+            for row in foreign_keys
+            if row[2] == "frames"
+        } == {
+            ("archive_sha256", "archive_sha256"),
+            ("archive_index", "archive_index"),
+            ("shape_id", "shape_id"),
+            ("frame_id", "frame_id"),
+        }
+
+    @staticmethod
+    def _generation_jobs_table_sql(name: str) -> str:
+        return f"""CREATE TABLE {name} (
+            job_id TEXT PRIMARY KEY,
+            archive_sha256 TEXT NOT NULL,
+            archive_index INTEGER NOT NULL,
+            shape_id INTEGER NOT NULL,
+            frame_id INTEGER NOT NULL,
+            state TEXT NOT NULL,
+            profile TEXT NOT NULL,
+            backend TEXT NOT NULL,
+            parameters_json TEXT NOT NULL DEFAULT '{{}}',
+            created_at TEXT NOT NULL,
+            updated_at TEXT NOT NULL,
+            FOREIGN KEY (archive_sha256, archive_index, shape_id, frame_id)
+                REFERENCES frames(archive_sha256, archive_index, shape_id, frame_id)
+        )"""
 
     def schema_version(self) -> int:
         return int(self._connection.execute("SELECT version FROM schema_version").fetchone()[0])
