@@ -47,3 +47,27 @@ transparency, preview quantization metadata, and master non-overwrite.
   even when the frame retains its original canvas transform. This supports
   backends that crop before returning a candidate without applying the crop a
   second time.
+
+## Review fixes
+
+- Indexed previews now require a `.png` destination. Before opening or writing
+  either derived file, the preview PNG and its derived `.json` sidecar are
+  checked against both the master PNG and master provenance sidecar. Any
+  collision, including a supplied `.json` destination, raises `ValueError` and
+  leaves master artifacts byte-for-byte unchanged.
+- `write_hd_master()` now accepts only the canonical integer scale `6`; absent
+  scale metadata still resolves to the canonical default. Values such as `3`,
+  `6.0`, and `True` are rejected before image processing.
+- Successful and failed master attempts write a self-contained offline HTML
+  stage report adjacent to the requested master (`<master>.html`) through the
+  shared `write_stage_html_report()` helper. Success reports include the
+  master and provenance paths plus the PNG hash; failure reports include stage,
+  requested output, and error text.
+
+### Review-fix verification
+
+Regression tests cover master-PNG collision, master-sidecar collision,
+incompatible `.json` preview destinations, noncanonical scale rejection, and
+offline success/failure reports. The focused command
+`uv run --project tools/graph_remaster pytest tools/graph_remaster/tests/test_postprocess.py -q`
+passed with `9 passed in 1.38s`.

@@ -5,6 +5,7 @@ from hashlib import sha256
 from pathlib import Path
 
 from PIL import Image
+import pytest
 
 from graph_remaster.models import FrameKey, FrameRecord
 from graph_remaster.postprocess.hd_master import Palette, scale_offset, write_hd_master, write_indexed_preview
@@ -92,3 +93,50 @@ def test_indexed_preview_is_derived_and_leaves_rgba_master_untouched(tmp_path: P
 
 def test_scale_offset_defaults_to_sixfold() -> None:
     assert scale_offset(-3, 8) == (-18, 48)
+
+
+def test_indexed_preview_rejects_master_artifact_and_json_destinations(tmp_path: Path) -> None:
+    source = Image.new("RGBA", (32, 48), (0, 0, 0, 0))
+    source.save(tmp_path / "source.png")
+    master = write_hd_master(Image.new("RGBA", (192, 288), (220, 20, 20, 255)), _frame(tmp_path / "source.png"), tmp_path / "master.png")
+    master_png = master.path.read_bytes()
+    master_json = master.metadata_path.read_bytes()
+    palette = Palette(((0, 0, 0), (255, 0, 0)), transparent_index=0)
+
+    for destination in (master.path, master.metadata_path, tmp_path / "preview.json"):
+        with pytest.raises(ValueError):
+            write_indexed_preview(master, palette, destination)
+
+    assert master.path.read_bytes() == master_png
+    assert master.metadata_path.read_bytes() == master_json
+
+
+@pytest.mark.parametrize("scale", [3, 6.0, True])
+def test_hd_master_rejects_noncanonical_scale_and_writes_offline_failure_report(tmp_path: Path, scale: object) -> None:
+    source = Image.new("RGBA", (32, 48), (0, 0, 0, 0))
+    source.save(tmp_path / "source.png")
+    frame = _frame(tmp_path / "source.png")
+    frame = FrameRecord(frame.key, frame.width, frame.height, metadata={**frame.metadata, "scale": scale})
+    output = tmp_path / "rejected.png"
+
+    with pytest.raises(ValueError, match="scale 6"):
+        write_hd_master(Image.new("RGBA", (192, 288)), frame, output)
+
+    report = output.with_suffix(".html")
+    assert report.is_file()
+    assert "Postprocess failed" in report.read_text(encoding="utf-8")
+    assert "http" not in report.read_text(encoding="utf-8")
+
+
+def test_hd_master_writes_offline_success_report(tmp_path: Path) -> None:
+    source = Image.new("RGBA", (32, 48), (0, 0, 0, 0))
+    source.save(tmp_path / "source.png")
+
+    master = write_hd_master(Image.new("RGBA", (192, 288), (220, 20, 20, 255)), _frame(tmp_path / "source.png"), tmp_path / "master.png")
+
+    report = master.path.with_suffix(".html")
+    assert report.is_file()
+    html = report.read_text(encoding="utf-8")
+    assert "Postprocess succeeded" in html
+    assert master.sha256 in html
+    assert "http" not in html

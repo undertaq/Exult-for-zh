@@ -11,6 +11,7 @@ from typing import Any
 from PIL import Image
 
 from ..models import FrameKey, FrameRecord
+from ..reporting import write_stage_html_report
 from .masks import restore_source_alpha
 
 
@@ -61,41 +62,57 @@ def write_hd_master(candidate: Image.Image, frame: FrameRecord, output: Path) ->
     candidate itself must already be the exact six-times target rectangle.
     """
 
-    scale = _frame_scale(frame)
-    target_size = (frame.width * scale, frame.height * scale)
-    cropped = _crop_candidate(candidate, frame.metadata.get("source_to_canvas"), target_size)
-    source_alpha = _source_alpha(frame).resize(target_size, Image.Resampling.NEAREST)
-    master_image = restore_source_alpha(cropped, source_alpha)
-
     output = Path(output)
-    output.parent.mkdir(parents=True, exist_ok=True)
-    master_image.save(output, format="PNG", optimize=False, compress_level=9)
-    digest = _sha256_file(output)
-    offset = scale_offset(*_logical_offset(frame), scale)
-    metadata_path = output.with_suffix(".json")
-    metadata = {
-        "format": "graph-remaster-hd-master/v1",
-        "source_key": _frame_key(frame.key),
-        "dimensions": {"logical": [frame.width, frame.height], "hd": list(target_size), "scale": scale},
-        "offset": {"logical": list(_logical_offset(frame)), "hd": list(offset)},
-        "source_to_canvas": frame.metadata.get("source_to_canvas"),
-        "hashes": {
-            "candidate_rgba_sha256": _image_hash(cropped.convert("RGBA")),
-            "source_alpha_sha256": sha256(source_alpha.tobytes()).hexdigest(),
-            "master_png_sha256": digest,
-            "master_rgba_sha256": _image_hash(master_image),
-        },
-    }
-    _write_json(metadata_path, metadata)
-    return HDMaster(output, metadata_path, digest, offset, target_size, frame.key)
+    report_path = output.with_suffix(".html")
+    try:
+        scale = _frame_scale(frame)
+        target_size = (frame.width * scale, frame.height * scale)
+        cropped = _crop_candidate(candidate, frame.metadata.get("source_to_canvas"), target_size)
+        source_alpha = _source_alpha(frame).resize(target_size, Image.Resampling.NEAREST)
+        master_image = restore_source_alpha(cropped, source_alpha)
+
+        output.parent.mkdir(parents=True, exist_ok=True)
+        master_image.save(output, format="PNG", optimize=False, compress_level=9)
+        digest = _sha256_file(output)
+        offset = scale_offset(*_logical_offset(frame), scale)
+        metadata_path = output.with_suffix(".json")
+        metadata = {
+            "format": "graph-remaster-hd-master/v1",
+            "source_key": _frame_key(frame.key),
+            "dimensions": {"logical": [frame.width, frame.height], "hd": list(target_size), "scale": scale},
+            "offset": {"logical": list(_logical_offset(frame)), "hd": list(offset)},
+            "source_to_canvas": frame.metadata.get("source_to_canvas"),
+            "hashes": {
+                "candidate_rgba_sha256": _image_hash(cropped.convert("RGBA")),
+                "source_alpha_sha256": sha256(source_alpha.tobytes()).hexdigest(),
+                "master_png_sha256": digest,
+                "master_rgba_sha256": _image_hash(master_image),
+            },
+        }
+        _write_json(metadata_path, metadata)
+        master = HDMaster(output, metadata_path, digest, offset, target_size, frame.key)
+        write_stage_html_report(report_path, "Postprocess succeeded", {
+            "stage": "postprocess", "status": "succeeded", "master_path": str(master.path),
+            "metadata_path": str(master.metadata_path), "master_png_sha256": master.sha256,
+        })
+        return master
+    except Exception as exc:
+        write_stage_html_report(report_path, "Postprocess failed", {
+            "stage": "postprocess", "status": "failed", "output_path": str(output), "error": str(exc),
+        })
+        raise
 
 
 def write_indexed_preview(master: HDMaster, palette: Palette, output: Path) -> Path:
     """Write an indexed compatibility derivative without changing the master."""
 
     output = Path(output)
-    if output.resolve() == master.path.resolve():
-        raise ValueError("indexed preview output must not overwrite the RGBA master")
+    if output.suffix.lower() != ".png":
+        raise ValueError("indexed preview output must be a .png path")
+    metadata_path = output.with_suffix(".json")
+    master_artifacts = {master.path.resolve(), master.metadata_path.resolve()}
+    if output.resolve() in master_artifacts or metadata_path.resolve() in master_artifacts:
+        raise ValueError("indexed preview PNG/JSON pair must not overwrite master artifacts")
     with Image.open(master.path) as loaded:
         rgba = loaded.convert("RGBA")
     paletted = _quantize_to_palette(rgba, palette)
@@ -104,7 +121,7 @@ def write_indexed_preview(master: HDMaster, palette: Palette, output: Path) -> P
     if palette.transparent_index is not None:
         save_args["transparency"] = palette.transparent_index
     paletted.save(output, **save_args)
-    _write_json(output.with_suffix(".json"), {
+    _write_json(metadata_path, {
         "format": "graph-remaster-indexed-preview/v1",
         "master_path": str(master.path),
         "master_png_sha256": master.sha256,
@@ -119,8 +136,8 @@ def write_indexed_preview(master: HDMaster, palette: Palette, output: Path) -> P
 
 def _frame_scale(frame: FrameRecord) -> int:
     value = frame.metadata.get("scale", DEFAULT_SCALE)
-    if not isinstance(value, int) or isinstance(value, bool) or value < 1:
-        raise ValueError("frame metadata scale must be a positive integer")
+    if not isinstance(value, int) or isinstance(value, bool) or value != DEFAULT_SCALE:
+        raise ValueError("canonical HD masters require frame metadata scale 6")
     return value
 
 
