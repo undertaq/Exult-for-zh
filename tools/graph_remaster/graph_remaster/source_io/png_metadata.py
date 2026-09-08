@@ -44,6 +44,7 @@ def read_png_metadata(path: Path) -> PNGMetadata:
     offset = (0, 0)
     offset_implicit = True
     image_data = bytearray()
+    saw_ihdr = saw_plte = saw_idat = saw_iend = False
     while position < len(data):
         if position + 12 > len(data):
             raise PNGMetadataError(f"truncated PNG chunk: {path}")
@@ -53,17 +54,25 @@ def read_png_metadata(path: Path) -> PNGMetadata:
         if end > len(data):
             raise PNGMetadataError(f"truncated PNG chunk data: {path}")
         payload = data[position + 8:position + 8 + length]
+        expected_crc = struct.unpack(">I", data[end - 4:end])[0]
+        actual_crc = zlib.crc32(chunk_type + payload) & 0xffffffff
+        if actual_crc != expected_crc:
+            raise PNGMetadataError(f"invalid {chunk_type.decode('ascii', 'replace')} chunk CRC: {path}")
         if chunk_type == b"IHDR":
-            if length != 13:
+            if saw_ihdr or position != len(PNG_SIGNATURE) or length != 13:
                 raise PNGMetadataError(f"invalid IHDR chunk: {path}")
+            saw_ihdr = True
             width, height, bit_depth, color_type, compression, filter_method, interlace = struct.unpack(">IIBBBBB", payload)
             if not width or not height or compression or filter_method or interlace:
                 raise PNGMetadataError(f"unsupported PNG encoding: {path}")
         elif chunk_type == b"PLTE":
-            if len(payload) % 3:
+            if not saw_ihdr or saw_plte or saw_idat or len(payload) % 3 or not payload:
                 raise PNGMetadataError(f"invalid indexed palette: {path}")
+            saw_plte = True
             palette = tuple(tuple(payload[index:index + 3]) for index in range(0, len(payload), 3))
         elif chunk_type == b"tRNS":
+            if not saw_plte or saw_idat:
+                raise PNGMetadataError(f"invalid tRNS chunk order: {path}")
             transparency = payload
         elif chunk_type == b"oFFs":
             if length != 9:
@@ -74,11 +83,20 @@ def read_png_metadata(path: Path) -> PNGMetadata:
             offset = (x, y)
             offset_implicit = False
         elif chunk_type == b"IDAT":
+            if not saw_ihdr or not saw_plte:
+                raise PNGMetadataError(f"invalid IDAT chunk order: {path}")
+            saw_idat = True
             image_data.extend(payload)
         elif chunk_type == b"IEND":
+            if length != 0 or not saw_idat:
+                raise PNGMetadataError(f"invalid IEND chunk: {path}")
+            saw_iend = True
+            position = end
+            if position != len(data):
+                raise PNGMetadataError(f"trailing data after IEND: {path}")
             break
         position = end
-    if width is None or height is None or bit_depth is None or color_type is None:
+    if not saw_iend or width is None or height is None or bit_depth is None or color_type is None:
         raise PNGMetadataError(f"missing IHDR chunk: {path}")
     if color_type != 3 or bit_depth != 8 or not palette:
         raise PNGMetadataError(f"expected 8-bit indexed PNG with palette: {path}")

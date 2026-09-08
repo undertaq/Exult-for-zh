@@ -11,6 +11,7 @@ from uuid import uuid4
 from .errors import InvalidStateTransition, MigrationError
 from .models import (
     Candidate,
+    FrameKey,
     FrameRecord,
     GenerationJob,
     JobState,
@@ -293,6 +294,35 @@ class AssetStore:
             (record.archive_sha256, str(record.path), record.size_bytes, _json(record.metadata), now, now),
         )
         self._connection.commit()
+
+    def get_source_archive(self, archive_sha256: str) -> SourceArchive | None:
+        row = self._connection.execute(
+            "SELECT archive_sha256, path, size_bytes, metadata_json FROM source_archives WHERE archive_sha256 = ?",
+            (archive_sha256,),
+        ).fetchone()
+        return None if row is None else SourceArchive(row[0], row[1], row[2], json.loads(row[3]))
+
+    def list_shapes(self, archive_sha256: str) -> list[ShapeRecord]:
+        rows = self._connection.execute(
+            """SELECT archive_sha256, archive_index, shape_id, width, height, frame_count, metadata_json
+            FROM shapes WHERE archive_sha256 = ? ORDER BY archive_index, shape_id""",
+            (archive_sha256,),
+        ).fetchall()
+        return [ShapeRecord(*row[:6], json.loads(row[6])) for row in rows]
+
+    def list_frames(self, shape: ShapeRecord) -> list[FrameRecord]:
+        rows = self._connection.execute(
+            """SELECT frame_id, width, height, has_alpha, metadata_json FROM frames
+            WHERE archive_sha256 = ? AND archive_index = ? AND shape_id = ? ORDER BY frame_id""",
+            shape.key,
+        ).fetchall()
+        return [
+            FrameRecord(
+                FrameKey(shape.archive_sha256, shape.archive_index, shape.shape_id, row[0]),
+                row[1], row[2], bool(row[3]), json.loads(row[4]),
+            )
+            for row in rows
+        ]
 
     def upsert_shape(self, record: ShapeRecord) -> None:
         now = _now()

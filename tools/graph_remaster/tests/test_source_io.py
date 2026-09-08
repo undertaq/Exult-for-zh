@@ -1,5 +1,4 @@
 import base64
-import os
 from pathlib import Path
 import struct
 import sys
@@ -9,8 +8,9 @@ import pytest
 
 from graph_remaster.hashing import sha256_file
 from graph_remaster.cli import main
+from graph_remaster.db import AssetStore
 from graph_remaster.source_io.ipack_adapter import IpackAdapter, write_ipack_script
-from graph_remaster.source_io.png_metadata import read_png_offset
+from graph_remaster.source_io.png_metadata import PNGMetadataError, read_png_metadata, read_png_offset
 
 
 def indexed_png(offset: tuple[int, int] | None = None) -> bytes:
@@ -28,8 +28,9 @@ def indexed_png(offset: tuple[int, int] | None = None) -> bytes:
     )
 
 
-def write_fake_ipack(path: Path) -> None:
-    encoded_png = base64.b64encode(indexed_png()).decode("ascii")
+def write_fake_ipack(path: Path, payload: bytes | None = None) -> Path:
+    encoded_png = base64.b64encode(payload or indexed_png()).decode("ascii")
+    counter = path.with_suffix(".count")
     path.write_text(
         "#!/usr/bin/env python3\n"
         "import base64\n"
@@ -39,6 +40,8 @@ def write_fake_ipack(path: Path) -> None:
         "if sys.argv[1:2] != ['-x']:\n"
         "    raise SystemExit(2)\n"
         "script = Path(sys.argv[2]).read_text(encoding='utf-8').splitlines()\n"
+        f"counter = Path({str(counter)!r})\n"
+        "counter.write_text(str(int(counter.read_text() if counter.exists() else '0') + 1))\n"
         "archive = next(line[8:] for line in script if line.startswith('archive '))\n"
         "if not Path(archive).is_file():\n"
         "    print('missing archive', file=sys.stderr)\n"
@@ -51,6 +54,7 @@ def write_fake_ipack(path: Path) -> None:
         encoding="utf-8",
     )
     path.chmod(path.stat().st_mode | 0o100)
+    return counter
 
 
 def test_ipack_adapter_inventories_and_extracts_indexed_frames(tmp_path: Path) -> None:
@@ -112,11 +116,20 @@ def test_read_png_offset_reads_pixel_offsets_chunk(tmp_path: Path) -> None:
     assert read_png_offset(image) == (-3, 8)
 
 
+@pytest.mark.parametrize("malformed", [indexed_png()[:-12], indexed_png()[:-1] + b"!"])
+def test_png_metadata_rejects_missing_iend_and_bad_chunk_crc(tmp_path: Path, malformed: bytes) -> None:
+    image = tmp_path / "malformed.png"
+    image.write_bytes(malformed)
+
+    with pytest.raises(PNGMetadataError):
+        read_png_metadata(image)
+
+
 def test_inventory_and_extract_cli_persist_idempotent_stage_records(tmp_path: Path) -> None:
     archive = tmp_path / "shapes.vga"
     archive.write_bytes(b"fixture archive")
     ipack = tmp_path / "fake-ipack"
-    write_fake_ipack(ipack)
+    invocation_counter = write_fake_ipack(ipack)
     config = tmp_path / "pipeline.toml"
     config.write_text(
         "[project]\nname = 'black-gate'\n[paths]\ndata = 'data'\nwork = 'work'\n[render]\nscale = 6\nlogical_width = 320\nlogical_height = 200\n",
@@ -126,13 +139,56 @@ def test_inventory_and_extract_cli_persist_idempotent_stage_records(tmp_path: Pa
     inventory_args = ["inventory", "--config", str(config), "--ipack", str(ipack), "--archive", str(archive), "--run-id", "fixture"]
     assert main(inventory_args) == 0
     assert main(inventory_args) == 0
+    assert invocation_counter.read_text() == "1"
     assert main(["extract", "--config", str(config), "--ipack", str(ipack), "--archive", str(archive), "--run-id", "fixture"]) == 0
+    assert invocation_counter.read_text() == "2"
 
-    import sqlite3
-    connection = sqlite3.connect(tmp_path / "work" / "graph.sqlite3")
-    assert connection.execute("SELECT COUNT(*) FROM source_archives").fetchone()[0] == 1
-    assert connection.execute("SELECT COUNT(*) FROM shapes").fetchone()[0] == 1
-    assert connection.execute("SELECT COUNT(*) FROM frames").fetchone()[0] == 2
+    store = AssetStore.open(tmp_path / "work" / "graph.sqlite3")
+    archive_sha256 = sha256_file(archive)
+    source = store.get_source_archive(archive_sha256)
+    shapes = store.list_shapes(archive_sha256)
+    assert source is not None
+    assert len(shapes) == 1
+    assert len(store.list_frames(shapes[0])) == 2
+    frame_zero_updated = store._connection.execute(
+        "SELECT updated_at FROM frames WHERE archive_sha256 = ? AND frame_id = 0", (archive_sha256,)
+    ).fetchone()[0]
+    store._connection.execute(
+        "DELETE FROM frames WHERE archive_sha256 = ? AND frame_id = 1", (archive_sha256,)
+    )
+    store._connection.commit()
+    store.close()
+
+    assert main(["extract", "--config", str(config), "--ipack", str(ipack), "--archive", str(archive), "--run-id", "fixture"]) == 0
+    assert invocation_counter.read_text() == "3"
+    store = AssetStore.open(tmp_path / "work" / "graph.sqlite3")
+    assert len(store.list_frames(store.list_shapes(archive_sha256)[0])) == 2
+    assert store._connection.execute(
+        "SELECT updated_at FROM frames WHERE archive_sha256 = ? AND frame_id = 0", (archive_sha256,)
+    ).fetchone()[0] == frame_zero_updated
+    store.close()
+    assert main(["extract", "--config", str(config), "--ipack", str(ipack), "--archive", str(archive), "--run-id", "fixture"]) == 0
+    assert invocation_counter.read_text() == "3"
     assert (tmp_path / "work" / "inventory" / "fixture" / "stage.json").is_file()
     assert (tmp_path / "work" / "extract" / "fixture" / "stage.json").is_file()
     assert "torch" not in sys.modules
+
+
+def test_inventory_cli_reports_malformed_png_without_persisting_records(tmp_path: Path) -> None:
+    archive = tmp_path / "shapes.vga"
+    archive.write_bytes(b"fixture archive")
+    ipack = tmp_path / "bad-ipack"
+    write_fake_ipack(ipack, indexed_png()[:-1] + b"!")
+    config = tmp_path / "pipeline.toml"
+    config.write_text(
+        "[project]\nname = 'black-gate'\n[paths]\ndata = 'data'\nwork = 'work'\n[render]\nscale = 6\nlogical_width = 320\nlogical_height = 200\n",
+        encoding="utf-8",
+    )
+
+    assert main(["inventory", "--config", str(config), "--ipack", str(ipack), "--archive", str(archive), "--run-id", "bad"]) == 2
+
+    report = (tmp_path / "work" / "reports" / "bad" / "inventory-error.json").read_text(encoding="utf-8")
+    assert "CRC" in report
+    import sqlite3
+    connection = sqlite3.connect(tmp_path / "work" / "graph.sqlite3")
+    assert connection.execute("SELECT COUNT(*) FROM source_archives").fetchone()[0] == 0
