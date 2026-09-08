@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+import tomllib
 from typing import Sequence
 
 
@@ -126,13 +127,15 @@ def _run_controls_stage(args: argparse.Namespace) -> int:
     from .db import AssetStore
     from .reporting import write_stage_html_report
 
-    config = load_config(args.config)
     run_id = args.run_id or "default"
-    stage_dir = config.paths.controls / run_id
-    report_path = config.paths.reports / run_id / "prepare-controls-error.json"
+    report_path = _fallback_controls_report_path(args.config, run_id)
     html_report_path = report_path.with_name("prepare-controls.html")
-    stage_dir.mkdir(parents=True, exist_ok=True)
     try:
+        config = load_config(args.config)
+        report_path = config.paths.reports / run_id / "prepare-controls-error.json"
+        html_report_path = report_path.with_name("prepare-controls.html")
+        stage_dir = config.paths.controls / run_id
+        stage_dir.mkdir(parents=True, exist_ok=True)
         store = AssetStore.open(args.database or config.paths.work / "graph.sqlite3")
         try:
             store.migrate()
@@ -172,3 +175,25 @@ def _run_controls_stage(args: argparse.Namespace) -> int:
         )
         write_stage_html_report(html_report_path, "Preparation failed", payload)
         return 2
+
+
+def _fallback_controls_report_path(config_path: Path, run_id: str) -> Path:
+    """Find the conventional report directory when full config validation fails."""
+
+    base = Path(config_path).parent.resolve()
+    reports = base / "reports"
+    try:
+        with Path(config_path).open("rb") as stream:
+            paths = tomllib.load(stream).get("paths", {})
+        if isinstance(paths, dict):
+            configured_reports = paths.get("reports")
+            configured_work = paths.get("work")
+            candidate = configured_reports or (
+                str(Path(configured_work) / "reports") if isinstance(configured_work, str) else None
+            )
+            if isinstance(candidate, str) and candidate:
+                path = Path(candidate)
+                reports = path if path.is_absolute() else base / path
+    except (OSError, tomllib.TOMLDecodeError):
+        pass
+    return reports / run_id / "prepare-controls-error.json"

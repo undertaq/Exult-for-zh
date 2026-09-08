@@ -85,6 +85,33 @@ Fresh verification:
   — exit 0, including `--database` and optional selector.
 - `git diff --check` — no whitespace errors.
 
+### Final review fix: reports for configuration failures
+
+`prepare-controls` now establishes an early, deterministic report path before
+calling `load_config`. If configuration loading or canonical profile validation
+fails, it derives the configured report root directly from valid TOML path
+values when available (`paths.reports`, otherwise `paths.work/reports`), with a
+config-directory `reports/` fallback for malformed/unreadable configuration.
+
+The stage therefore preserves status `2`, writes the existing structured
+`prepare-controls-error.json` payload, and writes the offline
+`prepare-controls.html` failure report even for an invalid `flat_tile` override
+that attempts to add depth. Once validation succeeds, the normal fully typed
+config path remains authoritative for stage and report locations.
+
+Regression and verification:
+
+- Added a CLI regression for invalid `flat_tile = ['canny', 'depth']`, asserting
+  status `2`, canonical-controls error JSON, and the failure HTML report under
+  `work/reports/default/`.
+- `uv run --project tools/graph_remaster pytest tools/graph_remaster/tests/test_controls.py -q`
+  — `12 passed in 10.11s`.
+- `uv run --project tools/graph_remaster pytest tools/graph_remaster/tests/test_controls.py tools/graph_remaster/tests/test_config.py tools/graph_remaster/tests/test_source_io.py -q`
+  — `32 passed in 12.51s`.
+- `uv run --project tools/graph_remaster python -m compileall -q tools/graph_remaster/graph_remaster`
+  — exit 0.
+- `git diff --check` — no whitespace errors.
+
 The package lock contains Pillow 12.3.0 for the current resolved environment.
 
 ## Review-fix report

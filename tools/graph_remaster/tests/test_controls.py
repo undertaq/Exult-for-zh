@@ -210,3 +210,21 @@ def test_prepare_controls_cli_writes_structured_error_and_offline_html_report(tm
     error = json.loads((tmp_path / "work" / "reports" / "default" / "prepare-controls-error.json").read_text())
     assert error == {"error": "frame metadata must include rgba_preview_path", "run_id": "default", "stage": "prepare-controls"}
     assert "Preparation failed" in (tmp_path / "work" / "reports" / "default" / "prepare-controls.html").read_text()
+
+
+def test_prepare_controls_cli_reports_invalid_canonical_profile_before_stage_setup(tmp_path: Path) -> None:
+    config = tmp_path / "pipeline.toml"
+    config.write_text(
+        "[project]\nname = 'black-gate'\n[paths]\ndata = 'data'\nwork = 'work'\n"
+        "[render]\nscale = 6\nlogical_width = 320\nlogical_height = 200\n"
+        "[asset_profiles.flat_tile]\ncontrols = ['canny', 'depth']\n",
+        encoding="utf-8",
+    )
+
+    assert main(["prepare-controls", "--config", str(config)]) == 2
+
+    report_root = tmp_path / "work" / "reports" / "default"
+    error = json.loads((report_root / "prepare-controls-error.json").read_text())
+    assert error["stage"] == "prepare-controls"
+    assert "canonical controls" in error["error"]
+    assert "Preparation failed" in (report_root / "prepare-controls.html").read_text()
