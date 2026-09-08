@@ -37,7 +37,7 @@ class RenderConfig:
 
 @dataclass(frozen=True)
 class GPUConfig:
-    devices: tuple[str, ...] = ()
+    devices: tuple[str, ...] = ("cuda:0", "cuda:1")
     workers: int = 2
     precision: str = "fp16"
 
@@ -75,6 +75,8 @@ class PipelineConfig:
         project_name = project.get("name")
         if not isinstance(project_name, str) or not project_name.strip():
             raise ConfigError("project.name is required")
+        if project_name != "black-gate":
+            raise ConfigError("project.name must be black-gate")
 
         data = _required_path(paths, "data")
         work = _required_path(paths, "work")
@@ -103,13 +105,19 @@ class PipelineConfig:
 
         gpu = _section(mapping, "gpu")
         model = _section(mapping, "model")
+        devices = _devices(gpu.get("devices", GPUConfig.devices))
+        workers = _int_value(gpu, "workers", len(devices))
+        if workers < 1:
+            raise ConfigError("gpu.workers must be positive")
+        if workers > len(devices):
+            raise ConfigError("gpu.workers cannot exceed gpu.devices")
         return cls(
             project_name=project_name,
             paths=PathConfig(**path_values),
             render=render_config,
             gpu=GPUConfig(
-                devices=tuple(str(device) for device in gpu.get("devices", ())),
-                workers=_int_value(gpu, "workers", 2),
+                devices=devices,
+                workers=workers,
                 precision=str(gpu.get("precision", "fp16")),
             ),
             model=ModelConfig(
@@ -170,6 +178,14 @@ def _int_value(section: Mapping[str, Any], name: str, default: int) -> int:
     if isinstance(value, bool) or not isinstance(value, int):
         raise ConfigError(f"{name} must be an integer")
     return value
+
+
+def _devices(value: Any) -> tuple[str, ...]:
+    if not isinstance(value, (list, tuple)):
+        raise ConfigError("gpu.devices must be a sequence")
+    if any(not isinstance(device, str) or not device for device in value):
+        raise ConfigError("gpu.devices entries must be non-empty strings")
+    return tuple(value)
 
 
 def _profiles(value: Any) -> tuple[AssetProfile, ...]:

@@ -51,3 +51,51 @@ def test_from_mapping_rejects_missing_required_paths() -> None:
                 "render": {"scale": 6, "logical_width": 320, "logical_height": 200},
             }
         )
+
+
+def test_from_mapping_rejects_non_black_gate_projects() -> None:
+    with pytest.raises(ConfigError, match="black-gate"):
+        PipelineConfig.from_mapping(
+            {
+                "project": {"name": "serpent-isle"},
+                "paths": {"data": "game-data", "work": "remaster-data"},
+                "render": {"scale": 6, "logical_width": 320, "logical_height": 200},
+            }
+        )
+
+
+def test_gpu_defaults_provide_one_worker_per_default_gpu() -> None:
+    loaded = PipelineConfig.from_mapping(
+        {
+            "project": {"name": "black-gate"},
+            "paths": {"data": "game-data", "work": "remaster-data"},
+            "render": {"scale": 6, "logical_width": 320, "logical_height": 200},
+        }
+    )
+
+    assert loaded.gpu.devices == ("cuda:0", "cuda:1")
+    assert loaded.gpu.workers == 2
+
+
+def test_gpu_workers_cannot_exceed_devices() -> None:
+    with pytest.raises(ConfigError, match="workers.*devices"):
+        PipelineConfig.from_mapping(
+            {
+                "project": {"name": "black-gate"},
+                "paths": {"data": "game-data", "work": "remaster-data"},
+                "render": {"scale": 6, "logical_width": 320, "logical_height": 200},
+                "gpu": {"devices": ["cuda:0"], "workers": 2},
+            }
+        )
+
+
+def test_gpu_devices_must_be_a_sequence() -> None:
+    with pytest.raises(ConfigError, match="gpu.devices"):
+        PipelineConfig.from_mapping(
+            {
+                "project": {"name": "black-gate"},
+                "paths": {"data": "game-data", "work": "remaster-data"},
+                "render": {"scale": 6, "logical_width": 320, "logical_height": 200},
+                "gpu": {"devices": "cuda:0"},
+            }
+        )

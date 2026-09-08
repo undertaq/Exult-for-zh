@@ -58,3 +58,28 @@ or diffusers.
 The literal brief command using `python` could not be invoked because this
 environment provides `python3` but no `python` executable; the equivalent
 interpreter command was verified.
+
+## Reviewer-fix report
+
+Addressed the Task 1 review findings in `config.py`:
+
+- `PipelineConfig.from_mapping` now accepts only the Black Gate project name,
+  exactly `black-gate`.
+- GPU defaults now represent the two configured CUDA devices and two workers.
+  Custom configurations reject a worker count greater than the device count,
+  and reject non-positive worker counts, preserving at most one active worker
+  per GPU.
+- `gpu.devices` must be a list/tuple of non-empty strings. Scalar strings are
+  rejected instead of being iterated into individual characters.
+
+Added four focused regression tests covering project gating, safe GPU defaults,
+worker/device bounds, and malformed scalar devices.
+
+TDD evidence for the fixes:
+
+1. The new tests initially produced four expected failures while the original
+   five tests passed.
+2. After the minimal implementation changes, the focused suite passed:
+   `9 passed in 0.02s`.
+3. Final verification also reran CLI help and confirmed all seven commands are
+   present; the CLI remains free of torch/diffusers imports.
