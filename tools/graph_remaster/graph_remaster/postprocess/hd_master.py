@@ -62,8 +62,7 @@ def write_hd_master(candidate: Image.Image, frame: FrameRecord, output: Path) ->
     candidate itself must already be the exact six-times target rectangle.
     """
 
-    output = Path(output)
-    report_path = output.with_suffix(".html")
+    output, metadata_path, report_path = _master_artifact_paths(Path(output))
     try:
         scale = _frame_scale(frame)
         target_size = (frame.width * scale, frame.height * scale)
@@ -75,7 +74,6 @@ def write_hd_master(candidate: Image.Image, frame: FrameRecord, output: Path) ->
         master_image.save(output, format="PNG", optimize=False, compress_level=9)
         digest = _sha256_file(output)
         offset = scale_offset(*_logical_offset(frame), scale)
-        metadata_path = output.with_suffix(".json")
         metadata = {
             "format": "graph-remaster-hd-master/v1",
             "source_key": _frame_key(frame.key),
@@ -101,6 +99,18 @@ def write_hd_master(candidate: Image.Image, frame: FrameRecord, output: Path) ->
             "stage": "postprocess", "status": "failed", "output_path": str(output), "error": str(exc),
         })
         raise
+
+
+def _master_artifact_paths(output: Path) -> tuple[Path, Path, Path]:
+    """Validate the canonical master name before any artifact can be written."""
+
+    if output.suffix != ".png":
+        raise ValueError("canonical HD master output must have a .png suffix")
+    metadata_path = output.with_suffix(".json")
+    report_path = output.with_suffix(".html")
+    if len({path.resolve() for path in (output, metadata_path, report_path)}) != 3:
+        raise ValueError("master PNG, metadata, and report paths must be distinct")
+    return output, metadata_path, report_path
 
 
 def write_indexed_preview(master: HDMaster, palette: Palette, output: Path) -> Path:

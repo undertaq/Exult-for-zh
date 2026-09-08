@@ -50,6 +50,7 @@ def test_hd_master_crops_canvas_restores_sixfold_alpha_and_writes_hash_metadata(
 
     assert master.path.is_file()
     assert master.path.with_suffix(".json").is_file()
+    assert len({master.path, master.metadata_path, master.path.with_suffix(".html")}) == 3
     with Image.open(master.path) as image:
         assert image.mode == "RGBA"
         assert image.size == (192, 288)
@@ -140,3 +141,18 @@ def test_hd_master_writes_offline_success_report(tmp_path: Path) -> None:
     assert "Postprocess succeeded" in html
     assert master.sha256 in html
     assert "http" not in html
+
+
+@pytest.mark.parametrize("suffix", [".json", ".html", ".webp"])
+def test_hd_master_rejects_non_png_destinations_before_writing_artifacts(tmp_path: Path, suffix: str) -> None:
+    source = Image.new("RGBA", (32, 48), (0, 0, 0, 0))
+    source.save(tmp_path / "source.png")
+    output = tmp_path / "invalid-output" / f"master{suffix}"
+
+    with pytest.raises(ValueError, match=r"\.png"):
+        write_hd_master(Image.new("RGBA", (192, 288), (220, 20, 20, 255)), _frame(tmp_path / "source.png"), output)
+
+    assert not output.exists()
+    assert not output.with_suffix(".json").exists()
+    assert not output.with_suffix(".html").exists()
+    assert not output.parent.exists()

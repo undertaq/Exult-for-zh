@@ -71,3 +71,21 @@ incompatible `.json` preview destinations, noncanonical scale rejection, and
 offline success/failure reports. The focused command
 `uv run --project tools/graph_remaster pytest tools/graph_remaster/tests/test_postprocess.py -q`
 passed with `9 passed in 1.38s`.
+
+## Final collision fix
+
+- `write_hd_master()` now validates its output name before entering the stage
+  report/error-handling path. Canonical master outputs must use the exact
+  `.png` suffix; `.json`, `.html`, and all other suffixes raise `ValueError`
+  before creating the output directory, master, metadata, or HTML report.
+- The master PNG, derived provenance sidecar (`.json`), and stage report
+  (`.html`) are resolved and required to be three distinct paths before any
+  filesystem write.
+- Regression coverage verifies invalid `.json`, `.html`, and `.webp` master
+  destinations leave every potential artifact absent, and verifies the valid
+  master PNG/JSON/HTML paths are distinct.
+
+### Final collision-fix verification
+
+`uv run --project tools/graph_remaster pytest tools/graph_remaster/tests/test_postprocess.py -q`
+passed with `12 passed in 0.12s`.
