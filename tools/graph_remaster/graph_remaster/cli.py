@@ -33,6 +33,16 @@ def build_parser() -> argparse.ArgumentParser:
         subparser.add_argument("selector", nargs="?")
         if command == "generate":
             subparser.add_argument("--backend", default=None)
+            subparser.add_argument(
+                "--real-model-smoke",
+                action="store_true",
+                help="run one fixed-seed SDXL ControlNet request; downloads/loads optional model weights",
+            )
+            subparser.add_argument(
+                "--device",
+                default=None,
+                help="CUDA device for --real-model-smoke (defaults to the first configured GPU)",
+            )
         if command in {"inventory", "extract"}:
             subparser.add_argument("--ipack", type=Path, required=True)
             subparser.add_argument("--archive", type=Path)
@@ -42,6 +52,8 @@ def build_parser() -> argparse.ArgumentParser:
         elif command == "prepare-controls":
             subparser.add_argument("--database", type=Path)
             subparser.set_defaults(handler=_run_controls_stage)
+        elif command == "generate":
+            subparser.set_defaults(handler=_run_generate_stage)
         else:
             subparser.set_defaults(handler=_not_implemented)
     return parser
@@ -58,6 +70,94 @@ def main(argv: Sequence[str] | None = None) -> int:
 
 def _not_implemented(args: argparse.Namespace) -> int:
     raise NotImplementedError(f"pipeline stage '{args.command}' is not implemented yet")
+
+
+def _run_generate_stage(args: argparse.Namespace) -> int:
+    """Run the explicit real-model smoke test without changing default generation behavior."""
+
+    if not args.real_model_smoke:
+        return _not_implemented(args)
+
+    from PIL import Image
+
+    from .backends.base import BackendUnavailable, InferenceRequest
+    from .backends.sdxl_controlnet import SdxlControlNetBackend
+    from .config import canonical_asset_profile, load_config
+    from .controls.prepare import ControlBundle, MaskRecord
+    from .models import FrameKey, FrameRecord, GenerationJob
+
+    run_id = args.run_id or "default"
+    backend = None
+    output_dir: Path | None = None
+    try:
+        config = load_config(args.config)
+        output_dir = config.paths.candidates / run_id
+        output_dir.mkdir(parents=True, exist_ok=True)
+        device = args.device or config.gpu.devices[0]
+        source = Image.new("RGBA", (64, 64), (46, 75, 102, 255))
+        frame = FrameRecord(FrameKey("0" * 64, 0, 0, 0), 64, 64)
+        mask = Image.new("L", source.size, 255)
+        profile = canonical_asset_profile("flat_tile")
+        request = InferenceRequest(
+            job=GenerationJob(
+                frame=frame.key,
+                state="QUEUED",
+                profile=profile.name,
+                backend="sdxl_controlnet",
+                parameters={
+                    "seed": 8675309,
+                    "width": 64,
+                    "height": 64,
+                    "num_inference_steps": 1,
+                    "prompt": "a high-fidelity Ultima VII flat game tile",
+                },
+                job_id="real-model-smoke",
+            ),
+            source=source,
+            controls=ControlBundle(
+                frame=frame,
+                profile=profile,
+                masks=MaskRecord(frame.key, mask, mask.copy(), mask.copy()),
+                controls={"canny": Image.new("L", source.size, 128)},
+            ),
+            reference=None,
+        )
+        backend = SdxlControlNetBackend(config.model)
+        backend.load(device, config.gpu.precision)
+        torch = backend.torch_runtime
+        torch.cuda.reset_peak_memory_stats(device)
+        candidate = backend.generate(request)
+        image_path = output_dir / "real-model-smoke.png"
+        candidate.image.save(image_path)
+        payload = {
+            "device": device,
+            "image": str(image_path),
+            "model_revisions": {
+                "base_model": config.model.base_model,
+                "base_model_revision": config.model.revision,
+                "canny_controlnet": config.model.canny_controlnet,
+                "canny_revision": config.model.canny_revision,
+                "depth_controlnet": config.model.depth_controlnet,
+                "depth_revision": config.model.depth_revision,
+            },
+            "peak_vram_bytes": int(torch.cuda.max_memory_allocated(device)),
+            "seed": candidate.seed,
+            "status": "ok",
+        }
+        (output_dir / "real-model-smoke.json").write_text(
+            json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8"
+        )
+        return 0
+    except (BackendUnavailable, OSError, ValueError) as exc:
+        if output_dir is not None:
+            (output_dir / "real-model-smoke.json").write_text(
+                json.dumps({"error": str(exc), "status": "failed"}, indent=2, sort_keys=True),
+                encoding="utf-8",
+            )
+        return 2
+    finally:
+        if backend is not None:
+            backend.unload()
 
 
 def _run_source_stage(args: argparse.Namespace) -> int:

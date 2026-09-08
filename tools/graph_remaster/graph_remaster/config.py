@@ -45,8 +45,26 @@ class GPUConfig:
 @dataclass(frozen=True)
 class ModelConfig:
     backend: str = "sdxl_controlnet"
-    base_model: str = ""
-    revision: str = ""
+    base_model: str = "stabilityai/stable-diffusion-xl-base-1.0"
+    revision: str = "main"
+    canny_controlnet: str = "diffusers/controlnet-canny-sdxl-1.0"
+    canny_revision: str = "main"
+    depth_controlnet: str = "diffusers/controlnet-depth-sdxl-1.0"
+    depth_revision: str = "main"
+
+    def controlnet_model(self, kind: str) -> str:
+        if kind == "canny":
+            return self.canny_controlnet
+        if kind == "depth":
+            return self.depth_controlnet
+        raise ValueError(f"unsupported SDXL ControlNet kind {kind!r}")
+
+    def controlnet_revision(self, kind: str) -> str:
+        if kind == "canny":
+            return self.canny_revision
+        if kind == "depth":
+            return self.depth_revision
+        raise ValueError(f"unsupported SDXL ControlNet kind {kind!r}")
 
 
 @dataclass(frozen=True)
@@ -147,8 +165,12 @@ class PipelineConfig:
             ),
             model=ModelConfig(
                 backend=str(model.get("backend", "sdxl_controlnet")),
-                base_model=str(model.get("base_model", "")),
-                revision=str(model.get("revision", "")),
+                base_model=str(model.get("base_model", ModelConfig.base_model)),
+                revision=str(model.get("revision", ModelConfig.revision)),
+                canny_controlnet=str(model.get("canny_controlnet", ModelConfig.canny_controlnet)),
+                canny_revision=str(model.get("canny_revision", ModelConfig.canny_revision)),
+                depth_controlnet=str(model.get("depth_controlnet", ModelConfig.depth_controlnet)),
+                depth_revision=str(model.get("depth_revision", ModelConfig.depth_revision)),
             ),
             asset_profiles=_profiles(mapping.get("asset_profiles", {})),
         )
