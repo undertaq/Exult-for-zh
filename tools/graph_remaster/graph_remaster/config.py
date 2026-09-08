@@ -185,7 +185,10 @@ def _devices(value: Any) -> tuple[str, ...]:
         raise ConfigError("gpu.devices must be a sequence")
     if any(not isinstance(device, str) or not device for device in value):
         raise ConfigError("gpu.devices entries must be non-empty strings")
-    return tuple(value)
+    devices = tuple(value)
+    if len(set(devices)) != len(devices):
+        raise ConfigError("gpu.devices must contain unique device IDs")
+    return devices
 
 
 def _profiles(value: Any) -> tuple[AssetProfile, ...]:

@@ -83,3 +83,14 @@ TDD evidence for the fixes:
    `9 passed in 0.02s`.
 3. Final verification also reran CLI help and confirmed all seven commands are
    present; the CLI remains free of torch/diffusers imports.
+
+## Duplicate-device re-review fix
+
+The remaining re-review finding is fixed in `_devices`: GPU device IDs must be
+unique. Duplicate entries such as `["cuda:0", "cuda:0"]` now raise
+`ConfigError`, while valid device order is preserved.
+
+Added `test_gpu_devices_must_be_unique` as a focused regression test. The test
+failed before the implementation change and the focused suite now passes with
+`10 passed in 0.02s`. CLI help was rerun successfully with all seven commands,
+and the lazy-import check continued to report no torch/diffusers imports.

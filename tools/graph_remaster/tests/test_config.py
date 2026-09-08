@@ -99,3 +99,15 @@ def test_gpu_devices_must_be_a_sequence() -> None:
                 "gpu": {"devices": "cuda:0"},
             }
         )
+
+
+def test_gpu_devices_must_be_unique() -> None:
+    with pytest.raises(ConfigError, match="unique"):
+        PipelineConfig.from_mapping(
+            {
+                "project": {"name": "black-gate"},
+                "paths": {"data": "game-data", "work": "remaster-data"},
+                "render": {"scale": 6, "logical_width": 320, "logical_height": 200},
+                "gpu": {"devices": ["cuda:0", "cuda:0"]},
+            }
+        )
