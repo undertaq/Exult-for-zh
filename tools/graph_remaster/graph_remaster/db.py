@@ -22,7 +22,7 @@ from .models import (
     ValidationResult,
 )
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 ALLOWED_TRANSITIONS = {
     JobState.DISCOVERED: {JobState.EXTRACTED},
     JobState.EXTRACTED: {JobState.CONTROLS_READY},
@@ -185,6 +185,15 @@ class AssetStore:
                 UNIQUE (candidate_id, package_path),
                 FOREIGN KEY (candidate_id) REFERENCES candidates(candidate_id)
             );
+            CREATE TABLE IF NOT EXISTS generation_job_errors (
+                error_id TEXT PRIMARY KEY,
+                job_id TEXT NOT NULL,
+                error TEXT NOT NULL,
+                traceback_text TEXT NOT NULL,
+                report_path TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                FOREIGN KEY (job_id) REFERENCES generation_jobs(job_id)
+            );
             """,
         )
 
@@ -195,8 +204,24 @@ class AssetStore:
             )
         if version == 1:
             self._migrate_v1_to_v2()
+            version = 2
+        if version == 2:
+            self._migrate_v2_to_v3()
         self._connection.execute("UPDATE schema_version SET version = ?", (SCHEMA_VERSION,))
         self._connection.commit()
+
+    def _migrate_v2_to_v3(self) -> None:
+        self._connection.execute(
+            """CREATE TABLE IF NOT EXISTS generation_job_errors (
+            error_id TEXT PRIMARY KEY,
+            job_id TEXT NOT NULL,
+            error TEXT NOT NULL,
+            traceback_text TEXT NOT NULL,
+            report_path TEXT NOT NULL,
+            created_at TEXT NOT NULL,
+            FOREIGN KEY (job_id) REFERENCES generation_jobs(job_id)
+            )"""
+        )
 
     def _migrate_v1_to_v2(self) -> None:
         if self._has_generation_job_frame_fk():
@@ -434,6 +459,67 @@ class AssetStore:
             raise InvalidStateTransition(
                 f"job {job_id} is not in expected state {expected_state.value}"
             )
+        self._connection.commit()
+
+    def job_state(self, job_id: str) -> JobState:
+        """Return the current persisted state for a generation job."""
+
+        row = self._connection.execute(
+            "SELECT state FROM generation_jobs WHERE job_id = ?", (job_id,)
+        ).fetchone()
+        if row is None:
+            raise KeyError(f"unknown generation job {job_id!r}")
+        return _job_state(row[0])
+
+    def record_job_error(
+        self, job_id: str, error: str, traceback_text: str, report_path: str
+    ) -> str:
+        """Persist a terminal worker error and its offline diagnostic report path."""
+
+        error_id = str(uuid4())
+        self._connection.execute(
+            """INSERT INTO generation_job_errors
+            (error_id, job_id, error, traceback_text, report_path, created_at)
+            VALUES (?, ?, ?, ?, ?, ?)""",
+            (error_id, job_id, error, traceback_text, report_path, _now()),
+        )
+        self._connection.commit()
+        return error_id
+
+    def get_job_error(self, job_id: str) -> dict[str, str] | None:
+        """Return the most recent scheduler error for a job, if it has one."""
+
+        row = self._connection.execute(
+            """SELECT error, traceback_text, report_path FROM generation_job_errors
+            WHERE job_id = ? ORDER BY created_at DESC, error_id DESC LIMIT 1""",
+            (job_id,),
+        ).fetchone()
+        if row is None:
+            return None
+        return {"error": row[0], "traceback": row[1], "report_path": row[2]}
+
+    def job_parameters(self, job_id: str) -> dict[str, object]:
+        """Return the persisted generation parameters and scheduler provenance."""
+
+        row = self._connection.execute(
+            "SELECT parameters_json FROM generation_jobs WHERE job_id = ?", (job_id,)
+        ).fetchone()
+        if row is None:
+            raise KeyError(f"unknown generation job {job_id!r}")
+        return json.loads(row[0])
+
+    def record_job_metadata(self, job_id: str, metadata: dict[str, object]) -> None:
+        """Merge scheduler provenance into a job without discarding generation inputs."""
+
+        parameters = self.job_parameters(job_id)
+        parameters.update(metadata)
+        cursor = self._connection.execute(
+            "UPDATE generation_jobs SET parameters_json = ?, updated_at = ? WHERE job_id = ?",
+            (_json(parameters), _now(), job_id),
+        )
+        if cursor.rowcount != 1:
+            self._connection.rollback()
+            raise KeyError(f"unknown generation job {job_id!r}")
         self._connection.commit()
 
     def add_candidate(self, candidate: Candidate) -> str:

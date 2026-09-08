@@ -139,7 +139,7 @@ def test_migrates_v1_generation_jobs_and_preserves_valid_rows(tmp_path: Path) ->
 
     store.migrate()
 
-    assert store.schema_version() == 2
+    assert store.schema_version() == 3
     row = store._connection.execute(
         "SELECT job_id, state, archive_sha256, archive_index, shape_id, frame_id "
         "FROM generation_jobs"
@@ -158,7 +158,7 @@ def test_migrates_v1_generation_jobs_and_preserves_valid_rows(tmp_path: Path) ->
     }
 
     store.migrate()
-    assert store.schema_version() == 2
+    assert store.schema_version() == 3
     assert store._connection.execute("SELECT COUNT(*) FROM generation_jobs").fetchone()[0] == 1
 
 

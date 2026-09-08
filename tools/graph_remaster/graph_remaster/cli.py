@@ -42,7 +42,7 @@ def build_parser() -> argparse.ArgumentParser:
             subparser.add_argument(
                 "--device",
                 default=None,
-                help="CUDA device for --real-model-smoke (defaults to the first configured GPU)",
+                help="CUDA device override: 0/1 or cuda:0/cuda:1 (defaults to the first configured GPU)",
             )
         if command in {"inventory", "extract"}:
             subparser.add_argument("--ipack", type=Path, required=True)
@@ -97,7 +97,7 @@ def _run_generate_stage(args: argparse.Namespace) -> int:
         output_dir.mkdir(parents=True, exist_ok=True)
         report_path = output_dir / "real-model-smoke.json"
         config.model.validate_for_real_model()
-        device = args.device or config.gpu.devices[0]
+        device = _normalize_cuda_device(args.device or config.gpu.devices[0])
         source = Image.new("RGBA", (64, 64), (46, 75, 102, 255))
         frame = FrameRecord(FrameKey("0" * 64, 0, 0, 0), 64, 64)
         mask = Image.new("L", source.size, 255)
@@ -199,6 +199,12 @@ def _fallback_real_model_smoke_report_path(config_path: Path, run_id: str) -> Pa
         return root / run_id / "real-model-smoke.json"
     except (OSError, tomllib.TOMLDecodeError):
         return default
+
+
+def _normalize_cuda_device(value: str) -> str:
+    """Accept the scheduler's concise numeric overrides without changing CUDA names."""
+
+    return f"cuda:{value}" if value.isdecimal() else value
 
 
 def _run_source_stage(args: argparse.Namespace) -> int:
