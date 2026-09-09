@@ -262,3 +262,83 @@ def test_generate_cli_routes_selected_job_through_worker_pool_without_constructi
     assert selected["devices"] is None
     assert selected["device_selectors"] == ("cuda:0", "cuda:1")
     assert set(selected["requests"]) == {"job"}
+
+
+def test_generate_cli_records_centered_source_to_canvas_mapping(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    config = tmp_path / "pipeline.toml"
+    config.write_text(
+        """[project]\nname = 'black-gate'\n[paths]\ndata = 'data'\nwork = 'work'\n[render]\nscale = 6\nlogical_width = 320\nlogical_height = 200\n""",
+        encoding="utf-8",
+    )
+    database = tmp_path / "work" / "graph.sqlite3"
+    _seed_job(database, "job")
+    store = AssetStore.open(database)
+    try:
+        job = store.get_generation_job("job")
+        store.create_generation_job(GenerationJob(
+            job.frame,
+            "QUEUED",
+            job.profile,
+            job.backend,
+            {"seed": 7, "width": 128, "height": 128},
+            "job",
+        ))
+    finally:
+        store.close()
+
+    class FakePool:
+        def __init__(self, devices: object, backend_factory: object, requests: object, **kwargs: object) -> None:
+            self.requests = requests
+
+        def submit(self, job_id: str):
+            from concurrent.futures import Future
+            future = Future()
+            future.set_result(None)
+            return future
+
+        def close(self) -> None:
+            return None
+
+    monkeypatch.setattr("graph_remaster.cli.WorkerPool", FakePool)
+
+    assert main(["generate", "--config", str(config), "--backend", "mock", "job"]) == 0
+
+    store = AssetStore.open(database)
+    try:
+        parameters = store.job_parameters("job")
+    finally:
+        store.close()
+    assert parameters["source_to_canvas"] == {
+        "canvas": [128, 128],
+        "crop": [28, 37, 72, 54],
+        "policy": "center",
+        "target": [72, 54],
+    }
+
+
+def test_generate_cli_rejects_canvas_smaller_than_canonical_target(tmp_path: Path) -> None:
+    config = tmp_path / "pipeline.toml"
+    config.write_text(
+        """[project]\nname = 'black-gate'\n[paths]\ndata = 'data'\nwork = 'work'\n[render]\nscale = 6\nlogical_width = 320\nlogical_height = 200\n""",
+        encoding="utf-8",
+    )
+    database = tmp_path / "work" / "graph.sqlite3"
+    _seed_job(database, "job")
+    store = AssetStore.open(database)
+    try:
+        job = store.get_generation_job("job")
+        store.create_generation_job(GenerationJob(
+            job.frame,
+            "QUEUED",
+            job.profile,
+            job.backend,
+            {"seed": 7, "width": 64, "height": 64},
+            "job",
+        ))
+    finally:
+        store.close()
+
+    with pytest.raises(ValueError, match="at least the canonical HD target"):
+        main(["generate", "--config", str(config), "--backend", "mock", "job"])

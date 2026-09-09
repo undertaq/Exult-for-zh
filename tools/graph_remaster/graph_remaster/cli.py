@@ -8,9 +8,13 @@ from dataclasses import dataclass
 import json
 from pathlib import Path
 import tomllib
-from typing import Sequence
+from typing import TYPE_CHECKING, Sequence
 
 from .workers.scheduler import WorkerPool
+
+if TYPE_CHECKING:
+    from .db import AssetStore
+    from .models import FrameRecord, GenerationJob
 
 
 COMMANDS = (
@@ -346,6 +350,7 @@ def _run_worker_pool_generate(args: argparse.Namespace) -> int:
         if job.state != JobState.QUEUED:
             raise ValueError(f"generation job {args.selector!r} must be QUEUED, not {job.state}")
         frame = store.get_frame(job.frame)
+        _record_source_to_canvas(store, job, frame, config.render.scale)
     finally:
         store.close()
 
@@ -371,6 +376,42 @@ def _run_worker_pool_generate(args: argparse.Namespace) -> int:
     finally:
         pool.close()
     return 0
+
+
+def _record_source_to_canvas(
+    store: AssetStore, job: GenerationJob, frame: FrameRecord, scale: int
+) -> None:
+    """Persist the deterministic crop from a model canvas to the HD target."""
+
+    parameters = job.parameters
+    if "width" not in parameters or "height" not in parameters:
+        return
+    try:
+        canvas_width = int(parameters["width"])
+        canvas_height = int(parameters["height"])
+    except (TypeError, ValueError) as exc:
+        raise ValueError("generation width and height must be integers") from exc
+    target_width = frame.width * scale
+    target_height = frame.height * scale
+    if canvas_width < target_width or canvas_height < target_height:
+        raise ValueError(
+            "generation canvas must be at least the canonical HD target "
+            f"({target_width}x{target_height})"
+        )
+    crop = [
+        (canvas_width - target_width) // 2,
+        (canvas_height - target_height) // 2,
+        target_width,
+        target_height,
+    ]
+    store.record_job_metadata(job.job_id, {
+        "source_to_canvas": {
+            "canvas": [canvas_width, canvas_height],
+            "crop": crop,
+            "policy": "center",
+            "target": [target_width, target_height],
+        }
+    })
 
 
 def _run_validate_stage(args: argparse.Namespace) -> int:
