@@ -68,6 +68,9 @@ def build_parser() -> argparse.ArgumentParser:
             subparser.add_argument("--reason", default="")
             subparser.add_argument("--reviewer", default="local")
             subparser.set_defaults(handler=_run_review_stage)
+        elif command == "package":
+            subparser.add_argument("--database", type=Path)
+            subparser.set_defaults(handler=_run_package_stage)
         else:
             subparser.set_defaults(handler=_not_implemented)
     return parser
@@ -354,6 +357,38 @@ def _run_review_stage(args: argparse.Namespace) -> int:
         args.selector,
         ReviewDecision(args.selector, args.decision, args.reviewer, args.reason),
     )
+    return 0
+
+
+def _run_package_stage(args: argparse.Namespace) -> int:
+    """Package only candidates that passed validation and local review."""
+
+    from .config import load_config
+    from .db import AssetStore
+    from .packaging.manifest import build_package
+    from .reports.writer import Stage, write_run_index, write_stage_report
+    from .reporting import write_stage_html_report
+
+    config = load_config(args.config)
+    run_id = args.run_id or "default"
+    database = args.database or config.paths.work / "graph.sqlite3"
+    output_dir = config.paths.packages / run_id
+    report_dir = config.paths.reports / run_id
+    store = AssetStore.open(database)
+    try:
+        store.migrate()
+        manifest = build_package(run_id, store, output_dir)
+        write_run_index(run_id, report_dir)
+        write_stage_report(Stage.PACKAGE, run_id, store, report_dir)
+        write_stage_html_report(report_dir / "package.html", "Package report", manifest.as_dict())
+    except (OSError, ValueError, KeyError) as exc:
+        report_dir.mkdir(parents=True, exist_ok=True)
+        payload = {"stage": "package", "run_id": run_id, "error": str(exc)}
+        (report_dir / "package-error.json").write_text(json.dumps(payload, sort_keys=True), encoding="utf-8")
+        write_stage_html_report(report_dir / "package-error.html", "Package failed", payload)
+        return 2
+    finally:
+        store.close()
     return 0
 
 
