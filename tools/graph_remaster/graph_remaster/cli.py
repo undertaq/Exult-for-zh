@@ -18,6 +18,7 @@ COMMANDS = (
     "extract",
     "prepare-controls",
     "generate",
+    "postprocess",
     "validate",
     "review",
     "package",
@@ -59,6 +60,10 @@ def build_parser() -> argparse.ArgumentParser:
             subparser.set_defaults(handler=_run_controls_stage)
         elif command == "generate":
             subparser.set_defaults(handler=_run_generate_stage)
+        elif command == "postprocess":
+            subparser.add_argument("--database", type=Path)
+            subparser.add_argument("--output", type=Path)
+            subparser.set_defaults(handler=_run_postprocess_stage)
         elif command == "validate":
             subparser.add_argument("--database", type=Path)
             subparser.set_defaults(handler=_run_validate_stage)
@@ -179,6 +184,79 @@ def _run_generate_stage(args: argparse.Namespace) -> int:
     finally:
         if backend is not None:
             backend.unload()
+
+
+def _run_postprocess_stage(args: argparse.Namespace) -> int:
+    """Convert one generated candidate into a canonical six-times master."""
+
+    from PIL import Image
+
+    from .config import load_config
+    from .db import AssetStore
+    from .models import Candidate, FrameRecord
+    from .postprocess.hd_master import write_hd_master
+    from .reporting import write_stage_html_report
+
+    if not args.selector:
+        raise ValueError("postprocess requires a candidate id selector")
+    run_id = args.run_id or "default"
+    config = load_config(args.config)
+    database = args.database or config.paths.work / "graph.sqlite3"
+    report_path = config.paths.reports / run_id / "postprocess.html"
+    store = AssetStore.open(database)
+    try:
+        store.migrate()
+        candidate = store.get_candidate(args.selector)
+        job = store.get_generation_job(candidate.job_id)
+        frame = store.get_frame(job.frame)
+        metadata = dict(frame.metadata)
+        metadata.setdefault("asset_type", job.profile)
+        metadata.setdefault("scale", config.render.scale)
+        metadata.setdefault("offset", [0, 0])
+        transform = job.parameters.get("source_to_canvas")
+        if transform is not None:
+            metadata["source_to_canvas"] = transform
+        canonical_frame = FrameRecord(frame.key, frame.width, frame.height, frame.has_alpha, metadata)
+        output = args.output or config.paths.work / "masters" / run_id / f"{args.selector}.png"
+        with Image.open(candidate.artifact_path) as image:
+            master = write_hd_master(image, canonical_frame, output)
+        updated_metadata = dict(candidate.metadata)
+        updated_metadata["generated_artifact_path"] = candidate.artifact_path
+        updated_metadata["postprocess"] = {
+            "master_path": str(master.path),
+            "metadata_path": str(master.metadata_path),
+            "master_png_sha256": master.sha256,
+            "offset": list(master.offset),
+            "dimensions": list(master.dimensions),
+        }
+        store.add_candidate(Candidate(
+            candidate.job_id,
+            str(master.path),
+            master.sha256,
+            updated_metadata,
+            candidate.candidate_id,
+        ))
+        payload = {
+            "candidate_id": args.selector,
+            "dimensions": list(master.dimensions),
+            "master_path": str(master.path),
+            "metadata_path": str(master.metadata_path),
+            "stage": "postprocess",
+            "status": "succeeded",
+        }
+        report_path.parent.mkdir(parents=True, exist_ok=True)
+        write_stage_html_report(report_path, "Postprocess succeeded", payload)
+        return 0
+    except (OSError, KeyError, ValueError) as exc:
+        payload = {"candidate_id": args.selector, "error": str(exc), "stage": "postprocess", "status": "failed"}
+        report_path.parent.mkdir(parents=True, exist_ok=True)
+        (report_path.with_name("postprocess-error.json")).write_text(
+            json.dumps(payload, sort_keys=True), encoding="utf-8"
+        )
+        write_stage_html_report(report_path, "Postprocess failed", payload)
+        return 2
+    finally:
+        store.close()
 
 
 def _write_real_model_smoke_reports(

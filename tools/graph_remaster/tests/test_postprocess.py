@@ -7,7 +7,10 @@ from pathlib import Path
 from PIL import Image
 import pytest
 
+from graph_remaster.cli import main
+from graph_remaster.db import AssetStore
 from graph_remaster.models import FrameKey, FrameRecord
+from graph_remaster.models import Candidate, GenerationJob, ShapeRecord, SourceArchive
 from graph_remaster.postprocess.hd_master import Palette, scale_offset, write_hd_master, write_indexed_preview
 from graph_remaster.postprocess.masks import restore_source_alpha
 
@@ -127,6 +130,68 @@ def test_hd_master_rejects_noncanonical_scale_and_writes_offline_failure_report(
     assert report.is_file()
     assert "Postprocess failed" in report.read_text(encoding="utf-8")
     assert "http" not in report.read_text(encoding="utf-8")
+
+
+def test_postprocess_cli_persists_canonical_master_and_updates_candidate(tmp_path: Path) -> None:
+    source = Image.new("RGBA", (8, 8), (10, 20, 30, 0))
+    source.putpixel((2, 3), (10, 20, 30, 255))
+    source_path = tmp_path / "source.png"
+    source.save(source_path)
+    key = FrameKey("b" * 64, 0, 4, 0)
+    frame = FrameRecord(
+        key,
+        8,
+        8,
+        metadata={
+            "asset_type": "flat_tile",
+            "offset": [1, -2],
+            "rgba_preview_path": str(source_path),
+            "scale": 6,
+        },
+    )
+    database = tmp_path / "graph.sqlite3"
+    store = AssetStore.open(database)
+    store.migrate()
+    store.upsert_source_archive(SourceArchive(key.archive_sha256, "shapes.vga"))
+    store.upsert_shape(ShapeRecord(key.archive_sha256, key.archive_index, key.shape_id, 8, 8, 1))
+    store.upsert_frame(frame)
+    store.create_generation_job(GenerationJob(key, "GENERATED", "flat_tile", "mock", {"seed": 7}, "job-postprocess"))
+    candidate_path = tmp_path / "candidate.png"
+    Image.new("RGBA", (48, 48), (90, 80, 70, 255)).save(candidate_path)
+    candidate_id = store.add_candidate(
+        Candidate("job-postprocess", str(candidate_path), candidate_id="candidate-postprocess")
+    )
+    store.close()
+    config = tmp_path / "pipeline.toml"
+    config.write_text(
+        "[project]\nname = 'black-gate'\n[paths]\ndata = 'data'\nwork = 'work'\n"
+        "[render]\nscale = 6\nlogical_width = 320\nlogical_height = 200\n",
+        encoding="utf-8",
+    )
+
+    assert main([
+        "postprocess", "--config", str(config), "--database", str(database),
+        "--run-id", "pilot", candidate_id,
+    ]) == 0
+
+    master = tmp_path / "work" / "masters" / "pilot" / f"{candidate_id}.png"
+    assert master.is_file()
+    with Image.open(master) as image:
+        assert image.mode == "RGBA"
+        assert image.size == (48, 48)
+        assert image.getpixel((12, 18))[3] == 255
+        assert image.getpixel((0, 0))[3] == 0
+    updated = AssetStore.open(database)
+    try:
+        persisted = updated.get_candidate(candidate_id)
+        assert persisted.artifact_path == str(master)
+        assert persisted.artifact_sha256
+        assert persisted.metadata["generated_artifact_path"] == str(candidate_path)
+    finally:
+        updated.close()
+    report = tmp_path / "work" / "reports" / "pilot" / "postprocess.html"
+    assert report.is_file()
+    assert "Postprocess succeeded" in report.read_text(encoding="utf-8")
 
 
 def test_hd_master_writes_offline_success_report(tmp_path: Path) -> None:
