@@ -641,17 +641,35 @@ def test_real_model_smoke_writes_an_offline_html_report_on_success(
         encoding="utf-8",
     )
 
+    seen_devices: list[object] = []
+    initialized = False
+
     class FakeCuda:
         @staticmethod
-        def reset_peak_memory_stats(device: str) -> None:
+        def init() -> None:
+            nonlocal initialized
+            initialized = True
+
+        @staticmethod
+        def reset_peak_memory_stats(device: object) -> None:
+            assert initialized
+            seen_devices.append(device)
             return None
 
         @staticmethod
-        def max_memory_allocated(device: str) -> int:
+        def max_memory_allocated(device: object) -> int:
+            seen_devices.append(device)
             return 123
 
+    class FakeTorch:
+        cuda = FakeCuda()
+
+        @staticmethod
+        def device(value: str) -> tuple[str, str]:
+            return ("torch-device", value)
+
     class FakeBackend:
-        torch_runtime = type("FakeTorch", (), {"cuda": FakeCuda()})()
+        torch_runtime = FakeTorch()
 
         def __init__(self, config: ModelConfig) -> None:
             self.config = config
@@ -675,3 +693,5 @@ def test_real_model_smoke_writes_an_offline_html_report_on_success(
     assert status == 0
     assert "Real model smoke completed" in html
     assert "peak_vram_bytes" in html
+    assert initialized
+    assert seen_devices == [("torch-device", "cuda:0"), ("torch-device", "cuda:0")]

@@ -145,7 +145,9 @@ def _run_generate_stage(args: argparse.Namespace) -> int:
         backend = SdxlControlNetBackend(config.model)
         backend.load(device, config.gpu.precision)
         torch = backend.torch_runtime
-        torch.cuda.reset_peak_memory_stats(device)
+        torch_device = torch.device(device)
+        torch.cuda.init()
+        torch.cuda.reset_peak_memory_stats(torch_device)
         candidate = backend.generate(request)
         image_path = output_dir / "real-model-smoke.png"
         candidate.image.save(image_path)
@@ -153,7 +155,7 @@ def _run_generate_stage(args: argparse.Namespace) -> int:
             "device": device,
             "image": str(image_path),
             "model_revisions": config.model.resolved_revisions(("canny",)),
-            "peak_vram_bytes": int(torch.cuda.max_memory_allocated(device)),
+            "peak_vram_bytes": int(torch.cuda.max_memory_allocated(torch_device)),
             "precision": candidate.metadata.get("precision", {}),
             "seed": candidate.seed,
             "status": "ok",
