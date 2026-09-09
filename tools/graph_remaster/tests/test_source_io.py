@@ -9,7 +9,7 @@ import pytest
 from graph_remaster.hashing import sha256_file
 from graph_remaster.cli import main
 from graph_remaster.db import AssetStore
-from graph_remaster.source_io.ipack_adapter import IpackAdapter, write_ipack_script
+from graph_remaster.source_io.ipack_adapter import IpackAdapter, _frame_identity, write_ipack_script
 from graph_remaster.source_io.png_metadata import PNGMetadataError, read_png_metadata, read_png_offset
 
 
@@ -102,6 +102,10 @@ def test_ipack_script_includes_optional_palette_and_uses_prefix(tmp_path: Path) 
     ]
 
 
+def test_ipack_adapter_accepts_native_ipack_frame_names() -> None:
+    assert _frame_identity(Path("frame0001_00.png")) == (1, 0)
+
+
 def test_read_png_offset_defaults_when_offsets_chunk_is_absent(tmp_path: Path) -> None:
     image = tmp_path / "frame.png"
     image.write_bytes(indexed_png())
@@ -152,7 +156,7 @@ def test_inventory_and_extract_cli_persist_idempotent_stage_records(tmp_path: Pa
     assert main(inventory_args) == 0
     assert invocation_counter.read_text() == "1"
     assert main(["extract", "--config", str(config), "--ipack", str(ipack), "--archive", str(archive), "--run-id", "fixture"]) == 0
-    assert invocation_counter.read_text() == "2"
+    assert invocation_counter.read_text() == "1"
 
     store = AssetStore.open(tmp_path / "work" / "graph.sqlite3")
     archive_sha256 = sha256_file(archive)
@@ -171,7 +175,7 @@ def test_inventory_and_extract_cli_persist_idempotent_stage_records(tmp_path: Pa
     store.close()
 
     assert main(["extract", "--config", str(config), "--ipack", str(ipack), "--archive", str(archive), "--run-id", "fixture"]) == 0
-    assert invocation_counter.read_text() == "3"
+    assert invocation_counter.read_text() == "1"
     store = AssetStore.open(tmp_path / "work" / "graph.sqlite3")
     assert len(store.list_frames(store.list_shapes(archive_sha256)[0])) == 2
     assert store._connection.execute(
@@ -179,7 +183,7 @@ def test_inventory_and_extract_cli_persist_idempotent_stage_records(tmp_path: Pa
     ).fetchone()[0] == frame_zero_updated
     store.close()
     assert main(["extract", "--config", str(config), "--ipack", str(ipack), "--archive", str(archive), "--run-id", "fixture"]) == 0
-    assert invocation_counter.read_text() == "3"
+    assert invocation_counter.read_text() == "1"
     assert (tmp_path / "work" / "inventory" / "fixture" / "stage.json").is_file()
     assert (tmp_path / "work" / "extract" / "fixture" / "stage.json").is_file()
     assert "torch" not in sys.modules

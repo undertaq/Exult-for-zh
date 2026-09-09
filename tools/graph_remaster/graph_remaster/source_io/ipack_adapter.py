@@ -14,7 +14,10 @@ from .base import CommandRunner, run_command
 from .png_metadata import PNGMetadataError, read_png_metadata, write_rgba_preview
 
 
-_FRAME_NAME = re.compile(r"^(?P<prefix>.+)-(?P<shape>\d+)-(?P<frame>\d+)\.png$")
+_FRAME_NAME = re.compile(
+    r"^(?P<prefix>.+)-(?P<shape>\d+)-(?P<frame>\d+)\.png$|"
+    r"^(?P<native_prefix>.*?)(?P<native_shape>\d{4})_(?P<native_frame>\d{2})\.png$"
+)
 
 
 def write_ipack_script(archive: Path, palette: Path | None, prefix: Path) -> str:
@@ -31,6 +34,7 @@ class IpackAdapter:
     def __init__(self, ipack_binary: Path, runner: CommandRunner = run_command) -> None:
         self.ipack_binary = Path(ipack_binary)
         self.runner = runner
+        self._indexed_frame_cache: dict[Path, dict[int, tuple[Path, ...]]] = {}
 
     def inventory(
         self, source_archive: Path, work_dir: Path, palette: Path | None = None
@@ -62,7 +66,21 @@ class IpackAdapter:
         source_archive = Path(str(shape.metadata.get("source_archive", "")))
         palette_value = shape.metadata.get("palette")
         palette = Path(str(palette_value)) if palette_value else None
-        output = self._extract_all(source_archive, palette, Path(work_dir) / "raw")
+        indexed_value = shape.metadata.get("indexed_directory")
+        indexed_source = Path(str(indexed_value)) if indexed_value else None
+        output: list[Path] = []
+        if indexed_source is not None:
+            cached = self._indexed_frame_cache.get(indexed_source)
+            if cached is None:
+                grouped: defaultdict[int, list[Path]] = defaultdict(list)
+                for image in sorted(indexed_source.glob("frame*.png")):
+                    shape_id, _ = _frame_identity(image)
+                    grouped[shape_id].append(image)
+                cached = {shape_id: tuple(images) for shape_id, images in grouped.items()}
+                self._indexed_frame_cache[indexed_source] = cached
+            output = list(cached.get(shape.shape_id, ()))
+        if not output:
+            output = self._extract_all(source_archive, palette, Path(work_dir) / "raw")
         indexed_dir = Path(work_dir) / "indexed"
         preview_dir = Path(work_dir) / "rgba"
         frames = []
@@ -106,7 +124,7 @@ class IpackAdapter:
                 f"ipack exited with status {result.returncode}: {result.stderr.strip()}", command=command,
                 returncode=result.returncode, stdout=result.stdout, stderr=result.stderr,
             )
-        images = sorted(output_dir.glob("frame-*.png"))
+        images = sorted(output_dir.glob("frame*.png"))
         if not images:
             raise SourceToolError("ipack produced no PNG frames", command=command, stdout=result.stdout, stderr=result.stderr)
         return images
@@ -116,7 +134,9 @@ def _frame_identity(path: Path) -> tuple[int, int]:
     match = _FRAME_NAME.match(path.name)
     if match is None:
         raise SourceToolError(f"unexpected ipack frame name: {path.name}")
-    return int(match.group("shape")), int(match.group("frame"))
+    if match.group("shape") is not None:
+        return int(match.group("shape")), int(match.group("frame"))
+    return int(match.group("native_shape")), int(match.group("native_frame"))
 
 
 def _metadata(path: Path, preview: Path | None = None):

@@ -420,8 +420,8 @@ def _run_source_stage(args: argparse.Namespace) -> int:
             store.migrate()
             archive_sha256 = sha256_file(archive)
             shapes = store.list_shapes(archive_sha256) if store.get_source_archive(archive_sha256) else []
+            adapter = IpackAdapter(args.ipack)
             if not shapes:
-                adapter = IpackAdapter(args.ipack)
                 shapes = adapter.inventory(archive, stage_dir, args.palette)
                 store.upsert_source_archive(
                     SourceArchive(archive_sha256, str(archive.resolve()), archive.stat().st_size)
@@ -433,7 +433,6 @@ def _run_source_stage(args: argparse.Namespace) -> int:
                     existing = {frame.key.frame_id for frame in store.list_frames(shape)}
                     expected = set(range(shape.frame_count))
                     if not expected.issubset(existing):
-                        adapter = IpackAdapter(args.ipack)
                         for frame in adapter.extract(shape, stage_dir / f"shape-{shape.shape_id:04d}"):
                             if frame.key.frame_id not in existing:
                                 store.upsert_frame(frame)
