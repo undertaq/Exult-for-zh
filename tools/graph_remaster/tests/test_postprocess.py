@@ -194,6 +194,74 @@ def test_postprocess_cli_persists_canonical_master_and_updates_candidate(tmp_pat
     assert "Postprocess succeeded" in report.read_text(encoding="utf-8")
 
 
+def test_postprocess_cli_accepts_explicit_crop_for_legacy_canvas_candidate(tmp_path: Path) -> None:
+    source = Image.new("RGBA", (8, 8), (10, 20, 30, 0))
+    source.putpixel((2, 3), (10, 20, 30, 255))
+    source_path = tmp_path / "source.png"
+    source.save(source_path)
+    key = FrameKey("c" * 64, 0, 5, 0)
+    frame = FrameRecord(
+        key,
+        8,
+        8,
+        metadata={"rgba_preview_path": str(source_path)},
+    )
+    database = tmp_path / "graph.sqlite3"
+    store = AssetStore.open(database)
+    store.migrate()
+    store.upsert_source_archive(SourceArchive(key.archive_sha256, "shapes.vga"))
+    store.upsert_shape(ShapeRecord(key.archive_sha256, key.archive_index, key.shape_id, 8, 8, 1))
+    store.upsert_frame(frame)
+    store.create_generation_job(
+        GenerationJob(
+            key,
+            "GENERATED",
+            "flat_tile",
+            "mock",
+            {"width": 512, "height": 512, "seed": 9},
+            "job-legacy-crop",
+        )
+    )
+    store.transition_job("job-legacy-crop", "GENERATED", "REJECTED")
+    candidate_path = tmp_path / "candidate.png"
+    Image.new("RGBA", (512, 512), (90, 80, 70, 255)).save(candidate_path)
+    candidate_id = store.add_candidate(
+        Candidate("job-legacy-crop", str(candidate_path), candidate_id="candidate-legacy-crop")
+    )
+    store.close()
+    config = tmp_path / "pipeline.toml"
+    config.write_text(
+        "[project]\nname = 'black-gate'\n[paths]\ndata = 'data'\nwork = 'work'\n"
+        "[render]\nscale = 6\nlogical_width = 320\nlogical_height = 200\n",
+        encoding="utf-8",
+    )
+
+    assert main([
+        "postprocess", "--config", str(config), "--database", str(database),
+        "--run-id", "legacy", "--crop", "232,232,48,48", candidate_id,
+    ]) == 0
+
+    updated = AssetStore.open(database)
+    try:
+        parameters = updated.job_parameters("job-legacy-crop")
+        persisted = updated.get_candidate(candidate_id)
+        enriched_frame = updated.get_frame(key)
+        state = updated.job_state("job-legacy-crop")
+    finally:
+        updated.close()
+    assert parameters["source_to_canvas"] == {
+        "crop": [232, 232, 48, 48],
+    }
+    assert enriched_frame.metadata["asset_type"] == "flat_tile"
+    assert enriched_frame.metadata["scale"] == 6
+    assert state.value == "GENERATED"
+    assert persisted.artifact_path.endswith(f"work/masters/legacy/{candidate_id}.png")
+    assert main([
+        "postprocess", "--config", str(config), "--database", str(database),
+        "--run-id", "legacy", "--crop", "232,232,48,48", candidate_id,
+    ]) == 0
+
+
 def test_hd_master_writes_offline_success_report(tmp_path: Path) -> None:
     source = Image.new("RGBA", (32, 48), (0, 0, 0, 0))
     source.save(tmp_path / "source.png")

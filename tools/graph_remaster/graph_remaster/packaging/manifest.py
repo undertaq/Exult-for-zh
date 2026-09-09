@@ -54,7 +54,7 @@ def build_package(run_id: str, store: AssetStore, output_dir: Path) -> PackageMa
     ).fetchall()
     for row in rows:
         metadata = _json_object(row[3])
-        if metadata.get("run_id", run_id) != run_id:
+        if metadata.get("run_id") != run_id:
             continue
         if row[5] != JobState.APPROVED.value or row[10] != "APPROVE":
             raise ValueError(f"candidate {row[0]!r} is not approved for packaging")

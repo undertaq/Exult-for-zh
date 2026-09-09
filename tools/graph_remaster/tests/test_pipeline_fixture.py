@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 from graph_remaster.db import AssetStore
-from graph_remaster.models import Candidate, FrameKey, FrameRecord, GenerationJob, JobState, SourceArchive, ShapeRecord
+from graph_remaster.models import Candidate, FrameKey, FrameRecord, GenerationJob, JobState, ReviewDecision, SourceArchive, ShapeRecord
 from graph_remaster.packaging.manifest import build_package
 from graph_remaster.packaging.package import run_fixture_pipeline
 from graph_remaster.reports.writer import STAGES
@@ -40,4 +40,30 @@ def test_package_refuses_unapproved_candidate(tmp_path: Path) -> None:
     store.add_candidate(Candidate(job_id, str(artifact), metadata={"run_id": "run"}, candidate_id="candidate"))
     with pytest.raises(ValueError, match="not approved"):
         build_package("run", store, tmp_path / "package")
+    store.close()
+
+
+def test_package_ignores_untagged_candidates_from_other_runs(tmp_path: Path) -> None:
+    store = AssetStore.open(tmp_path / "graph.sqlite3")
+    store.migrate()
+    key = FrameKey("b" * 64, 0, 2, 0)
+    source = tmp_path / "source.png"
+    from PIL import Image
+    Image.new("RGBA", (8, 8), (1, 2, 3, 255)).save(source)
+    store.upsert_source_archive(SourceArchive(key.archive_sha256, "source.vga"))
+    store.upsert_shape(ShapeRecord(key.archive_sha256, 0, 2, 8, 8, 1))
+    store.upsert_frame(FrameRecord(key, 8, 8, metadata={"rgba_preview_path": str(source), "scale": 6, "asset_type": "flat_tile"}))
+    approved_job = store.create_generation_job(GenerationJob(key, JobState.APPROVED, "flat_tile", "mock", {"run_id": "target"}, "approved-job"))
+    approved_artifact = tmp_path / "approved.png"
+    Image.new("RGBA", (48, 48), (1, 2, 3, 255)).save(approved_artifact)
+    store.add_candidate(Candidate(approved_job, str(approved_artifact), metadata={"run_id": "target"}, candidate_id="approved"))
+    store.add_review(ReviewDecision("approved", "APPROVE", "tester", "ok"))
+    legacy_job = store.create_generation_job(GenerationJob(key, JobState.REJECTED, "flat_tile", "mock", {}, "legacy-job"))
+    legacy_artifact = tmp_path / "legacy.png"
+    Image.new("RGBA", (8, 8), (9, 9, 9, 255)).save(legacy_artifact)
+    store.add_candidate(Candidate(legacy_job, str(legacy_artifact), candidate_id="legacy"))
+
+    manifest = build_package("target", store, tmp_path / "package")
+
+    assert [entry.candidate_id for entry in manifest.entries] == ["approved"]
     store.close()

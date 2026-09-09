@@ -31,7 +31,7 @@ ALLOWED_TRANSITIONS = {
     JobState.GENERATED: {JobState.VALIDATED, JobState.RESOURCE_FAILED, JobState.REJECTED},
     JobState.VALIDATED: {JobState.APPROVED},
     JobState.APPROVED: {JobState.PACKAGED},
-    JobState.REJECTED: {JobState.QUEUED},
+    JobState.REJECTED: {JobState.QUEUED, JobState.GENERATED},
 }
 
 

@@ -311,10 +311,7 @@ def test_generate_cli_records_centered_source_to_canvas_mapping(
     finally:
         store.close()
     assert parameters["source_to_canvas"] == {
-        "canvas": [128, 128],
         "crop": [28, 37, 72, 54],
-        "policy": "center",
-        "target": [72, 54],
     }
 
 

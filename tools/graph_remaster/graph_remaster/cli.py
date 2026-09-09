@@ -67,6 +67,10 @@ def build_parser() -> argparse.ArgumentParser:
         elif command == "postprocess":
             subparser.add_argument("--database", type=Path)
             subparser.add_argument("--output", type=Path)
+            subparser.add_argument(
+                "--crop",
+                help="explicit source-to-canvas crop as left,top,width,height",
+            )
             subparser.set_defaults(handler=_run_postprocess_stage)
         elif command == "validate":
             subparser.add_argument("--database", type=Path)
@@ -197,7 +201,7 @@ def _run_postprocess_stage(args: argparse.Namespace) -> int:
 
     from .config import load_config
     from .db import AssetStore
-    from .models import Candidate, FrameRecord
+    from .models import Candidate, FrameRecord, JobState
     from .postprocess.hd_master import write_hd_master
     from .reporting import write_stage_html_report
 
@@ -218,14 +222,28 @@ def _run_postprocess_stage(args: argparse.Namespace) -> int:
         metadata.setdefault("scale", config.render.scale)
         metadata.setdefault("offset", [0, 0])
         transform = job.parameters.get("source_to_canvas")
-        if transform is not None:
-            metadata["source_to_canvas"] = transform
-        canonical_frame = FrameRecord(frame.key, frame.width, frame.height, frame.has_alpha, metadata)
         output = args.output or config.paths.work / "masters" / run_id / f"{args.selector}.png"
-        with Image.open(candidate.artifact_path) as image:
+        generated_artifact_path = candidate.metadata.get("generated_artifact_path", candidate.artifact_path)
+        source_artifact_path = candidate.artifact_path
+        if args.crop is not None and isinstance(generated_artifact_path, str) and Path(generated_artifact_path).is_file():
+            source_artifact_path = generated_artifact_path
+        with Image.open(source_artifact_path) as image:
+            if args.crop is not None:
+                transform = _explicit_source_to_canvas(
+                    args.crop,
+                    image.size,
+                    (frame.width * config.render.scale, frame.height * config.render.scale),
+                )
+            if transform is not None:
+                metadata["source_to_canvas"] = transform
+            canonical_frame = FrameRecord(frame.key, frame.width, frame.height, frame.has_alpha, metadata)
             master = write_hd_master(image, canonical_frame, output)
+        store.upsert_frame(canonical_frame)
+        if args.crop is not None:
+            store.record_job_metadata(job.job_id, {"source_to_canvas": transform})
         updated_metadata = dict(candidate.metadata)
-        updated_metadata["generated_artifact_path"] = candidate.artifact_path
+        updated_metadata["run_id"] = run_id
+        updated_metadata["generated_artifact_path"] = generated_artifact_path
         updated_metadata["postprocess"] = {
             "master_path": str(master.path),
             "metadata_path": str(master.metadata_path),
@@ -240,6 +258,8 @@ def _run_postprocess_stage(args: argparse.Namespace) -> int:
             updated_metadata,
             candidate.candidate_id,
         ))
+        if job.state == JobState.REJECTED:
+            store.transition_job(job.job_id, JobState.REJECTED, JobState.GENERATED)
         payload = {
             "candidate_id": args.selector,
             "dimensions": list(master.dimensions),
@@ -261,6 +281,23 @@ def _run_postprocess_stage(args: argparse.Namespace) -> int:
         return 2
     finally:
         store.close()
+
+
+def _explicit_source_to_canvas(
+    value: str, canvas_size: tuple[int, int], target_size: tuple[int, int]
+) -> dict[str, object]:
+    try:
+        crop = [int(part.strip()) for part in value.split(",")]
+    except ValueError as exc:
+        raise ValueError("--crop must be left,top,width,height integers") from exc
+    if len(crop) != 4 or any(part < 0 for part in crop[:2]) or any(part <= 0 for part in crop[2:]):
+        raise ValueError("--crop must be left,top,width,height with positive size")
+    left, top, width, height = crop
+    if (width, height) != target_size:
+        raise ValueError(f"--crop size must match the canonical HD target {target_size[0]}x{target_size[1]}")
+    if left + width > canvas_size[0] or top + height > canvas_size[1]:
+        raise ValueError("--crop must be inside the generated candidate canvas")
+    return {"crop": crop}
 
 
 def _write_real_model_smoke_reports(
@@ -404,14 +441,7 @@ def _record_source_to_canvas(
         target_width,
         target_height,
     ]
-    store.record_job_metadata(job.job_id, {
-        "source_to_canvas": {
-            "canvas": [canvas_width, canvas_height],
-            "crop": crop,
-            "policy": "center",
-            "target": [target_width, target_height],
-        }
-    })
+    store.record_job_metadata(job.job_id, {"source_to_canvas": {"crop": crop}})
 
 
 def _run_validate_stage(args: argparse.Namespace) -> int:
