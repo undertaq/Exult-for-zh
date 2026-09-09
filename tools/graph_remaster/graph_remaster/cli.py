@@ -160,7 +160,7 @@ def _run_generate_stage(args: argparse.Namespace) -> int:
         }
         _write_real_model_smoke_reports(report_path, "Real model smoke completed", payload, write_stage_html_report)
         return 0
-    except (BackendUnavailable, OSError, ValueError) as exc:
+    except (BackendUnavailable, ImportError, OSError, RuntimeError, ValueError) as exc:
         payload: dict[str, object] = {"error": str(exc), "status": "failed"}
         if backend is not None:
             provenance = getattr(backend, "precision_provenance", None)
