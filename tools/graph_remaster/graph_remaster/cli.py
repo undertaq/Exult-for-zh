@@ -36,6 +36,7 @@ def build_parser() -> argparse.ArgumentParser:
         subparser.add_argument("--run-id")
         subparser.add_argument("selector", nargs="?")
         if command == "generate":
+            subparser.add_argument("--database", type=Path)
             subparser.add_argument("--backend", default=None)
             subparser.add_argument(
                 "--real-model-smoke",
@@ -256,7 +257,7 @@ def _run_worker_pool_generate(args: argparse.Namespace) -> int:
     if not args.selector:
         raise ValueError("generate requires a queued job id selector unless --real-model-smoke is used")
     config = load_config(args.config)
-    database = config.paths.work / "graph.sqlite3"
+    database = args.database or config.paths.work / "graph.sqlite3"
     store = AssetStore.open(database)
     try:
         store.migrate()

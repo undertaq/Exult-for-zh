@@ -398,10 +398,13 @@ def test_sdxl_backend_rejects_a_non_cuda_device_without_importing_optional_runti
 
 
 def test_generate_parser_exposes_opt_in_real_model_smoke_on_a_selected_device() -> None:
-    args = build_parser().parse_args(["generate", "--real-model-smoke", "--device", "cuda:1"])
+    args = build_parser().parse_args([
+        "generate", "--real-model-smoke", "--device", "cuda:1", "--database", "black-gate.sqlite3",
+    ])
 
     assert args.real_model_smoke is True
     assert args.device == "cuda:1"
+    assert args.database == Path("black-gate.sqlite3")
 
 
 def test_model_config_reads_each_sdxl_and_controlnet_revision_from_pipeline_config() -> None:
