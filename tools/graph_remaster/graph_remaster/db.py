@@ -469,6 +469,22 @@ class AssetStore:
             raise KeyError(f"unknown frame {key!r}")
         return FrameRecord(key, row[0], row[1], bool(row[2]), json.loads(row[3]))
 
+    def list_shape_frames(self, key: FrameKey) -> list[FrameRecord]:
+        """Load every frame in one shape, ordered for animation validation."""
+
+        rows = self._connection.execute(
+            """SELECT frame_id, width, height, has_alpha, metadata_json FROM frames
+            WHERE archive_sha256 = ? AND archive_index = ? AND shape_id = ? ORDER BY frame_id""",
+            (key.archive_sha256, key.archive_index, key.shape_id),
+        ).fetchall()
+        return [
+            FrameRecord(
+                FrameKey(key.archive_sha256, key.archive_index, key.shape_id, row[0]),
+                row[1], row[2], bool(row[3]), json.loads(row[4]),
+            )
+            for row in rows
+        ]
+
     def transition_job(
         self, job_id: str, expected: JobState | str, new: JobState | str
     ) -> None:
@@ -584,6 +600,34 @@ class AssetStore:
             (result.candidate_id, int(result.passed), _json(result.checks), _json(result.errors), _now()),
         )
         self._connection.commit()
+
+    def add_validation_and_transition(
+        self, result: ValidationResult, expected: JobState | str, new: JobState | str
+    ) -> None:
+        """Persist validation and its GENERATED terminal state as one transaction."""
+
+        expected_state = _job_state(expected)
+        new_state = _job_state(new)
+        if new_state not in ALLOWED_TRANSITIONS.get(expected_state, set()):
+            raise InvalidStateTransition(f"invalid job transition {expected} -> {new}")
+        with self._connection:
+            self._connection.execute(
+                """INSERT INTO validation_results
+                (candidate_id, passed, checks_json, errors_json, created_at)
+                VALUES (?, ?, ?, ?, ?)
+                ON CONFLICT(candidate_id) DO UPDATE SET passed=excluded.passed,
+                checks_json=excluded.checks_json, errors_json=excluded.errors_json""",
+                (result.candidate_id, int(result.passed), _json(result.checks), _json(result.errors), _now()),
+            )
+            cursor = self._connection.execute(
+                """UPDATE generation_jobs SET state = ?, updated_at = ?
+                WHERE job_id = (SELECT job_id FROM candidates WHERE candidate_id = ?) AND state = ?""",
+                (new_state.value, _now(), result.candidate_id, expected_state.value),
+            )
+            if cursor.rowcount != 1:
+                raise InvalidStateTransition(
+                    f"candidate {result.candidate_id!r} job is not in expected state {expected_state.value}"
+                )
 
     def add_review(self, decision: ReviewDecision) -> None:
         self._connection.execute(

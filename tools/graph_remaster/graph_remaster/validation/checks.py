@@ -96,15 +96,26 @@ def validate_tile_grid(atlas: AtlasBundle, frame_set: Sequence[FrameRecord]) -> 
     )
 
 
-def validate_animation_boxes(frames: Sequence[FrameRecord], masters: Sequence[Image.Image], tolerance: int) -> CheckResult:
+def validate_animation_boxes(
+    frames: Sequence[FrameRecord], masters: Sequence[Image.Image], tolerance: int,
+    candidate_frame_ids: Sequence[int] | None = None,
+) -> CheckResult:
     """Require one master per NPC frame and bounded foreground-box displacement."""
 
     if tolerance < 0:
         raise ValueError("animation box tolerance must be non-negative")
-    count_matches = len(frames) == len(masters)
+    expected_ids = [frame.key.frame_id for frame in frames]
+    actual_ids = list(candidate_frame_ids) if candidate_frame_ids is not None else expected_ids[:len(masters)]
+    masters_by_id = dict(zip(actual_ids, masters, strict=True))
+    missing_ids = sorted(set(expected_ids) - set(actual_ids))
+    extra_ids = sorted(set(actual_ids) - set(expected_ids))
+    count_matches = len(frames) == len(masters) and not missing_ids and not extra_ids
     drifts: list[int] = []
-    if count_matches:
-        for frame, master in zip(frames, masters, strict=True):
+    if not extra_ids:
+        for frame in frames:
+            master = masters_by_id.get(frame.key.frame_id)
+            if master is None:
+                continue
             source_box = _source_rgba(frame).getchannel("A").getbbox()
             expected_box = _scale_box(source_box, _scale(frame))
             actual_box = master.convert("RGBA").getchannel("A").getbbox()
@@ -113,7 +124,7 @@ def validate_animation_boxes(frames: Sequence[FrameRecord], masters: Sequence[Im
     passed = count_matches and max_drift <= tolerance
     return CheckResult(
         "animation_boxes", passed,
-        {"expected_frame_count": len(frames), "actual_frame_count": len(masters), "max_drift": max_drift},
+        {"expected_frame_count": len(frames), "actual_frame_count": len(masters), "missing_frame_count": len(missing_ids), "extra_frame_count": len(extra_ids), "max_drift": max_drift},
         tolerance,
         "NPC frame count and foreground boxes remain within tolerance" if passed else "NPC frame count or foreground-box drift exceeds tolerance",
     )
@@ -126,12 +137,22 @@ def validate_seams(atlas: Image.Image | AtlasBundle, threshold: float) -> CheckR
         raise ValueError("seam threshold must be non-negative")
     image = atlas.image if isinstance(atlas, AtlasBundle) else atlas
     rgba = image.convert("RGBA")
-    vertical = _seam_delta(rgba, vertical=True)
-    horizontal = _seam_delta(rgba, vertical=False)
-    maximum = max(vertical, horizontal)
+    if isinstance(atlas, AtlasBundle):
+        cell_width = atlas.canvas.tile_width * atlas.scale
+        cell_height = atlas.canvas.tile_height * atlas.scale
+        vertical_boundaries = tuple(range(cell_width, rgba.width, cell_width))
+        horizontal_boundaries = tuple(range(cell_height, rgba.height, cell_height))
+    else:
+        vertical_boundaries = (rgba.width // 2,) if rgba.width >= 2 else ()
+        horizontal_boundaries = (rgba.height // 2,) if rgba.height >= 2 else ()
+    vertical_values = [_seam_delta(rgba, boundary, vertical=True) for boundary in vertical_boundaries]
+    horizontal_values = [_seam_delta(rgba, boundary, vertical=False) for boundary in horizontal_boundaries]
+    vertical = sum(vertical_values) / len(vertical_values) if vertical_values else 0.0
+    horizontal = sum(horizontal_values) / len(horizontal_values) if horizontal_values else 0.0
+    maximum = max((*vertical_values, *horizontal_values), default=0.0)
     return CheckResult(
         "seams", maximum <= threshold,
-        {"vertical_mean_delta": vertical, "horizontal_mean_delta": horizontal, "max_mean_delta": maximum},
+        {"vertical_mean_delta": vertical, "horizontal_mean_delta": horizontal, "max_mean_delta": maximum, "vertical_boundary_count": len(vertical_boundaries), "horizontal_boundary_count": len(horizontal_boundaries)},
         threshold,
         "border seams are within the permitted RGBA delta" if maximum <= threshold else "border seam delta exceeds the permitted threshold",
     )
@@ -190,16 +211,14 @@ def _box_drift(expected: tuple[int, int, int, int] | None, actual: tuple[int, in
     return max(abs(left - right) for left, right in zip(expected, actual, strict=True))
 
 
-def _seam_delta(image: Image.Image, *, vertical: bool) -> float:
+def _seam_delta(image: Image.Image, boundary: int, *, vertical: bool) -> float:
     if vertical:
-        if image.width < 2:
+        if not 0 < boundary < image.width:
             return 0.0
-        boundary = image.width // 2
         pairs = ((image.getpixel((boundary - 1, y)), image.getpixel((boundary, y))) for y in range(image.height))
     else:
-        if image.height < 2:
+        if not 0 < boundary < image.height:
             return 0.0
-        boundary = image.height // 2
         pairs = ((image.getpixel((x, boundary - 1)), image.getpixel((x, boundary))) for x in range(image.width))
     values = [sum(abs(left[channel] - right[channel]) for channel in range(4)) / 4 for left, right in pairs]
     return float(sum(values) / len(values)) if values else 0.0
