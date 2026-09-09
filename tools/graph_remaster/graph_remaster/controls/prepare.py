@@ -163,7 +163,9 @@ def prepare_controls(frame: FrameRecord, profile: AssetProfile) -> ControlBundle
     return ControlBundle(frame, profile, masks, controls)
 
 
-def persist_controls(store: "AssetStore", root: Path, bundle: ControlBundle) -> dict[str, Path]:
+def persist_controls(
+    store: "AssetStore", root: Path, bundle: ControlBundle, *, commit: bool = True,
+) -> dict[str, Path]:
     """Write PNG artifacts by content hash and idempotently link them to a frame."""
 
     root = Path(root)
@@ -182,16 +184,16 @@ def persist_controls(store: "AssetStore", root: Path, bundle: ControlBundle) -> 
             path.write_bytes(payload)
         metadata = {"sha256": digest, "profile": asdict(bundle.profile)}
         if kind in {"source", "protected", "generation"}:
-            store.upsert_mask(bundle.frame.key, kind, digest, path, metadata)
+            store.upsert_mask(bundle.frame.key, kind, digest, path, metadata, commit=commit)
         else:
-            store.upsert_control_map(bundle.frame.key, kind, digest, path, metadata)
+            store.upsert_control_map(bundle.frame.key, kind, digest, path, metadata, commit=commit)
         paths[kind] = path
     return paths
 
 
 def persist_tile_atlas(
     store: "AssetStore", root: Path, frames: Sequence[FrameRecord], profile: AssetProfile,
-    atlas: AtlasBundle,
+    atlas: AtlasBundle, *, commit: bool = True,
 ) -> Path:
     """Persist one fixed-grid flat-tile atlas and link it to every member frame."""
 
@@ -205,7 +207,7 @@ def persist_tile_atlas(
                   "scale": atlas.scale},
     }
     for frame in frames:
-        store.upsert_control_map(frame.key, "atlas", digest, path, metadata)
+        store.upsert_control_map(frame.key, "atlas", digest, path, metadata, commit=commit)
     return path
 
 

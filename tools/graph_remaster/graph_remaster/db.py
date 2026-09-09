@@ -65,6 +65,11 @@ class AssetStore:
     def close(self) -> None:
         self._connection.close()
 
+    def commit(self) -> None:
+        """Commit pending writes, allowing bulk stages to control batching."""
+
+        self._connection.commit()
+
     def migrate(self) -> None:
         self._connection.executescript(
             """
@@ -398,19 +403,23 @@ class AssetStore:
 
     def upsert_mask(
         self, frame: FrameKey, kind: str, artifact_sha256: str, artifact_path: Path,
-        metadata: dict[str, object] | None = None,
+        metadata: dict[str, object] | None = None, *, commit: bool = True,
     ) -> None:
-        self._upsert_frame_artifact("masks", "mask_id", frame, kind, artifact_sha256, artifact_path, metadata)
+        self._upsert_frame_artifact(
+            "masks", "mask_id", frame, kind, artifact_sha256, artifact_path, metadata, commit=commit,
+        )
 
     def upsert_control_map(
         self, frame: FrameKey, kind: str, artifact_sha256: str, artifact_path: Path,
-        metadata: dict[str, object] | None = None,
+        metadata: dict[str, object] | None = None, *, commit: bool = True,
     ) -> None:
-        self._upsert_frame_artifact("control_maps", "control_map_id", frame, kind, artifact_sha256, artifact_path, metadata)
+        self._upsert_frame_artifact(
+            "control_maps", "control_map_id", frame, kind, artifact_sha256, artifact_path, metadata, commit=commit,
+        )
 
     def _upsert_frame_artifact(
         self, table: str, id_column: str, frame: FrameKey, kind: str, artifact_sha256: str,
-        artifact_path: Path, metadata: dict[str, object] | None,
+        artifact_path: Path, metadata: dict[str, object] | None, *, commit: bool = True,
     ) -> None:
         record_id = sha256(f"{frame!r}:{kind}:{artifact_sha256}".encode()).hexdigest()
         self._connection.execute(
@@ -422,7 +431,8 @@ class AssetStore:
             (record_id, frame.archive_sha256, frame.archive_index, frame.shape_id, frame.frame_id,
              kind, str(artifact_path), _json(metadata or {})),
         )
-        self._connection.commit()
+        if commit:
+            self._connection.commit()
 
     def create_generation_job(self, request: GenerationJob) -> str:
         state = _job_state(request.state)

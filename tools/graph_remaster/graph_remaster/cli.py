@@ -481,21 +481,32 @@ def _run_controls_stage(args: argparse.Namespace) -> int:
             store.migrate()
             frames = store.list_all_frames(args.selector)
             flat_frames: dict[object, list[object]] = {}
-            for frame in frames:
+            for frame_index, frame in enumerate(frames, start=1):
                 asset_type = AssetType(frame.metadata.get("asset_type", AssetType.FLAT_TILE.value))
                 configured = next((item for item in config.asset_profiles if item.name == asset_type.value), None)
                 profile = configured or get_profile(asset_type)
                 bundle = prepare_controls(frame, profile)
-                persist_controls(store, stage_dir, bundle)
-                if asset_type is AssetType.FLAT_TILE:
+                persist_controls(store, stage_dir, bundle, commit=False)
+                if frame_index % 128 == 0:
+                    store.commit()
+                if (
+                    asset_type is AssetType.FLAT_TILE
+                    and frame.width == profile.tile_width
+                    and frame.height == profile.tile_height
+                ):
                     flat_frames.setdefault(profile, []).append(frame)
+            store.commit()
             atlas_count = 0
             for profile, grouped_frames in flat_frames.items():
                 canvas = CanvasSpec(profile.atlas_columns, profile.atlas_rows, profile.tile_width, profile.tile_height)
                 capacity = canvas.columns * canvas.rows
                 for start in range(0, len(grouped_frames), capacity):
                     members = grouped_frames[start:start + capacity]
-                    persist_tile_atlas(store, stage_dir, members, profile, build_tile_atlas(members, config.render.scale, canvas))
+                    persist_tile_atlas(
+                        store, stage_dir, members, profile,
+                        build_tile_atlas(members, config.render.scale, canvas), commit=False,
+                    )
+                    store.commit()
                     atlas_count += 1
         finally:
             store.close()

@@ -199,6 +199,23 @@ def test_asset_records_upsert_and_related_records_are_idempotent(tmp_path: Path)
     assert store._connection.execute("SELECT decision FROM review_decisions").fetchone()[0] == "APPROVE"
 
 
+def test_frame_artifact_upserts_can_be_batched(tmp_path: Path) -> None:
+    store = AssetStore.open(tmp_path / "graph.sqlite3")
+    store.migrate()
+    key = FrameKey("d" * 64, 1, 2, 3)
+    seed_frame(store, key)
+
+    store.upsert_mask(key, "source", "e" * 64, tmp_path / "source.png", {}, commit=False)
+    observer = sqlite3.connect(tmp_path / "graph.sqlite3")
+    try:
+        assert observer.execute("SELECT COUNT(*) FROM masks").fetchone()[0] == 0
+        store.commit()
+        assert observer.execute("SELECT COUNT(*) FROM masks").fetchone()[0] == 1
+    finally:
+        observer.close()
+        store.close()
+
+
 @pytest.mark.parametrize(
     ("old", "new"),
     [

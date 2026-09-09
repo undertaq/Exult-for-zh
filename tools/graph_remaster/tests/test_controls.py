@@ -159,11 +159,16 @@ def test_prepare_controls_cli_persists_a_controls_ready_stage(tmp_path: Path) ->
 def test_prepare_controls_cli_persists_content_addressed_flat_tile_atlas_and_html_report(tmp_path: Path) -> None:
     first = make_frame(tmp_path, frame_id=0, asset_type="flat_tile")
     second = make_frame(tmp_path, frame_id=1, asset_type="flat_tile")
+    mismatched = make_frame(tmp_path, frame_id=2, asset_type="flat_tile")
+    mismatched = FrameRecord(
+        mismatched.key, 5, mismatched.height, metadata=mismatched.metadata,
+    )
     database = tmp_path / "graph.sqlite3"
     store = AssetStore.open(database)
     store.migrate()
     seed_frame(store, first)
     seed_frame(store, second)
+    seed_frame(store, mismatched)
     store.close()
     config = tmp_path / "pipeline.toml"
     config.write_text(
@@ -186,6 +191,9 @@ def test_prepare_controls_cli_persists_content_addressed_flat_tile_atlas_and_htm
     assert len(atlas_path.stem) == 64
     with Image.open(atlas_path) as atlas:
         assert atlas.size == (48, 18)
+    assert store._connection.execute(
+        "SELECT COUNT(*) FROM control_maps WHERE kind = 'atlas' AND frame_id = 2"
+    ).fetchone()[0] == 0
     report = (tmp_path / "work" / "reports" / "default" / "prepare-controls.html").read_text()
     assert "Controls prepared" in report
     assert "http" not in report
