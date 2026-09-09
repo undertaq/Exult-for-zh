@@ -77,16 +77,17 @@ class SdxlControlNetBackend:
             "prompt": str(parameters.get("prompt", "high-fidelity Ultima VII game asset")),
             "negative_prompt": str(parameters.get("negative_prompt", "text, watermark, blurry")),
             "image": request.source.convert("RGBA").resize((width, height), Image.Resampling.NEAREST),
+            "width": width,
+            "height": height,
             "generator": generator,
             "guidance_scale": float(parameters.get("guidance_scale", 7.5)),
             "num_inference_steps": int(parameters.get("num_inference_steps", 30)),
             "strength": float(parameters.get("strength", request.controls.profile.denoise_max)),
         }
         if control_images:
-            call["control_image"] = control_images
-            call["controlnet_conditioning_scale"] = [
-                _conditioning_scale(parameters, kind) for kind in control_kinds
-            ]
+            call["control_image"] = control_images[0] if len(control_images) == 1 else control_images
+            scales = [_conditioning_scale(parameters, kind) for kind in control_kinds]
+            call["controlnet_conditioning_scale"] = scales[0] if len(scales) == 1 else scales
         try:
             image = pipeline(**call).images[0].convert("RGBA")
         except Exception as exc:

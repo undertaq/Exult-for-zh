@@ -587,6 +587,23 @@ def test_sdxl_backend_lazily_uses_configured_revisions_and_profile_controls(monk
         },
     }
 
+    single_backend = SdxlControlNetBackend(
+        ModelConfig(
+            base_model="base-model",
+            revision=PIN,
+            controlnets=(ControlNetConfig("canny", "canny-model", PIN),),
+        )
+    )
+    single_backend.load("cuda:1", "fp16")
+    single_backend.generate(_request())
+
+    generated = calls["request"]
+    assert isinstance(generated, dict)
+    assert generated["controlnet_conditioning_scale"] == 1.0
+    assert generated["control_image"] == _request().controls.controls["canny"].convert("RGB")
+    assert generated["width"] == 12
+    assert generated["height"] == 9
+
 
 def test_real_model_smoke_returns_actionable_nonzero_failure_without_downloading_weights(tmp_path: Path) -> None:
     config_path = tmp_path / "pipeline.toml"
@@ -642,6 +659,7 @@ def test_real_model_smoke_writes_an_offline_html_report_on_success(
     )
 
     seen_devices: list[object] = []
+    captured_parameters: dict[str, object] = {}
     initialized = False
 
     class FakeCuda:
@@ -678,6 +696,7 @@ def test_real_model_smoke_writes_an_offline_html_report_on_success(
             return None
 
         def generate(self, request: InferenceRequest) -> GeneratedImage:
+            captured_parameters.update(request.job.parameters)
             return GeneratedImage(Image.new("RGBA", (64, 64)), "real-model-smoke", 8675309, {})
 
         def unload(self) -> None:
@@ -695,3 +714,6 @@ def test_real_model_smoke_writes_an_offline_html_report_on_success(
     assert "peak_vram_bytes" in html
     assert initialized
     assert seen_devices == [("torch-device", "cuda:0"), ("torch-device", "cuda:0")]
+    assert captured_parameters["width"] == 512
+    assert captured_parameters["height"] == 512
+    assert captured_parameters["num_inference_steps"] == 8

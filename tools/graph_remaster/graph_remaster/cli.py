@@ -126,9 +126,9 @@ def _run_generate_stage(args: argparse.Namespace) -> int:
                 backend="sdxl_controlnet",
                 parameters={
                     "seed": 8675309,
-                    "width": 64,
-                    "height": 64,
-                    "num_inference_steps": 1,
+                    "width": 512,
+                    "height": 512,
+                    "num_inference_steps": 8,
                     "prompt": "a high-fidelity Ultima VII flat game tile",
                 },
                 job_id="real-model-smoke",
