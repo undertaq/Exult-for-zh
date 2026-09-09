@@ -61,6 +61,13 @@ def build_parser() -> argparse.ArgumentParser:
         elif command == "validate":
             subparser.add_argument("--database", type=Path)
             subparser.set_defaults(handler=_run_validate_stage)
+        elif command == "review":
+            subparser.add_argument("--database", type=Path)
+            subparser.add_argument("--serve", action="store_true")
+            subparser.add_argument("--decision")
+            subparser.add_argument("--reason", default="")
+            subparser.add_argument("--reviewer", default="local")
+            subparser.set_defaults(handler=_run_review_stage)
         else:
             subparser.set_defaults(handler=_not_implemented)
     return parser
@@ -313,6 +320,43 @@ def _run_validate_stage(args: argparse.Namespace) -> int:
     return 0 if report.passed else 2
 
 
+def _run_review_stage(args: argparse.Namespace) -> int:
+    """Serve offline reports or record one local, review-gated decision."""
+
+    from .config import load_config
+    from .db import AssetStore
+    from .models import ReviewDecision
+    from .reports.server import ReviewServer
+    from .reports.writer import STAGES, write_run_index, write_stage_report
+
+    if not args.selector and not args.serve:
+        raise ValueError("review requires a candidate selector or --serve")
+    config = load_config(args.config)
+    run_id = args.run_id or "default"
+    database = args.database or config.paths.work / "graph.sqlite3"
+    report_dir = config.paths.reports / run_id
+    server = ReviewServer(database, report_dir)
+    if args.serve:
+        write_run_index(run_id, report_dir)
+        server.serve_forever()
+        return 0
+    if not args.decision:
+        store = AssetStore.open(database)
+        try:
+            store.migrate()
+            write_run_index(run_id, report_dir)
+            for stage, _ in STAGES:
+                write_stage_report(stage, run_id, store, report_dir)
+        finally:
+            store.close()
+        return 0
+    server.record_review(
+        args.selector,
+        ReviewDecision(args.selector, args.decision, args.reviewer, args.reason),
+    )
+    return 0
+
+
 def _run_source_stage(args: argparse.Namespace) -> int:
     """Run an inventory/extraction stage without importing generation backends."""
 
@@ -321,6 +365,7 @@ def _run_source_stage(args: argparse.Namespace) -> int:
     from .errors import SourceToolError
     from .hashing import sha256_file
     from .models import SourceArchive
+    from .reporting import write_stage_html_report
     from .source_io.ipack_adapter import IpackAdapter
 
     config = load_config(args.config)
@@ -361,6 +406,11 @@ def _run_source_stage(args: argparse.Namespace) -> int:
             json.dumps({"stage": args.command, "run_id": run_id, "archive_sha256": shapes[0].archive_sha256, "shape_count": len(shapes)}, sort_keys=True),
             encoding="utf-8",
         )
+        write_stage_html_report(
+            config.paths.reports / run_id / f"{args.command}.html",
+            f"{args.command.title()} report",
+            {"stage": args.command, "run_id": run_id, "archive_sha256": shapes[0].archive_sha256, "shape_count": len(shapes)},
+        )
         return 0
     except (OSError, SourceToolError) as exc:
         report_path.parent.mkdir(parents=True, exist_ok=True)
@@ -368,6 +418,7 @@ def _run_source_stage(args: argparse.Namespace) -> int:
         if isinstance(exc, SourceToolError):
             payload.update({"command": list(exc.command), "returncode": exc.returncode, "stdout": exc.stdout, "stderr": exc.stderr})
         report_path.write_text(json.dumps(payload, sort_keys=True), encoding="utf-8")
+        write_stage_html_report(report_path.with_suffix(".html"), f"{args.command.title()} failed", payload)
         return 2
 
 

@@ -61,3 +61,34 @@ git diff --check
 ```
 
 The focused validation suite passed after implementation. The full package suite is rerun immediately before the commit recorded for this task.
+
+---
+
+## Review-finding fixes
+
+### Complete NPC animation sets
+
+NPC validation now loads every persisted source frame for the candidate job's archive/index/shape through `AssetStore.list_shape_frames()`. Candidate metadata may supply an `animation_frames` mapping from frame ID to master path; all supplied masters are loaded and matched by frame ID. The `animation_boxes` result now includes expected and actual frame counts plus explicit missing/extra-frame metrics before evaluating the maximum foreground-box drift.
+
+A missing mapping entry or an extra candidate frame is blocking and sends the job to `REJECTED`. The regression coverage includes a valid two-frame shape as well as missing-frame and extra-frame candidates.
+
+### Layout-aware building/combo seams
+
+`validate_seams()` now evaluates every internal vertical and horizontal boundary declared by `AtlasBundle` layout, instead of assuming image midpoints. Results expose vertical/horizontal boundary counts, mean deltas, and the worst boundary delta. The building/combo runner reconstructs an atlas layout from candidate `atlas_layout` metadata (`columns`, `rows`, `tile_width`, `tile_height`, `scale`) before running the seam check.
+
+Coverage includes a three-cell layout with a deliberately mismatched seam at x=48; this is not the image midpoint and proves all declared boundaries are inspected.
+
+### Atomic validation persistence
+
+`AssetStore.add_validation_and_transition()` writes the structured validation row and performs the candidate-linked job compare-and-set inside one SQLite transaction. `run_validation()` now calls this operation directly. If the `GENERATED` CAS fails, the context manager rolls back the validation insert; the existing review gate remains unchanged.
+
+The rollback regression transitions a job away from `GENERATED`, attempts the atomic operation, asserts `InvalidStateTransition`, and verifies that no `validation_results` row was committed.
+
+### Fix verification
+
+```text
+uv run --project tools/graph_remaster pytest tools/graph_remaster/tests/test_validation.py -q
+git diff --check
+```
+
+Focused result: `8 passed`. The full package suite is rerun immediately before the fix commit.
