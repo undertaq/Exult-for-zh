@@ -70,6 +70,8 @@ EXULTSOURCES =	\
 	gamedat.cc	\
 	gamemap.cc	\
 	gamemap.h	\
+	gameplay_translation_table.cc \
+	gameplay_translation_table.h \
 	gamerend.cc	\
 	gamerend.h	\
 	gamewin.cc	\
@@ -172,6 +174,17 @@ exult_CPPFLAGS = $(AM_CPPFLAGS)
 else # !BUILD_EXULT
 bin_PROGRAMS =
 endif
+endif
+
+if BUILD_EXULT
+check_PROGRAMS = gameplay_translation_table_test
+gameplay_translation_table_test_SOURCES = \
+	tests/gameplay_translation_table_test.cc
+gameplay_translation_table_test_LDADD = gameplay_translation_table_test_core.o
+gameplay_translation_table_test_core.o: gameplay_translation_table.cc \
+	gameplay_translation_table.h
+	$(CXXCOMPILE) -o $@ -c $(srcdir)/gameplay_translation_table.cc
+TESTS = $(check_PROGRAMS)
 endif
 
 EXTRA_DIST = 	\
@@ -353,7 +366,7 @@ $(srcdir)/.git/config:
 
 BUILT_SOURCES=gitinfo.h
 
-CLEANFILES = gitinfo.h *~
+CLEANFILES = gitinfo.h *~ gameplay_translation_table_test_core.o
 
 
 if MACOSX
