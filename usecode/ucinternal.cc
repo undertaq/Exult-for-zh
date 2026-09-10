@@ -48,6 +48,7 @@
 #include "game.h"
 #include "gamemap.h"
 #include "gamewin.h"
+#include "gameplay_translation.h"
 #include "ios_state.hpp"
 #include "items.h"
 #include "keyring.h"
@@ -708,8 +709,23 @@ void Usecode_internal::say_string() {
 	}
 	voice_string_trace.clear();
 
-	int  segment = 0;
-	char* str    = String;
+	int segment = 0;
+	auto show_dialogue_segment = [&](char* english) {
+		const int segment_index = segment++;
+		VoiceActingManager::play_for_conversation(
+				voice_func_id, voice_offset_key, segment_index, english,
+				voice_speaker_npc, voice_caller_npc);
+		const std::string key = make_dialogue_translation_key(
+				voice_func_id, voice_offset_key, segment_index);
+		GameplayTranslationManager& translations = GameplayTranslationManager::get();
+		translations.record_runtime_source(
+				GameplayTranslationKind::Dialogue, key, english);
+		const std::string display = translations.translate(
+				GameplayTranslationKind::Dialogue, key, english);
+		conv->show_npc_message(display.c_str());
+		click_to_continue();
+	};
+	char* str = String;
 	while (*str) {            // Look for stopping points ("~~").
 		if (*str == '*') {    // Just gets an extra click.
 			click_to_continue();
@@ -718,19 +734,11 @@ void Usecode_internal::say_string() {
 		}
 		char* eol = strchr(str, '~');
 		if (!eol) {    // Not found?
-			VoiceActingManager::play_for_conversation(
-					voice_func_id, voice_offset_key, segment++, str,
-					voice_speaker_npc, voice_caller_npc);
-			conv->show_npc_message(str);
-			click_to_continue();
+			show_dialogue_segment(str);
 			break;
 		}
 		*eol = 0;
-		VoiceActingManager::play_for_conversation(
-				voice_func_id, voice_offset_key, segment++, str,
-				voice_speaker_npc, voice_caller_npc);
-		conv->show_npc_message(str);
-		click_to_continue();
+		show_dialogue_segment(str);
 		str = eol + 1;
 		if (*str == '~') {
 			str++;    // 2 in a row.
@@ -1803,6 +1811,13 @@ const char* Usecode_internal::get_user_choice() {
 int Usecode_internal::get_user_choice_num() {
 	delete[] user_choice;
 	user_choice = nullptr;
+	int choice_function_id     = -1;
+	int choice_callsite_offset = -1;
+	if (frame) {
+		choice_function_id     = frame->function->id;
+		choice_callsite_offset = static_cast<int>(frame->ins_ip - frame->code);
+	}
+	conv->set_choice_context(choice_function_id, choice_callsite_offset);
 	conv->show_avatar_choices();
 	int x;
 	int y;    // Get click.

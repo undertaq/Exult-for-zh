@@ -68,6 +68,78 @@ void assert_table_only_active_machine_source_policy() {
 			!= std::string::npos);
 }
 
+void assert_conversation_display_changes_only_copy_get_answer_stays_byte_for_byte_identical() {
+	std::ifstream conversation_header("usecode/conversation.h");
+	const std::string header(
+			(std::istreambuf_iterator<char>(conversation_header)),
+			std::istreambuf_iterator<char>());
+	assert(!header.empty());
+	assert(header.find(
+			"void set_choice_context(int function_id, int callsite_offset);")
+			!= std::string::npos);
+	assert(header.find("void clear_choice_context();") != std::string::npos);
+
+	std::ifstream conversation_source("usecode/conversation.cc");
+	const std::string conversation(
+			(std::istreambuf_iterator<char>(conversation_source)),
+			std::istreambuf_iterator<char>());
+	assert(!conversation.empty());
+	assert(conversation.find("GameplayTranslationKind::Choice")
+			!= std::string::npos);
+
+	std::ifstream ucinternal_source("usecode/ucinternal.cc");
+	const std::string ucinternal(
+			(std::istreambuf_iterator<char>(ucinternal_source)),
+			std::istreambuf_iterator<char>());
+	assert(!ucinternal.empty());
+	assert(ucinternal.find("GameplayTranslationKind::Dialogue")
+			!= std::string::npos);
+	assert(ucinternal.find("const int segment_index = segment++;")
+			!= std::string::npos);
+	assert(ucinternal.find("conv->set_choice_context(")
+			!= std::string::npos);
+	assert(ucinternal.find("const char* ans = conv->get_answer(choice_num);")
+			!= std::string::npos);
+
+	GameplayTranslationManager& manager = GameplayTranslationManager::get();
+	manager.shutdown();
+	manager.set_text_language(TextLanguage::CHINESE);
+	const std::string table_text =
+			"# u6-translation-v1\n"
+			"# kind\tkey\tsource_sha256\tzh\n"
+			"dialogue\tdialogue:0x0401:1a_2f:0\t"
+			"4e47826698bb4630fb4451010062fadbf85d61427cbdfaed7ad0f23f239bed89\t"
+			"你好\n"
+			"choice\tchoice:0x0401:0x0088:0\t"
+			"7692c3ad3540bb803c020b3aee66cd8887123234ea0c6e7143c0add73ff431ed\t一\n"
+			"choice\tchoice:0x0401:0x0088:1\t"
+			"3fc4ccfe745870e2c0d99f71f30ff0656c8dedd41cc1d7d3d376b0dbe685e2f3\t二\n"
+			"choice\tchoice:0x0401:0x0088:2\t"
+			"b49f425a7e1f9cff3856329ada223f2f9d368f15a00cf48df16ca95986137fe8\t告辭\n";
+	std::string error;
+	std::istringstream input(table_text);
+	assert(manager.load_table(input, error));
+	assert(error.empty());
+
+	const std::string dialogue_key =
+			make_dialogue_translation_key(0x0401, "1a_2f", 0);
+	assert(dialogue_key == "dialogue:0x0401:1a_2f:0");
+	assert(manager.translate(GameplayTranslationKind::Dialogue,
+			dialogue_key, "Hello there") == "你好");
+
+	std::string answers[] = {"one", "two", "bye"};
+	const char* const display_answers[] = {"一", "二", "告辭"};
+	for (int ordinal = 0; ordinal < 3; ++ordinal) {
+		const std::string original_answer = answers[ordinal];
+		const std::string choice_key =
+				make_choice_translation_key(0x0401, 0x0088, ordinal);
+		assert(choice_key == "choice:0x0401:0x0088:" + std::to_string(ordinal));
+		assert(manager.translate(GameplayTranslationKind::Choice,
+				choice_key, answers[ordinal]) == display_answers[ordinal]);
+		assert(answers[ordinal] == original_answer);
+	}
+}
+
 } // namespace
 
 int main() {
@@ -173,6 +245,8 @@ int main() {
 			"# kind\tkey\tsource_sha256\tzh\n"
 			"dialogue\tkey\t"
 			"ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad\t\n");
+
+	assert_conversation_display_changes_only_copy_get_answer_stays_byte_for_byte_identical();
 
 	return 0;
 }

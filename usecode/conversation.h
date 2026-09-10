@@ -42,6 +42,8 @@ private:
 	int                           last_face_shown = -1;              // Index of last npc face shown (-1 = none yet).
 	TileRect                      avatar_face     = {0, 0, 0, 0};    // Area take by Avatar in conversation.
 	TileRect*                     conv_choices    = nullptr;         // Choices during a conversation.
+	int                           choice_function_id     = -1;
+	int                           choice_callsite_offset = -1;
 
 	std::vector<std::string>             answers;
 	std::deque<std::vector<std::string>> answer_stack;
@@ -66,6 +68,8 @@ public:
 	void clear_text_pending();
 	void show_avatar_choices();
 	void clear_avatar_choices();
+	void set_choice_context(int function_id, int callsite_offset);
+	void clear_choice_context();
 	int  conversation_choice(int x, int y);
 
 	TileRect get_choice_rect(int index) const {

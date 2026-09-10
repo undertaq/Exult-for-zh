@@ -30,6 +30,7 @@
 #include "data/exult_bg_flx.h"
 #include "effects.h"
 #include "exult.h"
+#include "gameplay_translation.h"
 #include "game.h"
 #include "gamewin.h"
 #include "gump_utils.h"
@@ -464,7 +465,12 @@ std::string resolve_dialogue_tokens(std::string text) {
 			s.replace(at, wlen, with);
 		}
 	};
-	const size_t bnd     = text.find('\n');
+	// Only dual text uses a newline to separate Chinese and English halves.
+	// Table-only Chinese translations may contain newlines for layout, but
+	// every part of those strings is still Chinese text.
+	const bool   dual_text =
+			BilingualManager::get().get_text_language() == TextLanguage::DUAL;
+	const size_t bnd       = dual_text ? text.find('\n') : std::string::npos;
 	std::string  zhpart  = text.substr(0, bnd);
 	std::string  enpart  = bnd == std::string::npos ? "" : text.substr(bnd);
 	const char*  ztoks[] = { "<PLAYER_NAME>", "<HONORIFIC>", "<PRONOUN>",
@@ -687,6 +693,16 @@ void Conversation::clear_text_pending() {
 			finfo->text_pending = false;
 		}
 	}
+}
+
+void Conversation::set_choice_context(int function_id, int callsite_offset) {
+	choice_function_id     = function_id;
+	choice_callsite_offset = callsite_offset;
+}
+
+void Conversation::clear_choice_context() {
+	choice_function_id     = -1;
+	choice_callsite_offset = -1;
 }
 
 namespace {
@@ -1012,25 +1028,35 @@ void Conversation::show_avatar_choices(int num_choices, char** choices) {
 }
 
 void Conversation::show_avatar_choices() {
-	char** result;
-	size_t i;    // Blame MSVC
+	std::vector<std::string> display_answers;
+	std::vector<char*>       result;
+	display_answers.reserve(answers.size());
+	result.reserve(answers.size());
 
-	result = new char*[answers.size()];
-	for (i = 0; i < answers.size(); i++) {
-		result[i] = new char[answers[i].size() + 1];
-		strcpy(result[i], answers[i].c_str());
+	GameplayTranslationManager& translations = GameplayTranslationManager::get();
+	const bool has_choice_context =
+			choice_function_id >= 0 && choice_callsite_offset >= 0;
+	for (size_t i = 0; i < answers.size(); i++) {
+		if (has_choice_context) {
+			const std::string key = make_choice_translation_key(
+					choice_function_id, choice_callsite_offset, static_cast<int>(i));
+			translations.record_runtime_source(
+					GameplayTranslationKind::Choice, key, answers[i]);
+			display_answers.push_back(translations.translate(
+					GameplayTranslationKind::Choice, key, answers[i]));
+		} else {
+			display_answers.push_back(answers[i]);
+		}
+		result.push_back(display_answers.back().data());
 	}
-	show_avatar_choices(answers.size(), result);
-	for (i = 0; i < answers.size(); i++) {
-		delete[] result[i];
-	}
-	delete[] result;
+	show_avatar_choices(static_cast<int>(answers.size()), result.data());
 }
 
 void Conversation::clear_avatar_choices() {
 	//	gwin->paint(avatar_face);    // Paint over face and answers.
 	gwin->add_dirty(avatar_face);
 	avatar_face.w = 0;
+	clear_choice_context();
 }
 
 /*
