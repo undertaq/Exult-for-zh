@@ -40,7 +40,13 @@ def _run_ucxt(root: Path, ucxt: Path) -> str:
     try:
         return subprocess.check_output(command, text=True)
     except PermissionError:
+        if command[:1] == ["/bin/sh"]:
+            return subprocess.check_output(command, text=True)
         return subprocess.check_output(["/bin/sh"] + command, text=True)
+
+
+def _parse_numeric_id(value: str) -> int:
+    return int(value, 16) if value.lower().startswith("0x") else int(value, 10)
 
 
 def _parse_ucxt(text: str) -> list[CatalogEntry]:
@@ -48,7 +54,7 @@ def _parse_ucxt(text: str) -> list[CatalogEntry]:
     function: int | None = None
     callsite: str | None = None
     ordinal = 0
-    tag_pattern = re.compile(r"</>|<(0x[0-9a-fA-F]+)>")
+    tag_pattern = re.compile(r"</>|<((?:0x)?[0-9a-fA-F]+)>")
 
     for line in text.splitlines():
         for tag in tag_pattern.finditer(line):
@@ -61,7 +67,7 @@ def _parse_ucxt(text: str) -> list[CatalogEntry]:
                     callsite = None
                     ordinal = 0
                 continue
-            value = int(tag.group(1), 16)
+            value = _parse_numeric_id(tag.group(1))
             if function is None:
                 function = value
                 callsite = None
@@ -88,16 +94,21 @@ def _parse_ucxt(text: str) -> list[CatalogEntry]:
 
 
 def _parse_function_id(line: str, path: Path) -> int | None:
-    patterns = (
+    match = re.search(
         r"\b(?:function|function_id)\s*[:=]?\s*(0x[0-9a-fA-F]+|\d+)\b",
-        r"\bFunc([0-9a-fA-F]{4})\b",
-        r"\bobject#\(\s*(0x[0-9a-fA-F]+|\d+)\s*\)",
+        line,
+        re.IGNORECASE,
     )
-    for pattern in patterns:
-        match = re.search(pattern, line, re.IGNORECASE)
-        if match:
-            value = match.group(1)
-            return int(value, 16)
+    if match:
+        return _parse_numeric_id(match.group(1))
+    match = re.search(r"\bFunc([0-9a-fA-F]{4})\b", line, re.IGNORECASE)
+    if match:
+        return int(match.group(1), 16)
+    match = re.search(
+        r"\bobject#\(\s*(0x[0-9a-fA-F]+|\d+)\s*\)", line, re.IGNORECASE
+    )
+    if match:
+        return int(match.group(1), 16)
     match = re.search(r"(?:^|[-_])(?:0x)?([0-9a-fA-F]{4})(?:[-_.]|$)", path.stem)
     return int(match.group(1), 16) if match else None
 

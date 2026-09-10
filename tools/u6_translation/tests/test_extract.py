@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 import os
+from unittest import mock
 import tempfile
 import unittest
 from pathlib import Path
 
 from tools.u6_translation.catalog import source_sha256
-from tools.u6_translation.extract import extract_catalog, make_item_key
+from tools.u6_translation.extract import _parse_ucxt, _run_ucxt, extract_catalog, make_item_key
 from tools.u6_translation.runtime_table import escape_field
 
 
@@ -14,6 +15,41 @@ FIXTURES = Path(__file__).parent / "fixtures"
 
 
 class ExtractionTest(unittest.TestCase):
+    def test_ucxt_decimal_function_tags_use_decimal_ids(self) -> None:
+        entries = _parse_ucxt(
+            "<401>\n"
+            "  <0x0010>\n"
+            "  `Decimal function`\n"
+            "  </>\n"
+            "</>\n"
+            "<0x0401>\n"
+            "  <0x0020>\n"
+            "  `Hex function`\n"
+            "  </>\n"
+            "</>\n"
+        )
+
+        self.assertEqual(
+            [entry.key for entry in entries],
+            ["dialogue:0x0191:0x0010:0", "dialogue:0x0401:0x0020:0"],
+        )
+
+    def test_ucxt_permission_error_does_not_double_shell_command(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            ucxt = root / "ucxt-fixture"
+            ucxt.write_text("exit 0\n", encoding="utf-8")
+
+            shell_command = ["/bin/sh", str(ucxt), "-ftt", str(root)]
+            with mock.patch(
+                "tools.u6_translation.extract.subprocess.check_output",
+                side_effect=[PermissionError(), "output"],
+            ) as check_output:
+                self.assertEqual(_run_ucxt(root, ucxt), "output")
+
+        self.assertEqual(check_output.call_args_list[0].args[0], shell_command)
+        self.assertEqual(check_output.call_args_list[1].args[0], shell_command)
+
     def test_ucxt_textmsg_and_runtime_rows_merge_deterministically(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
