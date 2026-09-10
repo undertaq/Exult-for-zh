@@ -22,7 +22,7 @@ def _catalog_from_reviews() -> list[CatalogEntry]:
                 record["kind"],
                 record["key"],
                 {
-                    "dialogue:0x0401:0x0010:0": "Hello",
+                    "dialogue:0x0401:10:0": "Hello",
                     "choice:0x0401:0x0088:0": "yes",
                     "textmsg:0x0123": "Hello there",
                     "item:0x01f4:0:0": "a torch",
@@ -51,8 +51,9 @@ class EmitApprovedTableTest(unittest.TestCase):
 
         self.assertEqual(raw.splitlines()[:2], [
             "# u6-translation-v1",
-            r"# kind\tkey\tsource_sha256\tzh",
+            "# kind\tkey\tsource_sha256\tzh",
         ])
+        self.assertNotIn(b"\\t", raw.encode("utf-8").splitlines()[1])
         self.assertEqual(
             [(row.kind, row.key) for row in rows],
             sorted((entry.kind, entry.key) for entry in _catalog_from_reviews()),

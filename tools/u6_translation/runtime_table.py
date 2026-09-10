@@ -4,6 +4,9 @@ from dataclasses import dataclass
 from pathlib import Path
 
 
+TABLE_HEADER = "# u6-translation-v1\n# kind\tkey\tsource_sha256\tzh\n"
+
+
 @dataclass(frozen=True)
 class RuntimeRow:
     kind: str
@@ -75,7 +78,7 @@ def write_runtime_table(path: Path, rows: object) -> None:
         rows,  # type: ignore[arg-type]
         key=lambda row: (row.kind, row.key, row.source_sha256, row.zh),
     )
-    content = "".join(
+    content = TABLE_HEADER + "".join(
         "\t".join(
             escape_field(value)
             for value in (row.kind, row.key, row.source_sha256, row.zh)

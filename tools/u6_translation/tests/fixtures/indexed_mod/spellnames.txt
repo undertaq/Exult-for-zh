@@ -1,0 +1,3 @@
+# Optional English spell display names used by table-only spellbook tests.
+0:Awaken
+18:Corp Por

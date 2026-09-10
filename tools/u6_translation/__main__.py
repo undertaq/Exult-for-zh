@@ -27,6 +27,7 @@ def main(argv=None):
         p = modes.add_parser(mode); p.add_argument("--catalog", required=True); p.add_argument("--table", required=True)
         p.add_argument("--report", required=True); p.add_argument("--glossary", default=str(Path(__file__).with_name("u6_glossary.tsv")))
         p.add_argument("--strict", action="store_true")
+        p.add_argument("--semantic-strict", action="store_true")
     emit = sub.add_parser("emit"); emit.add_argument("--catalog", required=True); emit.add_argument("--review", required=True); emit.add_argument("--output", required=True)
     # Task 6/7 accepted a bare catalog path; retain that invocation.
     if argv is None:
@@ -61,9 +62,9 @@ def main(argv=None):
         if args.mode == "coverage":
             report = coverage
         elif args.mode == "correctness":
-            report = correctness_report(catalog, rows, Path(args.glossary), None)
+            report = correctness_report(catalog, rows, Path(args.glossary), None, args.semantic_strict)
         else:
-            correctness = correctness_report(catalog, rows, Path(args.glossary), None)
+            correctness = correctness_report(catalog, rows, Path(args.glossary), None, args.semantic_strict)
             report = combine_audit_reports(coverage, correctness)
         if raw: report = merge_input_issues(report, raw)
         write_json_report(Path(args.report), report); print(format_terminal_report(report)); return report_exit_code(report, args.strict)

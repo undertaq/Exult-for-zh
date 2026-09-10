@@ -5,10 +5,18 @@ Task 8 provides the deterministic catalog, cache/resume translation, correctness
 ```sh
 MOD_ROOT="$PWD/../Ultima_7/mods/Ultima6v1.3"
 PATCH_DIR="$MOD_ROOT/Ultima6v1.3/patch"
-UCXT="$PWD/tools/ucxt/ucxt"
+UCXT="$PWD/tools/ucxt/src/ucxt"
 OLLAMA_URL="http://127.0.0.1:11434/api/chat"
 OLLAMA_MODEL="qwen3:8b"
 ```
+
+Build the extractor prerequisite first with `make -C tools/ucxt/src`. UCXT currently
+accepts the repository's supported U7 usecode input format; the supplied U6 mod may
+therefore fail extraction because its compiled patch is not a supported UCXT source
+tree. The U6 mod also does not ship the optional `patch/spellnames.txt` display
+resource, so spell catalog rows appear only when that English-format resource exists.
+The deterministic indexed fixture under `tools/u6_translation/tests/fixtures/indexed_mod`
+is the supported extraction test input.
 
 The runtime capture is enabled by `config/debug/translation/catalog_capture` and writes to the path configured by `config/debug/translation/catalog_path`. Capture rows use the runtime catalog format and retain the original English source, including choice answers.
 
@@ -46,6 +54,9 @@ python3 -m tools.u6_translation audit all \
 ```
 
 Strict audit is a release gate: missing, stale, duplicate, orphan, unbound, untranslated, protected-term, Traditional-Chinese-policy, placeholder, or source-integrity failures require fixing. A human must inspect the candidate table and audit report and explicitly approve every row before emission. Automated or Ollama review is advisory and does not constitute approval.
+Semantic review remains advisory by default and cannot change deterministic findings,
+candidate selection, or exit status. Pass `--semantic-strict` only for an explicitly
+requested review gate.
 
 ## Emit the approved table
 
@@ -57,4 +68,4 @@ python3 -m tools.u6_translation emit \
   --output "$PATCH_DIR/zh_translation.tsv"
 ```
 
-`zh_translation.tsv` is external generated output and must be reviewed before it is copied into the mod directory. Do not commit the `/tmp` catalog, candidates, cache, audit, or review artifacts. Do not modify the existing `Ultima6v1.3.cfg`, add an alternate usecode file, or change any C++/runtime implementation module. The only runtime behavior covered here is display-time translation while English answers and game logic remain authoritative.
+`zh_translation.tsv` is external generated output and must be reviewed before it is copied into the mod directory. Do not commit the `/tmp` catalog, candidates, cache, audit, or review artifacts. Do not modify the existing `Ultima6v1.3.cfg` or add an alternate usecode file. Runtime behavior is display-time translation while English answers and game logic remain authoritative. Spell names follow the same rule: the English name is captured from `spellnames.txt` and translated only at Spellbook paint time.

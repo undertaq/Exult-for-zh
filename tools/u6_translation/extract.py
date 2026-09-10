@@ -10,7 +10,7 @@ from .catalog import CatalogEntry, _merge, parse_runtime_catalog
 
 
 def make_dialogue_key(function: int, callsite: str, ordinal: int) -> str:
-    return f"dialogue:0x{function:04x}:{callsite}:{ordinal}"
+    return f"dialogue:0x{function:04x}:{normalize_dialogue_offset_marker(callsite)}:{ordinal}"
 
 
 def make_choice_key(function: int, callsite: int, ordinal: int) -> str:
@@ -23,6 +23,17 @@ def make_item_key(shape: int, frame: int, quality: int) -> str:
 
 def split_runtime_segments(source: str) -> list[str]:
     return [segment.lstrip("*") for segment in source.split("~") if segment]
+
+
+def normalize_dialogue_offset_marker(marker: str) -> str:
+    """Normalize UCXT data/addsi offsets to the runtime voice-key spelling."""
+
+    parts = marker.split("_")
+    normalized = []
+    for part in parts:
+        value = part[2:] if part.lower().startswith("0x") else part
+        normalized.append(f"{int(value, 16):x}")
+    return "_".join(normalized)
 
 
 @dataclass(frozen=True)
@@ -52,32 +63,34 @@ def _parse_numeric_id(value: str) -> int:
 def _parse_ucxt(text: str) -> list[CatalogEntry]:
     entries: list[CatalogEntry] = []
     function: int | None = None
-    callsite: str | None = None
+    offset_markers: list[str] = []
     ordinal = 0
-    tag_pattern = re.compile(r"</>|<((?:0x)?[0-9a-fA-F]+)>")
+    tag_pattern = re.compile(
+        r"</>|<((?:0x)?[0-9a-fA-F]+(?:_(?:0x)?[0-9a-fA-F]+)*)>"
+    )
 
     for line in text.splitlines():
         for tag in tag_pattern.finditer(line):
             if tag.group(0) == "</>":
-                if callsite is not None:
-                    callsite = None
+                if offset_markers:
+                    offset_markers = []
                     ordinal = 0
                 elif function is not None:
                     function = None
-                    callsite = None
                     ordinal = 0
                 continue
-            value = _parse_numeric_id(tag.group(1))
+            marker = tag.group(1)
             if function is None:
-                function = value
-                callsite = None
+                function = _parse_numeric_id(marker)
+                offset_markers = []
                 ordinal = 0
-            elif callsite is None:
-                callsite = f"0x{value:04x}"
+            else:
+                offset_markers.extend(marker.split("_"))
                 ordinal = 0
 
-        if function is None or callsite is None:
+        if function is None or not offset_markers:
             continue
+        callsite = "_".join(normalize_dialogue_offset_marker(marker) for marker in offset_markers)
         for match in re.finditer(r"`([^`]*)`", line):
             for segment in split_runtime_segments(match.group(1)):
                 entries.append(
@@ -197,6 +210,35 @@ def _resource_paths(root: Path) -> list[Path]:
             paths.append(path)
             seen.add(path)
     return paths
+
+
+def _spell_name_paths(root: Path) -> list[Path]:
+    candidates = [
+        root / "Ultima6v1.3" / "patch" / "spellnames.txt",
+        root / "patch" / "spellnames.txt",
+        root / "spellnames.txt",
+    ]
+    return [path for path in candidates if path.is_file()]
+
+
+def _parse_spell_names(root: Path) -> list[CatalogEntry]:
+    entries: list[CatalogEntry] = []
+    for path in _spell_name_paths(root):
+        for line in path.read_text(encoding="utf-8", errors="ignore").splitlines():
+            if not line.strip() or line.lstrip().startswith("#"):
+                continue
+            match = re.match(r"^\s*(0x[0-9a-fA-F]+|\d+)\s*:\s*(.*?)\s*$", line)
+            if match is None:
+                continue
+            spell = int(match.group(1), 0)
+            if 0 <= spell < 72 and match.group(2):
+                entries.append(
+                    CatalogEntry.from_source(
+                        "spell", f"spell:0x{spell:04x}", match.group(2),
+                        "gameplay", "static-spellnames",
+                    )
+                )
+    return entries
 
 
 def _indexed_shape(line: str) -> tuple[int, int, int, str] | None:
@@ -374,6 +416,7 @@ def extract_catalog(
 ) -> list[CatalogEntry]:
     entries, static_choices = _static(mod_root, ucxt_path)
     entries.extend(_parse_indexed_resources(mod_root))
+    entries.extend(_parse_spell_names(mod_root))
     if runtime_catalog is not None:
         runtime = parse_runtime_catalog(runtime_catalog)
         entries = _bind_runtime_choices(entries, static_choices, runtime)

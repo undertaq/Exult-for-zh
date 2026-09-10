@@ -8,10 +8,11 @@ from tools.u6_translation.audit import (
     correctness_report,
     coverage_report,
     format_terminal_report,
+    load_audit_table,
     report_exit_code,
 )
-from tools.u6_translation.catalog import CatalogEntry
-from tools.u6_translation.runtime_table import RuntimeRow, load_runtime_table
+from tools.u6_translation.catalog import CatalogEntry, source_sha256
+from tools.u6_translation.runtime_table import RuntimeRow, load_runtime_table, write_runtime_table
 
 
 FIXTURES = Path(__file__).parent / "fixtures"
@@ -25,14 +26,14 @@ def _entry(kind: str, key: str, source: str) -> CatalogEntry:
 class AuditReportTest(unittest.TestCase):
     def setUp(self) -> None:
         self.catalog = [
-            _entry("dialogue", "dialogue:0x0401:0x0010:0", "Hello"),
+            _entry("dialogue", "dialogue:0x0401:10:0", "Hello"),
             _entry("choice", "choice:0x0401:0x0088:0", "yes"),
             _entry("choice", "choice:0x0401:0x0088:1", "no"),
             _entry("choice", "choice:0x0401:unbound:2", "maybe"),
             _entry("textmsg", "textmsg:0x0123", "The bed is occupied."),
             _entry("item", "item:0x01f4:0:0", "a torch"),
-            _entry("dialogue", "dialogue:0x0401:0x0020:0", "Wait ~ here"),
-            _entry("dialogue", "dialogue:0x0401:0x0021:0", "Hello <PLAYER_NAME>"),
+            _entry("dialogue", "dialogue:0x0401:20:0", "Wait ~ here"),
+            _entry("dialogue", "dialogue:0x0401:21:0", "Hello <PLAYER_NAME>"),
             _entry("misc", "misc:0x0042", "Welcome"),
             _entry("spell", "spell:0x0012", "@Corp Por@"),
             _entry("misc", "misc:0x0043", "The Avatar"),
@@ -86,7 +87,7 @@ class AuditReportTest(unittest.TestCase):
         self.assertNotEqual(report_exit_code(report, strict=False), 0)
 
     def test_weighted_coverage_uses_normalized_source_lengths(self) -> None:
-        entry = _entry("dialogue", "dialogue:0x0401:0x0030:0", "Long English source")
+        entry = _entry("dialogue", "dialogue:0x0401:30:0", "Long English source")
         report = coverage_report([entry], [
             RuntimeRow(entry.kind, entry.key, entry.source_sha256, "短")
         ])
@@ -180,8 +181,8 @@ class AuditReportTest(unittest.TestCase):
         self.assertEqual(report_exit_code(report, strict=False), 0)
 
     def test_coverage_issues_use_kind_and_key_identity(self) -> None:
-        dialogue = CatalogEntry.from_source("dialogue", "dialogue:0x0401:0x0070:0", "Hello", "gameplay", "dialogue-origin")
-        choice = CatalogEntry.from_source("choice", "dialogue:0x0401:0x0070:0", "yes", "gameplay", "choice-origin")
+        dialogue = CatalogEntry.from_source("dialogue", "dialogue:0x0401:70:0", "Hello", "gameplay", "dialogue-origin")
+        choice = CatalogEntry.from_source("choice", "dialogue:0x0401:70:0", "yes", "gameplay", "choice-origin")
         rows = [
             RuntimeRow(dialogue.kind, dialogue.key, "0" * 64, "你好"),
             RuntimeRow(choice.kind, choice.key, "0" * 64, "是"),
@@ -196,6 +197,51 @@ class AuditReportTest(unittest.TestCase):
         self.assertIn("U6 translation audit", terminal)
         self.assertIn("choice", terminal)
         self.assertIn("weighted", terminal)
+
+    def test_audit_table_requires_exact_release_headers(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "bad.tsv"
+            path.write_text(
+                "# u6-translation-v0\n# kind\\tkey\\tsource_sha256\\tzh\n",
+                encoding="utf-8",
+            )
+            rows, issues = load_audit_table(path)
+
+        self.assertEqual(rows, [])
+        self.assertEqual({issue["check"] for issue in issues}, {"table_version", "table_columns"})
+
+    def test_correctness_recomputes_catalog_source_hash(self) -> None:
+        entry = _entry("misc", "misc:0x0050", "Welcome")
+        tampered = CatalogEntry(
+            entry.kind, entry.key, entry.source, "0" * 64, entry.context,
+            entry.origin, entry.protected_tokens,
+        )
+        row = RuntimeRow(entry.kind, entry.key, source_sha256(entry.source), "歡迎")
+        report = correctness_report([tampered], [row], GLOSSARY, None)
+
+        self.assertIn(
+            "catalog_source_hash",
+            {issue["check"] for issue in report["deterministic"]["issues"]},
+        )
+
+    def test_semantic_review_is_advisory_and_does_not_change_exit_status(self) -> None:
+        entry = _entry("misc", "misc:0x0050", "Welcome")
+        row = RuntimeRow(entry.kind, entry.key, entry.source_sha256, "歡迎")
+        report = correctness_report(
+            [entry], [row], GLOSSARY,
+            [{"key": entry.key, "status": "advisory", "issues": ["tone"]}],
+        )
+
+        self.assertEqual(report["semantic"]["policy"], "advisory")
+        self.assertFalse(report["semantic"]["has_failures"])
+        self.assertEqual(report_exit_code(report, strict=True), 0)
+        strict_report = correctness_report(
+            [entry], [row], GLOSSARY,
+            [{"key": entry.key, "status": "advisory", "issues": ["tone"]}],
+            semantic_strict=True,
+        )
+        self.assertTrue(strict_report["semantic"]["has_failures"])
+        self.assertNotEqual(report_exit_code(strict_report, strict=True), 0)
 
 
 if __name__ == "__main__":

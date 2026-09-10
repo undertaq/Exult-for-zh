@@ -56,5 +56,6 @@ std::string make_dialogue_translation_key(
 std::string make_choice_translation_key(
 		int function_id, int callsite_offset, int ordinal);
 std::string make_item_translation_key(int shape, int frame, int quality);
+bool is_safe_catalog_path(std::string_view path);
 
 #endif

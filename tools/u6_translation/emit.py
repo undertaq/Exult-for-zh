@@ -9,7 +9,7 @@ from .prompts import GLOSSARY_PATH
 from .runtime_table import RuntimeRow, escape_field
 
 
-TABLE_HEADER = "# u6-translation-v1\n# kind\\tkey\\tsource_sha256\\tzh\n"
+TABLE_HEADER = "# u6-translation-v1\n# kind\tkey\tsource_sha256\tzh\n"
 _REVIEW_STATUSES = {"approved", "needs-review", "rejected"}
 _REQUIRED_REVIEW_FIELDS = {
     "key", "source_sha256", "status", "issues", "suggested_zh", "model", "prompt_version",

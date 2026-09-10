@@ -54,6 +54,7 @@
 #include "effects.h"
 #include "font.h"
 #include "bilingual_manager.h"
+#include "gameplay_translation.h"
 
 const int REAGENTS = 842;    // Shape #.
 
@@ -594,10 +595,32 @@ void Spellbook_gump::paint() {
 		
 		// Paint custom spell name at the bottom of the spellbook
 		int lang = static_cast<int>(BilingualManager::get().script_language());
-		Load_spell_names(lang);
 		int spell = book->bookmark;
-if (spell >= 0 && spell < 72 && !custom_spell_names[lang][spell].empty()) {
-			const char* name_str = custom_spell_names[lang][spell].c_str();
+		std::string display_name;
+		if (spell >= 0 && spell < 72 &&
+				GameplayTranslationManager::get().table_only_enabled()) {
+			// In table-only mode spellnames.txt is the English display source;
+			// usecode and spell logic continue to use the numeric spell id.
+			Load_spell_names(1);
+			const std::string& english_name = custom_spell_names[1][spell];
+			if (!english_name.empty()) {
+				const std::string key = "spell:0x" + [&] {
+					char buffer[5];
+					std::snprintf(buffer, sizeof(buffer), "%04x", spell);
+					return std::string(buffer);
+				}();
+				GameplayTranslationManager& translations = GameplayTranslationManager::get();
+				translations.record_runtime_source(GameplayTranslationKind::Spell, key, english_name);
+				display_name = translations.translate(GameplayTranslationKind::Spell, key, english_name);
+			}
+		} else {
+			Load_spell_names(lang);
+			if (spell >= 0 && spell < 72) {
+				display_name = custom_spell_names[lang][spell];
+			}
+		}
+		if (!display_name.empty()) {
+			const char* name_str = display_name.c_str();
 			// Use font 0 (Normal Yellow) to match NPC dialogue/item names and use font_size_dialog
 			int text_w = sman->get_text_width(0, name_str);
 			int px = x + (object_area.x + object_area.w / 2) * scale - text_w / 2;

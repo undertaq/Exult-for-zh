@@ -63,7 +63,7 @@ class _FakeBackend:
 class TranslationPipelineTest(unittest.TestCase):
     def setUp(self) -> None:
         self.entries = [
-            _entry("dialogue", "dialogue:0x0401:0x0010:0", "One"),
+            _entry("dialogue", "dialogue:0x0401:10:0", "One"),
             _entry("textmsg", "textmsg:0x0002", "Two"),
         ]
 
@@ -94,7 +94,10 @@ class TranslationPipelineTest(unittest.TestCase):
         self.assertEqual(backend.translation_calls, [[entry.key for entry in self.entries]])
         self.assertEqual(len(cache["entries"]), 2)
         cache_key = next(iter(cache["entries"]))
-        for part in ("operation", "source_sha256", "model", "prompt_version", "glossary_sha256"):
+        for part in (
+            "operation", "kind", "key", "context", "source_sha256", "model",
+            "prompt_version", "glossary_sha256",
+        ):
             self.assertIn(part, cache_key)
         self.assertEqual(json.loads(cache_key)["prompt_version"], "prompt-v1")
         self.assertEqual(json.loads(cache_key)["operation"], "translate")

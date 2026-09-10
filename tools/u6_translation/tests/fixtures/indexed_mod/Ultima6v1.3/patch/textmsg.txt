@@ -1,0 +1,10 @@
+%%section shapes
+0x01f4:a torch
+0x01f4/2/7:a jeweled torch
+%%endsection shapes
+%%section msgs
+0x0123:Line message
+%%endsection msgs
+%%section locations
+0x002a:Britain
+%%endsection locations

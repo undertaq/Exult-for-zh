@@ -3,6 +3,7 @@
 #include <array>
 #include <cstdint>
 #include <string>
+#include <regex>
 #include <vector>
 
 namespace {
@@ -219,6 +220,29 @@ bool parse_kind(std::string_view value, GameplayTranslationKind& kind) {
 	return true;
 }
 
+bool valid_key(GameplayTranslationKind kind, std::string_view value) {
+	static const std::regex dialogue(
+			R"(^dialogue:0x[0-9a-f]{4}:[0-9a-f]+(?:_[0-9a-f]+)*:[0-9]+$)");
+	static const std::regex choice(
+			R"(^choice:0x[0-9a-f]{4}:(?:0x[0-9a-f]{4}|unbound):[0-9]+$)");
+	static const std::regex item(R"(^item:0x[0-9a-f]{4}:[0-9]+:[0-9]+$)");
+	static const std::regex textmsg(R"(^textmsg:0x[0-9a-f]+$)");
+	static const std::regex location(R"(^location:0x[0-9a-f]+$)");
+	static const std::regex misc(R"(^misc:0x[0-9a-f]+$)");
+	static const std::regex spell(R"(^spell:0x[0-9a-f]+$)");
+	const std::string key(value);
+	switch (kind) {
+	case GameplayTranslationKind::Dialogue: return std::regex_match(key, dialogue);
+	case GameplayTranslationKind::Choice: return std::regex_match(key, choice);
+	case GameplayTranslationKind::Item: return std::regex_match(key, item);
+	case GameplayTranslationKind::TextMessage: return std::regex_match(key, textmsg);
+	case GameplayTranslationKind::Location: return std::regex_match(key, location);
+	case GameplayTranslationKind::Misc: return std::regex_match(key, misc);
+	case GameplayTranslationKind::Spell: return std::regex_match(key, spell);
+	}
+	return false;
+}
+
 bool valid_hash(std::string_view value) {
 	if (value.size() != 64) {
 		return false;
@@ -386,6 +410,9 @@ bool GameplayTranslationTable::load(
 		}
 		if (values[1].empty()) {
 			return fail_load(error, line_number, "empty translation key");
+		}
+		if (!valid_key(kind, values[1])) {
+			return fail_load(error, line_number, "invalid translation key for kind");
 		}
 		if (!valid_hash(values[2])) {
 			return fail_load(error, line_number, "invalid source hash");

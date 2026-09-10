@@ -29,7 +29,7 @@ class RuntimeTableCodecTest(unittest.TestCase):
         rows = [
             RuntimeRow(
                 kind="dialogue",
-                key="dialogue:0x0401:0x0010:0",
+                key="dialogue:0x0401:10:0",
                 source_sha256="a" * 64,
                 zh="第一行\t第二行\n第三行\\",
             )
@@ -67,7 +67,7 @@ class RuntimeTableCodecTest(unittest.TestCase):
 
     def test_runtime_table_writer_sorts_rows_by_kind_and_key(self) -> None:
         rows = [
-            RuntimeRow("dialogue", "dialogue:0x0401:0x0010:0", "a" * 64, "one"),
+            RuntimeRow("dialogue", "dialogue:0x0401:10:0", "a" * 64, "one"),
             RuntimeRow("textmsg", "textmsg:0x0002", "b" * 64, "two"),
         ]
         with tempfile.TemporaryDirectory() as directory:

@@ -6,6 +6,7 @@
 #include <iterator>
 #include <sstream>
 #include <string>
+#include <string_view>
 
 namespace {
 
@@ -66,6 +67,14 @@ void assert_table_only_active_machine_source_policy() {
 			"    GameplayTranslationManager::get().set_text_language(lang);\n"
 			"    if (gwin) {\n        gwin->set_all_dirty();")
 			!= std::string::npos);
+}
+
+void assert_safe_catalog_paths() {
+	assert(is_safe_catalog_path("u6_runtime_catalog.tsv"));
+	assert(is_safe_catalog_path("translation/catalog.tsv"));
+	assert(!is_safe_catalog_path("/tmp/catalog.tsv"));
+	assert(!is_safe_catalog_path("translation/../catalog.tsv"));
+	assert(!is_safe_catalog_path("../catalog.tsv"));
 }
 
 void assert_conversation_display_changes_only_copy_get_answer_stays_byte_for_byte_identical() {
@@ -131,6 +140,13 @@ void assert_conversation_display_changes_only_copy_get_answer_stays_byte_for_byt
 			!= std::string::npos);
 	assert(ucinternal.find("const char* ans = conv->get_answer(choice_num);")
 			!= std::string::npos);
+	std::ifstream spellbook("gumps/Spellbook_gump.cc");
+	assert(spellbook.good());
+	const std::string spellbook_source(
+			(std::istreambuf_iterator<char>(spellbook)), std::istreambuf_iterator<char>());
+	assert(spellbook_source.find("GameplayTranslationKind::Spell") != std::string::npos);
+	assert(spellbook_source.find("record_runtime_source") != std::string::npos);
+	assert(spellbook_source.find("spell:0x") != std::string::npos);
 
 	GameplayTranslationManager& manager = GameplayTranslationManager::get();
 	manager.shutdown();
@@ -176,6 +192,7 @@ void assert_conversation_display_changes_only_copy_get_answer_stays_byte_for_byt
 int main() {
 	assert_usecode_fallback_policy();
 	assert_table_only_active_machine_source_policy();
+	assert_safe_catalog_paths();
 
 	assert(sha256_hex("abc") == kAbcSha256);
 	assert(normalize_translation_source("a\r\nb\rc") == "a\nb\nc");
@@ -276,6 +293,12 @@ int main() {
 			"# kind\tkey\tsource_sha256\tzh\n"
 			"dialogue\tkey\t"
 			"ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad\t\n");
+	for (const char* kind : {"dialogue", "choice", "textmsg", "item", "location", "misc", "spell"}) {
+		assert_load_fails(std::string("# u6-translation-v1\n")
+				+ "# kind\tkey\tsource_sha256\tzh\n"
+				+ kind + "\tmalformed\t"
+				+ kAbcSha256 + "\t中文\n");
+	}
 
 	assert_conversation_display_changes_only_copy_get_answer_stays_byte_for_byte_identical();
 

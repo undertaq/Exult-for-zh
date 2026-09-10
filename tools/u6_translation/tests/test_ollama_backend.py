@@ -7,7 +7,7 @@ from urllib.error import HTTPError
 
 from tools.u6_translation.catalog import CatalogEntry, source_sha256
 from tools.u6_translation.ollama_backend import OllamaBackend, OllamaConfig
-from tools.u6_translation.prompts import load_glossary
+from tools.u6_translation.prompts import load_glossary, translation_system_prompt
 
 
 def _entry(key: str, source: str) -> CatalogEntry:
@@ -49,6 +49,15 @@ class OllamaBackendTest(unittest.TestCase):
 
         self.assertEqual(len(entries), 5)
         self.assertTrue(all(entry.en != "# policy traditional_chinese=warning" for entry in entries))
+
+    def test_prompt_contains_u6_rules_without_u7_guide_names_or_sections(self) -> None:
+        prompt = translation_system_prompt()
+
+        self.assertIn("U6 glossary", prompt)
+        self.assertIn("繁體中文", prompt)
+        self.assertNotIn("Translation_Guide.md", prompt)
+        self.assertNotIn("Lord British", prompt)
+        self.assertNotIn("八環法術翻譯", prompt)
 
     def test_translate_posts_json_only_request_and_returns_batch_order(self) -> None:
         response = _ollama_response(

@@ -16,6 +16,9 @@ _CACHE_VERSION = 1
 def make_cache_key(
     *,
     operation: str,
+    kind: str,
+    key: str,
+    context: str,
     source_sha256: str,
     model: str,
     prompt_version: str,
@@ -24,6 +27,9 @@ def make_cache_key(
     return json.dumps(
         {
             "operation": operation,
+            "kind": kind,
+            "key": key,
+            "context": context,
             "source_sha256": source_sha256,
             "model": model,
             "prompt_version": prompt_version,
@@ -114,6 +120,9 @@ def translate_catalog(
     for entry in catalog:
         cache_key = make_cache_key(
             operation="translate",
+            kind=entry.kind,
+            key=entry.key,
+            context=entry.context,
             source_sha256=entry.source_sha256,
             model=model,
             prompt_version=prompt_version,
@@ -135,6 +144,9 @@ def translate_catalog(
         for entry in pending:
             cache_key = make_cache_key(
                 operation="translate",
+                kind=entry.kind,
+                key=entry.key,
+                context=entry.context,
                 source_sha256=entry.source_sha256,
                 model=model,
                 prompt_version=prompt_version,

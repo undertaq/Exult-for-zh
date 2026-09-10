@@ -37,7 +37,7 @@ class CatalogCodecTest(unittest.TestCase):
             ),
             CatalogEntry(
                 kind="dialogue",
-                key="dialogue:0x0401:0x0010:0",
+                key="dialogue:0x0401:10:0",
                 source="one",
                 source_sha256=source_sha256("one"),
                 context="gameplay",
@@ -62,7 +62,7 @@ class CatalogCodecTest(unittest.TestCase):
     def test_protected_tokens_are_extracted_in_source_order(self) -> None:
         entry = CatalogEntry.from_source(
             kind="dialogue",
-            key="dialogue:0x0401:0x0010:0",
+                key="dialogue:0x0401:10:0",
             source="@name@~*<PLAYER_NAME><HONORIFIC><PRONOUN><GENDER_FLAG><VAR>",
             context="gameplay",
             origin="fixture",

@@ -6,13 +6,13 @@ from pathlib import Path
 import re
 from typing import Iterable
 
-from .catalog import CatalogEntry, normalize_source
+from .catalog import CatalogEntry, normalize_source, source_sha256
 from .runtime_table import RuntimeRow, split_tsv_fields, unescape_field
 
 
 KINDS = ("dialogue", "choice", "textmsg", "item", "location", "misc", "spell")
 _KEY_PATTERNS = {
-    "dialogue": re.compile(r"^dialogue:0x[0-9a-f]{4}:[A-Za-z0-9_]+:\d+$"),
+    "dialogue": re.compile(r"^dialogue:0x[0-9a-f]{4}:[0-9a-f]+(?:_[0-9a-f]+)*:\d+$"),
     "choice": re.compile(r"^choice:0x[0-9a-f]{4}:(?:0x[0-9a-f]{4}|unbound):\d+$"),
     "item": re.compile(r"^item:0x[0-9a-f]{4}:\d+:\d+$"),
     "textmsg": re.compile(r"^textmsg:0x[0-9a-f]+$"),
@@ -336,6 +336,7 @@ def correctness_report(
     rows: list[RuntimeRow],
     glossary: Path,
     semantic_reviews: list[dict[str, object]] | None,
+    semantic_strict: bool = False,
 ) -> dict[str, object]:
     """Run deterministic checks and keep optional semantic results advisory."""
 
@@ -345,6 +346,8 @@ def correctness_report(
     _append_coverage_issues(issues, coverage, catalog_by_identity)
 
     for entry in catalog:
+        if entry.source_sha256 != source_sha256(entry.source):
+            issues.append(_issue(key=entry.key, check="catalog_source_hash", severity="error", message="catalog source hash does not match source", source_location=_source_location(entry)))
         if not _key_is_valid(entry.kind, entry.key):
             issues.append(_issue(key=entry.key, check="key_syntax", severity="error", message="catalog key has invalid syntax", source_location=_source_location(entry)))
 
@@ -429,12 +432,23 @@ def correctness_report(
         "has_failures": any(issue["blocking"] for issue in issues),
     }
     reviews = list(semantic_reviews or [])
+    semantic_failures = [
+        review for review in reviews
+        if review.get("status") not in {"ok", "approved"}
+        or bool(review.get("issues"))
+    ]
     return {
         "coverage": coverage,
         "deterministic": deterministic,
         "issues": issues,
         "semantic_reviews": reviews,
-        "semantic": {"count": len(reviews), "reviews": reviews},
+        "semantic": {
+            "count": len(reviews),
+            "reviews": reviews,
+            "policy": "strict" if semantic_strict else "advisory",
+            "has_failures": semantic_strict and bool(semantic_failures),
+            "blocking_failures": semantic_failures if semantic_strict else [],
+        },
         "glossary": str(glossary),
         "glossary_error": glossary_error,
         "traditional_chinese_policy": traditional_policy,
@@ -454,6 +468,7 @@ def combine_audit_reports(
         "issues": list(deterministic["issues"]),
         "deterministic": deterministic,
         "semantic_reviews": list(correctness["semantic_reviews"]),
+        "semantic": correctness.get("semantic", {}),
     }
 
 
@@ -467,8 +482,24 @@ def load_audit_table(path: Path) -> tuple[list[RuntimeRow], list[dict[str, objec
         issues.append(_issue(key="<table>", check="utf8", severity="error", message=str(error), source_location=str(path)))
         return [], issues
 
+    lines = text.splitlines()
+    expected_headers = (
+        "# u6-translation-v1",
+        "# kind\tkey\tsource_sha256\tzh",
+    )
+    for index, expected in enumerate(expected_headers):
+        if index >= len(lines) or lines[index] != expected:
+            issues.append(_issue(
+                key="<table>", check=("table_version", "table_columns")[index],
+                severity="error", message="table header is not the exact U6 release header",
+                source_location=f"{path}:{index + 1}",
+            ))
+
+    if issues:
+        return [], issues
+
     rows: list[RuntimeRow] = []
-    for line_number, line in enumerate(text.splitlines(), 1):
+    for line_number, line in enumerate(lines[2:], 3):
         if not line.strip() or line.startswith("#"):
             continue
         location = f"{path}:{line_number}"
@@ -527,6 +558,9 @@ def report_exit_code(report: dict[str, object], strict: bool) -> int:
     if correctness is not None:
         deterministic = correctness.get("deterministic", {})
         if deterministic.get("has_failures"):
+            return 1
+        semantic = correctness.get("semantic", {})
+        if semantic.get("has_failures"):
             return 1
     return 0
 

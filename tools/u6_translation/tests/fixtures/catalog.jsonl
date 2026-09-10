@@ -1,3 +1,3 @@
 {"context":"gameplay","key":"choice:0x0401:unbound:0","kind":"choice","origin":"static-usecode","protected_tokens":[],"source":"yes","source_sha256":"8a798890fe93817163b10b5f7bd2ca4d25d84c52739a645a889c173eee7d9d3d"}
-{"context":"gameplay","key":"dialogue:0x0401:0x0010:0","kind":"dialogue","origin":"static-ucxt","protected_tokens":["~"],"source":"First","source_sha256":"a151ceb1711aad529a7704248f03333990022ebbfa07a7f04c004d70c167919f"}
+{"context":"gameplay","key":"dialogue:0x0401:10:0","kind":"dialogue","origin":"static-ucxt","protected_tokens":["~"],"source":"First","source_sha256":"a151ceb1711aad529a7704248f03333990022ebbfa07a7f04c004d70c167919f"}
 {"context":"gameplay","key":"item:0x01f4:0:0","kind":"item","origin":"static-textmsg","protected_tokens":[],"source":"a torch","source_sha256":"49cff2ce9ed1246560772769be6b77cde45b0951330b99ad039bcad191390a68"}

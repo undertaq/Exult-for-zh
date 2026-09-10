@@ -8,6 +8,7 @@
 
 #include <iomanip>
 #include <iostream>
+#include <filesystem>
 #include <sstream>
 #include <utility>
 
@@ -91,7 +92,8 @@ void GameplayTranslationManager::init() {
 				false);
 		config->value("config/debug/translation/catalog_path", catalog_path,
 				kDefaultCatalogPath);
-		if (capture && !catalog_path.empty()) {
+		if (capture && !catalog_path.empty()
+				&& is_safe_catalog_path(catalog_path)) {
 			try {
 				const std::string path = std::string(GAMEDAT) + catalog_path;
 				catalog_stream_ = U7open_out(path.c_str(), true);
@@ -105,6 +107,19 @@ void GameplayTranslationManager::init() {
 		}
 	}
 #endif
+}
+
+bool is_safe_catalog_path(std::string_view path) {
+	const std::filesystem::path candidate{std::string(path)};
+	if (candidate.empty() || candidate.is_absolute()) {
+		return false;
+	}
+	for (const auto& component : candidate) {
+		if (component == "..") {
+			return false;
+		}
+	}
+	return true;
 }
 
 void GameplayTranslationManager::shutdown() {

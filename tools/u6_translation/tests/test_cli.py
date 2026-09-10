@@ -32,7 +32,7 @@ class TranslationCliTest(unittest.TestCase):
     def test_legacy_catalog_extraction_invocation_still_prints_entries(self) -> None:
         result = self._run("tools/u6_translation/tests/fixtures/catalog.jsonl")
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn("dialogue:0x0401:0x0010:0 First", result.stdout)
+        self.assertIn("dialogue:0x0401:10:0 First", result.stdout)
 
     def test_audit_subcommand_writes_json_terminal_report_and_strict_status(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -77,7 +77,7 @@ class TranslationCliTest(unittest.TestCase):
             self.assertEqual(extract.returncode, 0, extract.stderr)
             self.assertTrue(catalog.exists())
 
-            source = CatalogEntry.from_source("dialogue", "dialogue:0x0401:0x0010:0", "Hello", "gameplay", "cli")
+            source = CatalogEntry.from_source("dialogue", "dialogue:0x0401:10:0", "Hello", "gameplay", "cli")
             table = root / "candidate.tsv"
             write_runtime_table(table, [RuntimeRow(source.kind, source.key, source.source_sha256, "你好")])
             correctness = root / "correctness.json"

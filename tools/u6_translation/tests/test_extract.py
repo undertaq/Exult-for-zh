@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import shutil
 from unittest import mock
 import tempfile
 import unittest
@@ -31,7 +32,7 @@ class ExtractionTest(unittest.TestCase):
 
         self.assertEqual(
             [entry.key for entry in entries],
-            ["dialogue:0x0191:0x0010:0", "dialogue:0x0401:0x0020:0"],
+            ["dialogue:0x0191:10:0", "dialogue:0x0401:20:0"],
         )
 
     def test_ucxt_permission_error_does_not_double_shell_command(self) -> None:
@@ -95,8 +96,8 @@ class ExtractionTest(unittest.TestCase):
             entries = extract_catalog(root, ucxt, runtime)
 
         by_key = {entry.key: entry for entry in entries}
-        self.assertIn("dialogue:0x0401:0x0010:0", by_key)
-        self.assertIn("dialogue:0x0401:0x0010:1", by_key)
+        self.assertIn("dialogue:0x0401:10:0", by_key)
+        self.assertIn("dialogue:0x0401:10:1", by_key)
         self.assertIn("textmsg:0x0123", by_key)
         self.assertEqual(by_key["textmsg:0x002a"].context, "location")
         self.assertIn("choice:0x0401:0x0088:0", by_key)
@@ -115,6 +116,8 @@ class ExtractionTest(unittest.TestCase):
         self.assertEqual(by_key["item:0x01f4:2:7"].context, "gameplay")
         self.assertEqual(by_key["textmsg:0x002a"].source, "Britain")
         self.assertEqual(by_key["textmsg:0x002a"].context, "location")
+        self.assertEqual(by_key["spell:0x0000"].source, "Awaken")
+        self.assertEqual(by_key["spell:0x0012"].source, "Corp Por")
 
     def test_ucxt_resets_function_callsite_and_segment_ordinals(self) -> None:
         root = FIXTURES / "indexed_mod"
@@ -123,27 +126,43 @@ class ExtractionTest(unittest.TestCase):
         self.assertEqual(
             keys,
             [
-                "dialogue:0x0401:0x0010:0",
-                "dialogue:0x0401:0x0010:1",
-                "dialogue:0x0401:0x0020:0",
-                "dialogue:0x0402:0x0030:0",
+                "dialogue:0x0401:10:0",
+                "dialogue:0x0401:10:1",
+                "dialogue:0x0401:20:0",
+                "dialogue:0x0402:30:0",
             ],
         )
 
-    def test_choices_bind_by_function_callsite_and_ordinal_not_source_hash(self) -> None:
-        root = FIXTURES / "indexed_mod"
-        runtime = root / "choices.tsv"
-        rows = [
-            ("choice", "choice:0x0402:0x0088:0", source_sha256("repeat"), "repeat"),
-            ("choice", "choice:0x0401:0x0099:0", source_sha256("repeat"), "repeat"),
-            ("choice", "choice:0x0401:0x0088:0", source_sha256("repeat"), "repeat"),
-            ("choice", "choice:0x0401:0x0088:1", source_sha256("repeat"), "repeat"),
-        ]
-        runtime.write_text(
-            "\n".join("\t".join(escape_field(field) for field in row) for row in rows) + "\n",
-            encoding="utf-8",
+    def test_ucxt_normalizes_compound_addsi_offset_marker(self) -> None:
+        entries = _parse_ucxt(
+            "<0x0401>\n"
+            "  <0x001a> <0x002f>\n"
+            "  `Compound`\n"
+            "  </>\n"
+            "</>\n"
         )
-        entries = extract_catalog(root, root / "ucxt_fixture.sh", runtime)
+
+        self.assertEqual(
+            [entry.key for entry in entries],
+            ["dialogue:0x0401:1a_2f:0"],
+        )
+
+    def test_choices_bind_by_function_callsite_and_ordinal_not_source_hash(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "indexed_mod"
+            shutil.copytree(FIXTURES / "indexed_mod", root)
+            runtime = root / "choices.tsv"
+            rows = [
+                ("choice", "choice:0x0402:0x0088:0", source_sha256("repeat"), "repeat"),
+                ("choice", "choice:0x0401:0x0099:0", source_sha256("repeat"), "repeat"),
+                ("choice", "choice:0x0401:0x0088:0", source_sha256("repeat"), "repeat"),
+                ("choice", "choice:0x0401:0x0088:1", source_sha256("repeat"), "repeat"),
+            ]
+            runtime.write_text(
+                "\n".join("\t".join(escape_field(field) for field in row) for row in rows) + "\n",
+                encoding="utf-8",
+            )
+            entries = extract_catalog(root, root / "ucxt_fixture.sh", runtime)
         by_key = {entry.key: entry for entry in entries}
 
         for key in (
