@@ -61,6 +61,11 @@ void assert_table_only_active_machine_source_policy() {
 	assert(implementation.find(
 			"return active != nullptr ? active : usecode_en;")
 			!= std::string::npos);
+	assert(implementation.find(
+			"    }\n    current_lang = lang;\n"
+			"    GameplayTranslationManager::get().set_text_language(lang);\n"
+			"    if (gwin) {\n        gwin->set_all_dirty();")
+			!= std::string::npos);
 }
 
 } // namespace

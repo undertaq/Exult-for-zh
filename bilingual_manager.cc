@@ -205,8 +205,10 @@ void BilingualManager::set_text_language(TextLanguage lang) {
         }
         gwin->set_usecode(newm);
         Game_singletons::init(gwin);
-        current_lang = lang;
-        GameplayTranslationManager::get().set_text_language(current_lang);
+    }
+    current_lang = lang;
+    GameplayTranslationManager::get().set_text_language(lang);
+    if (gwin) {
         gwin->set_all_dirty();
     }
 }
