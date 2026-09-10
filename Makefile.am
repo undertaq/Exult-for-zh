@@ -70,6 +70,8 @@ EXULTSOURCES =	\
 	gamedat.cc	\
 	gamemap.cc	\
 	gamemap.h	\
+	gameplay_translation.cc \
+	gameplay_translation.h \
 	gameplay_translation_table.cc \
 	gameplay_translation_table.h \
 	gamerend.cc	\
@@ -180,10 +182,15 @@ if BUILD_EXULT
 check_PROGRAMS = gameplay_translation_table_test
 gameplay_translation_table_test_SOURCES = \
 	tests/gameplay_translation_table_test.cc
-gameplay_translation_table_test_LDADD = gameplay_translation_table_test_core.o
+gameplay_translation_table_test_LDADD = \
+	gameplay_translation_table_test_core.o \
+	gameplay_translation_test_manager.o
 gameplay_translation_table_test_core.o: gameplay_translation_table.cc \
 	gameplay_translation_table.h
 	$(CXXCOMPILE) -o $@ -c $(srcdir)/gameplay_translation_table.cc
+gameplay_translation_test_manager.o: gameplay_translation.cc \
+	gameplay_translation.h gameplay_translation_table.h bilingual_manager.h
+	$(CXXCOMPILE) -DGAMEPLAY_TRANSLATION_TABLE_TEST -o $@ -c $(srcdir)/gameplay_translation.cc
 TESTS = $(check_PROGRAMS)
 endif
 
@@ -366,7 +373,8 @@ $(srcdir)/.git/config:
 
 BUILT_SOURCES=gitinfo.h
 
-CLEANFILES = gitinfo.h *~ gameplay_translation_table_test_core.o
+CLEANFILES = gitinfo.h *~ gameplay_translation_table_test_core.o \
+	gameplay_translation_test_manager.o
 
 
 if MACOSX

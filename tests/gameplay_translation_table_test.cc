@@ -1,4 +1,5 @@
 #include "gameplay_translation_table.h"
+#include "gameplay_translation.h"
 
 #include <cassert>
 #include <sstream>
@@ -66,6 +67,37 @@ int main() {
 			"different source");
 	assert(result.status == TranslationLookupStatus::SourceMismatch);
 	assert(result.text == "different source");
+
+	assert(make_dialogue_translation_key(0x0401, "1a_2f", 0)
+			== "dialogue:0x0401:1a_2f:0");
+	assert(make_choice_translation_key(0x0401, 0x0088, 0)
+			== "choice:0x0401:0x0088:0");
+	assert(make_item_translation_key(0x01f4, 2, 7)
+			== "item:0x01f4:2:7");
+
+	const std::string manager_table =
+			"# u6-translation-v1\n"
+			"# kind\tkey\tsource_sha256\tzh\n"
+			"dialogue\tdialogue:0x0401:1a_2f:0\t"
+			"ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad\t你好\n";
+	GameplayTranslationManager& manager = GameplayTranslationManager::get();
+	manager.shutdown();
+	manager.set_text_language(TextLanguage::CHINESE);
+	std::istringstream manager_input(manager_table);
+	assert(manager.load_table(manager_input, error));
+	assert(manager.table_only_enabled());
+	assert(manager.translate(GameplayTranslationKind::Dialogue,
+				"dialogue:0x0401:1a_2f:0", "abc") == "你好");
+	assert(manager.translate(GameplayTranslationKind::Dialogue,
+				"dialogue:missing", "missing English") == "missing English");
+	assert(manager.translate(GameplayTranslationKind::Dialogue,
+				"dialogue:0x0401:1a_2f:0", "stale English") == "stale English");
+	const TranslationDiagnostics diagnostics = manager.diagnostics();
+	assert(diagnostics.rows == 1);
+	assert(diagnostics.hits == 1);
+	assert(diagnostics.misses == 1);
+	assert(diagnostics.source_mismatches == 1);
+	assert(diagnostics.fallbacks == 2);
 
 	assert_load_fails(
 			"# u6-translation-v1\n"
