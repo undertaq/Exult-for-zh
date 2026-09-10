@@ -2943,7 +2943,9 @@ USECODE_INTRINSIC(nap_time) {
 		Usecode_value actval(-npcnum);
 		Usecode_value frval(0);
 		show_npc_face(actval, frval);
-		conv->show_npc_message(get_text_msg(first_bed_occupied + rand() % num_bed_occupied));
+		const std::string message = get_gameplay_text_msg(
+				first_bed_occupied + rand() % num_bed_occupied);
+		conv->show_npc_message(message.c_str());
 		remove_npc_face(actval);
 		gwin->get_main_actor()->set_schedule_type(Schedule::follow_avatar);
 		return no_ret;

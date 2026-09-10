@@ -2160,14 +2160,28 @@ void Game_window::find_nearby_objects(Game_object_map_xy& mobjxy, int x, int y, 
 static inline string Get_object_name(const Game_object* obj) {
 	if (obj == Game_window::get_instance()->get_main_actor()) {
 		if (GAME_BG) {
-			return get_misc_name(0x42);
+			const unsigned misc_id = 0x42;
+			const string english = get_misc_name(misc_id);
+			char key[32];
+			snprintf(key, sizeof(key), "misc:0x%04x", misc_id);
+			GameplayTranslationManager& translations = GameplayTranslationManager::get();
+			translations.record_runtime_source(
+					GameplayTranslationKind::Misc, key, english);
+			return translations.translate(
+					GameplayTranslationKind::Misc, key, english);
 		} else if (GAME_SI) {
-			return get_misc_name(0x4e);
-		} else {
-			return obj->get_name();
+			const unsigned misc_id = 0x4e;
+			const string english = get_misc_name(misc_id);
+			char key[32];
+			snprintf(key, sizeof(key), "misc:0x%04x", misc_id);
+			GameplayTranslationManager& translations = GameplayTranslationManager::get();
+			translations.record_runtime_source(
+					GameplayTranslationKind::Misc, key, english);
+			return translations.translate(
+					GameplayTranslationKind::Misc, key, english);
 		}
 	}
-	return obj->get_name();
+	return obj->get_gameplay_display_name();
 }
 
 /*
@@ -2222,7 +2236,7 @@ void Game_window::show_items(
 	Actor* npc = obj ? obj->as_actor() : nullptr;
 	if (npc && cheat.number_npcs() && (npc->get_npc_num() > 0 || npc == main_actor)) {
 		char              str[64];
-		const std::string namestr = Get_object_name(obj);
+		const std::string namestr = cheat.in_map_editor() ? obj->get_name() : Get_object_name(obj);
 		snprintf(str, sizeof(str), "(%i) %s", npc->get_npc_num(), namestr.c_str());
 		effects->add_text(str, obj);
 	} else if (obj) {
@@ -2232,6 +2246,8 @@ void Game_window::show_items(
 		const char* gname = (gump && !found_in_gump) ? gump->get_click_name() : nullptr;
 		if (gname) {
 			namestr = gname;
+		} else if (cheat.in_map_editor()) {
+			namestr = obj->get_name();
 		} else {
 			namestr = Get_object_name(obj);
 		}

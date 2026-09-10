@@ -105,7 +105,7 @@ Itemmenu_gump::Itemmenu_gump(Game_object_map_xy* mobjxy, int cx, int cy)
 	const int maxh = Game_window::get_instance()->get_height() - 2 * button_spacing_y;
 	for (auto it = mobjxy->begin(); it != mobjxy->end() && btop < maxh; it++) {
 		Game_object* o    = it->first;
-		std::string  name = o->get_name();
+		std::string  name = o->get_gameplay_display_name();
 		// Skip objects with no name.
 		if (name.empty()) {
 			continue;

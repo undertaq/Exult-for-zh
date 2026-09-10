@@ -24,6 +24,7 @@
 #include "frnameinf.h"
 #include "game.h"
 #include "gamewin.h"
+#include "gameplay_translation.h"
 #include "items.h"
 #include "objs.h"
 #include "shapeinf.h"
@@ -223,4 +224,15 @@ string Game_object::get_name() const {
 		get_plural_name(name, quantity, display_name);
 	}
 	return display_name;
+}
+
+string Game_object::get_gameplay_display_name() const {
+	const string english = get_name();
+	const string key = make_item_translation_key(
+			get_shapenum(), get_framenum(), get_quality());
+	GameplayTranslationManager& translations = GameplayTranslationManager::get();
+	translations.record_runtime_source(
+			GameplayTranslationKind::Item, key, english);
+	return translations.translate(
+			GameplayTranslationKind::Item, key, english);
 }

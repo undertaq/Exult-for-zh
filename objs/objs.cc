@@ -928,7 +928,8 @@ void Game_object::say(const char* text) {
  */
 
 void Game_object::say(int msgnum) {
-	say(get_text_msg(msgnum));
+	const std::string text = get_gameplay_text_msg(msgnum);
+	say(text.c_str());
 }
 
 /*
@@ -944,7 +945,8 @@ void Game_object::say(
 	}
 	const int offset = rand() % (to - from + 1);
 	if (from + offset < get_num_text_msgs()) {
-		say(get_text_msg(from + offset));
+		const std::string text = get_gameplay_text_msg(from + offset);
+		say(text.c_str());
 	}
 }
 

@@ -29,6 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "exult_constants.h"
 
 #include <iosfwd>
+#include <string>
 
 // The game items' names.
 int         get_num_item_names();
@@ -38,6 +39,7 @@ void        Set_item_name(unsigned num, const char* name);
 // Msgs. (0x400 - ).
 int         get_num_text_msgs();
 const char* get_text_msg(unsigned num);
+std::string get_gameplay_text_msg(unsigned message_id);
 void        Set_text_msg(unsigned num, const char* msg);
 
 // Frames, etc (0x500 - 0x5ff/0x685 (BG/SI)).

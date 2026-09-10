@@ -315,6 +315,7 @@ public:
 	// Saved from ExultStudio.
 	static void         update_from_studio(unsigned char* data, int datalen);
 	virtual std::string get_name() const;
+	std::string         get_gameplay_display_name() const;
 	// Remove/delete this object.
 	virtual void remove_this(Game_object_shared* keep = nullptr);
 

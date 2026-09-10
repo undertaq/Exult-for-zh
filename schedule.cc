@@ -1124,7 +1124,8 @@ void Preach_schedule::now_what() {
 			scr->add(Ucscript::delay_ticks, 3);
 			scr->add(Ucscript::face_dir, member->get_dir_facing());
 			scr->add(Ucscript::npc_standing_frame);
-			scr->add(Ucscript::say, get_text_msg(first_amen + rand() % (last_amen - first_amen + 1)));
+			scr->add(Ucscript::say, get_gameplay_text_msg(
+					first_amen + rand() % (last_amen - first_amen + 1)));
 			scr->add(Ucscript::delay_ticks, 2);
 			scr->add(Ucscript::npc_sit_frame);
 			scr->start();    // Start next tick.
@@ -1176,7 +1177,7 @@ void Preach_schedule::now_what() {
 		(*scr) << Ucscript::face_dir << 6    // Face west.
 			   << Ucscript::npc_standing_frame << Ucscript::npc_bow_frame << Ucscript::delay_ticks << 3
 			   << Ucscript::npc_kneel_frame;
-		scr->add(Ucscript::say, get_text_msg(first_amen + rand() % 2));
+		scr->add(Ucscript::say, get_gameplay_text_msg(first_amen + rand() % 2));
 		(*scr) << Ucscript::delay_ticks << 5 << Ucscript::npc_bow_frame << Ucscript::delay_ticks << 3
 			   << Ucscript::npc_standing_frame;
 		scr->start();    // Start next tick.

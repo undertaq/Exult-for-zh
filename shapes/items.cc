@@ -35,10 +35,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "exceptions.h"
 #include "exult_flx.h"
 #include "fnames.h"
+#include "gameplay_translation.h"
 #include "msgfile.h"
 #include "utils.h"
 
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -182,6 +184,23 @@ const char* get_text_msg(unsigned num) {
 		lang = 0;
 	}
 	return get_text_internal(text_msgs[lang], num);
+}
+
+static string make_text_message_translation_key(unsigned num) {
+	std::ostringstream key;
+	key << "textmsg:0x" << std::hex << std::nouppercase << std::setfill('0')
+		<< std::setw(4) << num;
+	return key.str();
+}
+
+string get_gameplay_text_msg(unsigned message_id) {
+	const string english = get_text_msg(message_id);
+	const string key     = make_text_message_translation_key(message_id);
+	GameplayTranslationManager& translations = GameplayTranslationManager::get();
+	translations.record_runtime_source(
+			GameplayTranslationKind::TextMessage, key, english);
+	return translations.translate(
+			GameplayTranslationKind::TextMessage, key, english);
 }
 
 /*
