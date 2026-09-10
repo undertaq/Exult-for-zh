@@ -2,6 +2,8 @@
 #include "gameplay_translation.h"
 
 #include <cassert>
+#include <fstream>
+#include <iterator>
 #include <sstream>
 #include <string>
 
@@ -18,9 +20,55 @@ void assert_load_fails(const std::string& input) {
 	assert(!error.empty());
 }
 
+const char* active_usecode_policy(TextLanguage language,
+		const char* english, const char* chinese, const char* dual) {
+	switch (language) {
+	case TextLanguage::CHINESE:
+		return chinese != nullptr ? chinese : english;
+	case TextLanguage::DUAL:
+		return dual != nullptr ? dual : english;
+	case TextLanguage::ENGLISH:
+		return english;
+	}
+	return english;
+}
+
+void assert_usecode_fallback_policy() {
+	const char* const english = "english";
+	const char* const chinese = "chinese";
+	const char* const dual = "dual";
+
+	assert(active_usecode_policy(TextLanguage::ENGLISH, english, chinese, dual)
+			== english);
+	assert(active_usecode_policy(TextLanguage::CHINESE, english, nullptr, dual)
+			== english);
+	assert(active_usecode_policy(TextLanguage::DUAL, english, chinese, nullptr)
+			== english);
+	assert(active_usecode_policy(TextLanguage::CHINESE, english, chinese, dual)
+			== chinese);
+	assert(active_usecode_policy(TextLanguage::DUAL, english, chinese, dual)
+			== dual);
+}
+
+void assert_table_only_active_machine_source_policy() {
+	std::ifstream source("bilingual_manager.cc");
+	const std::string implementation(
+			(std::istreambuf_iterator<char>(source)),
+			std::istreambuf_iterator<char>());
+	assert(!implementation.empty());
+	assert(implementation.find(
+			"gwin->set_usecode(get_active_usecode());") != std::string::npos);
+	assert(implementation.find(
+			"return active != nullptr ? active : usecode_en;")
+			!= std::string::npos);
+}
+
 } // namespace
 
 int main() {
+	assert_usecode_fallback_policy();
+	assert_table_only_active_machine_source_policy();
+
 	assert(sha256_hex("abc") == kAbcSha256);
 	assert(normalize_translation_source("a\r\nb\rc") == "a\nb\nc");
 

@@ -48,6 +48,7 @@ public:
 
     Usecode_machine* get_active_usecode();
     Usecode_machine* get_usecode(TextLanguage lang);
+    bool has_execution_usecode(TextLanguage lang) const;
 
     bool map_offset(TextLanguage from_lang, int func_id,
                     const std::string& offset_key, int segment,

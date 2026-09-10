@@ -64,6 +64,7 @@
 #include "gameclk.h"
 #include "gamemap.h"
 #include "gamerend.h"
+#include "gameplay_translation.h"
 #include "items.h"
 #include "keyactions.h"
 #include "keys.h"
@@ -569,6 +570,7 @@ void Game_window::init_files(bool cycle) {
 	Game_singletons::init(this);    // Everything should exist here.
 
 	BilingualManager::get().init();
+	GameplayTranslationManager::get().init();
 
 	cycle_load_palette();
 	shape_man->load();    // All the .vga files!
@@ -1580,8 +1582,15 @@ void Game_window::reload_usecode() {
 	const TextLanguage tlang = BilingualManager::get().get_text_language();
 	if (tlang != TextLanguage::ENGLISH) {
 		const char* ucode = (tlang == TextLanguage::DUAL) ? DUAL_USECODE : ZH_USECODE;
-		if (is_system_path_defined("<PATCH>") && U7exists(ucode)) {
-			auto pFile = U7open_in(ucode);
+		if (BilingualManager::get().has_execution_usecode(tlang)) {
+			if (is_system_path_defined("<PATCH>") && U7exists(ucode)) {
+				auto pFile = U7open_in(ucode);
+				if (pFile) {
+					usecode->read_usecode(*pFile, false);
+				}
+			}
+		} else if (U7exists(USECODE)) {
+			auto pFile = U7open_in(USECODE);
 			if (pFile) {
 				usecode->read_usecode(*pFile, false);
 			}

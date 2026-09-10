@@ -1,4 +1,5 @@
 #include "bilingual_manager.h"
+#include "gameplay_translation.h"
 #include "usecode/ucmachine.h"
 #include "gamewin.h"
 #include "items.h"
@@ -30,7 +31,7 @@ void BilingualManager::init() {
 
     Game_window* gwin = Game_window::get_instance();
     if (gwin) {
-        gwin->set_usecode(get_usecode(current_lang));
+        gwin->set_usecode(get_active_usecode());
         Game_singletons::init(gwin);
     }
 
@@ -184,6 +185,9 @@ void BilingualManager::set_text_language(TextLanguage lang) {
     if (gwin) {
         Usecode_machine* oldm = gwin->get_usecode();
         Usecode_machine* newm = get_usecode(lang);
+        if (newm == nullptr) {
+            newm = usecode_en;
+        }
         // Mid-game the outgoing machine owns the saved-game state (global
         // flags, timers, usecode statics). Only the active machine ever gets
         // Usecode_internal::read() during setup_game, so swapping machines
@@ -202,28 +206,38 @@ void BilingualManager::set_text_language(TextLanguage lang) {
         gwin->set_usecode(newm);
         Game_singletons::init(gwin);
         current_lang = lang;
+        GameplayTranslationManager::get().set_text_language(current_lang);
         gwin->set_all_dirty();
     }
 }
 
 Usecode_machine* BilingualManager::get_active_usecode() {
-    return (current_lang == TextLanguage::DUAL) ? get_usecode(TextLanguage::DUAL)
-           : (current_lang == TextLanguage::CHINESE && usecode_zh)
-                   ? usecode_zh
-                   : usecode_en;
+    Usecode_machine* active = get_usecode(current_lang);
+    return active != nullptr ? active : usecode_en;
 }
 
 Usecode_machine* BilingualManager::get_usecode(TextLanguage lang) {
-    if (lang == TextLanguage::DUAL) {
-        if (usecode_dual) {
-            return usecode_dual;
-        }
-        if (usecode_zh) {    // File fallback: Chinese.
-            return usecode_zh;
-        }
+    switch (lang) {
+    case TextLanguage::CHINESE:
+        return usecode_zh;
+    case TextLanguage::DUAL:
+        return usecode_dual;
+    case TextLanguage::ENGLISH:
         return usecode_en;
     }
-    return (lang == TextLanguage::CHINESE) ? usecode_zh : usecode_en;
+    return usecode_en;
+}
+
+bool BilingualManager::has_execution_usecode(TextLanguage lang) const {
+    switch (lang) {
+    case TextLanguage::CHINESE:
+        return usecode_zh != nullptr;
+    case TextLanguage::DUAL:
+        return usecode_dual != nullptr;
+    case TextLanguage::ENGLISH:
+        return usecode_en != nullptr;
+    }
+    return false;
 }
 
 bool BilingualManager::map_offset(TextLanguage from_lang, int func_id,
