@@ -104,6 +104,13 @@ class DisplayScopeTest(unittest.TestCase):
     def setUp(self) -> None:
         self.manager = RecordingManager(dict(TRANSLATED_VALUES))
 
+    def test_fixture_entries_match_authoritative_sources(self) -> None:
+        for entry in FIXTURE_ENTRIES:
+            self.assertEqual(entry.source, RAW_VALUES[entry.key])
+            self.assertEqual(entry.source_sha256, source_sha256(entry.source))
+            self.assertEqual(entry.context, "gameplay")
+            self.assertEqual(entry.origin, "display-scope-fixture")
+
     def test_gameplay_helpers_translate_display_copies_only(self) -> None:
         self.assertEqual(gameplay_text_message(self.manager, 0x0123), "床鋪有人。")
         self.assertEqual(

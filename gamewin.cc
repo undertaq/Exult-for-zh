@@ -2157,7 +2157,7 @@ void Game_window::find_nearby_objects(Game_object_map_xy& mobjxy, int x, int y, 
 	}
 }
 
-static inline string Get_object_name(const Game_object* obj) {
+static inline string Get_gameplay_object_name(const Game_object* obj) {
 	if (obj == Game_window::get_instance()->get_main_actor()) {
 		if (GAME_BG) {
 			const unsigned misc_id = 0x42;
@@ -2236,7 +2236,7 @@ void Game_window::show_items(
 	Actor* npc = obj ? obj->as_actor() : nullptr;
 	if (npc && cheat.number_npcs() && (npc->get_npc_num() > 0 || npc == main_actor)) {
 		char              str[64];
-		const std::string namestr = cheat.in_map_editor() ? obj->get_name() : Get_object_name(obj);
+		const std::string namestr = cheat.in_map_editor() ? obj->get_name() : Get_gameplay_object_name(obj);
 		snprintf(str, sizeof(str), "(%i) %s", npc->get_npc_num(), namestr.c_str());
 		effects->add_text(str, obj);
 	} else if (obj) {
@@ -2249,7 +2249,7 @@ void Game_window::show_items(
 		} else if (cheat.in_map_editor()) {
 			namestr = obj->get_name();
 		} else {
-			namestr = Get_object_name(obj);
+			namestr = Get_gameplay_object_name(obj);
 		}
 		if (Game_window::get_instance()->failed_copy_protection() && (npc == main_actor || !npc)) {    // Avatar and items
 			namestr = Strings::Oink();
