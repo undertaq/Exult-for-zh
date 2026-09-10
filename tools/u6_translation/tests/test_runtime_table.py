@@ -1,0 +1,53 @@
+from __future__ import annotations
+
+import tempfile
+import unittest
+from pathlib import Path
+
+from tools.u6_translation.catalog import parse_runtime_catalog
+from tools.u6_translation.runtime_table import (
+    RuntimeRow,
+    escape_field,
+    load_runtime_table,
+    unescape_field,
+    write_runtime_table,
+)
+
+
+FIXTURES = Path(__file__).parent / "fixtures"
+
+
+class RuntimeTableCodecTest(unittest.TestCase):
+    def test_runtime_capture_parses_escaped_english_fields(self) -> None:
+        entries = parse_runtime_catalog(FIXTURES / "runtime_catalog.tsv")
+        self.assertEqual(len(entries), 3)
+        self.assertEqual(entries[0].source, "Line\tbreak\nnext")
+        self.assertEqual(entries[0].kind, "dialogue")
+        self.assertEqual(entries[0].origin, "runtime-capture")
+
+    def test_runtime_table_round_trip_escapes_translation_text(self) -> None:
+        rows = [
+            RuntimeRow(
+                kind="dialogue",
+                key="dialogue:0x0401:0x0010:0",
+                source_sha256="a" * 64,
+                zh="第一行\t第二行\n第三行\\",
+            )
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "zh_translation.tsv"
+            write_runtime_table(path, rows)
+            self.assertEqual(load_runtime_table(path), rows)
+            self.assertIn("第一行\\t第二行\\n第三行\\\\", path.read_text())
+
+    def test_field_codec_rejects_unknown_and_trailing_escapes(self) -> None:
+        self.assertEqual(escape_field("a\\b\tc\nd\r"), "a\\\\b\\tc\\nd\\r")
+        self.assertEqual(unescape_field("a\\\\b\\tc\\nd\\r"), "a\\b\tc\nd\r")
+        with self.assertRaises(ValueError):
+            unescape_field("bad\\x")
+        with self.assertRaises(ValueError):
+            unescape_field("bad\\")
+
+
+if __name__ == "__main__":
+    unittest.main()
