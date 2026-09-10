@@ -1,0 +1,16 @@
+[project]
+name = "black-gate"
+
+[paths]
+data = "game-data"
+work = "remaster_data"
+
+[render]
+scale = 6
+logical_width = 320
+logical_height = 200
+
+[gpu]
+devices = ["cuda:0"]
+workers = 1
+precision = "fp8"

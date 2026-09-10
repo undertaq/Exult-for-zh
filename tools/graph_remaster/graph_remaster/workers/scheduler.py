@@ -14,7 +14,7 @@ from threading import Lock, Thread
 import traceback
 from typing import Callable, Mapping
 
-from ..backends.base import GeneratedImage, InferenceBackend, InferenceRequest, PrecisionAttempt, precision_metadata
+from ..backends.base import GeneratedImage, InferenceBackend, InferenceRequest, PrecisionAttempt, PrecisionProfile, precision_metadata
 from ..db import AssetStore
 from ..models import Candidate, JobState
 from ..reporting import write_stage_html_report
@@ -116,6 +116,20 @@ def _empty_cuda_cache() -> None:
         pass
 
 
+def _precision_components_for(
+    metadata: Mapping[str, object], profile: PrecisionProfile
+) -> dict[str, str]:
+    """Prefer a backend's component map over the generic SDXL map."""
+
+    custom = metadata.get("precision_components")
+    if isinstance(custom, Mapping) and all(
+        isinstance(key, str) and isinstance(value, str)
+        for key, value in custom.items()
+    ):
+        return dict(custom)
+    return precision_components(profile)
+
+
 def _worker_main(device: CudaDeviceInfo, tasks: object, outcomes: object, backend_factory: Callable[[], InferenceBackend]) -> None:
     """Process entry point.  It owns its backend and never receives CUDA objects."""
 
@@ -150,7 +164,7 @@ def _worker_main(device: CudaDeviceInfo, tasks: object, outcomes: object, backen
                     metadata = dict(generated.metadata)
                     metadata["precision"] = {
                         **precision_metadata(task.profiles[0], attempts, profile),
-                        "components": precision_components(profile),
+                        "components": _precision_components_for(metadata, profile),
                     }
                     metadata["worker"] = {"device": device.as_metadata(), "retry": retry}
                     candidate = Candidate(
@@ -210,6 +224,7 @@ class WorkerPool:
         capabilities: CapabilitySet | None = None,
         device_selectors: tuple[str, ...] | None = None,
         workers: int | None = None,
+        precision: PrecisionProfile = "fp16",
     ) -> None:
         if devices is None:
             devices, discovered_capabilities = _probe_environment_in_child()
@@ -230,6 +245,7 @@ class WorkerPool:
         self._candidates_dir = Path(candidates_dir)
         self._candidates_dir.mkdir(parents=True, exist_ok=True)
         self._capabilities = capabilities
+        self._requested_precision = precision
         self._device_override = _device_index(device)
         selected_indexes = None if device_selectors is None else {_device_index(item) for item in device_selectors}
         eligible = [
@@ -272,7 +288,9 @@ class WorkerPool:
             slot = self._select_slot(request)
             if slot is None:
                 raise WorkerBusyError("all GPU workers already have one active serial job")
-            profiles = tuple(resolve_precision(slot.device, self._capabilities))
+            profiles = tuple(resolve_precision(
+                slot.device, self._capabilities, requested=self._requested_precision
+            ))
             if not profiles:
                 raise ResourceFailed(f"no usable precision profile for {slot.device.device}")
             output = self._candidates_dir / f"{job_id}.png"

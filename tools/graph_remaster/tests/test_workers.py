@@ -15,7 +15,12 @@ from graph_remaster.models import FrameKey, FrameRecord, GenerationJob, ShapeRec
 from graph_remaster.config import canonical_asset_profile
 from graph_remaster.workers.devices import CudaDeviceInfo
 from graph_remaster.workers.precision import CapabilitySet, resolve_precision
-from graph_remaster.workers.scheduler import ResourceFailed, WorkerBusyError, WorkerPool
+from graph_remaster.workers.scheduler import (
+    ResourceFailed,
+    WorkerBusyError,
+    WorkerPool,
+    _precision_components_for,
+)
 
 
 class RecordingBackend:
@@ -213,6 +218,19 @@ def test_precision_resolution_filters_quantizers_by_runtime_and_device_capabilit
     assert resolve_precision(_devices()[1], CapabilitySet(torchao=True, bitsandbytes=True)) == [
         "fp16", "fp16_offload_attention_slicing_vae_tiling", "fp8", "int8", "int4"
     ]
+
+
+def test_precision_resolution_honors_an_explicit_fp8_starting_profile() -> None:
+    assert resolve_precision(
+        _devices()[1], CapabilitySet(torchao=True, bitsandbytes=True), requested="fp8"
+    ) == ["fp8", "int8", "int4"]
+
+
+def test_worker_preserves_backend_specific_precision_components() -> None:
+    custom = {"transformer": "float8_weight_only", "text_encoder": "bfloat16"}
+
+    assert _precision_components_for({"precision_components": custom}, "fp8") == custom
+    assert _precision_components_for({}, "fp8")["unet"] == "float8_weight_only"
 
 
 def test_cli_device_override_accepts_numeric_cuda_indexes_without_changing_existing_cuda_names() -> None:

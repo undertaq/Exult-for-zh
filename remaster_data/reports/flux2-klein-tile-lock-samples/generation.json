@@ -1,0 +1,107 @@
+{
+  "backend": "flux2_klein",
+  "device": "cuda:0 / NVIDIA GeForce RTX 5060 Ti",
+  "items": [
+    {
+      "alpha_mismatch": false,
+      "frame": 0,
+      "label": "8x8 flat tile \u2014 small patterned sample",
+      "master_dimensions": [
+        48,
+        48
+      ],
+      "name": "shape0000-frame00",
+      "paths": {
+        "ai_center": "assets/shape0000-frame00-ai-center-1024.png",
+        "ai_raw": "assets/shape0000-frame00-ai-raw-512.png",
+        "exact_master": "assets/shape0000-frame00-exact-nearest-6x.png",
+        "locked": "assets/shape0000-frame00-locked-review-1024.png",
+        "locked_master": "assets/shape0000-frame00-locked-residual-6x.png",
+        "locked_nearest": "assets/shape0000-frame00-locked-nearest-1024.png",
+        "original_nearest": "assets/shape0000-frame00-original-nearest-1024.png",
+        "smooth": "assets/shape0000-frame00-smooth-review-1024.png"
+      },
+      "roundtrip_mean_abs_error": [
+        0.781,
+        0.781,
+        0.906
+      ],
+      "seed": 9200000,
+      "shape": 0,
+      "source_dimensions": [
+        8,
+        8
+      ]
+    },
+    {
+      "alpha_mismatch": false,
+      "frame": 0,
+      "label": "8x8 flat tile \u2014 high-contrast sample",
+      "master_dimensions": [
+        48,
+        48
+      ],
+      "name": "shape0009-frame00",
+      "paths": {
+        "ai_center": "assets/shape0009-frame00-ai-center-1024.png",
+        "ai_raw": "assets/shape0009-frame00-ai-raw-512.png",
+        "exact_master": "assets/shape0009-frame00-exact-nearest-6x.png",
+        "locked": "assets/shape0009-frame00-locked-review-1024.png",
+        "locked_master": "assets/shape0009-frame00-locked-residual-6x.png",
+        "locked_nearest": "assets/shape0009-frame00-locked-nearest-1024.png",
+        "original_nearest": "assets/shape0009-frame00-original-nearest-1024.png",
+        "smooth": "assets/shape0009-frame00-smooth-review-1024.png"
+      },
+      "roundtrip_mean_abs_error": [
+        0.672,
+        0.641,
+        0.812
+      ],
+      "seed": 9200009,
+      "shape": 9,
+      "source_dimensions": [
+        8,
+        8
+      ]
+    },
+    {
+      "alpha_mismatch": false,
+      "frame": 0,
+      "label": "64x64 tile-like animated texture sample",
+      "master_dimensions": [
+        384,
+        384
+      ],
+      "name": "shape0180-frame00",
+      "paths": {
+        "ai_center": "assets/shape0180-frame00-ai-center-1024.png",
+        "ai_raw": "assets/shape0180-frame00-ai-raw-512.png",
+        "exact_master": "assets/shape0180-frame00-exact-nearest-6x.png",
+        "locked": "assets/shape0180-frame00-locked-review-1024.png",
+        "locked_master": "assets/shape0180-frame00-locked-residual-6x.png",
+        "locked_nearest": "assets/shape0180-frame00-locked-nearest-1024.png",
+        "original_nearest": "assets/shape0180-frame00-original-nearest-1024.png",
+        "smooth": "assets/shape0180-frame00-smooth-review-1024.png"
+      },
+      "roundtrip_mean_abs_error": [
+        0.003,
+        0.002,
+        0.052
+      ],
+      "seed": 9200180,
+      "shape": 180,
+      "source_dimensions": [
+        64,
+        64
+      ]
+    }
+  ],
+  "method": "3x3 repeated context + per-logical-pixel residual lock",
+  "notes": [
+    "These are throwaway samples; no pipeline source code or renderer was changed.",
+    "The locked output permits AI residual color variation only inside each source pixel block and restores source alpha exactly.",
+    "For production, the tile branch should use atlas-level seam and round-trip validation before packaging."
+  ],
+  "precision": "fp8",
+  "status": "review-ready-spike"
+}

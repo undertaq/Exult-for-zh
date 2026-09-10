@@ -359,17 +359,23 @@ class _BackendFactory:
         if self.backend_name == "sdxl_controlnet":
             from .backends.sdxl_controlnet import SdxlControlNetBackend
             return SdxlControlNetBackend(self.model_config)
+        if self.backend_name == "flux2_klein":
+            from .backends.flux2_klein import Flux2KleinBackend
+            return Flux2KleinBackend(self.model_config)
         raise ValueError(f"unsupported generation backend {self.backend_name!r}")
 
 
 def _run_worker_pool_generate(args: argparse.Namespace) -> int:
     """Dispatch one persisted queued job through the process-isolated worker pool."""
 
+    from dataclasses import replace
+
     from PIL import Image
 
     from .backends.base import InferenceRequest
     from .config import canonical_asset_profile, load_config
     from .controls.prepare import prepare_controls
+    from .controls.profiles import AssetType, profile_with_controls
     from .db import AssetStore
     from .models import JobState
 
@@ -391,11 +397,24 @@ def _run_worker_pool_generate(args: argparse.Namespace) -> int:
     finally:
         store.close()
 
-    configured_profile = next((item for item in config.asset_profiles if item.name == job.profile), None)
-    profile = configured_profile or canonical_asset_profile(job.profile)
+    requested_profile = frame.metadata.get("asset_type", job.profile)
+    asset_type = AssetType(requested_profile)
+    configured_profile = next((item for item in config.asset_profiles if item.name == asset_type.value), None)
+    profile = configured_profile or canonical_asset_profile(asset_type)
+    control_override = job.parameters.get("control_kinds")
+    if control_override is not None:
+        if not isinstance(control_override, (list, tuple)) or not all(
+            isinstance(kind, str) for kind in control_override
+        ):
+            raise ValueError("control_kinds must be a list of control names")
+        profile = profile_with_controls(asset_type, control_override)
+    # A legacy queued job can still say flat_tile even after controls inferred a
+    # safer type. Keep the persisted job id/state, but dispatch consistently with
+    # the source-authoritative frame metadata.
+    request_job = replace(job, profile=profile.name)
     with Image.open(str(frame.metadata["rgba_preview_path"])) as source_image:
         source = source_image.convert("RGBA")
-    request = InferenceRequest(job, source, prepare_controls(frame, profile))
+    request = InferenceRequest(request_job, source, prepare_controls(frame, profile))
     backend_name = args.backend or job.backend or config.model.backend
     pool = WorkerPool(
         None,
@@ -407,6 +426,7 @@ def _run_worker_pool_generate(args: argparse.Namespace) -> int:
         device=args.device,
         device_selectors=config.gpu.devices,
         workers=config.gpu.workers,
+        precision=config.gpu.precision,
     )
     try:
         pool.submit(args.selector).result()
@@ -613,7 +633,7 @@ def _run_controls_stage(args: argparse.Namespace) -> int:
 
     from .config import load_config
     from .controls.prepare import CanvasSpec, build_tile_atlas, persist_controls, persist_tile_atlas, prepare_controls
-    from .controls.profiles import AssetType, get_profile
+    from .controls.profiles import AssetType, get_profile, infer_asset_type
     from .db import AssetStore
     from .reporting import write_stage_html_report
 
@@ -630,9 +650,23 @@ def _run_controls_stage(args: argparse.Namespace) -> int:
         try:
             store.migrate()
             frames = store.list_all_frames(args.selector)
+            shape_counts: dict[tuple[str, int, int], int] = {}
+            for frame in frames:
+                shape_key = (frame.key.archive_sha256, frame.key.archive_index, frame.key.shape_id)
+                shape_counts[shape_key] = shape_counts.get(shape_key, 0) + 1
             flat_frames: dict[object, list[object]] = {}
             for frame_index, frame in enumerate(frames, start=1):
-                asset_type = AssetType(frame.metadata.get("asset_type", AssetType.FLAT_TILE.value))
+                metadata = dict(frame.metadata)
+                raw_asset_type = metadata.get("asset_type")
+                if raw_asset_type is None:
+                    shape_key = (frame.key.archive_sha256, frame.key.archive_index, frame.key.shape_id)
+                    asset_type = infer_asset_type(frame.width, frame.height, shape_counts[shape_key])
+                    metadata["asset_type"] = asset_type.value
+                    metadata["asset_type_source"] = "geometry_and_frame_count"
+                    frame = type(frame)(frame.key, frame.width, frame.height, frame.has_alpha, metadata)
+                    store.upsert_frame(frame)
+                else:
+                    asset_type = AssetType(raw_asset_type)
                 configured = next((item for item in config.asset_profiles if item.name == asset_type.value), None)
                 profile = configured or get_profile(asset_type)
                 bundle = prepare_controls(frame, profile)

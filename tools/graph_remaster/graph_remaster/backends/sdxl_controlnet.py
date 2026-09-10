@@ -21,6 +21,24 @@ from .base import (
 from .mock import _dimensions, _seed
 
 
+def source_resampling(parameters: dict[str, Any]) -> Image.Resampling:
+    """Select the source resize filter, defaulting to pixel-faithful nearest."""
+
+    name = str(parameters.get("source_resampling", "nearest")).lower()
+    filters = {
+        "nearest": Image.Resampling.NEAREST,
+        "bilinear": Image.Resampling.BILINEAR,
+        "bicubic": Image.Resampling.BICUBIC,
+        "lanczos": Image.Resampling.LANCZOS,
+    }
+    try:
+        return filters[name]
+    except KeyError as exc:
+        raise ValueError(
+            f"unsupported source_resampling {name!r}; choose nearest, bilinear, bicubic, or lanczos"
+        ) from exc
+
+
 class SdxlControlNetBackend:
     """Run one FP16 SDXL ControlNet image-to-image request at a time."""
 
@@ -76,7 +94,9 @@ class SdxlControlNetBackend:
         call: dict[str, Any] = {
             "prompt": str(parameters.get("prompt", "high-fidelity Ultima VII game asset")),
             "negative_prompt": str(parameters.get("negative_prompt", "text, watermark, blurry")),
-            "image": request.source.convert("RGBA").resize((width, height), Image.Resampling.NEAREST),
+            "image": request.source.convert("RGBA").resize(
+                (width, height), source_resampling(parameters)
+            ),
             "width": width,
             "height": height,
             "generator": generator,
@@ -121,7 +141,6 @@ class SdxlControlNetBackend:
                 "width": width,
             },
         )
-
     @property
     def precision_provenance(self) -> dict[str, object]:
         """Return scheduler-compatible fallback state before or after generation."""
@@ -199,21 +218,22 @@ class SdxlControlNetBackend:
         )
 
     def _load_pipeline(self, control_kinds: tuple[str, ...], mode: str) -> Any:
-        kwargs = self._precision_kwargs(mode)
+        component_kwargs = self._precision_kwargs(mode)
         control_nets = [
             self._diffusers.ControlNetModel.from_pretrained(
                 self._config.controlnet_model(kind),
                 revision=self._config.controlnet_revision(kind),
-                **kwargs,
+                **component_kwargs,
             )
             for kind in control_kinds
         ]
         controlnet: Any = control_nets[0] if len(control_nets) == 1 else control_nets
+        pipeline_kwargs = self._pipeline_precision_kwargs(mode)
         pipeline = self._diffusers.StableDiffusionXLControlNetImg2ImgPipeline.from_pretrained(
             self._config.base_model,
             revision=self._config.revision,
             controlnet=controlnet,
-            **kwargs,
+            **pipeline_kwargs,
         )
         if mode == "fp16_offload_attention_slicing_vae_tiling":
             pipeline.enable_model_cpu_offload()
@@ -222,6 +242,23 @@ class SdxlControlNetBackend:
         else:
             pipeline = pipeline.to(self._device)
         return pipeline
+
+    def _pipeline_precision_kwargs(self, mode: str) -> dict[str, Any]:
+        """Build pipeline-level quantization kwargs for modern diffusers APIs."""
+
+        if mode != "fp8" or not hasattr(self._diffusers, "PipelineQuantizationConfig"):
+            return self._precision_kwargs(mode)
+        torchao = import_module("torchao")
+        quantization = getattr(torchao, "quantization", None)
+        config_type = getattr(quantization, "Float8WeightOnlyConfig", None)
+        if config_type is None:
+            return self._precision_kwargs(mode)
+        quant_mapping = {
+            "unet": self._diffusers.TorchAoConfig(config_type()),
+        }
+        quant_config = self._diffusers.PipelineQuantizationConfig(quant_mapping=quant_mapping)
+        dtype = getattr(self._torch, "bfloat16", None) or self._torch.float16
+        return {"quantization_config": quant_config, "torch_dtype": dtype}
 
     def _unsupported_precision_reason(self, mode: str) -> str | None:
         if mode in {"fp16", "fp16_offload_attention_slicing_vae_tiling"}:
@@ -256,6 +293,17 @@ class SdxlControlNetBackend:
         if mode in {"fp16", "fp16_offload_attention_slicing_vae_tiling"}:
             return {"torch_dtype": self._torch.float16}
         if mode == "fp8":
+            # diffusers 0.40 expects an AOBaseConfig object, while older
+            # releases accepted the legacy string alias.
+            torchao = import_module("torchao")
+            quantization = getattr(torchao, "quantization", None)
+            config_type = getattr(quantization, "Float8WeightOnlyConfig", None)
+            if config_type is not None:
+                try:
+                    quant_type = config_type()
+                    return {"quantization_config": self._diffusers.TorchAoConfig(quant_type)}
+                except TypeError:
+                    pass
             return {"quantization_config": self._diffusers.TorchAoConfig("float8wo")}
         if mode == "int8":
             return {"quantization_config": self._diffusers.BitsAndBytesConfig(load_in_8bit=True)}

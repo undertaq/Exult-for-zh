@@ -15,7 +15,12 @@ from graph_remaster.controls.prepare import (
     prepare_mask,
     persist_controls,
 )
-from graph_remaster.controls.profiles import AssetType, get_profile
+from graph_remaster.controls.profiles import (
+    AssetType,
+    get_profile,
+    infer_asset_type,
+    profile_with_controls,
+)
 from graph_remaster.cli import main
 from graph_remaster.config import PipelineConfig
 from graph_remaster.db import AssetStore
@@ -47,6 +52,31 @@ def seed_frame(store: AssetStore, frame: FrameRecord) -> None:
 
 def image_hash(image: Image.Image) -> str:
     return sha256(image.tobytes()).hexdigest()
+
+
+@pytest.mark.parametrize(
+    ("width", "height", "frame_count", "expected"),
+    [
+        (8, 8, 1, AssetType.FLAT_TILE),
+        (8, 8, 2, AssetType.NPC_RLE),
+        (72, 72, 2, AssetType.NPC_RLE),
+        (16, 8, 1, AssetType.BUILDING_COMBO),
+    ],
+)
+def test_infer_asset_type_uses_shape_geometry_and_animation_count(
+    width: int, height: int, frame_count: int, expected: AssetType,
+) -> None:
+    assert infer_asset_type(width, height, frame_count) is expected
+
+
+def test_profile_with_controls_supports_silhouette_only_reimagine_mode() -> None:
+    profile = profile_with_controls(AssetType.NPC_RLE, ["silhouette"])
+
+    assert profile.name == AssetType.NPC_RLE.value
+    assert profile.controls == ("silhouette",)
+
+    with pytest.raises(ValueError, match="unsupported controls"):
+        profile_with_controls(AssetType.NPC_RLE, ["depth"])
 
 
 def test_authoritative_alpha_masks_preserve_the_exact_source_silhouette(tmp_path: Path) -> None:
@@ -154,6 +184,35 @@ def test_prepare_controls_cli_persists_a_controls_ready_stage(tmp_path: Path) ->
     assert store._connection.execute("SELECT COUNT(*) FROM masks").fetchone()[0] == 3
     assert store._connection.execute("SELECT COUNT(*) FROM control_maps").fetchone()[0] == 2
     assert (tmp_path / "work" / "controls" / "default" / "stage.json").is_file()
+
+
+def test_prepare_controls_cli_infers_and_persists_missing_asset_type(tmp_path: Path) -> None:
+    frame = make_frame(tmp_path)
+    database = tmp_path / "graph.sqlite3"
+    store = AssetStore.open(database)
+    store.migrate()
+    seed_frame(store, frame)
+    store.close()
+    config = tmp_path / "pipeline.toml"
+    config.write_text(
+        "[project]\nname = 'black-gate'\n[paths]\ndata = 'data'\nwork = 'work'\n"
+        "[render]\nscale = 6\nlogical_width = 320\nlogical_height = 200\n",
+        encoding="utf-8",
+    )
+
+    assert main(["prepare-controls", "--config", str(config), "--database", str(database)]) == 0
+
+    store = AssetStore.open(database)
+    persisted = store.get_frame(frame.key)
+    assert persisted.metadata["asset_type"] == AssetType.BUILDING_COMBO.value
+    assert persisted.metadata["asset_type_source"] == "geometry_and_frame_count"
+    control_kinds = {
+        row[0] for row in store._connection.execute(
+            "SELECT kind FROM control_maps WHERE archive_sha256 = ? AND shape_id = ?",
+            (frame.key.archive_sha256, frame.key.shape_id),
+        ).fetchall()
+    }
+    assert control_kinds == {"canny", "depth"}
 
 
 def test_prepare_controls_cli_persists_content_addressed_flat_tile_atlas_and_html_report(tmp_path: Path) -> None:

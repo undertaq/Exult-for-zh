@@ -24,17 +24,22 @@ class CapabilitySet:
 PRECISION_COMPONENTS: dict[str, dict[str, str]] = {
     "fp16": {"unet": "float16", "text_encoder": "float16", "text_encoder_2": "float16", "vae": "float16", "controlnet": "float16"},
     "fp16_offload_attention_slicing_vae_tiling": {"unet": "float16_cpu_offload", "text_encoder": "float16_cpu_offload", "text_encoder_2": "float16_cpu_offload", "vae": "float16_tiled", "controlnet": "float16_cpu_offload"},
-    "fp8": {"unet": "float8_weight_only", "text_encoder": "float8_weight_only", "text_encoder_2": "float8_weight_only", "vae": "float16", "controlnet": "float16"},
+    "fp8": {"unet": "float8_weight_only", "text_encoder": "bfloat16", "text_encoder_2": "bfloat16", "vae": "float16", "controlnet": "float8_weight_only"},
     "int8": {"unet": "int8_weight_only", "text_encoder": "int8_weight_only", "text_encoder_2": "int8_weight_only", "vae": "float16", "controlnet": "float16"},
     "int4": {"unet": "int4_weight_only", "text_encoder": "int4_weight_only", "text_encoder_2": "int4_weight_only", "vae": "float16", "controlnet": "float16"},
 }
 
 
-def resolve_precision(device: CudaDeviceInfo, installed: CapabilitySet) -> list[PrecisionProfile]:
-    """Return only ladder modes safe for the device and installed optional runtimes."""
+def resolve_precision(
+    device: CudaDeviceInfo,
+    installed: CapabilitySet,
+    *,
+    requested: PrecisionProfile = "fp16",
+) -> list[PrecisionProfile]:
+    """Return safe fallback modes beginning at the explicitly requested mode."""
 
     resolved: list[PrecisionProfile] = []
-    for profile in precision_fallback_ladder("fp16"):
+    for profile in precision_fallback_ladder(requested):
         if profile == "fp8" and (not installed.torchao or device.compute_capability < (8, 9)):
             continue
         if profile in {"int8", "int4"} and (not installed.bitsandbytes or device.compute_capability < (7, 5)):

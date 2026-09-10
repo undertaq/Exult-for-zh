@@ -1,0 +1,21 @@
+[project]
+name = "black-gate"
+
+[paths]
+data = "game-data"
+work = "remaster_data"
+
+[render]
+scale = 6
+logical_width = 320
+logical_height = 200
+
+[gpu]
+devices = ["cuda:0"]
+workers = 1
+precision = "fp8"
+
+[model]
+backend = "flux2_klein"
+base_model = "/home/joe/.cache/huggingface/hub/models--black-forest-labs--FLUX.2-klein-4B/snapshots/e7b7dc27f91deacad38e78976d1f2b499d76a294"
+revision = "e7b7dc27f91deacad38e78976d1f2b499d76a294"

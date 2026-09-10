@@ -14,9 +14,10 @@ from graph_remaster.backends.base import (
     InferenceRequest,
     precision_fallback_ladder,
 )
+from graph_remaster.backends.flux2_klein import Flux2KleinBackend
 from graph_remaster.backends.mock import MockBackend
-from graph_remaster.backends.sdxl_controlnet import SdxlControlNetBackend
-from graph_remaster.cli import build_parser, main
+from graph_remaster.backends.sdxl_controlnet import SdxlControlNetBackend, source_resampling
+from graph_remaster.cli import _BackendFactory, build_parser, main
 from graph_remaster.config import (
     ConfigError,
     ControlNetConfig,
@@ -94,6 +95,157 @@ def test_mock_backend_is_repeatable_for_the_same_request_and_seed() -> None:
 
     assert _image_hash(first.image) == _image_hash(second.image)
     assert first.metadata == second.metadata
+
+
+def test_source_resampling_defaults_to_nearest_and_allows_smooth_reimagine_inputs() -> None:
+    assert source_resampling({}) is Image.Resampling.NEAREST
+    assert source_resampling({"source_resampling": "lanczos"}) is Image.Resampling.LANCZOS
+    assert source_resampling({"source_resampling": "bicubic"}) is Image.Resampling.BICUBIC
+
+    with pytest.raises(ValueError, match="source_resampling"):
+        source_resampling({"source_resampling": "invalid"})
+
+
+def test_flux2_klein_fp8_uses_transformer_quantization_and_reference_editing(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    calls: dict[str, object] = {}
+
+    class Context:
+        def __enter__(self) -> "Context":
+            return self
+
+        def __exit__(self, *args: object) -> None:
+            return None
+
+    class FakeCuda:
+        @staticmethod
+        def is_available() -> bool:
+            return True
+
+    class FakeGenerator:
+        def __init__(self, device: str) -> None:
+            self.device = device
+
+        def manual_seed(self, seed: int) -> "FakeGenerator":
+            calls["seed"] = seed
+            return self
+
+    class FakeTorch:
+        bfloat16 = "bfloat16"
+        cuda = FakeCuda()
+        Generator = FakeGenerator
+
+        @staticmethod
+        def inference_mode() -> Context:
+            return Context()
+
+    class Float8WeightOnlyConfig:
+        pass
+
+    class TorchAoConfig:
+        def __init__(self, quant_type: object) -> None:
+            self.quant_type = quant_type
+
+    class PipelineQuantizationConfig:
+        def __init__(self, **kwargs: object) -> None:
+            self.kwargs = kwargs
+
+    class FakePipe:
+        def enable_model_cpu_offload(self) -> None:
+            calls["offload"] = True
+
+        def __call__(self, **kwargs: object) -> object:
+            calls["request"] = kwargs
+            return type("Result", (), {"images": [Image.new("RGB", (12, 9), (1, 2, 3))]})()
+
+    class FakeFactory:
+        @staticmethod
+        def from_pretrained(*args: object, **kwargs: object) -> FakePipe:
+            calls["load"] = {"args": args, "kwargs": kwargs}
+            return FakePipe()
+
+    FakeDiffusers = type(
+        "FakeDiffusers",
+        (),
+        {
+            "Flux2KleinPipeline": FakeFactory,
+            "PipelineQuantizationConfig": PipelineQuantizationConfig,
+            "TorchAoConfig": TorchAoConfig,
+        },
+    )
+    fake_torchao = type(
+        "FakeTorchAo",
+        (),
+        {"quantization": type("FakeQuantization", (), {"Float8WeightOnlyConfig": Float8WeightOnlyConfig})},
+    )
+
+    monkeypatch.setattr(
+        "graph_remaster.backends.flux2_klein.import_module",
+        lambda name: {"torch": FakeTorch, "diffusers": FakeDiffusers, "torchao": fake_torchao}[name],
+    )
+    request = _request(seed=6310642)
+    request = InferenceRequest(
+        job=GenerationJob(
+            frame=request.job.frame,
+            state="QUEUED",
+            profile="flat_tile",
+            backend="flux2_klein",
+            parameters={
+                "seed": 6310642,
+                "width": 12,
+                "height": 9,
+                "num_inference_steps": 4,
+                "guidance_scale": 1.0,
+                "prompt": "a polished hand-painted fantasy RPG sprite",
+                "source_resampling": "lanczos",
+            },
+            job_id="job-flux2",
+        ),
+        source=request.source,
+        controls=request.controls,
+        reference=None,
+    )
+    backend = Flux2KleinBackend(
+        ModelConfig(base_model="black-forest-labs/FLUX.2-klein-4B", revision=PIN)
+    )
+
+    backend.load("cuda:0", "fp8")
+    candidate = backend.generate(request)
+
+    loaded = calls["load"]
+    assert isinstance(loaded, dict)
+    assert loaded["args"] == ("black-forest-labs/FLUX.2-klein-4B",)
+    kwargs = loaded["kwargs"]
+    assert isinstance(kwargs, dict)
+    assert kwargs["torch_dtype"] == "bfloat16"
+    quant_config = kwargs["quantization_config"]
+    assert isinstance(quant_config, PipelineQuantizationConfig)
+    assert set(quant_config.kwargs["quant_mapping"]) == {"transformer"}
+    assert isinstance(
+        quant_config.kwargs["quant_mapping"]["transformer"].quant_type,
+        Float8WeightOnlyConfig,
+    )
+    generated = calls["request"]
+    assert isinstance(generated, dict)
+    assert generated["image"].size == (12, 9)
+    assert generated["generator"].device == "cuda:0"
+    assert generated["prompt"] == "a polished hand-painted fantasy RPG sprite"
+    assert "control_image" not in generated
+    assert calls["offload"] is True
+    assert candidate.metadata["backend"] == "flux2_klein"
+    assert candidate.metadata["control_kinds"] == []
+    assert candidate.metadata["precision_components"] == {
+        "transformer": "float8_weight_only",
+        "text_encoder": "bfloat16",
+        "vae": "bfloat16",
+    }
+
+
+def test_cli_backend_factory_constructs_flux2_klein_lazily() -> None:
+    backend = _BackendFactory("flux2_klein", ModelConfig())()
+
+    assert isinstance(backend, Flux2KleinBackend)
 
 
 def test_mock_backend_accepts_npc_controls_and_records_reusable_precision_metadata() -> None:
@@ -348,6 +500,61 @@ def test_sdxl_applies_available_quantized_precision_modes_without_downloading_we
         {"mode": mode, "outcome": "applied", "reason": "loaded successfully"}
     ]
     assert type(calls[0]["quantization_config"]).__name__ == expected_quantizer
+
+
+def test_sdxl_fp8_builds_a_pipeline_quantization_config_for_modern_diffusers(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class FakeCuda:
+        @staticmethod
+        def is_available() -> bool:
+            return True
+
+    class FakeTorch:
+        cuda = FakeCuda()
+        float8_e4m3fn = "float8"
+        bfloat16 = "bfloat16"
+
+    class Float8WeightOnlyConfig:
+        pass
+
+    class TorchAoConfig:
+        def __init__(self, quant_type: object) -> None:
+            self.quant_type = quant_type
+
+    class PipelineQuantizationConfig:
+        def __init__(self, **kwargs: object) -> None:
+            self.kwargs = kwargs
+
+    FakeDiffusers = type(
+        "FakeDiffusers", (),
+        {
+            "TorchAoConfig": TorchAoConfig,
+            "PipelineQuantizationConfig": PipelineQuantizationConfig,
+        },
+    )
+
+    fake_torchao = type(
+        "FakeTorchAo", (),
+        {"quantization": type("FakeQuantization", (), {"Float8WeightOnlyConfig": Float8WeightOnlyConfig})},
+    )
+
+    monkeypatch.setattr(
+        "graph_remaster.backends.sdxl_controlnet.import_module",
+        lambda name: {"torch": FakeTorch, "diffusers": FakeDiffusers, "torchao": fake_torchao}[name],
+    )
+    backend = SdxlControlNetBackend(ModelConfig())
+    backend.load("cuda:0", "fp8")
+
+    kwargs = backend._pipeline_precision_kwargs("fp8")
+    config = kwargs["quantization_config"]
+    assert isinstance(config, PipelineQuantizationConfig)
+    assert set(config.kwargs["quant_mapping"]) == {"unet"}
+    assert all(
+        isinstance(item.quant_type, Float8WeightOnlyConfig)
+        for item in config.kwargs["quant_mapping"].values()
+    )
+    assert kwargs["torch_dtype"] == "bfloat16"
 
 
 def test_sdxl_quantized_precision_failure_names_the_required_extra(
