@@ -1,5 +1,5 @@
 # u6-runtime-catalog-v1
-# kind\tkey\tsource_sha256\tenglish
-dialogue\tdialogue:0x0401:1a_2f:0\t3ad7c6e2e6653184b2cfb2cae86a85ab34454ab2dbf356763727a67fdef708d3\tLine\tbreak\nnext
-choice\tchoice:0x0401:0x0088:0\t7692c3ad3540bb803c020b3aee66cd8887123234ea0c6e7143c0add73ff431ed\tone
-textmsg\ttextmsg:0x0123\t4e47826698bb4630fb4451010062fadbf85d61427cbdfaed7ad0f23f239bed89\tHello there
+# kind\\tkey\\tsource_sha256\\tenglish
+dialogue	dialogue:0x0401:1a_2f:0	3ad7c6e2e6653184b2cfb2cae86a85ab34454ab2dbf356763727a67fdef708d3	Line\tbreak\nnext
+choice	choice:0x0401:0x0088:0	7692c3ad3540bb803c020b3aee66cd8887123234ea0c6e7143c0add73ff431ed	one
+textmsg	textmsg:0x0123	4e47826698bb4630fb4451010062fadbf85d61427cbdfaed7ad0f23f239bed89	Hello there

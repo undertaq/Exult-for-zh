@@ -1,29 +1,86 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
-import pathlib
+from pathlib import Path
+
 
 @dataclass(frozen=True)
 class RuntimeRow:
-    kind: str; key: str; source_sha256: str; zh: str
+    kind: str
+    key: str
+    source_sha256: str
+    zh: str
 
-def escape_field(s): return s.replace('\\','\\\\').replace('\t','\\t').replace('\n','\\n').replace('\r','\\r')
-def unescape_field(s):
-    out=[]; i=0
-    while i<len(s):
-        if s[i]!='\\': out.append(s[i]); i+=1; continue
-        i+=1
-        if i==len(s): raise ValueError('trailing escape')
-        c=s[i]; i+=1
-        if c not in 'tnr\\': raise ValueError('unknown escape')
-        out.append({'t':'\t','n':'\n','r':'\r','\\':'\\'}[c])
-    return ''.join(out)
-def load_runtime_table(path):
-    rows=[]
-    for line in path.read_text(encoding='utf-8').splitlines():
-        if not line or line.startswith('#'): continue
-        f=line.split('\\t',3) if '\\t' in line and '\t' not in line else line.split('\t',3)
-        if len(f)!=4: raise ValueError('invalid runtime table row')
-        rows.append(RuntimeRow(*(unescape_field(x) for x in f)))
+
+def escape_field(value: str) -> str:
+    return (
+        value.replace("\\", "\\\\")
+        .replace("\t", "\\t")
+        .replace("\n", "\\n")
+        .replace("\r", "\\r")
+    )
+
+
+def unescape_field(value: str) -> str:
+    result: list[str] = []
+    index = 0
+    escapes = {"t": "\t", "n": "\n", "r": "\r", "\\": "\\"}
+    while index < len(value):
+        character = value[index]
+        if character != "\\":
+            result.append(character)
+            index += 1
+            continue
+        index += 1
+        if index == len(value):
+            raise ValueError("trailing escape")
+        escaped = value[index]
+        index += 1
+        if escaped not in escapes:
+            raise ValueError("unknown escape: " + escaped)
+        result.append(escapes[escaped])
+    return "".join(result)
+
+
+def split_tsv_fields(line: str, expected_fields: int = 4) -> tuple[str, ...]:
+    """Split a physical TSV row before decoding escaped field contents.
+
+    Delimiters are actual tabs. A literal backslash-t is field data and is
+    decoded only by ``unescape_field``. ``str.split`` intentionally preserves
+    an empty final field.
+    """
+
+    fields = tuple(line.split("\t"))
+    if len(fields) != expected_fields:
+        raise ValueError("invalid TSV row: expected " + str(expected_fields) + " fields")
+    return fields
+
+
+def decode_tsv_row(line: str, expected_fields: int = 4) -> tuple[str, ...]:
+    return tuple(unescape_field(field) for field in split_tsv_fields(line, expected_fields))
+
+
+def load_runtime_table(path: Path) -> list[RuntimeRow]:
+    rows = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line or line.startswith("#"):
+            continue
+        rows.append(RuntimeRow(*decode_tsv_row(line)))
     return rows
-def write_runtime_table(path, rows):
-    path.parent.mkdir(parents=True,exist_ok=True)
-    path.write_text(''.join('\t'.join(escape_field(x) for x in (r.kind,r.key,r.source_sha256,r.zh))+'\n' for r in rows),encoding='utf-8')
+
+
+def write_runtime_table(path: Path, rows: object) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    ordered = sorted(
+        rows,  # type: ignore[arg-type]
+        key=lambda row: (row.kind, row.key, row.source_sha256, row.zh),
+    )
+    content = "".join(
+        "\t".join(
+            escape_field(value)
+            for value in (row.kind, row.key, row.source_sha256, row.zh)
+        )
+        + "\n"
+        for row in ordered
+    )
+    path.write_text(content, encoding="utf-8")

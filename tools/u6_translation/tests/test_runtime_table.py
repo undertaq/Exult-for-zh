@@ -48,6 +48,33 @@ class RuntimeTableCodecTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             unescape_field("bad\\")
 
+    def test_codec_preserves_literal_backslash_sequences_and_trailing_field(self) -> None:
+        row = "\t".join(
+            escape_field(value)
+            for value in ("dialogue", "key", "a" * 64, r"literal\t text\\tail")
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "capture.tsv"
+            path.write_text(row + "\n", encoding="utf-8")
+            parsed = parse_runtime_catalog(path)
+        self.assertEqual(parsed[0].source, r"literal\t text\\tail")
+
+        trailing = "\t".join(escape_field(value) for value in ("dialogue", "key", "a" * 64, ""))
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "trailing.tsv"
+            path.write_text(trailing + "\n", encoding="utf-8")
+            self.assertEqual(load_runtime_table(path)[0].zh, "")
+
+    def test_runtime_table_writer_sorts_rows_by_kind_and_key(self) -> None:
+        rows = [
+            RuntimeRow("dialogue", "dialogue:0x0401:0x0010:0", "a" * 64, "one"),
+            RuntimeRow("textmsg", "textmsg:0x0002", "b" * 64, "two"),
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "sorted.tsv"
+            write_runtime_table(path, reversed(rows))
+            self.assertEqual([row.kind for row in load_runtime_table(path)], ["dialogue", "textmsg"])
+
 
 if __name__ == "__main__":
     unittest.main()
