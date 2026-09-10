@@ -10,7 +10,7 @@ from tools.u6_translation.audit import (
     format_terminal_report,
     report_exit_code,
 )
-from tools.u6_translation.catalog import CatalogEntry, source_sha256
+from tools.u6_translation.catalog import CatalogEntry
 from tools.u6_translation.runtime_table import RuntimeRow, load_runtime_table
 
 
@@ -111,7 +111,7 @@ class AuditReportTest(unittest.TestCase):
                 "en\tzh\tpolicy\n"
                 "Avatar\t聖者\ttranslated\n"
                 "Rune\tRune\tprotected\n"
-                "简\t簡\ttraditional\n",
+                "# policy traditional_chinese=warning\n",
                 encoding="utf-8",
             )
             report = correctness_report(catalog, [row], glossary, None)
@@ -124,6 +124,51 @@ class AuditReportTest(unittest.TestCase):
             glossary.write_text("en\tzh\tpolicy\nAvatar\t聖者\ttranslated\nRune\tRune\tprotected\n", encoding="utf-8")
             bad_report = correctness_report(catalog, [bad_row], glossary, None)
         self.assertIn("protected_term", {issue["check"] for issue in bad_report["deterministic"]["issues"]})
+
+    def test_traditional_policy_requires_glossary_declaration(self) -> None:
+        entry = _entry("misc", "misc:0x0052", "Welcome")
+        row = RuntimeRow(entry.kind, entry.key, entry.source_sha256, "简体中文")
+        with tempfile.TemporaryDirectory() as directory:
+            undeclared = Path(directory) / "undeclared.tsv"
+            undeclared.write_text("en\tzh\tpolicy\n", encoding="utf-8")
+            undeclared_report = correctness_report([entry], [row], undeclared, None)
+
+            declared = Path(directory) / "declared.tsv"
+            declared.write_text(
+                "en\tzh\tpolicy\n"
+                "# policy traditional_chinese=error\n",
+                encoding="utf-8",
+            )
+            declared_report = correctness_report([entry], [row], declared, None)
+
+        self.assertNotIn(
+            "traditional_chinese",
+            {issue["check"] for issue in undeclared_report["deterministic"]["issues"]},
+        )
+        traditional = [
+            issue for issue in declared_report["deterministic"]["issues"]
+            if issue["check"] == "traditional_chinese"
+        ]
+        self.assertEqual(len(traditional), 1)
+        self.assertEqual(traditional[0]["severity"], "error")
+        self.assertTrue(traditional[0]["blocking"])
+
+    def test_orphan_identity_reporting_is_sorted_and_deduplicated(self) -> None:
+        rows = [
+            RuntimeRow("misc", "misc:0x0099", "a" * 64, "甲"),
+            RuntimeRow("misc", "misc:0x0099", "b" * 64, "乙"),
+            RuntimeRow("item", "item:0x0abc:0:0", "c" * 64, "物"),
+        ]
+        report = coverage_report([], rows)
+
+        self.assertEqual(
+            report["by_kind"]["misc"]["orphan_identities"],
+            [["misc", "misc:0x0099"]],
+        )
+        self.assertEqual(
+            report["orphan_identities"],
+            [["item", "item:0x0abc:0:0"], ["misc", "misc:0x0099"]],
+        )
 
     def test_traditional_warning_is_non_blocking(self) -> None:
         entry = _entry("misc", "misc:0x0051", "Welcome")

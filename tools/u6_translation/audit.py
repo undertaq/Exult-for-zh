@@ -23,6 +23,10 @@ _KEY_PATTERNS = {
 _PLACEHOLDER_RE = re.compile(r"<[A-Z][A-Z0-9_]*>|\{[A-Za-z0-9_.-]+\}")
 _HASH_RE = re.compile(r"^[0-9a-f]{64}$")
 _AUDIT_TOKENS = re.compile(r"@[^@\n]+@|~|\*|<(?:PLAYER_NAME|HONORIFIC|PRONOUN|GENDER_FLAG|VAR)>")
+_TRADITIONAL_POLICY_RE = re.compile(
+    r"^#\s*policy\s*:?\s+traditional[_-]chinese\s*=\s*(warning|error)\s*$",
+    re.IGNORECASE,
+)
 _SIMPLIFIED_TO_TRADITIONAL = str.maketrans({
     "简": "簡", "体": "體", "汉": "漢", "语": "語", "国": "國",
     "门": "門", "后": "後", "发": "發", "们": "們", "这": "這",
@@ -130,7 +134,12 @@ def _coverage_for_kind(
     result["unbound_keys"] = sorted(unbound_keys)
     result["stale_identities"] = [list(identity) for identity, group in sorted(row_groups.items()) if identity in entry_hashes and any(row.source_sha256 != entry_hashes[identity] for row in group)]
     result["duplicate_identities"] = [list(identity) for identity, group in sorted(row_groups.items()) if len(group) > 1]
-    result["orphan_identities"] = [list(_identity(row)) for row in rows if _identity(row) not in catalog_keys]
+    result["orphan_identities"] = [
+        list(identity)
+        for identity in sorted(
+            {_identity(row) for row in rows if _identity(row) not in catalog_keys}
+        )
+    ]
     result["unbound_identities"] = sorted({(entry.kind, entry.key) for entry in entries if _is_unbound(entry.key)})
     result["unbound_identities"] = [list(identity) for identity in result["unbound_identities"]]
     total = int(result["total"])
@@ -250,19 +259,30 @@ def _is_only_protected_spell_text(text: str) -> bool:
     return not remainder
 
 
-def _load_glossary(path: Path) -> tuple[tuple[str, str, str], ...]:
+def _load_glossary(
+    path: Path,
+) -> tuple[tuple[tuple[str, str, str], ...], str | None]:
     lines = path.read_text(encoding="utf-8").splitlines()
     if not lines or lines[0].split("\t") != ["en", "zh", "policy"]:
         raise ValueError("invalid U6 glossary header")
     result = []
+    traditional_policy: str | None = None
     for line in lines[1:]:
+        policy_match = _TRADITIONAL_POLICY_RE.fullmatch(line.strip())
+        if policy_match:
+            if traditional_policy is not None:
+                raise ValueError("duplicate Traditional-Chinese policy declaration")
+            traditional_policy = policy_match.group(1).lower()
+            continue
+        if line.lstrip().startswith("#"):
+            continue
         if not line.strip():
             continue
         fields = line.split("\t")
         if len(fields) != 3 or not all(fields):
             raise ValueError("invalid U6 glossary row")
         result.append((fields[0], fields[1], fields[2]))
-    return tuple(result)
+    return tuple(result), traditional_policy
 
 
 def _policy_tokens(policy: str) -> set[str]:
@@ -271,29 +291,22 @@ def _policy_tokens(policy: str) -> set[str]:
 
 def _glossary_rules(
     entries: tuple[tuple[str, str, str], ...],
+    traditional_policy: str | None,
 ) -> tuple[tuple[tuple[str, str, str], ...], set[str], str]:
     """Decode glossary policies into term checks and Traditional-Chinese rules."""
 
     term_rules: list[tuple[str, str, str]] = []
     traditional_characters: set[str] = set()
-    traditional_severity = "warning"
+    traditional_severity = traditional_policy or "warning"
     for english, chinese, policy in entries:
         tokens = _policy_tokens(policy)
-        if tokens & {"traditional", "hant", "zh-hant"}:
-            if english.lower() in {"traditional", "traditional-chinese", "traditional_chinese", "policy"}:
-                if tokens & {"error", "strict", "required", "blocking"} or chinese.lower() in {"error", "strict", "required", "blocking"}:
-                    traditional_severity = "error"
-            else:
-                traditional_characters.add(english)
-                if tokens & {"error", "strict", "required", "blocking"}:
-                    traditional_severity = "error"
         if tokens & {"translated", "translate", "required", "replacement"}:
             term_rules.append((english, chinese, "translated"))
         elif tokens & {"protected", "preserve", "keep"}:
             term_rules.append((english, chinese, "protected"))
         elif tokens & {"forbidden", "ban", "banned"}:
             term_rules.append((english, chinese, "forbidden"))
-    if not traditional_characters:
+    if traditional_policy is not None:
         traditional_characters = {chr(code) for code in _SIMPLIFIED_TO_TRADITIONAL}
     return tuple(term_rules), traditional_characters, traditional_severity
 
@@ -336,14 +349,17 @@ def correctness_report(
             issues.append(_issue(key=entry.key, check="key_syntax", severity="error", message="catalog key has invalid syntax", source_location=_source_location(entry)))
 
     try:
-        glossary_entries = _load_glossary(glossary)
+        glossary_entries, traditional_policy = _load_glossary(glossary)
         glossary_error = None
     except (OSError, UnicodeError, ValueError) as error:
         glossary_entries = ()
+        traditional_policy = None
         glossary_error = str(error)
         issues.append(_issue(key="<glossary>", check="glossary", severity="error", message=glossary_error, source_location=str(glossary)))
 
-    term_rules, traditional_characters, traditional_severity = _glossary_rules(glossary_entries)
+    term_rules, traditional_characters, traditional_severity = _glossary_rules(
+        glossary_entries, traditional_policy
+    )
 
     for row in rows:
         entry = catalog_by_identity.get(_identity(row))
@@ -421,6 +437,7 @@ def correctness_report(
         "semantic": {"count": len(reviews), "reviews": reviews},
         "glossary": str(glossary),
         "glossary_error": glossary_error,
+        "traditional_chinese_policy": traditional_policy,
     }
 
 

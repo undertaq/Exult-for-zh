@@ -27,6 +27,8 @@ def load_glossary(path: Path = GLOSSARY_PATH) -> tuple[GlossaryEntry, ...]:
         raise ValueError("invalid U6 glossary header")
     entries: list[GlossaryEntry] = []
     for line in lines[1:]:
+        if line.lstrip().startswith("#"):
+            continue
         if not line.strip():
             continue
         fields = line.split("\t")
