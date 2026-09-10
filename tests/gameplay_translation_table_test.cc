@@ -78,6 +78,8 @@ void assert_conversation_display_changes_only_copy_get_answer_stays_byte_for_byt
 			"void set_choice_context(int function_id, int callsite_offset);")
 			!= std::string::npos);
 	assert(header.find("void clear_choice_context();") != std::string::npos);
+	assert(header.find("const char* get_answer(int num)") != std::string::npos);
+	assert(header.find("return answers[num].c_str();") != std::string::npos);
 
 	std::ifstream conversation_source("usecode/conversation.cc");
 	const std::string conversation(
@@ -85,6 +87,15 @@ void assert_conversation_display_changes_only_copy_get_answer_stays_byte_for_byt
 			std::istreambuf_iterator<char>());
 	assert(!conversation.empty());
 	assert(conversation.find("GameplayTranslationKind::Choice")
+			!= std::string::npos);
+	assert(conversation.find(
+			"std::vector<std::string> display_answers;")
+			!= std::string::npos);
+	assert(conversation.find(
+			"display_answers.push_back(translations.translate(")
+			!= std::string::npos);
+	assert(conversation.find(
+			"show_avatar_choices(static_cast<int>(answers.size()), result.data());")
 			!= std::string::npos);
 
 	std::ifstream ucinternal_source("usecode/ucinternal.cc");
@@ -96,6 +107,26 @@ void assert_conversation_display_changes_only_copy_get_answer_stays_byte_for_byt
 			!= std::string::npos);
 	assert(ucinternal.find("const int segment_index = segment++;")
 			!= std::string::npos);
+	const size_t dialogue_record = ucinternal.find(
+			"translations.record_runtime_source(");
+	const size_t dialogue_record_english = ucinternal.find(
+			"GameplayTranslationKind::Dialogue, key, english);",
+			dialogue_record);
+	const size_t dialogue_translate = ucinternal.find(
+			"const std::string display = translations.translate(",
+			dialogue_record_english);
+	const size_t dialogue_translate_english = ucinternal.find(
+			"GameplayTranslationKind::Dialogue, key, english);",
+			dialogue_translate);
+	const size_t dialogue_display = ucinternal.find(
+			"conv->show_npc_message(display.c_str());", dialogue_translate_english);
+	assert(dialogue_record != std::string::npos);
+	assert(dialogue_record_english != std::string::npos);
+	assert(dialogue_translate != std::string::npos);
+	assert(dialogue_translate_english != std::string::npos);
+	assert(dialogue_display != std::string::npos);
+	assert(dialogue_record < dialogue_translate);
+	assert(dialogue_translate < dialogue_display);
 	assert(ucinternal.find("conv->set_choice_context(")
 			!= std::string::npos);
 	assert(ucinternal.find("const char* ans = conv->get_answer(choice_num);")
