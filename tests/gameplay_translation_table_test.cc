@@ -85,7 +85,7 @@ int main() {
 			"dialogue\tkey\tshort-hash\t中文\n");
 	assert_load_fails(
 			"# u6-translation-v1\n"
-			"# kind\tkey\tsource_sha256\t\n"
+			"# kind\tkey\tsource_sha256\tzh\n"
 			"dialogue\tkey\t"
 			"ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad\t\n");
 
