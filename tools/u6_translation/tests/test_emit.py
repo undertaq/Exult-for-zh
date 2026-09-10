@@ -93,6 +93,20 @@ class EmitApprovedTableTest(unittest.TestCase):
                 emit_approved_table(_catalog_from_reviews(), review, output)
             self.assertFalse(output.exists())
 
+    def test_emission_allows_non_blocking_traditional_warning(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            review = Path(directory) / "review.jsonl"
+            records = [
+                json.loads(line)
+                for line in (FIXTURES / "approved_review.jsonl").read_text(encoding="utf-8").splitlines()
+            ]
+            records[3]["zh"] = "简体中文"
+            records[3]["suggested_zh"] = "简体中文"
+            review.write_text("".join(json.dumps(record, ensure_ascii=False) + "\n" for record in records), encoding="utf-8")
+            output = Path(directory) / "zh_translation.tsv"
+            emit_approved_table(_catalog_from_reviews(), review, output)
+            self.assertTrue(output.exists())
+
 
 if __name__ == "__main__":
     unittest.main()

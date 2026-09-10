@@ -6,8 +6,8 @@ from pathlib import Path
 import re
 from typing import Iterable
 
-from .catalog import CatalogEntry, normalize_source, source_sha256, _TOKENS
-from .runtime_table import RuntimeRow, escape_field, split_tsv_fields, unescape_field
+from .catalog import CatalogEntry, normalize_source
+from .runtime_table import RuntimeRow, split_tsv_fields, unescape_field
 
 
 KINDS = ("dialogue", "choice", "textmsg", "item", "location", "misc", "spell")
@@ -68,6 +68,10 @@ def _empty_kind_report() -> dict[str, object]:
         "duplicate_keys": [],
         "orphan_keys": [],
         "unbound_keys": [],
+        "stale_identities": [],
+        "duplicate_identities": [],
+        "orphan_identities": [],
+        "unbound_identities": [],
     }
 
 
@@ -76,9 +80,10 @@ def _coverage_for_kind(
 ) -> dict[str, object]:
     result = _empty_kind_report()
     result["total"] = len(entries)
-    result["source_length"] = sum(len(entry.source) for entry in entries)
+    result["source_length"] = sum(len(normalize_source(entry.source)) for entry in entries)
 
     catalog_keys = {(entry.kind, entry.key) for entry in entries}
+    entry_hashes = {_identity(entry): entry.source_sha256 for entry in entries}
     row_groups: dict[tuple[str, str], list[RuntimeRow]] = defaultdict(list)
     for row in rows:
         row_groups[_identity(row)].append(row)
@@ -92,13 +97,13 @@ def _coverage_for_kind(
     for entry in entries:
         identity = _identity(entry)
         matching = row_groups.get(identity, [])
-        if not matching:
+        if not matching or not any(row.zh.strip() for row in matching):
             result["missing"] = int(result["missing"]) + 1
             missing_keys.append(entry.key)
         valid = [row for row in matching if row.source_sha256 == entry.source_sha256 and bool(row.zh.strip())]
         if valid:
             translated += 1
-            translated_length += len(valid[0].zh)
+            translated_length += len(normalize_source(entry.source))
         stale = [row for row in matching if row.source_sha256 != entry.source_sha256]
         if stale:
             result["stale"] = int(result["stale"]) + len(stale)
@@ -123,12 +128,17 @@ def _coverage_for_kind(
     result["duplicate_keys"] = sorted(set(duplicate_keys))
     result["orphan_keys"] = sorted(orphan_keys)
     result["unbound_keys"] = sorted(unbound_keys)
+    result["stale_identities"] = [list(identity) for identity, group in sorted(row_groups.items()) if identity in entry_hashes and any(row.source_sha256 != entry_hashes[identity] for row in group)]
+    result["duplicate_identities"] = [list(identity) for identity, group in sorted(row_groups.items()) if len(group) > 1]
+    result["orphan_identities"] = [list(_identity(row)) for row in rows if _identity(row) not in catalog_keys]
+    result["unbound_identities"] = sorted({(entry.kind, entry.key) for entry in entries if _is_unbound(entry.key)})
+    result["unbound_identities"] = [list(identity) for identity in result["unbound_identities"]]
     total = int(result["total"])
     source_length = int(result["source_length"])
     result["row_coverage"] = translated / total if total else 1.0
     result["entry_coverage"] = result["row_coverage"]
     result["weighted_coverage"] = (
-        translated_length / source_length if source_length else 1.0
+        translated_length / source_length if source_length else (1.0 if total == 0 else result["row_coverage"])
     )
     result["character_weighted_coverage"] = result["weighted_coverage"]
     return result
@@ -157,10 +167,13 @@ def coverage_report(catalog: list[CatalogEntry], rows: list[RuntimeRow]) -> dict
     source_length = int(totals["source_length"])
     totals["row_coverage"] = int(totals["translated"]) / total if total else 1.0
     totals["entry_coverage"] = totals["row_coverage"]
-    totals["weighted_coverage"] = int(totals["translated_source_length"]) / source_length if source_length else 1.0
+    totals["weighted_coverage"] = int(totals["translated_source_length"]) / source_length if source_length else (1.0 if total == 0 else totals["row_coverage"])
     totals["character_weighted_coverage"] = totals["weighted_coverage"]
     for field in ("missing_keys", "stale_keys", "duplicate_keys", "orphan_keys", "unbound_keys"):
         totals[field] = sorted({key for kind_report in by_kind.values() for key in kind_report[field]})
+    for field in ("stale_identities", "duplicate_identities", "orphan_identities", "unbound_identities"):
+        totals[field] = sorted({tuple(identity) for kind_report in by_kind.values() for identity in kind_report[field]})
+        totals[field] = [list(identity) for identity in totals[field]]
 
     missing = list(totals["missing_keys"])
     stale = list(totals["stale_keys"])
@@ -187,6 +200,10 @@ def coverage_report(catalog: list[CatalogEntry], rows: list[RuntimeRow]) -> dict
         "duplicates": duplicates,
         "orphans": orphans,
         "unbound_keys": unbound,
+        "stale_identities": totals["stale_identities"],
+        "duplicate_identities": totals["duplicate_identities"],
+        "orphan_identities": totals["orphan_identities"],
+        "unbound_identities": totals["unbound_identities"],
         "dialogue_segments": by_kind.get("dialogue", {}).get("total", 0),
         "choice_ordinals": by_kind.get("choice", {}).get("total", 0),
         "structural_failures": len(stale) + int(totals["duplicate"]) + len(orphans) + len(unbound),
@@ -248,20 +265,57 @@ def _load_glossary(path: Path) -> tuple[tuple[str, str, str], ...]:
     return tuple(result)
 
 
+def _policy_tokens(policy: str) -> set[str]:
+    return {token for token in re.split(r"[+,|/;:\s]+", policy.lower()) if token}
+
+
+def _glossary_rules(
+    entries: tuple[tuple[str, str, str], ...],
+) -> tuple[tuple[tuple[str, str, str], ...], set[str], str]:
+    """Decode glossary policies into term checks and Traditional-Chinese rules."""
+
+    term_rules: list[tuple[str, str, str]] = []
+    traditional_characters: set[str] = set()
+    traditional_severity = "warning"
+    for english, chinese, policy in entries:
+        tokens = _policy_tokens(policy)
+        if tokens & {"traditional", "hant", "zh-hant"}:
+            if english.lower() in {"traditional", "traditional-chinese", "traditional_chinese", "policy"}:
+                if tokens & {"error", "strict", "required", "blocking"} or chinese.lower() in {"error", "strict", "required", "blocking"}:
+                    traditional_severity = "error"
+            else:
+                traditional_characters.add(english)
+                if tokens & {"error", "strict", "required", "blocking"}:
+                    traditional_severity = "error"
+        if tokens & {"translated", "translate", "required", "replacement"}:
+            term_rules.append((english, chinese, "translated"))
+        elif tokens & {"protected", "preserve", "keep"}:
+            term_rules.append((english, chinese, "protected"))
+        elif tokens & {"forbidden", "ban", "banned"}:
+            term_rules.append((english, chinese, "forbidden"))
+    if not traditional_characters:
+        traditional_characters = {chr(code) for code in _SIMPLIFIED_TO_TRADITIONAL}
+    return tuple(term_rules), traditional_characters, traditional_severity
+
+
 def _append_coverage_issues(
     issues: list[dict[str, object]], coverage: dict[str, object], catalog_by_identity: dict[tuple[str, str], CatalogEntry],
 ) -> None:
-    for key in coverage["stale_keys"]:
-        entry = next((entry for identity, entry in catalog_by_identity.items() if identity[1] == key), None)
-        issues.append(_issue(key=key, check="source_hash", severity="error", message="source hash is stale", source_location=_source_location(entry)))
-    for key in coverage["duplicates"]:
-        entry = next((entry for identity, entry in catalog_by_identity.items() if identity[1] == key), None)
-        issues.append(_issue(key=key, check="duplicate_row", severity="error", message="translation table contains duplicate rows", source_location=_source_location(entry)))
-    for key in coverage["orphans"]:
-        issues.append(_issue(key=key, check="orphan_row", severity="error", message="translation row is absent from catalog", source_location="runtime-table"))
-    for key in coverage["unbound_keys"]:
-        entry = next((entry for identity, entry in catalog_by_identity.items() if identity[1] == key), None)
-        issues.append(_issue(key=key, check="unbound_choice", severity="error", message="choice row has no runtime callsite binding", source_location=_source_location(entry)))
+    for field, check, message in (
+        ("stale_identities", "source_hash", "source hash is stale"),
+        ("duplicate_identities", "duplicate_row", "translation table contains duplicate rows"),
+        ("orphan_identities", "orphan_row", "translation row is absent from catalog"),
+        ("unbound_identities", "unbound_choice", "choice row has no runtime callsite binding"),
+    ):
+        for kind, key in coverage.get(field, []):
+            entry = catalog_by_identity.get((kind, key))
+            issues.append(_issue(
+                key=key,
+                check=check,
+                severity="error",
+                message=message,
+                source_location=_source_location(entry),
+            ))
 
 
 def correctness_report(
@@ -280,12 +334,6 @@ def correctness_report(
     for entry in catalog:
         if not _key_is_valid(entry.kind, entry.key):
             issues.append(_issue(key=entry.key, check="key_syntax", severity="error", message="catalog key has invalid syntax", source_location=_source_location(entry)))
-        if _is_unbound(entry.key):
-            continue
-
-    rows_by_identity: dict[tuple[str, str], list[RuntimeRow]] = defaultdict(list)
-    for row in rows:
-        rows_by_identity[_identity(row)].append(row)
 
     try:
         glossary_entries = _load_glossary(glossary)
@@ -294,6 +342,8 @@ def correctness_report(
         glossary_entries = ()
         glossary_error = str(error)
         issues.append(_issue(key="<glossary>", check="glossary", severity="error", message=glossary_error, source_location=str(glossary)))
+
+    term_rules, traditional_characters, traditional_severity = _glossary_rules(glossary_entries)
 
     for row in rows:
         entry = catalog_by_identity.get(_identity(row))
@@ -328,26 +378,39 @@ def correctness_report(
             issues.append(_issue(key=row.key, check="source_duplication", severity="error", message="translation duplicates the English source", source_location=location))
 
         if row.kind != "spell" and not _has_chinese(row.zh) and not _is_only_protected_spell_text(row.zh):
-            issues.append(_issue(key=row.key, check="traditional_chinese", severity="warning", message="translation contains no Traditional Chinese text", source_location=location))
+            issues.append(_issue(key=row.key, check="traditional_chinese", severity="warning", message="translation contains no Traditional Chinese text", source_location=location, blocking=False))
             issues.append(_issue(key=row.key, check="chinese_output", severity="error", message="translation contains no Chinese text", source_location=location))
-        simplified = sorted(set(character for character in row.zh if character in _SIMPLIFIED_TO_TRADITIONAL))
+        simplified = sorted(set(character for character in row.zh if character in traditional_characters))
         if simplified:
-            issues.append(_issue(key=row.key, check="traditional_chinese", severity="warning", message="translation contains simplified character(s): " + "".join(simplified), source_location=location))
+            issues.append(_issue(
+                key=row.key,
+                check="traditional_chinese",
+                severity=traditional_severity,
+                message="translation contains simplified character(s): " + "".join(simplified),
+                source_location=location,
+                blocking=traditional_severity == "error",
+            ))
 
         source_spell_terms = [token for token in _AUDIT_TOKENS.findall(entry.source) if token.startswith("@")] if row.kind == "spell" else []
         actual_spell_terms = [token for token in _AUDIT_TOKENS.findall(row.zh) if token.startswith("@")] if row.kind == "spell" else []
         if source_spell_terms != actual_spell_terms:
             issues.append(_issue(key=row.key, check="protected_spell_terms", severity="error", message="protected spell terms changed", source_location=location))
 
-        for english, chinese, policy in glossary_entries:
-            if english in entry.source and policy == "translated" and chinese not in row.zh:
+        for english, chinese, policy in term_rules:
+            if english not in entry.source:
+                continue
+            if policy == "translated" and chinese not in row.zh:
                 issues.append(_issue(key=row.key, check="glossary", severity="error", message=f"glossary term {english!r} must use {chinese!r}", source_location=location))
+            elif policy == "protected" and english not in row.zh:
+                issues.append(_issue(key=row.key, check="protected_term", severity="error", message=f"glossary term {english!r} must remain protected", source_location=location))
+            elif policy == "forbidden" and english in row.zh:
+                issues.append(_issue(key=row.key, check="protected_term", severity="error", message=f"glossary term {english!r} must not appear in the translation", source_location=location))
 
     deterministic = {
         "issues": issues,
         "failure_count": sum(1 for issue in issues if issue["blocking"]),
         "warning_count": sum(1 for issue in issues if issue["severity"] == "warning"),
-        "has_failures": bool(issues),
+        "has_failures": any(issue["blocking"] for issue in issues),
     }
     reviews = list(semantic_reviews or [])
     return {
@@ -358,6 +421,22 @@ def correctness_report(
         "semantic": {"count": len(reviews), "reviews": reviews},
         "glossary": str(glossary),
         "glossary_error": glossary_error,
+    }
+
+
+def combine_audit_reports(
+    coverage: dict[str, object],
+    correctness: dict[str, object],
+) -> dict[str, object]:
+    """Combine coverage and correctness without dropping either report."""
+
+    deterministic = correctness["deterministic"]
+    return {
+        "coverage": coverage,
+        "correctness": correctness,
+        "issues": list(deterministic["issues"]),
+        "deterministic": deterministic,
+        "semantic_reviews": list(correctness["semantic_reviews"]),
     }
 
 
@@ -406,7 +485,7 @@ def merge_input_issues(report: dict[str, object], input_issues: Iterable[dict[st
     issues.extend(additions)
     deterministic["failure_count"] += len(additions)
     deterministic["has_failures"] = True
-    report.setdefault("issues", issues)
+    report["issues"] = issues
     return report
 
 

@@ -2,11 +2,14 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 from .audit import (correctness_report, coverage_report, format_terminal_report,
-                    load_audit_table, merge_input_issues, report_exit_code,
+                    combine_audit_reports, load_audit_table, merge_input_issues, report_exit_code,
                     write_json_report)
 from .catalog import load_catalog, write_catalog
 from .emit import emit_approved_table
 from .extract import extract_catalog
+from .ollama_backend import OllamaBackend, OllamaConfig
+from .prompts import PROMPT_VERSION
+from .translate import translate_catalog
 
 def main(argv=None):
     parser = argparse.ArgumentParser(prog="python -m tools.u6_translation")
@@ -15,6 +18,10 @@ def main(argv=None):
     extract = sub.add_parser("extract")
     extract.add_argument("--mod-root", required=True); extract.add_argument("--ucxt", required=True)
     extract.add_argument("--runtime-catalog"); extract.add_argument("--output", required=True)
+    translate = sub.add_parser("translate")
+    translate.add_argument("--catalog", required=True); translate.add_argument("--output", required=True)
+    translate.add_argument("--cache", required=True); translate.add_argument("--model", required=True)
+    translate.add_argument("--url", required=True)
     audit = sub.add_parser("audit"); modes = audit.add_subparsers(dest="mode", required=True)
     for mode in ("coverage", "correctness", "all"):
         p = modes.add_parser(mode); p.add_argument("--catalog", required=True); p.add_argument("--table", required=True)
@@ -39,10 +46,25 @@ def main(argv=None):
         if runtime is None:
             entries = [entry for entry in entries if entry.kind == "dialogue"]
         write_catalog(Path(args.output), entries); return 0
+    if args.command == "translate":
+        translate_catalog(
+            Path(args.catalog),
+            Path(args.output),
+            Path(args.cache),
+            OllamaBackend(OllamaConfig(url=args.url, model=args.model)),
+            PROMPT_VERSION,
+        )
+        return 0
     if args.command == "audit":
         catalog = load_catalog(Path(args.catalog)); rows, raw = load_audit_table(Path(args.table))
-        if args.mode == "coverage": report = coverage_report(catalog, rows)
-        else: report = correctness_report(catalog, rows, Path(args.glossary), None)
+        coverage = coverage_report(catalog, rows)
+        if args.mode == "coverage":
+            report = coverage
+        elif args.mode == "correctness":
+            report = correctness_report(catalog, rows, Path(args.glossary), None)
+        else:
+            correctness = correctness_report(catalog, rows, Path(args.glossary), None)
+            report = combine_audit_reports(coverage, correctness)
         if raw: report = merge_input_issues(report, raw)
         write_json_report(Path(args.report), report); print(format_terminal_report(report)); return report_exit_code(report, args.strict)
     if args.command == "emit":

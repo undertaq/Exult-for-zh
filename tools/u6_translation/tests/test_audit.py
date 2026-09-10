@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import unittest
+import tempfile
 from pathlib import Path
 
 from tools.u6_translation.audit import (
@@ -55,7 +56,7 @@ class AuditReportTest(unittest.TestCase):
         self.assertEqual(len(report["orphans"]), 1)
         self.assertEqual(report["by_kind"]["dialogue"]["total"], 3)
         self.assertEqual(report["by_kind"]["dialogue"]["translated"], 3)
-        self.assertLess(report["by_kind"]["dialogue"]["weighted_coverage"], 1.0)
+        self.assertEqual(report["by_kind"]["dialogue"]["weighted_coverage"], 1.0)
         self.assertEqual(report["totals"]["total"], len(self.catalog))
 
     def test_correctness_reports_structural_and_translation_issues_separately(self) -> None:
@@ -83,6 +84,66 @@ class AuditReportTest(unittest.TestCase):
 
         report = coverage_report(self.catalog, self.rows)
         self.assertNotEqual(report_exit_code(report, strict=False), 0)
+
+    def test_weighted_coverage_uses_normalized_source_lengths(self) -> None:
+        entry = _entry("dialogue", "dialogue:0x0401:0x0030:0", "Long English source")
+        report = coverage_report([entry], [
+            RuntimeRow(entry.kind, entry.key, entry.source_sha256, "短")
+        ])
+        self.assertEqual(report["totals"]["translated_source_length"], len(entry.source))
+        self.assertEqual(report["weighted_coverage"], 1.0)
+
+    def test_empty_translation_counts_as_missing(self) -> None:
+        entry = _entry("choice", "choice:0x0401:0x0090:0", "yes")
+        report = coverage_report([entry], [
+            RuntimeRow(entry.kind, entry.key, entry.source_sha256, "   ")
+        ])
+        self.assertEqual(report["by_kind"]["choice"]["missing"], 1)
+        self.assertEqual(report["by_kind"]["choice"]["translated"], 0)
+        self.assertEqual(report_exit_code(report, strict=False), 0)
+
+    def test_glossary_configures_protected_terms_and_traditional_policy(self) -> None:
+        catalog = [_entry("misc", "misc:0x0050", "Avatar Rune")]
+        row = RuntimeRow("misc", "misc:0x0050", catalog[0].source_sha256, "聖者 Rune 简")
+        with tempfile.TemporaryDirectory() as directory:
+            glossary = Path(directory) / "glossary.tsv"
+            glossary.write_text(
+                "en\tzh\tpolicy\n"
+                "Avatar\t聖者\ttranslated\n"
+                "Rune\tRune\tprotected\n"
+                "简\t簡\ttraditional\n",
+                encoding="utf-8",
+            )
+            report = correctness_report(catalog, [row], glossary, None)
+        self.assertFalse(report["deterministic"]["has_failures"])
+        self.assertEqual({issue["check"] for issue in report["deterministic"]["issues"]}, {"traditional_chinese"})
+        self.assertFalse(report["deterministic"]["issues"][0]["blocking"])
+        bad_row = RuntimeRow("misc", "misc:0x0050", catalog[0].source_sha256, "聖者 符文")
+        with tempfile.TemporaryDirectory() as directory:
+            glossary = Path(directory) / "glossary.tsv"
+            glossary.write_text("en\tzh\tpolicy\nAvatar\t聖者\ttranslated\nRune\tRune\tprotected\n", encoding="utf-8")
+            bad_report = correctness_report(catalog, [bad_row], glossary, None)
+        self.assertIn("protected_term", {issue["check"] for issue in bad_report["deterministic"]["issues"]})
+
+    def test_traditional_warning_is_non_blocking(self) -> None:
+        entry = _entry("misc", "misc:0x0051", "Welcome")
+        row = RuntimeRow(entry.kind, entry.key, entry.source_sha256, "简体中文")
+        report = correctness_report([entry], [row], GLOSSARY, None)
+        warnings = [issue for issue in report["deterministic"]["issues"] if issue["severity"] == "warning"]
+        self.assertTrue(warnings)
+        self.assertFalse(report["deterministic"]["has_failures"])
+        self.assertEqual(report_exit_code(report, strict=False), 0)
+
+    def test_coverage_issues_use_kind_and_key_identity(self) -> None:
+        dialogue = CatalogEntry.from_source("dialogue", "dialogue:0x0401:0x0070:0", "Hello", "gameplay", "dialogue-origin")
+        choice = CatalogEntry.from_source("choice", "dialogue:0x0401:0x0070:0", "yes", "gameplay", "choice-origin")
+        rows = [
+            RuntimeRow(dialogue.kind, dialogue.key, "0" * 64, "你好"),
+            RuntimeRow(choice.kind, choice.key, "0" * 64, "是"),
+        ]
+        report = correctness_report([dialogue, choice], rows, GLOSSARY, None)
+        stale = [issue for issue in report["deterministic"]["issues"] if issue["check"] == "source_hash"]
+        self.assertEqual({issue["source_location"] for issue in stale}, {"dialogue-origin", "choice-origin"})
 
     def test_terminal_report_is_deterministic_and_mentions_kind_coverage(self) -> None:
         report = coverage_report(self.catalog, self.rows)

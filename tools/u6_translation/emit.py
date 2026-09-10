@@ -132,8 +132,7 @@ def emit_approved_table(
     rows = _validate_review_records(catalog, records)
     audit = correctness_report(catalog, rows, GLOSSARY_PATH, None)
     deterministic = audit["deterministic"]
-    if deterministic["issues"]:
+    if deterministic["has_failures"]:
         checks = sorted({str(issue["check"]) for issue in deterministic["issues"]})
         raise ValueError("deterministic audit failed: " + ", ".join(checks))
     _write_versioned_table(output_path, rows)
-
