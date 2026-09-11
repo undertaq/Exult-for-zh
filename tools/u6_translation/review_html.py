@@ -52,8 +52,12 @@ def _review_records(
     for entry in entries:
         row = rows_by_identity.get((entry.kind, entry.key))
         zh = row.zh if row is not None else ""
-        status = "approved" if row is not None and (zh.strip() or not entry.source.strip()) else "needs-review"
         issues = list(dict.fromkeys(issues_by_identity.get((entry.kind, entry.key), [])))
+        status = (
+            "approved"
+            if row is not None and not issues and (zh.strip() or not entry.source.strip())
+            else "needs-review"
+        )
         records.append(
             {
                 "kind": entry.kind,

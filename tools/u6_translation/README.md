@@ -61,6 +61,9 @@ need tens of seconds per row. The cache is checkpointed after each batch, so
 the same command safely resumes after an interrupted request.
 For larger local timeouts, use `--timeout`; `--retries` controls retries per
 batch.
+If a singleton response is still unusable, that source is retained with
+`status=model-failed` and flagged for human correction instead of aborting the
+full run; a later run retries it from the cache.
 
 Before release, run the combined audit in strict mode. A nonzero exit status blocks emission and requires correction and rerun:
 

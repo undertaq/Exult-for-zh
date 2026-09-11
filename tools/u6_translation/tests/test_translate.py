@@ -75,6 +75,12 @@ class _SplitBackend(_FakeBackend):
         }]
 
 
+class _FailingBackend(_FakeBackend):
+    def translate_batch(self, entries: list[CatalogEntry]) -> list[dict[str, str]]:
+        self.translation_calls.append([entry.key for entry in entries])
+        raise ValueError("fixture model output failure")
+
+
 class TranslationPipelineTest(unittest.TestCase):
     def setUp(self) -> None:
         self.entries = [
@@ -220,6 +226,22 @@ class TranslationPipelineTest(unittest.TestCase):
             self.assertEqual(backend.translation_calls, [])
             row = load_runtime_table(root / "translations.tsv")[0]
             self.assertEqual(row.zh, "")
+
+    def test_translate_preserves_singleton_model_failure_for_human_review(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            entry = _entry("dialogue", "dialogue:0x0401:92:0", "Needs review")
+            catalog = root / "catalog.jsonl"
+            write_catalog(catalog, [entry])
+            backend = _FailingBackend({})
+
+            translate_catalog(catalog, root / "translations.tsv", root / "cache.json", backend, "prompt-v1")
+
+            row = load_runtime_table(root / "translations.tsv")[0]
+            self.assertEqual(row.zh, entry.source)
+            self.assertEqual(backend.translation_calls, [[entry.key]])
+            cache = json.loads((root / "cache.json").read_text(encoding="utf-8"))
+            self.assertEqual(next(iter(cache["entries"].values()))["status"], "model-failed")
 
     def test_review_is_advisory_jsonl_and_does_not_overwrite_candidate_table(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

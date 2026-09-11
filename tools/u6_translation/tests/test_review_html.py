@@ -89,6 +89,22 @@ class ReviewHtmlTest(unittest.TestCase):
 
         self.assertIn('"status": "approved"', html)
 
+    def test_audit_issue_marks_row_for_modification(self) -> None:
+        html = build_review_html(
+            self.entries,
+            self.rows,
+            model="test-model",
+            prompt_version="test-prompt",
+            audit={
+                "issues": [
+                    {"key": self.entries[0].key, "message": "term mismatch"}
+                ]
+            },
+        )
+
+        self.assertIn('"status": "needs-review"', html)
+        self.assertIn("term mismatch", html)
+
 
 if __name__ == "__main__":
     unittest.main()

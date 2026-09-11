@@ -76,6 +76,7 @@ def _valid_translation(record: object, entry: CatalogEntry) -> bool:
         and record.get("source_sha256") == entry.source_sha256
         and isinstance(record.get("zh"), str)
         and isinstance(record.get("status"), str)
+        and record.get("status") != "model-failed"
     )
 
 
@@ -116,9 +117,23 @@ def _translate_batch_with_fallback(
 
     try:
         return [(entries, _ordered_translation_response(entries, backend.translate_batch(entries)))]
-    except (OllamaBackendError, ValueError):
+    except (OllamaBackendError, ValueError) as error:
         if len(entries) == 1:
-            raise
+            entry = entries[0]
+            return [
+                (
+                    entries,
+                    {
+                        entry.key: {
+                            "key": entry.key,
+                            "source_sha256": entry.source_sha256,
+                            "zh": entry.source,
+                            "status": "model-failed",
+                            "error": str(error),
+                        }
+                    },
+                )
+            ]
         midpoint = len(entries) // 2
         return _translate_batch_with_fallback(backend, entries[:midpoint]) + _translate_batch_with_fallback(backend, entries[midpoint:])
 
