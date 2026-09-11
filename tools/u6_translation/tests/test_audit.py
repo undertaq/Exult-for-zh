@@ -103,6 +103,25 @@ class AuditReportTest(unittest.TestCase):
         self.assertEqual(report["by_kind"]["choice"]["translated"], 0)
         self.assertEqual(report_exit_code(report, strict=False), 0)
 
+    def test_exactly_repeated_translation_is_a_blocking_issue(self) -> None:
+        entry = _entry("textmsg", "textmsg:0x0000", '\"Step aside!\"')
+        row = RuntimeRow(
+            entry.kind,
+            entry.key,
+            entry.source_sha256,
+            "「請讓一下！」「請讓一下！」",
+        )
+
+        report = correctness_report([entry], [row], GLOSSARY, None)
+
+        duplicate = [
+            issue for issue in report["deterministic"]["issues"]
+            if issue["check"] == "duplicate_translation"
+        ]
+        self.assertEqual(len(duplicate), 1)
+        self.assertTrue(duplicate[0]["blocking"])
+        self.assertNotEqual(report_exit_code(report, strict=True), 0)
+
     def test_glossary_configures_protected_terms_and_traditional_policy(self) -> None:
         catalog = [_entry("misc", "misc:0x0050", "Avatar Rune")]
         row = RuntimeRow("misc", "misc:0x0050", catalog[0].source_sha256, "聖者 Rune 简")

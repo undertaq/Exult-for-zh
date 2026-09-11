@@ -10,7 +10,7 @@ from .catalog import CatalogEntry
 
 
 GLOSSARY_PATH = Path(__file__).with_name("u6_glossary.tsv")
-PROMPT_VERSION = "u6-zh-traditional-v1"
+PROMPT_VERSION = "u6-zh-traditional-v2"
 
 U6_GENERAL_GUIDANCE = """U6 general rules:
 - Translate only the supplied Ultima VI gameplay display string.
@@ -18,6 +18,8 @@ U6_GENERAL_GUIDANCE = """U6 general rules:
 - Preserve protected tokens, placeholders, control sequences, newlines, and ordering exactly.
 - Keep spell incantations such as @Corp Por@ unchanged; translate spell display names only.
 - Preserve choice answer semantics: the English answer remains the internal comparison value.
+- Return exactly one translation for each source string. Do not repeat the complete translated sentence.
+- Preserve one matching pair of quotation marks when the source is quoted; do not add a second pair around the same sentence.
 """
 
 

@@ -17,7 +17,7 @@ from .prompts import (
 @dataclass(frozen=True)
 class OllamaConfig:
     url: str = "http://127.0.0.1:11434/api/chat"
-    model: str = "qwen3:8b"
+    model: str = "qwen3.8:27b"
     timeout_seconds: float = 120.0
     retries: int = 3
 

@@ -60,6 +60,7 @@ class TranslationCliTest(unittest.TestCase):
             root = Path(directory)
             mod_root = root / "mod"
             (mod_root / "Ultima6v1.3" / "patch").mkdir(parents=True)
+            (mod_root / "Ultima6v1.3" / "patch" / "usecode").write_bytes(b"fixture")
             (mod_root / "Ultima6v1.3" / "patch" / "textmsg.txt").write_text(
                 "%%section msgs\n0x0123:Hello there\n%%endsection\n", encoding="utf-8"
             )

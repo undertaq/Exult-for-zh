@@ -38,10 +38,13 @@ class ExtractionTest(unittest.TestCase):
     def test_ucxt_permission_error_does_not_double_shell_command(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
+            usecode = root / "Ultima6v1.3" / "patch" / "usecode"
+            usecode.parent.mkdir(parents=True)
+            usecode.write_bytes(b"fixture")
             ucxt = root / "ucxt-fixture"
             ucxt.write_text("exit 0\n", encoding="utf-8")
 
-            shell_command = ["/bin/sh", str(ucxt), "-ftt", str(root)]
+            shell_command = ["/bin/sh", str(ucxt), "-nc", "-ftt", f"-i{usecode}", "-a"]
             with mock.patch(
                 "tools.u6_translation.extract.subprocess.check_output",
                 side_effect=[PermissionError(), "output"],
@@ -51,11 +54,33 @@ class ExtractionTest(unittest.TestCase):
         self.assertEqual(check_output.call_args_list[0].args[0], shell_command)
         self.assertEqual(check_output.call_args_list[1].args[0], shell_command)
 
+    def test_ucxt_uses_the_mod_usecode_file_and_decodes_raw_output(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            usecode = root / "Ultima6v1.3" / "patch" / "usecode"
+            usecode.parent.mkdir(parents=True)
+            usecode.write_bytes(b"compiled U6 usecode")
+            ucxt = root / "ucxt-fixture"
+            ucxt.write_text("exit 0\n", encoding="utf-8")
+            ucxt.chmod(ucxt.stat().st_mode | os.X_OK)
+
+            with mock.patch(
+                "tools.u6_translation.extract.subprocess.check_output",
+                return_value=b"text \xb4\n",
+            ) as check_output:
+                self.assertEqual(_run_ucxt(root, ucxt), "text ´\n")
+
+        self.assertEqual(
+            check_output.call_args.args[0],
+            [str(ucxt), "-nc", "-ftt", f"-i{usecode}", "-a"],
+        )
+
     def test_ucxt_textmsg_and_runtime_rows_merge_deterministically(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             patch = root / "Ultima6v1.3" / "patch"
             patch.mkdir(parents=True)
+            (patch / "usecode").write_bytes(b"fixture")
             (patch / "textmsg.txt").write_text(
                 "%%section msgs\n"
                 "0x0123:Line message\n"

@@ -59,6 +59,12 @@ class OllamaBackendTest(unittest.TestCase):
         self.assertNotIn("Lord British", prompt)
         self.assertNotIn("八環法術翻譯", prompt)
 
+    def test_prompt_requires_one_translation_without_repeating_the_sentence(self) -> None:
+        prompt = translation_system_prompt()
+
+        self.assertIn("exactly one", prompt)
+        self.assertIn("Do not repeat", prompt)
+
     def test_translate_posts_json_only_request_and_returns_batch_order(self) -> None:
         response = _ollama_response(
             [
@@ -83,7 +89,7 @@ class OllamaBackendTest(unittest.TestCase):
         self.assertEqual([record["zh"] for record in result], ["第一句", "第二句"])
         request = urlopen.call_args.args[0]
         payload = json.loads(request.data.decode("utf-8"))
-        self.assertEqual(payload["model"], "qwen3:8b")
+        self.assertEqual(payload["model"], "qwen3.8:27b")
         self.assertFalse(payload["stream"])
         self.assertEqual(urlopen.call_args.kwargs["timeout"], 120.0)
         self.assertEqual([item["key"] for item in json.loads(payload["messages"][1]["content"])["entries"]], [entry.key for entry in self.entries])

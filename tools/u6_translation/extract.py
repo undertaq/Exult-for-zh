@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import re
 import subprocess
+import tempfile
 
 from .catalog import CatalogEntry, _merge, parse_runtime_catalog
 
@@ -44,16 +45,67 @@ class _StaticChoice:
     ordinal: int
 
 
-def _run_ucxt(root: Path, ucxt: Path) -> str:
-    command = [str(ucxt), "-ftt", str(root)]
-    if not (ucxt.stat().st_mode & 0o111):
-        command = ["/bin/sh"] + command
+_UCXT_DATA_FILES = ("u7misc.data", "u7opcodes.data", "u7bgintrinsics.data")
+
+
+def _find_usecode(root: Path) -> Path:
+    candidates = (
+        root / "Ultima6v1.3" / "patch" / "usecode",
+        root / "patch" / "usecode",
+        root / "usecode",
+    )
+    for path in candidates:
+        if path.is_file():
+            return path.resolve()
+    raise FileNotFoundError(f"U6 usecode file not found under {root}")
+
+
+def _bundled_ucxt_data(ucxt: Path) -> Path | None:
+    data_dir = ucxt.resolve().parent.parent / "data"
+    if all((data_dir / filename).is_file() for filename in _UCXT_DATA_FILES):
+        return data_dir
+    return None
+
+
+def _decode_ucxt_output(output: bytes | str) -> str:
+    if isinstance(output, bytes):
+        # UCXT emits legacy game text bytes in its translation table. Latin-1
+        # preserves every byte so the parser can handle non-UTF-8 output.
+        return output.decode("latin-1")
+    return output
+
+
+def _execute_ucxt(command: list[str], cwd: Path | None) -> str:
+    kwargs = {"cwd": str(cwd)} if cwd is not None else {}
     try:
-        return subprocess.check_output(command, text=True)
+        output = subprocess.check_output(command, **kwargs)
     except PermissionError:
         if command[:1] == ["/bin/sh"]:
-            return subprocess.check_output(command, text=True)
-        return subprocess.check_output(["/bin/sh"] + command, text=True)
+            output = subprocess.check_output(command, **kwargs)
+        else:
+            output = subprocess.check_output(["/bin/sh"] + command, **kwargs)
+    return _decode_ucxt_output(output)
+
+
+def _run_ucxt(root: Path, ucxt: Path) -> str:
+    usecode = _find_usecode(root)
+    command = [str(ucxt), "-nc", "-ftt", f"-i{usecode}", "-a"]
+    if not (ucxt.stat().st_mode & 0o111):
+        command = ["/bin/sh"] + command
+
+    data_dir = _bundled_ucxt_data(ucxt)
+    if data_dir is None:
+        return _execute_ucxt(command, None)
+
+    # The bundled UCXT binary is built with XWIN and resolves -nc data files
+    # from the literal <CONFIG> directory. Stage only those read-only inputs
+    # in a temporary working directory; never modify the user's game config.
+    with tempfile.TemporaryDirectory(prefix="u6-ucxt-") as directory:
+        config_dir = Path(directory) / "<CONFIG>"
+        config_dir.mkdir()
+        for filename in _UCXT_DATA_FILES:
+            (config_dir / f".{filename}").symlink_to(data_dir / filename)
+        return _execute_ucxt(command, Path(directory))
 
 
 def _parse_numeric_id(value: str) -> int:

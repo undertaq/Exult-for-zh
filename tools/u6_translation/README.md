@@ -7,14 +7,16 @@ MOD_ROOT="$PWD/../Ultima_7/mods/Ultima6v1.3"
 PATCH_DIR="$MOD_ROOT/Ultima6v1.3/patch"
 UCXT="$PWD/tools/ucxt/src/ucxt"
 OLLAMA_URL="http://127.0.0.1:11434/api/chat"
-OLLAMA_MODEL="qwen3:8b"
+OLLAMA_MODEL="qwen3.8:27b"
 ```
 
-Build the extractor prerequisite first with `make -C tools/ucxt/src`. UCXT currently
-accepts the repository's supported U7 usecode input format; the supplied U6 mod may
-therefore fail extraction because its compiled patch is not a supported UCXT source
-tree. The U6 mod also does not ship the optional `patch/spellnames.txt` display
-resource, so spell catalog rows appear only when that English-format resource exists.
+Build the extractor prerequisite first with `make -C tools/ucxt/src`. The extractor
+passes the supplied mod's compiled `patch/usecode` file to UCXT with `-i` and `-a`,
+and stages the bundled UCXT data files in a temporary config directory. This is
+required because the compiled UCXT binary otherwise treats the mod root as a
+hexadecimal function argument and cannot find its opcode table. The U6 mod also does
+not ship the optional `patch/spellnames.txt` display resource, so spell catalog rows
+appear only when that English-format resource exists.
 The deterministic indexed fixture under `tools/u6_translation/tests/fixtures/indexed_mod`
 is the supported extraction test input.
 

@@ -52,6 +52,14 @@ def _is_unbound(key: str) -> bool:
     return ":unbound:" in key
 
 
+def _is_exact_repetition(value: str) -> bool:
+    value = value.strip()
+    if len(value) < 2 or len(value) % 2:
+        return False
+    midpoint = len(value) // 2
+    return value[:midpoint] == value[midpoint:]
+
+
 def _empty_kind_report() -> dict[str, object]:
     return {
         "total": 0,
@@ -395,6 +403,8 @@ def correctness_report(
             issues.append(_issue(key=row.key, check="newlines", severity="error", message="newline structure differs from source", source_location=location))
         if source.strip() == translated.strip() and not (row.kind == "spell" and _is_only_protected_spell_text(row.zh)):
             issues.append(_issue(key=row.key, check="source_duplication", severity="error", message="translation duplicates the English source", source_location=location))
+        if _is_exact_repetition(row.zh):
+            issues.append(_issue(key=row.key, check="duplicate_translation", severity="error", message="translation repeats the same complete text twice", source_location=location))
 
         if row.kind != "spell" and not _has_chinese(row.zh) and not _is_only_protected_spell_text(row.zh):
             issues.append(_issue(key=row.key, check="traditional_chinese", severity="warning", message="translation contains no Traditional Chinese text", source_location=location, blocking=False))
