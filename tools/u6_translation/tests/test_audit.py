@@ -122,6 +122,30 @@ class AuditReportTest(unittest.TestCase):
         self.assertTrue(duplicate[0]["blocking"])
         self.assertNotEqual(report_exit_code(report, strict=True), 0)
 
+        spaced = RuntimeRow(
+            entry.kind,
+            entry.key,
+            entry.source_sha256,
+            "「請讓一下！」 「請讓一下！」",
+        )
+        spaced_report = correctness_report([entry], [spaced], GLOSSARY, None)
+        self.assertIn(
+            "duplicate_translation",
+            {issue["check"] for issue in spaced_report["deterministic"]["issues"]},
+        )
+
+        legitimate = _entry("misc", "misc:0x0090", "Hello")
+        legitimate_report = correctness_report(
+            [legitimate],
+            [RuntimeRow(legitimate.kind, legitimate.key, legitimate.source_sha256, "你好你好")],
+            GLOSSARY,
+            None,
+        )
+        self.assertNotIn(
+            "duplicate_translation",
+            {issue["check"] for issue in legitimate_report["deterministic"]["issues"]},
+        )
+
     def test_glossary_configures_protected_terms_and_traditional_policy(self) -> None:
         catalog = [_entry("misc", "misc:0x0050", "Avatar Rune")]
         row = RuntimeRow("misc", "misc:0x0050", catalog[0].source_sha256, "聖者 Rune 简")

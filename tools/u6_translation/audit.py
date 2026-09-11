@@ -53,11 +53,18 @@ def _is_unbound(key: str) -> bool:
 
 
 def _is_exact_repetition(value: str) -> bool:
-    value = value.strip()
+    value = re.sub(r"\s+", "", value.strip())
     if len(value) < 2 or len(value) % 2:
         return False
     midpoint = len(value) // 2
-    return value[:midpoint] == value[midpoint:]
+    unit = value[:midpoint]
+    if unit != value[midpoint:]:
+        return False
+    if (unit.startswith("「") and unit.endswith("」")) or (
+        unit.startswith("『") and unit.endswith("』")
+    ) or (unit.startswith("“") and unit.endswith("”")):
+        return True
+    return unit[-1] in "。！？!?…;；:："
 
 
 def _empty_kind_report() -> dict[str, object]:
