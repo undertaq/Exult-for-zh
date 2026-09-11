@@ -199,6 +199,9 @@ def build_review_html(
       const pageInfo = document.querySelector('#page-info');
       const pagePrev = document.querySelector('#page-prev');
       const pageNext = document.querySelector('#page-next');
+      const pageInfoBottom = document.querySelector('#page-info-bottom');
+      const pagePrevBottom = document.querySelector('#page-prev-bottom');
+      const pageNextBottom = document.querySelector('#page-next-bottom');
       const pageSize = 50;
       let currentPage = 1;
 
@@ -250,11 +253,17 @@ def build_review_html(
         visibleCount.textContent = String(visible);
         acceptedCount.textContent = String(accepted);
         needsCount.textContent = String(needs);
-        pageInfo.textContent = matchingRows.length
+        const pageText = matchingRows.length
           ? `Page ${currentPage} / ${pageCount} · ${first + 1}-${Math.min(first + pageSize, matchingRows.length)} of ${matchingRows.length}`
           : 'Page 0 / 0 · 0 matching';
-        pagePrev.disabled = currentPage <= 1 || !matchingRows.length;
-        pageNext.disabled = currentPage >= pageCount || !matchingRows.length;
+        pageInfo.textContent = pageText;
+        pageInfoBottom.textContent = pageText;
+        const previousDisabled = currentPage <= 1 || !matchingRows.length;
+        const nextDisabled = currentPage >= pageCount || !matchingRows.length;
+        pagePrev.disabled = previousDisabled;
+        pagePrevBottom.disabled = previousDisabled;
+        pageNext.disabled = nextDisabled;
+        pageNextBottom.disabled = nextDisabled;
       }
 
       function saveDraft() {
@@ -294,12 +303,16 @@ def build_review_html(
 
       document.querySelector('#save').addEventListener('click', saveDraft);
       document.querySelector('#download').addEventListener('click', downloadReview);
-      pagePrev.addEventListener('click', () => {
+      function previousPage() {
         if (currentPage > 1) { currentPage--; refreshCounts(); window.scrollTo({top: 0, behavior: 'smooth'}); }
-      });
-      pageNext.addEventListener('click', () => {
+      }
+      function nextPage() {
         currentPage++; refreshCounts(); window.scrollTo({top: 0, behavior: 'smooth'});
-      });
+      }
+      pagePrev.addEventListener('click', previousPage);
+      pagePrevBottom.addEventListener('click', previousPage);
+      pageNext.addEventListener('click', nextPage);
+      pageNextBottom.addEventListener('click', nextPage);
       document.querySelector('#reset').addEventListener('click', () => {
         localStorage.removeItem(storageKey);
         window.location.reload();
@@ -349,6 +362,9 @@ def build_review_html(
         '<table><thead><tr><th>Kind</th><th>Key</th><th>Speaker</th><th>English</th>'
         '<th>Traditional Chinese (editable)</th><th>Review</th>'
         '</tr></thead><tbody>' + "".join(rows_html) + '</tbody></table>'
+        '<div class="pagination"><button id="page-prev-bottom" disabled>Previous</button>'
+        '<span id="page-info-bottom">Page 1 / 1</span> · <b>50</b> entries/page'
+        '<button id="page-next-bottom" disabled>Next</button></div>'
         '</main><script>' + script + '</script></body></html>'
     )
 

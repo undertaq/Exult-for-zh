@@ -138,6 +138,8 @@ class ReviewHtmlTest(unittest.TestCase):
         self.assertIn('id="page-size">50', html)
         self.assertIn('id="page-prev"', html)
         self.assertIn('id="page-next"', html)
+        self.assertIn('id="page-prev-bottom"', html)
+        self.assertIn('id="page-next-bottom"', html)
         self.assertIn("const pageSize = 50", html)
 
 
