@@ -42,6 +42,7 @@ class _FakeBackend:
             for entry in reversed(entries)
         ]
 
+
     def review_batch(
         self,
         entries: list[CatalogEntry],
@@ -58,6 +59,20 @@ class _FakeBackend:
             }
             for entry in reversed(entries)
         ]
+
+
+class _SplitBackend(_FakeBackend):
+    def translate_batch(self, entries: list[CatalogEntry]) -> list[dict[str, str]]:
+        self.translation_calls.append([entry.key for entry in entries])
+        if len(entries) > 1:
+            raise ValueError("fixture schema mismatch")
+        entry = entries[0]
+        return [{
+            "key": entry.key,
+            "source_sha256": entry.source_sha256,
+            "zh": self.translations[entry.key],
+            "status": "translated",
+        }]
 
 
 class TranslationPipelineTest(unittest.TestCase):
@@ -163,6 +178,34 @@ class TranslationPipelineTest(unittest.TestCase):
                     [entry.key for entry in entries[4:5]],
                 ],
             )
+
+    def test_translate_splits_a_schema_failure_until_a_batch_succeeds(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            entries = [
+                _entry("dialogue", f"dialogue:0x0401:{index + 10}:0", f"Line {index}")
+                for index in range(4)
+            ]
+            catalog = root / "catalog.jsonl"
+            write_catalog(catalog, entries)
+            backend = _SplitBackend({entry.key: f"譯文 {index}" for index, entry in enumerate(entries)})
+
+            translate_catalog(
+                catalog, root / "translations.tsv", root / "cache.json", backend,
+                "prompt-v1", batch_size=4,
+            )
+
+            self.assertEqual(
+                backend.translation_calls,
+                [
+                    [entry.key for entry in entries],
+                    [entry.key for entry in entries[:2]],
+                    [entries[0].key], [entries[1].key],
+                    [entry.key for entry in entries[2:]],
+                    [entries[2].key], [entries[3].key],
+                ],
+            )
+            self.assertEqual(len(load_runtime_table(root / "translations.tsv")), 4)
 
     def test_review_is_advisory_jsonl_and_does_not_overwrite_candidate_table(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

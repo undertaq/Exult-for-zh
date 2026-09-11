@@ -6,7 +6,7 @@ from typing import Any
 
 from .catalog import CatalogEntry, load_catalog
 from .consistency import canonicalize_repeated_translations
-from .ollama_backend import OllamaBackend
+from .ollama_backend import OllamaBackend, OllamaBackendError
 from .prompts import glossary_sha256
 from .runtime_table import RuntimeRow, load_runtime_table, write_runtime_table
 
@@ -104,6 +104,25 @@ def _ordered_translation_response(
     return ordered
 
 
+def _translate_batch_with_fallback(
+    backend: OllamaBackend, entries: list[CatalogEntry]
+) -> list[tuple[list[CatalogEntry], dict[str, dict[str, str]]]]:
+    """Retry an unusable model batch as smaller batches.
+
+    The model can occasionally omit or substitute a key when a response is
+    too large. Splitting retains the resumable pipeline without accepting a
+    partial or ambiguous response.
+    """
+
+    try:
+        return [(entries, _ordered_translation_response(entries, backend.translate_batch(entries)))]
+    except (OllamaBackendError, ValueError):
+        if len(entries) == 1:
+            raise
+        midpoint = len(entries) // 2
+        return _translate_batch_with_fallback(backend, entries[:midpoint]) + _translate_batch_with_fallback(backend, entries[midpoint:])
+
+
 def translate_catalog(
     catalog_path: Path,
     output_path: Path,
@@ -148,22 +167,22 @@ def translate_catalog(
         batch = pending[start:start + batch_size]
         if not batch:
             continue
-        generated = _ordered_translation_response(batch, backend.translate_batch(batch))
-        for entry in batch:
-            cache_key = make_cache_key(
-                operation="translate",
-                kind=entry.kind,
-                key=entry.key,
-                context=entry.context,
-                source_sha256=entry.source_sha256,
-                model=model,
-                prompt_version=prompt_version,
-                glossary_hash=glossary_hash,
-            )
-            translations[entry.key] = generated[entry.key]
-            cache[cache_key] = generated[entry.key]
-        # Preserve completed model work if a later request is interrupted.
-        _write_cache(cache_path, cache)
+        for successful_batch, generated in _translate_batch_with_fallback(backend, batch):
+            for entry in successful_batch:
+                cache_key = make_cache_key(
+                    operation="translate",
+                    kind=entry.kind,
+                    key=entry.key,
+                    context=entry.context,
+                    source_sha256=entry.source_sha256,
+                    model=model,
+                    prompt_version=prompt_version,
+                    glossary_hash=glossary_hash,
+                )
+                translations[entry.key] = generated[entry.key]
+                cache[cache_key] = generated[entry.key]
+            # Preserve completed model work if a later request is interrupted.
+            _write_cache(cache_path, cache)
 
     # Exact repeated source strings form a safe translation-memory boundary.
     # Canonicalize both fresh and cached rows so reruns cannot reintroduce drift.
