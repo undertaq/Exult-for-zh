@@ -105,6 +105,41 @@ class ReviewHtmlTest(unittest.TestCase):
         self.assertIn('"status": "needs-review"', html)
         self.assertIn("term mismatch", html)
 
+    def test_dialogue_speaker_is_shown_from_attribution_map(self) -> None:
+        html = build_review_html(
+            self.entries,
+            self.rows,
+            model="test-model",
+            prompt_version="test-prompt",
+            speaker_map={f"dialogue\t{self.entries[0].key}": "Iolo"},
+        )
+
+        self.assertIn("<th>Speaker</th>", html)
+        self.assertIn('"speaker": "Iolo"', html)
+        self.assertIn(">Iolo</td>", html)
+
+    def test_review_html_paginates_at_fifty_rows(self) -> None:
+        entries = [
+            CatalogEntry.from_source(
+                "dialogue", f"dialogue:0x0401:{index:x}:0", f"Line {index}",
+                "gameplay", "fixture"
+            )
+            for index in range(51)
+        ]
+        rows = [RuntimeRow(e.kind, e.key, e.source_sha256, f"譯文 {i}") for i, e in enumerate(entries)]
+
+        html = build_review_html(
+            entries,
+            rows,
+            model="test-model",
+            prompt_version="test-prompt",
+        )
+
+        self.assertIn('id="page-size">50', html)
+        self.assertIn('id="page-prev"', html)
+        self.assertIn('id="page-next"', html)
+        self.assertIn("const pageSize = 50", html)
+
 
 if __name__ == "__main__":
     unittest.main()

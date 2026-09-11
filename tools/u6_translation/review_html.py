@@ -4,6 +4,7 @@ import hashlib
 import html
 import json
 from pathlib import Path
+import re
 from typing import Iterable, Mapping
 
 from .catalog import CatalogEntry
@@ -12,6 +13,25 @@ from .runtime_table import RuntimeRow
 
 def _identity(kind: str, key: str) -> str:
     return f"{kind}\t{key}"
+
+
+_DIALOGUE_FUNCTION_RE = re.compile(r"^dialogue:(0x[0-9a-fA-F]+):")
+
+
+def _speaker_for_entry(
+    entry: CatalogEntry, speaker_map: Mapping[str, object] | None
+) -> str:
+    if entry.kind != "dialogue":
+        return ""
+    if speaker_map:
+        for lookup_key in (_identity(entry.kind, entry.key), entry.key):
+            value = speaker_map.get(lookup_key)
+            if isinstance(value, str) and value.strip():
+                return value.strip()
+    match = _DIALOGUE_FUNCTION_RE.match(entry.key)
+    if match:
+        return f"Unresolved · usecode 0x{int(match.group(1), 16):04X}"
+    return "Unresolved"
 
 
 def _script_json(value: object) -> str:
@@ -26,6 +46,7 @@ def _review_records(
     model: str,
     prompt_version: str,
     audit: Mapping[str, object] | None,
+    speaker_map: Mapping[str, object] | None,
 ) -> tuple[list[dict[str, object]], str]:
     rows_by_identity = {(row.kind, row.key): row for row in rows}
     issues_by_identity: dict[tuple[str, str], list[str]] = {}
@@ -67,6 +88,7 @@ def _review_records(
                 "context": entry.context,
                 "origin": entry.origin,
                 "protected_tokens": list(entry.protected_tokens),
+                "speaker": _speaker_for_entry(entry, speaker_map),
                 "candidate_zh": zh,
                 "zh": zh,
                 "status": status,
@@ -90,6 +112,7 @@ def build_review_html(
     model: str,
     prompt_version: str,
     audit: Mapping[str, object] | None = None,
+    speaker_map: Mapping[str, object] | None = None,
 ) -> str:
     """Build an offline editable review page for a catalog/table pair."""
 
@@ -100,6 +123,7 @@ def build_review_html(
         model=model,
         prompt_version=prompt_version,
         audit=audit,
+        speaker_map=speaker_map,
     )
     data = {"fingerprint": fingerprint, "records": records}
     title = "U6 Translation Review"
@@ -123,6 +147,7 @@ def build_review_html(
       tr[data-hidden=true] { display: none; }
       td.kind { white-space: nowrap; font-weight: 600; }
       td.key { min-width: 14rem; }
+      td.speaker { min-width: 10rem; font-weight: 600; }
       td.source { min-width: 24rem; white-space: pre-wrap; }
       td.translation { min-width: 24rem; background: var(--blue); }
       td.translation textarea { width: 100%; min-height: 4.5rem; resize: vertical; font: 1rem/1.45 system-ui, sans-serif; padding: .4rem; }
@@ -134,6 +159,8 @@ def build_review_html(
       .issues { color: #a33; margin-top: .4rem; font-size: .85rem; }
       code { font-size: .8rem; overflow-wrap: anywhere; }
       pre { margin: 0; font: inherit; white-space: pre-wrap; }
+      .pagination { display: flex; align-items: center; justify-content: center; gap: .65rem; margin: 1rem 0; }
+      .pagination button:disabled { cursor: not-allowed; opacity: .45; }
       @media (max-width: 900px) { th { top: 190px; } main { padding: .5rem; } header { padding: .75rem; } td.source, td.translation { min-width: 16rem; } }
     """
     rows_html: list[str] = []
@@ -148,6 +175,7 @@ def build_review_html(
             f'<tr data-index="{index}" data-identity="{identity}" data-status="{status}" data-hidden="false">'
             f'<td class="kind">{html.escape(str(record["kind"]))}</td>'
             f'<td class="key"><code>{html.escape(str(record["key"]))}</code></td>'
+            f'<td class="speaker">{html.escape(str(record["speaker"])) or "—"}</td>'
             f'<td class="source"><div><small>{html.escape(str(record["context"]))}</small></div><pre>{source}</pre></td>'
             f'<td class="translation"><textarea data-field="zh" aria-label="Chinese translation">{zh}</textarea></td>'
             f'<td class="review"><label><input type="checkbox" data-field="needs"'
@@ -168,6 +196,11 @@ def build_review_html(
       const visibleCount = document.querySelector('#visible-count');
       const acceptedCount = document.querySelector('#accepted-count');
       const needsCount = document.querySelector('#needs-count');
+      const pageInfo = document.querySelector('#page-info');
+      const pagePrev = document.querySelector('#page-prev');
+      const pageNext = document.querySelector('#page-next');
+      const pageSize = 50;
+      let currentPage = 1;
 
       function stateFor(index) {
         return rows[index];
@@ -193,18 +226,35 @@ def build_review_html(
         tableRows.forEach(rowElement => {
           const index = Number(rowElement.dataset.index);
           const record = stateFor(index);
-          const matchesSearch = !query || `${record.kind} ${record.key} ${record.source} ${record.zh}`.toLowerCase().includes(query);
+          const matchesSearch = !query || `${record.kind} ${record.key} ${record.speaker} ${record.source} ${record.zh}`.toLowerCase().includes(query);
           const matchesKind = kind === 'all' || record.kind === kind;
           const matchesStatus = status === 'all' || record.status === status;
-          const shown = matchesSearch && matchesKind && matchesStatus;
-          rowElement.dataset.hidden = shown ? 'false' : 'true';
-          if (shown) visible++;
+          if (matchesSearch && matchesKind && matchesStatus) visible++;
           if (record.status === 'approved') accepted++;
           else needs++;
+        });
+        const matchingRows = tableRows.filter(rowElement => {
+          const record = stateFor(Number(rowElement.dataset.index));
+          const matchesSearch = !query || `${record.kind} ${record.key} ${record.speaker} ${record.source} ${record.zh}`.toLowerCase().includes(query);
+          const matchesKind = kind === 'all' || record.kind === kind;
+          const matchesStatus = status === 'all' || record.status === status;
+          return matchesSearch && matchesKind && matchesStatus;
+        });
+        const pageCount = Math.max(1, Math.ceil(matchingRows.length / pageSize));
+        currentPage = Math.min(currentPage, pageCount);
+        const first = (currentPage - 1) * pageSize;
+        const pageRows = new Set(matchingRows.slice(first, first + pageSize));
+        tableRows.forEach(rowElement => {
+          rowElement.dataset.hidden = pageRows.has(rowElement) ? 'false' : 'true';
         });
         visibleCount.textContent = String(visible);
         acceptedCount.textContent = String(accepted);
         needsCount.textContent = String(needs);
+        pageInfo.textContent = matchingRows.length
+          ? `Page ${currentPage} / ${pageCount} · ${first + 1}-${Math.min(first + pageSize, matchingRows.length)} of ${matchingRows.length}`
+          : 'Page 0 / 0 · 0 matching';
+        pagePrev.disabled = currentPage <= 1 || !matchingRows.length;
+        pageNext.disabled = currentPage >= pageCount || !matchingRows.length;
       }
 
       function saveDraft() {
@@ -228,6 +278,7 @@ def build_review_html(
       function downloadReview() {
         const content = rows.map(record => JSON.stringify({
           kind: record.kind, key: record.key, source_sha256: record.source_sha256,
+          speaker: record.speaker,
           zh: record.zh, status: record.status, issues: record.issues,
           suggested_zh: record.candidate_zh, model: record.model,
           prompt_version: record.prompt_version
@@ -243,11 +294,17 @@ def build_review_html(
 
       document.querySelector('#save').addEventListener('click', saveDraft);
       document.querySelector('#download').addEventListener('click', downloadReview);
+      pagePrev.addEventListener('click', () => {
+        if (currentPage > 1) { currentPage--; refreshCounts(); window.scrollTo({top: 0, behavior: 'smooth'}); }
+      });
+      pageNext.addEventListener('click', () => {
+        currentPage++; refreshCounts(); window.scrollTo({top: 0, behavior: 'smooth'});
+      });
       document.querySelector('#reset').addEventListener('click', () => {
         localStorage.removeItem(storageKey);
         window.location.reload();
       });
-      [search, kindFilter, statusFilter].forEach(element => element.addEventListener('input', refreshCounts));
+      [search, kindFilter, statusFilter].forEach(element => element.addEventListener('input', () => { currentPage = 1; refreshCounts(); }));
       tableRows.forEach(rowElement => {
         const index = Number(rowElement.dataset.index);
         rowElement.querySelector('[data-field=zh]').addEventListener('input', event => {
@@ -284,10 +341,15 @@ def build_review_html(
         '<button id="save">Save draft</button><button id="reset">Reset draft</button>'
         '<button id="download" class="primary">Download review JSONL</button>'
         '<span id="save-state" class="help">Changes auto-save in this browser.</span></div>'
-        '<div class="counts">Visible: <b id="visible-count">0</b> · Accepted: <b id="accepted-count">0</b> · '
-        'Needs modification: <b id="needs-count">0</b></div></header><main><table><thead><tr>'
-        '<th>Kind</th><th>Key</th><th>English</th><th>Traditional Chinese (editable)</th><th>Review</th>'
-        '</tr></thead><tbody>' + "".join(rows_html) + '</tbody></table></main><script>' + script + '</script></body></html>'
+        '<div class="counts">Matching: <b id="visible-count">0</b> · Accepted: <b id="accepted-count">0</b> · '
+        'Needs modification: <b id="needs-count">0</b></div></header><main>'
+        '<div class="pagination"><button id="page-prev" disabled>Previous</button>'
+        '<span id="page-info">Page 1 / 1</span> · <b id="page-size">50</b> entries/page'
+        '<button id="page-next" disabled>Next</button></div>'
+        '<table><thead><tr><th>Kind</th><th>Key</th><th>Speaker</th><th>English</th>'
+        '<th>Traditional Chinese (editable)</th><th>Review</th>'
+        '</tr></thead><tbody>' + "".join(rows_html) + '</tbody></table>'
+        '</main><script>' + script + '</script></body></html>'
     )
 
 
@@ -299,6 +361,7 @@ def write_review_html(
     model: str,
     prompt_version: str,
     audit: Mapping[str, object] | None = None,
+    speaker_map: Mapping[str, object] | None = None,
 ) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
@@ -308,6 +371,7 @@ def write_review_html(
             model=model,
             prompt_version=prompt_version,
             audit=audit,
+            speaker_map=speaker_map,
         ),
         encoding="utf-8",
     )

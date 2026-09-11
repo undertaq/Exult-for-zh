@@ -78,8 +78,10 @@ Generate the offline review page after translation. It is self-contained and
 works from a local `file://` URL: edit the Traditional Chinese textareas,
 leave rows accepted by default, check `Needs modification` where needed, and
 download the review JSONL when finished. The page also saves a draft in the
-browser's local storage. Pass the audit report to show row-level findings in
-the page:
+browser's local storage. Results are paginated at 50 matching entries per page;
+dialogue rows show the attributed speaker when a speaker map is supplied, and
+otherwise show the unresolved usecode function ID. Pass the audit report to
+show row-level findings in the page:
 
 ```sh
 python3 -m tools.u6_translation review-html \
@@ -87,6 +89,11 @@ python3 -m tools.u6_translation review-html \
   --audit /tmp/u6_audit.json --model "$OLLAMA_MODEL" \
   --output reports/u6_translation_review_qwen3.8_27b.html
 ```
+
+The optional speaker map is a JSON object keyed by `dialogue<TAB><dialogue-key>`
+(or by the dialogue key alone), for example
+`{"dialogue\\tdialogue:0x0401:10:0":"Iolo"}`. It may also be wrapped as
+`{"speakers": {...}}`.
 
 The translator canonicalizes exact repeated English source strings across
 dialogue and gameplay rows. The correctness audit also reports any conflicting

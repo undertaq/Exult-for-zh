@@ -38,6 +38,7 @@ def main(argv=None):
     review_html.add_argument("--catalog", required=True); review_html.add_argument("--table", required=True)
     review_html.add_argument("--output", required=True); review_html.add_argument("--model", default="qwen3.8:27b")
     review_html.add_argument("--prompt-version", default=PROMPT_VERSION); review_html.add_argument("--audit")
+    review_html.add_argument("--speaker-map", help="JSON mapping of dialogue identity to speaker name")
     # Task 6/7 accepted a bare catalog path; retain that invocation.
     if argv is None:
         import sys
@@ -86,6 +87,13 @@ def main(argv=None):
         audit = None
         if args.audit:
             audit = json.loads(Path(args.audit).read_text(encoding="utf-8"))
+        speaker_map = None
+        if args.speaker_map:
+            speaker_map = json.loads(Path(args.speaker_map).read_text(encoding="utf-8"))
+            if isinstance(speaker_map, dict) and isinstance(speaker_map.get("speakers"), dict):
+                speaker_map = speaker_map["speakers"]
+            if not isinstance(speaker_map, dict):
+                raise ValueError("speaker map must be a JSON object")
         write_review_html(
             Path(args.output),
             load_catalog(Path(args.catalog)),
@@ -93,6 +101,7 @@ def main(argv=None):
             model=args.model,
             prompt_version=args.prompt_version,
             audit=audit,
+            speaker_map=speaker_map,
         )
         return 0
     parser.error("a command is required")
