@@ -33,6 +33,16 @@ python3 -m tools.u6_translation extract \
   --output /tmp/u6_catalog.jsonl
 ```
 
+For a complete static catalog when no runtime capture is available, add
+`--include-static`; this includes the UCXT dialogue plus indexed item,
+location, miscellaneous, and text-message resources:
+
+```sh
+python3 -m tools.u6_translation extract \
+  --mod-root "$MOD_ROOT" --ucxt "$UCXT" --include-static \
+  --output /tmp/u6_catalog.jsonl
+```
+
 The fixture includes a choice row such as `choice:0x0401:0x0088:0` with English source `one`. Choices are translated only for display. The English `answers` remain unchanged internally for usecode comparison, choice indexing, and game logic; no translated answer is written into usecode or configuration.
 
 ## Translate and audit
@@ -43,8 +53,14 @@ Translation uses the local Ollama endpoint and model above. Candidates and cache
 python3 -m tools.u6_translation translate \
   --catalog /tmp/u6_catalog.jsonl --output /tmp/u6_candidates.tsv \
   --cache /tmp/u6_translation_cache.json \
-  --url "$OLLAMA_URL" --model "$OLLAMA_MODEL"
+  --url "$OLLAMA_URL" --model "$OLLAMA_MODEL" --batch-size 8
 ```
+
+Translation requests default to eight rows because the local 27B model can
+need tens of seconds per row. The cache is checkpointed after each batch, so
+the same command safely resumes after an interrupted request.
+For larger local timeouts, use `--timeout`; `--retries` controls retries per
+batch.
 
 Before release, run the combined audit in strict mode. A nonzero exit status blocks emission and requires correction and rerun:
 
@@ -54,6 +70,26 @@ python3 -m tools.u6_translation audit all \
   --glossary tools/u6_translation/u6_glossary.tsv \
   --report /tmp/u6_audit.json --strict
 ```
+
+Generate the offline review page after translation. It is self-contained and
+works from a local `file://` URL: edit the Traditional Chinese textareas,
+leave rows accepted by default, check `Needs modification` where needed, and
+download the review JSONL when finished. The page also saves a draft in the
+browser's local storage. Pass the audit report to show row-level findings in
+the page:
+
+```sh
+python3 -m tools.u6_translation review-html \
+  --catalog /tmp/u6_catalog.jsonl --table /tmp/u6_candidates.tsv \
+  --audit /tmp/u6_audit.json --model "$OLLAMA_MODEL" \
+  --output reports/u6_translation_review_qwen3.8_27b.html
+```
+
+The translator canonicalizes exact repeated English source strings across
+dialogue and gameplay rows. The correctness audit also reports any conflicting
+translations as blocking `term_consistency` issues. Glossary terms are always
+checked against `u6_glossary.tsv`, and names not in the glossary remain in
+their original English spelling for consistency.
 
 Strict audit is a release gate: missing, stale, duplicate, orphan, unbound, untranslated, protected-term, Traditional-Chinese-policy, placeholder, or source-integrity failures require fixing. A human must inspect the candidate table and audit report and explicitly approve every row before emission. Automated or Ollama review is advisory and does not constitute approval.
 Semantic review remains advisory by default and cannot change deterministic findings,

@@ -10,11 +10,13 @@ from .catalog import CatalogEntry
 
 
 GLOSSARY_PATH = Path(__file__).with_name("u6_glossary.tsv")
-PROMPT_VERSION = "u6-zh-traditional-v2"
+PROMPT_VERSION = "u6-zh-traditional-v3"
 
 U6_GENERAL_GUIDANCE = """U6 general rules:
 - Translate only the supplied Ultima VI gameplay display string.
 - Use Traditional Chinese and preserve English names not present in the U6 glossary.
+- Keep every proper name not listed in the glossary spelled exactly as supplied; do not transliterate or translate it in only some dialogue lines.
+- Use one stable Traditional-Chinese term for the same English game term throughout the batch, especially for names, factions, locations, items, and virtues.
 - Preserve protected tokens, placeholders, control sequences, newlines, and ordering exactly.
 - Keep spell incantations such as @Corp Por@ unchanged; translate spell display names only.
 - Preserve choice answer semantics: the English answer remains the internal comparison value.

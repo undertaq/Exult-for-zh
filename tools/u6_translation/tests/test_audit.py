@@ -146,6 +146,25 @@ class AuditReportTest(unittest.TestCase):
             {issue["check"] for issue in legitimate_report["deterministic"]["issues"]},
         )
 
+    def test_repeated_english_source_requires_one_consistent_translation(self) -> None:
+        entries = [
+            _entry("dialogue", "dialogue:0x0401:80:0", "The Fellowship"),
+            _entry("dialogue", "dialogue:0x0401:81:0", "The Fellowship"),
+        ]
+        rows = [
+            RuntimeRow(entries[0].kind, entries[0].key, entries[0].source_sha256, "友誼會"),
+            RuntimeRow(entries[1].kind, entries[1].key, entries[1].source_sha256, "團契"),
+        ]
+
+        report = correctness_report(entries, rows, GLOSSARY, None)
+
+        consistency = [
+            issue for issue in report["deterministic"]["issues"]
+            if issue["check"] == "term_consistency"
+        ]
+        self.assertEqual(len(consistency), 2)
+        self.assertTrue(all(issue["blocking"] for issue in consistency))
+
     def test_glossary_configures_protected_terms_and_traditional_policy(self) -> None:
         catalog = [_entry("misc", "misc:0x0050", "Avatar Rune")]
         row = RuntimeRow("misc", "misc:0x0050", catalog[0].source_sha256, "聖者 Rune 简")

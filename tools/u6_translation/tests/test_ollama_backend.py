@@ -90,12 +90,38 @@ class OllamaBackendTest(unittest.TestCase):
         request = urlopen.call_args.args[0]
         payload = json.loads(request.data.decode("utf-8"))
         self.assertEqual(payload["model"], "qwen3.8:27b")
+        self.assertFalse(payload["think"])
         self.assertFalse(payload["stream"])
         self.assertEqual(urlopen.call_args.kwargs["timeout"], 120.0)
         self.assertEqual([item["key"] for item in json.loads(payload["messages"][1]["content"])["entries"]], [entry.key for entry in self.entries])
         self.assertIn("繁體中文", payload["messages"][0]["content"])
         self.assertIn("聖者", payload["messages"][0]["content"])
         self.assertNotIn("fixture", payload["messages"][1]["content"])
+
+    def test_translate_replaces_model_hash_with_catalog_hash(self) -> None:
+        response = _ollama_response(
+            [
+                {
+                    "key": self.entries[0].key,
+                    "source_sha256": "0" * 64,
+                    "zh": "第一句",
+                    "status": "translated",
+                },
+                {
+                    "key": self.entries[1].key,
+                    "source_sha256": self.entries[1].source_sha256,
+                    "zh": "第二句",
+                    "status": "translated",
+                },
+            ]
+        )
+        with mock.patch("urllib.request.urlopen", return_value=response):
+            result = OllamaBackend(OllamaConfig()).translate_batch(self.entries)
+
+        self.assertEqual(
+            [record["source_sha256"] for record in result],
+            [entry.source_sha256 for entry in self.entries],
+        )
 
     def test_review_requires_schema_and_preserves_batch_order(self) -> None:
         translations = [

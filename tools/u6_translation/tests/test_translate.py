@@ -121,6 +121,49 @@ class TranslationPipelineTest(unittest.TestCase):
             self.assertEqual(third.translation_calls, [[entry.key for entry in self.entries]])
             self.assertEqual({row.zh for row in load_runtime_table(output)}, {"第二次"})
 
+    def test_translate_canonicalizes_exact_repeated_sources(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            entries = [
+                _entry("dialogue", "dialogue:0x0401:10:0", "The Fellowship"),
+                _entry("dialogue", "dialogue:0x0401:20:0", "The Fellowship"),
+            ]
+            catalog = root / "catalog.jsonl"
+            write_catalog(catalog, entries)
+            backend = _FakeBackend({entries[0].key: "友誼會", entries[1].key: "團契"})
+
+            translate_catalog(catalog, root / "translations.tsv", root / "cache.json", backend, "prompt-v1")
+
+            self.assertEqual(
+                {row.key: row.zh for row in load_runtime_table(root / "translations.tsv")},
+                {entry.key: "友誼會" for entry in entries},
+            )
+
+    def test_translate_splits_pending_rows_into_resumable_batches(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            entries = [
+                _entry("dialogue", f"dialogue:0x0401:{index + 10}:0", f"Line {index}")
+                for index in range(5)
+            ]
+            catalog = root / "catalog.jsonl"
+            write_catalog(catalog, entries)
+            backend = _FakeBackend({entry.key: f"譯文 {index}" for index, entry in enumerate(entries)})
+
+            translate_catalog(
+                catalog, root / "translations.tsv", root / "cache.json", backend,
+                "prompt-v1", batch_size=2,
+            )
+
+            self.assertEqual(
+                backend.translation_calls,
+                [
+                    [entry.key for entry in entries[0:2]],
+                    [entry.key for entry in entries[2:4]],
+                    [entry.key for entry in entries[4:5]],
+                ],
+            )
+
     def test_review_is_advisory_jsonl_and_does_not_overwrite_candidate_table(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

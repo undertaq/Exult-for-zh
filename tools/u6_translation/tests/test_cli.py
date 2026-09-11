@@ -104,12 +104,29 @@ class TranslationCliTest(unittest.TestCase):
             self.assertEqual(emit.returncode, 0, emit.stderr)
             self.assertTrue(emitted.read_text(encoding="utf-8").startswith("# u6-translation-v1\n"))
 
+    def test_extract_can_include_static_gameplay_resources_without_runtime_capture(self) -> None:
+        fixture = ROOT / "tools/u6_translation/tests/fixtures/indexed_mod"
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "catalog.jsonl"
+            result = self._run(
+                "extract", "--mod-root", str(fixture),
+                "--ucxt", str(fixture / "ucxt_fixture.sh"),
+                "--include-static", "--output", str(output),
+            )
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            kinds = {json.loads(line)["kind"] for line in output.read_text(encoding="utf-8").splitlines()}
+            self.assertIn("dialogue", kinds)
+            self.assertIn("item", kinds)
+            self.assertIn("textmsg", kinds)
+
     @patch("tools.u6_translation.__main__.translate_catalog")
     def test_translate_command_builds_ollama_backend_and_calls_pipeline(self, translate_catalog):
         result = main([
             "translate", "--catalog", "catalog.jsonl", "--output", "candidates.tsv",
             "--cache", "cache.json", "--model", "qwen3:8b",
-            "--url", "http://127.0.0.1:11434/api/chat",
+            "--url", "http://127.0.0.1:11434/api/chat", "--batch-size", "12",
+            "--timeout", "181", "--retries", "0",
         ])
         self.assertEqual(result, 0)
         translate_catalog.assert_called_once()
@@ -118,6 +135,9 @@ class TranslationCliTest(unittest.TestCase):
         self.assertIsInstance(args[3], OllamaBackend)
         self.assertEqual(args[3].config.model, "qwen3:8b")
         self.assertEqual(args[3].config.url, "http://127.0.0.1:11434/api/chat")
+        self.assertEqual(translate_catalog.call_args.kwargs["batch_size"], 12)
+        self.assertEqual(args[3].config.timeout_seconds, 181.0)
+        self.assertEqual(args[3].config.retries, 0)
 
     def test_audit_all_combines_coverage_and_correctness(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -132,6 +152,30 @@ class TranslationCliTest(unittest.TestCase):
         self.assertIn("coverage", report)
         self.assertIn("correctness", report)
         self.assertIn("issues", report)
+
+    def test_review_html_command_writes_editable_report(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            entry = CatalogEntry.from_source(
+                "dialogue", "dialogue:0x0401:10:0", "Hello", "gameplay", "cli"
+            )
+            catalog = root / "catalog.jsonl"
+            write_catalog(catalog, [entry])
+            table = root / "table.tsv"
+            write_runtime_table(
+                table,
+                [RuntimeRow(entry.kind, entry.key, entry.source_sha256, "你好")],
+            )
+            output = root / "review.html"
+
+            result = self._run(
+                "review-html", "--catalog", str(catalog), "--table", str(table),
+                "--output", str(output), "--model", "test-model",
+            )
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertTrue(output.exists())
+            self.assertIn("Needs modification", output.read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":

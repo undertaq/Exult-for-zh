@@ -7,6 +7,7 @@ import re
 from typing import Iterable
 
 from .catalog import CatalogEntry, normalize_source, source_sha256
+from .consistency import repeated_source_conflicts
 from .runtime_table import RuntimeRow, split_tsv_fields, unescape_field
 
 
@@ -441,6 +442,19 @@ def correctness_report(
                 issues.append(_issue(key=row.key, check="protected_term", severity="error", message=f"glossary term {english!r} must remain protected", source_location=location))
             elif policy == "forbidden" and english in row.zh:
                 issues.append(_issue(key=row.key, check="protected_term", severity="error", message=f"glossary term {english!r} must not appear in the translation", source_location=location))
+
+    for conflict in repeated_source_conflicts(catalog, rows):
+        source = str(conflict["source"])
+        translations = ", ".join(str(value) for value in conflict["translations"])
+        for kind, key in conflict["identities"]:
+            entry = catalog_by_identity.get((str(kind), str(key)))
+            issues.append(_issue(
+                key=str(key),
+                check="term_consistency",
+                severity="error",
+                message=f"repeated English source {source!r} has conflicting translations: {translations}",
+                source_location=_source_location(entry),
+            ))
 
     deterministic = {
         "issues": issues,

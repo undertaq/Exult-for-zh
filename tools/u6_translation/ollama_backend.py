@@ -20,6 +20,7 @@ class OllamaConfig:
     model: str = "qwen3.8:27b"
     timeout_seconds: float = 120.0
     retries: int = 3
+    think: bool = False
 
 
 class OllamaBackendError(RuntimeError):
@@ -37,6 +38,7 @@ class OllamaBackend:
     def _chat(self, system_prompt: str, user_payload: str) -> object:
         request_payload = {
             "model": self.config.model,
+            "think": self.config.think,
             "stream": False,
             "messages": [
                 {"role": "system", "content": system_prompt},
@@ -102,9 +104,10 @@ class OllamaBackend:
             raise ValueError("translation response keys do not match request batch")
         for entry in entries:
             record = by_key[entry.key]
-            if record["source_sha256"] != entry.source_sha256:
-                raise ValueError("translation source hash mismatch: " + entry.key)
-            ordered.append(record)
+            # The catalog, not the model, owns source identity. Models can
+            # mistype a copied digest while still returning the right keyed
+            # translation; normalize it to the request's authoritative hash.
+            ordered.append({**record, "source_sha256": entry.source_sha256})
         return ordered
 
     @staticmethod
@@ -145,9 +148,7 @@ class OllamaBackend:
         ordered: list[dict[str, object]] = []
         for entry in entries:
             record = by_key[entry.key]
-            if record["source_sha256"] != entry.source_sha256:
-                raise ValueError("review source hash mismatch: " + entry.key)
-            ordered.append(record)
+            ordered.append({**record, "source_sha256": entry.source_sha256})
         return ordered
 
     def translate_batch(self, entries: list[CatalogEntry]) -> list[dict[str, str]]:

@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any
 
 from .catalog import CatalogEntry, load_catalog
+from .consistency import canonicalize_repeated_translations
 from .ollama_backend import OllamaBackend
 from .prompts import glossary_sha256
 from .runtime_table import RuntimeRow, load_runtime_table, write_runtime_table
@@ -109,7 +110,11 @@ def translate_catalog(
     cache_path: Path,
     backend: OllamaBackend,
     prompt_version: str,
+    *,
+    batch_size: int = 8,
 ) -> None:
+    if batch_size <= 0:
+        raise ValueError("batch_size must be positive")
     catalog = load_catalog(catalog_path)
     model = _backend_model(backend)
     glossary_hash = glossary_sha256()
@@ -139,9 +144,12 @@ def translate_catalog(
         else:
             pending.append(entry)
 
-    if pending:
-        generated = _ordered_translation_response(pending, backend.translate_batch(pending))
-        for entry in pending:
+    for start in range(0, len(pending), batch_size):
+        batch = pending[start:start + batch_size]
+        if not batch:
+            continue
+        generated = _ordered_translation_response(batch, backend.translate_batch(batch))
+        for entry in batch:
             cache_key = make_cache_key(
                 operation="translate",
                 kind=entry.kind,
@@ -154,6 +162,40 @@ def translate_catalog(
             )
             translations[entry.key] = generated[entry.key]
             cache[cache_key] = generated[entry.key]
+        # Preserve completed model work if a later request is interrupted.
+        _write_cache(cache_path, cache)
+
+    # Exact repeated source strings form a safe translation-memory boundary.
+    # Canonicalize both fresh and cached rows so reruns cannot reintroduce drift.
+    canonical_records = canonicalize_repeated_translations(
+        catalog,
+        [
+            {"key": entry.key, "zh": translations[entry.key]["zh"]}
+            for entry in catalog
+        ],
+    )
+    cache_changed = False
+    for entry, canonical in zip(catalog, canonical_records):
+        zh = canonical.get("zh")
+        if not isinstance(zh, str):
+            continue
+        if translations[entry.key]["zh"] == zh:
+            continue
+        translations[entry.key] = {**translations[entry.key], "zh": zh}
+        cache_key = make_cache_key(
+            operation="translate",
+            kind=entry.kind,
+            key=entry.key,
+            context=entry.context,
+            source_sha256=entry.source_sha256,
+            model=model,
+            prompt_version=prompt_version,
+            glossary_hash=glossary_hash,
+        )
+        if cache_key in cache:
+            cache[cache_key] = {**cache[cache_key], "zh": zh}
+        cache_changed = True
+    if cache_changed:
         _write_cache(cache_path, cache)
 
     rows = [
