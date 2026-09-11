@@ -165,6 +165,20 @@ class AuditReportTest(unittest.TestCase):
         self.assertEqual(len(consistency), 2)
         self.assertTrue(all(issue["blocking"] for issue in consistency))
 
+    def test_blank_source_row_is_not_a_missing_or_empty_translation_failure(self) -> None:
+        entry = _entry("dialogue", "dialogue:0x0401:91:0", "")
+
+        report = correctness_report(
+            [entry],
+            [RuntimeRow(entry.kind, entry.key, entry.source_sha256, "")],
+            GLOSSARY,
+            None,
+        )
+
+        checks = {issue["check"] for issue in report["deterministic"]["issues"]}
+        self.assertNotIn("nonempty_zh", checks)
+        self.assertEqual(coverage_report([entry], [RuntimeRow(entry.kind, entry.key, entry.source_sha256, "")])["missing"], 0)
+
     def test_glossary_configures_protected_terms_and_traditional_policy(self) -> None:
         catalog = [_entry("misc", "misc:0x0050", "Avatar Rune")]
         row = RuntimeRow("misc", "misc:0x0050", catalog[0].source_sha256, "聖者 Rune 简")

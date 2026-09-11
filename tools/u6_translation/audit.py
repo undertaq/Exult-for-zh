@@ -117,10 +117,15 @@ def _coverage_for_kind(
     for entry in entries:
         identity = _identity(entry)
         matching = row_groups.get(identity, [])
-        if not matching or not any(row.zh.strip() for row in matching):
+        blank_source = not entry.source.strip()
+        if not matching or not any(row.zh.strip() or blank_source for row in matching):
             result["missing"] = int(result["missing"]) + 1
             missing_keys.append(entry.key)
-        valid = [row for row in matching if row.source_sha256 == entry.source_sha256 and bool(row.zh.strip())]
+        valid = [
+            row for row in matching
+            if row.source_sha256 == entry.source_sha256
+            and (bool(row.zh.strip()) or blank_source)
+        ]
         if valid:
             translated += 1
             translated_length += len(normalize_source(entry.source))
@@ -391,7 +396,7 @@ def correctness_report(
             continue
         if row.source_sha256 != entry.source_sha256:
             issues.append(_issue(key=row.key, check="source_hash", severity="error", message="runtime source hash does not match catalog", source_location=location))
-        if not row.zh.strip():
+        if not row.zh.strip() and entry.source.strip():
             issues.append(_issue(key=row.key, check="nonempty_zh", severity="error", message="Chinese translation is empty", source_location=location))
             continue
 

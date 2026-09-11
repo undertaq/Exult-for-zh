@@ -207,6 +207,20 @@ class TranslationPipelineTest(unittest.TestCase):
             )
             self.assertEqual(len(load_runtime_table(root / "translations.tsv")), 4)
 
+    def test_translate_skips_blank_source_rows_without_calling_model(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            entry = _entry("dialogue", "dialogue:0x0401:90:0", "")
+            catalog = root / "catalog.jsonl"
+            write_catalog(catalog, [entry])
+            backend = _FakeBackend({})
+
+            translate_catalog(catalog, root / "translations.tsv", root / "cache.json", backend, "prompt-v1")
+
+            self.assertEqual(backend.translation_calls, [])
+            row = load_runtime_table(root / "translations.tsv")[0]
+            self.assertEqual(row.zh, "")
+
     def test_review_is_advisory_jsonl_and_does_not_overwrite_candidate_table(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

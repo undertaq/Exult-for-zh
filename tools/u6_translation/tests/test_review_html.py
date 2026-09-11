@@ -75,6 +75,20 @@ class ReviewHtmlTest(unittest.TestCase):
             self.assertTrue(output.exists())
             self.assertIn("U6 Translation Review", output.read_text(encoding="utf-8"))
 
+    def test_blank_source_row_is_accepted_by_default(self) -> None:
+        entry = CatalogEntry.from_source(
+            "dialogue", "dialogue:0x0401:11:0", "", "gameplay", "fixture"
+        )
+
+        html = build_review_html(
+            [entry],
+            [RuntimeRow(entry.kind, entry.key, entry.source_sha256, "")],
+            model="test-model",
+            prompt_version="test-prompt",
+        )
+
+        self.assertIn('"status": "approved"', html)
+
 
 if __name__ == "__main__":
     unittest.main()

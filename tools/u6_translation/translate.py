@@ -142,6 +142,14 @@ def translate_catalog(
     pending: list[CatalogEntry] = []
 
     for entry in catalog:
+        if not entry.source.strip():
+            translations[entry.key] = {
+                "key": entry.key,
+                "source_sha256": entry.source_sha256,
+                "zh": entry.source,
+                "status": "skipped-empty",
+            }
+            continue
         cache_key = make_cache_key(
             operation="translate",
             kind=entry.kind,
