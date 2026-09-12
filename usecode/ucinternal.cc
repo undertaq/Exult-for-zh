@@ -632,6 +632,24 @@ void Usecode_internal::say_string() {
 	const int voice_speaker_npc = voice_current_face_npc != VOICE_NO_FACE
 	                            ? voice_current_face_npc
 	                            : voice_caller_npc;
+	int speaker_id = voice_speaker_npc == VOICE_NO_FACE
+			? 0
+			: std::abs(voice_speaker_npc);
+	std::string speaker_name;
+	Actor* speaker_actor = nullptr;
+	if (voice_current_face_npc != VOICE_NO_FACE) {
+		speaker_actor = gwin->get_npc(std::abs(voice_current_face_npc));
+	}
+	if (!speaker_actor && caller_item) {
+		speaker_actor = caller_item->as_actor();
+	}
+	if (!speaker_actor && voice_speaker_npc == 0) {
+		speaker_actor = gwin->get_main_actor();
+	}
+	if (speaker_actor) {
+		speaker_id = speaker_actor->get_npc_num();
+		speaker_name = speaker_actor->get_npc_name();
+	}
 
 	// Build the offset key from the voice_string_trace. Includes addsi
 	// entries from the current function plus pushs entries from caller
@@ -720,6 +738,7 @@ void Usecode_internal::say_string() {
 		GameplayTranslationManager& translations = GameplayTranslationManager::get();
 		translations.record_runtime_source(
 				GameplayTranslationKind::Dialogue, key, english);
+		translations.record_runtime_speaker(key, speaker_id, speaker_name);
 		const std::string display = translations.translate(
 				GameplayTranslationKind::Dialogue, key, english);
 		conv->show_npc_message(display.c_str());

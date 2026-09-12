@@ -12,6 +12,7 @@ from .ollama_backend import OllamaBackend, OllamaConfig
 from .prompts import PROMPT_VERSION
 from .review_html import write_review_html
 from .runtime_table import load_runtime_table
+from .speaker_map import load_speaker_capture, speaker_map_from_capture
 from .translate import translate_catalog
 
 def main(argv=None):
@@ -39,6 +40,10 @@ def main(argv=None):
     review_html.add_argument("--output", required=True); review_html.add_argument("--model", default="qwen3.8:27b")
     review_html.add_argument("--prompt-version", default=PROMPT_VERSION); review_html.add_argument("--audit")
     review_html.add_argument("--speaker-map", help="JSON mapping of dialogue identity to speaker name")
+    review_html.add_argument(
+        "--speaker-capture",
+        help="runtime U6 speaker capture TSV; overrides static map entries",
+    )
     # Task 6/7 accepted a bare catalog path; retain that invocation.
     if argv is None:
         import sys
@@ -94,6 +99,11 @@ def main(argv=None):
                 speaker_map = speaker_map["speakers"]
             if not isinstance(speaker_map, dict):
                 raise ValueError("speaker map must be a JSON object")
+        if args.speaker_capture:
+            runtime_speakers = speaker_map_from_capture(
+                load_speaker_capture(Path(args.speaker_capture))
+            )
+            speaker_map = {**(speaker_map or {}), **runtime_speakers}
         write_review_html(
             Path(args.output),
             load_catalog(Path(args.catalog)),

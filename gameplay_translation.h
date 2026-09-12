@@ -35,6 +35,8 @@ public:
 			std::string_view key, std::string_view english);
 	void record_runtime_source(GameplayTranslationKind kind,
 			std::string_view key, std::string_view english);
+	void record_runtime_speaker(std::string_view key, int speaker_id,
+			std::string_view speaker_name);
 	TranslationDiagnostics diagnostics() const;
 
 private:
@@ -49,6 +51,8 @@ private:
 	bool legacy_alternate_usecode_active_ = false;
 	std::unique_ptr<std::ostream> catalog_stream_;
 	std::set<std::string> catalog_rows_;
+	std::unique_ptr<std::ostream> speaker_stream_;
+	std::set<std::string> speaker_rows_;
 };
 
 std::string make_dialogue_translation_key(

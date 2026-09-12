@@ -20,7 +20,17 @@ appear only when that English-format resource exists.
 The deterministic indexed fixture under `tools/u6_translation/tests/fixtures/indexed_mod`
 is the supported extraction test input.
 
-The runtime capture is enabled by `config/debug/translation/catalog_capture` and writes to the path configured by `config/debug/translation/catalog_path`. Capture rows use the runtime catalog format and retain the original English source, including choice answers.
+The runtime capture is enabled by `config/debug/translation/catalog_capture` and writes the source catalog to the path configured by `config/debug/translation/catalog_path`. It also writes `u6_runtime_speakers.tsv` by default; configure `config/debug/translation/speaker_path` to choose another relative `GAMEDAT` path. The speaker sidecar is populated by the running U6 actor/face context, so it does not depend on voice playback being enabled. Capture rows retain the original English source, including choice answers.
+
+The speaker sidecar uses this format:
+
+```text
+# u6-runtime-speakers-v1
+# kind\tkey\tspeaker_id\tspeaker
+dialogue\tdialogue:0x0401:1a_2f:0\t17\tIolo
+```
+
+Static usecode disassembly is not used as the authoritative U6 speaker source. Dialogue that was not visited while capture was enabled remains explicitly unresolved until runtime coverage is collected.
 
 ## Extract
 
@@ -87,10 +97,15 @@ show row-level findings in the page:
 python3 -m tools.u6_translation review-html \
   --catalog /tmp/u6_catalog.jsonl --table /tmp/u6_candidates.tsv \
   --audit /tmp/u6_audit.json --model "$OLLAMA_MODEL" \
+  --speaker-capture /path/to/u6_runtime_speakers.tsv \
   --output reports/u6_translation_review_qwen3.8_27b.html
 ```
 
-The optional speaker map is a JSON object keyed by `dialogue<TAB><dialogue-key>`
+The optional `--speaker-capture` is the preferred U6 attribution source. A runtime
+name overrides a static map entry; conflicting runtime names are shown as
+`Ambiguous · name1 / name2`. Numeric-only observations remain labeled
+`Unresolved · NPC <id>`. The legacy `--speaker-map` is still accepted as a
+fallback JSON object keyed by `dialogue<TAB><dialogue-key>`
 (or by the dialogue key alone), for example
 `{"dialogue\\tdialogue:0x0401:10:0":"Iolo"}`. It may also be wrapped as
 `{"speakers": {...}}`.

@@ -177,6 +177,42 @@ class TranslationCliTest(unittest.TestCase):
             self.assertTrue(output.exists())
             self.assertIn("Needs modification", output.read_text(encoding="utf-8"))
 
+    def test_review_html_prefers_runtime_speaker_capture_over_static_map(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            entry = CatalogEntry.from_source(
+                "dialogue", "dialogue:0x0401:10:0", "Hello", "gameplay", "cli"
+            )
+            catalog = root / "catalog.jsonl"
+            write_catalog(catalog, [entry])
+            table = root / "table.tsv"
+            write_runtime_table(
+                table,
+                [RuntimeRow(entry.kind, entry.key, entry.source_sha256, "你好")],
+            )
+            static_map = root / "static-speakers.json"
+            static_map.write_text(
+                json.dumps({entry.key: "Static speaker"}), encoding="utf-8"
+            )
+            capture = root / "speakers.tsv"
+            capture.write_text(
+                "# u6-runtime-speakers-v1\n"
+                "dialogue\tdialogue:0x0401:10:0\t1\tRuntime speaker\n",
+                encoding="utf-8",
+            )
+            output = root / "review.html"
+
+            result = self._run(
+                "review-html", "--catalog", str(catalog), "--table", str(table),
+                "--output", str(output), "--speaker-map", str(static_map),
+                "--speaker-capture", str(capture),
+            )
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            html = output.read_text(encoding="utf-8")
+            self.assertIn("Runtime speaker", html)
+            self.assertNotIn("Static speaker", html)
+
 
 if __name__ == "__main__":
     unittest.main()

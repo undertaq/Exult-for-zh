@@ -19,6 +19,10 @@ constexpr char kCatalogHeader[] =
 		"# u6-runtime-catalog-v1\n"
 		"# kind\tkey\tsource_sha256\tenglish\n";
 constexpr char kDefaultCatalogPath[] = "u6_runtime_catalog.tsv";
+constexpr char kSpeakerHeader[] =
+		"# u6-runtime-speakers-v1\n"
+		"# kind\tkey\tspeaker_id\tspeaker\n";
+constexpr char kDefaultSpeakerPath[] = "u6_runtime_speakers.tsv";
 
 std::string format_hex_id(int value) {
 	std::ostringstream output;
@@ -105,6 +109,23 @@ void GameplayTranslationManager::init() {
 						<< catalog_path << ": " << exception.what() << std::endl;
 			}
 		}
+
+		std::string speaker_path;
+		config->value("config/debug/translation/speaker_path", speaker_path,
+				kDefaultSpeakerPath);
+		if (capture && !speaker_path.empty()
+				&& is_safe_catalog_path(speaker_path)) {
+			try {
+				const std::string path = std::string(GAMEDAT) + speaker_path;
+				speaker_stream_ = U7open_out(path.c_str(), true);
+				if (speaker_stream_) {
+					*speaker_stream_ << kSpeakerHeader << std::flush;
+				}
+			} catch (const std::exception& exception) {
+				std::cerr << "[GameplayTranslation] Failed to open speaker "
+						<< speaker_path << ": " << exception.what() << std::endl;
+			}
+		}
 	}
 #endif
 }
@@ -125,6 +146,8 @@ bool is_safe_catalog_path(std::string_view path) {
 void GameplayTranslationManager::shutdown() {
 	catalog_stream_.reset();
 	catalog_rows_.clear();
+	speaker_stream_.reset();
+	speaker_rows_.clear();
 	table_ = GameplayTranslationTable();
 	diagnostics_ = TranslationDiagnostics();
 	table_valid_ = false;
@@ -206,6 +229,26 @@ void GameplayTranslationManager::record_runtime_source(
 			<< escape_translation_field(english) << '\n' << std::flush;
 	if (!*catalog_stream_) {
 		catalog_stream_.reset();
+	}
+}
+
+void GameplayTranslationManager::record_runtime_speaker(
+		std::string_view key, int speaker_id, std::string_view speaker_name) {
+	if (!speaker_stream_) {
+		return;
+	}
+
+	const std::string identity = std::string(key) + '\0'
+			+ std::to_string(speaker_id) + '\0' + std::string(speaker_name);
+	if (!speaker_rows_.insert(identity).second) {
+		return;
+	}
+
+	*speaker_stream_ << "dialogue\t" << escape_translation_field(key) << '\t'
+			<< speaker_id << '\t' << escape_translation_field(speaker_name)
+			<< '\n' << std::flush;
+	if (!*speaker_stream_) {
+		speaker_stream_.reset();
 	}
 }
 

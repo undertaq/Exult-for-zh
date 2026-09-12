@@ -77,6 +77,34 @@ void assert_safe_catalog_paths() {
 	assert(!is_safe_catalog_path("../catalog.tsv"));
 }
 
+void assert_runtime_speaker_capture_source_policy() {
+	std::ifstream translation_header("gameplay_translation.h");
+	const std::string header(
+			(std::istreambuf_iterator<char>(translation_header)),
+			std::istreambuf_iterator<char>());
+	assert(!header.empty());
+	assert(header.find("record_runtime_speaker(") != std::string::npos);
+
+	std::ifstream translation_source("gameplay_translation.cc");
+	const std::string implementation(
+			(std::istreambuf_iterator<char>(translation_source)),
+			std::istreambuf_iterator<char>());
+	assert(!implementation.empty());
+	assert(implementation.find("u6-runtime-speakers-v1") != std::string::npos);
+	assert(implementation.find("u6_runtime_speakers.tsv") != std::string::npos);
+	assert(implementation.find("config/debug/translation/speaker_path")
+			!= std::string::npos);
+
+	std::ifstream ucinternal_source("usecode/ucinternal.cc");
+	const std::string ucinternal(
+			(std::istreambuf_iterator<char>(ucinternal_source)),
+			std::istreambuf_iterator<char>());
+	assert(!ucinternal.empty());
+	assert(ucinternal.find("record_runtime_speaker(") != std::string::npos);
+	assert(ucinternal.find("gwin->get_npc(") != std::string::npos);
+	assert(ucinternal.find("get_npc_name()") != std::string::npos);
+}
+
 void assert_conversation_display_changes_only_copy_get_answer_stays_byte_for_byte_identical() {
 	std::ifstream conversation_header("usecode/conversation.h");
 	const std::string header(
@@ -193,6 +221,7 @@ int main() {
 	assert_usecode_fallback_policy();
 	assert_table_only_active_machine_source_policy();
 	assert_safe_catalog_paths();
+	assert_runtime_speaker_capture_source_policy();
 
 	assert(sha256_hex("abc") == kAbcSha256);
 	assert(normalize_translation_source("a\r\nb\rc") == "a\nb\nc");
