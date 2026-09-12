@@ -27,7 +27,7 @@ fi
 SDL3_PREFIX="/tmp/sdl3-install"
 SDL3_PC="$SDL3_PREFIX/lib/pkgconfig/sdl3.pc"
 if ! PKG_CONFIG_PATH="$PKG_CONFIG_PATH_EXTRA" pkg-config --exists sdl3 2>/dev/null; then
-    if [ -f "$SDL3_PC" ]; then
+    if [ -f "$SDL3_PC" ] && grep -q "^prefix=$SDL3_PREFIX$" "$SDL3_PC"; then
         PKG_CONFIG_PATH_EXTRA="$SDL3_PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH_EXTRA"
         echo "Using SDL3 from $SDL3_PREFIX"
     else
@@ -36,7 +36,10 @@ if ! PKG_CONFIG_PATH="$PKG_CONFIG_PATH_EXTRA" pkg-config --exists sdl3 2>/dev/nu
         if [ ! -d "$SDL3_SRC" ]; then
             git clone --depth 1 --branch main https://github.com/libsdl-org/SDL.git "$SDL3_SRC"
         fi
-        cmake -B "$SDL3_SRC/build" -DCMAKE_BUILD_TYPE=Release -DSDL_STATIC=OFF -DSDL_UNIX_CONSOLE_BUILD=ON -DSDL_X11_XTEST=OFF
+        cmake -S "$SDL3_SRC" -B "$SDL3_SRC/build" \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX="$SDL3_PREFIX" \
+            -DSDL_STATIC=OFF -DSDL_UNIX_CONSOLE_BUILD=ON -DSDL_X11_XTEST=OFF
         cmake --build "$SDL3_SRC/build" -j"$(nproc)"
         cmake --install "$SDL3_SRC/build" --prefix "$SDL3_PREFIX"
         PKG_CONFIG_PATH_EXTRA="$SDL3_PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH_EXTRA"
@@ -51,8 +54,21 @@ if [ -d "$LOCAL_PC" ]; then
 fi
 
 export PKG_CONFIG_PATH="$PKG_CONFIG_PATH_EXTRA"
-export CFLAGS="-I$LOCAL_ROOT/usr/include"
-export CXXFLAGS="-I$LOCAL_ROOT/usr/include"
+LOCAL_INCLUDE_FLAGS="-I$LOCAL_ROOT/usr/include"
+for include_dir in freetype2 libpng16; do
+    if [ -d "$LOCAL_ROOT/usr/include/$include_dir" ]; then
+        LOCAL_INCLUDE_FLAGS="$LOCAL_INCLUDE_FLAGS -I$LOCAL_ROOT/usr/include/$include_dir"
+    fi
+done
+export CFLAGS="$LOCAL_INCLUDE_FLAGS ${CFLAGS:-}"
+export CXXFLAGS="$LOCAL_INCLUDE_FLAGS ${CXXFLAGS:-}"
+LOCAL_LIB_DIR="$LOCAL_ROOT/usr/lib/x86_64-linux-gnu"
+if [ -f "$LOCAL_LIB_DIR/libfreetype.a" ]; then
+    # The staged FreeType archive has Brotli and BZip2 dependencies that are
+    # normally supplied by freetype2.pc's private dependencies.
+    export LDFLAGS="-L$LOCAL_LIB_DIR ${LDFLAGS:-}"
+    export LIBS="-lbrotlidec -lbrotlicommon -lbz2 ${LIBS:-}"
+fi
 
 # --- Regenerate configure if needed ---
 if [ ! -f configure ] || [ configure.ac -nt configure ]; then
@@ -60,11 +76,13 @@ if [ ! -f configure ] || [ configure.ac -nt configure ]; then
     autoreconf -v -i
 fi
 
-# --- Configure if needed ---
-if [ ! -f config.status ]; then
-    echo "Running ./configure ..."
-    ./configure
-fi
+# --- Configure ---
+# SDL3 may have been installed by this invocation, and an existing
+# config.status can contain empty/stale SDL_CFLAGS and SDL_LIBS. Re-run
+# configure after establishing PKG_CONFIG_PATH so the generated Makefiles
+# always use the SDL3 installation selected above.
+echo "Running ./configure ..."
+./configure
 
 # --- Build ---
 echo "Running make -j$(nproc) ..."
