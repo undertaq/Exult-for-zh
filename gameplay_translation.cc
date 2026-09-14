@@ -71,7 +71,13 @@ void GameplayTranslationManager::init() {
 	legacy_alternate_usecode_active_ = bilingual.is_bilingual_available()
 			|| bilingual.is_dual_available();
 
-	if (is_system_path_defined("<PATCH>") && U7exists(kTranslationTablePath)) {
+	if (!is_system_path_defined("<PATCH>")) {
+		std::cerr << "[GameplayTranslation] <PATCH> is not defined; translation "
+				<< "table disabled" << std::endl;
+	} else if (!U7exists(kTranslationTablePath)) {
+		std::cerr << "[GameplayTranslation] Translation table not found at "
+				<< get_system_path(kTranslationTablePath) << std::endl;
+	} else {
 		try {
 			std::unique_ptr<std::istream> input =
 					U7open_in(kTranslationTablePath, true);
@@ -80,6 +86,10 @@ void GameplayTranslationManager::init() {
 				if (!load_table(*input, error)) {
 					std::cerr << "[GameplayTranslation] Failed to load "
 							<< kTranslationTablePath << ": " << error << std::endl;
+				} else {
+					std::cout << "[GameplayTranslation] Loaded " << table_.size()
+							<< " rows from " << get_system_path(kTranslationTablePath)
+							<< std::endl;
 				}
 			}
 		} catch (const std::exception& exception) {
