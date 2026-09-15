@@ -13,8 +13,8 @@ from .runtime_table import RuntimeRow, split_tsv_fields, unescape_field
 
 KINDS = ("dialogue", "choice", "textmsg", "item", "location", "misc", "spell")
 _KEY_PATTERNS = {
-    "dialogue": re.compile(r"^dialogue:0x[0-9a-f]{4}:[0-9a-f]+(?:_[0-9a-f]+)*:\d+$"),
-    "choice": re.compile(r"^choice:0x[0-9a-f]{4}:(?:0x[0-9a-f]{4}|unbound):\d+$"),
+    "dialogue": re.compile(r"^dialogue:0x[0-9a-f]{4}:(?:[0-9a-f]+|template_[a-z0-9_]+)(?:_(?:[0-9a-f]+|template_[a-z0-9_]+))*:\d+$"),
+    "choice": re.compile(r"^choice:0x[0-9a-f]{4}:(?:0x[0-9a-f]+|unbound):\d+$"),
     "item": re.compile(r"^item:0x[0-9a-f]{4}:\d+:\d+$"),
     "textmsg": re.compile(r"^textmsg:0x[0-9a-f]+$"),
     "location": re.compile(r"^location:0x[0-9a-f]+$"),

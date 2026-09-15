@@ -586,6 +586,7 @@ void Usecode_internal::show_book() {
 	book->add_text(str);
 	delete[] String;
 	String = nullptr;
+	voice_string_parts.clear();
 }
 
 /*
@@ -727,44 +728,214 @@ void Usecode_internal::say_string() {
 	}
 	voice_string_trace.clear();
 
+	GameplayTranslationManager& translations = GameplayTranslationManager::get();
+	auto translate_dialogue_fragment = [&]() {
+		// Dynamic U6 questions can be assembled from several usecode values.
+		// Their runtime offset may differ from the static UCXT offset, so first
+		// match the complete assembled source against the translation catalog.
+		if (const auto source_translation =
+				translations.translate_dialogue_by_source_if_available(String);
+				source_translation.has_value()) {
+			return *source_translation;
+		}
+
+		// The gypsy's destiny line is assembled as one runtime string with the
+		// Avatar name embedded in it, so it has no per-fragment trace. Match its
+		// source template and substitute the runtime name in the translation.
+		constexpr std::string_view gypsy_destiny_template =
+				"@The path of the Avatar lies beneath thy feet, worthy "
+				"<PLAYER_NAME>@, the gypsy intones. With a mysterious smile, "
+				"she passes you the flask of shimmering liquids.";
+		if (const auto template_translation =
+				translations.translate_dialogue_template_if_available(
+						String, gypsy_destiny_template, "<PLAYER_NAME>");
+				template_translation.has_value()) {
+			return *template_translation;
+		}
+
+		// Iolo's opening greeting is emitted by the active U6 usecode as one
+		// runtime string, with the Avatar's name already embedded. Its static
+		// prefix/suffix entries therefore cannot identify the complete line.
+		constexpr std::string_view iolo_greeting_template =
+				"@Well, <PLAYER_NAME>, do you need help with something? Or maybe "
+				"you've got time for a story, eh?@";
+		if (const auto template_translation =
+				translations.translate_dialogue_template_if_available(
+						String, iolo_greeting_template, "<PLAYER_NAME>");
+				template_translation.has_value()) {
+			return *template_translation;
+		}
+
+		// Dupre's first response is also assembled from a static prefix, the
+		// Avatar name, and a suffix before it is spoken as one string. Match the
+		// complete source template so the translated greeting is not split apart.
+		constexpr std::string_view dupre_greeting_template =
+				"@Yes, <PLAYER_NAME>?@";
+		if (const auto template_translation =
+				translations.translate_dialogue_template_if_available(
+						String, dupre_greeting_template, "<PLAYER_NAME>");
+				template_translation.has_value()) {
+			return *template_translation;
+		}
+
+		// Lord British's return greeting and the later Honesty line are built
+		// by concatenating the Avatar name with the complete static suffix
+		// before one ADDSV.  The interpreter therefore cannot retain a trace
+		// for the suffix; match the complete source templates explicitly.
+		constexpr std::string_view lord_british_return_greeting_template =
+				"@<PLAYER_NAME>! 'Tis good to see thee again. Much hath happened since "
+				"thou last departed our realm.@";
+		if (const auto template_translation =
+				translations.translate_dialogue_template_if_available(
+						String, lord_british_return_greeting_template, "<PLAYER_NAME>");
+				template_translation.has_value()) {
+			return *template_translation;
+		}
+
+		constexpr std::string_view lord_british_honesty_template =
+				"@<PLAYER_NAME>, I knowest Honesty is one of the virtues and all..@";
+		if (const auto template_translation =
+				translations.translate_dialogue_template_if_available(
+						String, lord_british_honesty_template, "<PLAYER_NAME>");
+				template_translation.has_value()) {
+			return *template_translation;
+		}
+
+		// Other questions are assembled from static addsi text and one or more
+		// addsv values. Build the same placeholder form used by the catalog so
+		// a single translation can cover the complete sentence. Dynamic values
+		// are translated by source when a safe, unique row exists; names and
+		// other values remain unchanged when they have no translation.
+		const std::size_t source_length = strlen(String);
+		std::size_t source_pos = 0;
+		std::string source_template;
+		std::vector<std::pair<std::string, std::string>> substitutions;
+		bool has_dynamic_value = false;
+		std::size_t variable_index = 0;
+		for (const auto& part : voice_string_parts) {
+			const std::size_t part_end = part.source_start + part.source.size();
+			if (part.source_start != source_pos || part_end > source_length) {
+				return std::string();
+			}
+			if (part.translation_key.empty()) {
+				const std::string placeholder =
+						"<VAR" + std::to_string(variable_index++) + ">";
+				source_template += placeholder;
+				substitutions.emplace_back(
+						placeholder,
+						translations.translate_by_source(
+								GameplayTranslationKind::Dialogue, part.source));
+				has_dynamic_value = true;
+			} else {
+				source_template += part.source;
+			}
+			source_pos = part_end;
+		}
+		if (has_dynamic_value && !substitutions.empty()
+				&& source_pos == source_length) {
+			if (const auto template_translation =
+					translations.translate_dialogue_template_if_available(
+							String, source_template, substitutions);
+					template_translation.has_value()) {
+				return *template_translation;
+			}
+		}
+
+		source_pos = 0;
+		std::string translated;
+		for (const auto& part : voice_string_parts) {
+			const std::size_t part_end = part.source_start + part.source.size();
+			if (part.source_start != source_pos || part_end > source_length) {
+				return std::string();
+			}
+			if (part.translation_key.empty()) {
+				translated += translations.translate_by_source(
+						GameplayTranslationKind::Dialogue, part.source);
+			} else {
+				translated += translations.translate(
+						GameplayTranslationKind::Dialogue, part.translation_key,
+						part.source);
+			}
+			source_pos = part_end;
+		}
+		if (voice_string_parts.empty() || source_pos != source_length) {
+			return std::string();
+		}
+		auto marker_count = [](const std::string& text, char marker) {
+			return std::count(text.begin(), text.end(), marker);
+		};
+		if (marker_count(translated, '~') != marker_count(String, '~')
+				|| marker_count(translated, '*') != marker_count(String, '*')) {
+			return std::string();
+		}
+		return translated;
+	};
+	const std::string translated_dialogue = translate_dialogue_fragment();
+
 	int segment = 0;
-	auto show_dialogue_segment = [&](char* english) {
+	auto show_dialogue_segment = [&](char* english, const std::string& translated) {
 		const int segment_index = segment++;
 		VoiceActingManager::play_for_conversation(
 				voice_func_id, voice_offset_key, segment_index, english,
 				voice_speaker_npc, voice_caller_npc);
 		const std::string key = make_dialogue_translation_key(
 				voice_func_id, voice_offset_key, segment_index);
-		GameplayTranslationManager& translations = GameplayTranslationManager::get();
 		translations.record_runtime_source(
 				GameplayTranslationKind::Dialogue, key, english);
 		translations.record_runtime_speaker(key, speaker_id, speaker_name);
-		const std::string display = translations.translate(
-				GameplayTranslationKind::Dialogue, key, english);
+		const std::string display = translated.empty()
+				? translations.translate(
+						GameplayTranslationKind::Dialogue, key, english)
+				: translated;
 		conv->show_npc_message(display.c_str());
 		click_to_continue();
 	};
 	char* str = String;
+	std::size_t translated_pos = 0;
 	while (*str) {            // Look for stopping points ("~~").
 		if (*str == '*') {    // Just gets an extra click.
 			click_to_continue();
 			str++;
+			if (!translated_dialogue.empty() && translated_pos < translated_dialogue.size()
+					&& translated_dialogue[translated_pos] == '*') {
+				translated_pos++;
+			}
 			continue;
 		}
 		char* eol = strchr(str, '~');
+		std::string translated_segment;
+		if (!translated_dialogue.empty()) {
+			const std::size_t translated_eol =
+					translated_dialogue.find('~', translated_pos);
+			if ((eol && translated_eol != std::string::npos)
+					|| (!eol && translated_eol == std::string::npos)) {
+				translated_segment = translated_dialogue.substr(
+						translated_pos,
+						eol ? translated_eol - translated_pos
+							 : translated_dialogue.size() - translated_pos);
+				if (eol) {
+					translated_pos = translated_eol + 1;
+				}
+			}
+		}
 		if (!eol) {    // Not found?
-			show_dialogue_segment(str);
+			show_dialogue_segment(str, translated_segment);
 			break;
 		}
 		*eol = 0;
-		show_dialogue_segment(str);
+		show_dialogue_segment(str, translated_segment);
 		str = eol + 1;
 		if (*str == '~') {
 			str++;    // 2 in a row.
+			if (!translated_dialogue.empty() && translated_pos < translated_dialogue.size()
+					&& translated_dialogue[translated_pos] == '~') {
+				translated_pos++;
+			}
 		}
 	}
 	delete[] String;
 	String = nullptr;
+	voice_string_parts.clear();
 }
 
 /*
@@ -1838,6 +2009,23 @@ int Usecode_internal::get_user_choice_num() {
 	}
 	conv->set_choice_context(choice_function_id, choice_callsite_offset);
 	conv->show_avatar_choices();
+	// Conversation choice rectangles are already in the input coordinate space
+	// expected by game_to_screen(), including the image-window offset when
+	// deferred text rendering is active.
+	auto choice_visual_rect = [this](int index) {
+		return conv->get_choice_rect(index);
+	};
+	// Mouse coordinates are the cursor hotspot. Shift that hotspot so the
+	// whole hand sprite, rather than its upper-left tip, is centered on the
+	// choice row. This keeps the hand from being rendered below the text.
+	auto center_cursor_on_choice = [](int& cx, int& cy) {
+		Shape_frame* cursor_frame = Mouse::mouse()->get_current_frame();
+		if (!cursor_frame) {
+			return;
+		}
+		cx += (cursor_frame->get_xleft() - cursor_frame->get_xright()) / 2;
+		cy += (cursor_frame->get_yabove() - cursor_frame->get_ybelow()) / 2;
+	};
 	int x;
 	int y;    // Get click.
 	int choice_num;
@@ -1863,10 +2051,11 @@ int Usecode_internal::get_user_choice_num() {
 		}
 
 		hover_index = closest_index;
-		TileRect rect = conv->get_choice_rect(hover_index);
+		TileRect rect = choice_visual_rect(hover_index);
 		if (rect.w > 0) {
 			int cx = rect.x + rect.w / 2;
 			int cy = rect.y + rect.h / 2;
+			center_cursor_on_choice(cx, cy);
 			int sx, sy;
 			gwin->get_win()->game_to_screen(cx, cy, gwin->get_fastmouse(), sx, sy);
 			SDL_WarpMouseInWindow(gwin->get_win()->get_screen_window(), (float)sx, (float)sy);
@@ -1988,10 +2177,11 @@ int Usecode_internal::get_user_choice_num() {
 					}
 				}
 
-				TileRect rect = conv->get_choice_rect(hover_index);
+				TileRect rect = choice_visual_rect(hover_index);
 				if (rect.w > 0) {
 					int cx_new = rect.x + rect.w / 2;
 					int cy_new = rect.y + rect.h / 2;
+					center_cursor_on_choice(cx_new, cy_new);
 					int sx, sy;
 					gwin->get_win()->game_to_screen(cx_new, cy_new, gwin->get_fastmouse(), sx, sy);
 					SDL_WarpMouseInWindow(gwin->get_win()->get_screen_window(), (float)sx, (float)sy);
@@ -2055,9 +2245,10 @@ Usecode_internal::Usecode_internal() : stack(new Usecode_value[1024]) {
 		std::cerr << "Warning (map-editing): Couldn't open '" << USECODE << "'" << endl;
 	}
 
-	// Get custom usecode functions (Chinese translation patch).
-	bool in_game = (Game::get_game_type() != NONE && Game::get_game_type() != EXULT_MENU_GAME);
-	if (is_system_path_defined("<PATCH>") && U7exists(PATCH_USECODE) && !(in_game && !Game::is_chinese_mode())) {
+	// Get custom usecode functions from the selected game/mod patch.  A patch
+	// contains gameplay code as well as translated text, so it is required in
+	// every language mode.
+	if (is_system_path_defined("<PATCH>") && U7exists(PATCH_USECODE)) {
 		auto pFile = U7open_in(PATCH_USECODE);
 		if (!pFile) {
 			throw file_open_exception(PATCH_USECODE);
@@ -2082,8 +2273,13 @@ void Usecode_internal::read_usecode(
 	const int size = file.tellg();    // Get file size.
 	file.seekg(0);
 	if (Usecode_symbol_table::has_symbol_table(file)) {
-		delete symtbl;
-		symtbl = new Usecode_symbol_table();
+		// A patch may add symbols without repeating the base or alternate
+		// language symbol table.  Keep both tables available while applying
+		// it; a non-patch load still replaces the active table during reload.
+		if (!patch || !symtbl) {
+			delete symtbl;
+			symtbl = new Usecode_symbol_table();
+		}
 		symtbl->read(file);
 	}
 	// Read in all the functions.
@@ -2449,7 +2645,7 @@ int Usecode_internal::run() {
 				break;
 			}
 			case UC_ADDSI:      // ADDSI.
-			case UC_ADDSI32:    // ADDSI32
+			case UC_ADDSI32: {  // ADDSI32
 				if (opcode < UC_EXTOPCODE) {
 					offset = little_endian::Read2(frame->ip);
 				} else {
@@ -2459,9 +2655,19 @@ int Usecode_internal::run() {
 					DATA_SEGMENT_ERROR();
 					break;
 				}
-				append_string(frame->data + offset);
+				const char* const static_text =
+						reinterpret_cast<const char*>(frame->data + offset);
+				const std::size_t source_start = String ? strlen(String) : 0;
+				append_string(static_text);
 				voice_string_trace.push_back({frame->function->id, offset});
+				char offset_hex[16];
+				std::snprintf(offset_hex, sizeof(offset_hex), "%x", offset);
+				voice_string_parts.push_back({
+						source_start, static_text,
+						make_dialogue_translation_key(
+								frame->function->id, offset_hex, 0)});
 				break;
+			}
 			case UC_PUSHS:      // PUSHS.
 			case UC_PUSHS32:    // PUSHS32
 				if (opcode < UC_EXTOPCODE) {
@@ -2825,6 +3031,7 @@ int Usecode_internal::run() {
 				// your party, Avatar?".
 				if (*str && BilingualManager::get().is_zh_text() && String != nullptr
 				    && strstr(String, "<VAR>") != nullptr) {
+					voice_string_parts.clear();
 					std::string s(String);
 					const std::string tok("<VAR>");
 					std::string       val(str);
@@ -2902,7 +3109,9 @@ int Usecode_internal::run() {
 					String = new char[s.size() + 1];
 					memcpy(String, s.c_str(), s.size() + 1);
 				} else {
+					const std::size_t source_start = String ? strlen(String) : 0;
 					append_string(str);
+					voice_string_parts.push_back({source_start, str, {}});
 				}
 				break;
 			}			case UC_IN: {    // IN.  Is a val. in an array?

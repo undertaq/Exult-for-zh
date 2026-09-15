@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 import json
 from pathlib import Path
 import re
@@ -22,8 +22,21 @@ def make_item_key(shape: int, frame: int, quality: int) -> str:
     return f"item:0x{shape:04x}:{frame}:{quality}"
 
 
+def _split_runtime_segments_with_ordinals(source: str) -> list[tuple[int, str]]:
+    segments = []
+    ordinal = 0
+    for segment in source.split("~"):
+        if not segment:
+            continue
+        segment = segment.lstrip("*")
+        segments.append((ordinal, segment))
+        ordinal += 1
+    return segments
+
+
 def split_runtime_segments(source: str) -> list[str]:
-    return [segment.lstrip("*") for segment in source.split("~") if segment]
+    segments = _split_runtime_segments_with_ordinals(source)
+    return [segment for _ordinal, segment in segments if segment.strip()]
 
 
 def normalize_dialogue_offset_marker(marker: str) -> str:
@@ -144,17 +157,20 @@ def _parse_ucxt(text: str) -> list[CatalogEntry]:
             continue
         callsite = "_".join(normalize_dialogue_offset_marker(marker) for marker in offset_markers)
         for match in re.finditer(r"`([^`]*)`", line):
-            for segment in split_runtime_segments(match.group(1)):
+            segments = _split_runtime_segments_with_ordinals(match.group(1))
+            for segment_ordinal, segment in segments:
+                if not segment.strip():
+                    continue
                 entries.append(
                     CatalogEntry.from_source(
                         "dialogue",
-                        make_dialogue_key(function, callsite, ordinal),
+                        make_dialogue_key(function, callsite, ordinal + segment_ordinal),
                         segment,
                         "gameplay",
                         "static-ucxt",
                     )
                 )
-                ordinal += 1
+            ordinal += len(segments)
     return entries
 
 
@@ -348,6 +364,8 @@ def _parse_indexed_resources(root: Path) -> list[CatalogEntry]:
                 indexed = _indexed_shape(line)
                 if indexed is not None:
                     shape, frame, quality, source = indexed
+                    if not source.strip():
+                        continue
                     entries.append(
                         CatalogEntry.from_source(
                             "item",
@@ -363,6 +381,8 @@ def _parse_indexed_resources(root: Path) -> list[CatalogEntry]:
             if indexed is None:
                 continue
             index, _frame, _quality, source = indexed
+            if not source.strip():
+                continue
             if section in location_sections:
                 kind = "textmsg"
                 key = f"textmsg:0x{index:04x}"
@@ -388,6 +408,14 @@ def _parse_indexed_resources(root: Path) -> list[CatalogEntry]:
 _CHOICE_KEY = re.compile(
     r"^choice:0x([0-9a-fA-F]+):0x([0-9a-fA-F]+):(\d+)$"
 )
+_DIALOGUE_KEY = re.compile(
+    r"^dialogue:0x([0-9a-fA-F]+):[^:]+:\d+$"
+)
+
+
+def _dialogue_function(key: str) -> int | None:
+    match = _DIALOGUE_KEY.match(key)
+    return int(match.group(1), 16) if match else None
 
 
 def _choice_identity(key: str) -> tuple[int, int, int] | None:
@@ -397,6 +425,94 @@ def _choice_identity(key: str) -> tuple[int, int, int] | None:
         if match
         else None
     )
+
+
+def _canonicalize_runtime_key_collisions(
+    runtime: list[CatalogEntry],
+) -> list[CatalogEntry]:
+    """Give repeated dynamic callsites a stable identity.
+
+    The U6 gypsy helper reuses one usecode callsite for every generated
+    question and answer.  The runtime key is therefore not unique, although
+    the source hash is.  Keep ordinary keys unchanged and use the source hash
+    only for colliding rows so the capture can be merged into a catalog and
+    emitted into ``zh_translation.tsv`` without dropping a question.
+    """
+
+    grouped: dict[tuple[str, str], set[str]] = {}
+    for row in runtime:
+        grouped.setdefault((row.kind, row.key), set()).add(row.source_sha256)
+
+    collision_groups = {
+        identity for identity, sources in grouped.items() if len(sources) > 1
+    }
+    canonical: list[CatalogEntry] = []
+    for row in runtime:
+        if (row.kind, row.key) not in collision_groups:
+            canonical.append(row)
+            continue
+
+        if row.kind == "dialogue":
+            function = _dialogue_function(row.key)
+            if function is None:
+                canonical.append(row)
+                continue
+            key = f"dialogue:0x{function:04x}:{row.source_sha256}:0"
+        elif row.kind == "choice":
+            identity = _choice_identity(row.key)
+            if identity is None:
+                canonical.append(row)
+                continue
+            function, _callsite, ordinal = identity
+            key = f"choice:0x{function:04x}:0x{row.source_sha256[:16]}:{ordinal}"
+        else:
+            canonical.append(row)
+            continue
+
+        canonical.append(replace(row, key=key))
+    return canonical
+
+
+def _reconcile_runtime_dialogues(
+    entries: list[CatalogEntry], runtime: list[CatalogEntry]
+) -> list[CatalogEntry]:
+    """Bind a runtime-assembled line to its static source entry.
+
+    U6 can construct one sentence at runtime from values at a different
+    usecode offset than the source sentence reported by UCXT. If the runtime
+    key collides with another static line, retain the canonical static key and
+    merge the runtime capture into it. The C++ side then matches the complete
+    source text, independent of either offset.
+    """
+
+    static_dialogues = [entry for entry in entries if entry.kind == "dialogue"]
+    reconciled: list[CatalogEntry] = []
+    for row in runtime:
+        if row.kind != "dialogue":
+            reconciled.append(row)
+            continue
+
+        same_key = next(
+            (entry for entry in static_dialogues if entry.key == row.key), None
+        )
+        if same_key is None or same_key.source_sha256 == row.source_sha256:
+            reconciled.append(row)
+            continue
+
+        function = _dialogue_function(row.key)
+        matches = [
+            entry
+            for entry in static_dialogues
+            if _dialogue_function(entry.key) == function
+            and entry.source_sha256 == row.source_sha256
+        ]
+        if len(matches) == 1:
+            reconciled.append(replace(row, key=matches[0].key))
+        else:
+            # Preserve the existing fail-closed duplicate-key behavior when
+            # the source cannot identify one canonical static entry.
+            reconciled.append(row)
+    return reconciled
 
 
 def _bind_runtime_choices(
@@ -471,5 +587,7 @@ def extract_catalog(
     entries.extend(_parse_spell_names(mod_root))
     if runtime_catalog is not None:
         runtime = parse_runtime_catalog(runtime_catalog)
+        runtime = _reconcile_runtime_dialogues(entries, runtime)
+        runtime = _canonicalize_runtime_key_collisions(runtime)
         entries = _bind_runtime_choices(entries, static_choices, runtime)
     return _merge(entries)

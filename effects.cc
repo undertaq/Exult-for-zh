@@ -38,6 +38,7 @@
 #include "gameclk.h"
 #include "gamemap.h"
 #include "gamewin.h"
+#include "gameplay_translation.h"
 #include "ignore_unused_variable_warning.h"
 #include "shapeinf.h"
 #include "ucmachine.h"
@@ -107,7 +108,9 @@ void Effects_manager::add_text(const char* msg, Game_object* item, int max_ticks
 
 	//	txt->paint(this);        // Draw it.
 	//	painted = 1;
-	texts.emplace_front(std::make_unique<Text_effect>(msg, item, gwin, max_ticks));
+	const std::string display = GameplayTranslationManager::get().translate_by_source(
+			GameplayTranslationKind::Dialogue, msg);
+	texts.emplace_front(std::make_unique<Text_effect>(display, item, gwin, max_ticks));
 }
 
 /**
@@ -1085,6 +1088,7 @@ void Text_effect::add_dirty() {
  */
 
 void Text_effect::init() {
+	msg = strip_usecode_dialogue_markers(msg);
 	set_always(true);    // Always execute in time queue, even
 	//   when paused.
 	Font::is_painting_bark = true;
@@ -1123,13 +1127,6 @@ void Text_effect::init() {
 	add_dirty();    // Force first paint.
 	// Start immediately.
 	gwin->get_tqueue()->add(Game::get_ticks(), this);
-	if (msg[0] == '@') {
-		msg[0] = '"';
-	}
-	const int len = msg.size();
-	if (len>0 && msg[len - 1] == '@') {
-		msg[len - 1] = '"';
-	}
 }
 
 /**
@@ -1141,7 +1138,7 @@ Text_effect::Text_effect(
 		Game_object*  it,      // Item text is on, or null.
 		Game_window*  gwin_    // Back-reference to gwin from Effects_manager
 		)
-		: Text_effect(m, it, gwin_, 10) {}
+		: Text_effect(strip_usecode_dialogue_markers(m), it, gwin_, 10) {}
 
 /**
  *  Create a text effect for a given object, with a custom lifetime.
@@ -1153,7 +1150,7 @@ Text_effect::Text_effect(
 		Game_window*  gwin_,   // Back-reference to gwin from Effects_manager
 		int           max_ticks_
 		)
-		: gwin(gwin_), msg(m), item(weak_from_obj(it)), pos(Figure_text_pos()), num_ticks(0), max_ticks(max_ticks_) {
+		: gwin(gwin_), msg(strip_usecode_dialogue_markers(m)), item(weak_from_obj(it)), pos(Figure_text_pos()), num_ticks(0), max_ticks(max_ticks_) {
 	init();
 }
 
@@ -1166,7 +1163,7 @@ Text_effect::Text_effect(
 		int t_x, int t_y,     // Abs. tile coords.
 		Game_window* gwin_    // Back-reference to gwin from Effects_manager
 		)
-		: gwin(gwin_), msg(m), tpos(t_x, t_y, 0), pos(Figure_text_pos()), num_ticks(0), max_ticks(10) {
+		: gwin(gwin_), msg(strip_usecode_dialogue_markers(m)), tpos(t_x, t_y, 0), pos(Figure_text_pos()), num_ticks(0), max_ticks(10) {
 	init();
 }
 

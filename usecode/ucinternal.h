@@ -32,6 +32,7 @@
 #include "useval.h"
 
 #include <deque>
+#include <cstddef>
 #include <iosfwd>
 #include <map>
 #include <string>
@@ -94,6 +95,12 @@ class Usecode_internal : public Usecode_machine {
 	static constexpr int VOICE_TRACE_ADDSV      = -1;             // Marker for variable insertion.
 	static constexpr int VOICE_TRACE_PUSHS_FLAG = 0x40000000;     // Flag: entry is from a pushs trace.
 	std::vector<std::pair<int, int>> voice_string_trace;  // (func_id, offset/raw) pairs.
+	struct Voice_string_part {
+		std::size_t source_start = 0;
+		std::string source;
+		std::string translation_key;    // Empty for dynamic values.
+	};
+	std::vector<Voice_string_part> voice_string_parts;
 	static constexpr int VOICE_NO_FACE = -999;          // Sentinel: no face has been set yet.
 	int                  voice_current_face_npc = VOICE_NO_FACE; // NPC whose face is currently shown (via show_npc_face).
 

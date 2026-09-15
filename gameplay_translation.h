@@ -7,9 +7,12 @@
 #include <cstddef>
 #include <iosfwd>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <string_view>
+#include <utility>
+#include <vector>
 
 struct TranslationDiagnostics {
 	std::size_t rows = 0;
@@ -33,6 +36,16 @@ public:
 	bool table_only_enabled() const;
 	std::string translate(GameplayTranslationKind kind,
 			std::string_view key, std::string_view english);
+	std::string translate_by_source(GameplayTranslationKind kind,
+			std::string_view english);
+	std::optional<std::string> translate_dialogue_by_source_if_available(
+			std::string_view english);
+	std::optional<std::string> translate_dialogue_template_if_available(
+			std::string_view english, std::string_view source_template,
+			std::string_view placeholder);
+	std::optional<std::string> translate_dialogue_template_if_available(
+			std::string_view english, std::string_view source_template,
+			const std::vector<std::pair<std::string, std::string>>& substitutions);
 	void record_runtime_source(GameplayTranslationKind kind,
 			std::string_view key, std::string_view english);
 	void record_runtime_speaker(std::string_view key, int speaker_id,
@@ -60,6 +73,7 @@ std::string make_dialogue_translation_key(
 std::string make_choice_translation_key(
 		int function_id, int callsite_offset, int ordinal);
 std::string make_item_translation_key(int shape, int frame, int quality);
+std::string strip_usecode_dialogue_markers(std::string_view text);
 bool is_safe_catalog_path(std::string_view path);
 
 #endif

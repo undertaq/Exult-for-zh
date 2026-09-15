@@ -10,6 +10,23 @@
 #include <cstring>
 #include <iostream>
 
+namespace {
+
+void load_patch_usecode(Usecode_machine* machine) {
+    if (machine == nullptr || !is_system_path_defined("<PATCH>")
+            || !U7exists(PATCH_USECODE)) {
+        return;
+    }
+
+    auto pFile = U7open_in(PATCH_USECODE);
+    if (!pFile) {
+        throw file_open_exception(PATCH_USECODE);
+    }
+    machine->read_usecode(*pFile, true);
+}
+
+} // namespace
+
 BilingualManager& BilingualManager::get() {
     static BilingualManager instance;
     return instance;
@@ -61,6 +78,7 @@ void BilingualManager::load_usecode_files() {
             if (pFile) {
                 usecode_zh = Usecode_machine::create();
                 usecode_zh->read_usecode(*pFile);
+                load_patch_usecode(usecode_zh);
             }
         } catch (const std::exception& e) {
             std::cerr << "[Bilingual] Failed to load Chinese usecode: "
@@ -76,6 +94,7 @@ void BilingualManager::load_usecode_files() {
                 if (pFile) {
                     usecode_dual = Usecode_machine::create();
                     usecode_dual->read_usecode(*pFile);
+                    load_patch_usecode(usecode_dual);
                 }
             } catch (const std::exception& e) {
                 std::cerr << "[Bilingual] Failed to load dual usecode: "

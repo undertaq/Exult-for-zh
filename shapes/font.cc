@@ -344,6 +344,10 @@ static bool should_force_ttf_for_english(int font_index) {
 	return get_chinese_force_ttf_for_english();
 }
 
+bool Font::uses_ttf_for_english() const {
+	return should_force_ttf_for_english(font_index);
+}
+
 
 inline bool Has_non_ascii(const char* text) {
 	if (!text) {

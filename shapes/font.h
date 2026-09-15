@@ -96,6 +96,10 @@ public:
 	void set_force_not_book(bool val) { force_not_book = val; }
 	bool get_force_not_book() const { return force_not_book; }
 	int get_font_index() const { return font_index; }
+	// Whether ASCII text is rendered by the configured TTF instead of the
+	// legacy bitmap font. Callers that lay out interactive text must use the
+	// same mode for metrics and hit testing.
+	bool uses_ttf_for_english() const;
 	void set_font_name(const std::string& name);
 	const std::string& get_font_name() const;
 

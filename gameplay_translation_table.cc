@@ -222,9 +222,9 @@ bool parse_kind(std::string_view value, GameplayTranslationKind& kind) {
 
 bool valid_key(GameplayTranslationKind kind, std::string_view value) {
 	static const std::regex dialogue(
-			R"(^dialogue:0x[0-9a-f]{4}:[0-9a-f]+(?:_[0-9a-f]+)*:[0-9]+$)");
+			R"(^dialogue:0x[0-9a-f]{4}:(?:[0-9a-f]+|template_[a-z0-9_]+)(?:_(?:[0-9a-f]+|template_[a-z0-9_]+))*:[0-9]+$)");
 	static const std::regex choice(
-			R"(^choice:0x[0-9a-f]{4}:(?:0x[0-9a-f]{4}|unbound):[0-9]+$)");
+			R"(^choice:0x[0-9a-f]{4}:(?:0x[0-9a-f]+|unbound):[0-9]+$)");
 	static const std::regex item(R"(^item:0x[0-9a-f]{4}:[0-9]+:[0-9]+$)");
 	static const std::regex textmsg(R"(^textmsg:0x[0-9a-f]+$)");
 	static const std::regex location(R"(^location:0x[0-9a-f]+$)");
@@ -456,6 +456,124 @@ TranslationLookup GameplayTranslationTable::lookup(
 				TranslationLookupStatus::SourceMismatch};
 	}
 	return TranslationLookup{entry->second.text, TranslationLookupStatus::Hit};
+}
+
+TranslationLookup GameplayTranslationTable::lookup_dialogue_by_source(
+		std::string_view key, std::string_view english) const {
+	constexpr std::string_view kDialoguePrefix = "dialogue:";
+	const std::size_t function_end = key.find(':', kDialoguePrefix.size());
+	if (function_end == std::string_view::npos
+			|| key.compare(0, kDialoguePrefix.size(), kDialoguePrefix) != 0) {
+		return TranslationLookup{std::string(english),
+				TranslationLookupStatus::Missing};
+	}
+
+	// Dynamic U6 usecode sometimes assembles a dialogue string through a
+	// different call site than the static string's original offset. Restrict
+	// source recovery to the same usecode function; a global source lookup
+	// could silently translate an unrelated repeated line.
+	const std::string function_prefix(key.substr(0, function_end + 1));
+	const std::string source_hash = sha256_hex(
+			normalize_translation_source(english));
+	const EntryKey first_key(
+			static_cast<int>(GameplayTranslationKind::Dialogue), function_prefix);
+	const auto first = entries_.lower_bound(first_key);
+	const Entry* match = nullptr;
+	for (auto entry = first; entry != entries_.end(); ++entry) {
+		if (entry->first.first != static_cast<int>(GameplayTranslationKind::Dialogue)
+				|| entry->first.second.compare(
+						0, function_prefix.size(), function_prefix) != 0) {
+			break;
+		}
+		if (entry->second.source_sha256 != source_hash) {
+			continue;
+		}
+		if (match != nullptr) {
+			// Repeated source text within one function is ambiguous. Fail closed
+			// instead of selecting an arbitrary translation.
+			return TranslationLookup{std::string(english),
+					TranslationLookupStatus::Missing};
+		}
+		match = &entry->second;
+	}
+
+	if (match == nullptr) {
+		return TranslationLookup{std::string(english),
+				TranslationLookupStatus::Missing};
+	}
+	return TranslationLookup{match->text, TranslationLookupStatus::SourceFallback};
+}
+
+TranslationLookup GameplayTranslationTable::lookup_dialogue_by_source_globally(
+		std::string_view english) const {
+	const std::string source_hash = sha256_hex(
+			normalize_translation_source(english));
+	const Entry* match = nullptr;
+	for (const auto& [entry_key, entry] : entries_) {
+		if (entry_key.first != static_cast<int>(GameplayTranslationKind::Dialogue)
+				|| entry.source_sha256 != source_hash) {
+			continue;
+		}
+		if (match != nullptr && match->text != entry.text) {
+			// The same source can occur in different conversations with different
+			// meanings. Do not guess when the translations disagree.
+			return TranslationLookup{std::string(english),
+					TranslationLookupStatus::Missing};
+		}
+		match = &entry;
+	}
+	if (match == nullptr) {
+		return TranslationLookup{std::string(english),
+				TranslationLookupStatus::Missing};
+	}
+	return TranslationLookup{match->text, TranslationLookupStatus::SourceFallback};
+}
+
+TranslationLookup GameplayTranslationTable::lookup_choice_by_source(
+		std::string_view english) const {
+	const std::string source_hash = sha256_hex(
+			normalize_translation_source(english));
+
+	// Older U6 catalogs recorded choice text as dialogue rows because the
+	// binary usecode does not expose the UI_add_answer source location. Prefer
+	// real choice rows when present, then safely reuse dialogue or common
+	// text-message translations. If repeated source text has conflicting
+	// translations, fail closed.
+	auto find_unique = [&](GameplayTranslationKind kind)
+			-> std::optional<TranslationLookup> {
+		const Entry* match = nullptr;
+		for (const auto& [entry_key, entry] : entries_) {
+			if (entry_key.first != static_cast<int>(kind)
+					|| entry.source_sha256 != source_hash) {
+				continue;
+			}
+			if (match != nullptr && match->text != entry.text) {
+				return TranslationLookup{
+						std::string(english), TranslationLookupStatus::Missing};
+			}
+			match = &entry;
+		}
+		if (match == nullptr) {
+			return std::nullopt;
+		}
+		return std::optional<TranslationLookup>(TranslationLookup{
+				match->text, TranslationLookupStatus::SourceFallback});
+	};
+
+	const std::optional<TranslationLookup> choice =
+			find_unique(GameplayTranslationKind::Choice);
+	if (choice.has_value()) {
+		return *choice;
+	}
+	const std::optional<TranslationLookup> dialogue =
+			find_unique(GameplayTranslationKind::Dialogue);
+	if (dialogue.has_value()) {
+		return *dialogue;
+	}
+	const std::optional<TranslationLookup> text_message =
+			find_unique(GameplayTranslationKind::TextMessage);
+	return text_message.value_or(TranslationLookup{
+				std::string(english), TranslationLookupStatus::Missing});
 }
 
 std::size_t GameplayTranslationTable::size() const {

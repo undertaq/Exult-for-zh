@@ -503,9 +503,13 @@ void Deferred_text_renderer::blit(SDL_Surface* inter_surface, int x, int y, int 
 					int buffer_x = x + (c / scale);
 					int buffer_y = y + (r / scale);
 					
-					// Convert buffer coordinates to actual screen pixels
-					int sx_pixel = buffer_x + image_win->get_start_x();
-					int sy_pixel = buffer_y + image_win->get_start_y();
+					// buffer_x/buffer_y and the cursor bounds are both coordinates in
+					// inter_surface.  Do not add the image-window start offset here:
+					// it was already applied when the cursor's screen position was
+					// converted above.  Keeping both sides in compositor coordinates
+					// makes the pre-existing cursor pixels win over deferred text.
+					int sx_pixel = buffer_x;
+					int sy_pixel = buffer_y;
 
 					if (sx_pixel >= cx_start && sx_pixel < cx_start + cur_frame->get_width() &&
 						sy_pixel >= cy_start && sy_pixel < cy_start + cur_frame->get_height()) {
