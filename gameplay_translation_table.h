@@ -21,6 +21,7 @@ enum class GameplayTranslationKind {
 
 enum class TranslationLookupStatus {
 	Hit,
+	SourceFallback,
 	Missing,
 	SourceMismatch,
 	Disabled
@@ -44,6 +45,11 @@ public:
 			GameplayTranslationKind kind,
 			std::string_view key,
 			std::string_view english) const;
+	TranslationLookup lookup_dialogue_by_source(
+			std::string_view key, std::string_view english) const;
+	TranslationLookup lookup_dialogue_by_source_globally(
+			std::string_view english) const;
+	TranslationLookup lookup_choice_by_source(std::string_view english) const;
 	std::size_t size() const;
 
 private:

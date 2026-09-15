@@ -7,8 +7,14 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from tools.u6_translation.catalog import source_sha256
-from tools.u6_translation.extract import _parse_ucxt, _run_ucxt, extract_catalog, make_item_key
+from tools.u6_translation.catalog import CatalogEntry, source_sha256
+from tools.u6_translation.extract import (
+    _canonicalize_runtime_key_collisions,
+    _parse_ucxt,
+    _run_ucxt,
+    extract_catalog,
+    make_item_key,
+)
 from tools.u6_translation.runtime_table import escape_field
 
 
@@ -84,6 +90,7 @@ class ExtractionTest(unittest.TestCase):
             (patch / "textmsg.txt").write_text(
                 "%%section msgs\n"
                 "0x0123:Line message\n"
+                "0x0124: \n"
                 "%%endsection\n"
                 "%%section locations\n"
                 "0x002a:Britain\n"
@@ -124,11 +131,55 @@ class ExtractionTest(unittest.TestCase):
         self.assertIn("dialogue:0x0401:10:0", by_key)
         self.assertIn("dialogue:0x0401:10:1", by_key)
         self.assertIn("textmsg:0x0123", by_key)
+        self.assertNotIn("textmsg:0x0124", by_key)
         self.assertEqual(by_key["textmsg:0x002a"].context, "location")
         self.assertIn("choice:0x0401:0x0088:0", by_key)
         self.assertNotIn("choice:0x0401:unbound:0", by_key)
         self.assertIn("static-usecode", by_key["choice:0x0401:0x0088:0"].origin)
         self.assertIn("runtime-capture", by_key["choice:0x0401:0x0088:0"].origin)
+
+    def test_runtime_dialogue_reuses_static_key_when_offset_changes(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            patch = root / "Ultima6v1.3" / "patch"
+            patch.mkdir(parents=True)
+            (patch / "usecode").write_bytes(b"fixture")
+            source = "@A question assembled at runtime?@"
+            (root / "ucxt_fixture.sh").write_text(
+                "#!/bin/sh\n"
+                "printf '%s' '<0x0401>\n"
+                "  <0x2048>\n"
+                "  `@A question assembled at runtime?@`\n"
+                "  </>\n"
+                "  <0x02e2>\n"
+                "  `Spirituality`\n"
+                "  </>\n"
+                "</>'\n",
+                encoding="utf-8",
+            )
+            ucxt = root / "ucxt_fixture.sh"
+            ucxt.chmod(ucxt.stat().st_mode | os.X_OK)
+            runtime = root / "runtime.tsv"
+            runtime.write_text(
+                "dialogue\tdialogue:0x0401:2e2:0\t"
+                f"{source_sha256(source)}\t{source}\n",
+                encoding="utf-8",
+            )
+
+            entries = extract_catalog(root, ucxt, runtime)
+
+        by_key = {entry.key: entry for entry in entries}
+        self.assertIn("dialogue:0x0401:2048:0", by_key)
+        self.assertIn("static-ucxt", by_key["dialogue:0x0401:2048:0"].origin)
+        self.assertIn("runtime-capture", by_key["dialogue:0x0401:2048:0"].origin)
+        self.assertEqual(
+            by_key["dialogue:0x0401:2048:0"].source,
+            source,
+        )
+        self.assertEqual(
+            by_key["dialogue:0x0401:2e2:0"].source,
+            "Spirituality",
+        )
 
     def test_indexed_u6_resources_emit_item_variants_and_location_context(self) -> None:
         root = FIXTURES / "indexed_mod"
@@ -172,6 +223,20 @@ class ExtractionTest(unittest.TestCase):
             ["dialogue:0x0401:1a_2f:0"],
         )
 
+    def test_ucxt_omits_blank_segments_without_renumbering_following_segments(self) -> None:
+        entries = _parse_ucxt(
+            "<0x0401>\n"
+            "  <0x0010>\n"
+            "  `~~ ~~Captain`\n"
+            "  </>\n"
+            "</>\n"
+        )
+
+        self.assertEqual(
+            [(entry.key, entry.source) for entry in entries],
+            [("dialogue:0x0401:10:1", "Captain")],
+        )
+
     def test_choices_bind_by_function_callsite_and_ordinal_not_source_hash(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory) / "indexed_mod"
@@ -200,6 +265,40 @@ class ExtractionTest(unittest.TestCase):
             self.assertIn("static-usecode", by_key[key].origin)
             self.assertIn("runtime-capture", by_key[key].origin)
         self.assertIn("choice:0x0403:unbound:0", by_key)
+
+    def test_dynamic_runtime_rows_use_source_stable_keys_when_callsite_repeats(self) -> None:
+        question = "@Dost thou choose the first path, or the second path?@"
+        first_answer = "choose the first path"
+        second_answer = "choose the second path"
+        rows = [
+            CatalogEntry.from_source(
+                "dialogue", "dialogue:0x0464:2e2:0", question,
+                "gameplay", "runtime-capture",
+            ),
+            CatalogEntry.from_source(
+                "dialogue", "dialogue:0x0464:2e2:0", "Another question?",
+                "gameplay", "runtime-capture",
+            ),
+            CatalogEntry.from_source(
+                "choice", "choice:0x0956:0x000b:0", first_answer,
+                "gameplay", "runtime-capture",
+            ),
+            CatalogEntry.from_source(
+                "choice", "choice:0x0956:0x000b:0", second_answer,
+                "gameplay", "runtime-capture",
+            ),
+        ]
+
+        canonical = _canonicalize_runtime_key_collisions(rows)
+        keys = {entry.key for entry in canonical}
+        question_hash = source_sha256(question)
+        another_hash = source_sha256("Another question?")
+        first_hash = source_sha256(first_answer)
+        second_hash = source_sha256(second_answer)
+        self.assertIn(f"dialogue:0x0464:{question_hash}:0", keys)
+        self.assertIn(f"dialogue:0x0464:{another_hash}:0", keys)
+        self.assertIn(f"choice:0x0956:0x{first_hash[:16]}:0", keys)
+        self.assertIn(f"choice:0x0956:0x{second_hash[:16]}:0", keys)
 
 
 if __name__ == "__main__":

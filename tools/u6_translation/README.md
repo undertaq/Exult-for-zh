@@ -20,7 +20,7 @@ appear only when that English-format resource exists.
 The deterministic indexed fixture under `tools/u6_translation/tests/fixtures/indexed_mod`
 is the supported extraction test input.
 
-The runtime capture is enabled by `config/debug/translation/catalog_capture` and writes the source catalog to the path configured by `config/debug/translation/catalog_path`. It also writes `u6_runtime_speakers.tsv` by default; configure `config/debug/translation/speaker_path` to choose another relative `GAMEDAT` path. The speaker sidecar is populated by the running U6 actor/face context, so it does not depend on voice playback being enabled. Capture rows retain the original English source, including choice answers.
+The runtime capture is enabled by `config/debug/translation/catalog_capture` and writes the source catalog to the path configured by `config/debug/translation/catalog_path`. It also writes `u6_runtime_speakers.tsv` by default; configure `config/debug/translation/speaker_path` to choose another relative `GAMEDAT` path. The speaker sidecar is populated by the running U6 actor/face context, so it does not depend on voice playback being enabled. Capture rows retain the original English source, including choice answers. If a dynamic U6 helper reuses one callsite for different strings, extraction rewrites only those colliding rows to source-stable keys derived from their SHA-256 source hash before emission. Runtime translation still matches the complete English source, so generated questions remain translatable even when their usecode offsets collide.
 
 The speaker sidecar uses this format:
 

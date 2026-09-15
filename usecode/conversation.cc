@@ -28,6 +28,7 @@
 #include "actors.h"
 #include "bilingual_manager.h"
 #include "data/exult_bg_flx.h"
+#include "deferred_text.h"
 #include "effects.h"
 #include "exult.h"
 #include "gameplay_translation.h"
@@ -495,16 +496,12 @@ void Conversation::show_npc_message(const char* msg) {
 	if (last_face_shown == -1) {
 		return;
 	}
-	// Strip leading/trailing '@' usecode string delimiters
-	// (original USECODE uses @...@, e.g. pushs + call 0x08FF path).
+	// '@' marks voice/string boundaries in usecode. They are not display
+	// characters and may occur around several fragments in one message.
 	std::string clean;
 	const char* display = msg;
-	if (msg && msg[0] == '@') {
-		clean = msg;
-		if (clean.front() == '@')
-			clean.erase(0, 1);
-		if (!clean.empty() && clean.back() == '@')
-			clean.pop_back();
+	if (msg) {
+		clean   = strip_usecode_dialogue_markers(msg);
 		display = clean.c_str();
 	}
 	// Resolve <PLAYER_NAME>/<HONORIFIC>/... tokens baked into merged
@@ -774,6 +771,10 @@ void Conversation::show_avatar_choices(int num_choices, char** choices) {
 	if (BilingualManager::get().is_zh_text()) {
 		has_chinese = true;
 	}
+	std::shared_ptr<Font> font0 = sman->get_font(0);
+	const bool use_ttf_for_english =
+			!has_chinese && font0 && font0->uses_ttf_for_english();
+	const bool use_cjk_layout = has_chinese || use_ttf_for_english;
 	// Dual-mode answers are merged "ZH\nEN" templates that may carry
 	// <PLAYER_NAME>/<HONORIFIC>/<VAR>-style tokens baked in at generation
 	// time; resolve them here so the avatar's questions match the rest of
@@ -839,14 +840,14 @@ void Conversation::show_avatar_choices(int num_choices, char** choices) {
 		// paint_text shifts each glyph down by 'highest', so a row occupies
 		// [y, y + highest + lowest] – not just get_text_height().
 		// Use the actual rendered span as the base for row spacing in all cases.
-		std::shared_ptr<Font> font0       = sman->get_font(0);
+		font0 = sman->get_font(0);
 		line_height = sman->get_text_line_height(0);    // default fallback
 		if (font0) {
 			const int rendered_h = font0->get_rendered_line_height();
 			// +2: 1px gap + 1px for descender shadow pixel
 			line_height = rendered_h + font0->get_ver_lead() + 2;
 		}
-		if (has_chinese) {
+		if (use_cjk_layout) {
 			// Query the actual rendered height for CJK glyphs to dynamically support font size changes.
 			int cjk_h = font0 ? font0->get_rendered_line_height_for("\x80") : 15;
 			const int cjk_min = (std::max(22, cjk_h + 4) - retry) + (font0 ? font0->get_ver_lead() : 0);
@@ -854,10 +855,10 @@ void Conversation::show_avatar_choices(int num_choices, char** choices) {
 				line_height = cjk_min;
 			}
 		}
-		space_width = sman->get_text_width(0, " ", has_chinese);
+		space_width = sman->get_text_width(0, " ", use_cjk_layout);
 
 		fx = prev ? prev->face_rect.x + prev->face_rect.w + 4 : 16;
-		if (has_chinese) {
+		if (use_cjk_layout) {
 			// Move Avatar face to the left edge to maximize horizontal text space
 			fx = 16;
 		}
@@ -888,7 +889,7 @@ void Conversation::show_avatar_choices(int num_choices, char** choices) {
 			int test_tbox_w = sbox.w - fx - face->get_width() - tbox_w_offset;
 			int temp_x = 0;
 			int temp_y = 0;
-			int temp_line_step = has_chinese ? line_height : line_height - 1;
+			int temp_line_step = use_cjk_layout ? line_height : line_height - 1;
 			int temp_bottom = 0;
 			for (int i = 0; i < num_choices; i++) {
 				const bool multiline = strchr(choices[i], '\n') != nullptr;
@@ -896,8 +897,8 @@ void Conversation::show_avatar_choices(int num_choices, char** choices) {
 				char       text[512];
 				text[0] = 127;    // A circle.
 				strcpy(&text[1], choices[i]);
-				const int width = multiline ? choice_max_line_width(choices[i], has_chinese)
-				                            : sman->get_text_width(0, text, has_chinese);
+				const int width = multiline ? choice_max_line_width(choices[i], use_cjk_layout)
+				                            : sman->get_text_width(0, text, use_cjk_layout);
 				if (!multiline && temp_x > 0 && temp_x + width >= test_tbox_w) {
 					temp_x = 0;
 					temp_y += temp_line_step;
@@ -955,9 +956,13 @@ void Conversation::show_avatar_choices(int num_choices, char** choices) {
 	
 	delete[] conv_choices;    // Set up new list of choices.
 	conv_choices      = new TileRect[num_choices + 1];
+	std::vector<TileRect> choice_text_rects;
+	choice_text_rects.reserve(num_choices);
 	const int text_bg = gwin->get_text_bg();
+	const bool choices_use_deferred_text =
+			Deferred_text_renderer::instance().is_active();
 	// For CJK text the pixel-font formula gives a negative offset; just align to row top.
-	const int bg_offset = has_chinese ? 0 : (sman->get_text_height(0) - line_height) / 2;
+	const int bg_offset = use_cjk_layout ? 0 : (sman->get_text_height(0) - line_height) / 2;
 	// First pass: determine positions and draw all backgrounds.
 	for (int i = 0; i < num_choices; i++) {
 		const bool multiline = strchr(choices[i], '\n') != nullptr;
@@ -965,15 +970,14 @@ void Conversation::show_avatar_choices(int num_choices, char** choices) {
 		char       text[512];
 		text[0] = 127;    // A circle.
 		strcpy(&text[1], choices[i]);
-		const int width = multiline ? choice_max_line_width(choices[i], has_chinese)
-		                            : sman->get_text_width(0, text, has_chinese);
+		const int width = multiline ? choice_max_line_width(choices[i], use_cjk_layout)
+		                            : sman->get_text_width(0, text, use_cjk_layout);
 		if (!multiline && x > 0 && x + width >= tbox.w) {
 			x = 0;
-			y += has_chinese ? line_height : line_height - 1;
+			y += use_cjk_layout ? line_height : line_height - 1;
 		}
 		int hit_h = line_height;
-		std::shared_ptr<Font> font0 = sman->get_font(0);
-		if (has_chinese && font0 && !multiline) {
+		if (use_cjk_layout && font0 && !multiline) {
 			int baseline    = font0->get_text_baseline_for("\x80");
 			int text_h      = font0->get_text_height_for("\x80");
 			int text_bottom = baseline + text_h / 4 + 2;
@@ -981,15 +985,27 @@ void Conversation::show_avatar_choices(int num_choices, char** choices) {
 		} else if (multiline) {
 			hit_h = nlines * line_height;
 		}
-		conv_choices[i] = TileRect(tbox.x + x, tbox.y + y, width, hit_h);
-		conv_choices[i] = conv_choices[i].intersect(sbox);
-		avatar_face     = avatar_face.add(conv_choices[i]);
+		const TileRect text_rect(tbox.x + x, tbox.y + y, width, hit_h);
+		choice_text_rects.push_back(text_rect);
+
+		// Deferred TTF text is composited from the draw surface without its
+		// Image_buffer offset. Mouse input is converted back through that offset,
+		// so the interactive rectangle must be in the input coordinate space,
+		// while text_rect remains in the renderer's coordinate space.
+		TileRect hit_rect = text_rect;
+		if (choices_use_deferred_text) {
+			hit_rect.x += gwin->get_win()->get_start_x();
+			hit_rect.y += gwin->get_win()->get_start_y();
+		}
+		conv_choices[i] = hit_rect.intersect(gwin->get_full_rect());
+		avatar_face     = avatar_face.add(text_rect).add(conv_choices[i]);
 		if (text_bg >= 0) {
 			gwin->get_win()->fill_translucent8(
-					0, width + space_width, hit_h, tbox.x + x, tbox.y + y + bg_offset, sman->get_xform(text_bg));
+					0, width + space_width, hit_h, text_rect.x,
+					text_rect.y + bg_offset, sman->get_xform(text_bg));
 		}
 		if (multiline) {
-			y += nlines * (has_chinese ? line_height : line_height - 1);
+			y += nlines * (use_cjk_layout ? line_height : line_height - 1);
 			x = 0;
 		} else {
 			x += width + space_width;
@@ -1009,13 +1025,13 @@ void Conversation::show_avatar_choices(int num_choices, char** choices) {
 			}
 			piece.append(part, nl ? static_cast<int>(nl - part)
 			                      : static_cast<int>(strlen(part)));
-			sman->paint_text(0, piece.c_str(), conv_choices[i].x,
-			                 conv_choices[i].y + py, has_chinese);
+			sman->paint_text(0, piece.c_str(), choice_text_rects[i].x,
+			                 choice_text_rects[i].y + py, use_cjk_layout);
 			if (!nl) {
 				break;
 			}
 			pno++;
-			py += has_chinese ? line_height : line_height - 1;
+			py += use_cjk_layout ? line_height : line_height - 1;
 			part = nl + 1;
 		}
 	}

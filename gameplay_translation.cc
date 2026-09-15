@@ -199,8 +199,36 @@ std::string GameplayTranslationManager::translate(
 	}
 
 	const TranslationLookup result = table_.lookup(kind, key, english);
+	if ((kind == GameplayTranslationKind::Dialogue
+				|| kind == GameplayTranslationKind::Choice)
+				&& result.status != TranslationLookupStatus::Hit) {
+		const TranslationLookup source_fallback = kind
+				== GameplayTranslationKind::Dialogue
+			? table_.lookup_dialogue_by_source(key, english)
+			: table_.lookup_choice_by_source(english);
+		if (source_fallback.status == TranslationLookupStatus::SourceFallback) {
+			++diagnostics_.hits;
+			if (result.status == TranslationLookupStatus::SourceMismatch) {
+				++diagnostics_.source_mismatches;
+			}
+			return source_fallback.text;
+		}
+		if (kind == GameplayTranslationKind::Dialogue) {
+			const TranslationLookup global_source_fallback =
+					table_.lookup_dialogue_by_source_globally(english);
+			if (global_source_fallback.status
+					== TranslationLookupStatus::SourceFallback) {
+				++diagnostics_.hits;
+				if (result.status == TranslationLookupStatus::SourceMismatch) {
+					++diagnostics_.source_mismatches;
+				}
+				return global_source_fallback.text;
+			}
+		}
+	}
 	switch (result.status) {
 	case TranslationLookupStatus::Hit:
+	case TranslationLookupStatus::SourceFallback:
 		++diagnostics_.hits;
 		return result.text;
 	case TranslationLookupStatus::Missing:
@@ -217,6 +245,172 @@ std::string GameplayTranslationManager::translate(
 	}
 	++diagnostics_.fallbacks;
 	return std::string(english);
+}
+
+std::string GameplayTranslationManager::translate_by_source(
+		GameplayTranslationKind kind, std::string_view english) {
+	if (!table_only_enabled()) {
+		++diagnostics_.fallbacks;
+		return std::string(english);
+	}
+
+	TranslationLookup result{std::string(english),
+			TranslationLookupStatus::Missing};
+	if (kind == GameplayTranslationKind::Dialogue) {
+		result = table_.lookup_dialogue_by_source_globally(english);
+	} else if (kind == GameplayTranslationKind::Choice) {
+		result = table_.lookup_choice_by_source(english);
+	}
+
+	if (result.status == TranslationLookupStatus::SourceFallback
+			|| result.status == TranslationLookupStatus::Hit) {
+		++diagnostics_.hits;
+		return result.text;
+	}
+	++diagnostics_.misses;
+	++diagnostics_.fallbacks;
+	return std::string(english);
+}
+
+std::optional<std::string>
+		GameplayTranslationManager::translate_dialogue_by_source_if_available(
+				std::string_view english) {
+	if (!table_only_enabled()) {
+		return std::nullopt;
+	}
+
+	const TranslationLookup result =
+			table_.lookup_dialogue_by_source_globally(english);
+	if (result.status != TranslationLookupStatus::SourceFallback
+				&& result.status != TranslationLookupStatus::Hit) {
+		return std::nullopt;
+	}
+
+	++diagnostics_.hits;
+	return result.text;
+}
+
+std::optional<std::string>
+		GameplayTranslationManager::translate_dialogue_template_if_available(
+				std::string_view english, std::string_view source_template,
+				std::string_view placeholder) {
+	if (placeholder.empty()) {
+		return std::nullopt;
+	}
+
+	const std::size_t template_placeholder = source_template.find(placeholder);
+	if (template_placeholder == std::string_view::npos
+				|| source_template.find(placeholder,
+						template_placeholder + placeholder.size())
+							!= std::string_view::npos) {
+		return std::nullopt;
+	}
+
+	const std::string_view prefix = source_template.substr(0, template_placeholder);
+	const std::string_view suffix = source_template.substr(
+			template_placeholder + placeholder.size());
+	if (english.size() < prefix.size() + suffix.size()
+				|| english.compare(0, prefix.size(), prefix) != 0
+				|| english.compare(english.size() - suffix.size(), suffix.size(), suffix)
+						!= 0) {
+		return std::nullopt;
+	}
+
+	const std::string runtime_value = std::string(english.substr(
+			prefix.size(), english.size() - prefix.size() - suffix.size()));
+	const std::vector<std::pair<std::string, std::string>> substitutions = {
+			{std::string(placeholder), runtime_value}};
+	return translate_dialogue_template_if_available(
+				english, source_template, substitutions);
+}
+
+std::optional<std::string>
+		GameplayTranslationManager::translate_dialogue_template_if_available(
+				std::string_view english, std::string_view source_template,
+				const std::vector<std::pair<std::string, std::string>>& substitutions) {
+	if (!table_only_enabled() || substitutions.empty()) {
+		return std::nullopt;
+	}
+
+	// Split the source template into literal portions around each placeholder
+	// and verify that the runtime string has the same literal portions in the
+	// same order.  Dynamic values may differ from their table representation,
+	// so the caller supplies the values that should be put into the translation.
+	std::vector<std::string_view> literals;
+	literals.reserve(substitutions.size() + 1);
+	std::size_t template_position = 0;
+	for (const auto& substitution : substitutions) {
+		const std::string_view placeholder = substitution.first;
+		if (placeholder.empty()) {
+			return std::nullopt;
+		}
+
+		const std::size_t placeholder_position =
+				source_template.find(placeholder, template_position);
+		if (placeholder_position == std::string_view::npos
+					|| source_template.find(placeholder,
+							placeholder_position + placeholder.size())
+								!= std::string_view::npos) {
+			return std::nullopt;
+		}
+
+		literals.push_back(source_template.substr(
+				template_position, placeholder_position - template_position));
+		template_position = placeholder_position + placeholder.size();
+	}
+	literals.push_back(source_template.substr(template_position));
+
+	std::size_t runtime_position = 0;
+	for (std::size_t i = 0; i < substitutions.size(); ++i) {
+		const std::string_view literal = literals[i];
+		if (runtime_position > english.size()
+				|| literal.size() > english.size() - runtime_position
+				|| english.compare(runtime_position, literal.size(), literal) != 0) {
+			return std::nullopt;
+		}
+		runtime_position += literal.size();
+
+		if (i + 1 < substitutions.size()) {
+			const std::string_view next_literal = literals[i + 1];
+			const std::size_t next_position =
+					english.find(next_literal, runtime_position);
+			if (next_position == std::string_view::npos) {
+				return std::nullopt;
+			}
+			runtime_position = next_position;
+		} else {
+			const std::string_view suffix = literals.back();
+			if (suffix.size() > english.size()
+					|| english.compare(english.size() - suffix.size(), suffix.size(),
+							suffix) != 0
+					|| runtime_position > english.size() - suffix.size()) {
+				return std::nullopt;
+			}
+		}
+	}
+
+	const TranslationLookup result =
+			table_.lookup_dialogue_by_source_globally(source_template);
+	if (result.status != TranslationLookupStatus::SourceFallback
+				&& result.status != TranslationLookupStatus::Hit) {
+		return std::nullopt;
+	}
+
+	std::string translated = result.text;
+	for (const auto& substitution : substitutions) {
+		const std::string_view placeholder = substitution.first;
+		const std::size_t translated_placeholder = translated.find(placeholder);
+		if (translated_placeholder == std::string::npos
+					|| translated.find(placeholder,
+							translated_placeholder + placeholder.size())
+								!= std::string::npos) {
+			return std::nullopt;
+		}
+		translated.replace(translated_placeholder, placeholder.size(),
+					substitution.second);
+	}
+	++diagnostics_.hits;
+	return translated;
 }
 
 void GameplayTranslationManager::record_runtime_source(
@@ -280,5 +474,16 @@ std::string make_choice_translation_key(
 
 std::string make_item_translation_key(int shape, int frame, int quality) {
 	return "item:" + format_hex_id(shape) + ":" + std::to_string(frame)
-			+ ":" + std::to_string(quality);
+				+ ":" + std::to_string(quality);
+}
+
+std::string strip_usecode_dialogue_markers(std::string_view text) {
+	std::string result;
+	result.reserve(text.size());
+	for (const char character : text) {
+		if (character != '@') {
+			result.push_back(character);
+		}
+	}
+	return result;
 }

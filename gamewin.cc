@@ -141,6 +141,18 @@ namespace {
 		}
 	};
 
+	void load_patch_usecode(Usecode_machine* machine) {
+		if (machine == nullptr || !is_system_path_defined("<PATCH>")
+				|| !U7exists(PATCH_USECODE)) {
+			return;
+		}
+
+		auto pFile = U7open_in(PATCH_USECODE);
+		if (pFile) {
+			machine->read_usecode(*pFile, true);
+		}
+	}
+
 }    // namespace
 
 // THE game window:
@@ -1589,33 +1601,24 @@ void Game_window::reload_usecode() {
 					usecode->read_usecode(*pFile, false);
 				}
 			}
+			load_patch_usecode(usecode);
 		} else if (U7exists(USECODE)) {
 			auto pFile = U7open_in(USECODE);
 			if (pFile) {
 				usecode->read_usecode(*pFile, false);
 			}
+			load_patch_usecode(usecode);
 		}
 		return;
 	}
-	if (Game::is_chinese_mode()) {
-		// Get custom Chinese usecode functions.
-		if (is_system_path_defined("<PATCH>") && U7exists(PATCH_USECODE)) {
-			auto pFile = U7open_in(PATCH_USECODE);
-			if (!pFile) {
-				return;
-			}
-			auto& file = *pFile;
-			usecode->read_usecode(file, true);
-		}
-	} else {
-		// Reload original English STATIC usecode when switching away from Chinese
-		if (U7exists(USECODE)) {
-			auto pFile = U7open_in(USECODE);
-			if (pFile) {
-				usecode->read_usecode(*pFile, false);
-			}
+	// Reload the original English usecode, then restore the selected mod patch.
+	if (U7exists(USECODE)) {
+		auto pFile = U7open_in(USECODE);
+		if (pFile) {
+			usecode->read_usecode(*pFile, false);
 		}
 	}
+	load_patch_usecode(usecode);
 }
 
 /*

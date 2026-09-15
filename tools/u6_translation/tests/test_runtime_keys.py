@@ -28,6 +28,16 @@ class RuntimeKeyTest(unittest.TestCase):
         self.assertEqual(split_runtime_segments("one~"), ["one"])
         self.assertEqual(split_runtime_segments("*one"), ["one"])
 
+    def test_segment_split_drops_control_and_whitespace_only_segments(self) -> None:
+        self.assertEqual(
+            split_runtime_segments("~~by Ventara~~*"),
+            ["by Ventara"],
+        )
+        self.assertEqual(
+            split_runtime_segments("~~ ~~Captain's log - The Empire~~"),
+            ["Captain's log - The Empire"],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
