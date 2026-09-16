@@ -6,8 +6,11 @@ from pathlib import Path
 import re
 import subprocess
 import tempfile
+from collections.abc import Iterable
 
-from .catalog import CatalogEntry, _merge, parse_runtime_catalog
+from .catalog import CatalogEntry, _merge, parse_runtime_catalog, source_sha256
+from .runtime_table import RuntimeRow
+from .templates import DYNAMIC_DIALOGUE_TEMPLATES
 
 
 def make_dialogue_key(function: int, callsite: str, ordinal: int) -> str:
@@ -59,6 +62,11 @@ class _StaticChoice:
 
 
 _UCXT_DATA_FILES = ("u7misc.data", "u7opcodes.data", "u7bgintrinsics.data")
+_BOOK_USECODE_FUNCTIONS = frozenset({0x0282, 0x031D, 0x0638, 0x0710, 0x0CDB})
+# The U6 patch delegates its unmodified book/scroll cases specifically to
+# these two base BG functions (the other known handlers are not callo targets
+# in this mod and their Chinese usecode has a different data layout).
+_FALLBACK_BOOK_USECODE_FUNCTIONS = frozenset({0x0282, 0x031D})
 
 
 def _find_usecode(root: Path) -> Path:
@@ -100,9 +108,9 @@ def _execute_ucxt(command: list[str], cwd: Path | None) -> str:
     return _decode_ucxt_output(output)
 
 
-def _run_ucxt(root: Path, ucxt: Path) -> str:
-    usecode = _find_usecode(root)
-    command = [str(ucxt), "-nc", "-ftt", f"-i{usecode}", "-a"]
+def _run_ucxt_file(usecode: Path, ucxt: Path, output_format: str) -> str:
+    usecode = usecode.resolve()
+    command = [str(ucxt), "-nc", output_format, f"-i{usecode}", "-a"]
     if not (ucxt.stat().st_mode & 0o111):
         command = ["/bin/sh"] + command
 
@@ -121,8 +129,253 @@ def _run_ucxt(root: Path, ucxt: Path) -> str:
         return _execute_ucxt(command, Path(directory))
 
 
+def _run_ucxt(root: Path, ucxt: Path) -> str:
+    return _run_ucxt_file(_find_usecode(root), ucxt, "-ftt")
+
+
 def _parse_numeric_id(value: str) -> int:
     return int(value, 16) if value.lower().startswith("0x") else int(value, 10)
+
+
+def _join_ucxt_wrapped_strings(text: str) -> list[str]:
+    """Join UCXT output lines that wrap one backtick-delimited string.
+
+    UCXT wraps long ``-ftt`` values at the output width without inserting a
+    newline into the game string. The continuation line has no indentation,
+    so parsing each physical line independently silently truncates those
+    values and makes their runtime hashes impossible to match.
+    """
+
+    lines: list[str] = []
+    pending: str | None = None
+    # The parser receives UCXT output decoded as Latin-1 so every original
+    # byte is preserved.  ``str.splitlines()`` also treats U+0085 as a line
+    # separator, which is a UTF-8 continuation byte in many Chinese strings.
+    # Only split on the actual output newline.
+    for line in text.split("\n"):
+        if pending is None:
+            if line.lstrip().startswith("`") and not line.rstrip().endswith("`"):
+                pending = line
+            else:
+                lines.append(line)
+            continue
+
+        # UCXT wraps long values at the output width and starts those
+        # continuation lines at column zero.  Book data can also contain real
+        # newlines; those continuation lines retain the source indentation,
+        # while a blank line is itself part of the value.  Keep only the
+        # latter kind of newline so the catalog hash matches the runtime
+        # string without reintroducing UCXT's display wrapping.
+        if not line or line[0].isspace():
+            pending += "\n"
+        pending += line
+        if line.rstrip().endswith("`"):
+            lines.append(pending)
+            pending = None
+
+    if pending is not None:
+        lines.append(pending)
+    return lines
+
+
+def _parse_ucxt_data_strings(
+    text: str, functions: Iterable[int] | None = None
+) -> dict[tuple[int, int], str]:
+    """Return complete raw translation-table strings keyed by function/offset.
+
+    The regular catalog parser intentionally treats backticks inside a
+    string as UCXT fragments. Fallback books need the original complete
+    runtime string, however, because those backticks are ordinary book text.
+    The first and last backtick on an output line delimit that raw value.
+    """
+
+    wanted = set(functions) if functions is not None else None
+    data: dict[tuple[int, int], str] = {}
+    function: int | None = None
+    offset: int | None = None
+    opening_tag = re.compile(r"^<((?:0x)?[0-9a-fA-F]+)>$")
+
+    for line in _join_ucxt_wrapped_strings(text):
+        stripped = line.strip()
+        if stripped == "</>":
+            if offset is not None:
+                offset = None
+            else:
+                function = None
+            continue
+        tag = opening_tag.fullmatch(stripped)
+        if tag is not None:
+            value = _parse_numeric_id(tag.group(1))
+            if function is None:
+                function = value
+                offset = None
+            else:
+                offset = value
+            continue
+        if function is None or offset is None:
+            continue
+        if wanted is not None and function not in wanted:
+            continue
+        start = line.find("`")
+        end = line.rfind("`")
+        if start >= 0 and end > start:
+            data[(function, offset)] = line[start + 1:end]
+    return data
+
+
+def _parse_ucxt_addsi_references(
+    text: str, functions: Iterable[int] | None = None
+) -> dict[int, list[int]]:
+    """Return each function's ``addsi`` data references in execution order."""
+
+    wanted = set(functions) if functions is not None else None
+    references: dict[int, list[int]] = {}
+    function: int | None = None
+    function_pattern = re.compile(r"\.funcnumber\s+([0-9a-fA-F]+)H", re.IGNORECASE)
+    addsi_pattern = re.compile(r"\baddsi\s+L([0-9a-fA-F]+)\b", re.IGNORECASE)
+    for line in text.split("\n"):
+        function_match = function_pattern.search(line)
+        if function_match is not None:
+            function = int(function_match.group(1), 16)
+            references.setdefault(function, [])
+        if function is None or (wanted is not None and function not in wanted):
+            continue
+        references[function].extend(
+            int(match.group(1), 16) for match in addsi_pattern.finditer(line)
+        )
+    return references
+
+
+def _decode_ucxt_translation_value(value: str) -> str | None:
+    """Decode a Chinese UCXT value while accepting already-decoded fixtures."""
+
+    try:
+        return value.encode("latin-1").decode("utf-8")
+    except UnicodeEncodeError:
+        return value
+    except UnicodeDecodeError:
+        return None
+
+
+def _book_segments(source: str) -> list[tuple[int, str]]:
+    return [
+        (ordinal, segment)
+        for ordinal, segment in _split_runtime_segments_with_ordinals(source)
+        if segment.strip()
+    ]
+
+
+def _fallback_book_key(function: int, offset: int, ordinal: int) -> str:
+    return f"dialogue:0x{function:04x}:fallback_{offset:x}:{ordinal}"
+
+
+def _fallback_book_catalog_entries(
+    data: dict[tuple[int, int], str],
+    references: dict[int, list[int]],
+    functions: Iterable[int],
+) -> list[CatalogEntry]:
+    entries: list[CatalogEntry] = []
+    for function in sorted(set(functions)):
+        for offset in references.get(function, []):
+            for ordinal, source in _book_segments(data.get((function, offset), "")):
+                entries.append(
+                    CatalogEntry.from_source(
+                        "dialogue",
+                        _fallback_book_key(function, offset, ordinal),
+                        source,
+                        "book",
+                        "static-fallback-ucxt",
+                    )
+                )
+    return entries
+
+
+def _pair_usecode_translation_rows(
+    english_data: dict[tuple[int, int], str],
+    chinese_data: dict[tuple[int, int], str],
+    english_references: dict[int, list[int]],
+    chinese_references: dict[int, list[int]],
+    functions: Iterable[int],
+) -> list[RuntimeRow]:
+    """Pair fallback book translations by ``addsi`` order, not data offsets."""
+
+    rows: dict[tuple[str, str], RuntimeRow] = {}
+    for function in sorted(set(functions)):
+        english_refs = english_references.get(function, [])
+        chinese_refs = chinese_references.get(function, [])
+        for english_offset, chinese_offset in zip(english_refs, chinese_refs):
+            english_segments = _book_segments(
+                english_data.get((function, english_offset), "")
+            )
+            chinese_value = _decode_ucxt_translation_value(
+                chinese_data.get((function, chinese_offset), "")
+            )
+            if chinese_value is None:
+                continue
+            chinese_segments = _book_segments(chinese_value)
+            normalized_chinese_value = chinese_value.replace("～", "~")
+            normalized_chinese_segments = _book_segments(normalized_chinese_value)
+            if len(english_segments) == len(normalized_chinese_segments):
+                chinese_segments = normalized_chinese_segments
+            if len(english_segments) != len(chinese_segments):
+                continue
+            for (ordinal, source), (chinese_ordinal, translation) in zip(
+                english_segments, chinese_segments
+            ):
+                if ordinal != chinese_ordinal or not translation.strip():
+                    continue
+                key = _fallback_book_key(function, english_offset, ordinal)
+                rows[("dialogue", key)] = RuntimeRow(
+                    "dialogue", key, source_sha256(source), translation
+                )
+    return [rows[identity] for identity in sorted(rows)]
+
+
+def extract_fallback_book_catalog(
+    english_usecode: Path, ucxt_path: Path
+) -> list[CatalogEntry]:
+    english_usecode = english_usecode.resolve()
+    english_data = _parse_ucxt_data_strings(
+        _run_ucxt_file(english_usecode, ucxt_path, "-ftt"),
+        _FALLBACK_BOOK_USECODE_FUNCTIONS,
+    )
+    english_references = _parse_ucxt_addsi_references(
+        _run_ucxt_file(english_usecode, ucxt_path, "-fa"),
+        _FALLBACK_BOOK_USECODE_FUNCTIONS,
+    )
+    return _fallback_book_catalog_entries(
+        english_data, english_references, _FALLBACK_BOOK_USECODE_FUNCTIONS
+    )
+
+
+def extract_usecode_translation_rows(
+    english_usecode: Path, chinese_usecode: Path, ucxt_path: Path
+) -> list[RuntimeRow]:
+    english_usecode = english_usecode.resolve()
+    chinese_usecode = chinese_usecode.resolve()
+    english_data = _parse_ucxt_data_strings(
+        _run_ucxt_file(english_usecode, ucxt_path, "-ftt"),
+        _FALLBACK_BOOK_USECODE_FUNCTIONS,
+    )
+    chinese_data = _parse_ucxt_data_strings(
+        _run_ucxt_file(chinese_usecode, ucxt_path, "-ftt"),
+        _FALLBACK_BOOK_USECODE_FUNCTIONS,
+    )
+    english_references = _parse_ucxt_addsi_references(
+        _run_ucxt_file(english_usecode, ucxt_path, "-fa"),
+        _FALLBACK_BOOK_USECODE_FUNCTIONS,
+    )
+    chinese_references = _parse_ucxt_addsi_references(
+        _run_ucxt_file(chinese_usecode, ucxt_path, "-fa"),
+        _FALLBACK_BOOK_USECODE_FUNCTIONS,
+    )
+    return _pair_usecode_translation_rows(
+        english_data,
+        chinese_data,
+        english_references,
+        chinese_references,
+        _FALLBACK_BOOK_USECODE_FUNCTIONS,
+    )
 
 
 def _parse_ucxt(text: str) -> list[CatalogEntry]:
@@ -134,7 +387,7 @@ def _parse_ucxt(text: str) -> list[CatalogEntry]:
         r"</>|<((?:0x)?[0-9a-fA-F]+(?:_(?:0x)?[0-9a-fA-F]+)*)>"
     )
 
-    for line in text.splitlines():
+    for line in _join_ucxt_wrapped_strings(text):
         for tag in tag_pattern.finditer(line):
             if tag.group(0) == "</>":
                 if offset_markers:
@@ -166,12 +419,51 @@ def _parse_ucxt(text: str) -> list[CatalogEntry]:
                         "dialogue",
                         make_dialogue_key(function, callsite, ordinal + segment_ordinal),
                         segment,
-                        "gameplay",
+                        "book" if function in _BOOK_USECODE_FUNCTIONS else "gameplay",
                         "static-ucxt",
                     )
                 )
             ordinal += len(segments)
     return entries
+
+
+def _dialogue_function(key: str) -> int | None:
+    parts = key.split(":")
+    if len(parts) < 2 or not parts[1].startswith("0x"):
+        return None
+    try:
+        return int(parts[1], 16)
+    except ValueError:
+        return None
+
+
+def _dynamic_dialogue_templates(entries: list[CatalogEntry]) -> list[CatalogEntry]:
+    sources_by_function: dict[int, set[str]] = {}
+    for entry in entries:
+        if entry.kind != "dialogue":
+            continue
+        function = _dialogue_function(entry.key)
+        if function is not None:
+            sources_by_function.setdefault(function, set()).add(entry.source)
+
+    templates = []
+    for template in DYNAMIC_DIALOGUE_TEMPLATES:
+        function_sources = sources_by_function.get(template.function, set())
+        if not all(
+            any(anchor in source for source in function_sources)
+            for anchor in template.anchors
+        ):
+            continue
+        templates.append(
+            CatalogEntry.from_source(
+                "dialogue",
+                template.key,
+                template.source,
+                "dynamic-template",
+                "static-template",
+            )
+        )
+    return templates
 
 
 def _parse_function_id(line: str, path: Path) -> int | None:
@@ -259,8 +551,14 @@ def _parse_static_choices(root: Path) -> tuple[list[CatalogEntry], list[_StaticC
     return entries, choices
 
 
-def _static(root: Path, ucxt: Path) -> tuple[list[CatalogEntry], list[_StaticChoice]]:
+def _static(
+    root: Path,
+    ucxt: Path,
+    fallback_usecode: Path | None = None,
+) -> tuple[list[CatalogEntry], list[_StaticChoice]]:
     entries = _parse_ucxt(_run_ucxt(root, ucxt))
+    if fallback_usecode is not None:
+        entries.extend(extract_fallback_book_catalog(fallback_usecode, ucxt))
     choices, choice_metadata = _parse_static_choices(root)
     return entries + choices, choice_metadata
 
@@ -580,11 +878,15 @@ def _bind_runtime_choices(
 
 
 def extract_catalog(
-    mod_root: Path, ucxt_path: Path, runtime_catalog: Path | None
+    mod_root: Path,
+    ucxt_path: Path,
+    runtime_catalog: Path | None,
+    fallback_usecode: Path | None = None,
 ) -> list[CatalogEntry]:
-    entries, static_choices = _static(mod_root, ucxt_path)
+    entries, static_choices = _static(mod_root, ucxt_path, fallback_usecode)
     entries.extend(_parse_indexed_resources(mod_root))
     entries.extend(_parse_spell_names(mod_root))
+    entries.extend(_dynamic_dialogue_templates(entries))
     if runtime_catalog is not None:
         runtime = parse_runtime_catalog(runtime_catalog)
         runtime = _reconcile_runtime_dialogues(entries, runtime)

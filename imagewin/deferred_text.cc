@@ -413,21 +413,17 @@ void Deferred_text_renderer::blit(SDL_Surface* inter_surface, int x, int y, int 
 	if (!gwin) return;
 	auto* image_win = gwin->get_win();
 	if (!image_win) return;
-	auto* ibuf = image_win->get_ibuf();
-	if (!ibuf) return;
 
-	int ox = ibuf->get_offset_x();
-	int oy = ibuf->get_offset_y();
-
-	// x, y here are already in ibuf-offset-adjusted coordinates (from show()).
-	// draw_glyph uses sx = (x + offset_x + gb) * scale to draw onto text_surface.
-	// So src coords on text_surface MUST include ox and oy.
-	int src_x = (x + ox + guard_band) * scale;
-	int src_y = (y + oy + guard_band) * scale;
-	// dst coords on inter_surface MUST NOT include ox and oy, because inter_surface 
-	// is scaled directly from draw_surface which handles its own offset.
-	int dst_x = (x + guard_band) * scale;
-	int dst_y = (y + guard_band) * scale;
+	// x and y are relative to the full draw area after Image_window::show()
+	// removes the image-buffer start offset.  Both surfaces use that same
+	// compositor coordinate space: draw_glyph accounts for the buffer offset
+	// when placing glyphs, and the scaler accounts for it when producing
+	// inter_surface.  Copy the same rectangle in both surfaces; adding the
+	// buffer offset only to the source shifts text left/up on the page.
+	int src_x = (x + guard_band) * scale;
+	int src_y = (y + guard_band) * scale;
+	int dst_x = src_x;
+	int dst_y = src_y;
 	
 	int dw = w * scale;
 	int dh = h * scale;

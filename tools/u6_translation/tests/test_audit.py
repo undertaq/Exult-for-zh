@@ -19,8 +19,10 @@ FIXTURES = Path(__file__).parent / "fixtures"
 GLOSSARY = Path(__file__).parents[1] / "u6_glossary.tsv"
 
 
-def _entry(kind: str, key: str, source: str) -> CatalogEntry:
-    return CatalogEntry.from_source(kind, key, source, "gameplay", "audit-fixture")
+def _entry(
+    kind: str, key: str, source: str, context: str = "gameplay"
+) -> CatalogEntry:
+    return CatalogEntry.from_source(kind, key, source, context, "audit-fixture")
 
 
 class AuditReportTest(unittest.TestCase):
@@ -60,6 +62,66 @@ class AuditReportTest(unittest.TestCase):
         self.assertEqual(report["by_kind"]["dialogue"]["weighted_coverage"], 1.0)
         self.assertEqual(report["totals"]["total"], len(self.catalog))
 
+    def test_coverage_reports_book_contents_separately(self) -> None:
+        entry = _entry(
+            "dialogue", "dialogue:0x0282:10:0", "A page of book text", "book"
+        )
+        report = coverage_report(
+            [entry],
+            [RuntimeRow(entry.kind, entry.key, entry.source_sha256, "一頁書中文字")],
+        )
+        self.assertEqual(report["book_contents"]["total"], 1)
+        self.assertEqual(report["book_contents"]["translated"], 1)
+        self.assertEqual(report["book_contents"]["missing"], 0)
+
+    def test_coverage_reports_dynamic_templates_separately(self) -> None:
+        entry = _entry(
+            "dialogue",
+            "dialogue:0x0494:template_lord_british_greeting:0",
+            "@Good <TIME_OF_DAY>, <PLAYER_NAME>.@",
+            "dynamic-template",
+        )
+        report = coverage_report(
+            [entry],
+            [RuntimeRow(
+                entry.kind, entry.key, entry.source_sha256,
+                "@美好的<TIME_OF_DAY>，<PLAYER_NAME>.@",
+            )],
+        )
+        self.assertEqual(report["dynamic_templates"]["total"], 1)
+        self.assertEqual(report["dynamic_templates"]["translated"], 1)
+        self.assertEqual(report["dynamic_templates"]["missing"], 0)
+
+    def test_item_quantity_name_format_is_preserved(self) -> None:
+        entry = _entry("item", "item:0x0285:0:0", "/gold nugget//s")
+        valid = RuntimeRow(entry.kind, entry.key, entry.source_sha256, "/金塊//")
+        valid_report = correctness_report([entry], [valid], GLOSSARY, None)
+        self.assertNotIn(
+            "item_name_format",
+            {issue["check"] for issue in valid_report["deterministic"]["issues"]},
+        )
+
+        invalid = RuntimeRow(entry.kind, entry.key, entry.source_sha256, "金塊")
+        invalid_report = correctness_report([entry], [invalid], GLOSSARY, None)
+        self.assertIn(
+            "item_name_format",
+            {issue["check"] for issue in invalid_report["deterministic"]["issues"]},
+        )
+
+        untranslated_plural = RuntimeRow(
+            entry.kind, entry.key, entry.source_sha256, "/金塊//s"
+        )
+        untranslated_plural_report = correctness_report(
+            [entry], [untranslated_plural], GLOSSARY, None
+        )
+        self.assertIn(
+            "item_name_format",
+            {
+                issue["check"]
+                for issue in untranslated_plural_report["deterministic"]["issues"]
+            },
+        )
+
     def test_correctness_reports_structural_and_translation_issues_separately(self) -> None:
         report = correctness_report(self.catalog, self.rows, GLOSSARY, [])
         issues = report["deterministic"]["issues"]
@@ -75,6 +137,86 @@ class AuditReportTest(unittest.TestCase):
         self.assertTrue(all({"key", "check", "severity", "source_location"} <= set(issue) for issue in issues))
         simplified = next(issue for issue in issues if issue["check"] == "traditional_chinese")
         self.assertEqual(simplified["severity"], "warning")
+
+    def test_dialogue_wrappers_are_not_protected_translation_tokens(self) -> None:
+        entry = _entry("dialogue", "dialogue:0x0401:94:0", "@Hello@*")
+        valid = RuntimeRow(entry.kind, entry.key, entry.source_sha256, "@你好@*")
+        report = correctness_report([entry], [valid], GLOSSARY, None)
+        self.assertNotIn(
+            "protected_markers",
+            {issue["check"] for issue in report["deterministic"]["issues"]},
+        )
+
+        invalid = RuntimeRow(entry.kind, entry.key, entry.source_sha256, "@你好@")
+        invalid_report = correctness_report([entry], [invalid], GLOSSARY, None)
+        self.assertIn(
+            "protected_markers",
+            {issue["check"] for issue in invalid_report["deterministic"]["issues"]},
+        )
+
+    def test_translated_text_may_add_line_breaks_but_may_not_drop_source_breaks(self) -> None:
+        entry = _entry("dialogue", "dialogue:0x0401:95:0", "first\nsecond")
+        added = RuntimeRow(entry.kind, entry.key, entry.source_sha256, "第一\n第二\n第三")
+        added_report = correctness_report([entry], [added], GLOSSARY, None)
+        self.assertNotIn(
+            "newlines",
+            {issue["check"] for issue in added_report["deterministic"]["issues"]},
+        )
+
+        dropped = RuntimeRow(entry.kind, entry.key, entry.source_sha256, "第一第二")
+        dropped_report = correctness_report([entry], [dropped], GLOSSARY, None)
+        self.assertIn(
+            "newlines",
+            {issue["check"] for issue in dropped_report["deterministic"]["issues"]},
+        )
+
+    def test_non_linguistic_source_does_not_require_chinese_or_count_as_duplication(self) -> None:
+        entry = _entry("dialogue", "dialogue:0x0401:96:0", "0")
+        report = correctness_report(
+            [entry],
+            [RuntimeRow(entry.kind, entry.key, entry.source_sha256, "0")],
+            GLOSSARY,
+            None,
+        )
+        self.assertNotIn(
+            "chinese_output",
+            {issue["check"] for issue in report["deterministic"]["issues"]},
+        )
+        self.assertNotIn(
+            "source_duplication",
+            {issue["check"] for issue in report["deterministic"]["issues"]},
+        )
+
+    def test_opaque_u6_language_does_not_require_chinese_or_count_as_duplication(self) -> None:
+        entries = [
+            _entry("dialogue", "dialogue:0x0cff:100:0", "kuatim betlem grespor de ov"),
+            _entry("dialogue", "dialogue:0x0667:101:0", "@Ex Por@"),
+            _entry("dialogue", "dialogue:0x0449:102:0", "@Rrrrlr Grrtl...@"),
+        ]
+        report = correctness_report(
+            entries,
+            [RuntimeRow(entry.kind, entry.key, entry.source_sha256, entry.source) for entry in entries],
+            GLOSSARY,
+            None,
+        )
+        checks = {issue["check"] for issue in report["deterministic"]["issues"]}
+        self.assertNotIn("chinese_output", checks)
+        self.assertNotIn("source_duplication", checks)
+
+    def test_runtime_and_audio_format_fragments_do_not_require_chinese(self) -> None:
+        entries = [
+            _entry("dialogue", "dialogue:0x0401:101:0", "NPC "),
+            _entry("dialogue", "dialogue:0x0498:102:0", "FRAME_BREAD"),
+            _entry("textmsg", "textmsg:0x020e", "Roland MT-32"),
+        ]
+        rows = [
+            RuntimeRow(entry.kind, entry.key, entry.source_sha256, entry.source)
+            for entry in entries
+        ]
+        report = correctness_report(entries, rows, GLOSSARY, None)
+        checks = {issue["check"] for issue in report["deterministic"]["issues"]}
+        self.assertNotIn("chinese_output", checks)
+        self.assertNotIn("source_duplication", checks)
 
     def test_exit_code_allows_only_reviewable_missing_rows_in_non_strict_mode(self) -> None:
         missing_only = coverage_report(
@@ -146,6 +288,49 @@ class AuditReportTest(unittest.TestCase):
             {issue["check"] for issue in legitimate_report["deterministic"]["issues"]},
         )
 
+    def test_intentional_source_repetition_is_not_a_duplicate_translation(self) -> None:
+        entry = _entry("dialogue", "dialogue:0x0401:97:0", "Guards! Guards!")
+        row = RuntimeRow(entry.kind, entry.key, entry.source_sha256, "衛兵！衛兵！")
+        report = correctness_report([entry], [row], GLOSSARY, None)
+        self.assertNotIn(
+            "duplicate_translation",
+            {issue["check"] for issue in report["deterministic"]["issues"]},
+        )
+
+    def test_english_name_can_protect_a_glossary_substring(self) -> None:
+        entry = _entry("location", "location:0x002b", "Isle of the Avatar")
+        row = RuntimeRow(entry.kind, entry.key, entry.source_sha256, "Isle of the Avatar")
+        with tempfile.TemporaryDirectory() as directory:
+            names = Path(directory) / "names.tsv"
+            names.write_text(
+                "category\ten\nplace\tIsle of the Avatar\n",
+                encoding="utf-8",
+            )
+            report = correctness_report(
+                [entry], [row], GLOSSARY, None, names=names
+            )
+        checks = {issue["check"] for issue in report["deterministic"]["issues"]}
+        self.assertNotIn("glossary", checks)
+        self.assertNotIn("source_duplication", checks)
+        self.assertNotIn("chinese_output", checks)
+
+    def test_name_policy_accepts_named_non_npc_entities(self) -> None:
+        entry = _entry("textmsg", "textmsg:0x0091", "Empire")
+        row = RuntimeRow(entry.kind, entry.key, entry.source_sha256, "Empire")
+        with tempfile.TemporaryDirectory() as directory:
+            names = Path(directory) / "names.tsv"
+            names.write_text(
+                "category\ten\nproper\tEmpire\n",
+                encoding="utf-8",
+            )
+            report = correctness_report(
+                [entry], [row], GLOSSARY, None, names=names
+            )
+        checks = {issue["check"] for issue in report["deterministic"]["issues"]}
+        self.assertNotIn("english_name", checks)
+        self.assertNotIn("source_duplication", checks)
+        self.assertNotIn("chinese_output", checks)
+
     def test_repeated_english_source_requires_one_consistent_translation(self) -> None:
         entries = [
             _entry("dialogue", "dialogue:0x0401:80:0", "The Fellowship"),
@@ -201,6 +386,53 @@ class AuditReportTest(unittest.TestCase):
             glossary.write_text("en\tzh\tpolicy\nAvatar\t聖者\ttranslated\nRune\tRune\tprotected\n", encoding="utf-8")
             bad_report = correctness_report(catalog, [bad_row], glossary, None)
         self.assertIn("protected_term", {issue["check"] for issue in bad_report["deterministic"]["issues"]})
+
+    def test_name_policy_requires_english_names_in_dialogue_and_name_rows(self) -> None:
+        entries = [
+            _entry("dialogue", "dialogue:0x0401:92:0", "Iolo asks about Britain"),
+            _entry("location", "location:0x002a", "Britain"),
+        ]
+        rows = [
+            RuntimeRow(entries[0].kind, entries[0].key, entries[0].source_sha256, "伊歐羅詢問不列顛"),
+            RuntimeRow(entries[1].kind, entries[1].key, entries[1].source_sha256, "不列顛"),
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            names = Path(directory) / "names.tsv"
+            names.write_text(
+                "category\ten\n"
+                "npc\tIolo\n"
+                "town\tBritain\n",
+                encoding="utf-8",
+            )
+            report = correctness_report(self.catalog + entries, self.rows + rows, GLOSSARY, None, names=names)
+
+        name_issues = [
+            issue for issue in report["deterministic"]["issues"]
+            if issue["check"] == "english_name"
+        ]
+        self.assertEqual({issue["key"] for issue in name_issues}, {entry.key for entry in entries})
+        self.assertTrue(all(issue["blocking"] for issue in name_issues))
+
+        valid_rows = [
+            RuntimeRow(entries[0].kind, entries[0].key, entries[0].source_sha256, "Iolo 詢問 Britain"),
+            RuntimeRow(entries[1].kind, entries[1].key, entries[1].source_sha256, "Britain"),
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            names = Path(directory) / "names.tsv"
+            names.write_text(
+                "category\ten\n"
+                "npc\tIolo\n"
+                "town\tBritain\n",
+                encoding="utf-8",
+            )
+            valid_report = correctness_report(
+                entries, valid_rows, GLOSSARY, None, names=names
+            )
+        self.assertNotIn(
+            "english_name",
+            {issue["check"] for issue in valid_report["deterministic"]["issues"]},
+        )
+        self.assertFalse(valid_report["deterministic"]["has_failures"])
 
     def test_traditional_policy_requires_glossary_declaration(self) -> None:
         entry = _entry("misc", "misc:0x0052", "Welcome")
@@ -273,6 +505,21 @@ class AuditReportTest(unittest.TestCase):
         self.assertIn("U6 translation audit", terminal)
         self.assertIn("choice", terminal)
         self.assertIn("weighted", terminal)
+
+    def test_terminal_report_mentions_english_name_policy_results(self) -> None:
+        entry = _entry("dialogue", "dialogue:0x0401:93:0", "Iolo")
+        with tempfile.TemporaryDirectory() as directory:
+            names = Path(directory) / "names.tsv"
+            names.write_text("category\ten\nnpc\tIolo\n", encoding="utf-8")
+            report = correctness_report(
+                [entry],
+                [RuntimeRow(entry.kind, entry.key, entry.source_sha256, "Iolo")],
+                GLOSSARY,
+                None,
+                names=names,
+            )
+        terminal = format_terminal_report(report)
+        self.assertIn("English-name policy: 1 names; issues: 0", terminal)
 
     def test_audit_table_requires_exact_release_headers(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

@@ -24,6 +24,16 @@ class CatalogCodecTest(unittest.TestCase):
             write_catalog(output, entries)
             self.assertEqual(load_catalog(output), entries)
 
+    def test_catalog_round_trip_preserves_latin1_control_codepoints(self) -> None:
+        entry = CatalogEntry.from_source(
+            "dialogue", "dialogue:0x0282:fallback_10:0", "prefix\x85suffix",
+            "book", "fixture",
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "catalog.jsonl"
+            write_catalog(output, [entry])
+            self.assertEqual(load_catalog(output), [entry])
+
     def test_write_catalog_has_deterministic_kind_key_order(self) -> None:
         entries = [
             CatalogEntry(

@@ -1,5 +1,8 @@
 #include "gameplay_translation_table.h"
+
+#define private public
 #include "gameplay_translation.h"
+#undef private
 
 #include <cassert>
 #include <fstream>
@@ -523,6 +526,194 @@ void assert_choice_source_fallback_reuses_legacy_dialogue_rows() {
 	assert(result.text == option);
 }
 
+void assert_item_source_fallback_reuses_raw_quantity_and_misc_rows() {
+	const std::string gold_nugget = "/gold nugget//s";
+	const std::string quill = "quill";
+	const std::string table_text =
+			"# u6-translation-v1\n"
+			"# kind\tkey\tsource_sha256\tzh\n"
+			"item\titem:0x0285:0:0\t"
+			+ sha256_hex(normalize_translation_source(gold_nugget))
+			+ "\t/金塊//s\n"
+			"misc\tmisc:0x002e\t"
+			+ sha256_hex(normalize_translation_source(quill))
+			+ "\t羽毛筆\n";
+
+	GameplayTranslationTable table;
+	std::string error;
+	std::istringstream input(table_text);
+	assert(table.load(input, error));
+	assert(error.empty());
+
+	TranslationLookup result = table.lookup_item_by_source(gold_nugget);
+	assert(result.status == TranslationLookupStatus::SourceFallback);
+	assert(result.text == "/金塊//s");
+	result = table.lookup_item_by_source(quill);
+	assert(result.status == TranslationLookupStatus::SourceFallback);
+	assert(result.text == "羽毛筆");
+
+	GameplayTranslationManager& manager = GameplayTranslationManager::get();
+	manager.shutdown();
+	manager.set_text_language(TextLanguage::CHINESE);
+	std::istringstream manager_input(table_text);
+	assert(manager.load_table(manager_input, error));
+	assert(manager.translate_by_source(GameplayTranslationKind::Item, gold_nugget)
+			== "/金塊//s");
+	assert(manager.translate_by_source(GameplayTranslationKind::Item, quill)
+			== "羽毛筆");
+}
+
+void assert_book_text_uses_dialogue_source_fallback() {
+	const std::string source = "A page of book text";
+	const std::string table_text =
+			"# u6-translation-v1\n"
+			"# kind\tkey\tsource_sha256\tzh\n"
+			"dialogue\tdialogue:0x0282:10:0\t"
+			+ sha256_hex(normalize_translation_source(source)) + "\t一頁書中文字\n"
+			"dialogue\tdialogue:0x0282:11:0\t"
+			+ sha256_hex(normalize_translation_source("Second page"))
+			+ "\t第二頁\n";
+
+	GameplayTranslationManager& manager = GameplayTranslationManager::get();
+	manager.shutdown();
+	manager.set_text_language(TextLanguage::CHINESE);
+	std::string error;
+	std::istringstream input(table_text);
+	assert(manager.load_table(input, error));
+	assert(manager.translate_book_text(source) == "一頁書中文字");
+	assert(manager.translate_book_text("*A page of book text~Second page")
+			== "*一頁書中文字~第二頁");
+	const std::string first_part = "A page ";
+	const std::string last_part = " of book text";
+	const std::string parts_table =
+			"# u6-translation-v1\n"
+			"# kind\tkey\tsource_sha256\tzh\n"
+			"dialogue\tdialogue:0x0282:fallback_10:0\t"
+			+ sha256_hex(normalize_translation_source(first_part))
+			+ "\t一頁\n"
+			"dialogue\tdialogue:0x0282:fallback_11:0\t"
+			+ sha256_hex(normalize_translation_source(last_part))
+			+ "\t書中文字\n"
+			"dialogue\tdialogue:0x0200:1:0\t"
+			+ sha256_hex(normalize_translation_source(first_part))
+			+ "\t其他內容\n";
+	manager.shutdown();
+	manager.set_text_language(TextLanguage::CHINESE);
+	std::istringstream parts_input(parts_table);
+	assert(manager.load_table(parts_input, error));
+	assert(manager.translate_book_text_parts(
+			"A page Morgan of book text",
+			{{first_part, "dialogue:0x0282:10:0", true},
+			 {"Morgan", "", false},
+			 {last_part, "dialogue:0x0282:11:0", true}})
+			== "一頁Morgan書中文字");
+
+	std::ifstream ucinternal_source("usecode/ucinternal.cc");
+	const std::string ucinternal(
+			(std::istreambuf_iterator<char>(ucinternal_source)),
+			std::istreambuf_iterator<char>());
+	assert(!ucinternal.empty());
+	assert(ucinternal.find("translate_book_text_parts(") != std::string::npos);
+
+	std::ifstream text_gump_source("gumps/Text_gump.cc");
+	const std::string text_gump(
+			(std::istreambuf_iterator<char>(text_gump_source)),
+			std::istreambuf_iterator<char>());
+	assert(!text_gump.empty());
+	assert(text_gump.find("translate_book_text(") == std::string::npos);
+}
+
+void assert_book_text_matches_legacy_u6_bytes() {
+	// UCXT decodes U6's legacy bytes as Latin-1 before the catalog hashes the
+	// source as UTF-8.  0x92 is the apostrophe byte used by several book pages.
+	const std::string source =
+			std::string("THE ARCHER") + std::string(1, static_cast<char>(0x92))
+			+ "S LAMENT ";
+	const std::string table_text =
+			"# u6-translation-v1\n"
+			"# kind\tkey\tsource_sha256\tzh\n"
+			"dialogue\tdialogue:0x0cdb:3369:0\t"
+			"e5280910db908226c7cab27198a3b39ee733d422ba7d29297ac9e7d71a48df7b"
+			"\t射箭者的哀歌 \n";
+
+	GameplayTranslationManager& manager = GameplayTranslationManager::get();
+	manager.shutdown();
+	manager.set_text_language(TextLanguage::CHINESE);
+	std::string error;
+	std::istringstream input(table_text);
+	assert(manager.load_table(input, error));
+	assert(manager.translate_book_text(source) == "射箭者的哀歌 ");
+}
+
+void assert_book_text_matches_utf8_bytes_recorded_as_legacy_latin1() {
+	// Some U6 book strings contain valid UTF-8 bytes in the usecode.  The
+	// extractor still records those bytes as Latin-1 code points, so the table
+	// contains the mojibake source hash while the runtime receives UTF-8.
+	const std::string runtime_source =
+			std::string("THE ARCHER") + std::string("\xe2\x80\x99", 3)
+			+ "S LAMENT ";
+	const std::string catalog_source =
+			std::string("THE ARCHER")
+			+ std::string("\xc3\xa2\xc2\x80\xc2\x99", 6)
+			+ "S LAMENT ";
+	const std::string table_text =
+			"# u6-translation-v1\n"
+			"# kind\tkey\tsource_sha256\tzh\n"
+			"dialogue\tdialogue:0x0282:33ba:0\t"
+			+ sha256_hex(normalize_translation_source(catalog_source))
+			+ "\t弓箭手的哀歌 \n";
+
+	GameplayTranslationManager& manager = GameplayTranslationManager::get();
+	manager.shutdown();
+	manager.set_text_language(TextLanguage::CHINESE);
+	std::string error;
+	std::istringstream input(table_text);
+	assert(manager.load_table(input, error));
+	assert(manager.translate_book_text(runtime_source) == "弓箭手的哀歌 ");
+}
+
+void assert_book_text_uses_table_in_dual_fallback_mode() {
+	const std::string source = "A page of book text";
+	const std::string table_text =
+			"# u6-translation-v1\n"
+			"# kind\tkey\tsource_sha256\tzh\n"
+			"dialogue\tdialogue:0x0282:10:0\t"
+			+ sha256_hex(normalize_translation_source(source)) + "\t一頁書中文字\n";
+
+	GameplayTranslationManager& manager = GameplayTranslationManager::get();
+	manager.shutdown();
+	manager.set_text_language(TextLanguage::DUAL);
+	std::string error;
+	std::istringstream input(table_text);
+	assert(manager.load_table(input, error));
+	// U6 has no alternate-language usecode in the mod patch. In this
+	// fallback configuration DUAL uses the English usecode plus the Chinese
+	// table, so book text must still go through the table lookup.
+	assert(manager.table_only_enabled());
+	assert(manager.translate_book_text(source) == "一頁書中文字");
+}
+
+void assert_book_text_uses_table_when_alternate_usecode_is_active() {
+	const std::string source = "A page from an English alternate-usecode book";
+	const std::string table_text =
+			"# u6-translation-v1\n"
+			"# kind\tkey\tsource_sha256\tzh\n"
+			"dialogue\tdialogue:0x0282:10:0\t"
+			+ sha256_hex(normalize_translation_source(source))
+			+ "\t替代 usecode 書頁\n";
+
+	GameplayTranslationManager& manager = GameplayTranslationManager::get();
+	manager.shutdown();
+	manager.set_text_language(TextLanguage::CHINESE);
+	std::string error;
+	std::istringstream input(table_text);
+	assert(manager.load_table(input, error));
+	manager.legacy_alternate_usecode_active_ = true;
+	assert(!manager.table_only_enabled());
+	assert(manager.translate_book_text(source) == "替代 usecode 書頁");
+	manager.legacy_alternate_usecode_active_ = false;
+}
+
 void assert_choice_source_fallback_reuses_textmsg_rows() {
 	const std::string yes_hash = sha256_hex(
 			normalize_translation_source("Yes"));
@@ -696,6 +887,28 @@ void assert_deferred_text_preserves_cursor_layer() {
 			== std::string::npos);
 }
 
+void assert_deferred_text_blit_preserves_surface_origin() {
+	std::ifstream deferred_text_source("imagewin/deferred_text.cc");
+	const std::string deferred_text(
+			(std::istreambuf_iterator<char>(deferred_text_source)),
+			std::istreambuf_iterator<char>());
+	assert(!deferred_text.empty());
+
+	// draw_glyph writes to text_surface in the full inter-surface coordinate
+	// space.  The source and destination of the compositor copy must therefore
+	// have the same origin; applying ibuf's viewport offset only to the source
+	// shifts text left/up relative to the already-scaled game image.
+	assert(deferred_text.find(
+				"int src_x = (x + guard_band) * scale;\n"
+				"\tint src_y = (y + guard_band) * scale;\n"
+				"\tint dst_x = src_x;\n"
+				"\tint dst_y = src_y;")
+			!= std::string::npos);
+	assert(deferred_text.find(
+				"int src_x = (x + ox + guard_band) * scale;")
+			== std::string::npos);
+}
+
 } // namespace
 
 int main() {
@@ -818,10 +1031,17 @@ int main() {
 	assert_multi_placeholder_dialogue_template_replaces_runtime_values();
 	assert_lord_british_untraced_dialogue_templates_replace_runtime_name();
 	assert_choice_source_fallback_reuses_legacy_dialogue_rows();
+	assert_item_source_fallback_reuses_raw_quantity_and_misc_rows();
+	assert_book_text_uses_dialogue_source_fallback();
+	assert_book_text_matches_legacy_u6_bytes();
+	assert_book_text_matches_utf8_bytes_recorded_as_legacy_latin1();
+	assert_book_text_uses_table_in_dual_fallback_mode();
+	assert_book_text_uses_table_when_alternate_usecode_is_active();
 	assert_choice_source_fallback_reuses_textmsg_rows();
 	assert_dupre_untraced_dialogue_template_replaces_runtime_name();
 	assert_overhead_dialogue_translation_and_rendering_policy();
 	assert_deferred_text_preserves_cursor_layer();
+	assert_deferred_text_blit_preserves_surface_origin();
 
 	return 0;
 }

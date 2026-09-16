@@ -582,8 +582,35 @@ void Usecode_internal::show_pending_text() {
  */
 
 void Usecode_internal::show_book() {
-	char* str = String;
-	book->add_text(str);
+	GameplayTranslationManager& translations = GameplayTranslationManager::get();
+	std::string translated;
+	bool valid_parts = false;
+	if (!voice_string_parts.empty()) {
+		const std::size_t source_length = strlen(String);
+		std::size_t source_pos = 0;
+		std::vector<BookTextPart> parts;
+		valid_parts = true;
+		parts.reserve(voice_string_parts.size());
+		for (const Voice_string_part& part : voice_string_parts) {
+			const std::size_t part_end = part.source_start + part.source.size();
+			if (part.source_start != source_pos || part_end > source_length) {
+				valid_parts = false;
+				break;
+			}
+			parts.push_back({part.source, part.translation_key,
+					!part.translation_key.empty()});
+			source_pos = part_end;
+		}
+		if (valid_parts && source_pos == source_length) {
+			translated = translations.translate_book_text_parts(String, parts);
+		} else {
+			valid_parts = false;
+		}
+	}
+	if (!valid_parts) {
+		translated = translations.translate_book_text(String);
+	}
+	book->add_text(translated.c_str());
 	delete[] String;
 	String = nullptr;
 	voice_string_parts.clear();
@@ -799,6 +826,48 @@ void Usecode_internal::say_string() {
 						String, lord_british_honesty_template, "<PLAYER_NAME>");
 				template_translation.has_value()) {
 			return *template_translation;
+		}
+
+		// Lord British's opening greeting has two addsv values: the time of
+		// day and the Avatar's name. Give those values semantic placeholders so
+		// the complete sentence can be translated as one catalog row.
+		if (voice_func_id == 0x0494) {
+			constexpr std::string_view lord_british_greeting_template =
+					"@Good <TIME_OF_DAY>, <PLAYER_NAME>. What wouldst thou speak of?@";
+			std::size_t source_pos = 0;
+			std::size_t dynamic_index = 0;
+			std::vector<std::pair<std::string, std::string>> substitutions;
+			bool valid_parts = true;
+			for (const auto& part : voice_string_parts) {
+				const std::size_t part_end = part.source_start + part.source.size();
+				if (part.source_start != source_pos || part_end > strlen(String)) {
+					valid_parts = false;
+					break;
+				}
+				if (part.translation_key.empty()) {
+					const char* placeholder = dynamic_index == 0
+							? "<TIME_OF_DAY>"
+							: dynamic_index == 1 ? "<PLAYER_NAME>" : nullptr;
+					if (placeholder == nullptr) {
+						valid_parts = false;
+						break;
+					}
+					substitutions.emplace_back(
+							placeholder,
+							translations.translate_by_source(
+									GameplayTranslationKind::Dialogue, part.source));
+					++dynamic_index;
+				}
+				source_pos = part_end;
+			}
+			if (valid_parts && dynamic_index == 2 && source_pos == strlen(String)) {
+				if (const auto template_translation =
+						translations.translate_dialogue_template_if_available(
+								String, lord_british_greeting_template, substitutions);
+					template_translation.has_value()) {
+					return *template_translation;
+				}
+			}
 		}
 
 		// Other questions are assembled from static addsi text and one or more

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
+from collections.abc import Iterable
 
 
 TABLE_HEADER = "# u6-translation-v1\n# kind\tkey\tsource_sha256\tzh\n"
@@ -65,11 +66,35 @@ def decode_tsv_row(line: str, expected_fields: int = 4) -> tuple[str, ...]:
 
 def load_runtime_table(path: Path) -> list[RuntimeRow]:
     rows = []
-    for line in path.read_text(encoding="utf-8").splitlines():
+    for line in path.read_text(encoding="utf-8").split("\n"):
         if not line or line.startswith("#"):
             continue
         rows.append(RuntimeRow(*decode_tsv_row(line)))
     return rows
+
+
+def merge_runtime_rows(
+    existing: Iterable[RuntimeRow], additions: Iterable[RuntimeRow]
+) -> list[RuntimeRow]:
+    """Add generated rows without replacing reviewed translations."""
+
+    merged: dict[tuple[str, str], RuntimeRow] = {
+        (row.kind, row.key): row for row in existing
+    }
+    for row in additions:
+        identity = (row.kind, row.key)
+        previous = merged.get(identity)
+        if previous is None:
+            merged[identity] = row
+            continue
+        if previous.source_sha256 != row.source_sha256:
+            raise ValueError("duplicate runtime key with different source hash: " + row.key)
+        if not previous.zh.strip() and row.zh.strip():
+            merged[identity] = row
+    return sorted(
+        merged.values(),
+        key=lambda row: (row.kind, row.key, row.source_sha256, row.zh),
+    )
 
 
 def write_runtime_table(path: Path, rows: object) -> None:

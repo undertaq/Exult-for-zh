@@ -45,12 +45,38 @@ python3 -m tools.u6_translation extract \
 
 For a complete static catalog when no runtime capture is available, add
 `--include-static`; this includes the UCXT dialogue plus indexed item,
-location, miscellaneous, and text-message resources:
+location, miscellaneous, and text-message resources. Known U6 book and scroll
+handlers are marked with `context=book`, and usecode lines assembled from
+`addsv` values (including the gypsy, Iolo, Dupre, and Lord British greetings)
+also receive stable semantic template rows:
 
 ```sh
 python3 -m tools.u6_translation extract \
   --mod-root "$MOD_ROOT" --ucxt "$UCXT" --include-static \
   --output /tmp/u6_catalog.jsonl
+```
+
+The U6 mod's book handler delegates unmodified books and scrolls to the base
+BG `STATIC/USECODE` functions. Include that fallback source in the audit
+catalog with `--fallback-usecode`:
+
+```sh
+python3 -m tools.u6_translation extract \
+  --mod-root "$MOD_ROOT" --ucxt "$UCXT" --include-static \
+  --fallback-usecode "$PWD/../Ultima_7/STATIC/USECODE" \
+  --output /tmp/u6_catalog_with_fallback_books.jsonl
+```
+
+The corresponding Chinese base-usecode strings can be imported into the
+runtime table. The importer pairs the English and Chinese fallback functions
+by their `addsi` reference order, because UTF-8 changes their data offsets,
+and preserves the original `~` page separators for runtime display:
+
+```sh
+python3 -m tools.u6_translation import-fallback-books \
+  --english-usecode "$PWD/../Ultima_7/STATIC/USECODE" \
+  --chinese-usecode "$PWD/../Ultima_7/patch/usecode.zh" \
+  --ucxt "$UCXT" --table tools/u6_translation/zh_translation.tsv
 ```
 
 The fixture includes a choice row such as `choice:0x0401:0x0088:0` with English source `one`. Choices are translated only for display. The English `answers` remain unchanged internally for usecode comparison, choice indexing, and game logic; no translated answer is written into usecode or configuration.
@@ -81,8 +107,17 @@ Before release, run the combined audit in strict mode. A nonzero exit status blo
 python3 -m tools.u6_translation audit all \
   --catalog /tmp/u6_catalog.jsonl --table /tmp/u6_candidates.tsv \
   --glossary tools/u6_translation/u6_glossary.tsv \
+  --names tools/u6_translation/u6_names.tsv \
   --report /tmp/u6_audit.json --strict
 ```
+
+The English-name policy in `u6_names.tsv` is also a release gate. It lists NPC,
+place, town, and location names that must remain in their exact English spelling.
+The `proper` category covers other named entities such as ships, shops, factions,
+and named diseases that also need to stay English.
+For a standalone name row, the whole display value must be English; for a
+sentence, the named span must remain English while the surrounding sentence may
+be translated. Add a row to this inventory when a new U6 name is discovered.
 
 Generate the offline review page after translation. It is self-contained and
 works from a local `file://` URL: edit the Traditional Chinese textareas,
@@ -113,10 +148,10 @@ fallback JSON object keyed by `dialogue<TAB><dialogue-key>`
 The translator canonicalizes exact repeated English source strings across
 dialogue and gameplay rows. The correctness audit also reports any conflicting
 translations as blocking `term_consistency` issues. Glossary terms are always
-checked against `u6_glossary.tsv`, and names not in the glossary remain in
-their original English spelling for consistency.
+checked against `u6_glossary.tsv`, and names in `u6_names.tsv` remain in their
+original English spelling for consistency.
 
-Strict audit is a release gate: missing, stale, duplicate, orphan, unbound, untranslated, protected-term, Traditional-Chinese-policy, placeholder, or source-integrity failures require fixing. A human must inspect the candidate table and audit report and explicitly approve every row before emission. Automated or Ollama review is advisory and does not constitute approval.
+Strict audit is a release gate: missing, stale, duplicate, orphan, unbound, untranslated, English-name, protected-term, Traditional-Chinese-policy, placeholder, item quantity-format, or source-integrity failures require fixing. The report includes separate `book_contents` and `dynamic_templates` coverage sections so book/scroll text and assembled greetings cannot be hidden by aggregate dialogue coverage. Item translations must retain the source slash structure used for singular/plural formatting (for example `/gold nugget//s`); dynamic template rows must retain all semantic placeholders. A human must inspect the candidate table and audit report and explicitly approve every row before emission. Automated or Ollama review is advisory and does not constitute approval.
 Semantic review remains advisory by default and cannot change deterministic findings,
 candidate selection, or exit status. Pass `--semantic-strict` only for an explicitly
 requested review gate.

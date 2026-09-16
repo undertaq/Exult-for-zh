@@ -11,6 +11,7 @@ from tools.u6_translation.catalog import CatalogEntry, source_sha256
 from tools.u6_translation.extract import (
     _canonicalize_runtime_key_collisions,
     _parse_ucxt,
+    _pair_usecode_translation_rows,
     _run_ucxt,
     extract_catalog,
     make_item_key,
@@ -22,6 +23,50 @@ FIXTURES = Path(__file__).parent / "fixtures"
 
 
 class ExtractionTest(unittest.TestCase):
+    def test_book_dialogue_is_marked_and_dynamic_templates_are_cataloged(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            patch = root / "Ultima6v1.3" / "patch"
+            patch.mkdir(parents=True)
+            (patch / "usecode").write_bytes(b"fixture")
+            ucxt = root / "ucxt-fixture"
+            ucxt.write_text(
+                "#!/bin/sh\n"
+                "printf '%s' '<0x0282>\n"
+                "  <0x0010>\n"
+                "  `Book content`\n"
+                "  </>\n"
+                "</>\n"
+                "<0x0494>\n"
+                "  <0x0600>\n"
+                "  `@Good `\n"
+                "  </>\n"
+                "  <0x060a>\n"
+                "  `. What wouldst thou speak of?@`\n"
+                "  </>\n"
+                "</>\n"
+                "<0x0cdb>\n"
+                "  <0x0010>\n"
+                "  `Book extension`\n"
+                "  </>\n"
+                "</>'\n",
+                encoding="utf-8",
+            )
+            ucxt.chmod(ucxt.stat().st_mode | 0o111)
+
+            entries = extract_catalog(root, ucxt, None)
+
+        by_key = {(entry.kind, entry.key): entry for entry in entries}
+        book = by_key[("dialogue", "dialogue:0x0282:10:0")]
+        self.assertEqual(book.context, "book")
+        self.assertEqual(by_key[("dialogue", "dialogue:0x0cdb:10:0")].context, "book")
+        template = by_key[("dialogue", "dialogue:0x0494:template_lord_british_greeting:0")]
+        self.assertEqual(
+            template.source,
+            "@Good <TIME_OF_DAY>, <PLAYER_NAME>. What wouldst thou speak of?@",
+        )
+        self.assertEqual(template.context, "dynamic-template")
+
     def test_ucxt_decimal_function_tags_use_decimal_ids(self) -> None:
         entries = _parse_ucxt(
             "<401>\n"
@@ -39,6 +84,79 @@ class ExtractionTest(unittest.TestCase):
         self.assertEqual(
             [entry.key for entry in entries],
             ["dialogue:0x0191:10:0", "dialogue:0x0401:20:0"],
+        )
+
+    def test_ucxt_joins_wrapped_translation_table_strings(self) -> None:
+        entries = _parse_ucxt(
+            "<0x0282>\n"
+            "  <0x0010>\n"
+            "  `A book sentence that was wrapped\n"
+            "continues on the next output line.`\n"
+            "  </>\n"
+            "</>\n"
+        )
+
+        self.assertEqual(len(entries), 1)
+        self.assertEqual(
+            entries[0].source,
+            "A book sentence that was wrappedcontinues on the next output line.",
+        )
+
+    def test_ucxt_preserves_indented_newlines_inside_book_strings(self) -> None:
+        entries = _parse_ucxt(
+            "<0x0282>\n"
+            "  <0x0010>\n"
+            "  `First page.~\n"
+            "\t\tSecond page.\n"
+            "\n"
+            "\t\tThird page.`\n"
+            "  </>\n"
+            "</>\n"
+        )
+
+        self.assertEqual(len(entries), 2)
+        self.assertEqual(entries[0].source, "First page.")
+        self.assertEqual(entries[1].source, "\n\t\tSecond page.\n\n\t\tThird page.")
+        self.assertEqual(
+            entries[1].source_sha256,
+            source_sha256("\n\t\tSecond page.\n\n\t\tThird page."),
+        )
+
+    def test_ucxt_does_not_split_latin1_utf8_continuation_bytes_as_lines(self) -> None:
+        entries = _parse_ucxt(
+            "<0x0282>\n"
+            "  <0x0010>\n"
+            "  `prefix\x85suffix`\n"
+            "  </>\n"
+            "</>\n"
+        )
+
+        self.assertEqual(len(entries), 1)
+        self.assertEqual(entries[0].source, "prefix\x85suffix")
+
+    def test_fallback_book_rows_pair_addsi_references_in_order(self) -> None:
+        rows = _pair_usecode_translation_rows(
+            english_data={(0x0282, 0x0010): "~~ ~~BOOK~~  ~~by Author*"},
+            chinese_data={(0x0282, 0x0020): "~~ ~~《書名》~~  ~~作者 著*"},
+            english_references={0x0282: [0x0010]},
+            chinese_references={0x0282: [0x0020]},
+            functions={0x0282},
+        )
+
+        self.assertEqual(
+            [(row.key, row.source_sha256, row.zh) for row in rows],
+            [
+                (
+                    "dialogue:0x0282:fallback_10:1",
+                    source_sha256("BOOK"),
+                    "《書名》",
+                ),
+                (
+                    "dialogue:0x0282:fallback_10:3",
+                    source_sha256("by Author*"),
+                    "作者 著*",
+                ),
+            ],
         )
 
     def test_ucxt_permission_error_does_not_double_shell_command(self) -> None:

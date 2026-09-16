@@ -134,6 +134,31 @@ static void get_plural_name(const char* name, int quantity, string& output_name)
 	}
 }
 
+static string format_item_name(const Game_object& object, const char* name) {
+	if (name == nullptr) {
+		return "";
+	}
+
+	const int quantity = ShapeID::get_info(object.get_shapenum()).has_quantity()
+			? object.get_quality() & 0x7f
+			: 1;
+	string display_name;
+	if (strchr(name, '/') == nullptr) {
+		if (quantity <= 1) {
+			display_name = name;
+		} else {
+			char buf[50];
+			snprintf(buf, sizeof(buf), "%d %s", quantity, name);
+			display_name = buf;
+		}
+	} else if (quantity <= 1) {
+		get_singular_name(name, display_name);
+	} else {
+		get_plural_name(name, quantity, display_name);
+	}
+	return display_name;
+}
+
 /*
  *  Returns the string to be displayed when the item is clicked on
  */
@@ -196,34 +221,7 @@ string Game_object::get_name() const {
 			return msg + other;
 		}
 	}
-	int    quantity;
-	string display_name;
-	if (name == nullptr) {
-		return "";
-	}
-
-	if (ShapeID::get_info(shnum).has_quantity()) {
-		quantity = quality & 0x7f;
-	} else {
-		quantity = 1;
-	}
-
-	// If there are no slashes then it is simpler
-	if (strchr(name, '/') == nullptr) {
-		if (quantity <= 1) {
-			display_name = name;
-		} else {
-			char buf[50];
-
-			snprintf(buf, sizeof(buf), "%d %s", quantity, name);
-			display_name = buf;
-		}
-	} else if (quantity <= 1) {    // quantity might be zero?
-		get_singular_name(name, display_name);
-	} else {
-		get_plural_name(name, quantity, display_name);
-	}
-	return display_name;
+	return format_item_name(*this, name);
 }
 
 string Game_object::get_gameplay_display_name() const {
@@ -231,6 +229,21 @@ string Game_object::get_gameplay_display_name() const {
 	const string key = make_item_translation_key(
 			get_shapenum(), get_framenum(), get_quality());
 	GameplayTranslationManager& translations = GameplayTranslationManager::get();
+	const int shnum = get_shapenum();
+	const char* raw_item_name =
+			(shnum >= 0 && shnum < get_num_item_names())
+					? get_item_name(shnum)
+					: nullptr;
+	if (raw_item_name != nullptr
+				&& format_item_name(*this, raw_item_name) == english) {
+		translations.record_runtime_source(
+				GameplayTranslationKind::Item, key, raw_item_name);
+		const string translated_raw = translations.translate(
+				GameplayTranslationKind::Item, key, raw_item_name);
+		if (translated_raw != raw_item_name) {
+			return format_item_name(*this, translated_raw.c_str());
+		}
+	}
 	translations.record_runtime_source(
 			GameplayTranslationKind::Item, key, english);
 	return translations.translate(
