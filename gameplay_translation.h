@@ -23,6 +23,12 @@ struct TranslationDiagnostics {
 	std::size_t fallbacks = 0;
 };
 
+struct BookTextPart {
+	std::string_view text;
+	std::string_view translation_key;
+	bool             translate = true;
+};
+
 class GameplayTranslationManager {
 public:
 	static GameplayTranslationManager& get();
@@ -38,6 +44,9 @@ public:
 			std::string_view key, std::string_view english);
 	std::string translate_by_source(GameplayTranslationKind kind,
 			std::string_view english);
+	std::string translate_book_text(std::string_view english);
+	std::string translate_book_text_parts(
+			std::string_view english, const std::vector<BookTextPart>& parts);
 	std::optional<std::string> translate_dialogue_by_source_if_available(
 			std::string_view english);
 	std::optional<std::string> translate_dialogue_template_if_available(

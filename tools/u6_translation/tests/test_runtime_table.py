@@ -9,6 +9,7 @@ from tools.u6_translation.runtime_table import (
     RuntimeRow,
     escape_field,
     load_runtime_table,
+    merge_runtime_rows,
     unescape_field,
     write_runtime_table,
 )
@@ -39,6 +40,13 @@ class RuntimeTableCodecTest(unittest.TestCase):
             write_runtime_table(path, rows)
             self.assertEqual(load_runtime_table(path), rows)
             self.assertIn("第一行\\t第二行\\n第三行\\\\", path.read_text())
+
+    def test_runtime_table_round_trip_preserves_latin1_control_codepoints(self) -> None:
+        row = RuntimeRow("dialogue", "dialogue:0x0282:fallback_10:0", "a" * 64, "prefix\x85suffix")
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "zh_translation.tsv"
+            write_runtime_table(path, [row])
+            self.assertEqual(load_runtime_table(path), [row])
 
     def test_field_codec_rejects_unknown_and_trailing_escapes(self) -> None:
         self.assertEqual(escape_field("a\\b\tc\nd\r"), "a\\\\b\\tc\\nd\\r")
@@ -74,6 +82,15 @@ class RuntimeTableCodecTest(unittest.TestCase):
             path = Path(directory) / "sorted.tsv"
             write_runtime_table(path, reversed(rows))
             self.assertEqual([row.kind for row in load_runtime_table(path)], ["dialogue", "textmsg"])
+
+    def test_merge_runtime_rows_keeps_existing_translation_and_adds_fallback_rows(self) -> None:
+        existing = RuntimeRow("dialogue", "dialogue:0x0401:10:0", "a" * 64, "既有翻譯")
+        added = RuntimeRow("dialogue", "dialogue:0x0282:fallback_10:1", "b" * 64, "書名")
+
+        self.assertEqual(
+            merge_runtime_rows([existing], [added, existing]),
+            [added, existing],
+        )
 
 
 if __name__ == "__main__":

@@ -10,7 +10,7 @@ import unittest
 from unittest.mock import patch
 
 from tools.u6_translation.catalog import CatalogEntry, write_catalog
-from tools.u6_translation.runtime_table import RuntimeRow, write_runtime_table
+from tools.u6_translation.runtime_table import RuntimeRow, load_runtime_table, write_runtime_table
 from tools.u6_translation.__main__ import main
 from tools.u6_translation.ollama_backend import OllamaBackend
 
@@ -119,6 +119,27 @@ class TranslationCliTest(unittest.TestCase):
             self.assertIn("dialogue", kinds)
             self.assertIn("item", kinds)
             self.assertIn("textmsg", kinds)
+
+    @patch("tools.u6_translation.__main__.extract_usecode_translation_rows")
+    def test_import_fallback_books_merges_generated_rows_into_existing_table(self, extract_rows) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            table = root / "zh_translation.tsv"
+            existing = RuntimeRow("dialogue", "dialogue:0x0401:10:0", "a" * 64, "既有翻譯")
+            added = RuntimeRow("dialogue", "dialogue:0x0282:fallback_10:1", "b" * 64, "書名")
+            write_runtime_table(table, [existing])
+            extract_rows.return_value = [added]
+
+            result = main([
+                "import-fallback-books",
+                "--english-usecode", str(root / "USECODE"),
+                "--chinese-usecode", str(root / "usecode.zh"),
+                "--ucxt", str(root / "ucxt"),
+                "--table", str(table),
+            ])
+
+            self.assertEqual(result, 0)
+            self.assertEqual(load_runtime_table(table), [added, existing])
 
     @patch("tools.u6_translation.__main__.translate_catalog")
     def test_translate_command_builds_ollama_backend_and_calls_pipeline(self, translate_catalog):

@@ -222,7 +222,7 @@ bool parse_kind(std::string_view value, GameplayTranslationKind& kind) {
 
 bool valid_key(GameplayTranslationKind kind, std::string_view value) {
 	static const std::regex dialogue(
-			R"(^dialogue:0x[0-9a-f]{4}:(?:[0-9a-f]+|template_[a-z0-9_]+)(?:_(?:[0-9a-f]+|template_[a-z0-9_]+))*:[0-9]+$)");
+			R"(^dialogue:0x[0-9a-f]{4}:(?:[0-9a-f]+|fallback_[0-9a-f]+|template_[a-z0-9_]+)(?:_(?:[0-9a-f]+|fallback_[0-9a-f]+|template_[a-z0-9_]+))*:[0-9]+$)");
 	static const std::regex choice(
 			R"(^choice:0x[0-9a-f]{4}:(?:0x[0-9a-f]+|unbound):[0-9]+$)");
 	static const std::regex item(R"(^item:0x[0-9a-f]{4}:[0-9]+:[0-9]+$)");
@@ -273,13 +273,25 @@ bool fail_load(std::string& error, std::size_t line_number,
 
 std::string normalize_translation_source(std::string_view source) {
 	std::string normalized;
-	normalized.reserve(source.size());
+	// UCXT decodes the original U6 byte strings as Latin-1 and the Python
+	// catalog hashes that text after UTF-8 encoding it.  Use the same byte to
+	// code-point conversion for strings coming directly from the usecode
+	// interpreter; otherwise pages containing bytes such as 0x92 never match
+	// their catalog rows.  Valid UTF-8 is kept unchanged for translated
+	// alternate-usecode strings.
+	const bool source_is_utf8 = is_valid_utf8(source);
+	normalized.reserve(source.size() + (source.size() / 2));
 	for (std::size_t index = 0; index < source.size(); ++index) {
+		const unsigned char byte = static_cast<unsigned char>(source[index]);
 		if (source[index] == '\r') {
 			if (index + 1 < source.size() && source[index + 1] == '\n') {
 				++index;
 			}
 			normalized.push_back('\n');
+		} else if (!source_is_utf8 && byte >= 0x80) {
+			// Encode the Latin-1 code point as UTF-8 (U+0080..U+00FF).
+			normalized.push_back(static_cast<char>(0xc0 | (byte >> 6)));
+			normalized.push_back(static_cast<char>(0x80 | (byte & 0x3f)));
 		} else {
 			normalized.push_back(source[index]);
 		}
@@ -290,6 +302,52 @@ std::string normalize_translation_source(std::string_view source) {
 std::string sha256_hex(std::string_view source) {
 	return sha256_hex_impl(source);
 }
+
+namespace {
+
+// UCXT historically decoded every byte of its output as Latin-1 before the
+// catalog was hashed. Keep that hash as a compatibility candidate for valid
+// UTF-8 strings from the runtime; the primary hash still preserves genuine
+// UTF-8 from translated alternate usecode.
+std::string normalize_translation_source_as_legacy_bytes(
+		std::string_view source) {
+	std::string normalized;
+	normalized.reserve(source.size() + (source.size() / 2));
+	for (std::size_t index = 0; index < source.size(); ++index) {
+		const unsigned char byte = static_cast<unsigned char>(source[index]);
+		if (source[index] == '\r') {
+			if (index + 1 < source.size() && source[index + 1] == '\n') {
+				++index;
+			}
+			normalized.push_back('\n');
+		} else if (byte >= 0x80) {
+			// Encode each byte as the corresponding Latin-1 code point.
+			normalized.push_back(static_cast<char>(0xc0 | (byte >> 6)));
+			normalized.push_back(static_cast<char>(0x80 | (byte & 0x3f)));
+		} else {
+			normalized.push_back(source[index]);
+		}
+	}
+	return normalized;
+}
+
+struct SourceHashCandidates {
+	std::string primary;
+	std::string legacy_bytes;
+};
+
+SourceHashCandidates source_hash_candidates(std::string_view source) {
+	return SourceHashCandidates{
+			sha256_hex(normalize_translation_source(source)),
+			sha256_hex(normalize_translation_source_as_legacy_bytes(source))};
+}
+
+bool source_hash_matches(
+		std::string_view hash, const SourceHashCandidates& candidates) {
+	return hash == candidates.primary || hash == candidates.legacy_bytes;
+}
+
+} // namespace
 
 std::string escape_translation_field(std::string_view field) {
 	std::string escaped;
@@ -450,8 +508,8 @@ TranslationLookup GameplayTranslationTable::lookup(
 		return TranslationLookup{std::string(english),
 				TranslationLookupStatus::Missing};
 	}
-	if (entry->second.source_sha256
-				!= sha256_hex(normalize_translation_source(english))) {
+	const SourceHashCandidates source_hashes = source_hash_candidates(english);
+	if (!source_hash_matches(entry->second.source_sha256, source_hashes)) {
 		return TranslationLookup{std::string(english),
 				TranslationLookupStatus::SourceMismatch};
 	}
@@ -473,8 +531,7 @@ TranslationLookup GameplayTranslationTable::lookup_dialogue_by_source(
 	// source recovery to the same usecode function; a global source lookup
 	// could silently translate an unrelated repeated line.
 	const std::string function_prefix(key.substr(0, function_end + 1));
-	const std::string source_hash = sha256_hex(
-			normalize_translation_source(english));
+	const SourceHashCandidates source_hashes = source_hash_candidates(english);
 	const EntryKey first_key(
 			static_cast<int>(GameplayTranslationKind::Dialogue), function_prefix);
 	const auto first = entries_.lower_bound(first_key);
@@ -485,7 +542,7 @@ TranslationLookup GameplayTranslationTable::lookup_dialogue_by_source(
 						0, function_prefix.size(), function_prefix) != 0) {
 			break;
 		}
-		if (entry->second.source_sha256 != source_hash) {
+		if (!source_hash_matches(entry->second.source_sha256, source_hashes)) {
 			continue;
 		}
 		if (match != nullptr) {
@@ -506,12 +563,11 @@ TranslationLookup GameplayTranslationTable::lookup_dialogue_by_source(
 
 TranslationLookup GameplayTranslationTable::lookup_dialogue_by_source_globally(
 		std::string_view english) const {
-	const std::string source_hash = sha256_hex(
-			normalize_translation_source(english));
+	const SourceHashCandidates source_hashes = source_hash_candidates(english);
 	const Entry* match = nullptr;
 	for (const auto& [entry_key, entry] : entries_) {
 		if (entry_key.first != static_cast<int>(GameplayTranslationKind::Dialogue)
-				|| entry.source_sha256 != source_hash) {
+				|| !source_hash_matches(entry.source_sha256, source_hashes)) {
 			continue;
 		}
 		if (match != nullptr && match->text != entry.text) {
@@ -531,8 +587,7 @@ TranslationLookup GameplayTranslationTable::lookup_dialogue_by_source_globally(
 
 TranslationLookup GameplayTranslationTable::lookup_choice_by_source(
 		std::string_view english) const {
-	const std::string source_hash = sha256_hex(
-			normalize_translation_source(english));
+	const SourceHashCandidates source_hashes = source_hash_candidates(english);
 
 	// Older U6 catalogs recorded choice text as dialogue rows because the
 	// binary usecode does not expose the UI_add_answer source location. Prefer
@@ -544,7 +599,7 @@ TranslationLookup GameplayTranslationTable::lookup_choice_by_source(
 		const Entry* match = nullptr;
 		for (const auto& [entry_key, entry] : entries_) {
 			if (entry_key.first != static_cast<int>(kind)
-					|| entry.source_sha256 != source_hash) {
+					|| !source_hash_matches(entry.source_sha256, source_hashes)) {
 				continue;
 			}
 			if (match != nullptr && match->text != entry.text) {
@@ -573,6 +628,45 @@ TranslationLookup GameplayTranslationTable::lookup_choice_by_source(
 	const std::optional<TranslationLookup> text_message =
 			find_unique(GameplayTranslationKind::TextMessage);
 	return text_message.value_or(TranslationLookup{
+				std::string(english), TranslationLookupStatus::Missing});
+}
+
+TranslationLookup GameplayTranslationTable::lookup_item_by_source(
+		std::string_view english) const {
+	const SourceHashCandidates source_hashes = source_hash_candidates(english);
+
+	// Indexed item names use raw quantity templates such as
+	// "/gold nugget//s", while some display names come from the shared misc
+	// name table. Search both sources, but fail closed on conflicting rows.
+	auto find_unique = [&](GameplayTranslationKind kind)
+			-> std::optional<TranslationLookup> {
+		const Entry* match = nullptr;
+		for (const auto& [entry_key, entry] : entries_) {
+			if (entry_key.first != static_cast<int>(kind)
+					|| !source_hash_matches(entry.source_sha256, source_hashes)) {
+				continue;
+			}
+			if (match != nullptr && match->text != entry.text) {
+				return TranslationLookup{
+						std::string(english), TranslationLookupStatus::Missing};
+			}
+			match = &entry;
+		}
+		if (match == nullptr) {
+			return std::nullopt;
+		}
+		return std::optional<TranslationLookup>(TranslationLookup{
+				match->text, TranslationLookupStatus::SourceFallback});
+	};
+
+	const std::optional<TranslationLookup> item =
+			find_unique(GameplayTranslationKind::Item);
+	if (item.has_value()) {
+		return *item;
+	}
+	const std::optional<TranslationLookup> misc =
+			find_unique(GameplayTranslationKind::Misc);
+	return misc.value_or(TranslationLookup{
 				std::string(english), TranslationLookupStatus::Missing});
 }
 

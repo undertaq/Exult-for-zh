@@ -50,6 +50,7 @@ public:
 	TranslationLookup lookup_dialogue_by_source_globally(
 			std::string_view english) const;
 	TranslationLookup lookup_choice_by_source(std::string_view english) const;
+	TranslationLookup lookup_item_by_source(std::string_view english) const;
 	std::size_t size() const;
 
 private:

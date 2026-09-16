@@ -1,0 +1,476 @@
+category	en
+# NPC names and named NPC titles. These values must remain in English in every translation.
+npc	Alagner
+npc	Alastor Gordon
+npc	Amanda
+npc	Andrea
+npc	Andreas
+npc	Andy
+npc	Anten Nom
+npc	Antonio
+npc	Arbeth
+npc	Ariana
+npc	Artagel
+npc	Arvin
+npc	Ashtalarea
+npc	Aurendir
+npc	Beyvin
+npc	Blackthorn
+npc	Blaine
+npc	Bonn
+npc	Bourbonnais
+npc	Budo
+npc	Bulbous
+npc	Cantrell
+npc	Captain Hawkins
+npc	Captain Johne
+npc	Caradon
+npc	Charlotte
+npc	Chuckles
+npc	Conor
+npc	Culham
+npc	Demitry
+npc	Derydlus
+npc	Dezana
+npc	Dorin
+npc	Doris
+npc	Draxinusom
+npc	Drudgeworth
+npc	Dupre
+npc	Dutch
+npc	Dwyer
+npc	Efram
+npc	Enrik
+npc	Evanora
+npc	Faren
+npc	Farmer Krill
+npc	Farmer Nash
+npc	Fentrissa
+npc	Finn
+npc	Freitag
+npc	Gabriella
+npc	Geoffrey
+npc	Gertan
+npc	Gherick
+npc	Gideon
+npc	Glen
+npc	Gorn
+npc	Grison
+npc	Grison Fairfleth
+npc	Gwen
+npc	Gwenno
+npc	Hawkins
+npc	Hendle
+npc	Homer
+npc	Hook
+npc	Horance
+npc	Isaac
+npc	Iolo
+npc	Jaana
+npc	Jannati
+npc	Jerris
+npc	Johann
+npc	Julia
+npc	Kador
+npc	Karina
+npc	Katrina
+npc	Kenneth
+npc	Kindor
+npc	Koronada
+npc	Kytyn
+npc	Lady Isabella
+npc	Lazeena
+npc	Lenard
+npc	Lenora
+npc	Leodon
+npc	Leona
+npc	Leonna
+npc	Lord British
+npc	Lord Whitsaber
+npc	Lucy
+npc	Lynn
+npc	Malone
+npc	Manrel
+npc	Mariah
+npc	Marissa
+npc	Mark
+npc	Marney
+npc	Marta
+npc	Matt
+npc	Memah
+npc	Merideth
+npc	Merideth Ann
+npc	Michael
+npc	Miss Mandy
+npc	Miss Trihune
+npc	Moorehead
+npc	Morpheus
+npc	Mortimer
+npc	Mortude
+npc	Myron
+npc	Nakar
+npc	Nathaniel
+npc	Naxalitor
+npc	Naxatilor
+npc	Nick
+npc	Nicodemus
+npc	Nystul
+npc	Odkin
+npc	Ombogo
+npc	Omdu Yaf
+npc	Peer
+npc	Penumbra
+npc	Petroph
+npc	Peyton
+npc	Phil
+npc	Pildar
+npc	Quenton
+npc	Renthar
+npc	Rinaldo
+npc	Rogi
+npc	Romero
+npc	Rushin
+npc	Saduj
+npc	Sandy
+npc	Segallion
+npc	Seggallion
+npc	Selganor
+npc	Sentri
+npc	Shamino
+npc	Sherry
+npc	Simon
+npc	Sin'Vraal
+npc	Sionnach
+npc	Slim
+npc	Smith
+npc	Solvol
+npc	Spector
+npc	Steph
+npc	Stephanie
+npc	Steve
+npc	Stivius
+npc	Sutek
+npc	Tara
+npc	Taynith
+npc	Thariand
+npc	Thindle
+npc	Tholden
+npc	Timothy
+npc	Tobatha
+npc	Trenton Bell
+npc	Tyme
+npc	Ubermon
+npc	Uncle Arthur
+npc	Utomo
+npc	Wanda
+npc	William
+npc	Woodroffe
+npc	Xiao
+npc	Ybarra
+npc	Yorl
+npc	Zeke
+npc	Zog
+npc	Zoltan
+npc	Aaron
+npc	Aganar
+npc	Agra-lem
+npc	Ahrmaand
+npc	Aiden
+npc	An-bal
+npc	Angus
+npc	Anisha
+npc	Anya
+npc	Aranoth
+npc	Arty
+npc	Awhicha
+npc	Barlap
+npc	Barston
+npc	Batlin
+npc	Baum
+npc	Bazillius
+npc	Becky
+npc	Beth
+npc	Bilgerat
+npc	Boskin
+npc	Brandon
+npc	Cassandra
+npc	Cullen
+npc	Dacil
+npc	Daglar
+npc	Dale
+npc	Dargoth
+npc	Daros
+npc	Daver
+npc	Daverstock
+npc	Delancy
+npc	Dryden
+npc	Eckhart
+npc	Ed
+npc	Elad
+npc	Elistaria
+npc	Fennian
+npc	Fenwick
+npc	Feller
+npc	Fletcher
+npc	Flain
+npc	Flam
+npc	Fox
+npc	Frasier
+npc	Fyodor
+npc	Garen
+npc	Godel
+npc	Goratesh
+npc	Gres
+npc	Gwenneth
+npc	Greyhaven
+npc	Haran
+npc	Harold
+npc	Harry
+npc	Hawknose
+npc	Heftimus
+npc	Heisenberg
+npc	Hruntir
+npc	Hubert
+npc	Hugh
+npc	Immanuelle
+npc	James
+npc	Johne
+npc	Kalbmilch
+npc	Kate
+npc	Keegan
+npc	Kellian
+npc	Keltias
+npc	Klein
+npc	LaFey
+npc	LadyNan
+npc	Larson
+npc	Lawrence
+npc	Linda
+npc	Loubet
+npc	Lyssandra
+npc	Maldric
+npc	Mandy
+npc	Marie
+npc	McCord
+npc	McPry
+npc	Melinus
+npc	Meredith
+npc	Michelle
+npc	Minax
+npc	Morchella
+npc	Morgoth
+npc	Morris
+npc	Morwyn
+npc	Musgrave
+npc	Myles
+npc	Nema
+npc	Nomaan
+npc	Nomalet
+npc	Norlick
+npc	Patrick
+npc	Pridgarm
+npc	Priliwig
+npc	Regina
+npc	Relthor
+npc	Rob
+npc	Roger
+npc	Rudyom
+npc	Rufus
+npc	Sahra
+npc	Salle
+npc	Sasha
+npc	Shawn
+npc	Shubin
+npc	Sigourney
+npc	Sinjen
+npc	Snilwit
+npc	Soleyn
+npc	Starfalcon
+npc	Stelnar
+npc	Sylaina
+npc	Sylania
+npc	Tessa
+npc	Theodosia
+npc	Thechu
+npc	Thrud
+npc	Thunff
+npc	Tiberius
+npc	Trebor
+npc	Troy
+npc	Uby
+npc	Us-agra
+npc	Us-arb
+npc	Valkedesh
+npc	Ventara
+npc	Wilbur
+npc	Windemere
+npc	Yellowbeard
+npc	Ylem
+npc	Yuna
+npc	Zagros
+npc	Zellivan
+# Towns, settlements, named buildings, roads, islands, and other locations.
+place	Avatar Lane
+place	Bellringer Lane
+place	Black Gate
+place	Bordermarch
+place	Britannia
+place	Buccaneer's Den
+place	Castle Britannia
+place	Celestial Garden
+place	Dagger Isle
+place	Deep Forest
+place	Drylands
+place	Empath Abbey
+place	Fawn
+place	Golden Hind
+place	Haunting Inn
+place	Kafiristan Pass
+place	King's Way
+place	The Kings Way
+place	Lycaeum
+place	Moongate
+place	Serpents Loop
+place	Silken Stag
+place	Skara Brae
+place	Slumberland
+place	Stonegate
+place	The Black Gate
+place	The Den
+place	The Fallen Virgin
+place	The Maze
+place	The Passion Play Theatre
+place	The Well
+place	Underworld
+place	Vortex Chamber
+town	Britain
+town	Cove
+town	Jhelom
+town	Magincia
+town	Minoc
+town	Moonglow
+town	New Magincia
+town	Paws
+town	Trinsic
+town	Yew
+location	Brittany Bay
+location	Shrine of Compassion
+location	Shrine of Honor
+location	Shrine of Honesty
+location	Shrine of Humility
+location	Shrine of Justice
+location	Shrine of Sacrifice
+location	Shrine of Spirituality
+location	Shrine of Valor
+# Canonical U6 NPC spellings and titles used by the converted dialogue.
+npc	Alex C.
+npc	Doug the Eagle
+npc	Hubert the Lion
+npc	Kissme
+npc	Merideth Cassandra Lamby
+npc	Mr. Nose
+npc	Pushme
+npc	Pullyu
+npc	S.J.
+npc	Sir Aiden
+npc	Sir Garen
+npc	Sir Geoffrey
+npc	Artegal
+npc	Arturos
+npc	Beh Lem
+npc	Ben
+npc	Big Ben
+npc	Bolesh
+npc	Captain Elad
+npc	Captain Fox
+npc	Caretaker
+npc	De Hugh
+npc	de Hugh
+npc	Dr. Cat
+npc	Dunbar
+npc	Ephemerides
+npc	Exodus
+npc	Foodmaker
+npc	Gilron
+npc	Goodscrafter
+npc	Healer
+npc	Heftimus McPry
+npc	Isabella
+npc	Koranada
+npc	Lady Tessa
+npc	Lensmaker
+npc	Lord Draxinusom
+npc	Mama
+npc	Mandrake
+npc	Martin
+npc	Max
+npc	Mole
+npc	Mondain
+npc	Morwin
+npc	Nan
+npc	Nathaniel Moorehead
+npc	Ol' Hawknose
+npc	Papa
+npc	Phoenix
+npc	Pushme Pullyu
+npc	Pushme-Pullyu
+npc	Rob Frasier
+npc	Sherry the Mouse
+npc	Sir Simon
+npc	Smith the Horse
+npc	Snake Charmer
+npc	Starhelm
+npc	Terri
+npc	The Gypsy
+npc	Trenton
+npc	Valkadesh
+npc	Van Kellian
+npc	Weaponsmith
+npc	Wingless gargoyle
+npc	Wisps
+# U6 named geographical sites, dungeons, institutions, and buildings.
+place	Blue Boar
+place	Frasier's Folly
+place	Iver's Rounding
+place	Artisan's Guild
+place	Blue Boar Tavern
+place	Bloody Plains
+place	Buccaneer's Cave
+place	Buccaneers Cave
+place	Covetous
+place	Cyclops Cave
+place	Deceit
+place	Despise
+place	Destard
+place	Dry Land
+place	Flame of Infinity
+place	Flame of Singularity
+place	Hall of Justice
+place	Hall of Knowledge
+place	High Court
+place	Hythloth
+place	Iolo's hut
+place	Isle of the Avatar
+place	Ivers Rounding
+place	Lost Hope Bay
+place	Moonglow Catacombs
+place	River Maelstrom
+place	Royal Mint
+place	Sea of Sand
+place	Sea of Sands
+place	Serpent's Hold
+place	Sosaria
+place	Spiritwood
+place	Temple of Virtue
+place	The Vortex
+# Other named U6 entities that are not NPCs or locations.
+proper	Arturosis
+proper	Black Thechu
+proper	Drudgeworth and Saduj
+proper	Dutchman
+proper	Empire
+proper	Iolo's Bows
+proper	Silver Serpent
+proper	Stones
+proper	kahmanizende
+proper	manchar

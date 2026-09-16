@@ -191,7 +191,7 @@ gameplay_translation_table_test_core.o: gameplay_translation_table.cc \
 gameplay_translation_test_manager.o: gameplay_translation.cc \
 	gameplay_translation.h gameplay_translation_table.h bilingual_manager.h
 	$(CXXCOMPILE) -DGAMEPLAY_TRANSLATION_TABLE_TEST -o $@ -c $(srcdir)/gameplay_translation.cc
-TESTS = $(check_PROGRAMS)
+TESTS = $(check_PROGRAMS) tests/alsa_underrun_output_test.sh
 endif
 
 EXTRA_DIST = 	\

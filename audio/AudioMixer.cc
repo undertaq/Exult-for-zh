@@ -26,9 +26,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "MidiDriver.h"
 
 #include <algorithm>
+#include <cstdarg>
+#include <cstdio>
+#include <cstring>
 #include <iostream>
 #include <limits>
 #include <mutex>
+
+#ifdef USE_ALSA_MIDI
+#	include <alsa/error.h>
+#endif
 
 #ifdef __GNUC__
 #	pragma GCC diagnostic push
@@ -77,6 +84,35 @@ namespace Pentagram {
 
 using namespace Pentagram;
 
+#ifdef USE_ALSA_MIDI
+namespace {
+	void exult_alsa_error_handler(
+			const char* file, int line, const char* function, int err, const char* fmt, ...) {
+		va_list args;
+		va_start(args, fmt);
+		if (function != nullptr && std::strcmp(function, "snd_pcm_recover") == 0 && fmt != nullptr
+				&& std::strcmp(fmt, "%s occurred") == 0) {
+			va_list check_args;
+			va_copy(check_args, args);
+			const char* const state = va_arg(check_args, const char*);
+			va_end(check_args);
+			if (state != nullptr && std::strcmp(state, "underrun") == 0) {
+				va_end(args);
+				return;
+			}
+		}
+
+		std::fprintf(stderr, "ALSA lib %s:%d:(%s) ", file, line, function);
+		std::vfprintf(stderr, fmt, args);
+		va_end(args);
+		if (err != 0) {
+			std::fprintf(stderr, " (%s)", snd_strerror(err));
+		}
+		std::fputc('\n', stderr);
+	}
+}    // namespace
+#endif
+
 AudioMixer* AudioMixer::the_audio_mixer = nullptr;
 
 AudioMixer::AudioMixer(int sample_rate_, bool stereo_, int num_channels_)
@@ -114,6 +150,10 @@ AudioMixer::AudioMixer(int sample_rate_, bool stereo_, int num_channels_)
 	}
 
 	// Open SDL Audio (even though we may not need it)
+#ifdef USE_ALSA_MIDI
+	// SDL's ALSA playback backend reports recoverable underruns through libasound.
+	snd_lib_error_set_handler(exult_alsa_error_handler);
+#endif
 	SDL_InitSubSystem(SDL_INIT_AUDIO);
 	stream   = SDL_OpenAudioDeviceStream(EXSDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &desired, sdlAudioCallback, this);
 	audio_ok = (stream != nullptr);

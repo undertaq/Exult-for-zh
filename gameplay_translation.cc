@@ -186,7 +186,13 @@ void GameplayTranslationManager::set_text_language(TextLanguage language) {
 }
 
 bool GameplayTranslationManager::table_only_enabled() const {
-	return current_language_ == TextLanguage::CHINESE && table_valid_
+	// DUAL falls back to the English usecode when this mod has no alternate
+	// usecode.dual/usecode.zh. In that configuration the TSV is the only
+	// Chinese text source, including for book pages. If an alternate usecode
+	// was loaded, legacy_alternate_usecode_active_ keeps the table disabled so
+	// already-translated strings are not translated a second time.
+	return (current_language_ == TextLanguage::CHINESE
+				|| current_language_ == TextLanguage::DUAL) && table_valid_
 			&& !legacy_alternate_usecode_active_;
 }
 
@@ -200,12 +206,18 @@ std::string GameplayTranslationManager::translate(
 
 	const TranslationLookup result = table_.lookup(kind, key, english);
 	if ((kind == GameplayTranslationKind::Dialogue
-				|| kind == GameplayTranslationKind::Choice)
+				|| kind == GameplayTranslationKind::Choice
+				|| kind == GameplayTranslationKind::Item)
 				&& result.status != TranslationLookupStatus::Hit) {
-		const TranslationLookup source_fallback = kind
-				== GameplayTranslationKind::Dialogue
-			? table_.lookup_dialogue_by_source(key, english)
-			: table_.lookup_choice_by_source(english);
+		TranslationLookup source_fallback{std::string(english),
+				TranslationLookupStatus::Missing};
+		if (kind == GameplayTranslationKind::Dialogue) {
+			source_fallback = table_.lookup_dialogue_by_source(key, english);
+		} else if (kind == GameplayTranslationKind::Choice) {
+			source_fallback = table_.lookup_choice_by_source(english);
+		} else {
+			source_fallback = table_.lookup_item_by_source(english);
+		}
 		if (source_fallback.status == TranslationLookupStatus::SourceFallback) {
 			++diagnostics_.hits;
 			if (result.status == TranslationLookupStatus::SourceMismatch) {
@@ -260,6 +272,8 @@ std::string GameplayTranslationManager::translate_by_source(
 		result = table_.lookup_dialogue_by_source_globally(english);
 	} else if (kind == GameplayTranslationKind::Choice) {
 		result = table_.lookup_choice_by_source(english);
+	} else if (kind == GameplayTranslationKind::Item) {
+		result = table_.lookup_item_by_source(english);
 	}
 
 	if (result.status == TranslationLookupStatus::SourceFallback
@@ -270,6 +284,115 @@ std::string GameplayTranslationManager::translate_by_source(
 	++diagnostics_.misses;
 	++diagnostics_.fallbacks;
 	return std::string(english);
+}
+
+std::string GameplayTranslationManager::translate_book_text(
+		std::string_view english) {
+	// A Chinese/dual alternate usecode can contain translated dialogue while
+	// still leaving book pages in English. The general table gate is disabled
+	// for that usecode to avoid translating its Chinese strings twice, so book
+	// pages need their own source lookup. Already-translated pages simply have
+	// no matching English source hash and are returned unchanged.
+	auto translate_book_segment = [&](std::string_view segment) {
+		if (table_only_enabled()) {
+			return translate_by_source(GameplayTranslationKind::Dialogue, segment);
+		}
+		if ((current_language_ == TextLanguage::CHINESE
+				|| current_language_ == TextLanguage::DUAL) && table_valid_) {
+			const TranslationLookup result =
+					table_.lookup_dialogue_by_source_globally(segment);
+			if (result.status == TranslationLookupStatus::SourceFallback
+					|| result.status == TranslationLookupStatus::Hit) {
+				++diagnostics_.hits;
+				return result.text;
+			}
+		}
+		++diagnostics_.fallbacks;
+		return std::string(segment);
+	};
+
+	std::string translated;
+	std::size_t segment_start = 0;
+	while (segment_start <= english.size()) {
+		const std::size_t separator = english.find('~', segment_start);
+		const std::size_t segment_end = separator == std::string_view::npos
+				? english.size()
+				: separator;
+		std::string_view segment = english.substr(
+				segment_start, segment_end - segment_start);
+		std::size_t page_markers = 0;
+		while (page_markers < segment.size() && segment[page_markers] == '*') {
+			++page_markers;
+		}
+		translated.append(page_markers, '*');
+		translated += translate_book_segment(segment.substr(page_markers));
+		if (separator == std::string_view::npos) {
+			break;
+		}
+		translated += '~';
+		segment_start = separator + 1;
+	}
+	return translated;
+}
+
+std::string GameplayTranslationManager::translate_book_text_parts(
+		std::string_view english, const std::vector<BookTextPart>& parts) {
+	std::string reconstructed;
+	std::string translated;
+	for (const BookTextPart& part : parts) {
+		reconstructed += part.text;
+		if (!part.translate) {
+			translated += part.text;
+			continue;
+		}
+
+		std::string part_translation;
+		if (table_only_enabled() && !part.translation_key.empty()) {
+			TranslationLookup result = table_.lookup(
+					GameplayTranslationKind::Dialogue,
+					part.translation_key, part.text);
+			if (result.status == TranslationLookupStatus::Hit) {
+				part_translation = std::move(result.text);
+			} else {
+				// U6's English usecode uses the original data offset while the
+				// fallback rows use a separate namespace to avoid collisions with
+				// active-mod rows. Try that corresponding fallback key directly;
+				// this also avoids ambiguous global source matches.
+				const std::string prefix = "dialogue:";
+				const std::size_t function_end =
+						part.translation_key.find(':', prefix.size());
+				const std::size_t marker_end =
+						part.translation_key.find(':', function_end + 1);
+				if (function_end != std::string_view::npos
+						&& marker_end != std::string_view::npos) {
+					const std::string marker(part.translation_key.substr(
+							function_end + 1,
+							marker_end - function_end - 1));
+					if (marker.find("fallback_") != 0) {
+						const std::string fallback_key =
+								std::string(part.translation_key.substr(0, function_end + 1))
+								+ "fallback_" + marker
+								+ std::string(part.translation_key.substr(marker_end));
+						result = table_.lookup(
+								GameplayTranslationKind::Dialogue,
+								fallback_key, part.text);
+						if (result.status == TranslationLookupStatus::Hit) {
+							part_translation = std::move(result.text);
+						}
+					}
+				}
+			}
+		}
+		translated += part_translation.empty()
+					? translate_book_text(part.text)
+					: part_translation;
+	}
+	if (reconstructed != english) {
+		// The usecode trace can be incomplete for unusual string-building
+		// paths. Retain the safe whole-string behavior in that case.
+		return translate_book_text(english);
+	}
+	return translated;
 }
 
 std::optional<std::string>

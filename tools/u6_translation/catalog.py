@@ -98,7 +98,7 @@ def _merge(entries: object) -> list[CatalogEntry]:
 
 def load_catalog(path: Path) -> list[CatalogEntry]:
     entries = []
-    for line in path.read_text(encoding="utf-8").splitlines():
+    for line in path.read_text(encoding="utf-8").split("\n"):
         if not line.strip():
             continue
         data = json.loads(line)
@@ -130,7 +130,7 @@ def parse_runtime_catalog(path: Path) -> list[CatalogEntry]:
     from .runtime_table import decode_tsv_row
 
     entries = []
-    for line in path.read_text(encoding="utf-8").splitlines():
+    for line in path.read_text(encoding="utf-8").split("\n"):
         if not line or line.startswith("#"):
             continue
         kind, key, digest, source = decode_tsv_row(line)

@@ -7,11 +7,11 @@ from .audit import (correctness_report, coverage_report, format_terminal_report,
                     write_json_report)
 from .catalog import load_catalog, write_catalog
 from .emit import emit_approved_table
-from .extract import extract_catalog
+from .extract import extract_catalog, extract_usecode_translation_rows
 from .ollama_backend import OllamaBackend, OllamaConfig
 from .prompts import PROMPT_VERSION
 from .review_html import write_review_html
-from .runtime_table import load_runtime_table
+from .runtime_table import load_runtime_table, merge_runtime_rows, write_runtime_table
 from .speaker_map import load_speaker_capture, speaker_map_from_capture
 from .translate import translate_catalog
 
@@ -22,7 +22,13 @@ def main(argv=None):
     extract = sub.add_parser("extract")
     extract.add_argument("--mod-root", required=True); extract.add_argument("--ucxt", required=True)
     extract.add_argument("--runtime-catalog"); extract.add_argument("--include-static", action="store_true")
+    extract.add_argument("--fallback-usecode", help="base BG USECODE used by U6 fallback book handlers")
     extract.add_argument("--output", required=True)
+    fallback_books = sub.add_parser("import-fallback-books")
+    fallback_books.add_argument("--english-usecode", required=True)
+    fallback_books.add_argument("--chinese-usecode", required=True)
+    fallback_books.add_argument("--ucxt", required=True)
+    fallback_books.add_argument("--table", required=True)
     translate = sub.add_parser("translate")
     translate.add_argument("--catalog", required=True); translate.add_argument("--output", required=True)
     translate.add_argument("--cache", required=True); translate.add_argument("--model", required=True)
@@ -32,6 +38,7 @@ def main(argv=None):
     for mode in ("coverage", "correctness", "all"):
         p = modes.add_parser(mode); p.add_argument("--catalog", required=True); p.add_argument("--table", required=True)
         p.add_argument("--report", required=True); p.add_argument("--glossary", default=str(Path(__file__).with_name("u6_glossary.tsv")))
+        p.add_argument("--names", default=str(Path(__file__).with_name("u6_names.tsv")))
         p.add_argument("--strict", action="store_true")
         p.add_argument("--semantic-strict", action="store_true")
     emit = sub.add_parser("emit"); emit.add_argument("--catalog", required=True); emit.add_argument("--review", required=True); emit.add_argument("--output", required=True)
@@ -56,12 +63,21 @@ def main(argv=None):
         return 0
     if args.command == "extract":
         runtime = Path(args.runtime_catalog) if args.runtime_catalog else None
-        entries = extract_catalog(Path(args.mod_root), Path(args.ucxt), runtime)
+        fallback = Path(args.fallback_usecode) if args.fallback_usecode else None
+        entries = extract_catalog(Path(args.mod_root), Path(args.ucxt), runtime, fallback)
         # A CLI extraction without a runtime capture is the static dialogue
         # catalog used by the legacy candidate workflow.
         if runtime is None and not args.include_static:
             entries = [entry for entry in entries if entry.kind == "dialogue"]
         write_catalog(Path(args.output), entries); return 0
+    if args.command == "import-fallback-books":
+        additions = extract_usecode_translation_rows(
+            Path(args.english_usecode), Path(args.chinese_usecode), Path(args.ucxt)
+        )
+        table = Path(args.table)
+        write_runtime_table(table, merge_runtime_rows(load_runtime_table(table), additions))
+        print(f"Imported {len(additions)} fallback book/scroll rows into {table}")
+        return 0
     if args.command == "translate":
         translate_catalog(
             Path(args.catalog),
@@ -80,9 +96,9 @@ def main(argv=None):
         if args.mode == "coverage":
             report = coverage
         elif args.mode == "correctness":
-            report = correctness_report(catalog, rows, Path(args.glossary), None, args.semantic_strict)
+            report = correctness_report(catalog, rows, Path(args.glossary), None, args.semantic_strict, Path(args.names))
         else:
-            correctness = correctness_report(catalog, rows, Path(args.glossary), None, args.semantic_strict)
+            correctness = correctness_report(catalog, rows, Path(args.glossary), None, args.semantic_strict, Path(args.names))
             report = combine_audit_reports(coverage, correctness)
         if raw: report = merge_input_issues(report, raw)
         write_json_report(Path(args.report), report); print(format_terminal_report(report)); return report_exit_code(report, args.strict)
