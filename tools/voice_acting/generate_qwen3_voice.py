@@ -216,6 +216,16 @@ def make_filename(entry, lang='zh'):
     By including the NPC number, we eliminate collisions where different NPCs
     share the same func_id/offset_key/segment.
     """
+    override = entry.get(f'{lang}_output_filename', '')
+    if override:
+        if (
+            '/' in override
+            or '\\' in override
+            or Path(override).name != override
+            or Path(override).suffix != '.ogg'
+        ):
+            raise ValueError(f'unsafe output filename: {override!r}')
+        return override
     base = _build_base_name(entry, lang)
     avatar_gender = entry.get('_avatar_voice_gender')
     if avatar_gender in ('male', 'female'):
@@ -1399,8 +1409,10 @@ def maybe_update_full_voice_review(args, since_mtime, last_update, force=False):
 def phase_c_generate_voice(designs, clone_prompts, by_npc, args):
     """Bulk generate all ZH + EN voice files via VoiceClone."""
     print("DIAG: phase_c_generate_voice ENTERED", flush=True)
-    os.makedirs(ZH_OUTPUT, exist_ok=True)
-    os.makedirs(EN_OUTPUT, exist_ok=True)
+    if args.lang in (None, 'zh'):
+        os.makedirs(ZH_OUTPUT, exist_ok=True)
+    if args.lang in (None, 'en'):
+        os.makedirs(EN_OUTPUT, exist_ok=True)
 
     print(f'\n{"="*60}', flush=True)
     print('Phase C: Bulk generating voice files via VoiceClone', flush=True)
@@ -1819,6 +1831,18 @@ def build_parser():
     parser.add_argument('--max-npcs', type=int, default=None, help='Limit number of NPCs to process')
     parser.add_argument('--lang', type=str, default=None, choices=['zh', 'en'],
                         help='Language to process (default: both)')
+    parser.add_argument('--mapping', type=str, default=None,
+                        help='Override bilingual mapping path')
+    parser.add_argument('--en-lines', type=str, default=None,
+                        help='Override English source-line CSV path')
+    parser.add_argument('--zh-lines', type=str, default=None,
+                        help='Override Chinese source-line CSV path')
+    parser.add_argument('--designs', type=str, default=None,
+                        help='Override voice-design JSON path')
+    parser.add_argument('--output-dir', type=str, default=None,
+                        help='Override output root directory')
+    parser.add_argument('--clone-prompts', type=str, default=None,
+                        help='Override clone-prompt pickle path')
     parser.add_argument('--generic-fallbacks', action='store_true',
                         help='Also create generic non-NPC fallback copies for generated/skipped NPC-specific files')
     parser.add_argument('--migrate', action='store_true', help='One-time migration: rename existing generic files to NPC-specific names')
@@ -1833,8 +1857,31 @@ def build_parser():
     return parser
 
 
+def apply_path_overrides(args):
+    """Apply optional input/output paths without changing U7 defaults."""
+    global MAPPING_PATH, EN_LINES_PATH, ZH_LINES_PATH, DESIGNS_PATH
+    global PROJECT_DIR, OUTPUT_DIR, ZH_OUTPUT, EN_OUTPUT, REFS_DIR, CLONE_PROMPTS_PATH
+    if args.mapping:
+        MAPPING_PATH = args.mapping
+    if args.en_lines:
+        EN_LINES_PATH = args.en_lines
+    if args.zh_lines:
+        ZH_LINES_PATH = args.zh_lines
+    if args.designs:
+        DESIGNS_PATH = args.designs
+    if args.output_dir:
+        OUTPUT_DIR = args.output_dir
+        PROJECT_DIR = OUTPUT_DIR
+        ZH_OUTPUT = os.path.join(OUTPUT_DIR, 'zh')
+        EN_OUTPUT = os.path.join(OUTPUT_DIR, 'en')
+        REFS_DIR = os.path.join(OUTPUT_DIR, 'refs')
+    if args.clone_prompts:
+        CLONE_PROMPTS_PATH = args.clone_prompts
+
+
 def main():
     args = build_parser().parse_args()
+    apply_path_overrides(args)
     args.review_only_new = not args.review_all
 
     # Load data

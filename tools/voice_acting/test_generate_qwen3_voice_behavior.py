@@ -79,6 +79,72 @@ def load_script_module():
 
 
 class GenerateQwen3VoiceBehaviorTest(unittest.TestCase):
+    def test_path_overrides_leave_default_u7_paths_opt_in(self):
+        module = load_script_module()
+        defaults = (
+            module.MAPPING_PATH, module.EN_LINES_PATH, module.ZH_LINES_PATH,
+            module.DESIGNS_PATH, module.OUTPUT_DIR, module.CLONE_PROMPTS_PATH,
+        )
+        args = module.build_parser().parse_args([])
+
+        module.apply_path_overrides(args)
+
+        self.assertEqual(
+            (
+                module.MAPPING_PATH, module.EN_LINES_PATH, module.ZH_LINES_PATH,
+                module.DESIGNS_PATH, module.OUTPUT_DIR, module.CLONE_PROMPTS_PATH,
+            ),
+            defaults,
+        )
+
+    def test_path_overrides_and_explicit_filename_support_u6_staging(self):
+        module = load_script_module()
+        args = module.build_parser().parse_args([
+            "--mapping", "/tmp/u6_mapping.json", "--en-lines", "/tmp/u6_en.csv",
+            "--zh-lines", "/tmp/u6_zh.csv", "--designs", "/tmp/u6_designs.json",
+            "--output-dir", "/tmp/u6_audio", "--clone-prompts", "/tmp/u6_prompts.pkl",
+        ])
+
+        module.apply_path_overrides(args)
+
+        self.assertEqual(module.MAPPING_PATH, "/tmp/u6_mapping.json")
+        self.assertEqual(module.EN_LINES_PATH, "/tmp/u6_en.csv")
+        self.assertEqual(module.ZH_LINES_PATH, "/tmp/u6_zh.csv")
+        self.assertEqual(module.DESIGNS_PATH, "/tmp/u6_designs.json")
+        self.assertEqual(module.OUTPUT_DIR, "/tmp/u6_audio")
+        self.assertEqual(module.PROJECT_DIR, "/tmp/u6_audio")
+        self.assertEqual(module.CLONE_PROMPTS_PATH, "/tmp/u6_prompts.pkl")
+        self.assertEqual(
+            module.make_filename({"en_output_filename": "0401_10_0.ogg"}, "en"),
+            "0401_10_0.ogg",
+        )
+
+    def test_explicit_output_override_rejects_paths_and_non_ogg_files(self):
+        module = load_script_module()
+
+        with self.assertRaisesRegex(ValueError, "unsafe output filename"):
+            module.make_filename({"en_output_filename": "../escape.ogg"}, "en")
+        with self.assertRaisesRegex(ValueError, "unsafe output filename"):
+            module.make_filename({"en_output_filename": "voice.wav"}, "en")
+
+    def test_phase_c_creates_only_the_requested_language_output_directory(self):
+        module = load_script_module()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            module.EN_OUTPUT = os.path.join(tmpdir, "en")
+            module.ZH_OUTPUT = os.path.join(tmpdir, "zh")
+            args = argparse.Namespace(
+                lang="en", dry_run=True, force=False, max_npcs=None,
+                device="cuda:0", generic_fallbacks=False, review_out_dir=None,
+                review_update_interval=0, review_only_new=True, review_since_mtime=0,
+            )
+            designs = {"designs": {}}
+
+            module.phase_c_generate_voice(designs, {}, {}, args)
+
+            self.assertTrue(Path(module.EN_OUTPUT).is_dir())
+            self.assertFalse(Path(module.ZH_OUTPUT).exists())
+
     def test_phase_a_defaults_to_candidate_workflow(self):
         module = load_script_module()
 

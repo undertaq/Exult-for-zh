@@ -247,7 +247,13 @@ requested review gate.
 Generate U6 voice manifests from the extracted source catalog, reviewed
 translation table, and U6 runtime speaker capture. The runtime capture must
 come from U6; the U7 NPC table is only a compatible casting-file schema, not a
-speaker source.
+speaker source. `voice-generate` stages these manifests for the local Qwen3
+VoiceDesign/VoiceClone pipeline.
+
+The paired provider CSVs must retain the manifest columns `filename`,
+`func_id`, `offset_key`, `segment`, `speaker`, `voice_desc`, and `text`.
+Generation rejects missing columns, duplicate filenames, non-`.ogg` names, or
+non-identical English/Chinese filename multiplicity before staging.
 
 ```sh
 python3 -m tools.u6_translation extract \

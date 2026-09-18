@@ -192,7 +192,7 @@ def main(argv=None):
         )
         return 2 if collisions else 0
     if args.command == "voice-generate":
-        generator = Path(__file__).parents[1] / "voice_acting" / "generate_voices.py"
+        generator = Path(__file__).parents[1] / "voice_acting" / "generate_qwen3_voice.py"
         return run_voice_generation(
             Path(args.manifest_dir), Path(args.output_root), args.language,
             args.dry_run, generator,
