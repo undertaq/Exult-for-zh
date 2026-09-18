@@ -107,6 +107,10 @@ class EmitApprovedTableTest(unittest.TestCase):
             output = Path(directory) / "zh_translation.tsv"
             emit_approved_table(_catalog_from_reviews(), review, output)
             self.assertTrue(output.exists())
+            converted = {
+                row.key: row.zh for row in load_runtime_table(output)
+            }
+            self.assertEqual(converted[records[3]["key"]], "簡體中文")
 
 
 if __name__ == "__main__":

@@ -156,11 +156,31 @@ If a singleton response is still unusable, that source is retained with
 `status=model-failed` and flagged for human correction instead of aborting the
 full run; a later run retries it from the cache.
 
-Before release, run the combined audit in strict mode. A nonzero exit status blocks emission and requires correction and rerun:
+Normalize the candidate table before auditing it. The conversion uses the same
+checked-in unambiguous Simplified-character inventory as the audit and leaves
+English names, protected professional terms, placeholders, hashes, and
+punctuation untouched. It writes the result with an atomic replace, so the
+input and output may be the same path:
+
+```sh
+python3 -m tools.u6_translation convert-traditional \
+  --input /tmp/u6_candidates.tsv \
+  --output /tmp/u6_candidates.traditional.tsv
+```
+
+Use `--check` in CI or before release; it returns nonzero and prints the
+summary when any Simplified glyph still needs conversion, without writing a
+file. Use `--dry-run` to print each changed key and its before/after text. The
+approved-table emitter runs the same conversion before its deterministic audit
+as a final safety net, but the explicit stage should still precede human review
+and the combined audit.
+
+Before release, run the combined audit in strict mode against the normalized
+table. A nonzero exit status blocks emission and requires correction and rerun:
 
 ```sh
 python3 -m tools.u6_translation audit all \
-  --catalog /tmp/u6_catalog.jsonl --table /tmp/u6_candidates.tsv \
+  --catalog /tmp/u6_catalog.jsonl --table /tmp/u6_candidates.traditional.tsv \
   --glossary tools/u6_translation/u6_glossary.tsv \
   --names tools/u6_translation/u6_names.tsv \
   --terms tools/u6_translation/u6_english_terms.tsv \
@@ -212,7 +232,10 @@ The Traditional-Chinese condition runs across every translated text kind and
 reports unambiguous Simplified-Chinese characters from
 `u6_simplified_characters.txt`. The glossary declaration
 `# policy traditional_chinese=warning` (or `error`) controls the severity;
-without a declaration the condition remains a non-blocking warning.
+without a declaration the condition remains a non-blocking warning. The
+conversion map in `u6_simplified_to_traditional.tsv` is generated from
+OpenCC's `s2t` character dictionary and is checked to cover exactly that
+inventory, keeping the audit and conversion rules in lockstep.
 
 Strict audit is a release gate: missing, stale, duplicate, orphan, unbound, untranslated, English-name, protected-term, Traditional-Chinese-policy, placeholder, item quantity-format, source-integrity, `dialogue_speech_markers`, or `ascii_dot_runs` failures require fixing. ASCII dot runs (`..`, `...`, and longer contiguous runs) are punctuation data: they must remain identical in the Chinese translation rather than becoming full-width `。` or Unicode ellipses. Compiled static-template rows must also retain the source `@` speech-boundary count; the runtime converts complete `@...@` spans to `"..."` in English mode and `「...」` in Chinese mode only on the final display copy. UCXT fragments may contain one side of that pair (`@Good ` or `.@`); when a fragment translation omits its edge marker, the audit reports a non-blocking `fragment_speech_boundary` advisory and the runtime restores the marker from VM provenance during assembly. The report includes separate `book_contents`, `placeholder_templates`, `assembled_templates`, and `fragment_speech_boundaries` coverage sections so book/scroll text, runtime-only templates, statically recoverable assembled greetings, and provenance-restored speech edges cannot be hidden by aggregate dialogue coverage. `assembled_templates` is populated directly from compiled usecode, while `placeholder_templates.unobserved` continues to flag source-stable `fallback_<hash>` rows that are present only in a runtime table; rerun extraction with a runtime capture after exercising those opaque paths so their inferred template and placeholder multiplicity can be audited. Item translations must retain the source slash structure used for singular/plural formatting (for example `/gold nugget//s`), and every placeholder template must retain its token multiplicity. A human must inspect the candidate table and audit report and explicitly approve every row before emission. Automated or Ollama review is advisory and does not constitute approval.
 Semantic review remains advisory by default and cannot change deterministic findings,

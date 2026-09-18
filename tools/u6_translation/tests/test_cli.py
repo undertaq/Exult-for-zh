@@ -140,6 +140,34 @@ class TranslationCliTest(unittest.TestCase):
             self.assertEqual(emit.returncode, 0, emit.stderr)
             self.assertTrue(emitted.read_text(encoding="utf-8").startswith("# u6-translation-v1\n"))
 
+    def test_convert_traditional_command_checks_and_writes_a_table(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "source.tsv"
+            output = root / "converted.tsv"
+            write_runtime_table(
+                source,
+                [RuntimeRow("dialogue", "dialogue:0x0430:50:0", "a" * 64, "秘密")],
+            )
+
+            check = self._run(
+                "convert-traditional", "--input", str(source), "--check"
+            )
+            converted = self._run(
+                "convert-traditional", "--input", str(source), "--output", str(output)
+            )
+            clean_check = self._run(
+                "convert-traditional", "--input", str(output), "--check"
+            )
+
+            converted_rows = load_runtime_table(output)
+
+        self.assertNotEqual(check.returncode, 0)
+        self.assertIn("changed_rows=1", check.stdout)
+        self.assertEqual(converted.returncode, 0, converted.stderr)
+        self.assertEqual(converted_rows[0].zh, "祕密")
+        self.assertEqual(clean_check.returncode, 0, clean_check.stderr)
+
     def test_extract_can_include_static_gameplay_resources_without_runtime_capture(self) -> None:
         fixture = ROOT / "tools/u6_translation/tests/fixtures/indexed_mod"
         with tempfile.TemporaryDirectory() as directory:

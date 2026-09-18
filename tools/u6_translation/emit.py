@@ -7,6 +7,7 @@ from .audit import correctness_report
 from .catalog import CatalogEntry
 from .prompts import GLOSSARY_PATH, TERMS_PATH
 from .runtime_table import RuntimeRow, escape_field
+from .traditional import convert_text
 
 
 TABLE_HEADER = "# u6-translation-v1\n# kind\tkey\tsource_sha256\tzh\n"
@@ -130,6 +131,10 @@ def emit_approved_table(
         raise ValueError("catalog contains duplicate kind/key identities")
     records = _load_reviews(review_path)
     rows = _validate_review_records(catalog, records)
+    rows = [
+        RuntimeRow(row.kind, row.key, row.source_sha256, convert_text(row.zh).text)
+        for row in rows
+    ]
     audit = correctness_report(catalog, rows, GLOSSARY_PATH, None, terms=TERMS_PATH)
     deterministic = audit["deterministic"]
     if deterministic["has_failures"]:
