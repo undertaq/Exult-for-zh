@@ -16,6 +16,13 @@ from .runtime_table import load_runtime_table, merge_runtime_rows, write_runtime
 from .speaker_map import load_speaker_capture, speaker_map_from_capture
 from .translate import translate_catalog
 from .traditional import convert_runtime_table
+from .voice_generation import run_voice_generation
+from .voice_manifest import (
+    build_voice_rows,
+    load_voice_assignments,
+    voice_key_collisions,
+    write_generation_manifests,
+)
 
 def main(argv=None):
     parser = argparse.ArgumentParser(prog="python -m tools.u6_translation")
@@ -73,6 +80,17 @@ def main(argv=None):
     deploy.add_argument("--game-root", required=True)
     deploy.add_argument("--staging-root", default=str(DEPLOY_ROOT))
     deploy.add_argument("--dry-run", action="store_true")
+    voice_manifest = sub.add_parser("voice-manifest")
+    voice_manifest.add_argument("--catalog", required=True)
+    voice_manifest.add_argument("--table", required=True)
+    voice_manifest.add_argument("--speaker-capture", required=True)
+    voice_manifest.add_argument("--assignments", required=True)
+    voice_manifest.add_argument("--output-dir", required=True)
+    voice_generate = sub.add_parser("voice-generate")
+    voice_generate.add_argument("--manifest-dir", required=True)
+    voice_generate.add_argument("--output-root", required=True)
+    voice_generate.add_argument("--language", choices=("en", "zh", "both"), required=True)
+    voice_generate.add_argument("--dry-run", action="store_true")
     # Task 6/7 accepted a bare catalog path; retain that invocation.
     if argv is None:
         import sys
@@ -155,6 +173,30 @@ def main(argv=None):
             f"dry_run={int(report.dry_run)}"
         )
         return 0
+    if args.command == "voice-manifest":
+        rows = build_voice_rows(
+            load_catalog(Path(args.catalog)),
+            load_runtime_table(Path(args.table)),
+            speaker_map_from_capture(load_speaker_capture(Path(args.speaker_capture))),
+            load_voice_assignments(Path(args.assignments)),
+        )
+        output_dir = Path(args.output_dir)
+        write_generation_manifests(output_dir, rows)
+        collisions = voice_key_collisions(rows)
+        approved = sum(row.status == "approved" for row in rows)
+        review = sum(row.status != "approved" for row in rows)
+        print(
+            "Voice manifest: "
+            f"approved={approved} review={review} skipped={review} "
+            f"collisions={len(collisions)}"
+        )
+        return 2 if collisions else 0
+    if args.command == "voice-generate":
+        generator = Path(__file__).parents[1] / "voice_acting" / "generate_voices.py"
+        return run_voice_generation(
+            Path(args.manifest_dir), Path(args.output_root), args.language,
+            args.dry_run, generator,
+        )
     if args.command == "convert-traditional":
         if not (args.check or args.dry_run) and not args.output:
             raise ValueError("--output is required unless --check or --dry-run is used")

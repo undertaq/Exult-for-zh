@@ -242,6 +242,35 @@ Semantic review remains advisory by default and cannot change deterministic find
 candidate selection, or exit status. Pass `--semantic-strict` only for an explicitly
 requested review gate.
 
+## Generate paired U6 voice audio
+
+Generate U6 voice manifests from the extracted source catalog, reviewed
+translation table, and U6 runtime speaker capture. The runtime capture must
+come from U6; the U7 NPC table is only a compatible casting-file schema, not a
+speaker source.
+
+```sh
+python3 -m tools.u6_translation extract \
+  --mod-root /path/to/Ultima_7/mods/Ultima6v1.3 \
+  --ucxt /path/to/tools/ucxt/src/ucxt \
+  --runtime-catalog /path/to/GAMEDAT/u6_runtime_catalog.tsv \
+  --fallback-usecode /path/to/STATIC/USECODE \
+  --include-static \
+  --output build/u6_catalog.jsonl
+
+python3 -m tools.u6_translation voice-manifest \
+  --catalog build/u6_catalog.jsonl \
+  --table tools/u6_translation/deploy/mods/Ultima6v1.3/patch/zh_translation.tsv \
+  --speaker-capture /path/to/GAMEDAT/u6_runtime_speakers.tsv \
+  --assignments tools/voice_acting/voice_assignments.csv \
+  --output-dir build/u6_voice
+
+python3 -m tools.u6_translation voice-generate \
+  --manifest-dir build/u6_voice \
+  --output-root build/u6_voice/audio \
+  --language both
+```
+
 ## Emit the approved table
 
 After strict audit succeeds and human approval is recorded in the review JSONL, emit to the checked-in staging tree:

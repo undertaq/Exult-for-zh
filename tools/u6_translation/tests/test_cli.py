@@ -34,6 +34,58 @@ class TranslationCliTest(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("dialogue:0x0401:10:0 First", result.stdout)
 
+    def test_voice_manifest_writes_combined_and_provider_manifests(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            entry = CatalogEntry.from_source(
+                "dialogue", "dialogue:0x0401:10:0", "Hello", "gameplay", "cli"
+            )
+            catalog = root / "catalog.jsonl"
+            write_catalog(catalog, [entry])
+            table = root / "translations.tsv"
+            write_runtime_table(
+                table, [RuntimeRow(entry.kind, entry.key, entry.source_sha256, "你好")]
+            )
+            speakers = root / "speakers.tsv"
+            speakers.write_text(f"dialogue\t{entry.key}\t1\tIolo\n", encoding="utf-8")
+            assignments = root / "assignments.csv"
+            assignments.write_text(
+                "speaker,speaker_id,en_voice_id,zh_voice_id,voice_desc,status\n"
+                "Iolo,1,en-iolo,zh-iolo,Iolo,approved\n",
+                encoding="utf-8",
+            )
+            output = root / "voice"
+
+            result = self._run(
+                "voice-manifest", "--catalog", str(catalog), "--table", str(table),
+                "--speaker-capture", str(speakers), "--assignments", str(assignments),
+                "--output-dir", str(output),
+            )
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertTrue((output / "u6_voice_manifest.jsonl").exists())
+            self.assertTrue((output / "en_manifest.csv").exists())
+            self.assertTrue((output / "zh_manifest.csv").exists())
+            self.assertIn("approved=1", result.stdout)
+
+    def test_voice_generate_dry_run_lists_both_language_jobs(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            manifests = root / "manifests"
+            manifests.mkdir()
+            (manifests / "en_manifest.csv").write_text("filename\n0401_10_0.ogg\n", encoding="utf-8")
+            (manifests / "zh_manifest.csv").write_text("filename\n0401_10_0.ogg\n", encoding="utf-8")
+            output = root / "audio"
+
+            result = self._run(
+                "voice-generate", "--manifest-dir", str(manifests),
+                "--output-root", str(output), "--language", "both", "--dry-run",
+            )
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("en_manifest.csv", result.stdout)
+        self.assertIn("zh_manifest.csv", result.stdout)
+
     def test_audit_subcommand_writes_json_terminal_report_and_strict_status(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
