@@ -9,6 +9,7 @@ from unittest.mock import patch
 from tools.u6_translation.deploy import (
     DEPLOY_ROOT,
     DEPLOY_RELATIVE_PATHS,
+    VOICE_DEPLOY_RELATIVE_PATHS,
     deploy_staged_files,
     validate_staging,
 )
@@ -27,6 +28,13 @@ def _write_stage(root: Path) -> None:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(content.encode("utf-8"))
     (root / "patch/textmsg.txt").chmod(0o744)
+
+
+def _write_voice_stage(root: Path) -> None:
+    for relative in VOICE_DEPLOY_RELATIVE_PATHS:
+        path = root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(b"voice archive fixture")
 
 
 class DeploymentTest(unittest.TestCase):
@@ -75,6 +83,64 @@ class DeploymentTest(unittest.TestCase):
             self.assertTrue(report.dry_run)
             self.assertEqual(len(report.copied), 3)
             self.assertFalse(game.exists())
+
+    def test_text_only_validation_does_not_require_voice_archives(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            stage = Path(directory) / "stage"
+            _write_stage(stage)
+
+            self.assertEqual(len(validate_staging(stage)), 3)
+            with self.assertRaisesRegex(ValueError, "missing"):
+                validate_staging(stage, include_voice=True)
+
+    def test_include_voice_copies_all_four_archives(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            stage = root / "stage"
+            game = root / "game"
+            _write_stage(stage)
+            _write_voice_stage(stage)
+
+            report = deploy_staged_files(game, stage, include_voice=True)
+
+            self.assertEqual(len(report.copied), 7)
+            for relative in VOICE_DEPLOY_RELATIVE_PATHS:
+                self.assertEqual(
+                    (game / relative).read_bytes(), b"voice archive fixture"
+                )
+
+    def test_include_voice_dry_run_and_missing_archive_are_safe(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            stage = root / "stage"
+            game = root / "game"
+            _write_stage(stage)
+            _write_voice_stage(stage)
+
+            report = deploy_staged_files(game, stage, include_voice=True, dry_run=True)
+
+            self.assertTrue(report.dry_run)
+            self.assertEqual(len(report.copied), 7)
+            self.assertFalse(game.exists())
+
+            (stage / VOICE_DEPLOY_RELATIVE_PATHS[0]).unlink()
+            with self.assertRaisesRegex(ValueError, "missing"):
+                deploy_staged_files(game, stage, include_voice=True)
+            self.assertFalse(game.exists())
+
+    def test_include_voice_redeployment_is_idempotent(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            stage = root / "stage"
+            game = root / "game"
+            _write_stage(stage)
+            _write_voice_stage(stage)
+
+            deploy_staged_files(game, stage, include_voice=True)
+            report = deploy_staged_files(game, stage, include_voice=True)
+
+            self.assertEqual(report.copied, ())
+            self.assertEqual(len(report.skipped), 7)
 
     def test_second_deploy_skips_identical_files(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
