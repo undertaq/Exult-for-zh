@@ -212,6 +212,7 @@ def _empty_kind_report() -> dict[str, object]:
         "entry_coverage": 1.0,
         "weighted_coverage": 1.0,
         "character_weighted_coverage": 1.0,
+        "missing_by_origin": {},
         "missing_keys": [],
         "stale_keys": [],
         "duplicate_keys": [],
@@ -249,6 +250,7 @@ def _coverage_for_kind(
     translated_length = 0
     translated = 0
     missing_keys: list[str] = []
+    missing_by_origin: defaultdict[str, int] = defaultdict(int)
     stale_keys: list[str] = []
     duplicate_keys: list[str] = []
     unbound_keys: set[str] = set()
@@ -272,6 +274,7 @@ def _coverage_for_kind(
         if not translated_rows:
             result["missing"] = int(result["missing"]) + 1
             missing_keys.append(entry.key)
+            missing_by_origin[entry.origin or "runtime-table"] += 1
         if translated_rows:
             translated += 1
             translated_length += len(normalize_source(entry.source))
@@ -304,6 +307,7 @@ def _coverage_for_kind(
 
     result["translated"] = translated
     result["translated_source_length"] = translated_length
+    result["missing_by_origin"] = dict(sorted(missing_by_origin.items()))
     result["orphan"] = len(orphan_keys)
     result["unbound"] = len(unbound_keys)
     result["missing_keys"] = sorted(missing_keys)
@@ -399,6 +403,11 @@ def coverage_report(catalog: list[CatalogEntry], rows: list[RuntimeRow]) -> dict
     for kind_report in by_kind.values():
         for field in ("total", "translated", "missing", "stale", "duplicate", "orphan", "unbound", "source_length", "translated_source_length"):
             totals[field] = int(totals[field]) + int(kind_report[field])
+    missing_by_origin: defaultdict[str, int] = defaultdict(int)
+    for kind_report in by_kind.values():
+        for origin, count in kind_report["missing_by_origin"].items():
+            missing_by_origin[origin] += int(count)
+    totals["missing_by_origin"] = dict(sorted(missing_by_origin.items()))
     total = int(totals["total"])
     source_length = int(totals["source_length"])
     totals["row_coverage"] = int(totals["translated"]) / total if total else 1.0
@@ -435,6 +444,7 @@ def coverage_report(catalog: list[CatalogEntry], rows: list[RuntimeRow]) -> dict
         "entry_coverage": totals["entry_coverage"],
         "weighted_coverage": totals["weighted_coverage"],
         "character_weighted_coverage": totals["character_weighted_coverage"],
+        "missing_by_origin": totals["missing_by_origin"],
         "missing_keys": missing,
         "stale_keys": stale,
         "duplicates": duplicates,
@@ -1272,6 +1282,15 @@ def format_terminal_report(report: dict[str, object]) -> str:
             f"{int(totals['missing']):>7} {int(totals['stale']):>5} {int(totals['duplicate']):>9} "
             f"{int(totals['orphan']):>6} {int(totals['unbound']):>7} {float(totals['weighted_coverage']):>8.3f}"
         )
+    dialogue_report = by_kind.get("dialogue")
+    if isinstance(dialogue_report, dict):
+        missing_by_origin = dialogue_report.get("missing_by_origin", {})
+        if isinstance(missing_by_origin, dict) and missing_by_origin:
+            origins = ", ".join(
+                f"{origin}={int(count)}"
+                for origin, count in sorted(missing_by_origin.items())
+            )
+            lines.append(f"dialogue missing by origin: {origins}")
     book_contents = coverage.get("book_contents")
     if isinstance(book_contents, dict):
         lines.append(

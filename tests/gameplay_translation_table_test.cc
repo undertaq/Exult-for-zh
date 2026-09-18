@@ -959,6 +959,42 @@ void assert_checked_in_placeholder_rows_use_canonical_runtime_sources() {
 				== "大人");
 }
 
+void assert_numeric_dialogue_fragments_keep_the_runtime_value() {
+	std::ifstream table_file("tools/u6_translation/zh_translation.tsv");
+	assert(table_file);
+	GameplayTranslationManager& manager = GameplayTranslationManager::get();
+	manager.shutdown();
+	manager.set_text_language(TextLanguage::CHINESE);
+	std::string error;
+	assert(manager.load_table(table_file, error));
+	assert(error.empty());
+
+	const auto translated = manager.translate_dialogue_fragments_if_available(
+			0x0425, "@That'll be 4 gold coins, okay?@",
+			std::vector<DialogueTranslationPart>{
+					{"@That'll be ", "dialogue:0x0425:61:0", false},
+					{"4", "", true},
+					{" gold coins, okay?@", "dialogue:0x0425:6e:0", false}});
+	assert(translated.has_value());
+	assert(*translated == "@總計是4金幣，好嗎？@");
+}
+
+void assert_numeric_uc_add_provenance_is_preserved() {
+	std::ifstream ucinternal_source("usecode/ucinternal.cc");
+	const std::string ucinternal(
+			(std::istreambuf_iterator<char>(ucinternal_source)),
+			std::istreambuf_iterator<char>());
+	assert(!ucinternal.empty());
+	// UC_ADD converts an integer to text whenever the other operand is a
+	// string. Keep that converted value as a dynamic provenance part so a
+	// later ADDSV can translate the surrounding literal fragments generically.
+	assert(ucinternal.find("const bool string_concatenation")
+			!= std::string::npos);
+	assert(ucinternal.find("value.is_int()") != std::string::npos);
+	assert(ucinternal.find("std::to_string(value.get_int_value())")
+			!= std::string::npos);
+}
+
 void assert_fragment_fallback_restores_split_speech_markers() {
 	GameplayTranslationManager manager;
 	manager.shutdown();
@@ -1679,6 +1715,8 @@ int main() {
 	assert_dialogue_template_preserves_named_reordering_and_repetition();
 	assert_dialogue_template_rejects_ambiguous_literal_boundaries();
 	assert_checked_in_placeholder_rows_use_canonical_runtime_sources();
+	assert_numeric_dialogue_fragments_keep_the_runtime_value();
+	assert_numeric_uc_add_provenance_is_preserved();
 	assert_fragment_fallback_restores_split_speech_markers();
 	assert_lord_british_untraced_dialogue_templates_replace_runtime_name();
 	assert_choice_source_fallback_reuses_legacy_dialogue_rows();
