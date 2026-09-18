@@ -246,7 +246,7 @@ void assert_static_item_say_fragments_translate() {
 }
 
 void assert_protected_professional_terms_use_source_global_rows() {
-	std::ifstream table_file("tools/u6_translation/zh_translation.tsv");
+	std::ifstream table_file("tools/u6_translation/deploy/mods/Ultima6v1.3/patch/zh_translation.tsv");
 	assert(table_file);
 	GameplayTranslationManager& manager = GameplayTranslationManager::get();
 	manager.shutdown();
@@ -276,7 +276,7 @@ void assert_gwenneth_static_anchor_template_is_translated() {
 			"Turning to you, Gwenneth says, @And what can I do for "
 			"Iolo's friend this fine afternoon?@";
 
-	std::ifstream table_file("tools/u6_translation/zh_translation.tsv");
+	std::ifstream table_file("tools/u6_translation/deploy/mods/Ultima6v1.3/patch/zh_translation.tsv");
 	assert(table_file);
 	GameplayTranslationManager& manager = GameplayTranslationManager::get();
 	manager.shutdown();
@@ -300,7 +300,7 @@ void assert_gwenneth_hello_again_static_anchor_template_is_translated() {
 	const std::string runtime_source =
 			"@Hello again. What can I do for thee this fine afternoon?@";
 
-	std::ifstream table_file("tools/u6_translation/zh_translation.tsv");
+	std::ifstream table_file("tools/u6_translation/deploy/mods/Ultima6v1.3/patch/zh_translation.tsv");
 	assert(table_file);
 	GameplayTranslationManager& manager = GameplayTranslationManager::get();
 	manager.shutdown();
@@ -322,7 +322,7 @@ void assert_shamino_wait_here_template_is_translated() {
 	const std::string runtime_source =
 			"Very well, Avatar, I shall wait here until thy return.@";
 
-	std::ifstream table_file("tools/u6_translation/zh_translation.tsv");
+	std::ifstream table_file("tools/u6_translation/deploy/mods/Ultima6v1.3/patch/zh_translation.tsv");
 	assert(table_file);
 	GameplayTranslationManager& manager = GameplayTranslationManager::get();
 	manager.shutdown();
@@ -378,7 +378,7 @@ void assert_structural_fragment_fallback_translates_missing_template() {
 }
 
 void assert_inherited_bed_dialogue_fragments_translate() {
-	std::ifstream table_file("tools/u6_translation/zh_translation.tsv");
+	std::ifstream table_file("tools/u6_translation/deploy/mods/Ultima6v1.3/patch/zh_translation.tsv");
 	assert(table_file);
 	GameplayTranslationManager& manager = GameplayTranslationManager::get();
 	manager.shutdown();
@@ -403,7 +403,7 @@ void assert_inherited_bed_dialogue_fragments_translate() {
 }
 
 void assert_inherited_bed_dialogue_bark_translates() {
-	std::ifstream table_file("tools/u6_translation/zh_translation.tsv");
+	std::ifstream table_file("tools/u6_translation/deploy/mods/Ultima6v1.3/patch/zh_translation.tsv");
 	assert(table_file);
 	GameplayTranslationManager& manager = GameplayTranslationManager::get();
 	manager.shutdown();
@@ -912,7 +912,7 @@ void assert_dialogue_template_rejects_ambiguous_literal_boundaries() {
 }
 
 void assert_checked_in_placeholder_rows_use_canonical_runtime_sources() {
-	std::ifstream input("tools/u6_translation/zh_translation.tsv");
+	std::ifstream input("tools/u6_translation/deploy/mods/Ultima6v1.3/patch/zh_translation.tsv");
 	assert(input.good());
 	GameplayTranslationManager manager;
 	manager.shutdown();
@@ -1043,7 +1043,7 @@ void assert_optional_release_table_loads() {
 }
 
 void assert_numeric_dialogue_fragments_keep_the_runtime_value() {
-	std::ifstream table_file("tools/u6_translation/zh_translation.tsv");
+	std::ifstream table_file("tools/u6_translation/deploy/mods/Ultima6v1.3/patch/zh_translation.tsv");
 	assert(table_file);
 	GameplayTranslationManager& manager = GameplayTranslationManager::get();
 	manager.shutdown();

@@ -87,7 +87,7 @@ dialogue	dialogue:0x0282:0:1	f0f56b37f899e9dd5b595b92c6e6e7977b91114db28a5a298bf
 dialogue	dialogue:0x0282:101a:0	123365e5fa17104dbc22cd53f9a9e83f4804861a167bd319d82702dfe9efbe7d	欣賞了幾個小時的自然美景後，我來到了一片奇怪的圓形空地，那裡顯得平靜而安寧。那天天氣很好，我有些筋疲力盡，便決定小憩片刻。我躺在空地上，沐浴在午後的陽光中。沒過多久，我就感到眼皮沉重，再也睜不開了。在我陷入無夢的深眠之前，我短暫地意識到這片空地是由一圈形狀怪異的石頭和蘑菇組成的圓環。但隨後我的思緒已經混亂得無法理清了...
 dialogue	dialogue:0x0282:1235:0	602377ccaaecb7f9870a9a8eff0c535ddfe0af409db8a885fa00bcdbd6c4f025	幾個小時後我醒來，天已經黑了。我抬頭望向天空，滿月當空。我開始感到不安，因為我不得不想起那些迷信的當地人，他們曾多次告訴我，這些所謂的靈異森林裡發生過很多怪事。然後我記起自己正站在一圈石頭和蘑菇組成的圓環中，這些圓環背後不就有著傳說嗎？我決定該立刻離開這片森林了。但當我剛走近圓環邊緣時，石頭便發出一道奇怪的綠光，我還能聽到陣陣微弱的吟唱聲。我不得不打自己一巴掌，看看自己是否還在睡夢中，但那疼痛是真實的，而綠光也變得更加明亮了。
 dialogue	dialogue:0x0282:141:0	9b0f5bde4ec84e376222caf81932e0c1d163fb0b69ac01191b64c456be78bd85	第 10 天
-dialogue	dialogue:0x0282:141:1	c5e173af283cf40b99387d38ead436500a8f3a8591672e76372373123d0e284d	船員們的情緒仍然高昂。我以前的船友們大概甚至還不知道，我已經帶著「Empire」悄悄溜走了，他們還在為Hawkins的死亡而狂歡慶典。我比那些混蛋們更精明。Hawkins的血還沒在「Empire」的木板上乾透，我就已經策劃好了下一步行動。*
+dialogue	dialogue:0x0282:141:1	c5e173af283cf40b99387d38ead436500a8f3a8591672e76372373123d0e284d	\t   船員們的情緒仍然高昂。我以前的船友們大概甚至還不知道，我已經帶著「Empire」悄悄溜走了，他們還在為Hawkins的死亡而狂歡慶典。我比那些混蛋們更精明。Hawkins的血還沒在「Empire」的木板上乾透，我就已經策劃好了下一步行動。*
 dialogue	dialogue:0x0282:150b:0	19c5041ebfe35af5d93b9e5379535c4089f9510589de89e15cf843bae1ab05b9	突然，光中有幾個深色的小斑點向我靠近。我看出那是一些看起來像仙子般的生物。仙子？！！你知道，就是那些非常矮小、赤裸且有翅膀的生物，常在古老的故事、歌謠和傳說中被提及。我一直以為那只是傳說。顯然他們是真的——或者我只是個瘋子。他們優雅地在我周圍飛翔，我聽見他們用那輕柔細弱的聲音討論著關於我的事情。我感到震驚，只是站在那裡注視著這些美麗的生物。
 dialogue	dialogue:0x0282:172f:0	789d636ea4428efbc3c179cb186668694a9cf0da6ae97dab46a91cefbe540ef7	隨後他們消失了，只留下一個。她顯然是一個雌性個體，而且非常美麗。她看起來比其他的稍微大一點，身上自帶一種氣場，要求獨佔眾人的關注。她懸浮在與我視線平行的位置，開始說起來：
 dialogue	dialogue:0x0282:182b:0	8a1a9503557a8f601c13a0ad5493e4d36ef5d7f31b630e6aa67ebd8a82fff9a8	人類的傻瓜！你竟敢闖入我們寧靜的森林？你不滿足於摧毀外界的世界嗎？你必須將你人類的破壞性甚至帶到這裡嗎？你也打算佔據這個地方嗎？
@@ -108,7 +108,7 @@ dialogue	dialogue:0x0282:22:0	1f4001f0e65e768333951cd9acf6d2f884f6be02436f990e91
 dialogue	dialogue:0x0282:23af:0	2faf4e2c7c02bdb20651fb435f3ba2686442faba4d30cbcc988085235322a4d6	「有一晚在夢中，我發現了一扇巨大的、木製的、看似古老的門。我很高興，但這短暫片刻就結束了，因為我發現門是鎖著的。絕望淹沒了我。我敲打它，但當然它紋絲不動。它太重了。我試著從鑿子裡看，但我只看到黑暗。失敗後，我試著忘記那堵牆。但經常在夢中，我發現自己站在那扇門前試著打開它。所以最終我開始尋找一把鑰匙。現實中多年過去了，在夢中我也不斷尋找鑰匙。我找到了許多，但沒有一把合適。@”
 dialogue	dialogue:0x0282:260f:0	d90d47930277a2bed18dcee7c5e9b45e85c325847a0d89ac2e5da827d33b18f2	@最後有一天，我發現了自己做錯的地方。我只在夢中搜尋，但難不成那是一把真實、實心的鑰匙？於是我開始在醒著的時候也搜尋。至少我找到了。諷刺的是，它一直在我家人手中。我的曾祖父從一個被他從溺水中救起的吉普賽人那裡得到它作為禮物。他去世時傳給了兒子，我的祖父也是如此。當我的父親去世時，得到它的人是我。那把鑰匙看起來非常古老，純金打造，從我第一次把它握在手裡的那一刻起，我就知道它就是那把鑰匙。所以第二天晚上，我帶著鑰匙掛在脖子上上牀睡覺。在夢中，我發現自己仍然戴著它。還有什麼可說的。它確實打開了門。但經過這麼多年，我還是猶豫著沒有跨過去。然後鼓起全部勇氣，我這麼做了。我深吸一口氣，邁出了最後幾步。@
 dialogue	dialogue:0x0282:288:0	124bc2e5d884e21e4be3a090d119e1e74f63a47f86765be6a610d0ecc04737eb	第 14 天
-dialogue	dialogue:0x0282:288:1	20528cc18f11ca1ee59f92adfff184a3c2588fe644f85916d08277cda7cd4f3b	narrowly 逃過了皇家海軍。Empire依然是一艘偉大的船，而且只要有 Ventara 做船長，我們絕不會被抓住。很快會在一座附近的島上停下，修補炮彈擦過船身造成的破洞。該死的 Lord British 和他的海軍！*
+dialogue	dialogue:0x0282:288:1	20528cc18f11ca1ee59f92adfff184a3c2588fe644f85916d08277cda7cd4f3b	\t    narrowly 逃過了皇家海軍。Empire依然是一艘偉大的船，而且只要有 Ventara 做船長，我們絕不會被抓住。很快會在一座附近的島上停下，修補炮彈擦過船身造成的破洞。該死的 Lord British 和他的海軍！*
 dialogue	dialogue:0x0282:2987:0	88a5e3603bd978b65bff3f28cb2e30d50dac46631971997911b1b7ab6976770b	@真是歡喜。我似乎站在另一個現實之中。就像醒來一樣，雖然那不是我認識的世界。空氣中有大自然清新的氣息，花朵綻放的強烈香氣，一切都是綠色的。我知道這聽起來很愚蠢，但應該沒有人比你更能理解。@
 dialogue	dialogue:0x0282:2aae:0	60cd4de0947c3f46080844e40bb6276c2d0b06f5fc7c90aafdf08a62f32bee5c	@一開始什麼都看不見。後來我發現天空中有一個黑點。它似乎在移動，很快我就認出那是一隻有翅膀的生物。但別以為這生物看起來和你一樣，因為當它靠近時，它越來越像來自深淵的怪物。它和我一樣大，長著黑色的皮革翅膀。她的皮膚黑如夜空，看起來像是直接從地獄來的那種。然後她就在我面前降落，突然間她不再讓我害怕了。恰恰相反。她美豔絕倫。這位墮落天使。一眼萬年。@
 dialogue	dialogue:0x0282:2ce3:0	97bb8724977886eb48639c4c2ea15d94f640eeef9185069c8fb2f67d7c650730	@她住在黑暗之中，這點無庸置疑，但她的美貌令我著迷。她帶著非人的優雅，走得很近。她紅色的頭髮與黑色的翅膀形成美麗的對比。她直直地望著我的眼睛。無法形容這雙眼睛。牠們的顏色是紫色的，帶有金色的斑點，但這樣描述真的不足以形容牠們的精緻。沒說一個字，這個魔女就親吻並擁抱了我。@
@@ -122,11 +122,11 @@ dialogue	dialogue:0x0282:33ba:0	a4f9383f14995e9626a69d7fc071410a2e1049f3e91b528a
 dialogue	dialogue:0x0282:33d6:0	904ed5e3091d03ae28494275c59f9694979b7cb7006f057258a2dbcabde86d80	吟遊詩人 Fenwick 作
 dialogue	dialogue:0x0282:33f1:0	dad80a7fe07f6c5403861c1ed87968530dc4f8a5feb47fdb8b96ec96256c1fe4	    親愛的讀者，請坐，讓我為你講述一個年輕巡林客的故事。他名叫 Larson，是一個早已被時間遺忘的村落裡最偉大的獵人。這人曾與一位名叫 Sigourney 的年輕女子訂婚，生活幸福無比……直到來自Sea of Sand對岸的入侵者燒毀了他的村落。雖然 Larson 英勇抗戰，但 Sigourney 還是被綁架，帶到了遙遠的城市 Goratesh。
 dialogue	dialogue:0x0282:3596:0	58690b1330d40988396312c64caab229a54bef0a28d3041da67101306a0d6103	   Larson 生性勇敢，他拿起弓箭，踏上追尋愛人的旅途。在途中，他救了 Anisha，Mesa Haran 驕傲的戰士公主，也是那些來自Sea of Sand之人的 sworn 敵人。他們穿梭於 Hruntir Coast 的偉大城市之間，穿過巨像 Aranoth 的肚腹，並越過 Gecko 沼澤進行冒險，一路拯救著村落和城鎮，直到最終，Sea of Sand橫亙在他們面前。 Sea of Sands
-dialogue	dialogue:0x0282:375d:0	f23bfc275d990ea2dae202240c7353e4c9b533582d579de33db666fb71d2d9a4	「若我無法選擇，那就讓我的箭替我決定，因為正是我精通的箭術救了一人，並折服了另一人。」Larson 終於做出了決定。「我將蒙上雙眼，向那裡那片棕櫚林射出一箭。若箭擊中樹木，我就娶 Sigourney。若射偏了，Anisha 將成為我的新娘。」
-dialogue	dialogue:0x0282:38aa:0	cb88311a61bf4cce2c5fe223221c9c8ff2c2d52132c5aef5ae5ecd1acd0e4220	話剛說完，Sigourney 和 Anisha 便意識到，她們以為深愛著的男子不過是個樸實的護林員笨蛋，趁著 Larson 被蒙住眼睛時悄悄溜走了。兩人過上了幸福多子多福的生活，而 Larson 則回到村莊，獨自老死。
+dialogue	dialogue:0x0282:375d:0	f23bfc275d990ea2dae202240c7353e4c9b533582d579de33db666fb71d2d9a4	    「若我無法選擇，那就讓我的箭替我決定，因為正是我精通的箭術救了一人，並折服了另一人。」Larson 終於做出了決定。「我將蒙上雙眼，向那裡那片棕櫚林射出一箭。若箭擊中樹木，我就娶 Sigourney。若射偏了，Anisha 將成為我的新娘。」
+dialogue	dialogue:0x0282:38aa:0	cb88311a61bf4cce2c5fe223221c9c8ff2c2d52132c5aef5ae5ecd1acd0e4220	    話剛說完，Sigourney 和 Anisha 便意識到，她們以為深愛著的男子不過是個樸實的護林員笨蛋，趁著 Larson 被蒙住眼睛時悄悄溜走了。兩人過上了幸福多子多福的生活，而 Larson 則回到村莊，獨自老死。
 dialogue	dialogue:0x0282:38f:0	5568847f5680e1e5f74644ad5f5a907c2e1642b6af9fd12a06b94feb782bf821	第 23 天
-dialogue	dialogue:0x0282:38f:1	16f54d9ead6d8c876930543a0784239787d9b8a91bc397753457706cbe02644f	經過幾番錯誤的線索後，我確信 Hawkins 藏匿贓物的就是下一個島嶼。我們將在日落前抵達。船員們正急切地等著寶藏...這羣貪婪的混蛋。*
-dialogue	dialogue:0x0282:39c0:0	7027f0682091d7daa6c1c138852bf01398e72470748c5abebfa535a4cc6584e8	那麼，親愛的讀者，這個故事教訓我們什麼呢？當面對選擇時，切勿委身命運，否則你將因猶豫不決而失去一切...
+dialogue	dialogue:0x0282:38f:1	16f54d9ead6d8c876930543a0784239787d9b8a91bc397753457706cbe02644f	\t   經過幾番錯誤的線索後，我确信 Hawkins 藏匿贓物的就是下一個島嶼。我們將在日落前抵達。船員們正急切地等著寶藏...這羣貪婪的混蛋。*
+dialogue	dialogue:0x0282:39c0:0	7027f0682091d7daa6c1c138852bf01398e72470748c5abebfa535a4cc6584e8	    那麼，親愛的讀者，這個故事教訓我們什麼呢？當面對選擇時，切勿委身命運，否則你將因猶豫不決而失去一切...
 dialogue	dialogue:0x0282:3a49:0	df045a2d432e4c3897d6831a1f33e8fafd51bfdbea777f086d8e5785fed8c920	銀葉女士
 dialogue	dialogue:0x0282:3a61:0	ddacb83dce5b5e3e2bc011f8686098a71eee049563406e6cd75d077ac48f7e03	作者 Keltias
 dialogue	dialogue:0x0282:3a73:0	781ba806b81074c6b07031f3643dce474757028e012febbf8aa62fa5ecc2c16c	噢，美麗的銀葉女士，
@@ -152,16 +152,16 @@ dialogue	dialogue:0x0282:3de5:0	50034be1695164232c21a02efd2a82f3a5423e4836380cb4
 dialogue	dialogue:0x0282:3f2e:0	ae32e448c0fe8c29660bc289168a12b119e0060a9d082927470267cf21fee3c3	    我的研究帶領我來到此地，居住在廢墟之中，尋找他們不安的靈魂，以證明或推翻這些說法...
 dialogue	dialogue:0x0282:3fb0:0	7ffb4c3cd4c235b524552c712217407d73465a97e8ba7537a7f222704f7fd5bb	The Empire（帝國號）
 dialogue	dialogue:0x0282:3fc1:0	7a4836666b84d424059360f0db16244b3914dc73a081abe489da2b398f8bcf72	Captain Hawkins著
-dialogue	dialogue:0x0282:3fdb:0	ca24c693c434467026b1d3855f49aaf33cbe14629ee0d8a1a91e8a95c06d7153	這本書似乎是一艘名為「Empire」的船的航海日誌。最後一條記錄提及埋藏了一筆鉅額財寶，以及船員日益增長的不滿情緒。末尾有一張急促潦草的便條，字跡不同，寫著「Captain Hawkins不會再寫航海日誌了。」
+dialogue	dialogue:0x0282:3fdb:0	ca24c693c434467026b1d3855f49aaf33cbe14629ee0d8a1a91e8a95c06d7153	這本書似乎是一艘名為「Empire」的船的航海日誌。最後一條記錄提及埋藏了一筆巨額財寶，以及船員日益增長的不滿情緒。末尾有一張急促潦草的便條，字跡不同，寫著「Captain Hawkins不會再寫航海日誌了。」
 dialogue	dialogue:0x0282:410b:0	c1a1ba8c8a79207bf4194602ecfd4b8add58b6bf72da923c2a8277c822fc006f	石怪學 第一卷
 dialogue	dialogue:0x0282:4124:0	1c4f6bcaa3d6f0ce7a27afc2430092d0dce8af016a5d8f1a1e6d1809f916f767	Melinus研究
 dialogue	dialogue:0x0282:413c:0	711d1953cfb1534902c15897dc90634e16106214dc2bfef4e6a99ab8a9699bbc	本書詳述了石怪頭骨的詳細圖解和圖表，包括有翼和無翼的石怪，以及從中獲取的資訊彙編。
 dialogue	dialogue:0x0282:41dc:0	fe2a72dc9a6335ec830a5137c5d7580419cbbf403c0cdc2d3fad831dbe6aba78	'..我注意到，有翼石像鬼和無翼石像鬼很可能是不同的物種。\t我最近研究了在戰場上倒下的屍體中取得的幾顆石像鬼頭骨，從中發現了一些有趣的特徵。
-dialogue	dialogue:0x0282:41dc:1	8d35d9dd2f9057eef84e9e43acd2f8739b6f6ab1a5d0ada06566589dd7c2926b	\n\n\t\t\t\t    有翼石像鬼的頭骨極為狹長，與體型較小的無翼同類相比也較為纖薄。這雖然可能有助於提升牠們的空氣動力特性，卻也使顱腔變寬，進而增大了腦部。
-dialogue	dialogue:0x0282:41dc:2	3a83991bb1e640347f643d79b43646bf9ef86a466a179b1d8f62791904de14af	\n\n\t\t\t\t    無翼石像鬼的頭骨則短而寬，且更加厚實。牠們的下顎也比有翼石像鬼稍大，並且有 24 顆牙齒（比牠們的親族多 4 顆）。牠們的鼻腔也更大，這可能表示牠們更善於感知氣味。不過，我沒有證據能證明那是嗅覺腔，因為它們也可能是某種奇特的耳朵。
-dialogue	dialogue:0x0282:41dc:3	19b2c157a10ca51b3cb2fa2e9b412e566b5cf47f6406c92f95f6229ff473f9d1	\n\n\t\t\t\t    可惜，我仍未取得足夠的石像鬼樣本，無法更深入了解這些迷人的物種，因為牠們已證明是極難對付的敵人。未來研究牠們的服飾，或許就是忠實重建其史前歷史的關鍵...'.
+dialogue	dialogue:0x0282:41dc:1	8d35d9dd2f9057eef84e9e43acd2f8739b6f6ab1a5d0ada06566589dd7c2926b	\t\t\t\t    有翼石像鬼的頭骨極為狹長，與體型較小的無翼同類相比也較為纖薄。這雖然可能有助於提升牠們的空氣動力特性，卻也使顱腔變寬，進而增大了腦部。
+dialogue	dialogue:0x0282:41dc:2	3a83991bb1e640347f643d79b43646bf9ef86a466a179b1d8f62791904de14af	\t\t\t\t    無翼石像鬼的頭骨則短而寬，且更加厚實。牠們的下顎也比有翼石像鬼稍大，並且有 24 顆牙齒（比牠們的親族多 4 顆）。牠們的鼻腔也更大，這可能表示牠們更善於感知氣味。不過，我沒有證據能證明那是嗅覺腔，因為它們也可能是某種奇特的耳朵。
+dialogue	dialogue:0x0282:41dc:3	19b2c157a10ca51b3cb2fa2e9b412e566b5cf47f6406c92f95f6229ff473f9d1	\t\t\t\t    可惜，我仍未取得足夠的石像鬼樣本，無法更深入了解這些迷人的物種，因為牠們已證明是極難對付的敵人。未來研究牠們的服飾，或許就是忠實重建其史前歷史的關鍵...'.
 dialogue	dialogue:0x0282:45e:0	353d9e2134441495e875f011c26ae4e2a05777568fea5af3b8affbc8cde2973a	第 24 天
-dialogue	dialogue:0x0282:45e:1	89a4ef978e6a15cfa1b58ea796078d0387a4466dd16ae762d87ade6407870ec1	看來我錯了。這裡沒有財寶。輕微的計算錯誤，該死的六分儀！詛咒Hawkins的可憎靈魂。*
+dialogue	dialogue:0x0282:45e:1	89a4ef978e6a15cfa1b58ea796078d0387a4466dd16ae762d87ade6407870ec1	\t   看來我錯了。這裡沒有財寶。輕微的計算錯誤，該死的六分儀！詛咒Hawkins的可憎靈魂。*
 dialogue	dialogue:0x0282:4686:0	3ab8a59e2d20d5d40648d6901c2a5ace431f2c8815179f6d0782c74a732c7d97	Snilwit的桌上遊戲策略大全
 dialogue	dialogue:0x0282:46b5:0	6c8974662c2e8c4c84b52f4db3dfc8d81d7593292038a119ff96dd656468ad65	Snilwit著
 dialogue	dialogue:0x0282:46c8:0	d3c6e911be46bc597357057d7f62ad2c30f9d20d1d043ae541abcc3f9a8b2eb3	象棋：
@@ -178,7 +178,7 @@ dialogue	dialogue:0x0282:4977:0	c9084bac8c9b299afe5d996e1e005762205f598270cfef0b
 dialogue	dialogue:0x0282:4b61:0	560e4d82d236894f2109e1cf5d1080df073ba41f8be8ecd9dcbc422148ee2a8b	137年11月2日 
 dialogue	dialogue:0x0282:4b61:1	7bda34eed9c1c15438fa61de92c069d348bd015b38c4a7041d7c9e7c02ba0c8b	 今天我在「藤壺號」的殘骸中翻找，我看到了我的夥伴的下場。我們剛從海盜巢穴出發不到兩天，試圖沿著大陸北海岸向正東方向航行.. 在第二天的傍晚，我們迅速接近了一艘看起來燈火通明、沒有武裝的商船，這是一艘待宰的肥羊。我下令裝填炮彈並小心翼翼地接近她... 結果我們在接近時被至少兩艘武裝精良的護衛艦伏擊了，這讓我們非常吃驚！這是一個圈套！
 dialogue	dialogue:0x0282:4d5:0	f548646f72a683cfa5cade40cffadd465a88594ceeb73dce1964c1d0a3b1af8a	第30天
-dialogue	dialogue:0x0282:4d5:1	45a2239dbcfe65519c436694ce55ce4be1c13337811645d42798a6de42d95cc5	他們今天又在盯著我看。那些耗子以為我不知道，但我心裡有數。那副嘴臉跟我們之前開膛殺害 Hawkins 時是一樣的。但它們休想動 Captain Ventara，千萬別想。我知道它們的陰謀。寶物的承諾只能暫時壓制它們的嗜血本能，但我感覺我離寶物很近了...*
+dialogue	dialogue:0x0282:4d5:1	45a2239dbcfe65519c436694ce55ce4be1c13337811645d42798a6de42d95cc5	\t   他們今天又在盯著我看。那些耗子以為我不知道，但我心裡有數。那副嘴臉跟我們之前開膛殺害 Hawkins 時是一樣的。但它們休想動 Captain Ventara，千萬別想。我知道它們的陰謀。寶物的承諾只能暫時壓制它們的嗜血本能，但我感覺我離寶物很近了...*
 dialogue	dialogue:0x0282:4d9e:0	9234849ba9dbd6464110ec3804445704b4e35d9d6fc25a5cbd24e299f1bd8c0b	我們還沒來得及發射一發炮彈，就被第二艘護衛艦登船了。在隨後在船板上爆發的戰鬥中，我被擊得半昏厥.. 我記得自己被拋入海中.. 我的船被點燃，最終擱淺沉沒。我的夥伴們，那羣該死的混蛋，全都死在火海之中.. 我本該跟他們一起死的！！以 Mondain 的骷髏起誓；我將為他們復仇！我在此起誓！
 dialogue	dialogue:0x0282:4f21:0	8e1c92c648473ffc9e1dca0238190d66f349b6b26905a9c674f27629f6eff24e	我在殘骸中唯一能搶救的東西是一把鏽跡斑斑的彎刀、從燒焦的甲板板上撿到的 plenty 木炭、半瓶新鮮的水，以及令我驚訝的是，這本空白的日記。我的船長日誌幾乎燒得無法辨認。不過這些木炭似乎足夠用來在這本書上塗抹... 我向我的夥伴們做了最後的告別，並永遠離開了這艘船。所有的食物儲備都在海難中喪失。我願付出我右臂的代價換取一瓶朗姆酒和簡單的食物。*
 dialogue	dialogue:0x0282:512a:0	268ac96922ae2609140c32709107e934eb186facbf2893db0f2269204c8bf597	137年11月16日
@@ -201,7 +201,7 @@ dialogue	dialogue:0x0282:5fb0:1	32fbf2faad5bb1ba69a0a0eacf4bf4e8722cd0aa98e0abad
 dialogue	dialogue:0x0282:60f5:0	4857ff247faeab087fdf0cdd3fede6d3b881e8aa4222b739ac0f67e619ad2b92	138年3月25日 
 dialogue	dialogue:0x0282:60f5:1	619947038b5363bac2c4393392ce5a96dfd85bf2dbf0b3d3e419bcdfb77a709e	 Chuckles拖欠Lucy的帳單還沒結清。那個該死的蠢貨以為他的君主離開了，他就可以置於道德之上，不用償還債務了.. 我們就看看會怎樣！
 dialogue	dialogue:0x0282:61a:0	472c1e42e41f5f374f62b83b016f7af57ed5ec15a9cdb9ccd4c145024916ba00	第33天
-dialogue	dialogue:0x0282:61a:1	36effc5bcce10bff97818e11a10cd9f04cba3993fb13a3b3f34f171eed333d5a	我把我的大副送進了海底葬身魚腹，以警告那些懷有不軌之心的人。我不會與這些狗東西分享我的寶藏。我會利用他們足夠長的時間，直到抵達寶藏埋藏的地點。我相信我可以在途中甩掉他們，我會記住我們設下陷阱的地方。這件事結束後，我將退休成為一個非常富有的人。*
+dialogue	dialogue:0x0282:61a:1	36effc5bcce10bff97818e11a10cd9f04cba3993fb13a3b3f34f171eed333d5a	\t   我把我的大副送進了海底葬身魚腹，以警告那些懷有不軌之心的人。我不會與這些狗東西分享我的寶藏。我會利用他們足夠長的時間，直到抵達寶藏埋藏的地點。我相信我可以在途中甩掉他們，我會記住我們設下陷阱的地方。這件事結束後，我將退休成為一個非常富有的人。*
 dialogue	dialogue:0x0282:61c1:0	3f2c3c7dc24a1802ef68d8e701dfb379adf3ed2fccff0819a9a49dd52a6d9145	138年4月2日 
 dialogue	dialogue:0x0282:61c1:1	bbbfffce5c882f94930bddd0dc604c849f21a24160d36c05ea9cf490bd84121b	 我開始執行計劃.. 但出了點問題。那種綠色藥水本不該殺死她.. 只是讓她陷入深度睡眠.. 但Chuckles的墮落讓她走向了死亡邊緣。那個蠢貨慌張地來找我，想讓我幫忙藏起她的屍體，直到他的君主回來。他說他今晚會到Royal Mint與我見面，安排讓衛兵缺席，以結清他的債務，甚至多給一些。這件事結束後，我應該能退休成為一個非常富有的人，但我不能再在ブリテン（Britannia）逗留超過今天了... Britain
 dialogue	dialogue:0x0282:63cc:0	409b8871b9f4a89922b4e8eebcb4fcb8c0826d0ccd4419d797fba5c7fb72ebf8	@我在鏡子裡看到了一個身影！@
@@ -216,23 +216,23 @@ dialogue	dialogue:0x0282:673d:0	73005e963b7d51148564d4f37b0e8e93b408b6fb3310e5e3
 dialogue	dialogue:0x0282:696d:0	3d326c14ed6252a0c56efd1b31f1ef10dfb0d2a0c87e081bfc4830459a080572	    當消息傳遍全國，說Blackthorn和邪惡的暗影領主被摧毀時，他們統治的污穢印記很快就被清除了。曾經高聳於每個小鎮的高牆——恐懼和監禁的象徵——被長期忍受其陰影的人民拆毀了。他們帶著歡喜和憤怒，將那些牆壁拆低。壓制的代理人，被剝奪了權力，很快就被宣布為法外之徒。許多人流亡隱藏。那些被抓住的則被投入監獄，等待由Lord British任命的新的法官審判——這些人未被舊秩序的腐蝕所染。
 dialogue	dialogue:0x0282:6bd4:0	67b25ad3d580bf742254d241eaed5107e95956e176ffa85249eea9e3900ee96b	關於壓制主要代理人的命運，這些帳戶留存下來。
 dialogue	dialogue:0x0282:6c1e:0	432e76079653f21de962a6f49fb70922bc7ca45cfea45f36f7b25635e8096bd4	    Flain，壓制的法術師 
-dialogue	dialogue:0x0282:6c1e:1	2063cdb38ba4f886ba99d0dbf32c794ea8c7c63b130a4795ced5fad546564b64	    Flain是最早被追捕的人之一。聽到Blackthorn倒臺的消息後，斯卡拉布萊（Skara Brae）的人民——長期受壓迫且如今大膽起來——與一羣遊俠聚集在Flain的黑暗塔前。據說他出現在屋頂上，沒有逃跑的辦法。天空變黑，一聲恐懼的誦讀聲響起。當他舉起手臂施放惡咒時，一枚由遊俠射出的孤箭擊中了他的胸膛。人羣衝進塔樓並抓住了他。然而，就在他們能綁住他之前，Flain低語了一個致盲的詛咒並試圖逃脫。他血流不止，穿過小巷和街道，終於倒在煉金術師的店鋪後面，生命流逝。他用最後一口氣詛咒了斯卡拉布萊的人民。
+dialogue	dialogue:0x0282:6c1e:1	2063cdb38ba4f886ba99d0dbf32c794ea8c7c63b130a4795ced5fad546564b64	    Flain是最早被追捕的人之一。聽到Blackthorn倒台的消息後，斯卡拉布萊（Skara Brae）的人民——長期受壓迫且如今大膽起來——與一羣遊俠聚集在Flain的黑暗塔前。據說他出現在屋頂上，沒有逃跑的辦法。天空變黑，一聲恐懼的誦讀聲響起。當他舉起手臂施放惡咒時，一枚由遊俠射出的孤箭擊中了他的胸膛。人羣衝進塔樓並抓住了他。然而，就在他們能綁住他之前，Flain低語了一個致盲的詛咒並試圖逃脫。他血流不止，穿過小巷和街道，終於倒在煉金術師的店鋪後面，生命流逝。他用最後一口氣詛咒了斯卡拉布萊的人民。
 dialogue	dialogue:0x0282:6f16:0	ab5976586fee61ff50abc06bc6edc099e63b8a6a44f099b61498f00b8b92afeb	憤怒之下，鎮民們拿起石頭和棍棒將他擊斃。他們把他葬在倒下的地方。但恐懼纏繞著那裡，很快他們將他的屍體挖出並焚燒，以免他再次崛起。該地點的草枯萎了，不再生長。 
 dialogue	dialogue:0x0282:6f16:1	7fe7ef59cdb614cb061f815cad2a6b84b080d7e8069256ed22a0ebe2b08bac6a	隨後煉金術師生病了，他也死了，雖然找不到原因。有些人低聲說這是Flain的詛咒使他死於非命。一位名叫Horance的法師被召來消除邪氣。他接過了煉金術師的衣缽，在Flain的塔樓被拆毀之前，Horance搜索了它的深處，尋找關於法術師黑魔法的知識...*
 dialogue	dialogue:0x0282:7197:0	4a763a4fce5766c4f03e93ea8c8e08c5fe7cb9a435f5671e3a059bee6c5d30fb	    法官德萊登，壓制的裁判官和正義的惡劣扭曲者，未獲赦免。當他的惡行消息傳到Lord British耳中時，衛兵被派往楊（Yew）。據說德萊登在夜晚的黑暗中被抓，當時他正逃離他曾統治的法院。在新法官任命後，德萊登被判犯有非法監禁、殘酷行為和高級叛國罪。他在地牢中服刑一段時間後，被帶到鎮廣場，在那裡由斷頭台執行正義。 Dryden
 dialogue	dialogue:0x0282:7388:0	bf1d6af0e18096cc43d2dcc2a6c5ea9e5b4038473dc001e6955ac64e136c70d1	    關於 Elistaria 與 Thrud of Windemere 的故事，情況更加淒慘。
-dialogue	dialogue:0x0282:7388:1	8c73466a36ab4a630dc46842f214ed8fdba505df794fa7212e0f16307368bc9b	\n\t\t\t一位黑暗女巫與她粗野的伴侶牢牢守住了島上的堡壘。將近一個月來，皇家海軍對其實施嚴密封鎖，炮火如雨般落在城牆上。最終，火焰蔓延開來，城堡被吞沒。據說整座島嶼沉入了海浪之下。沒有人倖存——至少傳聞是如此。一艘皇家艦船上的水手談起奇異的震動，以及大地本身崩裂的景象。人們相信 Elistaria 與 Thrud 已葬身火海。然而，我，Soleyn，仍心存疑慮，現在就準備前往 Windemere 的探險，尋找真相。有些人低聲說那座島鬧鬼。這些傳聞尚未獲得證實，但我將親眼查明一切...
+dialogue	dialogue:0x0282:7388:1	8c73466a36ab4a630dc46842f214ed8fdba505df794fa7212e0f16307368bc9b	\t\t\t一位黑暗女巫與她粗野的伴侶牢牢守住了島上的堡壘。將近一個月來，皇家海軍對其實施嚴密封鎖，炮火如雨般落在城牆上。最終，火焰蔓延開來，城堡被吞沒。據說整座島嶼沉入了海浪之下。沒有人倖存——至少傳聞是如此。一艘皇家艦船上的水手談起奇異的震動，以及大地本身崩裂的景象。人們相信 Elistaria 與 Thrud 已葬身火海。然而，我，Soleyn，仍心存疑慮，現在就準備前往 Windemere 的探險，尋找真相。有些人低聲說那座島鬧鬼。這些傳聞尚未獲得證實，但我將親眼查明一切...
 dialogue	dialogue:0x0282:7666:0	0bf3df1acc47a5ae0e61d5c00683e8a77076d1338b9202e38c51e5827f89c629	失傳的氣球術
 dialogue	dialogue:0x0282:767:0	9b8d04ad3282af0c25d39f11dae4dce48518e3d8e9900a790f4b8e4f0c74957e	第45天
-dialogue	dialogue:0x0282:767:1	9f5b8d432efb1fdbc48919b3557a89d70dc24a842df5bd6773fb5f001cb58ce2	該死的暴風雨.. 能見度很低。過去幾天，由於地震，水域一直很粗糙。船員懇求我放棄遠征。我絕不答應！他們不會阻止我尋找寶藏！穿過暴風雨，我能看到標記該地點的方尖碑！就是這裡。*
+dialogue	dialogue:0x0282:767:1	9f5b8d432efb1fdbc48919b3557a89d70dc24a842df5bd6773fb5f001cb58ce2	\t   該死的暴風雨.. 能見度很低。過去幾天，由於地震，水域一直很粗糙。船員懇求我放棄遠征。我絕不答應！他們不會阻止我尋找寶藏！穿過暴風雨，我能看到標記該地點的方尖碑！就是這裡。*
 dialogue	dialogue:0x0282:7685:0	15ed1b08f11cfa86114e61ed52e7fa10552e11f8e79f28acbf0ee0562739e21b	O. 茲羅亞斯特著*
-dialogue	dialogue:0x0282:769a:0	8fbfb10f23558c49da7f8883fedfeb45c6cd948fcc4312704d194b45b86fb11d	    在聖者（Avatar）的徵戰時期，傳聞天空中出現了一個奇怪的景象。米諾克（Minoc）鎮的一位工匠聲稱重新發現了失傳的氣球術。根據古老的傳說，這是一種神祕的做法，讓人可以翱翔在空氣中，比鳥兒飛得更高。
+dialogue	dialogue:0x0282:769a:0	8fbfb10f23558c49da7f8883fedfeb45c6cd948fcc4312704d194b45b86fb11d	    在聖者（Avatar）的征戰時期，傳聞天空中出現了一個奇怪的景象。米諾克（Minoc）鎮的一位工匠聲稱重新發現了失傳的氣球術。根據古老的傳說，這是一種神祕的做法，讓人可以翱翔在空氣中，比鳥兒飛得更高。
 dialogue	dialogue:0x0282:769a:1	9f94d90165d6e9e70c222e9f3df843fe297028856a6539b45e33d7fc6c78cb59	     未找到記錄說明進行此壯舉所使用的儀式，但當地的一些農民仍在講述關於奇怪景象的故事。看到了一個奇怪的球體，高掛在天空中，從中飄下來的可以聽到人的聲音。這個幻影飄進雲層中並消失在視線之外。
 dialogue	dialogue:0x0282:769a:2	a506221fb364cc5cea90ae43c20878597c131eaf9e690e1ffba57e28e002a5c5	   這發生在多年前，自那以後，再無關於這種神祕氣球術的傳聞...
 dialogue	dialogue:0x0282:797b:0	4da55ae4ce74d90803cec749ce78d4b95a3356a5c8e84d2b84ad5aebc86aa09f	石像鬼考據
 dialogue	dialogue:0x0282:79a4:0	d00897ca8196975faec2a0dbb3f3b2b13116b75fb4c63bf651463158caf2c248	    儘管大多數人認為石像鬼只是傳說，但並不存在任何記錄來說明裝飾許多城堡的石像鬼「雕像」的起源。即使是《終極智慧法典》中 towering 的石頭守護者，也具有許多「傳說中」石像鬼的體徵。似乎沒有人知道它們從哪裡來。
 dialogue	dialogue:0x0282:7afc:0	7e8470ba81c6733b4150ab063f177aaf1e2cfc65b1491d39244e42abb36b7920	    儘管缺乏確鑿的證據，但仍有不少關於活著的石像鬼的未經證實的目擊報告。
-dialogue	dialogue:0x0282:7b7a:0	da92f54ac7f602cb1f40623dabd36bccd2c7b6ce43d240c046417fd3d807bdc8	本作者認為惡魔是石像鬼的一種。由於許多可靠的惡魔遭遇記錄在各種學術著作中，也許這是關於石像鬼主題進一步信息最好的來源。
+dialogue	dialogue:0x0282:7b7a:0	da92f54ac7f602cb1f40623dabd36bccd2c7b6ce43d240c046417fd3d807bdc8	    本作者認為，惡魔是一種石像鬼。既然許多可靠的惡魔遭遇記錄已載入各種學術著作，或許這是研究石像鬼主題的最佳資訊來源。
 dialogue	dialogue:0x0282:7c74:0	4883fb81645dd915a39a2db9916b5f0b9bb62b62aaa8563554c69b6c00132dd3	糾纏的故事
 dialogue	dialogue:0x0282:7c88:0	9246d037874ce52bb557e3e97f52c590ef6b9b4ea71f26cf2d16916ff500a663	   作者佚名
 dialogue	dialogue:0x0282:7c98:0	6ec24058f4c5bb174278406455a4b6e038044e94729b1ff406cb9757f8c70fc0	    從前，在遙遠的異國，有一位法師的弟子。他的師傅伊爾德里奇（Eldritch）指派了他三項任務，深知他會在真實的世界這個課堂中學到最好的功課。
@@ -241,7 +241,7 @@ dialogue	dialogue:0x0282:7e69:0	24795bb835a9f4fcf215e33a38e5c189ed193ce8327932de
 dialogue	dialogue:0x0282:7f55:0	c44f652c847fb692a9d7df3c1e1c59711118e7328794c5c41a9d308e374b6fef	    他很快便開設了自己的學校，隨著年華流逝，學生來了又走，他的鬍鬚也隨年歲增長而變得長長。
 dialogue	dialogue:0x0282:89a:0	675234292268b1a40d1c877f5f6285c489e06ed2b147bab51154e8450f8869a6	城市居民鄉間指南
 dialogue	dialogue:0x0282:8c9:0	39084aa27f0ebb6ce1bb9d939ca4a6d18234a485ef7ed17ffa18fe33041f22dc	作者拉斐（LaFey）
-dialogue	dialogue:0x0282:8d9:0	d0afbcf086f74081387d56e94ab473c1c0bea159d4985c11b875bf608733006b	在這卷書中，作者一位Britain的居民，描述了他鄉間漫步的情形，特別著重於其中的旅店、酒館及其顧客。
+dialogue	dialogue:0x0282:8d9:0	d0afbcf086f74081387d56e94ab473c1c0bea159d4985c11b875bf608733006b	    在這卷書中，作者一位Britain的居民，描述了他鄉間漫步的情形，特別著重於其中的旅店、酒館及其顧客。
 dialogue	dialogue:0x0282:981:0	adb1bdbb85035c194b3ff0a826e19a7be2849fa4198091c74211c9958fb638a1	...當我抵達帕斯（Paws）時，光線已經黯淡，冷風從東方吹來。古樸的村莊旅店熱情地歡迎我入內。我只不過拍了拍靴子上的灰塵，不久便與當地居民坐在一起，啜飲著陶杯中的酒，討論著織線、布料或是地方閒話。麥酒尚可入口，價格也不貴。當我掏出錢袋買第三輪時，話題從織工的事情轉到了宮廷的瑣事...
 dialogue	dialogue:0x0282:b73:0	d83973cf45902f0fd73ad9828fd68a658aa132616113005a7b87bbe7bf7e4afc	惡魔之夢
 dialogue	dialogue:0x0282:b88:0	7c65578455a62dd6a7d59c84d089ae3a36cfe8e0319fac675b9cfc4f34125a6d	作者多姆（Dom）
@@ -360,7 +360,7 @@ dialogue	dialogue:0x0282:fallback_3326:3	d9c84cad324d32fa2873ed4c0634617da1aca2e
 dialogue	dialogue:0x0282:fallback_334d:0	78e6142a741def2f655b3f8db73b9ef9c14054d59369aebdb8fff4956219114c	     這本書的封皮內包含了一本動作冒險小說，講述了一隻吃人的海洋生物在幾個月裡恐嚇一個沿海小鎮的故事。
 dialogue	dialogue:0x0282:fallback_33ec:1	50adb3de69722b250edb01cada2d9cd2b09b51a84d60b904730ca08deaac4559	《友誼會之書》
 dialogue	dialogue:0x0282:fallback_33ec:3	25ec163c5bb93aa51b427a1d7771ebc1e58ec32b0a8e64274d4c3540f6854479	Britain 的Batlin 著*
-dialogue	dialogue:0x0282:fallback_3427:0	73c6047d2a6f24a14a9903e52d77c57849eb93604554bc7a43263f41d215a667	     早安，溫文儒雅的朋友與旅人！無論你是在一天中的哪個時刻閱讀這本書——無論時鐘指著幾點——我都要對你說聲「早安」，因為就是這個瞬間，為你帶來了黎明的降臨。大家都知道，黎明是光明（啟蒙）來臨的時刻。黎明標誌著漫長黑夜的結束。這是一個標誌著全新開始的時刻。我謙卑地希望，這些話語能成為你的黎明，或者至少，是一種覺醒...
+dialogue	dialogue:0x0282:fallback_3427:0	73c6047d2a6f24a14a9903e52d77c57849eb93604554bc7a43263f41d215a667	     早安，溫文儒雅的朋友與旅人！無論你是在一天中的哪個時刻閱讀這本書——無論時鐘指著幾點——我都要對你說聲「早安」，因為就是這個瞬間，為你帶來了黎明的降臨。大家都知道，黎明是光明（啟蒙）來臨的時刻。黎明標誌著漫長黑夜的結束。這是一個標誌著全新開始的時刻。我謙卑地希望，這些話語能成為你的黎明，或者至少，是一種覺醒……
 dialogue	dialogue:0x0282:fallback_3628:1	645b4f9855328564d8bf3bf6f17ee1f0dbc9d9024fa34dd4a963313aa96b773a	不列顛王
 dialogue	dialogue:0x0282:fallback_3628:2	e6bc90a3ffd2b28d092b761f02273a610ccfe766e0acad5c86e50c43e99481f8	Britannia的長期統治者傳記
 dialogue	dialogue:0x0282:fallback_3628:4	c3fc00a7e419aede77e7736622d31b643ab2d76c487064676cf635162c4bfdc7	 K.Bennos 著*
@@ -1017,7 +1017,7 @@ dialogue	dialogue:0x031d:1674:0	0320d2c56d0bc87c2a2cfc9f88311aef891a8ff90f169654
 dialogue	dialogue:0x031d:1686:0	318faeaf5f0a02a0f82a067bc6c47f1c4b0c4494b20c1b5a415ac669e7933b22	這不是有效的卷軸 QUAL 屬性！停止作弊！
 dialogue	dialogue:0x031d:416:0	1622051c15677dc6c901447824a0c53b0f4612f6a17d65d99c9def11e9a9a263	這張卷軸包含 Captain Johne 關於石像鬼語言的筆記。研究一番後，你現在能理解它們了！
 dialogue	dialogue:0x031d:49f:0	f089eaef57aba315bc0e1455985c0c8e40c247f073ce1f4c5a1f8ffde8773176	Michael
-dialogue	dialogue:0x031d:49f:1	5998b0714fc0c382f6face98f1608e6599dbccaf94acca114166253dcea3e521	 我懇求你..再給我一些時間，讓我償還欠你的債。我們最近一直沒有捕到魚，因此收入很少。我保證錢一定會湊齊，只是需要多一點時間。\n\t\t\t\tMarney 對我而言就是一切，她是我僅剩的家人。即使不是為了我，也請看在 Marney 的份上寬限一些時間。請考慮我的請求，我會把欠你的錢還上。
+dialogue	dialogue:0x031d:49f:1	5998b0714fc0c382f6face98f1608e6599dbccaf94acca114166253dcea3e521	 我懇求你..再給我一些時間，讓我償還欠你的債。我們最近一直沒有捕到魚，因此收入很少。我保證錢一定會湊齊，只是需要多一點時間。Marney 對我而言就是一切，她是我僅剩的家人。即使不是為了我，也請看在 Marney 的份上寬限一些時間。請考慮我的請求，我會把欠你的錢還上。
 dialogue	dialogue:0x031d:60f:0	3696a495cc631c456ca56ca5c4ec283e994bf347cd7d03077027765cba90be9d	Quenton
 dialogue	dialogue:0x031d:618:0	ee660d6f7d91e05def4907886326327fea78a1e8064fdc8ad5ddf1ae3a933469	帶上愛意，來自表兄 Manrel。
 dialogue	dialogue:0x031d:637:0	96bfb8b25d5bdba12919c93b8cb251cfda22abba5c7bb9ef5ede687a78bf0faf	Lady o' the Sea 號船隻產權證，由 Bucaneer's Den 的 Fentrissa 委託。
@@ -1051,39 +1051,39 @@ dialogue	dialogue:0x031d:e9c:0	606b87b88a94797e3f067da9fe715807a635eff0cb550d495
 dialogue	dialogue:0x031d:eaf:0	d39de2d2a86b278e61c577ad8cf98c0cc2b8e47ae897fccf025904be86f53069	我分秒計算著再次與你相見的日子。自從父親被石像鬼殺害以來，你便成為我黑暗中唯一的光明。我已決定加入你上次來鎮上時提到的那趟航行之旅。
 dialogue	dialogue:0x031d:f94:0	6372f21a9f823926707075375094c2f46b7ad04f72a2ada20aa0004776009a5c	我期待與你同行，看見這世界，因為我從來沒有見過我家以外的風景。Yorl 禁止我見你，所以我們需要祕密會合。三天後午夜前，我會在碼頭等你。
 dialogue	dialogue:0x031d:fallback_0:0	759c03afd5ad071b9121c5c42189a3eef91c34cc4bd3934b22bdbe23227ff978	這不是一張有效的卷軸
-dialogue	dialogue:0x031d:fallback_10b9:0	8f4aafe1887149d01c886b3fb31bd90e4e8725d124841888edb91bc2e555a05e	產權證
+dialogue	dialogue:0x031d:fallback_10b9:0	8f4aafe1887149d01c886b3fb31bd90e4e8725d124841888edb91bc2e555a05e	     船契
 dialogue	dialogue:0x031d:fallback_10b9:1	803dab3da1d8828277bdbcb31d92adb8543fd7aafaddd01a0203c44b7164dea1	船名：The Scaly Eel
 dialogue	dialogue:0x031d:fallback_10b9:2	879ea13c056df252444ae541ed17d3c04684d56110c32acd65f18270e7b951a4	完工日期：7-21-0355
 dialogue	dialogue:0x031d:fallback_10b9:3	7de5369a8e0e19921d65e2645d2043bd4d8bad5122cf98780b23e83ef19a123e	 檢查日期：8-2-0355
 dialogue	dialogue:0x031d:fallback_10b9:4	2edd65e6e431418dbf7d6843a4b0ad5f2c657711e8383f3e95ce9065e1855a86	造船匠：Trinsic 的 Gargan
-dialogue	dialogue:0x031d:fallback_1134:0	6e0a85fa7fcfe1ec5e92fb0790b27e80f41983ba0d8fe5f2da2a4e9fdbbddd30	經 Lord British 公告，這是正式文件，標註前述帆船的所有權。根據法律編號 1989832.A5 第 809 條，偽造此產權證屬違法行為。
-dialogue	dialogue:0x031d:fallback_11fb:0	8f4aafe1887149d01c886b3fb31bd90e4e8725d124841888edb91bc2e555a05e	產權證
+dialogue	dialogue:0x031d:fallback_1134:0	6e0a85fa7fcfe1ec5e92fb0790b27e80f41983ba0d8fe5f2da2a4e9fdbbddd30	奉Lord British詔令，此為官方文件，表明對文件中，所記載之帆船的所有權。根據第 1989832.A5 號法律第 809 條，禁止偽造此所有權狀。
+dialogue	dialogue:0x031d:fallback_11fb:0	8f4aafe1887149d01c886b3fb31bd90e4e8725d124841888edb91bc2e555a05e	     船契
 dialogue	dialogue:0x031d:fallback_11fb:1	75c8016477f03ecab9bdc52f7956e5b28c5e3f4f4c9449558c02718d3225c92b	船名：The Beast
 dialogue	dialogue:0x031d:fallback_11fb:2	1b319c148ab9ece50098a56447cab22f9ca663d157fa8c7568466b306a3ebc9d	完工日期：3-12-0358
 dialogue	dialogue:0x031d:fallback_11fb:3	44ece411491d8f49727baab1af86b9cc8fbd79519badcffd1e14893f4c70cbb3	 檢查日期：3-19-0358
 dialogue	dialogue:0x031d:fallback_11fb:4	e8ea2130f5995f51b3a4d157e8e37b450a53454c023762e7a0cc3969ebc21b84	造船匠：Britain的 Clint
-dialogue	dialogue:0x031d:fallback_1272:0	6e0a85fa7fcfe1ec5e92fb0790b27e80f41983ba0d8fe5f2da2a4e9fdbbddd30	經 Lord British 公告，這是正式文件，標註前述帆船的所有權。根據法律編號 1989832.A5 第 809 條，偽造此產權證屬違法行為。
+dialogue	dialogue:0x031d:fallback_1272:0	6e0a85fa7fcfe1ec5e92fb0790b27e80f41983ba0d8fe5f2da2a4e9fdbbddd30	奉Lord British詔令，此為官方文件，表明對文件中，所記載之帆船的所有權。根據第 1989832.A5 號法律第 809 條，禁止偽造此所有權狀。
 dialogue	dialogue:0x031d:fallback_12c:0	4c8483dc72c3108f58048fdb3e02a95f4880b0bfbabcb7c78fd3282b696811bc	（請往下捲動）*
-dialogue	dialogue:0x031d:fallback_1339:0	8f4aafe1887149d01c886b3fb31bd90e4e8725d124841888edb91bc2e555a05e	產權證
+dialogue	dialogue:0x031d:fallback_1339:0	8f4aafe1887149d01c886b3fb31bd90e4e8725d124841888edb91bc2e555a05e	     船契
 dialogue	dialogue:0x031d:fallback_1339:1	d4b8e23a5f5c1789185e69f0b98065e4cf77a8722f941221863f0da4619daac4	船名：The Excellencia
 dialogue	dialogue:0x031d:fallback_1339:2	615dbaec5d38356cb599122dd99fa353adfb59b366fdf1b1ae61d5a883915ee7	完工日期：
 dialogue	dialogue:0x031d:fallback_1339:3	df0ff60bc03033e5deda75cc15e98fdb50a8e3532f578ad2aa7547fe308a7196	 檢查日期：
 dialogue	dialogue:0x031d:fallback_1339:4	2dc60d009a849d2a4e0a3e300ce05687ffb34317ca1b17ff5f821992ca6fa38d	造船匠：Minoc 的 Owen
-dialogue	dialogue:0x031d:fallback_139f:0	6e0a85fa7fcfe1ec5e92fb0790b27e80f41983ba0d8fe5f2da2a4e9fdbbddd30	經 Lord British 公告，這是正式文件，標註前述帆船的所有權。根據法律編號 1989832.A5 第 809 條，偽造此產權證屬違法行為。
+dialogue	dialogue:0x031d:fallback_139f:0	6e0a85fa7fcfe1ec5e92fb0790b27e80f41983ba0d8fe5f2da2a4e9fdbbddd30	奉Lord British詔令，此為官方文件，表明對文件中，所記載之帆船的所有權。根據第 1989832.A5 號法律第 809 條，禁止偽造此所有權狀。
 dialogue	dialogue:0x031d:fallback_145:0	2de99760739f9980c606fbd8f170e7d69127be2963f1bf584aa45b02c19dd78d	如何讓聖者為了尋找線索而非常非常「非常」忙碌好幾個小時——
-dialogue	dialogue:0x031d:fallback_1466:0	8f4aafe1887149d01c886b3fb31bd90e4e8725d124841888edb91bc2e555a05e	產權證
+dialogue	dialogue:0x031d:fallback_1466:0	8f4aafe1887149d01c886b3fb31bd90e4e8725d124841888edb91bc2e555a05e	     船契
 dialogue	dialogue:0x031d:fallback_1466:1	1130c5e4fda2edaf4cf9be9654bf80f2f67ca8ea0755aa219b20807de2648961	船名：The Nymphet
 dialogue	dialogue:0x031d:fallback_1466:2	dea0b84d6461671c19aa60d6d57579db2527b6b3896798e41f95851c41692a2f	完工日期：12-22-0357
 dialogue	dialogue:0x031d:fallback_1466:3	9f934c91b6b2a81724a1890b54169a2362fde66c2d88454e3a9610027fa5fbd1	 檢查日期：1-3-0358
 dialogue	dialogue:0x031d:fallback_1466:4	b74255aa2f44b13728564dddbd87d88053e6150105c4885ccf5e645759f21d51	造船匠：New Magincia 的 Russell
-dialogue	dialogue:0x031d:fallback_14e6:0	6e0a85fa7fcfe1ec5e92fb0790b27e80f41983ba0d8fe5f2da2a4e9fdbbddd30	經 Lord British 公告，這是正式文件，標註前述帆船的所有權。根據法律編號 1989832.A5 第 809 條，偽造此產權證屬違法行為。
-dialogue	dialogue:0x031d:fallback_15ad:0	8f4aafe1887149d01c886b3fb31bd90e4e8725d124841888edb91bc2e555a05e	產權證
+dialogue	dialogue:0x031d:fallback_14e6:0	6e0a85fa7fcfe1ec5e92fb0790b27e80f41983ba0d8fe5f2da2a4e9fdbbddd30	奉Lord British詔令，此為官方文件，表明對文件中，所記載之帆船的所有權。根據第 1989832.A5 號法律第 809 條，禁止偽造此所有權狀。
+dialogue	dialogue:0x031d:fallback_15ad:0	8f4aafe1887149d01c886b3fb31bd90e4e8725d124841888edb91bc2e555a05e	     船契
 dialogue	dialogue:0x031d:fallback_15ad:1	f141fb01aae56b725e9dfd4f26cc5e2ace14aa00aa929cd2dd8370c68b485f98	船名：The Lusty Wench
 dialogue	dialogue:0x031d:fallback_15ad:2	c322e6ce624ca9349a9fd28b40a19984a5a27e5aafd55d8d38033cdd287581be	完工日期：6-14-0327
 dialogue	dialogue:0x031d:fallback_15ad:3	3ec4248fb75674ba14fcd2acbaf7391631fef560d2ee7c0b4db879e95da74e08	 檢查日期：6-24-0359
 dialogue	dialogue:0x031d:fallback_15ad:4	66b00e3b423245db34e2431277067818b332fc16c439c13b0d1c98d69b024aba	造船匠：Moonglow 的 Kethron
-dialogue	dialogue:0x031d:fallback_162d:0	6e0a85fa7fcfe1ec5e92fb0790b27e80f41983ba0d8fe5f2da2a4e9fdbbddd30	經 Lord British 公告，這是正式文件，標註前述帆船的所有權。根據法律編號 1989832.A5 第 809 條，偽造此產權證屬違法行為。
-dialogue	dialogue:0x031d:fallback_16f4:0	8f4aafe1887149d01c886b3fb31bd90e4e8725d124841888edb91bc2e555a05e	產權證
+dialogue	dialogue:0x031d:fallback_162d:0	6e0a85fa7fcfe1ec5e92fb0790b27e80f41983ba0d8fe5f2da2a4e9fdbbddd30	奉Lord British詔令，此為官方文件，表明對文件中，所記載之帆船的所有權。根據第 1989832.A5 號法律第 809 條，禁止偽造此所有權狀。
+dialogue	dialogue:0x031d:fallback_16f4:0	8f4aafe1887149d01c886b3fb31bd90e4e8725d124841888edb91bc2e555a05e	     船契
 dialogue	dialogue:0x031d:fallback_16f4:1	c40b74af16c316bd21d3dc9ecf3deda24f3757b9791872bc71d11ea1ddb4b8d8	船名：The Dragon's Breath
 dialogue	dialogue:0x031d:fallback_16f4:2	063ee52537c500c952156a211cfd63ef3829c92c78c789a73dc1beb56ef130a9	完工日期：5-18-0342
 dialogue	dialogue:0x031d:fallback_16f4:3	28cbe721b6c921b64290612772f4bfe5fdbd6ac87e9fdab42f2c68fc6dd0c002	 檢查日期：5-23-0342
@@ -1096,8 +1096,8 @@ dialogue	dialogue:0x031d:fallback_17b9:0	16670314ca31d72300567988f84e79d2556d448
 dialogue	dialogue:0x031d:fallback_17b9:1	d025e90720ac54f3f9a979d499ddeb71b89d824540806650327bec5d368c5f76	為大鍵琴而作。
 dialogue	dialogue:0x031d:fallback_17e6:0	52239c78a0645fd2fb856062c9dd5073743bf35b4dc8bd8c850600faa4176d3c	       春之火
 dialogue	dialogue:0x031d:fallback_17e6:1	336599cc9414310e08164d0eaa2c9c376083e4624ed7d7b424173d9d857b7491	為木琴而作。
-dialogue	dialogue:0x031d:fallback_180c:0	6e0a85fa7fcfe1ec5e92fb0790b27e80f41983ba0d8fe5f2da2a4e9fdbbddd30	經 Lord British 公告，這是正式文件，標註前述帆船的所有權。根據法律編號 1989832.A5 第 809 條，偽造此產權證屬違法行為。
-dialogue	dialogue:0x031d:fallback_18d3:0	8f4aafe1887149d01c886b3fb31bd90e4e8725d124841888edb91bc2e555a05e	產權證
+dialogue	dialogue:0x031d:fallback_180c:0	6e0a85fa7fcfe1ec5e92fb0790b27e80f41983ba0d8fe5f2da2a4e9fdbbddd30	奉Lord British詔令，此為官方文件，表明對文件中，所記載之帆船的所有權。根據第 1989832.A5 號法律第 809 條，禁止偽造此所有權狀。
+dialogue	dialogue:0x031d:fallback_18d3:0	8f4aafe1887149d01c886b3fb31bd90e4e8725d124841888edb91bc2e555a05e	     船契
 dialogue	dialogue:0x031d:fallback_18d3:1	1cbac65bec329387af24d2d1771a8a44efc21f16c4433842a70a3bebaf3aac86	船名：
 dialogue	dialogue:0x031d:fallback_18d3:2	615dbaec5d38356cb599122dd99fa353adfb59b366fdf1b1ae61d5a883915ee7	完工日期：
 dialogue	dialogue:0x031d:fallback_18d3:3	0ff39d6b0ce8abf474ce1ad3c3207cf468471f02e128fc3f7a941c2e0ea45b62	檢查日期：
@@ -1132,20 +1132,20 @@ dialogue	dialogue:0x031d:fallback_2195:0	36171b325e6c36fa54738f789c4e4cdf4109516
 dialogue	dialogue:0x031d:fallback_2195:1	d0737e8868630600910cbe58cd68107ed6d82f8ffccd88c78af9caa79d2acb14	 48923013.Q4，第 193 條
 dialogue	dialogue:0x031d:fallback_21ea:0	e335deb81983a7a2dc48f2dbf78a22dd0627e2327314ac4e8fc07c125b6aaab9	其中，屬於石匠公會的參與者，可向在此由木匠公會成員代表的小屋建造者一方提出投訴，其意圖為...
 dialogue	dialogue:0x031d:fallback_21f:0	e96a180e20532a73d380995b37ef7cd0fb3eeae8bbaa546b2a46f9e3afae57c5	如何讓聖者為了尋找線索而非常非常絕對難以置信地忙碌好幾個小時——
-dialogue	dialogue:0x031d:fallback_22bf:0	6e0a85fa7fcfe1ec5e92fb0790b27e80f41983ba0d8fe5f2da2a4e9fdbbddd30	經 Lord British 公告，這是正式文件，標註前述帆船的所有權。根據法律編號 1989832.A5 第 809 條，偽造此產權證屬違法行為。
-dialogue	dialogue:0x031d:fallback_2386:0	8f4aafe1887149d01c886b3fb31bd90e4e8725d124841888edb91bc2e555a05e	產權證
+dialogue	dialogue:0x031d:fallback_22bf:0	6e0a85fa7fcfe1ec5e92fb0790b27e80f41983ba0d8fe5f2da2a4e9fdbbddd30	奉Lord British詔令，此為官方文件，表明對文件中，所記載之帆船的所有權。根據第 1989832.A5 號法律第 809 條，禁止偽造此所有權狀。
+dialogue	dialogue:0x031d:fallback_2386:0	8f4aafe1887149d01c886b3fb31bd90e4e8725d124841888edb91bc2e555a05e	     船契
 dialogue	dialogue:0x031d:fallback_2386:1	06115c95263ff4756886711af653fb3507684bc8eba1ced55b0bb9939f5b1c15	船名：Anne's Revenge
 dialogue	dialogue:0x031d:fallback_2386:2	5d16ada4af93aee8dfb770d96f811d203c16a77c768d6fbd0b8813c12f60fd7d	完工日期：11-23-0198 
 dialogue	dialogue:0x031d:fallback_2386:3	326523ece738695cd22035634a6b58171bd368abd29f07fbe6039c5c3a30d8ff	檢查日期：1-17-0199
 dialogue	dialogue:0x031d:fallback_2386:4	6b97d60f391020d822a74e427859809e2a80bb1ba5863aeb69d218ffa2db9f26	造船匠：New Magincia 的 Alluria
-dialogue	dialogue:0x031d:fallback_2409:0	6e0a85fa7fcfe1ec5e92fb0790b27e80f41983ba0d8fe5f2da2a4e9fdbbddd30	經 Lord British 公告，這是正式文件，標註前述帆船的所有權。根據法律編號 1989832.A5 第 809 條，偽造此產權證屬違法行為。
-dialogue	dialogue:0x031d:fallback_24d0:0	8f4aafe1887149d01c886b3fb31bd90e4e8725d124841888edb91bc2e555a05e	產權證
+dialogue	dialogue:0x031d:fallback_2409:0	6e0a85fa7fcfe1ec5e92fb0790b27e80f41983ba0d8fe5f2da2a4e9fdbbddd30	奉Lord British詔令，此為官方文件，表明對文件中，所記載之帆船的所有權。根據第 1989832.A5 號法律第 809 條，禁止偽造此所有權狀。
+dialogue	dialogue:0x031d:fallback_24d0:0	8f4aafe1887149d01c886b3fb31bd90e4e8725d124841888edb91bc2e555a05e	     船契
 dialogue	dialogue:0x031d:fallback_24d0:1	4420e300e78dd9aca21ba8abf1ef05cdc5600c0eca9372b62157bfe5116d7724	船名：Golden Hinde
 dialogue	dialogue:0x031d:fallback_24d0:2	25da31715c5c821a8eadadcba00b6887b0d1854d3043fde9a4a2fa981c6987db	完工日期：7-08-0105 
 dialogue	dialogue:0x031d:fallback_24d0:3	8f2b778dfd565408359d63a5f97f1945b500c02b5aed6ca90af44635b584d937	檢查日期：7-12-0105
 dialogue	dialogue:0x031d:fallback_24d0:4	3dc0a8e5a445f93a5538d59eccacd2242c558e46a38803a831204578f0cb707d	造船匠：Trinsic 的 Gendra
-dialogue	dialogue:0x031d:fallback_254b:0	6e0a85fa7fcfe1ec5e92fb0790b27e80f41983ba0d8fe5f2da2a4e9fdbbddd30	經 Lord British 公告，這是正式文件，標註前述帆船的所有權。根據法律編號 1989832.A5 第 809 條，偽造此產權證屬違法行為。
-dialogue	dialogue:0x031d:fallback_2612:0	8f4aafe1887149d01c886b3fb31bd90e4e8725d124841888edb91bc2e555a05e	產權證
+dialogue	dialogue:0x031d:fallback_254b:0	6e0a85fa7fcfe1ec5e92fb0790b27e80f41983ba0d8fe5f2da2a4e9fdbbddd30	奉Lord British詔令，此為官方文件，表明對文件中，所記載之帆船的所有權。根據第 1989832.A5 號法律第 809 條，禁止偽造此所有權狀。
+dialogue	dialogue:0x031d:fallback_2612:0	8f4aafe1887149d01c886b3fb31bd90e4e8725d124841888edb91bc2e555a05e	     船契
 dialogue	dialogue:0x031d:fallback_2612:1	1878b139571f556fff05cf0d52adf7f27360e5cc19e22ecfb21ff8ea608c0265	船名：Bounty
 dialogue	dialogue:0x031d:fallback_2612:2	1ec8fbadb3f279fbf386a6b4337c69616f58616388193c95c099e886d04665c0	完工日期：5-27-0185 
 dialogue	dialogue:0x031d:fallback_2612:3	9c892c0dcd67d515d593a371df0f21d9b0471cdce2db87c188aa53b87fc046fe	檢查日期：6-04-0185
@@ -1175,8 +1175,8 @@ dialogue	dialogue:0x031d:fallback_2dae:0	17cb8854205bf68e5ff787984acb120e5a04cae
 dialogue	dialogue:0x031d:fallback_2dbc:0	7780fc86d2e95dc620c292dc77d084b4e704090bb3a93a6638bd5b2106aed932	Lord British的最終遺囑與聲明：
 dialogue	dialogue:0x031d:fallback_2dec:0	79f7a932d68aebafbaf8804ee1bc46537bf805fee12df25faa32fbef6a14b2fd	     在我身心健康之際，我在此將我所有的財產遺贈給... Nell，我心愛的女僕。她陪伴我度過了許多溫暖的夜晚，這是我對多數我那羣該死臣民無法言喻的！而對於我們未出生的孩子，我將我的王冠遺贈給他/她。國王萬歲。或是女王，不管是哪個！
 dialogue	dialogue:0x031d:fallback_2f21:0	460ae54e3cb1f77e37fa564e8da4b0dd7f4ef9edb1a3832545cc1901f1fd1953	Lord British
-dialogue	dialogue:0x031d:fallback_2f38:0	6e0a85fa7fcfe1ec5e92fb0790b27e80f41983ba0d8fe5f2da2a4e9fdbbddd30	經 Lord British 公告，這是正式文件，標註前述帆船的所有權。根據法律編號 1989832.A5 第 809 條，偽造此產權證屬違法行為。
-dialogue	dialogue:0x031d:fallback_2fff:0	8f4aafe1887149d01c886b3fb31bd90e4e8725d124841888edb91bc2e555a05e	產權證
+dialogue	dialogue:0x031d:fallback_2f38:0	6e0a85fa7fcfe1ec5e92fb0790b27e80f41983ba0d8fe5f2da2a4e9fdbbddd30	奉Lord British詔令，此為官方文件，表明對文件中，所記載之帆船的所有權。根據第 1989832.A5 號法律第 809 條，禁止偽造此所有權狀。
+dialogue	dialogue:0x031d:fallback_2fff:0	8f4aafe1887149d01c886b3fb31bd90e4e8725d124841888edb91bc2e555a05e	     船契
 dialogue	dialogue:0x031d:fallback_2fff:1	d2d4ce252cd15324c883fd14f0dc55c4f24aa37d87e27a8f9cd528423c62b391	船名：Golden Ankh
 dialogue	dialogue:0x031d:fallback_2fff:2	50a70db2afa3858a1d84d4653aee6ef144f44c7bea855edc30035c7427ac1524	完工日期：3-8-0338
 dialogue	dialogue:0x031d:fallback_2fff:3	f46ab285dc77dd5b39235cb593462499cb4091e1bed158ab71e713a445f9f116	 檢查日期：3-18-0338
@@ -1255,11 +1255,11 @@ dialogue	dialogue:0x031d:fallback_892:0	441cc5bcdad11f8b37e2dacc544cc8573c0df579
 dialogue	dialogue:0x031d:fallback_892:1	98d0f34538b5812cb3fb04d6955336cfa5a3da9bb915660d89de3912f343a717	--Runeb
 dialogue	dialogue:0x031d:fallback_8d:0	90a1d840952fc2c649e349e0a0005920875f0ee6bfecbadd9b81548de774be4a	如何讓聖者為了尋找線索而非常忙碌好幾個小時——
 dialogue	dialogue:0x031d:fallback_93e:0	782859074b8dd8bddbfca75c7fb4cacb78c4fabb8a0c65559aa2fdc97a967b7c	獨角鯨號 (Narwha) 將會是一艘極其完美的船艦，從船首到船艉足足有 100 腕尺長。她將由最頂級的Yew 木材打造，並配有三十七 腕尺的壓艙物。在船板進行逆向退化工程後，我會對底層甲板進行預先相互反轉，以確保它們的冗長與多話。
-dialogue	dialogue:0x031d:fallback_93e:1	6d8954d05f568c4f3d0235e4315f7a36a6c53292b9637914775a06e8efaa85cf	每張牀鋪都將精準地容納在 3 英尺乘以 14 腕尺的船艙內，除了大副和中士的寢室，那裡的尺寸會是八角形的...
+dialogue	dialogue:0x031d:fallback_93e:1	6d8954d05f568c4f3d0235e4315f7a36a6c53292b9637914775a06e8efaa85cf	每張牀鋪都將精準地容納在 3 英尺乘以 14 腕尺的船艙內，除了大副和中士的寢室，那裡的尺寸會是八角形的……
 dialogue	dialogue:0x031d:fallback_93e:3	dc6db579aac75a41069ab4dd17c52c85c5dafb0a42510ccb0a9afd4f1f045112	Minoc的歐文
 dialogue	dialogue:0x031d:fallback_afb:0	c8458e9c8b38e6adedf03126741424c9d7474019cc2af598db4aa29569502bff	不列顛尼亞稅務委員會
 dialogue	dialogue:0x031d:fallback_b12:0	eedaafd14ab3a1bc46005c365e23c1898cd740b7573831c51410595a3ab836e1	稅務申報單
-dialogue	dialogue:0x031d:fallback_b22:0	1dd14664b63fbc65c2f7fd79b77a7b6e78606930163bee83ef16188c55ae82b6	為確保爾之進項與支度皆能妥善登帳，首要之事，須將表格中編號 37-A 至 1204-W 之卷宗一式三份予以複製。於每份副本之後，彙編支出之總額，並乘以表3、表69、表106。下一步則涉及...
+dialogue	dialogue:0x031d:fallback_b22:0	1dd14664b63fbc65c2f7fd79b77a7b6e78606930163bee83ef16188c55ae82b6	為確保爾之進項與支度皆能妥善登帳，首要之事，須將表格中編號 37-A 至 1204-W 之卷宗一式三份予以複製。於每份副本之後，彙編支出之總額，並乘以表3、表69、表106。下一步則涉及……
 dialogue	dialogue:0x031d:fallback_c31:0	5c42502a0f7550551273042d10cd36c11f2c0383285590aa09bdfd0bca16fe8c	首先你需要將金屬裝滿坩堝。然後，使用風箱將火燒得越旺越好。當火焰不再發光時，你就可以準備將坩堝放在火上熔化金屬了。
 dialogue	dialogue:0x031d:fallback_c31:1	3530637a8a26d78d3bf6e60544d111ed1bfd7a2646de8dc27886320c2637e0b9	 然後，將熔化的金屬倒入刀刃模具中並讓其冷卻。警告！坩堝的溫度極高。小心不要燙傷自己。
 dialogue	dialogue:0x031d:fallback_c31:2	6be6fc4b8148cf00583e975a6638302097ec3d9329bdb19b40e9a965c7d8b886	 用夾子將冷卻的刀刃從模具中取出。再次將火加熱，並將刀刃放入其中。不過要注意不要讓它變形。只要把它放在那裡足夠長的時間使其變得有延展性即可。
@@ -1267,7 +1267,7 @@ dialogue	dialogue:0x031d:fallback_c31:3	000a29b2d225042caaec89e1f8004d1798035f6f
 dialogue	dialogue:0x031d:fallback_c31:4	5f188175124a08c23f7a88e2a52d6f8da088582f5fa04d1c91896ba2fe964972	 現在你所需要做的就是把劍首套在劍根上。要打造一把精良、堅固的劍需要花費一些功夫，但完成的武器絕對物超所值！
 dialogue	dialogue:0x031d:fallback_cd:0	4c8483dc72c3108f58048fdb3e02a95f4880b0bfbabcb7c78fd3282b696811bc	（請往下捲動）*
 dialogue	dialogue:0x031d:fallback_e6:0	e68cef709f79dce24d65eed15cae7a48be704ef428f4790484534c3665faf5b9	如何讓聖者為了尋找線索而非常非常忙碌好幾個小時——
-dialogue	dialogue:0x031d:fallback_ff2:0	6e0a85fa7fcfe1ec5e92fb0790b27e80f41983ba0d8fe5f2da2a4e9fdbbddd30	經 Lord British 公告，這是正式文件，標註前述帆船的所有權。根據法律編號 1989832.A5 第 809 條，偽造此產權證屬違法行為。
+dialogue	dialogue:0x031d:fallback_ff2:0	6e0a85fa7fcfe1ec5e92fb0790b27e80f41983ba0d8fe5f2da2a4e9fdbbddd30	奉Lord British詔令，此為官方文件，表明對文件中，所記載之帆船的所有權。根據第 1989832.A5 號法律第 809 條，禁止偽造此所有權狀。
 dialogue	dialogue:0x0326:0:0	2e4b9cc2428beb7bff6a56c14d7304e472a23e890e91ef0a6b0b0380e89f9734	朋友
 dialogue	dialogue:0x0326:11e:0	3f1b576f0476f8b7558c4e9e5c84fe254e1f203bfa615da23b3c89b79dbc954c	@小心石像鬼！@
 dialogue	dialogue:0x0326:139:0	82a3537ff0dbce7eec35d69edc3a189ee6f17d82f353a553f9aa96cb0be3ce89	名字
@@ -1566,8 +1566,8 @@ dialogue	dialogue:0x0401:e7:0	30138cb71790fa4dc172e4d11505acd8d9a61e7d660a805a41
 dialogue	dialogue:0x0401:e:0	4668493f69f7fa45d67edc30b4ef32f5fbf1273ec4a6ee71d8994ca6e6ea870e	 黃金錢幣在隊伍中。
 dialogue	dialogue:0x0401:f1:0	106a5842fc5fce6f663176285ed1516dbb1e3d15c05abab12fdca46d60b539b7	幫助
 dialogue	dialogue:0x0401:f6:0	58393216032be6257784ac0c6a73efb2a084e27b4cfff1e6acee7b7e6ab93b10	加入
-dialogue	dialogue:0x0401:fb:0	c025cf5d322cf60e7b55c23c065973e550cf3347ab7e4fe9178c6ea711183efe	@我只記得 Iolo 這個名字。@*
 dialogue	dialogue:0x0401:fallback_b5c20cb7e2f3c7ef:0	b5c20cb7e2f3c7ef490c8de0557bffc0a2e23328c58da3c947b97d6c1e51ce38	@嗯，<PLAYER_NAME>，你需要幫忙嗎？或者你有時間聽個故事，嗯？@
+dialogue	dialogue:0x0401:fb:0	c025cf5d322cf60e7b55c23c065973e550cf3347ab7e4fe9178c6ea711183efe	@我只記得 Iolo 這個名字。@*
 dialogue	dialogue:0x0402:0:0	130115b6401b129aff15b38a1fa4f21fb1cefbda2e483bb26eefd617c1e6aa27	@-growl@ (注：此處保留語氣詞原文或譯為咆哮，但根據指令魔法咒語保持英文，非咒語則翻譯。Grrrrr 為擬聲詞，建議保留原文或譯為「嗚嗚」，考慮到遊戲語境，通常擬聲詞不強制翻譯，但若要自然繁體中文，可譯為「嗚嗚」。鑑於其他條目如 Woof 通常翻譯，這裡選擇翻譯)
 dialogue	dialogue:0x0402:15:0	57f09eafb86105b82ab7ea0d455bd13a5cd279cc208791feb18e75c1434aa252	@吼！@
 dialogue	dialogue:0x0402:1d:0	0bb8def966c90434cf9f7cd2c1bd9ee3702e7d9f23ebe8fc18a87ec5e9ba3c69	汪汪！
@@ -1605,7 +1605,6 @@ dialogue	dialogue:0x0403:61c:0	d3b6ece314b573dbeb129914771c1ae2d64c6ad75dcc89a04
 dialogue	dialogue:0x0403:655:0	b8cd704fcff5f18fa6265170e7c0b7d14aa8d8fddbc6e540f6b2409f39890b6d	在這裡等一下
 dialogue	dialogue:0x0403:65f:0	859f4775eac966adedc149efb19993971934e64a9fb0402312927df04c68d38f	回家
 dialogue	dialogue:0x0403:667:0	4b6c940835cdb00fc799b013a811ad9b093c24baa0d5b31b31bb2992daef36d7	好吧，
-dialogue	dialogue:0x0403:fallback_df8a9faac675af03:0	df8a9faac675af03461e4f7a76c0c73ad22181a07813a9b222a8b54d2c319545	很好，<VAR0>，我會在這裡等你回來。@
 dialogue	dialogue:0x0403:673:0	9a48b04fabe87e40c84b847b70a215f19da7e43bedcc6eaab6fdded8e619e30c	我會在這裡等你回來。@
 dialogue	dialogue:0x0403:69a:0	eda06900619959e79d01090913501c8fa31008d451556e7aec3d1aa0412a9cf7	@我就在這裡等。..@
 dialogue	dialogue:0x0403:6b1:0	bc4fa1c30ca037476ea999cca13e635cd9209dcd61a8965e6d2a28d45bb55beb	@也許我只需在 Blue Boar 那裡等你。我不希望你為了在森林裡找到我而費盡周折。請你盡快回來，誰知道石怪接下來會做些什麼。@
@@ -1627,6 +1626,7 @@ dialogue	dialogue:0x0403:95:0	58393216032be6257784ac0c6a73efb2a084e27b4cfff1e6ac
 dialogue	dialogue:0x0403:9a:0	258e29cf8ba1a70c6a374f1b091f934ea982eef1edb9c82b8bc914627af33f8d	@Shamino Salle' Dacil。@
 dialogue	dialogue:0x0403:b2:0	1cfa72c955d240591a5dcb7cdc810144f3ba438da77be596e3f6649b267420c3	@朋友有難時我會出手相助。剩下的時間，我喜歡去森林裡探險。@
 dialogue	dialogue:0x0403:f:0	c4ee29419b9d8ae545dccda48b0c7c8a5218c7d49924e44c588d0d33d40594eb	@Shamino..@
+dialogue	dialogue:0x0403:fallback_df8a9faac675af03:0	df8a9faac675af03461e4f7a76c0c73ad22181a07813a9b222a8b54d2c319545	很好，<VAR0>，我會在這裡等你回來。@
 dialogue	dialogue:0x0404:0:0	2e4b9cc2428beb7bff6a56c14d7304e472a23e890e91ef0a6b0b0380e89f9734	朋友
 dialogue	dialogue:0x0404:10b:0	ac1a1c7143cb2199eb400993a5db42bc2f6d98f6769bb696d04b48d84c68a56f	任務
 dialogue	dialogue:0x0404:111:0	58393216032be6257784ac0c6a73efb2a084e27b4cfff1e6acee7b7e6ab93b10	加入
@@ -1961,7 +1961,6 @@ dialogue	dialogue:0x0409:5f:0	6b161a4056ace4511def9dd155dde47a5456e27eb2fa9d7261
 dialogue	dialogue:0x0409:5fa:0	b8cd704fcff5f18fa6265170e7c0b7d14aa8d8fddbc6e540f6b2409f39890b6d	在這裡等一下
 dialogue	dialogue:0x0409:604:0	859f4775eac966adedc149efb19993971934e64a9fb0402312927df04c68d38f	回家
 dialogue	dialogue:0x0409:60c:0	4b6c940835cdb00fc799b013a811ad9b093c24baa0d5b31b31bb2992daef36d7	好吧，
-dialogue	dialogue:0x0409:fallback_df8a9faac675af03:0	df8a9faac675af03461e4f7a76c0c73ad22181a07813a9b222a8b54d2c319545	很好，<VAR0>，我會在這裡等你回來。@
 dialogue	dialogue:0x0409:618:0	9a48b04fabe87e40c84b847b70a215f19da7e43bedcc6eaab6fdded8e619e30c	我會在這裡等你回來。@
 dialogue	dialogue:0x0409:62:0	c96508d45126cca27542843f275200f10b2cb4fd26780b1b52a3462b34190db8	我只是一個簡單的農夫，
 dialogue	dialogue:0x0409:63f:0	48af7b245fb1694c4251030445d770d7152939a752f58ee72b9feb2bcacc02e6	好吧，我會在這裡等你回來。
@@ -1987,6 +1986,7 @@ dialogue	dialogue:0x0409:ab:0	cdf8f81ff5de6e47ff25f5cea83c155623781a45a8ddf389af
 dialogue	dialogue:0x0409:b2:0	0a07f659461970d8d8dcefe4fff96a1745599810dc7d47391e95c803b7b2072c	，
 dialogue	dialogue:0x0409:b5:0	691d553c11cace5d552c82e919e60bd725db70a23f001f8bacefe4f8b6eb3857	。你願意再讓我隨你同行嗎？*
 dialogue	dialogue:0x0409:e1:0	d11e44effcf3dc5a7f595fc2b6b4b9a50fb34eb17197ff9e919ba66485e9a6f6	你命令我加入，我就會加入，
+dialogue	dialogue:0x0409:fallback_df8a9faac675af03:0	df8a9faac675af03461e4f7a76c0c73ad22181a07813a9b222a8b54d2c319545	很好，<VAR0>，我會在這裡等你回來。@
 dialogue	dialogue:0x040b:0:0	2e4b9cc2428beb7bff6a56c14d7304e472a23e890e91ef0a6b0b0380e89f9734	朋友
 dialogue	dialogue:0x040b:11a:0	e213cfefad765a7ace4d202e8e10a66691d2fc6c63a62496b26fac150649b3d6	我們剛才說到哪裡了..
 dialogue	dialogue:0x040b:12e:0	983df03279400d8f347792417843b1d71f8a04f49dd5f11edfa82e63efb09d71	一位帶著鼓的行吟詩人。他的定制西裝雖因旅途而陳舊，但仍顯眼。
@@ -2765,9 +2765,6 @@ dialogue	dialogue:0x0419:1b:0	cde48537ca2c28084ff560826d0e6388b7c57a51497a6cb56f
 dialogue	dialogue:0x0419:1c0:0	51dc351ecdad9cc6567f7154935a46c639cd5a5857eb280e590def31b3c0fa89	你好，
 dialogue	dialogue:0x0419:1cd:0	38affd2f31022ce422a8ccdcdffc4ceefd044ad0f636057058ab8307660873d0	，歡迎來到旅者客棧！@
 dialogue	dialogue:0x0419:1f3:0	dbce762c098a069c4adb7c406032b4a7d695066426f6e08759128e23b8c27f8a	，歡迎回到旅者客棧！@
-dialogue	dialogue:0x0419:fallback_d4046c25812af273:0	d4046c25812af273fc9be7740d74f4b2010ed51564955436ac1e30c5dd09b6c7	@您好，<PLAYER_NAME>，歡迎來到旅者客棧！@
-dialogue	dialogue:0x041f:fallback_f613b0dc467ee6f2:0	f613b0dc467ee6f23e6fe1c204273ba171abae020a03522ef47b1e5bb6e2a4f7	@<VAR0>，聖者朋友。@
-dialogue	dialogue:0x041b:fallback_5c487d8d34f94a12:0	5c487d8d34f94a12312b88c739b2c6c0985c112e55281265aeb1c98ccb3fc92a	@<VAR0>。@
 dialogue	dialogue:0x0419:21e:0	82a3537ff0dbce7eec35d69edc3a189ee6f17d82f353a553f9aa96cb0be3ce89	名字
 dialogue	dialogue:0x0419:223:0	5e8c9902207afaeb7120430c585a445f21e92932081d64bc99f80e4925bcb002	工作
 dialogue	dialogue:0x0419:227:0	b49f425a7e1f9cff3856329ada223f2f9d368f15a00cf48df16ca95986137fe8	再見
@@ -2796,6 +2793,7 @@ dialogue	dialogue:0x0419:c1:0	aa9d75689cc82b85be324d63303c6fef9744cd00b7f172e796
 dialogue	dialogue:0x0419:cf:0	d3af66fcdcd5f398d6f4e59cdd0de0a390cdbbf6842d5e82d1abf2d4640fee59	..@
 dialogue	dialogue:0x0419:d3:0	560a7035a2eab82afdd2d253bf49f404d6b6c913f69255fb570a975a8ab91e26	@再見。請照顧好自己。@
 dialogue	dialogue:0x0419:f5:0	cd6584613414cd0adbae9f15963ceb5009a4e8245824b8ea0b97d6674bac5c6c	@嗯，鑰匙在哪裡？也許您忘在房間裡了。準備好退房時再來吧。@
+dialogue	dialogue:0x0419:fallback_d4046c25812af273:0	d4046c25812af273fc9be7740d74f4b2010ed51564955436ac1e30c5dd09b6c7	@您好，<PLAYER_NAME>，歡迎來到旅者客棧！@
 dialogue	dialogue:0x041a:0:0	728634cb3bc407ebf0e48b41177cf2562f9c090aeb204facdbc9a1db291281fa	商店營業中
 dialogue	dialogue:0x041a:102:0	c3641f8544d7c02f3580b07c0f9887f0c6a27ff5ab1d4a3e29caf197cfc299ae	@
 dialogue	dialogue:0x041a:104:0	1691e49a5c27cb76118721039b4804097e5f6afabf419b3d148e779c8f3ff139	@但這會讓你負擔太重，
@@ -2890,6 +2888,7 @@ dialogue	dialogue:0x041b:8c7:0	c3641f8544d7c02f3580b07c0f9887f0c6a27ff5ab1d4a3e2
 dialogue	dialogue:0x041b:a0:0	2577d8530d85ec46e1ed75f2ffea8ee6cfe12391bff21b65a57011a80db47f8a	@你現在就要我離開，對吧？@
 dialogue	dialogue:0x041b:c7:0	b3a5ee9517020a08e4e14b0c140989b5c1cc077873bcd77f78aece31defb39bd	@我該在這裡等你嗎？還是你想讓我回家..？@
 dialogue	dialogue:0x041b:f:0	085c0b96ad4d897f36e2f7280b29627fb0fd0f9542d8e4a4e510b52ed589ba60	@問好，吉普賽人。@
+dialogue	dialogue:0x041b:fallback_5c487d8d34f94a12:0	5c487d8d34f94a12312b88c739b2c6c0985c112e55281265aeb1c98ccb3fc92a	@<VAR0>。@
 dialogue	dialogue:0x041b:fd:0	b8cd704fcff5f18fa6265170e7c0b7d14aa8d8fddbc6e540f6b2409f39890b6d	在這裡等一下
 dialogue	dialogue:0x041c:0:0	2e4b9cc2428beb7bff6a56c14d7304e472a23e890e91ef0a6b0b0380e89f9734	朋友
 dialogue	dialogue:0x041c:103:0	ebc83f6dbd72597e0ee4fb56c92113a8b7f476e8b75d8dae746be8d9001b8286	@你好，
@@ -3078,6 +3077,7 @@ dialogue	dialogue:0x041f:bb:0	b49f425a7e1f9cff3856329ada223f2f9d368f15a00cf48df1
 dialogue	dialogue:0x041f:bf:0	42151ad18bb57c605e727dd7b9f9f14dc3fc6896524c844b3f7a67075a499aa2	@我是 Daver McCord。@
 dialogue	dialogue:0x041f:d3:0	104594f373fd939fbe220fec8d79791cca5dd9dd29e741befc5f5e446ad2dcd0	@每天每小時，我都按規定次數敲鐘。@。
 dialogue	dialogue:0x041f:e:0	6a593df1d1cdc9d2feb6f0c327b3083ddc264c6a44bcbf07ba4bc2289d8e73eb	@你好。@。
+dialogue	dialogue:0x041f:fallback_f613b0dc467ee6f2:0	f613b0dc467ee6f23e6fe1c204273ba171abae020a03522ef47b1e5bb6e2a4f7	@<VAR0>，聖者朋友。@
 dialogue	dialogue:0x0420:0:0	1578809709c858935f3991a496b097dedbd48dcbc0d2adb1f5b9921abaa11eb8	Terri已經去世了。
 dialogue	dialogue:0x0420:108:0	968c1654c7a2ec3ca11bb3fbe4069100f174b5472bd0b2a2f5059bc558b274b1	@是的，我看你的畫像認出了你...我小時候，我媽媽常給我講關於你的故事。@。
 dialogue	dialogue:0x0420:173:0	1228f72e8d2af3678a487e1cf56b83fc173f382f90a1f1971c87a1e71feb19aa	@你大概不認識她，但她就在你取回《法典》後的那場盛大慶典上。@。
@@ -3542,9 +3542,9 @@ dialogue	dialogue:0x042a:189:0	15152e5a69166f0958db65b28e65075b9f8dc54dddc7dfe60
 dialogue	dialogue:0x042a:18e:0	0d7157ac998fce4de37a327853c7e76c4503c28b8049b31db00ac77ea59a2f50	復活
 dialogue	dialogue:0x042a:198:0	fe1d216279379541fca27b0593a6df5014a959d8ff7f6a0418915b3695af3235	@別擔心，你沒事。@
 dialogue	dialogue:0x042a:1a:0	10910087de24bfcabe854fda62b5023a61fe531705043b9979fdf00f12c4c0ec	孩子
-dialogue	dialogue:0x042a:1b7:0	3f47e6e90312099fa793d12bb8ed25a624837907600971e284421d6ee9a07300	如果你正揹着屍體，請把它放下，否則我看這裏沒有需要復生的人。
+dialogue	dialogue:0x042a:1b7:0	3f47e6e90312099fa793d12bb8ed25a624837907600971e284421d6ee9a07300	如果你正背着尸體，請把它放下，否則我看這里沒有需要復生的人。
 dialogue	dialogue:0x042a:210:0	30d045f953fec030244b18772bf9e67e24abd2ad0680f9c46b3d602eb5705549	@再見..@
-dialogue	dialogue:0x042a:21c:0	8961c4a8ce4369366f1645469a71f6906cda1d52c86a1eb1e04b953ae909290c	願你平安離去，我的
+dialogue	dialogue:0x042a:21c:0	8961c4a8ce4369366f1645469a71f6906cda1d52c86a1eb1e04b953ae909290c	愿你平安離去，我的
 dialogue	dialogue:0x042a:23:0	ddc9e669194254cef019a29d3619a2c16592e5d52e1a81e98b01bd52319149a3	孩子
 dialogue	dialogue:0x042a:29:0	7e698c00132c562262cbea81909b42ee5617a6db21f38bb13fc41b62833131d3	稍等片刻，醫師。
 dialogue	dialogue:0x042a:3d:0	baef871a11fe6d73079a5c75b342f9506bbe6f05d1a426c0dd056a9627bdbb94	你好，我的
@@ -3566,13 +3566,13 @@ dialogue	dialogue:0x042b:126:0	cdb4ee2aea69cc6a83331bbe96dc2caa9a299d21329efb033
 dialogue	dialogue:0x042b:128:0	82a3537ff0dbce7eec35d69edc3a189ee6f17d82f353a553f9aa96cb0be3ce89	名字
 dialogue	dialogue:0x042b:12d:0	5e8c9902207afaeb7120430c585a445f21e92932081d64bc99f80e4925bcb002	工作
 dialogue	dialogue:0x042b:131:0	b49f425a7e1f9cff3856329ada223f2f9d368f15a00cf48df16ca95986137fe8	再見
-dialogue	dialogue:0x042b:135:0	a3acd92306ce9f36166734f248fb6c133000b1a3007e78b47fb7aa8f453106b2	我是索爾登·馮·巴齊利烏斯，英國國王的 Chancellor。在我年輕的時候，我被稱作“酒窖裏的野貓”...。 Lord British Bazillius Tholden
+dialogue	dialogue:0x042b:135:0	a3acd92306ce9f36166734f248fb6c133000b1a3007e78b47fb7aa8f453106b2	我是索爾登·馮·巴齊利烏斯，英國國王的 Chancellor。在我年輕的時候，我被稱作“酒窖里的野貓”...。 Lord British Bazillius Tholden
 dialogue	dialogue:0x042b:1b6:0	877cd4ac58c35286f594d6756bd330f4110d09793cfb451a999a6f30b740c0e5	野貓
 dialogue	dialogue:0x042b:1c0:0	dcd69bed70a827d5fdda1d28272d508c795fb32cebab243d5208ec9ef89f6453	符文
 dialogue	dialogue:0x042b:1c5:0	fef8747c02de615ac7d9638200702672b6d7709848b3c883d6b67a5ef99bee9f	所有治理的細枝末節，所有的文書工作都壓在我的肩膀上。*
 dialogue	dialogue:0x042b:216:0	3b2c513eb8d502a0ffbf43a395c021d5513640fba58130bcc1d8bbae6bc9d6df	總得有人去做，但我還是很懷念當初我是個無憂無慮的冒險者的日子。
 dialogue	dialogue:0x042b:23:0	acc535e58a150c332df265240b1ef6cfb2ce5b914bc1874567006409f8570601	現在我那支鋼筆放到哪兒去了？
-dialogue	dialogue:0x042b:266:0	f24f339940199526991c433432f8f6a46d2f70b9b59d0c0346e9807ab187cc98	仁慈的符文和咒語由音樂學院的說唱歌手保管。我之所以將符文託付給他們，是因爲他們具有仁慈的本性。*
+dialogue	dialogue:0x042b:266:0	f24f339940199526991c433432f8f6a46d2f70b9b59d0c0346e9807ab187cc98	仁慈的符文和咒語由音樂學院的說唱歌手保管。我之所以將符文托付給他們，是因爲他們具有仁慈的本性。*
 dialogue	dialogue:0x042b:302:0	9f5b4e4aea1129ace60a5002cfbf3ad3718397887475248ec06d81cd57d2703d	@至於其他符文，它們已不像《法典》被找回時那樣聚在一起了。從那以後，它們便散落各地。每片符文都被送往靠近其神廟的小鎮。若你向這些小鎮的城主詢問，他們應該能提供更多資訊。@*
 dialogue	dialogue:0x042b:425:0	887882ea36856d187bdec0f62548201f305f4471936efcba7b7708fe1ad754a6	@這些小鎮分別是 Moonglow、Jhelom、Yew、Minoc、Trinsic、Skara Brae 和 New Magincia。@
 dialogue	dialogue:0x042b:43:0	a83555028d6ab4dc0c64392d59c03c6956e22567aac5d4ee90096392130964ef	@要做的事好多..@
@@ -4055,7 +4055,7 @@ dialogue	dialogue:0x0432:e5b:0	57794bdeddd908748d80f827d22b534019ac4de886dde656c
 dialogue	dialogue:0x0432:e69:0	b8cab9852a4bad10a89e79d795e47cfc2f967cb840ceec78683b092fb343dd60	是的，非常有趣的話題。與汝一樣，我也來自另一個地方。
 dialogue	dialogue:0x0432:eb5:0	079576a3673a4c82737615710a4874124c34dba749e70048819abf2b30214718	另一個世界
 dialogue	dialogue:0x0432:ec2:0	f5b2b98bf44b60881a86499d98591d7995ce23ad93abd8a4aa11fadc20145d06	為什麼？
-dialogue	dialogue:0x0432:ec7:0	c021d10195e61e01c824578b4661c0f07a2e05583bcd51d4f35a081ac69bf608	是的，很遠。我比較喜歡Britannia。事實上，我希望有一天能在這裏再次見到我的姐姐。我希望能找到一些關於月門出現以及跨世界門出現頻率的資訊。雖然沒找到什麼有用的。
+dialogue	dialogue:0x0432:ec7:0	c021d10195e61e01c824578b4661c0f07a2e05583bcd51d4f35a081ac69bf608	是的，很遠。我比較喜歡Britannia。事實上，我希望有一天能在這里再次見到我的姐姐。我希望能找到一些關於月門出現以及跨世界門出現頻率的資訊。雖然沒找到什麼有用的。
 dialogue	dialogue:0x0432:fca:0	1980d3927f07fec9c8d727f187ddde727da7e45247dbb71c7555e5ae0eca66d5	姐姐
 dialogue	dialogue:0x0432:fd1:0	f7b45ea63774183a9e320a8a581deff2ed08d69f2fe6da51d0caf1ece02ea6a1	她精通魔法。就是她找到了讓我們通過月門來到這裡的方法。
 dialogue	dialogue:0x0433:0:0	26ca1db3c5181a43213fd14c9f62d40218415550c4de3b2077a67237c20741a4	@歡迎來到 British 城堡，聖者！@
@@ -4569,7 +4569,7 @@ dialogue	dialogue:0x043c:315:0	07c4efc2efa3e204ed5ec609e5c24a71c5b4c827576017517
 dialogue	dialogue:0x043c:31:0	7c45f01e59a0fa52ecf481b127905270f75322a9f792e733b7b92bfe557bd138	@嘿，又見面了..
 dialogue	dialogue:0x043c:40:0	5d72aef1ae7b4c1933ef417f976690e032e56c4ffa5c05238fbc20723524c4fc	@你看起來很面熟。@
 dialogue	dialogue:0x043c:55:0	d3617ee2cc4c9025a0c7d0c4f147abd4ca87561a15a263157cbe22a8d57ba0f5	一個身材高大、肌肉發達、咧嘴微笑的男人。
-dialogue	dialogue:0x043c:7b:0	4bfd2a177d37a77443e5eebbab021ac438be8d5a4492587b4dcdabbb7a1bfaa2	@你好，@他說道，拖着步子向你走來，伸出一隻大手。@
+dialogue	dialogue:0x043c:7b:0	4bfd2a177d37a77443e5eebbab021ac438be8d5a4492587b4dcdabbb7a1bfaa2	@你好，@他說道，拖着步子向你走來，伸出一只大手。@
 dialogue	dialogue:0x043c:8:0	cde48537ca2c28084ff560826d0e6388b7c57a51497a6cb56f397289e52ff41b	朋友
 dialogue	dialogue:0x043c:c0:0	fc9cf46e63c334ceacbf02fbf09d28471ec1a575da70ff99fc9f632655d91e7c	他眯起眼睛看着你。@我們以前見過面吧？@
 dialogue	dialogue:0x043c:ec:0	99a249dd219f71ac8080c01e66f647f79ba6f7819e46411eb0abc7e8598182a4	@有什麼我能幫你的嗎？@
@@ -4577,9 +4577,9 @@ dialogue	dialogue:0x043c:f:0	d1b045f932fa57a6a15cba5002e03b0333d29159b9c2d48002a
 dialogue	dialogue:0x043d:0:0	2e4b9cc2428beb7bff6a56c14d7304e472a23e890e91ef0a6b0b0380e89f9734	朋友
 dialogue	dialogue:0x043d:11c:0	97993fdf7a21bd541adb7878651d8c634e42e3bd54ab15c591a1a574be778e5b	@祝你旅途愉快，改天再來！@
 dialogue	dialogue:0x043d:149:0	2653c2c369106f18238508e90b771c38888eeb3b66d1624afe145baac471d773	改天再來光顧！
-dialogue	dialogue:0x043d:163:0	b4732727f9f069503ef7652e7ed92ac3dbc138f89d3f422db4465268b1691c63	@鑰匙在哪裏？請把它還給我。@
-dialogue	dialogue:0x043d:189:0	3e5ac3d5fc6eac44f12fd778a4ad88dbb96813df9a10c171332d12dcac6de24e	@很好，等你準備好退房時再回來吧。@
-dialogue	dialogue:0x043d:1bf:0	4f3db903c9f918ed4143cda4c132ee80562d76255b01282aa0fcd9aed1dbeba5	一個快活、滿臉通紅的旅店老闆。
+dialogue	dialogue:0x043d:163:0	b4732727f9f069503ef7652e7ed92ac3dbc138f89d3f422db4465268b1691c63	@鑰匙在哪里？請把它還給我。@
+dialogue	dialogue:0x043d:189:0	3e5ac3d5fc6eac44f12fd778a4ad88dbb96813df9a10c171332d12dcac6de24e	@很好，等你准備好退房時再回來吧。@
+dialogue	dialogue:0x043d:1bf:0	4f3db903c9f918ed4143cda4c132ee80562d76255b01282aa0fcd9aed1dbeba5	一個快活、滿臉通紅的旅店老板。
 dialogue	dialogue:0x043d:1dd:0	a104fb9bfbb745858354ad6ba838cd2cb371da47b4b55c2abb9a079f25eb51ec	@嘿，你好呀，我的 
 dialogue	dialogue:0x043d:1f5:0	2fe4b10470a5806b1f3c8fe6b960a700daae7d83e917f1504dc1bf480ba295ed	.*
 dialogue	dialogue:0x043d:1f9:0	bccd570922e1562bbff81687931dc2a5fe9cb4a53c616e846bfe99ace059286d	@嘿，又見面了，我的 
@@ -4668,9 +4668,9 @@ dialogue	dialogue:0x043e:a09:0	c84b82a218b1a734dc16712787beee165b64d26b9dd2450c9
 dialogue	dialogue:0x043e:a35:0	77561d5a9388a2bc2136a5b893e2b1c8ca46299a9c061308e8e71141dc83d5cd	察覺到你在注視他，他說：@或許我們每個人身上，都有點 Lord British 的影子吧。@
 dialogue	dialogue:0x043e:a8c:0	0434077af70b66dd5aa8b10e75aca738b6f9445a89b74d4234ed34234cd75057	@再見..@。
 dialogue	dialogue:0x043e:a99:0	e9ec5d7690168e951e23a5c819fa8bd1d1de940a81fe150e8223f333d3cb4cf0	@日安，忠誠的臣民！@
-dialogue	dialogue:0x043e:fallback_2960532f613052d7:0	2960532f613052d7e95ff8a6fed6ea5ae2feb4f58563e05567b844256f7176ff	@您好，我的好<VAR0>！@
 dialogue	dialogue:0x043e:a:0	cfba83b8b39bc3154a8360d6d1d01b348d3835596bbc15c799c0868d32bb8935	一個眼神狡猾的男子，穿著破爛不堪。
 dialogue	dialogue:0x043e:f3:0	83180b745cbfaa82c9d056446b5656446f033296674eb2dda3193d00b8620407	偽裝
+dialogue	dialogue:0x043e:fallback_2960532f613052d7:0	2960532f613052d7e95ff8a6fed6ea5ae2feb4f58563e05567b844256f7176ff	@您好，我的好<VAR0>！@
 dialogue	dialogue:0x043e:fc:0	1a6f39a4ccfd4e5288e1f488309bcac1c26355f4adaf19f80e098fce479366bc	百姓
 dialogue	dialogue:0x043f:0:0	2e4b9cc2428beb7bff6a56c14d7304e472a23e890e91ef0a6b0b0380e89f9734	朋友
 dialogue	dialogue:0x043f:103:0	f4d690d11ad039ff0f6667b584969472d70caadc37cc943cf57aac56160a5559	一個矮小的男子，穿著一件用貝殼製成的漂亮背心。
@@ -5029,7 +5029,7 @@ dialogue	dialogue:0x0444:320:0	d86982d2329abe57405176ccba9812be866ceabe324c1e27f
 dialogue	dialogue:0x0444:325:0	d81ea1595a0453780e68c2988980d28cccabbe2a774e77725c4e66a56f073fd4	防具
 dialogue	dialogue:0x0444:32b:0	5a582f2fcc5e07d33520f4ea04a5abd7ceaab6ef7e8edcc5449f14c011292508	@當然只是綽號。你看到他臉上露出一絲微笑。@
 dialogue	dialogue:0x0444:35:0	6415fae65a2b6778589691301b8a0aebed88049b5433f9e3e409984ccc3b490c	匕首
-dialogue	dialogue:0x0444:375:0	7745333fe3c899395d0864b4fa2767e6de992df7dbc49db8c35c3a3157db624e	@我曾經在錦標賽中贏了一枚符文。不過現在它已經不見了——關於這件事有一段精彩的故事！@
+dialogue	dialogue:0x0444:375:0	7745333fe3c899395d0864b4fa2767e6de992df7dbc49db8c35c3a3157db624e	@我曾經在錦標賽中贏了一枚符文。不過現在它已經不見了——關于這件事有一段精彩的故事！@
 dialogue	dialogue:0x0444:3c:0	ab7902bcbd91137e09d6aeb83a2a8853f75878830c4a550ac8ef2b0ae12b8c86	油
 dialogue	dialogue:0x0444:3d4:0	d7a13d148eb05ea057024bef468d20e3987a8d0f91e1452050930c319dc6e6c3	故事
 dialogue	dialogue:0x0444:3d9:0	cd99760aa9d343044f0b1ff81585d7167e1e7e76d3dccbdfbe21d7acc1edf7d4	真言
@@ -5084,7 +5084,7 @@ dialogue	dialogue:0x0445:35a:0	fded1c84f54e76b9ea1ca72f6d2c9066906b0ceb4cbcba763
 dialogue	dialogue:0x0445:3a2:0	d86982d2329abe57405176ccba9812be866ceabe324c1e27ff2f6075fac6b871	武器
 dialogue	dialogue:0x0445:3a7:0	16f5e2322d05ddf58fa74658db9563e0d9a1b76fba5a9e1fcfdc0c929fa913c2	戰鬥
 dialogue	dialogue:0x0445:3ae:0	918ae92d02d590b9a33b1c12c3ef3552200c3b20bbb6b32fdb4db377a7e277ce	@如果你需要兵器，就去和諾曼（Nomaan）說話。@
-dialogue	dialogue:0x0445:3db:0	21d09fc2ded36fedefb7a8790107e681830bd30e8ccabdfbe6448a1f73ffc3dd	@如果你有關於劍術的故事，那麼「劍與桶」就是為你準備的地方。它在鎮子的北邊。@
+dialogue	dialogue:0x0445:3db:0	21d09fc2ded36fedefb7a8790107e681830bd30e8ccabdfbe6448a1f73ffc3dd	@如果你有關于劍術的故事，那麼「劍與桶」就是為你準備的地方。它在鎮子的北邊。@
 dialogue	dialogue:0x0445:450:0	9f2423245087a980e3e9fafc5676986b12cbfe1db8e3a3cda3ae83c087c783d6	@啊，戰鬥！@ 他嘆了一口氣。一時之間，他與你 reminisces，交換著關於過去豐功偉業的故事。
 dialogue	dialogue:0x0445:4b0:0	fa7835fc1c74a9e014c750a4f452b56f215702a9802d386a0560e5099da94fbb	地震
 dialogue	dialogue:0x0445:4bb:0	6e95cf689f32715ae3c1b0da2196e4533eb7d212cd4c1174eec8766389193539	@我想，只有地震才能讓耶洛姆（Jhelom）顫抖。我們去年就經歷過一次。橋樑斷裂了，但造船匠們很快地修復了它們。@
@@ -5118,7 +5118,7 @@ dialogue	dialogue:0x0446:29:0	37b590fd05d5fbbfcf20de66d8462a904d79dc518c8f95e048
 dialogue	dialogue:0x0446:2db:0	7bebf08f2320f4cb919bca9187bbbe5297746d6305e9048fc46bed9dea95505d	Captain Hawkins
 dialogue	dialogue:0x0446:2eb:0	ea73fa08727f6f9aa024898465bfa0aa0a4cbeb57f1bb01f1d45302fc00abddf	Buccaneer's Den
 dialogue	dialogue:0x0446:2fb:0	1b001706a418bdfca35361355c643b7918572b8f9b7503f3043a6e23b45dce52	手
-dialogue	dialogue:0x0446:300:0	1d55fc2f7caee1722f6e41f0c3c655e976ea7fde3c7bb089fb044e0294c2b9aa	那是一場慘烈的戰鬥；我差點死於傷口。Hawkins把我的手扔給了鯊魚。
+dialogue	dialogue:0x0446:300:0	1d55fc2f7caee1722f6e41f0c3c655e976ea7fde3c7bb089fb044e0294c2b9aa	那是一場慘烈的戰斗；我差點死于傷口。Hawkins把我的手扔給了鯊魚。
 dialogue	dialogue:0x0446:358:0	eaebe41de4a732a294ab56414ddf46086f190ab57a175a054bc4ce5268b91197	他和他那艘Empire船早就沒了蹤影。願瘟疫纏上他的記憶！
 dialogue	dialogue:0x0446:39:0	76872d633ac67e26dd05a42939f835e57e6999a66568690636f445b3c1bf7ffc	有錢嗎？
 dialogue	dialogue:0x0446:3a0:0	34ce3324a3e4dd516cb7239e0a56f5afde46e919bf532b6a324d30f231d68d37	老兄，那是座島，不是你這種正派人該去的地方。
@@ -6244,7 +6244,7 @@ dialogue	dialogue:0x045e:2af:0	07c4efc2efa3e204ed5ec609e5c24a71c5b4c827576017517
 dialogue	dialogue:0x045e:31:0	7c45f01e59a0fa52ecf481b127905270f75322a9f792e733b7b92bfe557bd138	@嘿，又見面了..
 dialogue	dialogue:0x045e:40:0	5d72aef1ae7b4c1933ef417f976690e032e56c4ffa5c05238fbc20723524c4fc	@你看起來很面熟。@
 dialogue	dialogue:0x045e:55:0	d3617ee2cc4c9025a0c7d0c4f147abd4ca87561a15a263157cbe22a8d57ba0f5	一個身材高大、肌肉發達、咧嘴微笑的男人。
-dialogue	dialogue:0x045e:7b:0	4bfd2a177d37a77443e5eebbab021ac438be8d5a4492587b4dcdabbb7a1bfaa2	@你好，@他說道，拖着步子向你走來，伸出一隻大手。@
+dialogue	dialogue:0x045e:7b:0	4bfd2a177d37a77443e5eebbab021ac438be8d5a4492587b4dcdabbb7a1bfaa2	@你好，@他說道，拖着步子向你走來，伸出一只大手。@
 dialogue	dialogue:0x045e:8:0	cde48537ca2c28084ff560826d0e6388b7c57a51497a6cb56f397289e52ff41b	朋友
 dialogue	dialogue:0x045e:c0:0	fc9cf46e63c334ceacbf02fbf09d28471ec1a575da70ff99fc9f632655d91e7c	他眯起眼睛看着你。@我們以前見過面吧？@
 dialogue	dialogue:0x045e:ec:0	99a249dd219f71ac8080c01e66f647f79ba6f7819e46411eb0abc7e8598182a4	@有什麼我能幫你的嗎？@
@@ -6653,11 +6653,11 @@ dialogue	dialogue:0x0464:e9c:0	d8a286bb3fe3e4d4da0f1a98cbd0b677a869887048bd68780
 dialogue	dialogue:0x0464:eb0:0	d3d7a0666a2714c2bb2c2ed766ab0dc5585ae731ce43136d5a272a1a88f0e55d	精神
 dialogue	dialogue:0x0464:ec4:0	637ddd5f2a378c6d448c25369cef37bdef884650bdb3b68796596d095ba7f71d	你的朋友尋求加入你的靈性秩序。你被要求為他的靈魂純潔作證，但對此不確定。你是—— 誠實地表達你的疑慮；還是為他作證，期望他的精神有所提升？
 dialogue	dialogue:0x0464:fad:0	03c33a6cbce29b413d3ac4433a16b460e35c822ed63211cdac8a63241dcfe2d0	表達疑慮
+dialogue	dialogue:0x0464:fallback_c4ea781ca2752315:0	c4ea781ca27523159745deddd5ac5220b6313ac0b8349fe60a999a7517dec856	@聖者之路就在你腳下，可敬的 <PLAYER_NAME>@，吉普賽人吟誦著。帶著神祕的微笑，她將一瓶閃爍的液體遞給你。
 dialogue	dialogue:0x0464:fbb:0	75e51d42bc940ba889d76ef1aea2351f56f8f19f2d77904fdd88aa9b63d59f4a	為他作證
 dialogue	dialogue:0x0464:fc9:0	1c385b368932cf0ad2e07c2e1adc7a14dc76c881c5e24825932548f61f4debbb	誠實
 dialogue	dialogue:0x0464:fd6:0	4daf3bb9fa84e7cccbdee238402c03f67aaaa0929cd8c75b1b76d8acf57e6e84	英勇
 dialogue	dialogue:0x0464:fe3:0	ffdb536402fec5b02eaa1ad655fb6a07872e89f39839574885d14b72c2d73142	你因不在場的主人所頒布的禁令，被禁止與朋友參加激烈的戰鬥。你是—— 克制自己，以便誠實地宣稱服從；還是展現英勇並援助你的同志，明知之後可以否認？
-dialogue	dialogue:0x0464:fallback_c4ea781ca2752315:0	c4ea781ca27523159745deddd5ac5220b6313ac0b8349fe60a999a7517dec856	@聖者之路就在你腳下，可敬的 <PLAYER_NAME>@，吉普賽人吟誦著。帶著神祕的微笑，她將一瓶閃爍的液體遞給你。
 dialogue	dialogue:0x0465:0:0	2e4b9cc2428beb7bff6a56c14d7304e472a23e890e91ef0a6b0b0380e89f9734	朋友
 dialogue	dialogue:0x0465:1046:0	b602b9f8a70a0a14e5db5bd8529a6772bef0513db1f588cf5d6ac82acaa30ab4	她試圖讓逮捕我！我逃過一劫，獨自生活，直到發現 Rinaldo 回來了。*
 dialogue	dialogue:0x0465:10b0:0	9b262acc387471e4527cf65ea386d4ab40007fdf39725c632d965b05a28a4771	Rinaldo 起初將信將疑，但隊長從未有過叛變事件，而且皇家海軍尋找‘復仇號’多年了。*
@@ -7285,7 +7285,7 @@ dialogue	dialogue:0x0470:45c:0	f6bd9c208eb078d77e95b606e31348a6294ddc4824d22a5e4
 dialogue	dialogue:0x0470:47:0	15e6285df971eb7700642b8877822cf5c3e2db5cf6ec49c09402bd37f166a6ab	嗯..
 dialogue	dialogue:0x0470:494:0	23da0d3b0b5aa5ee43ba33f15f971ee4cf32afd1b27ad901863346ba9dd06966	蜜蜂
 dialogue	dialogue:0x0470:499:0	fbf7092921697a237d9f7d3b5447e8795a5cdeedbf545f2ea8e575d3ba7eb6e2	蜜蜂是真正的朋友。它們整工作日，製作蜂蜜並傳播花粉。我們只需為它們提供蜂巢。
-dialogue	dialogue:0x0470:50:0	43491ca9865504a37e1dd2fdce8d6aa89a4173f420d32b65627d3b619f154327	一個看起來很強壯的男人，只有一隻手臂。
+dialogue	dialogue:0x0470:50:0	43491ca9865504a37e1dd2fdce8d6aa89a4173f420d32b65627d3b619f154327	一個看起來很強壯的男人，只有一只手臂。
 dialogue	dialogue:0x0470:517:0	5fe427b4212086b538ce8cbff763c10b6ca6c0a89fc1585957aba0500bc5ada3	他笑了。有時還被蜇一下！
 dialogue	dialogue:0x0470:543:0	5fdb6480a597ad7fd3cefffca491e3f38def4c81beccdabe761e5448a36d202b	蜂巢
 dialogue	dialogue:0x0470:549:0	ed95305db766d8e127cf7a500770d47f3255ba758bcf6dc1a585aa0af222a6b4	我從Minoc一位名叫 Michelle 的女士那裡買下所有蜂巢。她用稻草編織而成。
@@ -7399,7 +7399,7 @@ dialogue	dialogue:0x0472:5c8:0	1c19c932acd64ad43eb39cd5bd9a407b308273c7456349dc5
 dialogue	dialogue:0x0472:60:0	218e7823ed7ae32e8061297de12de29957168cfb888119f4e4417ced58f62880	一個肌肉結實的粗獷男人。
 dialogue	dialogue:0x0472:83:0	d7f36eb248664f958c121e2bbc24a0c04723533053e8412123f2b6adfc926dce	。他恭敬地摸了摸帽子。
 dialogue	dialogue:0x0472:a7:0	0c029f4d0e1e4835525a0435add76bb7bea7020711da79dfde5b2ec1ea190b5e	他有一把非常鋒利的刀，用來修剪產量較低的枝條。小心別擋到蜜蜂的飛行路線，
-dialogue	dialogue:0x0472:d:0	0203a96520c8fa1223a8692de85d7cf5f9c549db5bf55bb15b7f42e112f7204b	太太
+dialogue	dialogue:0x0472:d:0	0203a96520c8fa1223a8692de85d7cf5f9c549db5bf55bb15b7f42e112f7204b	女士
 dialogue	dialogue:0x0473:0:0	5356f36424cef4bcdecde33578d3493a8c250193ddbf674dc0a373c3cdb8d5d4	太太
 dialogue	dialogue:0x0473:11f:0	9058f79c893a1d7e20b13009b95b9cf3211478a91a47e2ad65bdfedad6fc98f4	吟遊詩人
 dialogue	dialogue:0x0473:124:0	ccc5ed3d02159c90808324f2b8ff09859bce1e0bc0ab55af98b12679752affec	故事
@@ -7473,7 +7473,7 @@ dialogue	dialogue:0x0473:d:0	2e4b9cc2428beb7bff6a56c14d7304e472a23e890e91ef0a6b0
 dialogue	dialogue:0x0474:0:0	2e4b9cc2428beb7bff6a56c14d7304e472a23e890e91ef0a6b0b0380e89f9734	朋友
 dialogue	dialogue:0x0474:143:0	59dc5fcbc3151f27551c3496b089158d344f03ec1257a90e1838496215638f5c	快滾！
 dialogue	dialogue:0x0474:153:0	6b521f81bf2eab14a73dc687c76038c36efcb22d4ab08504bcc43ae3448e32af	「你爲什麼要闖進我家？」他大喊。*
-dialogue	dialogue:0x0474:180:0	7fd3fdac5d5eb90a8dbc0684289b36866c59a414d5858da744bebe49de374c24	他舉起大斧頭，準備保衛家園。
+dialogue	dialogue:0x0474:180:0	7fd3fdac5d5eb90a8dbc0684289b36866c59a414d5858da744bebe49de374c24	他舉起大斧頭，准備保衛家園。
 dialogue	dialogue:0x0474:1b7:0	414270b610f28a6ba1a28d77107aaf8731d32eac2c755703887a4b0bb76832f6	滾出我的房子！
 dialogue	dialogue:0x0474:1cd:0	f0b0261dea50ef3db17ddce1783890ddf2409717e97b379e1e70106efa1d663f	我已經告訴過你，我想一個人待着！
 dialogue	dialogue:0x0474:1d:0	e09bfa869bd8cb3f9765f11f92de8e53d8bda013b5f5f7d9cea04fa86cec001c	什麼？滾出去！！
@@ -7870,7 +7870,7 @@ dialogue	dialogue:0x047b:1a8:0	a478d9f0464e71fb36462c90897c8f3397095c24896d5b3bf
 dialogue	dialogue:0x047b:1be:0	3d88043a9148b5383f8979a7161b33bf082fdfc3c7bbf97e296768d66353f14e	@我奶奶。她就在這附近某處。@
 dialogue	dialogue:0x047b:1e9:0	7953b721fceab8cdead4010fafce3921d280560154b695f004dee13c47a61cde	@他是個好人。他給我買了這個娃娃。@ 她自豪地展示着。
 dialogue	dialogue:0x047b:1e:0	92a8cf78705d51c6d573f15ad1fa23fbb827d37d565b6b5aba671c6d09b5a49e	@..咕嚕...你好..@
-dialogue	dialogue:0x047b:22a:0	507bc6138a5afc729b636ba6104f4022f059ae4308c451152ee8469743828b35	@他在樹上掛了根繩子讓我盪鞦韆。@
+dialogue	dialogue:0x047b:22a:0	507bc6138a5afc729b636ba6104f4022f059ae4308c451152ee8469743828b35	@他在樹上挂了根繩子讓我蕩秋千。@
 dialogue	dialogue:0x047b:258:0	4ce22dd5bec2983eb973caef1ed838c80657c4ab61be7f0612359100245c3977	@她是個狠心的人。從來不玩娃娃之類的東西。@
 dialogue	dialogue:0x047b:28c:0	253d3d5cfb2e4f033fd4c2199f5c4fb4b8daf4ddc5f644c6086c516736e87988	@他是我的祕密朋友。他給我講故事。@
 dialogue	dialogue:0x047b:2bb:0	8853fe6e5dfbd0ed4bf4a36237fdf8d7f70b6fbcb6a1d2afd8d6c1965bc5ae5c	@我覺得他是個鬼。他很嚇人。@ 她抱着娃娃。
@@ -7881,11 +7881,11 @@ dialogue	dialogue:0x047b:352:0	3f7752db3c0c643b534b4f483ce6426bd8400d1b2b1aba604
 dialogue	dialogue:0x047b:383:0	63e1d4b0f7fb0d24e96185ecc9576128886830c21de7d8e9a066a26709980295	@再見，Meredith！@
 dialogue	dialogue:0x047b:398:0	d26f48f28a009d38af72984098293d28c55e17300ac38c6d6007b488e77d6036	拜拜。
 dialogue	dialogue:0x047b:40:0	c681ac264ec2aa843b2ad3588c3b3f1d5e0c03aeb30e4b8456d76de9a23d3859	@噢，又見面了！@
-dialogue	dialogue:0x047b:53:0	f3b2a88c6c1b7ae55a68fb0ddb7f851907b098043a7c2d058b393161f2f8b8c4	一個手裏拿着娃娃的小女孩。*
+dialogue	dialogue:0x047b:53:0	f3b2a88c6c1b7ae55a68fb0ddb7f851907b098043a7c2d058b393161f2f8b8c4	一個手里拿着娃娃的小女孩。*
 dialogue	dialogue:0x047b:7c:0	c798aba72c6dc1c89853284c5785982035d605599a198ccdb1f3dd2b1e5c2404	@現在你安靜點，它們不會傷害我們的。@ 她緊緊抱着娃娃
 dialogue	dialogue:0x047b:8:0	cde48537ca2c28084ff560826d0e6388b7c57a51497a6cb56f397289e52ff41b	朋友
 dialogue	dialogue:0x047b:bc:0	d4f1f5fd7bb4e235673e24f79e105bf94850e3e705784236ce43d7637670be2e	@看，Becky，他們又回來了。@ 她對娃娃說。
-dialogue	dialogue:0x047b:f3:0	654e7c2c6012569e8f1faf52c95d7828d029fe3b9a7b249b344e2e6178874f14	@你想幹什麼？@
+dialogue	dialogue:0x047b:f3:0	654e7c2c6012569e8f1faf52c95d7828d029fe3b9a7b249b344e2e6178874f14	@你想干什麼？@
 dialogue	dialogue:0x047b:f:0	cf35b263e60f0109f7e9ea1b2bf6ff44babb6cdd363f3e4ae83b72313fdde3b0	@你好！@
 dialogue	dialogue:0x047c:0:0	1785cfc3bc6ac7738e8b38cdccd1af12563c2b9070e07af336a1bf8c0f772b6a	無
 dialogue	dialogue:0x047c:10c:0	cdb4ee2aea69cc6a83331bbe96dc2caa9a299d21329efb0336fc02a82e1839a8	位。
@@ -8073,7 +8073,7 @@ dialogue	dialogue:0x047f:a5:0	952642b45bf8103eb45269c9568c5bcb3f374f6e0321784d1e
 dialogue	dialogue:0x047f:a83:0	aba4cc9b8af82df5d4efaade764d6a77466453f3e4156bb0b4e489710516b1c3	演奏
 dialogue	dialogue:0x047f:a88:0	48190b64e008b4b996435c9e39eb570b4dafc412fcb54609d0caf65dfe48b708	@要是我有一本 Snilwit 的《棋類策略大典》就好了...@*
 dialogue	dialogue:0x047f:acf:0	29d2d8e1bdbb6146f87ef7bfbd03c42bcaa2ad0b981e3575be6fc224ca5e5575	@那樣我就能找到一些很棒的遊戲教大家。@
-dialogue	dialogue:0x047f:b0d:0	8fa6b7baff1bf21c9f6695e14d826355f45acc2dca625f40e8f89f73ccdd8a16	Snilwit的桌上遊戲策略大全
+dialogue	dialogue:0x047f:b0d:0	8fa6b7baff1bf21c9f6695e14d826355f45acc2dca625f40e8f89f73ccdd8a16	Snilwit 的《棋類策略大典》
 dialogue	dialogue:0x047f:b36:0	b96baaa1c3d9bcaa86ceea746c1d4f69365802ecf1fd3f8e618bb65db0d0aa63	@你有 Snilwit 的那本書嗎？願意賣給我嗎？@
 dialogue	dialogue:0x047f:b78:0	9d95409069cd7139f1213fe1cf2abff295cac848e7b6f116e324ed94116633f7	@太好了！這可是棋類遊戲的權威參考書。他接過書，給了200金幣。@
 dialogue	dialogue:0x047f:be2:0	adf6e7504fe3a6ca378d2abd727a7a09b9be12ea4b43461ee79c22c9db3061de	@先放點東西下來，
@@ -8463,7 +8463,7 @@ dialogue	dialogue:0x0489:245:0	8c61e3124bb2e63622c83e145033249afcb664599087096d5
 dialogue	dialogue:0x0489:24c:0	94dec61994431ea9edd758fb5db1b11d214e1b1f61dd487fe85728ba42fac074	讓我給你看一個。老者眼中閃過一絲狡黠的光，從袋子裡取出一隻小木製河馬。這不是很漂亮嗎？如果我雕的河馬不是世上最漂亮的，你可以叫我Mortimer。
 dialogue	dialogue:0x0489:26:0	1da004986ffafde0c2decb698621ee53c693cfe8bdfed105cac17662bd4ef15a	@你好，又見面了..@
 dialogue	dialogue:0x0489:33d:0	5d6ed558355ee45205b2a5560c150307d22271fff3b4fdbf6725be04eb8b7ed9	Mortimer
-dialogue	dialogue:0x0489:346:0	b5c4731db936785aff8bf10b8ff3ab6906b846d6aff4359f2ddd0a0bf5f8cdbd	他真是個糊塗鬼。
+dialogue	dialogue:0x0489:346:0	b5c4731db936785aff8bf10b8ff3ab6906b846d6aff4359f2ddd0a0bf5f8cdbd	他真是個糊涂鬼。
 dialogue	dialogue:0x0489:366:0	7e3fee379dabd60e1904fb1864730becd46fda6e8badfcdeb7d49dd850827048	我得走了..
 dialogue	dialogue:0x0489:36:0	b31b6c7327f07e7e40ad2631f584b86351e8c43fb28d06c15f767b885e05a6d2	嘿，歡迎回來。
 dialogue	dialogue:0x0489:37c:0	6ec10b4eba124a1bbd0f660ef6b43d5f55e1a34bbeee2e48cf3857fa13f3119d	回頭見。
@@ -8741,7 +8741,7 @@ dialogue	dialogue:0x048d:4b8:0	76cdea8551af436c9e9b36dc558553c0bf3fa1682e4fcc3d2
 dialogue	dialogue:0x048d:4da:0	9c9dbffcfdceb1013c98fc66c516f67a231a3e2c858f9e7803642c52657e4bf4	@將旋律放入歌曲中。@
 dialogue	dialogue:0x048d:4f6:0	f03373803114fb7bfe7da4f979aac4b79845664319eff0b8f71e3e6193c379e5	Stivius
 dialogue	dialogue:0x048d:4fe:0	2ff3a6cd0ca4bae5ac2200358c2de012714682ded77dd0813804be3c2a64520b	@差別很小，@*
-dialogue	dialogue:0x048d:51:0	2ff1320cbaef75c3fd9cb6df612785d8bc7f181eb0c4d70361dff1b17f3fc9aa	你看到一個彎曲背脊、年老的男人，留着凌亂的山羊鬍，牙齒稀疏。*
+dialogue	dialogue:0x048d:51:0	2ff1320cbaef75c3fd9cb6df612785d8bc7f181eb0c4d70361dff1b17f3fc9aa	你看到一個彎曲背脊、年老的男人，留着凌亂的山羊胡，牙齒稀疏。*
 dialogue	dialogue:0x048d:51c:0	7312804f548508d663d7d65d6331aec29a53b85267db2f7c25e2d0b8c1c246bc	@這就讓我們分開了。@*
 dialogue	dialogue:0x048d:539:0	c2c581e86455d626d2c27017b32bef0ef69cc274928b50c3262dfecf9c682ed7	@記住這個推論，@*
 dialogue	dialogue:0x048d:559:0	e94e6a53d1f775ba223dbd6691fd47d6f106efe52d13124e780f83679a1b55d0	@往往是一個巨大的挑戰。@
@@ -8749,12 +8749,12 @@ dialogue	dialogue:0x048d:575:0	e3a61c940ca09c488298d5bcf37cdef43ce2a3012ca97d11d
 dialogue	dialogue:0x048d:590:0	062d07f77d1087f5380bce318d54677b629100e10cf454f6c1d49d071fa6d67c	@使一個人變得沉默，@*
 dialogue	dialogue:0x048d:5ad:0	24279a46a010edc11f37437b7e0d450117718f9c87d151a32ca8b73cf2f61073	@害怕引導他人 @*
 dialogue	dialogue:0x048d:5cb:0	0ecd9a485110d4ee2d4eac452253f532a32bcb5de37a8f39e393de252975217b	@善良受到質疑之處。@
-dialogue	dialogue:0x048d:5eb:0	905328767e2800520125e7d75869e85a42066344601f55a015ca999d4afb26cc	他抿着嘴脣，發出一聲詭異的、尖銳的叫聲。*
+dialogue	dialogue:0x048d:5eb:0	905328767e2800520125e7d75869e85a42066344601f55a015ca999d4afb26cc	他抿着嘴唇，發出一聲詭異的、尖銳的叫聲。*
 dialogue	dialogue:0x048d:627:0	84f2c6b88b1b0ecbf8e4827cba9427099fde2dde71a46d3195d959cc8c6a24a7	@這是我的印象。告訴我你的看法。@*
 dialogue	dialogue:0x048d:659:0	4171b2878ba8622d498efb89ce0e523810651345a9980e1b69c74e04d215e089	@你能從它必須教授的內容中，@學到一課嗎？@
 dialogue	dialogue:0x048d:68e:0	7dff5e3948d9e0700ac6d0f95cc8bb97600459b2602de69ccec9f14807c91b9e	@許多是冒充者，@*
-dialogue	dialogue:0x048d:6a7:0	d0c8cfe070202a894ad3946ecbc945d7ccacd4440731290c8ce7944763b216df	@它們玩的無害遊戲。@*
-dialogue	dialogue:0x048d:6c6:0	825cdbd3f695d77ca576e6c9e3f6e308e77e2734fbcb3380e6ee42cc7e0a21f3	@但對於少數冒犯者，@*
+dialogue	dialogue:0x048d:6a7:0	d0c8cfe070202a894ad3946ecbc945d7ccacd4440731290c8ce7944763b216df	@它們玩的無害游戲。@*
+dialogue	dialogue:0x048d:6c6:0	825cdbd3f695d77ca576e6c9e3f6e308e77e2734fbcb3380e6ee42cc7e0a21f3	@但對于少數冒犯者，@*
 dialogue	dialogue:0x048d:6e5:0	b68270a6bf892a0d7778fb4980e61b96df4fef93db22698e04d2965d4bb39135	@它們向永恆的夜晚祈禱。@
 dialogue	dialogue:0x048d:704:0	889e272d8202d4efac44412f48bc9187753f451e762eaa380bbdd5120414a9db	@真正可怕的是，@*
 dialogue	dialogue:0x048d:720:0	950ad7fbd3ff473d0121d8d51c53d733bdb629701158b3b48d40e0d6051a15ff	@邪惡能是什麼？@*
@@ -9349,10 +9349,10 @@ dialogue	dialogue:0x0494:f51:0	57f5086132baaaea8b9e5ca177cfa85d8af93049a87aa9688
 dialogue	dialogue:0x0494:f6c:0	325b0ff03a1339d345644515735c21f19ab19d4c1b577cc79fda7c27ddfb1860	@我期待這個時刻已經許久了...@*
 dialogue	dialogue:0x0494:f96:0	d3872f55e712a55b5c79c174ba93c40cd44a5d1aa38af2d470963717b9917451	@自從我童年時讀過這個奇妙的故事以來，再未讀過。@
 dialogue	dialogue:0x0494:f:0	d67b526f317971f1711816fce781fd36e4b559bfd2407c662dcc4c7bac12371c	@陛下..@
-dialogue	dialogue:0x0494:fd0:0	924710cd957a1cb83a8bbffbf5222f0b92a9746b09f583191f3757ada8860ad5	輕輕地，他拿起了這本書。 @這是你的報酬。@ 他給你一些發光的寶石。
-dialogue	dialogue:0x0494:fallback_f6112e6f71da14b8:0	f6112e6f71da14b8261434e08a6070be43940ae30fb1a4c6a9ea63eccdce2663	@<TIME_OF_DAY>，<PLAYER_NAME>。汝欲談何事？@
-dialogue	dialogue:0x0494:fallback_3e5a2306f717da73:0	3e5a2306f717da7321747e48e57ed1a1a07509b84edca48fe8d7dbb2fced8613	@<PLAYER_NAME>，我知道誠實是美德之一..@
 dialogue	dialogue:0x0494:fallback_3d3c972ab7d7eb3a:0	3d3c972ab7d7eb3a5ac1577d6ece4bbc2f51b1977515870958d6e9139aad44a5	@<PLAYER_NAME>! 很高興再次見到你。自你上次離開我們王國以來，發生了很多事情。@
+dialogue	dialogue:0x0494:fallback_3e5a2306f717da73:0	3e5a2306f717da7321747e48e57ed1a1a07509b84edca48fe8d7dbb2fced8613	@<PLAYER_NAME>，我知道誠實是美德之一...@
+dialogue	dialogue:0x0494:fallback_f6112e6f71da14b8:0	f6112e6f71da14b8261434e08a6070be43940ae30fb1a4c6a9ea63eccdce2663	@<TIME_OF_DAY>，<PLAYER_NAME>。汝欲談何事？@
+dialogue	dialogue:0x0494:fd0:0	924710cd957a1cb83a8bbffbf5222f0b92a9746b09f583191f3757ada8860ad5	輕輕地，他拿起了這本書。 @這是你的報酬。@ 他給你一些發光的寶石。
 dialogue	dialogue:0x0495:0:0	c23b31a0179b550f8a18fb06bc52a26e32333540369073d646da5c84a4dc341f	早晨
 dialogue	dialogue:0x0495:11a:0	82a3537ff0dbce7eec35d69edc3a189ee6f17d82f353a553f9aa96cb0be3ce89	名字
 dialogue	dialogue:0x0495:11f:0	5e8c9902207afaeb7120430c585a445f21e92932081d64bc99f80e4925bcb002	工作
@@ -10932,7 +10932,7 @@ dialogue	dialogue:0x04de:10c9:0	d159c86ee78d974574219d4783e6461ff08c9af3605612d7
 dialogue	dialogue:0x04de:10e7:0	a2a73c312aba26dede8729dd3d62edae17bc91b10220ff48ef11dbcb3aab7bc9	@Captain Hawkins過世後，我們把他的藏寶圖撕成了九片。計畫是，等到沒人再找我們時，我們就聚在一起去挖掘。@*
 dialogue	dialogue:0x04de:1193:0	21fce3756f89e8a25c4380bbcc5b64484abe4523a8f4e0e11a0a3c3e96e102d8	@把地圖分開是我的主意——這樣就沒人能背叛其他人。我想這麼多 years 過去了，其他人一定已經放棄了，所以我獨自去找寶物也沒問題。@*
 dialogue	dialogue:0x04de:121:0	3534d4d5fe472547be51b46b4d7a1a584fc85ef90ae4f710b7ffbe29bb9cb81c	@那就交出來，我們就兩清了。@ 他的眼睛閃爍著貪婪的期待。你要把斗篷給他嗎？@
-dialogue	dialogue:0x04de:1261:0	b538df85fc6ecb1ecb4537dddbf27f4431f034f71def15a7af9fa42d8244242b	@問題是，我一條腿有點痛風，不能再到處奔波了。也許我們可以互相幫助。我知道我那片地圖藏在哪裏，如果你把另外八片帶來給我，也許我們可以做個交易。@*
+dialogue	dialogue:0x04de:1261:0	b538df85fc6ecb1ecb4537dddbf27f4431f034f71def15a7af9fa42d8244242b	@問題是，我一條腿有點痛風，不能再到處奔波了。也許我們可以互相幫助。我知道我那片地圖藏在哪里，如果你把另外八片帶來給我，也許我們可以做個交易。@*
 dialogue	dialogue:0x04de:1351:0	feccc52b1fe9327fa5866e46c88d3b96903e0ccba75a7e02c9ea6a6ccaaf5e26	@我把我知道的所有碎片可能所在的地方都告訴妳...Ol' Hawknose出發前往Dry Land，去殺死據說住在那裡的惡魔。@*
 dialogue	dialogue:0x04de:13e6:0	95832d509c5415ffda707c61bcdf9afbb2f8d45e07ebe7c3c3e3fbf4019585a6	@Sandy，船上的廚師，和大副一起去了 Trinsic。@*
 dialogue	dialogue:0x04de:1426:0	10c699a526693ab7a6dc14a4e49a6a603313a8781f86b64a42e9599ba5e8a8e8	@老Ybarra說他去了恥辱地牢，想找更多財寶。我想其中一個人在船難中死了。@*
@@ -11043,7 +11043,7 @@ dialogue	dialogue:0x04df:2e2:0	99d6d9a36a7415bd388f716565dab0af44344d2771777b9e1
 dialogue	dialogue:0x04df:306:0	0e5bf4a6962b0984f045587ef203349e5a58dae92613d17888ea6141c367de47	“太好了！我敢打賭我們會遇到很多有趣的人...”
 dialogue	dialogue:0x04df:33e:0	d59b5dc768a9ce9b9828f59b6feb978cbbdf3d33489e873f74de2b5d9bc99c49	“你已經帶了足夠的旅伴了。但如果你讓他們中的一個先離開，我很樂意加入你們。”
 dialogue	dialogue:0x04df:36:0	b81d1f138d3f11d79c7b34d61a923484041a982269bae43529ac10c3cbcdd754	@你管這叫出拳？！@
-dialogue	dialogue:0x04df:3b1:0	fa69bebbdc92a23b0cd02ed9168a66dd638af502fc0d880222dfc575134b9d9d	“好吧。我想我就先留在這裏了。”
+dialogue	dialogue:0x04df:3b1:0	fa69bebbdc92a23b0cd02ed9168a66dd638af502fc0d880222dfc575134b9d9d	“好吧。我想我就先留在這里了。”
 dialogue	dialogue:0x04df:3de:0	b9d93b8a0a77a275abebcfd37c261554053c251925bf9ea0c53258d170a4d774	@我很樂意加入你們——但我已經加入了！@
 dialogue	dialogue:0x04df:40d:0	4038c12f4077124d371b992c28950e071254b8203d5b2ff3e058a1d8956b6247	@是我該離開你們船隊的時候了嗎？@
 dialogue	dialogue:0x04df:43c:0	f35cb6f553dfabe699d0642bb31f4ea50bfc593a27cf340ba9bffe4899702707	@你要我在這裡等，還是回家？@
@@ -11064,7 +11064,7 @@ dialogue	dialogue:0x04df:6d8:0	c563a3bc2a816f0c11ce99e181e0855a51d9b495ff607ef99
 dialogue	dialogue:0x04df:6df:0	29878f5367a942d6f6733a1373d640ea4c6e2b366e336241409d61e22f49e2b2	「是啊，Leonna 是我見過最棒的大副。」
 dialogue	dialogue:0x04df:713:0	fdacfc5868cfe03086a80b1a674e7b6d531d33fdd646538e49302d9ec11afb43	「Leonna 臉紅了，別過頭去，有些害羞。」
 dialogue	dialogue:0x04df:740:0	b9999419f9d24eb08c979fb3a834ed8f8146f8a8fb54bb284eb95a487e42fc99	「這可是因為她以前自己當過船長，你知道的。」
-dialogue	dialogue:0x04df:775:0	37db0f3a176402b401f7568c271f8b2c5a0cf8f5010c21779dc875ac205dc382	“約翰船長是個瘋子！他去了Hythloth，尋找通往世界另一邊的路。他說要在他們抓住他之前，儘可能多地殺死食屍鬼。” Captain Johne
+dialogue	dialogue:0x04df:775:0	37db0f3a176402b401f7568c271f8b2c5a0cf8f5010c21779dc875ac205dc382	“約翰船長是個瘋子！他去了Hythloth，尋找通往世界另一邊的路。他說要在他們抓住他之前，盡可能多地殺死食尸鬼。” Captain Johne
 dialogue	dialogue:0x04df:81:0	72ba271c5b76beac9ea04a7b9b9c510b290a0941ec4173145ffae298f0a11b2a	「嗚！」
 dialogue	dialogue:0x04df:826:0	a7cf9ef050bb953a9f3ec494dd9b8e17b72f5966d45f18e672c3da0735ba4ea7	@那不對！@ Captain Fox說。@我可以告訴你到底發生了什麼事。@
 dialogue	dialogue:0x04df:872:0	30138cb71790fa4dc172e4d11505acd8d9a61e7d660a805a41078ccc0fa1ad2f	石怪（gargoyles）
@@ -11351,7 +11351,7 @@ dialogue	dialogue:0x04e5:364:0	5e8c9902207afaeb7120430c585a445f21e92932081d64bc9
 dialogue	dialogue:0x04e5:368:0	b49f425a7e1f9cff3856329ada223f2f9d368f15a00cf48df16ca95986137fe8	再見
 dialogue	dialogue:0x04e5:36c:0	5a20fe2f1b70d1150712b032c84f5998ac797d1bd9c84ed2ada77866ea030287	公會
 dialogue	dialogue:0x04e5:372:0	a82e65edbd04581b63e2b5493cfaf88a38f552a7481d080c81905ab6edec36d9	“咦，我想你是 Budo。上週也是這麼叫的。有人叫我‘The Den’，但我覺得那不是我真正的名字。”
-dialogue	dialogue:0x04e5:3b:0	52875dbe887f8fa56f324dd7fd01613da86b172209b4855d500ba1028dacde2e	“你要買哪樣，火把、油、開鎖工具、寶石、揹包、袋子、鏟子，還是火藥桶？”
+dialogue	dialogue:0x04e5:3b:0	52875dbe887f8fa56f324dd7fd01613da86b172209b4855d500ba1028dacde2e	“你要買哪樣，火把、油、開鎖工具、寶石、背包、袋子、鏟子，還是火藥桶？”
 dialogue	dialogue:0x04e5:3e7:0	1ab8b9afc45130c9fc5b1bab10a248c7310d8bfa7075d35973a8b01b0e8e1bd7	The Den
 dialogue	dialogue:0x04e5:3ef:0	f0c6dc64bdb2e2494d390d1ab3f9cf252d91e92170a9aa1725e8ef4495af4249	“哦，我賣東買西。我不確定‘東’和‘西’是什麼，但我賣了很多！那是說，人們給我錢買它們。”
 dialogue	dialogue:0x04e5:476:0	e8197b20f8e71e429645f83cc6f07d9d43ee7a30ef5dc6c02dd16692a7bc9aac	購買
@@ -11894,7 +11894,7 @@ dialogue	dialogue:0x04f1:a1:0	f775d1d8c53f93b55e67a71956cc959b4f0f02ef9c5885eff6
 dialogue	dialogue:0x04f1:af:0	ca5887c3ecf8d0e0a222d572913f53f98f38f37f9c4554ffb04bdf683578d81a	@你好，又是你！@
 dialogue	dialogue:0x04f1:bf:0	26c5a8a682d5251bb382fa183d6295df58318c13ccfa8206ee80319db940b49c	一個身材矮胖的男人。他的聲音幾乎像女人的聲音*
 dialogue	dialogue:0x04f1:f:0	2499347e13129f7e5fdbced368b9f5db5bc3e32e877c45a4d5f6a201cd97eeb8	@國王級別的麵包！
-dialogue	dialogue:0x04f1:fd:0	f21be8a743f7fe96cf53f8a252473a6defa4dfe6c5529c5aa394e7039abcc713	@噢，你看起來好瘦！給，喫一口麪包。@他給了你一個麵包；它還是從烤箱裡拿出來時溫熱的。*
+dialogue	dialogue:0x04f1:fd:0	f21be8a743f7fe96cf53f8a252473a6defa4dfe6c5529c5aa394e7039abcc713	@噢，你看起來好瘦！給，吃一口面包。@他給了你一個麵包；它還是從烤箱裡拿出來時溫熱的。*
 dialogue	dialogue:0x04f2:0:0	728634cb3bc407ebf0e48b41177cf2562f9c090aeb204facdbc9a1db291281fa	商店營業中
 dialogue	dialogue:0x04f2:11d:0	cacf51845681be02418f36dd9138649f54d6f35de26ab082ff495a3da7e5067c	!@
 dialogue	dialogue:0x04f2:120:0	e4b87d08b168410cab3f6d18e611b1b0cf21132530aab3f973caeee02d8f4743	@還有什麼可以賣給你的嗎？@
@@ -12110,6 +12110,31 @@ dialogue	dialogue:0x08d1:0:0	147d56bf20f6108c0c31d4132e9f4ac555bf5e0ca87689e5054
 dialogue	dialogue:0x08d3:0:0	147d56bf20f6108c0c31d4132e9f4ac555bf5e0ca87689e50542034cf26e195f	業力
 dialogue	dialogue:0x08d4:0:0	147d56bf20f6108c0c31d4132e9f4ac555bf5e0ca87689e50542034cf26e195f	業力
 dialogue	dialogue:0x08d5:0:0	147d56bf20f6108c0c31d4132e9f4ac555bf5e0ca87689e50542034cf26e195f	業力
+dialogue	dialogue:0x092e:101:0	09f1a49c24ec627bc0823e058fede4878a0d2bdcc0f00df2aeaaf6208e763c20	@嗯！好吃！@
+dialogue	dialogue:0x092e:10f:0	b223bd11f71139f310b4f72f6ea077d64cc9ebf513d3d20930d520f4ac42d93d	@好吃！@
+dialogue	dialogue:0x092e:118:0	db001f39b9b47716c77d2aaf9a348a99eb727e4d2460e474497117a6240edc84	@這很好！@
+dialogue	dialogue:0x092e:128:0	60c0c5dcf9199680e58c0d2227c6ea5d8fa8538f25de1c3c6e3b76370a784c42	@服務生！服務生！@
+dialogue	dialogue:0x092e:13a:0	1aad9b4e6aadc59e666fc3c373e1c8a2ed6e1e4db6419f4b73ebe42d6ba3ddbb	@呼！真熱！@
+dialogue	dialogue:0x092e:14c:0	e39abf6fc21ab4996452d55c3b837b7c45cc6606572cd870f1b145c59b3ba13d	@哎呀！割傷自己了！@
+dialogue	dialogue:0x092e:160:0	9645b992ba172baad8ec0a11fd22b8f16d972c06a72f9f66f125deadb2ceb536	@工作...工作...工作...@
+dialogue	dialogue:0x092e:16:0	e30b306e3d4dd9ef43636bf3a387bba0b0d8cd517b12e9e01877b685303220d5	見禮了。
+dialogue	dialogue:0x092e:178:0	9d1bd33a74ac38e209ffa3e7cab324bd97b8a6a825c95fb698cf40846b1b660a	@我們需要雨水...@
+dialogue	dialogue:0x092e:18a:0	4f1c35a51d506fb5c06c3df43eae9b5a4a281b79b20807509e869b15370c16d8	@標記！你是鬼！@
+dialogue	dialogue:0x092e:19e:0	1bfdd7c86bcc40cdeca550f4bb7e7fd3fae033a70bb379c0e2916d699ba1ad67	@抓不到我！@
+dialogue	dialogue:0x092e:1:0	c0e7b7dc9efb46654cdddcc722d63afcfbac59db43c09d6b8eedcb97560cbf3e	@看來要下雨了...@
+dialogue	dialogue:0x092e:1b1:0	57bca9f8a86fc36a95f793acbf2cd6f5d0584975bad242803aad4313f799957a	@啦啦啦！你是鬼！@
+dialogue	dialogue:0x092e:1cb:0	b6f754e18726710025a6255c137ddd7e8a2ef93b6249badc4a95ec9d0814c956	@有本事就來抓我！@
+dialogue	dialogue:0x092e:23:0	94afdef5ae16787a4ad1c17d2aca87ae6da453bca5aefb09cdbad19335aed722	@噢，我的背好痛...@
+dialogue	dialogue:0x092e:3b:0	ad2f39540b907a7795be56eba6140b99edbd9ea6ce6b1b0f5939316ebfbd56d2	@唉...@
+dialogue	dialogue:0x092e:47:0	f96559f5ed49488012df227dfcbe176f4638ce824b93813fde82b8c42cbd83e7	@呼呼...@
+dialogue	dialogue:0x092e:54:0	f5075cdb90919f326751eb39afd5575524bb3cad88808872391b9eb0740e0911	@試試葡萄酒。@
+dialogue	dialogue:0x092e:64:0	0c76149bcb4ed2ceb13c8764885815e2c77b4d77ac1559fb09c449d5d5d1c48d	@麵包很新鮮。@
+dialogue	dialogue:0x092e:7a:0	84b7b1f5780ce879a8f5bca049ece96f2a99f4693afde3136564103acd515922	@試試羊肉。@
+dialogue	dialogue:0x092e:8c:0	346188d3aa9a6a93ff91b160336fdeb65736b8b1e13c8ba17c26654b792136af	@我推薦麥酒。@
+dialogue	dialogue:0x092e:a3:0	5f85ff8883dbb06c40cad8722e17717c2deb97310e4dc727df53dee6f28bfd05	@為團結而努力。@
+dialogue	dialogue:0x092e:b7:0	b8f9e1c58360dd56128f1674cf02267436ecc555e9e9d13a8c88f9514fca53d2	@信任你的兄弟。@
+dialogue	dialogue:0x092e:cc:0	1eb18bf07aee1cdaf04c9b1de29fbe7d35055a3460d80a47141a389f4d696ec0	@品格先於獎賞。@
+dialogue	dialogue:0x092e:ea:0	55154878baf62188389b2454f54e57c987f7ff22179072101f3ea874f8605cc2	@加入兄弟會！@
 dialogue	dialogue:0x0bba:0:0	8d14c11687d19d4cff86de7b46b940c5ef37a0382f75ddbbb016780d84e6f806	遊戲日數是
 dialogue	dialogue:0x0bba:c:0	9842e2ec109810c12bddf69bddf0d6a998fdfd54bcae8ea4a9ac72fcf01ab0cc	，星期是
 dialogue	dialogue:0x0bbc:0:0	5988162284a9888f6d5276df63ea4a81c0102b4330753262bae2396907fdaed0	隨機生成的怪獸是
@@ -12464,7 +12489,7 @@ dialogue	dialogue:0x0c37:e57:0	2ab8bab6c2ddee94f7bd7e9e75241f2e25fe041617d71f39a
 dialogue	dialogue:0x0c37:e78:0	e37f0bc510cb569aa939b1b35f9e33d06a79537c8b49cd026d1d68309d1b6bfb	@我看不到任何需要治癒的人。@
 dialogue	dialogue:0x0c37:e9:0	f0880fa622c2183b12da1520859bdd5936a59aac4b0927070592085d8d26062c	@但是你是健康的！@
 dialogue	dialogue:0x0c37:ea9:0	0f115437c6464cabca34d1961e66abb7e5619d882b6e867fd25121e13f2bfecc	@我看不到任何需要解毒的人。@
-dialogue	dialogue:0x0c37:ee0:0	3747e674340071b1f5aea9cd41dbf4477fd6e3b0b56630944f8d95cf0aef2ac3	@我想我快要失明瞭。我看不到任何需要復活的人。你又在騙我嗎，還是你藏起了受傷的人？我必須能看見那個人才能幫助他。如果你把朋友背在揹包裡，請將他們放在地上，以便我履行你要求的職責。@
+dialogue	dialogue:0x0c37:ee0:0	3747e674340071b1f5aea9cd41dbf4477fd6e3b0b56630944f8d95cf0aef2ac3	@我想我快要失明了。我看不到任何需要復活的人。你又在騙我嗎，還是你藏起了受傷的人？我必須能看見那個人才能幫助他。如果你把朋友背在背包裡，請將他們放在地上，以便我履行你要求的職責。@
 dialogue	dialogue:0x0c37:fe:0	41c255783bb90daa95c6f7620244d128eaf82330ded5c8e0a47d86b78dc87ea6	@你確定嗎？你的一些朋友仍需要治癒。@
 dialogue	dialogue:0x0c3a:0:0	8b363299f4a34f1980402675f3d3364cb2c40974f6135416243299dffd6f6fdf	NPC 名稱是：
 dialogue	dialogue:0x0c3b:0:0	042252015150169fda0735fa99907db712ce974dbb56c6ec07dda1ea3bae5e29	沒人
@@ -13349,9 +13374,9 @@ dialogue	dialogue:0x0cb7:479:0	1776e43619932fcfebc0652233109124d5d9da5e4006950e1
 dialogue	dialogue:0x0cb7:4c2:0	55b42e1eddb889deab7a566c36022cf7c04794502014ee8a3bc51666005cc648	決一死戰！
 dialogue	dialogue:0x0cb7:c0:0	cf370d7dbd7548bf1a6f317965d15bda22cb4304564e9cebe6ba0521cd27f97e	@我們已經等了好一陣子想闖進那個金庫了。運氣真好，你剛好帶著開門的鑰匙來了。@
 dialogue	dialogue:0x0cb8:0:0	91bac0896a6d159f9160c2133fc35f23242b9b7b86998c9fafeae740f9a46993	次日清晨，多莉斯無精打采地為你準備了早餐，然後繼續回到她的書房。 Doris
-dialogue	dialogue:0x0cb9:0:0	b13f278ce99eb05194eaa768a21e7d3d9cddc937a1a30e2ed0206c976ba141ed	你睡在舒適的牀上...你睡足了覺，喫了一頓豐盛的早餐。
+dialogue	dialogue:0x0cb9:0:0	b13f278ce99eb05194eaa768a21e7d3d9cddc937a1a30e2ed0206c976ba141ed	你睡在舒適的牀上...你睡足了覺，吃了一頓豐盛的早餐。
 dialogue	dialogue:0x0cb9:4c:0	78b8399e4fb2e0c1b0abd3ac13060c69fa568e5b7a396ba7e4e08463c54e5e30	@早安，祝你有個美好的一天。@
-dialogue	dialogue:0x0cba:0:0	b13f278ce99eb05194eaa768a21e7d3d9cddc937a1a30e2ed0206c976ba141ed	你睡在舒適的牀上...你睡足了覺，喫了一頓豐盛的早餐。
+dialogue	dialogue:0x0cba:0:0	b13f278ce99eb05194eaa768a21e7d3d9cddc937a1a30e2ed0206c976ba141ed	你睡在舒適的牀上...你睡足了覺，吃了一頓豐盛的早餐。
 dialogue	dialogue:0x0cba:4c:0	0de31ffd93a3508848d218eeaf95926530c623b2a1892a17314888932efef2f8	@祝你早安。@
 dialogue	dialogue:0x0cbb:0:0	4988f8391bc932813090fb090e6d50f140e1dcc26a15132d33a743a5b2edb3f9	次日清晨，Peyton為你準備了早餐。
 dialogue	dialogue:0x0cbd:0:0	a67dac29b790cec4dd99a468ffbd077e9ce96c97b1de9448784c2e544dbbcfe4	Sherry
@@ -13649,7 +13674,7 @@ dialogue	dialogue:0x0cd9:43:0	953e9cef3ee8daf90421921e8764cba63358c6178651a5284a
 dialogue	dialogue:0x0cdb:0:1	f0f56b37f899e9dd5b595b92c6e6e7977b91114db28a5a298bffd264aef54a92	船長日誌 - Empire
 dialogue	dialogue:0x0cdb:1208:0	286829b7396cfd29636a2001de4723cf78c5a84b47e04887976b28ee47db4618	幾個小時後，我醒來時天已經黑了。我抬頭望天，月亮正圓。我感到有些不安，因為那些迷信的當地人曾反覆告訴我，在這片被稱為靈異的森林裡經常發生奇奇怪怪的事情。然後我想起自己正站在一圈由石頭和毒蘑菇組成的環中，這些石環背後難道沒有故事嗎？我決定該盡快離開，逃出這片森林。但就在我要走出石圈的邊緣時，石頭發出詭異的綠光，我隱約聽到有人在低聲吟唱。我不得不拍打自己，看看是不是還在做夢，但疼痛證明我是醒著的，而光芒只是越發明亮。
 dialogue	dialogue:0x0cdb:13a:0	9b0f5bde4ec84e376222caf81932e0c1d163fb0b69ac01191b64c456be78bd85	第 10 天
-dialogue	dialogue:0x0cdb:13a:1	896a3e435421ff5749cbc0cb3b0c340eafa7f797950060b2d3f3594084765b1f	船員們的情緒仍然高昂。我以前的船友們大概甚至還不知道，我已經帶著「Empire」悄悄溜走了，他們還在為Hawkins的死亡而狂歡慶典。我比那些混蛋們更精明。Hawkins的血還沒在「Empire」的木板上乾透，我就已經策劃好了下一步行動。*
+dialogue	dialogue:0x0cdb:13a:1	896a3e435421ff5749cbc0cb3b0c340eafa7f797950060b2d3f3594084765b1f	船員們的精神還挺好的。我以前的戰友們大概還不知道我已經溜出了“海盜窩”，因為他們為了Hawkins的死而喝得酩酊大醉，還在慶祝。我比這些人渣要精明。Hawkins的血還沒在Empire的木板上乾透，我就已經策劃下一步行動了。*
 dialogue	dialogue:0x0cdb:14dc:0	85f9a6ae094cb109e368fbb68849d7166f84a92a9c014f3476917af506dc5af5	突然，光中出現了一些小黑點，正朝我靠近。我辨認出那是某種長得像精靈的生物。精靈？？！！你知道的，就是那些非常小的、赤裸著上身的長翅膀的人，常在古老的傳說、歌謠和故事中出現。我一直以為那只是傳說。顯然它們是真的——或者我才是個瘋子。它們優雅地圍著我飛舞，我聽見它們用輕細的聲音討論著我。我震驚了，就站在那裡看著這些美麗的生物。
 dialogue	dialogue:0x0cdb:16fe:0	789d636ea4428efbc3c179cb186668694a9cf0da6ae97dab46a91cefbe540ef7	隨後他們消失了，只留下一個。她顯然是一個雌性個體，而且非常美麗。她看起來比其他的稍微大一點，身上自帶一種氣場，要求獨佔眾人的關注。她懸浮在與我視線平行的位置，開始說起來：
 dialogue	dialogue:0x0cdb:17fa:0	d16092acef42a94627ad32e26462c764cc53fd5110b14ea2d143ecc946f9f1e0	人類的傻瓜！你竟敢闖入我們平靜的森林？你在外面毀滅世界還不夠嗎？你必須把你的人類的破壞性帶來這裡嗎？你也想把這個地方奪走嗎？
@@ -13670,7 +13695,7 @@ dialogue	dialogue:0x0cdb:22:0	1f4001f0e65e768333951cd9acf6d2f884f6be02436f990e91
 dialogue	dialogue:0x0cdb:236b:0	67c67d035a347aa53fc17694e48380ba9c3c05ceac3b9e980f2fd67f24fdde2a	@有一夜夢中，我發現了一扇大得、木製的、古樸外觀的門。我很高興，但這只持續了一瞬間，因為我發現門被鎖住了。絕望吞噬了我。我敲打門，但當然它紋絲不動。它太堅固了。我試著透過門縫看，但我所能看到的只有黑暗。這次失敗後，我試圖忘記那面牆。但在夢中，我常常發現自己站在那扇門前試圖打開它。於是最終我開始尋找鑰匙。在現實生活中過了幾年，在我的夢中我不斷尋找鑰匙。我找到了很多，但沒有一把合適的。@
 dialogue	dialogue:0x0cdb:25c9:0	9b607f510289703d83de10d501baacba09e0b02dc9edfe2c8c9df0db0368fc61	@終於有一天，我發現了我做錯了什麼。我只在夢中尋找，但不可能那其實是一把真實的、固體的鑰匙嗎？於是我也開始在醒時尋找。而且至少我找到了。諷刺的是，它在我自己的家人手中。我的曾祖父從一個他救起的溺水吉普賽人那裡得到它作為禮物。他去世時傳給了他的兒子，我的祖父也是。當我的父親去世時，我得到了它。鑰匙看起來非常古老，是純金的，從我第一次握住它的那一刻，我就知道這就是那把鑰匙。於是第二天晚上，我帶著鑰匙掛在脖子上上牀睡覺。在夢中，我發現自己仍然戴著它。還有什麼好說的。它打開了門。但經過這麼多年，我猶豫了不敢邁進去。然後我鼓起勇氣這樣做了。我深吸一口氣，邁出最後幾步。@
 dialogue	dialogue:0x0cdb:27d:0	124bc2e5d884e21e4be3a090d119e1e74f63a47f86765be6a610d0ecc04737eb	第 14 天
-dialogue	dialogue:0x0cdb:27d:1	3602bd3fdcf315e4175bb1a68e56eeb1b2694f3f9379165f790f6842e2c8ec88	narrowly 逃過了皇家海軍。Empire依然是一艘偉大的船，而且只要有 Ventara 做船長，我們絕不會被抓住。很快會在一座附近的島上停下，修補炮彈擦過船身造成的破洞。該死的 Lord British 和他的海軍！*
+dialogue	dialogue:0x0cdb:27d:1	3602bd3fdcf315e4175bb1a68e56eeb1b2694f3f9379165f790f6842e2c8ec88	險些被皇家海軍追擊。Empire仍是一艘偉大的船，有了 Ventara 作為船長，我們絕不會被抓住。我將在附近的一個島上停泊，補上那顆擦過船身的砲彈造成的破洞。該死的 Lord British 和他的海軍。*
 dialogue	dialogue:0x0cdb:293f:0	9d1c56a87a2bfb7f6045769b511dc5792dc4a0b7b3b9782d6ee79262f77c2406	@那種喜悅。我似乎站在另一個現實中。就像醒來，但不是我認識的世界。空氣聞起來清新自然，有強烈的盛開花朵的香味，一切都是綠色的。我知道這聽起來很傻，但你是最應該理解它的人。@
 dialogue	dialogue:0x0cdb:2a65:0	535c41beee9fe606fbb4f026a79fad46c4758052132deaba58b8252d0c116cfc	@起初周圍沒有一個人。然後我看到天空中有個黑點。它似乎在移動，很快我認出那是一個有翅膀的生物。但別以為這生物看起來像你，因為當它接近時，它看起來越來越像來自深淵的生物。和我一樣大，有著黑色皮革般的翅膀。她的皮膚像夜晚一樣黑，看起來像是直接從地獄來的。然後她就在我面前降落，突然我不再害怕她。恰恰相反。她美極了。這個墮落天使。一見鍾情。@
 dialogue	dialogue:0x0cdb:2c98:0	97bb8724977886eb48639c4c2ea15d94f640eeef9185069c8fb2f67d7c650730	@她住在黑暗之中，這點無庸置疑，但她的美貌令我著迷。她帶著非人的優雅，走得很近。她紅色的頭髮與黑色的翅膀形成美麗的對比。她直直地望著我的眼睛。無法形容這雙眼睛。牠們的顏色是紫色的，帶有金色的斑點，但這樣描述真的不足以形容牠們的精緻。沒說一個字，這個魔女就親吻並擁抱了我。@
@@ -13683,11 +13708,11 @@ dialogue	dialogue:0x0cdb:3369:0	e5280910db908226c7cab27198a3b39ee733d422ba7d2929
 dialogue	dialogue:0x0cdb:3383:0	904ed5e3091d03ae28494275c59f9694979b7cb7006f057258a2dbcabde86d80	吟遊詩人 Fenwick 作
 dialogue	dialogue:0x0cdb:339e:0	c36d48f92c6ad82b84ca29a204fa19f8aea40c42e4b68819b1e309349ce91308	親愛的讀者，請坐，讓我為你講述一個年輕巡林客的故事。他名叫 Larson，是一個早已被時間遺忘的村落裡最偉大的獵人。這人曾與一位名叫 Sigourney 的年輕女子訂婚，生活幸福無比……直到來自 Sea of Sand 的入侵者燒毀了他的村落。雖然 Larson 英勇抗戰，但 Sigourney 還是被綁架，帶到了遙遠的城市 Goratesh。
 dialogue	dialogue:0x0cdb:353d:0	862a3d6c946979cdb1cbe5c8309c58cefbf1e1f65da848cb233f7eb87a498dc7	Larson，作為一個勇敢的人，拿起他的弓箭，追隨他的愛情出發了。在旅途中，他救下了 Anisha，Mesa Haran 的高傲戰士公主，以及來自Sea of Sand之人的死敵。他們穿過 Hruntir 海岸的大城市，經過巨像 Aranoth 的腹部，穿過 Gecko 沼澤進行冒險，一路拯救了村莊和城鎮，直到最終，Sea of Sand展現在他們面前。 Sea of Sands
-dialogue	dialogue:0x0cdb:36ff:0	0e72520dbea98fb6c11b92155d45e5e99f10d3e5738d8f1bc1e28767af7378ff	「若我無法選擇，那就讓我的箭替我決定，因為正是我精通的箭術救了一人，並折服了另一人。」Larson 終於做出了決定。「我將蒙上雙眼，向那裡那片棕櫚林射出一箭。若箭擊中樹木，我就娶 Sigourney。若射偏了，Anisha 將成為我的新娘。」
+dialogue	dialogue:0x0cdb:36ff:0	0e72520dbea98fb6c11b92155d45e5e99f10d3e5738d8f1bc1e28767af7378ff	“如果我無法選擇，那就讓我的箭替我選擇吧，因為正是我的射藝救了一個人，並讓另一個人印象深刻。”Larson 終於做出了決定。“我會蒙上眼睛，向那邊的棕櫚樹叢射出一箭。如果箭命中了樹，我將娶 Sigourney。如果它沒中，Anisha 將成為我的新娘。”
 dialogue	dialogue:0x0cdb:380:0	5568847f5680e1e5f74644ad5f5a907c2e1642b6af9fd12a06b94feb782bf821	第 23 天
-dialogue	dialogue:0x0cdb:380:1	c178a0b062d63d79e737eace1b094fcdf74bd193d167cc798fc4dbd27e3001f8	經過幾番錯誤的線索後，我確信 Hawkins 藏匿贓物的就是下一個島嶼。我們將在日落前抵達。船員們正急切地等著寶藏...這羣貪婪的混蛋。*
-dialogue	dialogue:0x0cdb:3848:0	14a963a7440abd14bb3c2693c916f500816544e3884165327b9c0a0af6ec242f	話剛說完，Sigourney 和 Anisha 便意識到，她們以為深愛著的男子不過是個樸實的護林員笨蛋，趁著 Larson 被蒙住眼睛時悄悄溜走了。兩人過上了幸福多子多福的生活，而 Larson 則回到村莊，獨自老死。
-dialogue	dialogue:0x0cdb:395a:0	ab91856da65d59d77f1b9d7f67d67e105b37db13692b588677c74aa623639f8a	那麼，親愛的讀者，這個故事教訓我們什麼呢？當面對選擇時，切勿委身命運，否則你將因猶豫不決而失去一切...
+dialogue	dialogue:0x0cdb:380:1	c178a0b062d63d79e737eace1b094fcdf74bd193d167cc798fc4dbd27e3001f8	經過幾個虛假線索，我有信心下一個島嶼就是 Hawkins 藏寶的地方。我們將在日落前到達。船員們渴望著寶藏...這些貪婪的混蛋。*
+dialogue	dialogue:0x0cdb:3848:0	14a963a7440abd14bb3c2693c916f500816544e3884165327b9c0a0af6ec242f	聽了這些話，Sigourney 和 Anisha 都意識到，她們以為愛著的男子不過是一個木頭一樣的巡林隊笨蛋，趁 Larson 蒙著眼睛時溜走了。兩人都過上了幸福、豐饒的生活，而 Larson 回到他的村莊，獨自老去了。
+dialogue	dialogue:0x0cdb:395a:0	ab91856da65d59d77f1b9d7f67d67e105b37db13692b588677c74aa623639f8a	親愛的讀者，這個故事的道理是什麼？當面臨選擇時，永遠不要把它交給命運，否則你會因猶豫而失去一切...
 dialogue	dialogue:0x0cdb:39df:0	df045a2d432e4c3897d6831a1f33e8fafd51bfdbea777f086d8e5785fed8c920	銀葉女士
 dialogue	dialogue:0x0cdb:39f7:0	ddacb83dce5b5e3e2bc011f8686098a71eee049563406e6cd75d077ac48f7e03	作者 Keltias
 dialogue	dialogue:0x0cdb:3a09:0	781ba806b81074c6b07031f3643dce474757028e012febbf8aa62fa5ecc2c16c	噢，美麗的銀葉女士，
@@ -13708,14 +13733,14 @@ dialogue	dialogue:0x0cdb:3c0c:0	ac67af95b9fcdddb08f3f6ffacce7aa177b59e3271de9635
 dialogue	dialogue:0x0cdb:3c30:0	848f849df0a508d603e6d8203f58c40502784c0b5869330dc93e8f20ac6253ef	我們承載你的力量，美麗的銀葉夫人
 dialogue	dialogue:0x0cdb:3c5f:0	7ffb4c3cd4c235b524552c712217407d73465a97e8ba7537a7f222704f7fd5bb	The Empire（帝國號）
 dialogue	dialogue:0x0cdb:3c70:0	7a4836666b84d424059360f0db16244b3914dc73a081abe489da2b398f8bcf72	Captain Hawkins著
-dialogue	dialogue:0x0cdb:3c8a:0	ca24c693c434467026b1d3855f49aaf33cbe14629ee0d8a1a91e8a95c06d7153	這本書似乎是一艘名為「Empire」的船的航海日誌。最後一條記錄提及埋藏了一筆鉅額財寶，以及船員日益增長的不滿情緒。末尾有一張急促潦草的便條，字跡不同，寫著「Captain Hawkins不會再寫航海日誌了。」
+dialogue	dialogue:0x0cdb:3c8a:0	ca24c693c434467026b1d3855f49aaf33cbe14629ee0d8a1a91e8a95c06d7153	這本書似乎是一艘名為「Empire」的船的航海日誌。最後一條記錄提及埋藏了一筆巨額財寶，以及船員日益增長的不滿情緒。末尾有一張急促潦草的便條，字跡不同，寫著「Captain Hawkins不會再寫航海日誌了。」
 dialogue	dialogue:0x0cdb:3dba:0	c1a1ba8c8a79207bf4194602ecfd4b8add58b6bf72da923c2a8277c822fc006f	石怪學 第一卷
 dialogue	dialogue:0x0cdb:3dd3:0	1c4f6bcaa3d6f0ce7a27afc2430092d0dce8af016a5d8f1a1e6d1809f916f767	Melinus研究
 dialogue	dialogue:0x0cdb:3deb:0	711d1953cfb1534902c15897dc90634e16106214dc2bfef4e6a99ab8a9699bbc	本書詳述了石怪頭骨的詳細圖解和圖表，包括有翼和無翼的石怪，以及從中獲取的資訊彙編。
-dialogue	dialogue:0x0cdb:3e8b:0	a60c729fa94671a29f9ff36a2f59d07ec61f59ef50c6cffb165d38d365a3e203	'..我注意到，有翼石像鬼和無翼石像鬼很可能是不同的物種。\n\n\t\t我最近研究了在戰場上倒下的屍體中取得的幾顆石像鬼頭骨，從中發現了一些有趣的特徵。
-dialogue	dialogue:0x0cdb:3e8b:1	79a1725802ac3848144d1f0dd9627b90850b5b704185f297aabe054b60ca6e2a	\n\n\t\t有翼石像鬼的頭骨極為狹長，與體型較小的無翼同類相比也較為纖薄。這雖然可能有助於提升牠們的空氣動力特性，卻也使顱腔變寬，進而增大了腦部。
-dialogue	dialogue:0x0cdb:3e8b:2	f927a5ac2985337bef46e5a0faceaedece2282aa59c725a1b0490b6b8cf999eb	\n\n\t\t無翼石像鬼的頭骨則短而寬，且更加厚實。牠們的下顎也比有翼石像鬼稍大，並且有 24 顆牙齒（比牠們的親族多 4 顆）。牠們的鼻腔也更大，這可能表示牠們更善於感知氣味。不過，我沒有證據能證明那是嗅覺腔，因為它們也可能是某種奇特的耳朵。
-dialogue	dialogue:0x0cdb:3e8b:3	d6582d39bafc5d5c7accd6ad96cbc6884e894b1a933b358dfb2c19173be33255	\n\n\t\t可惜，我仍未取得足夠的石像鬼樣本，無法更深入了解這些迷人的物種，因為牠們已證明是極難對付的敵人。未來研究牠們的服飾，或許就是忠實重建其史前歷史的關鍵...'.
+dialogue	dialogue:0x0cdb:3e8b:0	a60c729fa94671a29f9ff36a2f59d07ec61f59ef50c6cffb165d38d365a3e203	'..我注意到，有翼石像鬼和無翼石像鬼很可能是不同的物種。\t\t我最近研究了在戰場上倒下的屍體中取得的幾顆石像鬼頭骨，從中發現了一些有趣的特徵。
+dialogue	dialogue:0x0cdb:3e8b:1	79a1725802ac3848144d1f0dd9627b90850b5b704185f297aabe054b60ca6e2a	\t\t有翼石像鬼的頭骨極為狹長，與體型較小的無翼同類相比也較為纖薄。這雖然可能有助於提升牠們的空氣動力特性，卻也使顱腔變寬，進而增大了腦部。
+dialogue	dialogue:0x0cdb:3e8b:2	f927a5ac2985337bef46e5a0faceaedece2282aa59c725a1b0490b6b8cf999eb	\t\t無翼石像鬼的頭骨則短而寬，且更加厚實。牠們的下顎也比有翼石像鬼稍大，並且有 24 顆牙齒（比牠們的親族多 4 顆）。牠們的鼻腔也更大，這可能表示牠們更善於感知氣味。不過，我沒有證據能證明那是嗅覺腔，因為它們也可能是某種奇特的耳朵。
+dialogue	dialogue:0x0cdb:3e8b:3	d6582d39bafc5d5c7accd6ad96cbc6884e894b1a933b358dfb2c19173be33255	\t\t可惜，我仍未取得足夠的石像鬼樣本，無法更深入了解這些迷人的物種，因為牠們已證明是極難對付的敵人。未來研究牠們的服飾，或許就是忠實重建其史前歷史的關鍵...'.
 dialogue	dialogue:0x0cdb:4325:0	3ab8a59e2d20d5d40648d6901c2a5ace431f2c8815179f6d0782c74a732c7d97	Snilwit的桌上遊戲策略大全
 dialogue	dialogue:0x0cdb:4354:0	6c8974662c2e8c4c84b52f4db3dfc8d81d7593292038a119ff96dd656468ad65	Snilwit著
 dialogue	dialogue:0x0cdb:4367:0	e43da872670d0939f0caa09295e76c664be1edb286c25638a051041dd3951b18	西洋棋：試著用你的騎士、象和兵控制棋盤的中心。  
@@ -13724,21 +13749,21 @@ dialogue	dialogue:0x0cdb:4415:0	050fc55c0bf23b90617f2d3f8113919587128a91e2f50ff3
 dialogue	dialogue:0x0cdb:446f:0	ffe301d18a6e66671daafe51ca7589e32bb8260feda4ac453ac02d23c59e1bc1	靈性之書
 dialogue	dialogue:0x0cdb:448d:0	a0b5b61d75d3dd880f85296eb13e52f0cdc1754faf6032fa2022be95925f2805	在你的人生旅途中，要始終銘記靈性蘊含了一切美德的總和。當你在靈性中冥想時，吟誦真言 'om'，一切都會向你顯現...
 dialogue	dialogue:0x0cdb:44b:0	353d9e2134441495e875f011c26ae4e2a05777568fea5af3b8affbc8cde2973a	第 24 天
-dialogue	dialogue:0x0cdb:44b:1	6cc9ac73e17cc525db65f1f4d242414d516794a558aeb96e4ef582e269f012f1	看來我錯了。這裡沒有財寶。輕微的計算錯誤，該死的六分儀！詛咒Hawkins的可憎靈魂。*
+dialogue	dialogue:0x0cdb:44b:1	6cc9ac73e17cc525db65f1f4d242414d516794a558aeb96e4ef582e269f012f1	原來我是錯的。這裡沒有寶藏。小小的計算錯誤，該死的六分儀！該死的 Hawkins 可惡的靈魂*
 dialogue	dialogue:0x0cdb:454d:0	318faeaf5f0a02a0f82a067bc6c47f1c4b0c4494b20c1b5a415ac669e7933b22	這不是有效的卷軸 QUAL 屬性！停止作弊！
 dialogue	dialogue:0x0cdb:4be:0	f548646f72a683cfa5cade40cffadd465a88594ceeb73dce1964c1d0a3b1af8a	第30天
-dialogue	dialogue:0x0cdb:4be:1	9f2f23a93f163d863e5796175c806fad91fac31bc53e05865ef0539ddad0c1e9	他們今天又在盯著我看。那些耗子以為我不知道，但我心裡有數。那副嘴臉跟我們之前開膛殺害 Hawkins 時是一樣的。但它們休想動 Captain Ventara，千萬別想。我知道它們的陰謀。寶物的承諾只能暫時壓制它們的嗜血本能，但我感覺我離寶物很近了...*
+dialogue	dialogue:0x0cdb:4be:1	9f2f23a93f163d863e5796175c806fad91fac31bc53e05865ef0539ddad0c1e9	他們今天又盯著我看了。那些老鼠以為我不知道，但我清楚。那目光就像我們剝皮 Hawkins 之前看他一樣。但它們抓不到 Ventara 船長，哦，不會的。我曉得它們的陰謀。寶藏的承諾只能短暫壓制它們的嗜血本性，但我感覺我離寶藏很近了...*
 dialogue	dialogue:0x0cdb:5ff:0	472c1e42e41f5f374f62b83b016f7af57ed5ec15a9cdb9ccd4c145024916ba00	第33天
-dialogue	dialogue:0x0cdb:5ff:1	c7446620442306d9a554b72b56a99e7d5f7640e89a92f3c2dbf3ee47eb897b2c	我把我的大副送進了海底葬身魚腹，以警告那些懷有不軌之心的人。我不會與這些狗東西分享我的寶藏。我會利用他們足夠長的時間，直到抵達寶藏埋藏的地點。我相信我可以在途中甩掉他們，我會記住我們設下陷阱的地方。這件事結束後，我將退休成為一個非常富有的人。*
+dialogue	dialogue:0x0cdb:5ff:1	c7446620442306d9a554b72b56a99e7d5f7640e89a92f3c2dbf3ee47eb897b2c	我派我的大副去海底陪葬，以此警告任何有異心的人。我絕不會與這些狗賊分享財寶。我會利用他們直到抵達寶藏埋藏之地。我相信我可以在途中甩掉他們，我會記得我們設下陷阱的位置。我將退休成為一個非常富有的富人。*
 dialogue	dialogue:0x0cdb:748:0	9b8d04ad3282af0c25d39f11dae4dce48518e3d8e9900a790f4b8e4f0c74957e	第45天
-dialogue	dialogue:0x0cdb:748:1	59bb8a450a3c8825dc663097836b703a2c027009feac50be305b5a92f0818138	該死的暴風雨.. 能見度很低。過去幾天，由於地震，水域一直很粗糙。船員懇求我放棄遠征。我絕不答應！他們不會阻止我尋找寶藏！穿過暴風雨，我能看到標記該地點的方尖碑！就是這裡。*
+dialogue	dialogue:0x0cdb:748:1	59bb8a450a3c8825dc663097836b703a2c027009feac50be305b5a92f0818138	該死的暴風雨..能見度很低。過去幾天，由於地震，海面一直很顛簸。船員懇求我放棄這次遠征。我絕不答應！他們不能阻止我得到寶藏！透過風雨，我能看到標記位置的巨石碑！就是這裡了。*
 dialogue	dialogue:0x0cdb:877:0	675234292268b1a40d1c877f5f6285c489e06ed2b147bab51154e8450f8869a6	城市居民鄉間指南
 dialogue	dialogue:0x0cdb:8a6:0	39084aa27f0ebb6ce1bb9d939ca4a6d18234a485ef7ed17ffa18fe33041f22dc	作者拉斐（LaFey）
-dialogue	dialogue:0x0cdb:8b6:0	8475a6a96228ba157dca18899ee7c8c51ab09aeb181d547bd548e8d5d699dc54	在這卷書中，作者一位Britain的居民，描述了他鄉間漫步的情形，特別著重於其中的旅店、酒館及其顧客。
+dialogue	dialogue:0x0cdb:8b6:0	8475a6a96228ba157dca18899ee7c8c51ab09aeb181d547bd548e8d5d699dc54	在本書中，作者作為Britain的居民，描述了他鄉村漫步的情況，特別重點介紹了那裡的家傳店、飲酒室及其常客。
 dialogue	dialogue:0x0cdb:95a:0	adb1bdbb85035c194b3ff0a826e19a7be2849fa4198091c74211c9958fb638a1	...當我抵達帕斯（Paws）時，光線已經黯淡，冷風從東方吹來。古樸的村莊旅店熱情地歡迎我入內。我只不過拍了拍靴子上的灰塵，不久便與當地居民坐在一起，啜飲著陶杯中的酒，討論著織線、布料或是地方閒話。麥酒尚可入口，價格也不貴。當我掏出錢袋買第三輪時，話題從織工的事情轉到了宮廷的瑣事...
 dialogue	dialogue:0x0cdb:b4c:0	d83973cf45902f0fd73ad9828fd68a658aa132616113005a7b87bbe7bf7e4afc	惡魔之夢
 dialogue	dialogue:0x0cdb:b61:0	7c65578455a62dd6a7d59c84d089ae3a36cfe8e0319fac675b9cfc4f34125a6d	作者多姆（Dom）
-dialogue	dialogue:0x0cdb:b6f:0	a7e2160bd16311cacf5c912ee147521714783d76f918d2b53d128dcc5f97b4ea	曾經有一段時間，我遠赴北方。那是一個傳說中的國家，據說古時的德魯伊在那裏慶祝他們的祕密儀式。但我以為那些黑暗時代早已逝去。我住在家族的一位老友位於小鎮的住所。那時我感覺很不舒服。世界看起來一點都不吸引人。睡夢中我的夢擾人不安，而醒著時我覺得與日常生活的節奏不合拍。白天我渴望夢幻的夜晚，夜晚我則恐懼漫長而殘酷白天的來臨。所以我決定花些時間，正如你所讀到的，事情證明我是對的。
+dialogue	dialogue:0x0cdb:b6f:0	a7e2160bd16311cacf5c912ee147521714783d76f918d2b53d128dcc5f97b4ea	曾經有一段時間，我遠赴北方。那是一個傳說中的國家，據說古時的德魯伊在那里慶祝他們的祕密儀式。但我以為那些黑暗時代早已逝去。我住在家族的一位老友位於小鎮的住所。那時我感覺很不舒服。世界看起來一點都不吸引人。睡夢中我的夢擾人不安，而醒著時我覺得與日常生活的節奏不合拍。白天我渴望夢幻的夜晚，夜晚我則恐懼漫長而殘酷白天的來臨。所以我決定花些時間，正如你所讀到的，事情證明我是對的。
 dialogue	dialogue:0x0cdb:dde:0	06d7b1ce05805b06c3237ba312cd3ec3229e3961614151425d277d3140f038e2	因為我別無他事可做，我經常去漫長的散步，探索鄉間。有一天，我穿過樹林，儘管村民們曾多次警告我不要這麼做。他們聲稱森林是被鬼附的。那裡可以看到和聽到奇異的光線和聲音。據說那裡住著非人的生物。關於發生過許多無法解釋的事情的故事層出不窮。但我不屑一顧這些迷信的廢話。我們生活在現代，為何要聽從這些愚蠢的警告。至少我認為它們是愚蠢的。
 dialogue	dialogue:0x0cdb:ff0:0	10b7ef6c06e98be68265d3d5e840952ff73919ef561a56ab4c4adbbb5421ac6a	在欣賞了幾小時自然美景後，我來到了一個奇怪的圓形空曠地帶，那裡的一切都顯得平靜而安靜。天氣不錯，我也有些疲憊，所以決定休息一會兒。我躺在空曠地和午後的陽光下。沒過多久，我的眼皮變得沉重，再也無法保持清醒。在我陷入無夢的深睡之前，我突然意識到那個空曠地帶被一圈形狀怪異的石頭和蘑菇環繞著。但隨即我的思緒已經混亂到無法理解發生了什麼...
 dialogue	dialogue:0x0cdc:0:0	f880332734598d48f42cc50ea45bd5238642c4f3dea0cbaf4713e2de3421cd18	應移去泥土
@@ -14142,7 +14167,7 @@ dialogue	dialogue:0x0d04:121:0	fa8ca3826bc5fe0ddc0469ca6fbbd64fa37363c47fc05c61d
 dialogue	dialogue:0x0d04:131:0	cd126377cec9a35e68e231b5f79653607bcdf40b5c34520f7cbad6709cc30643	正在檢查 
 dialogue	dialogue:0x0d04:13b:0	f7a1fffc1a70ac37333c8111ea1a5e2225c974e365320ca99e240336c4903a00	 否則在循環中，應該是其他人
 dialogue	dialogue:0x0d04:162:0	7960c0f2ed20e3f16fd3a90492f8af1c94853ebb802e818f0789b4a389bf93cd	已刪除 
-dialogue	dialogue:0x0d04:16b:0	f5361047624a36dba260d49281e857f533dbe41003934d0f8e4dbf8fe7c137ba	魔法
+dialogue	dialogue:0x0d04:16b:0	f5361047624a36dba260d49281e857f533dbe41003934d0f8e4dbf8fe7c137ba	 咒語
 dialogue	dialogue:0x0d04:173:0	39755da557936e377c8830ce9d9e2516ac52cb6f3d0276e7a661dd07e173cba8	NPC 已檢查，繼續。
 dialogue	dialogue:0x0d04:192:0	04b79ac02819b8fcfc0363c47ade7007880d5e309a9ef63fe2b4c12e3021d96c	風暴披風已卸下
 dialogue	dialogue:0x0d04:1aa:0	42b88b310bdb4d182a7678c1e613a386dc77ec1cfe91128a7163a60fcd615a79	斗篷尚未準備就緒 - 已清除「法師剋星」標記，目標為
@@ -15616,7 +15641,7 @@ textmsg	textmsg:0x0103	1dc53c74b9fc01a45dd416313bbb175cf5cdd2218ae366b769cb5cf70
 textmsg	textmsg:0x0104	d92b154b07b4b3911945ac5bdb4d8f28b08581844ade0ae229d3e98d983f109e	誰動我的椅子了？？
 textmsg	textmsg:0x0105	5577d799be492682ff68f263be1c238db14ca940365df8cb4635808db21fd984	你看起來很精神。
 textmsg	textmsg:0x0106	94bd67bebdc1acca593b85ea190e6155e2d55e2fa0086dabed9b8192b42a8a1f	一切都還好嗎？
-textmsg	textmsg:0x0107	28daa7c1d0599ff0c92e3d7cff231f6ce107cce61e8a5a2ef0ce9e1b0443d7a8	準備好喫甜點了嗎？
+textmsg	textmsg:0x0107	28daa7c1d0599ff0c92e3d7cff231f6ce107cce61e8a5a2ef0ce9e1b0443d7a8	准備好吃甜點了嗎？
 textmsg	textmsg:0x0108	b8f291487a0c82eb3a266c76043d219d2a8141c9931395b5494677b8412d4127	享用吧！
 textmsg	textmsg:0x0109	03aa5c8b630def1d3277f7c64b9a5dc59bf0e2c36ab26b5886badffd7d8cfc55	本店特色！
 textmsg	textmsg:0x010a	3fba1a16403c9853f35e5b9047a6440f70418b86f0fdcb117993040a82324794	聖者！請克制 yourself！
@@ -16191,28 +16216,3 @@ textmsg	textmsg:0x04b5	c120f4746fbc409276afea993300f7cee2ca2a492e3867afde51eefa4
 textmsg	textmsg:0x04b6	694eeb52cf9f4162d0e81670928bd3a0a40a5d89efe2dfa75ae603652c37dfae	ready_type: 0x
 textmsg	textmsg:0x04b7	7aa7cf64bd2c5e0e514e3e9d58c41c3059111ec75a36a6bc349affa583f128c8	3d：
 textmsg	textmsg:0x04b8	e4cd787724cf6e557dfb2158a3685cdb68ac5d1f84f928832e6b45cd06e94b98	無形狀
-dialogue	dialogue:0x092e:1:0	c0e7b7dc9efb46654cdddcc722d63afcfbac59db43c09d6b8eedcb97560cbf3e	@看來要下雨了...@
-dialogue	dialogue:0x092e:16:0	e30b306e3d4dd9ef43636bf3a387bba0b0d8cd517b12e9e01877b685303220d5	見禮了。
-dialogue	dialogue:0x092e:23:0	94afdef5ae16787a4ad1c17d2aca87ae6da453bca5aefb09cdbad19335aed722	@噢，我的背好痛...@
-dialogue	dialogue:0x092e:3b:0	ad2f39540b907a7795be56eba6140b99edbd9ea6ce6b1b0f5939316ebfbd56d2	@唉...@
-dialogue	dialogue:0x092e:47:0	f96559f5ed49488012df227dfcbe176f4638ce824b93813fde82b8c42cbd83e7	@呼呼...@
-dialogue	dialogue:0x092e:54:0	f5075cdb90919f326751eb39afd5575524bb3cad88808872391b9eb0740e0911	@試試葡萄酒。@
-dialogue	dialogue:0x092e:64:0	0c76149bcb4ed2ceb13c8764885815e2c77b4d77ac1559fb09c449d5d5d1c48d	@麵包很新鮮。@
-dialogue	dialogue:0x092e:7a:0	84b7b1f5780ce879a8f5bca049ece96f2a99f4693afde3136564103acd515922	@試試羊肉。@
-dialogue	dialogue:0x092e:8c:0	346188d3aa9a6a93ff91b160336fdeb65736b8b1e13c8ba17c26654b792136af	@我推薦麥酒。@
-dialogue	dialogue:0x092e:a3:0	5f85ff8883dbb06c40cad8722e17717c2deb97310e4dc727df53dee6f28bfd05	@為團結而努力。@
-dialogue	dialogue:0x092e:b7:0	b8f9e1c58360dd56128f1674cf02267436ecc555e9e9d13a8c88f9514fca53d2	@信任你的兄弟。@
-dialogue	dialogue:0x092e:cc:0	1eb18bf07aee1cdaf04c9b1de29fbe7d35055a3460d80a47141a389f4d696ec0	@品格先於獎賞。@
-dialogue	dialogue:0x092e:ea:0	55154878baf62188389b2454f54e57c987f7ff22179072101f3ea874f8605cc2	@加入友誼會！@
-dialogue	dialogue:0x092e:101:0	09f1a49c24ec627bc0823e058fede4878a0d2bdcc0f00df2aeaaf6208e763c20	@嗯！好吃！@
-dialogue	dialogue:0x092e:10f:0	b223bd11f71139f310b4f72f6ea077d64cc9ebf513d3d20930d520f4ac42d93d	@好吃！@
-dialogue	dialogue:0x092e:118:0	db001f39b9b47716c77d2aaf9a348a99eb727e4d2460e474497117a6240edc84	@這很好！@
-dialogue	dialogue:0x092e:128:0	60c0c5dcf9199680e58c0d2227c6ea5d8fa8538f25de1c3c6e3b76370a784c42	@服務生！服務生！@
-dialogue	dialogue:0x092e:13a:0	1aad9b4e6aadc59e666fc3c373e1c8a2ed6e1e4db6419f4b73ebe42d6ba3ddbb	@呼！真熱！@
-dialogue	dialogue:0x092e:14c:0	e39abf6fc21ab4996452d55c3b837b7c45cc6606572cd870f1b145c59b3ba13d	@哎呀！割傷自己了！@
-dialogue	dialogue:0x092e:160:0	9645b992ba172baad8ec0a11fd22b8f16d972c06a72f9f66f125deadb2ceb536	@工作...工作...工作...@
-dialogue	dialogue:0x092e:178:0	9d1bd33a74ac38e209ffa3e7cab324bd97b8a6a825c95fb698cf40846b1b660a	@我們需要雨水...@
-dialogue	dialogue:0x092e:18a:0	4f1c35a51d506fb5c06c3df43eae9b5a4a281b79b20807509e869b15370c16d8	@標記！你是鬼！@
-dialogue	dialogue:0x092e:19e:0	1bfdd7c86bcc40cdeca550f4bb7e7fd3fae033a70bb379c0e2916d699ba1ad67	@抓不到我！@
-dialogue	dialogue:0x092e:1b1:0	57bca9f8a86fc36a95f793acbf2cd6f5d0584975bad242803aad4313f799957a	@啦啦啦！你是鬼！@
-dialogue	dialogue:0x092e:1cb:0	b6f754e18726710025a6255c137ddd7e8a2ef93b6249badc4a95ec9d0814c956	@有本事就來抓我！@

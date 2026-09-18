@@ -7,6 +7,7 @@ import unittest
 from unittest.mock import patch
 
 from tools.u6_translation.deploy import (
+    DEPLOY_ROOT,
     DEPLOY_RELATIVE_PATHS,
     deploy_staged_files,
     validate_staging,
@@ -116,6 +117,21 @@ class DeploymentTest(unittest.TestCase):
 
             with self.assertRaises(ValueError):
                 validate_staging(stage)
+
+    def test_checked_in_staging_contains_exact_release_files(self) -> None:
+        self.assertEqual(
+            {
+                path.relative_to(DEPLOY_ROOT).as_posix()
+                for path in DEPLOY_ROOT.rglob("*")
+                if path.is_file()
+            },
+            set(DEPLOY_RELATIVE_PATHS),
+        )
+        self.assertFalse((DEPLOY_ROOT / "usecode.zh").exists())
+        for relative in ("patch/autonotes.txt", "patch/textmsg.txt"):
+            raw = (DEPLOY_ROOT / relative).read_bytes()
+            self.assertGreater(raw.count(b"\r\n"), 0)
+            self.assertEqual(raw.count(b"\r\n"), raw.count(b"\n"))
 
 
 if __name__ == "__main__":

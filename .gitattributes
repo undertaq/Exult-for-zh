@@ -56,6 +56,10 @@
 *.cfg		text
 *.txt		text
 
+# The U7 patch resources are consumed as CRLF text by the game. Preserve their
+# checked-in bytes and intentional trailing spaces as release data.
+tools/u6_translation/deploy/patch/*.txt text eol=crlf -diff
+
 *.iss		text
 
 *.c			text diff=cpp
