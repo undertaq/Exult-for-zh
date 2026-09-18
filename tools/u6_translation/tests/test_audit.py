@@ -824,7 +824,7 @@ class AuditReportTest(unittest.TestCase):
                 {entry.key},
             )
 
-    def test_traditional_policy_requires_glossary_declaration(self) -> None:
+    def test_traditional_policy_runs_without_glossary_declaration(self) -> None:
         entry = _entry("misc", "misc:0x0052", "Welcome")
         row = RuntimeRow(entry.kind, entry.key, entry.source_sha256, "简体中文")
         with tempfile.TemporaryDirectory() as directory:
@@ -840,10 +840,14 @@ class AuditReportTest(unittest.TestCase):
             )
             declared_report = correctness_report([entry], [row], declared, None)
 
-        self.assertNotIn(
-            "traditional_chinese",
-            {issue["check"] for issue in undeclared_report["deterministic"]["issues"]},
-        )
+        undeclared_traditional = [
+            issue
+            for issue in undeclared_report["deterministic"]["issues"]
+            if issue["check"] == "traditional_chinese"
+        ]
+        self.assertEqual(len(undeclared_traditional), 1)
+        self.assertEqual(undeclared_traditional[0]["severity"], "warning")
+        self.assertFalse(undeclared_traditional[0]["blocking"])
         traditional = [
             issue for issue in declared_report["deterministic"]["issues"]
             if issue["check"] == "traditional_chinese"
@@ -851,6 +855,49 @@ class AuditReportTest(unittest.TestCase):
         self.assertEqual(len(traditional), 1)
         self.assertEqual(traditional[0]["severity"], "error")
         self.assertTrue(traditional[0]["blocking"])
+
+    def test_traditional_policy_catches_simplified_glyph_outside_legacy_map(self) -> None:
+        entry = _entry(
+            "dialogue",
+            "dialogue:0x0438:560:0",
+            "From the folds of her cloak, she withdraws a velvet pouch.*",
+        )
+        row = RuntimeRow(
+            entry.kind,
+            entry.key,
+            entry.source_sha256,
+            "從她的斗篷褶皺中，她取出一個絲絨袋。*".replace("皺", "皱"),
+        )
+        report = correctness_report([entry], [row], GLOSSARY, None)
+        traditional = [
+            issue
+            for issue in report["deterministic"]["issues"]
+            if issue["check"] == "traditional_chinese"
+        ]
+        self.assertTrue(any("皱" in issue["message"] for issue in traditional))
+
+    def test_traditional_policy_checks_every_text_kind(self) -> None:
+        entries = [
+            _entry("dialogue", "dialogue:0x0401:95:0", "Dialogue"),
+            _entry("choice", "choice:0x0401:0x0095:0", "Choice"),
+            _entry("textmsg", "textmsg:0x0095", "Text message"),
+            _entry("item", "item:0x0095:0:0", "Item"),
+            _entry("location", "location:0x0095", "Location"),
+            _entry("misc", "misc:0x0095", "Misc"),
+            _entry("spell", "spell:0x0095", "@Spell@"),
+        ]
+        rows = [
+            RuntimeRow(entry.kind, entry.key, entry.source_sha256, "简体中文")
+            for entry in entries
+        ]
+
+        report = correctness_report(entries, rows, GLOSSARY, None)
+        traditional_keys = {
+            issue["key"]
+            for issue in report["deterministic"]["issues"]
+            if issue["check"] == "traditional_chinese"
+        }
+        self.assertEqual(traditional_keys, {entry.key for entry in entries})
 
     def test_orphan_identity_reporting_is_sorted_and_deduplicated(self) -> None:
         rows = [
@@ -896,6 +943,17 @@ class AuditReportTest(unittest.TestCase):
         self.assertIn("choice", terminal)
         self.assertIn("weighted", terminal)
         self.assertIn("unobserved", terminal)
+
+    def test_terminal_report_mentions_traditional_chinese_results(self) -> None:
+        entry = _entry("misc", "misc:0x0053", "Welcome")
+        report = correctness_report(
+            [entry],
+            [RuntimeRow(entry.kind, entry.key, entry.source_sha256, "简体中文")],
+            GLOSSARY,
+            None,
+        )
+        terminal = format_terminal_report(report)
+        self.assertIn("Traditional-Chinese policy: warning; issues: 1", terminal)
 
     def test_terminal_report_mentions_english_name_policy_results(self) -> None:
         entry = _entry("dialogue", "dialogue:0x0401:93:0", "Iolo")
