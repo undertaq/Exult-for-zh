@@ -83,6 +83,33 @@ class VoiceManifestTtsTests(unittest.TestCase):
             sorted(row.source_sha256 for row in rows),
         )
 
+    def test_duplicate_voice_keys_are_reported_when_english_hashes_match(self) -> None:
+        rows = [
+            row_with(
+                text_zh="一",
+                tts_zh="一",
+                speaker="Iolo",
+            ),
+            row_with(
+                text_zh="壹",
+                tts_zh="壹",
+                speaker="Dupre",
+            ),
+        ]
+
+        collisions = voice_key_collisions(rows)
+
+        self.assertEqual(
+            collisions,
+            [
+                {
+                    "key": "dialogue:0x0401:1a:0",
+                    "source_sha256": [rows[0].source_sha256],
+                    "row_count": 2,
+                }
+            ],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
