@@ -73,8 +73,15 @@ class TranslationCliTest(unittest.TestCase):
             root = Path(directory)
             manifests = root / "manifests"
             manifests.mkdir()
-            (manifests / "en_manifest.csv").write_text("filename\n0401_10_0.ogg\n", encoding="utf-8")
-            (manifests / "zh_manifest.csv").write_text("filename\n0401_10_0.ogg\n", encoding="utf-8")
+            header = "filename,func_id,offset_key,segment,speaker,voice_desc,text\n"
+            (manifests / "en_manifest.csv").write_text(
+                header + "0401_10_0.ogg,0401,10,0,Iolo,Iolo,Hello\n",
+                encoding="utf-8",
+            )
+            (manifests / "zh_manifest.csv").write_text(
+                header + "0401_10_0.ogg,0401,10,0,Iolo,Iolo,你好\n",
+                encoding="utf-8",
+            )
             output = root / "audio"
 
             result = self._run(
