@@ -2182,14 +2182,18 @@ void Actor::activate(int event) {
 		return;
 	}
 
-	const bool show_party_inv = gumpman->showing_gumps(true) || gwin->in_combat();
+	// A normal world double-click on a party member should reach usecode even
+	// when another non-persistent gump is open. Keep inventory behavior for
+	// combat and other activation events.
+	const bool party_inventory =
+		party_id >= 0 && (gwin->in_combat() || (gumpman->showing_gumps(true) && event != 1));
 	auto       sched          = static_cast<Schedule::Schedule_types>(get_schedule_type());
 	if (party_id >= 0 && !can_act_charmed() &&     // if in party, charmed, and charmed more difficult
 		!cheat.in_pickpocket() && event == 1) {    // and not pickpocket, return if double click
 		return;
 	}
 	if (!npc_num ||                             // Avatar
-		(show_party_inv && party_id >= 0) ||    // Party
+		party_inventory ||                       // Party
 		// Pickpocket cheat && double click
 		(cheat.in_pickpocket() && event == 1)) {
 		show_inventory();

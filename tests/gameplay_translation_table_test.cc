@@ -152,6 +152,230 @@ void assert_runtime_speaker_capture_source_policy() {
 	assert(ucinternal.find("get_npc_name()") != std::string::npos);
 }
 
+void assert_placeholder_translation_has_no_dynamic_registry_dependency() {
+	std::ifstream translation_source("gameplay_translation.cc");
+	const std::string implementation(
+			(std::istreambuf_iterator<char>(translation_source)),
+			std::istreambuf_iterator<char>());
+	assert(!implementation.empty());
+	// Placeholder rows are part of the normal translation table. Runtime must
+	// not open or iterate a finite dynamic_templates.tsv registry.
+	assert(implementation.find("dynamic_templates.tsv") == std::string::npos);
+	assert(implementation.find("dynamic_templates_") == std::string::npos);
+
+	std::ifstream header_source("gameplay_translation.h");
+	const std::string header(
+			(std::istreambuf_iterator<char>(header_source)),
+			std::istreambuf_iterator<char>());
+	assert(!header.empty());
+	assert(header.find("dynamic_templates_") == std::string::npos);
+
+	std::ifstream ucinternal_source("usecode/ucinternal.cc");
+	const std::string ucinternal(
+			(std::istreambuf_iterator<char>(ucinternal_source)),
+			std::istreambuf_iterator<char>());
+	assert(!ucinternal.empty());
+	assert(ucinternal.find(
+				"translate_dialogue_placeholders_if_available(")
+			== std::string::npos);
+}
+
+void assert_provenance_templates_use_source_stable_keys() {
+	const std::string source = "@Hello <VAR0>!@";
+	const std::string key = make_dialogue_template_translation_key(0x043e, source);
+	assert(key == "dialogue:0x043e:fallback_"
+			+ sha256_hex(normalize_translation_source(source)).substr(0, 16)
+			+ ":0");
+	assert(key.find("snaz") == std::string::npos);
+}
+
+void assert_runtime_provenance_is_value_scoped() {
+	std::ifstream ucinternal_source("usecode/ucinternal.cc");
+	const std::string ucinternal(
+			(std::istreambuf_iterator<char>(ucinternal_source)),
+			std::istreambuf_iterator<char>());
+	assert(!ucinternal.empty());
+	// PUSHS values can be assembled in a local and appended later by ADDSV.
+	// Their literal anchors must follow the VM value, not a global history of
+	// every PUSHS executed by the conversation/menu code.
+	assert(ucinternal.find("voice_stack_fragments") != std::string::npos);
+	assert(ucinternal.find("voice_local_fragments") != std::string::npos);
+	assert(ucinternal.find("take_voice_fragments") != std::string::npos);
+}
+
+void assert_item_say_uses_runtime_provenance_for_overhead_text() {
+	std::ifstream ucinternal_source("usecode/ucinternal.cc");
+	const std::string ucinternal(
+			(std::istreambuf_iterator<char>(ucinternal_source)),
+			std::istreambuf_iterator<char>());
+	assert(!ucinternal.empty());
+	// item_say must consume the same VM fragment provenance as SAY.  Its
+	// overhead path cannot recover a placeholder from the completed sentence.
+	assert(ucinternal.find("item_say_fragments") != std::string::npos);
+	assert(ucinternal.find(
+			"translate_dialogue_fragments_if_available(") != std::string::npos);
+	const size_t capture = ucinternal.find("item_say_fragments");
+	const size_t execute = ucinternal.find("Execute_Intrinsic", capture);
+	assert(capture != std::string::npos);
+	assert(execute != std::string::npos);
+	assert(capture < execute);
+}
+
+void assert_static_item_say_fragments_translate() {
+	const std::string source = "@Oh, my aching back...@";
+	const std::string table_text =
+			"# u6-translation-v1\n"
+			"# kind\tkey\tsource_sha256\tzh\n"
+			"dialogue\tdialogue:0x092e:23:0\t"
+			+ sha256_hex(normalize_translation_source(source))
+			+ "\t@噢，我的背好痛...@\n";
+	GameplayTranslationManager& manager = GameplayTranslationManager::get();
+	manager.shutdown();
+	manager.set_text_language(TextLanguage::CHINESE);
+	std::string error;
+	std::istringstream input(table_text);
+	assert(manager.load_table(input, error));
+
+	const auto translated = manager.translate_dialogue_fragments_if_available(
+			0x092e, source,
+			std::vector<DialogueTranslationPart>{{
+					source, "dialogue:0x092e:23:0", false}});
+	assert(translated.has_value());
+	assert(*translated == "@噢，我的背好痛...@");
+}
+
+void assert_protected_professional_terms_use_source_global_rows() {
+	std::ifstream table_file("tools/u6_translation/zh_translation.tsv");
+	assert(table_file);
+	GameplayTranslationManager& manager = GameplayTranslationManager::get();
+	manager.shutdown();
+	manager.set_text_language(TextLanguage::CHINESE);
+	std::string error;
+	assert(manager.load_table(table_file, error));
+	assert(error.empty());
+
+	// Runtime fragments can arrive without an NPC-specific key.  The
+	// glossary-backed runtime rows keep the singular/plural professional terms
+	// English in dialogue, choices, books, items, and overhead text alike.
+	assert(manager.translate_by_source(
+			GameplayTranslationKind::Dialogue, "wisp") == "wisp");
+	assert(manager.translate_by_source(
+			GameplayTranslationKind::Dialogue, "wisps") == "wisps");
+	assert(manager.translate_by_source(
+			GameplayTranslationKind::Choice, "wisps") == "wisps");
+	assert(manager.translate_by_source(
+			GameplayTranslationKind::Item, "wisp") == "wisp");
+}
+
+void assert_gwenneth_static_anchor_template_is_translated() {
+	const std::string source_template =
+			"Turning to you, Gwenneth says, @And what can I do for "
+			"Iolo's friend this fine <VAR0>?@";
+	const std::string runtime_source =
+			"Turning to you, Gwenneth says, @And what can I do for "
+			"Iolo's friend this fine afternoon?@";
+
+	std::ifstream table_file("tools/u6_translation/zh_translation.tsv");
+	assert(table_file);
+	GameplayTranslationManager& manager = GameplayTranslationManager::get();
+	manager.shutdown();
+	manager.set_text_language(TextLanguage::CHINESE);
+	std::string error;
+	assert(manager.load_table(table_file, error));
+	assert(error.empty());
+
+	const std::optional<std::string> translated =
+			manager.translate_dialogue_template_if_available(
+					runtime_source, source_template);
+	assert(translated.has_value());
+	assert(*translated ==
+				"轉過身對著你，Gwenneth 說，@在這美好的午後，我能為 "
+				"Iolo 的朋友做些什麼？@");
+}
+
+void assert_gwenneth_hello_again_static_anchor_template_is_translated() {
+	const std::string source_template =
+			"@Hello again. What can I do for thee this fine <VAR0>?@";
+	const std::string runtime_source =
+			"@Hello again. What can I do for thee this fine afternoon?@";
+
+	std::ifstream table_file("tools/u6_translation/zh_translation.tsv");
+	assert(table_file);
+	GameplayTranslationManager& manager = GameplayTranslationManager::get();
+	manager.shutdown();
+	manager.set_text_language(TextLanguage::CHINESE);
+	std::string error;
+	assert(manager.load_table(table_file, error));
+	assert(error.empty());
+
+	const std::optional<std::string> translated =
+			manager.translate_dialogue_template_if_available(
+					runtime_source, source_template);
+	assert(translated.has_value());
+	assert(*translated == "@再次見面了。在這美好的午後，我能為你做些什麼？@");
+}
+
+void assert_shamino_wait_here_template_is_translated() {
+	const std::string source_template =
+			"Very well, <VAR0>, I shall wait here until thy return.@";
+	const std::string runtime_source =
+			"Very well, Avatar, I shall wait here until thy return.@";
+
+	std::ifstream table_file("tools/u6_translation/zh_translation.tsv");
+	assert(table_file);
+	GameplayTranslationManager& manager = GameplayTranslationManager::get();
+	manager.shutdown();
+	manager.set_text_language(TextLanguage::CHINESE);
+	std::string error;
+	assert(manager.load_table(table_file, error));
+	assert(error.empty());
+
+	const std::optional<std::string> translated =
+			manager.translate_dialogue_template_if_available(
+					runtime_source, source_template);
+	assert(translated.has_value());
+	assert(*translated == "很好，聖者，我會在這裡等你回來。@");
+}
+
+void assert_structural_fragment_fallback_translates_missing_template() {
+	const std::string prefix = "Very well, ";
+	const std::string value = "Avatar";
+	const std::string suffix = ", I shall wait here until thy return.@";
+	const std::string source_template =
+			"Very well, <VAR0>, I shall wait here until thy return.@";
+	const std::string table_text =
+			"# u6-translation-v1\n"
+			"# kind\tkey\tsource_sha256\tzh\n"
+			"dialogue\tdialogue:0x0403:700:0\t"
+			+ sha256_hex(normalize_translation_source(prefix)) + "\t很好，\n"
+			"dialogue\tdialogue:0x0403:701:0\t"
+			+ sha256_hex(normalize_translation_source(suffix))
+			+ "\t我會在這裡等你回來。@\n";
+
+	GameplayTranslationManager& manager = GameplayTranslationManager::get();
+	manager.shutdown();
+	manager.set_text_language(TextLanguage::CHINESE);
+	std::istringstream input(table_text);
+	std::string error;
+	assert(manager.load_table(input, error));
+	assert(error.empty());
+
+	const std::vector<std::pair<std::string, std::string>> substitutions{
+			{"<VAR0>", "聖者"}};
+	assert(!manager.translate_dialogue_template_values_if_available(
+			source_template, substitutions));
+
+	const std::optional<std::string> translated =
+			manager.translate_dialogue_fragments_if_available(
+					0x0403, prefix + value + suffix,
+					std::vector<DialogueTranslationPart>{
+							{prefix, "dialogue:0x0403:700:0", false},
+							{value, "", true},
+							{suffix, "dialogue:0x0403:701:0", false}});
+	assert(translated.has_value());
+	assert(*translated == "很好，Avatar我會在這裡等你回來。@");
+}
+
 void assert_conversation_display_changes_only_copy_get_answer_stays_byte_for_byte_identical() {
 	std::ifstream conversation_header("usecode/conversation.h");
 	const std::string header(
@@ -211,6 +435,13 @@ void assert_conversation_display_changes_only_copy_get_answer_stays_byte_for_byt
 			!= std::string::npos);
 	assert(ucinternal.find("const char* ans = conv->get_answer(choice_num);")
 			!= std::string::npos);
+	const size_t addsv_fragments = ucinternal.find(
+			"for (Voice_string_part& part : local_fragments)");
+	const size_t addsv_dynamic = ucinternal.find(
+			"part.dynamic = true", addsv_fragments);
+	assert(addsv_fragments != std::string::npos);
+	assert(addsv_dynamic != std::string::npos);
+	assert(addsv_fragments < addsv_dynamic);
 	std::ifstream spellbook("gumps/Spellbook_gump.cc");
 	assert(spellbook.good());
 	const std::string spellbook_source(
@@ -351,6 +582,109 @@ void assert_dynamic_dialogue_template_replaces_runtime_name() {
 			"帶著神秘的微笑，她將一瓶閃爍的液體遞給你。");
 }
 
+void assert_snaz_dynamic_dialogue_template_replaces_gendered_word() {
+	const std::string source_template = "@Hello my good <VAR0>!@";
+	const std::string runtime_source = "@Hello my good man!@";
+	const std::string source_hash = sha256_hex(
+			normalize_translation_source(source_template));
+	const std::string man_hash = sha256_hex(
+			normalize_translation_source("man"));
+	const std::string table_text =
+			"# u6-translation-v1\n"
+			"# kind\tkey\tsource_sha256\tzh\n"
+			"dialogue\tdialogue:0x043e:template_snaz_good_man:0\t"
+			+ source_hash + "\t@您好，我的好<VAR0>！@\n"
+			"dialogue\tdialogue:0x043e:6:0\t"
+			+ man_hash + "\t人\n";
+
+	GameplayTranslationManager& manager = GameplayTranslationManager::get();
+	manager.shutdown();
+	manager.set_text_language(TextLanguage::CHINESE);
+	std::string error;
+	std::istringstream input(table_text);
+	assert(manager.load_table(input, error));
+	assert(error.empty());
+
+	const std::string translated_word = manager.translate_by_source(
+			GameplayTranslationKind::Dialogue, "man");
+	assert(translated_word == "人");
+	const std::optional<std::string> translated =
+			manager.translate_dialogue_template_if_available(
+					runtime_source, source_template,
+					{{"<VAR0>", translated_word}});
+	assert(translated.has_value());
+	assert(*translated == "@您好，我的好人！@");
+}
+
+void assert_snaz_runtime_template_hook_is_reachable() {
+	std::ifstream ucinternal_source("usecode/ucinternal.cc");
+	const std::string ucinternal(
+			(std::istreambuf_iterator<char>(ucinternal_source)),
+			std::istreambuf_iterator<char>());
+	assert(!ucinternal.empty());
+	// Snaz's usecode assembles the greeting with pushs/add before one ADDSV,
+	// so the generic trace becomes only <VAR0>. All NPCs use the shared
+	// provenance-driven template path; no function-specific hook is allowed.
+	assert(ucinternal.find("voice_string_parts") != std::string::npos);
+	assert(ucinternal.find("if (voice_func_id == 0x043e)")
+				== std::string::npos);
+	assert(ucinternal.find("if (voice_func_id == 0x0419)")
+				== std::string::npos);
+	assert(ucinternal.find("snaz_good_greeting_template")
+			== std::string::npos);
+	assert(ucinternal.find("const std::string b_you") == std::string::npos);
+	assert(ucinternal.find("const std::string b_party") == std::string::npos);
+	assert(ucinternal.find("const std::string b_avatar") == std::string::npos);
+	assert(ucinternal.find("replace_first_placeholder") != std::string::npos);
+	assert(ucinternal.find(
+			"infer_dialogue_template_candidates_from_static_fragments")
+			== std::string::npos);
+	assert(ucinternal.find(
+			"translate_dialogue_fragments_if_available")
+			!= std::string::npos);
+}
+
+void assert_generic_dialogue_placeholders_are_extracted_and_translated() {
+	const std::string source_template =
+			"@Greetings <NPC_NAME> (<VAR0>)!@";
+	const std::string runtime_source =
+			"@Greetings guard (2)!@";
+	const std::string template_hash = sha256_hex(
+			normalize_translation_source(source_template));
+	const std::string guard_hash = sha256_hex(
+			normalize_translation_source("guard"));
+	const std::string peyton_source =
+			"@Greetings, <PLAYER_NAME>, and welcome to the Wayfarer's Inn!@";
+	const std::string peyton_hash = sha256_hex(
+			normalize_translation_source(peyton_source));
+	const std::string table_text =
+			"# u6-translation-v1\n"
+			"# kind\tkey\tsource_sha256\tzh\n"
+			"dialogue\tdialogue:0x0700:template_generic:0\t"
+			+ template_hash + "\t@問候<NPC_NAME>（<VAR0>）！@\n"
+			"dialogue\tdialogue:0x0700:template_value_guard:0\t"
+			+ guard_hash + "\t守衛\n"
+			"dialogue\tdialogue:0x0419:template_peyton_greeting:0\t"
+			+ peyton_hash + "\t@您好，<PLAYER_NAME>，歡迎來到旅者客棧！@\n";
+	GameplayTranslationManager& manager = GameplayTranslationManager::get();
+	manager.shutdown();
+	manager.set_text_language(TextLanguage::CHINESE);
+	std::istringstream input(table_text);
+	std::string error;
+	assert(manager.load_table(input, error));
+	const std::optional<std::string> translated =
+			manager.translate_dialogue_template_if_available(
+					runtime_source, source_template);
+	assert(translated.has_value());
+	assert(*translated == "@問候守衛（2）！@");
+	const std::optional<std::string> table_translation =
+			manager.translate_dialogue_template_if_available(
+					"@Greetings, Joe, and welcome to the Wayfarer's Inn!@",
+					peyton_source);
+	assert(table_translation.has_value());
+	assert(*table_translation == "@您好，Joe，歡迎來到旅者客棧！@");
+}
+
 void assert_iolo_dynamic_dialogue_template_replaces_runtime_name() {
 	const std::string source_template =
 			"@Well, <PLAYER_NAME>, do you need help with something? Or maybe "
@@ -387,7 +721,8 @@ void assert_iolo_dynamic_dialogue_template_replaces_runtime_name() {
 			(std::istreambuf_iterator<char>(ucinternal_source)),
 			std::istreambuf_iterator<char>());
 	assert(!ucinternal.empty());
-	assert(ucinternal.find("iolo_greeting_template") != std::string::npos);
+	assert(ucinternal.find("translate_dialogue_fragments_if_available(")
+			!= std::string::npos);
 }
 
 void assert_multi_placeholder_dialogue_template_replaces_runtime_values() {
@@ -402,7 +737,7 @@ void assert_multi_placeholder_dialogue_template_replaces_runtime_values() {
 			"# kind\tkey\tsource_sha256\tzh\n"
 			"dialogue\tdialogue:0x0494:template_lord_british_greeting:0\t"
 			+ source_hash +
-			"\t@美好的<TIME_OF_DAY>，<PLAYER_NAME>。汝欲談何事？@\n";
+			"\t@<TIME_OF_DAY>，<PLAYER_NAME>。汝欲談何事？@\n";
 
 	GameplayTranslationManager& manager = GameplayTranslationManager::get();
 	manager.shutdown();
@@ -413,13 +748,246 @@ void assert_multi_placeholder_dialogue_template_replaces_runtime_values() {
 	assert(error.empty());
 
 	const std::vector<std::pair<std::string, std::string>> substitutions = {
-			{"<TIME_OF_DAY>", "午後"},
+			{"<TIME_OF_DAY>", "午安"},
 			{"<PLAYER_NAME>", "Joe"}};
 	const std::optional<std::string> translated =
 			manager.translate_dialogue_template_if_available(
 					runtime_source, source_template, substitutions);
 	assert(translated.has_value());
-	assert(*translated == "@美好的午後，Joe。汝欲談何事？@");
+	assert(*translated == "@午安，Joe。汝欲談何事？@");
+}
+
+void assert_generic_addsv_dialogue_template_replaces_runtime_value() {
+	const std::string source_template =
+			"@Good <VAR0>, friend Avatar.@";
+	const std::string source_hash = sha256_hex(
+			normalize_translation_source(source_template));
+	const std::string afternoon_hash = sha256_hex(
+			normalize_translation_source("afternoon"));
+	const std::string table_text =
+			"# u6-translation-v1\n"
+			"# kind\tkey\tsource_sha256\tzh\n"
+			"dialogue\tdialogue:0x041f:template_daver_greeting:0\t"
+			+ source_hash + "\t@<VAR0>，聖者朋友。@\n"
+			"dialogue\tdialogue:0x041f:af:0\t"
+			+ afternoon_hash + "\t午後\n";
+
+	GameplayTranslationManager& manager = GameplayTranslationManager::get();
+	manager.shutdown();
+	manager.set_text_language(TextLanguage::CHINESE);
+	std::string error;
+	std::istringstream input(table_text);
+	assert(manager.load_table(input, error));
+	assert(error.empty());
+	const std::vector<std::pair<std::string, std::string>> substitutions{
+			{"<VAR0>", "午安"}};
+	const std::optional<std::string> translated =
+			manager.translate_dialogue_template_values_if_available(
+					source_template, substitutions);
+	assert(translated.has_value());
+	assert(*translated == "@午安，聖者朋友。@");
+}
+
+void assert_dialogue_template_substitutes_placeholders_by_position() {
+	GameplayTranslationManager manager;
+	const std::string source_template = "@Hello <VAR0>!@";
+	const std::string runtime_source = "@Hello man!@";
+	const std::string source_hash = sha256_hex(
+			normalize_translation_source(source_template));
+	std::stringstream table;
+	table << "# u6-translation-v1\n"
+		  << "# kind\tkey\tsource_sha256\tzh\n"
+		  << "dialogue\tdialogue:0x043e:fallback_" << source_hash.substr(0, 16)
+		  << ":0\t" << source_hash << "\t@您好，<PLAYER_NAME>！@\n";
+	std::string error;
+	assert(manager.load_table(table, error));
+	manager.set_text_language(TextLanguage::CHINESE);
+	const auto translated = manager.translate_dialogue_template_if_available(
+			runtime_source, source_template,
+			std::vector<std::pair<std::string, std::string>>{
+					{"<VAR0>", "man"}});
+	assert(translated.has_value());
+	assert(*translated == "@您好，man！@");
+}
+
+void assert_dialogue_template_preserves_named_reordering_and_repetition() {
+	GameplayTranslationManager manager;
+	manager.shutdown();
+	manager.set_text_language(TextLanguage::CHINESE);
+	const std::string reordered_source = "@<LEFT> gave <RIGHT>.@";
+	const std::string reordered_hash = sha256_hex(
+			normalize_translation_source(reordered_source));
+	const std::string repeated_source = "@<NAME> trusts <NAME>.@";
+	const std::string repeated_hash = sha256_hex(
+			normalize_translation_source(repeated_source));
+	std::stringstream table;
+	table << "# u6-translation-v1\n"
+		  << "# kind\tkey\tsource_sha256\tzh\n"
+		  << "dialogue\tdialogue:0x0700:fallback_" << reordered_hash.substr(0, 16)
+		  << ":0\t" << reordered_hash << "\t@<RIGHT> 給了 <LEFT>。@\n"
+		  << "dialogue\tdialogue:0x0700:fallback_" << repeated_hash.substr(0, 16)
+		  << ":0\t" << repeated_hash << "\t@<NAME> 信任 <NAME>。@\n";
+	std::string error;
+	assert(manager.load_table(table, error));
+
+	const auto reordered = manager.translate_dialogue_template_if_available(
+			"@Iolo gave Dupre.@", reordered_source,
+			std::vector<std::pair<std::string, std::string>>{
+					{"<LEFT>", "Iolo"}, {"<RIGHT>", "Dupre"}});
+	assert(reordered.has_value());
+	assert(*reordered == "@Dupre 給了 Iolo。@");
+
+	const auto repeated = manager.translate_dialogue_template_if_available(
+			"@Ada trusts Ada.@", repeated_source);
+	assert(repeated.has_value());
+	assert(*repeated == "@Ada 信任 Ada。@");
+}
+
+void assert_dialogue_template_rejects_ambiguous_literal_boundaries() {
+	GameplayTranslationManager manager;
+	manager.shutdown();
+	manager.set_text_language(TextLanguage::CHINESE);
+	const std::string source_template = "@Tell <FIRST>, <SECOND>.@";
+	const std::string source_hash = sha256_hex(
+			normalize_translation_source(source_template));
+	std::stringstream table;
+	table << "# u6-translation-v1\n"
+		  << "# kind\tkey\tsource_sha256\tzh\n"
+		  << "dialogue\tdialogue:0x0701:fallback_" << source_hash.substr(0, 16)
+		  << ":0\t" << source_hash << "\t@告訴 <FIRST> 去 <SECOND>。@\n";
+	std::string error;
+	assert(manager.load_table(table, error));
+	const auto translated = manager.translate_dialogue_template_if_available(
+			"@Tell one, two, three.@", source_template);
+	assert(!translated.has_value());
+}
+
+void assert_checked_in_placeholder_rows_use_canonical_runtime_sources() {
+	std::ifstream input("tools/u6_translation/zh_translation.tsv");
+	assert(input.good());
+	GameplayTranslationManager manager;
+	manager.shutdown();
+	manager.set_text_language(TextLanguage::CHINESE);
+	std::string error;
+	assert(manager.load_table(input, error));
+	assert(error.empty());
+
+	const auto peyton = manager.translate_dialogue_template_if_available(
+			"@Greetings, Joe, and welcome to the Wayfarer's Inn!@",
+			"@Greetings, <VAR0>, and welcome to the Wayfarer's Inn!@");
+	assert(peyton.has_value());
+	assert(*peyton == "@您好，Joe，歡迎來到旅者客棧！@");
+
+	const auto daver = manager.translate_dialogue_template_if_available(
+			"@Good afternoon, friend Avatar.@",
+			"@Good <VAR0>, friend Avatar.@");
+	assert(daver.has_value());
+	assert(*daver == "@午安，聖者朋友。@");
+
+	const auto blaine = manager.translate_dialogue_template_if_available(
+			"@Good afternoon.@", "@Good <VAR0>.@");
+	assert(blaine.has_value());
+	assert(*blaine == "@午安。@");
+	const auto blaine_overhead = manager.translate_dialogue_fragments_if_available(
+			0x041b, "@Good afternoon.@",
+			std::vector<DialogueTranslationPart>{
+					{"@Good ", "dialogue:0x041b:23:0", false},
+					{"afternoon", "", true},
+					{".@", "dialogue:0x041b:2a:0", false}});
+	assert(blaine_overhead.has_value());
+	assert(*blaine_overhead == "@午安。@");
+	// UC_ADDSV can carry a value returned by a helper as one provenance
+	// expression.  The interpreter may therefore mark every copied fragment as
+	// dynamic even though the source still has no sentence-specific pattern.
+	const auto blaine_delayed = manager.translate_dialogue_fragments_if_available(
+			0x041b, "@Good afternoon.@",
+			std::vector<DialogueTranslationPart>{
+					{"@Good ", "", true},
+					{"afternoon", "", true},
+					{".@", "", true}});
+	assert(blaine_delayed.has_value());
+	assert(*blaine_delayed == "@午安。@");
+
+	const auto blaine_morning = manager.translate_dialogue_template_if_available(
+			"@Good morning.@", "@Good <VAR0>.@");
+	assert(blaine_morning.has_value());
+	assert(*blaine_morning == "@早安。@");
+
+	// A compiled ADDSI can carry multiple `~` dialogue segments in one VM
+	// value.  Extraction/audit split those segments into ordinal rows, so the
+	// runtime fragment path must do the same before looking up the provenance
+	// key.  This is the shape used by Chuckles's congratulatory hint.
+	const std::string chuckles_source =
+			"@Congratulations! You're exactly right!  I won't tell you the "
+			"clue.....But I will give you this hint that may lead you to it..."
+			"~Search the chest in Nystul's room.";
+	const auto chuckles = manager.translate_dialogue_fragments_if_available(
+			0x0437, chuckles_source,
+			std::vector<DialogueTranslationPart>{{
+					chuckles_source, "dialogue:0x0437:8f5:0", false}});
+	assert(chuckles.has_value());
+	assert(*chuckles ==
+				"@恭喜！你完全答對了！我不會告訴你線索.....但我給你的這個提示也許能引導你找到它..."
+				"~搜尋 Nystul 房間裡的箱子。");
+	const auto chuckles_dynamic = manager.translate_dialogue_fragments_if_available(
+				0x0437, chuckles_source,
+				std::vector<DialogueTranslationPart>{{chuckles_source, "", true}});
+	assert(chuckles_dynamic.has_value());
+	assert(*chuckles_dynamic == *chuckles);
+
+	const auto snaz = manager.translate_dialogue_template_if_available(
+			"@Hello my good man!@", "@Hello my good <VAR0>!@");
+	assert(snaz.has_value());
+	assert(*snaz == "@您好，我的好人！@");
+
+	const auto lord_british = manager.translate_dialogue_template_if_available(
+			"@Good afternoon, Joe. What wouldst thou speak of?@",
+			"@Good <VAR0>, <VAR1>. What wouldst thou speak of?@");
+	assert(lord_british.has_value());
+	assert(*lord_british == "@午安，Joe。汝欲談何事？@");
+
+	const auto milord = manager.translate_dialogue_fragments_if_available(
+			0x0416, "@I recongize thee! Thou art Iolo's friend, milord!@",
+			std::vector<DialogueTranslationPart>{
+					{"@I recongize thee! Thou art Iolo's friend, ",
+						"dialogue:0x0416:25d:0", false},
+					{"milord", "", true},
+					{"!@", "dialogue:0x0416:289:0", false}});
+	assert(milord.has_value());
+	assert(*milord == "@我認識你！你是 Iolo 的朋友，大人!@");
+	assert(manager.translate_by_source(GameplayTranslationKind::Dialogue, "milord")
+				== "大人");
+}
+
+void assert_fragment_fallback_restores_split_speech_markers() {
+	GameplayTranslationManager manager;
+	manager.shutdown();
+	manager.set_text_language(TextLanguage::CHINESE);
+	const std::string prefix = "@Hello my good ";
+	const std::string value = "man";
+	const std::string suffix = "!@";
+	std::stringstream table;
+	table << "# u6-translation-v1\n"
+		  << "# kind\tkey\tsource_sha256\tzh\n"
+		  << "dialogue\tdialogue:0x043e:31:0\t"
+		  << sha256_hex(normalize_translation_source(prefix))
+		  << "\t你好，尊敬的\n"
+		  << "dialogue\tdialogue:0x043e:6:0\t"
+		  << sha256_hex(normalize_translation_source(value))
+		  << "\t人\n"
+		  << "dialogue\tdialogue:0x043e:41:0\t"
+		  << sha256_hex(normalize_translation_source(suffix))
+		  << "\t!\n";
+	std::string error;
+	assert(manager.load_table(table, error));
+	const auto translated = manager.translate_dialogue_fragments_if_available(
+			0x043e, prefix + value + suffix,
+			std::vector<DialogueTranslationPart>{
+					{prefix, "dialogue:0x043e:31:0", true},
+					{value, "", true},
+					{suffix, "dialogue:0x043e:41:0", true}});
+	assert(translated.has_value());
+	assert(*translated == "@你好，尊敬的人!@");
 }
 
 void assert_lord_british_untraced_dialogue_templates_replace_runtime_name() {
@@ -475,9 +1043,7 @@ void assert_lord_british_untraced_dialogue_templates_replace_runtime_name() {
 			(std::istreambuf_iterator<char>(ucinternal_source)),
 			std::istreambuf_iterator<char>());
 	assert(!ucinternal.empty());
-	assert(ucinternal.find("lord_british_return_greeting_template")
-			!= std::string::npos);
-	assert(ucinternal.find("lord_british_honesty_template")
+	assert(ucinternal.find("translate_dialogue_fragments_if_available(")
 			!= std::string::npos);
 }
 
@@ -693,8 +1259,8 @@ void assert_book_text_uses_table_in_dual_fallback_mode() {
 	assert(manager.translate_book_text(source) == "一頁書中文字");
 }
 
-void assert_book_text_uses_table_when_alternate_usecode_is_active() {
-	const std::string source = "A page from an English alternate-usecode book";
+void assert_alternate_usecode_english_fallbacks_still_use_the_table() {
+	const std::string source = "An English fallback emitted by alternate usecode";
 	const std::string table_text =
 			"# u6-translation-v1\n"
 			"# kind\tkey\tsource_sha256\tzh\n"
@@ -708,10 +1274,22 @@ void assert_book_text_uses_table_when_alternate_usecode_is_active() {
 	std::string error;
 	std::istringstream input(table_text);
 	assert(manager.load_table(input, error));
-	manager.legacy_alternate_usecode_active_ = true;
-	assert(!manager.table_only_enabled());
-	assert(manager.translate_book_text(source) == "替代 usecode 書頁");
-	manager.legacy_alternate_usecode_active_ = false;
+	assert(manager.table_only_enabled());
+	assert(manager.translate_by_source(GameplayTranslationKind::Dialogue, source)
+			== "替代 usecode 書頁");
+	// Chinese emitted by the alternate usecode has no English table source and
+	// must pass through without a second translation.
+	assert(manager.translate_by_source(GameplayTranslationKind::Dialogue,
+				"已翻譯的替代 usecode 文字")
+			== "已翻譯的替代 usecode 文字");
+
+	std::ifstream translation_source("gameplay_translation.cc");
+	const std::string translation(
+			(std::istreambuf_iterator<char>(translation_source)),
+			std::istreambuf_iterator<char>());
+	assert(!translation.empty());
+	assert(translation.find("legacy_alternate_usecode_active_")
+			== std::string::npos);
 }
 
 void assert_choice_source_fallback_reuses_textmsg_rows() {
@@ -765,7 +1343,8 @@ void assert_dupre_untraced_dialogue_template_replaces_runtime_name() {
 			(std::istreambuf_iterator<char>(ucinternal_source)),
 			std::istreambuf_iterator<char>());
 	assert(!ucinternal.empty());
-	assert(ucinternal.find("dupre_greeting_template") != std::string::npos);
+	assert(ucinternal.find("translate_dialogue_fragments_if_available(")
+			!= std::string::npos);
 }
 
 void assert_overhead_dialogue_translation_and_rendering_policy() {
@@ -815,11 +1394,14 @@ void assert_overhead_dialogue_translation_and_rendering_policy() {
 	assert(!conversation.empty());
 	assert(conversation.find("uses_ttf_for_english()") != std::string::npos);
 	assert(conversation.find("use_cjk_layout") != std::string::npos);
-	assert(conversation.find("conv_choices[i] = hit_rect.intersect(gwin->get_full_rect())")
+	assert(conversation.find("format_usecode_dialogue_quotes(")
 			!= std::string::npos);
-	assert(conversation.find("TileRect hit_rect = text_rect") != std::string::npos);
+	assert(conversation.find("hit_area.intersect(gwin->get_game_rect())")
+			!= std::string::npos);
+	assert(conversation.find("TileRect hit_area(text_rect.x, text_rect.y, width + space_width, hit_h)")
+			!= std::string::npos);
 	assert(conversation.find("hit_rect.x += gwin->get_win()->get_start_x()")
-			!= std::string::npos);
+			== std::string::npos);
 	assert(conversation.find("hit_rect.y -= line_height")
 			== std::string::npos);
 
@@ -829,7 +1411,10 @@ void assert_overhead_dialogue_translation_and_rendering_policy() {
 			std::istreambuf_iterator<char>());
 	assert(!effects.empty());
 	assert(effects.find("translate_by_source(") != std::string::npos);
-	assert(effects.find("strip_usecode_dialogue_markers") != std::string::npos);
+	assert(effects.find("format_usecode_dialogue_quotes") != std::string::npos);
+	assert(effects.find("record_runtime_source(") != std::string::npos);
+	assert(effects.find("make_dialogue_translation_key(0, \"0\", 0)")
+			!= std::string::npos);
 
 	std::ifstream ucinternal_source("usecode/ucinternal.cc");
 	const std::string ucinternal(
@@ -863,6 +1448,20 @@ void assert_overhead_dialogue_translation_and_rendering_policy() {
 	assert(!conversation_header_text.empty());
 	assert(conversation_header_text.find("choice_visual_rects")
 			== std::string::npos);
+}
+
+void assert_dialogue_at_markers_render_mode_specific_quotes() {
+	const std::string marked =
+			"The speaker says @Hello again.@ Then @goodbye.@";
+	assert(format_usecode_dialogue_quotes(marked, TextLanguage::ENGLISH)
+			== "The speaker says \"Hello again.\" Then \"goodbye.\"");
+	assert(format_usecode_dialogue_quotes(marked, TextLanguage::CHINESE)
+			== "The speaker says 「Hello again.」 Then 「goodbye.」");
+	assert(format_usecode_dialogue_quotes("unfinished @speech", TextLanguage::ENGLISH)
+			== "unfinished speech");
+	assert(format_usecode_dialogue_quotes(
+				"@你好@\n@Hello@", TextLanguage::DUAL)
+			== "「你好」\n\"Hello\"");
 }
 
 void assert_deferred_text_preserves_cursor_layer() {
@@ -909,6 +1508,39 @@ void assert_deferred_text_blit_preserves_surface_origin() {
 			== std::string::npos);
 }
 
+void assert_conversation_choice_hit_rects_stay_in_game_coordinates() {
+	std::ifstream conversation_source("usecode/conversation.cc");
+	const std::string conversation(
+			(std::istreambuf_iterator<char>(conversation_source)),
+			std::istreambuf_iterator<char>());
+	assert(!conversation.empty());
+	// Get_click converts screen coordinates back to the game coordinate space;
+	// both legacy and deferred text choices must use that same space.  Adding
+	// Image_window::get_start_* again shifts the hit boxes and makes the final
+	// (right-most) choices miss their visible text.
+	assert(conversation.find("TileRect hit_rect = hit_area.intersect(gwin->get_game_rect())")
+			!= std::string::npos);
+	assert(conversation.find("hit_rect.x += gwin->get_win()->get_start_x()")
+			== std::string::npos);
+	assert(conversation.find("hit_rect.y += gwin->get_win()->get_start_y()")
+			== std::string::npos);
+}
+
+void assert_conversation_choice_hit_rect_includes_visible_spacing() {
+	std::ifstream conversation_source("usecode/conversation.cc");
+	const std::string conversation(
+			(std::istreambuf_iterator<char>(conversation_source)),
+			std::istreambuf_iterator<char>());
+	assert(!conversation.empty());
+	// The painted choice background includes the gap after the text.  That
+	// visible gap must be part of the clipped game-space hit box too, including
+	// for the right-most option on a line.
+	assert(conversation.find(
+				"const TileRect hit_area(text_rect.x, text_rect.y, "
+				"width + space_width, hit_h);")
+			!= std::string::npos);
+}
+
 } // namespace
 
 int main() {
@@ -917,6 +1549,13 @@ int main() {
 	assert_mod_usecode_is_loaded_for_all_language_modes();
 	assert_safe_catalog_paths();
 	assert_runtime_speaker_capture_source_policy();
+	assert_placeholder_translation_has_no_dynamic_registry_dependency();
+	assert_provenance_templates_use_source_stable_keys();
+	assert_runtime_provenance_is_value_scoped();
+	assert_gwenneth_static_anchor_template_is_translated();
+	assert_gwenneth_hello_again_static_anchor_template_is_translated();
+	assert_shamino_wait_here_template_is_translated();
+	assert_structural_fragment_fallback_translates_missing_template();
 
 	assert(sha256_hex("abc") == kAbcSha256);
 	assert(normalize_translation_source("a\r\nb\rc") == "a\nb\nc");
@@ -1027,8 +1666,20 @@ int main() {
 	assert_conversation_display_changes_only_copy_get_answer_stays_byte_for_byte_identical();
 	assert_dialogue_source_fallback_is_function_scoped();
 	assert_dynamic_dialogue_template_replaces_runtime_name();
+	assert_snaz_dynamic_dialogue_template_replaces_gendered_word();
+	assert_snaz_runtime_template_hook_is_reachable();
+	assert_generic_dialogue_placeholders_are_extracted_and_translated();
+	assert_item_say_uses_runtime_provenance_for_overhead_text();
+	assert_static_item_say_fragments_translate();
+	assert_protected_professional_terms_use_source_global_rows();
 	assert_iolo_dynamic_dialogue_template_replaces_runtime_name();
 	assert_multi_placeholder_dialogue_template_replaces_runtime_values();
+	assert_generic_addsv_dialogue_template_replaces_runtime_value();
+	assert_dialogue_template_substitutes_placeholders_by_position();
+	assert_dialogue_template_preserves_named_reordering_and_repetition();
+	assert_dialogue_template_rejects_ambiguous_literal_boundaries();
+	assert_checked_in_placeholder_rows_use_canonical_runtime_sources();
+	assert_fragment_fallback_restores_split_speech_markers();
 	assert_lord_british_untraced_dialogue_templates_replace_runtime_name();
 	assert_choice_source_fallback_reuses_legacy_dialogue_rows();
 	assert_item_source_fallback_reuses_raw_quantity_and_misc_rows();
@@ -1036,12 +1687,15 @@ int main() {
 	assert_book_text_matches_legacy_u6_bytes();
 	assert_book_text_matches_utf8_bytes_recorded_as_legacy_latin1();
 	assert_book_text_uses_table_in_dual_fallback_mode();
-	assert_book_text_uses_table_when_alternate_usecode_is_active();
+	assert_alternate_usecode_english_fallbacks_still_use_the_table();
 	assert_choice_source_fallback_reuses_textmsg_rows();
 	assert_dupre_untraced_dialogue_template_replaces_runtime_name();
 	assert_overhead_dialogue_translation_and_rendering_policy();
+	assert_dialogue_at_markers_render_mode_specific_quotes();
 	assert_deferred_text_preserves_cursor_layer();
 	assert_deferred_text_blit_preserves_surface_origin();
+	assert_conversation_choice_hit_rects_stay_in_game_coordinates();
+	assert_conversation_choice_hit_rect_includes_visible_spacing();
 
 	return 0;
 }

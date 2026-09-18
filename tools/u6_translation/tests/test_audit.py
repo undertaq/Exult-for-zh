@@ -74,12 +74,12 @@ class AuditReportTest(unittest.TestCase):
         self.assertEqual(report["book_contents"]["translated"], 1)
         self.assertEqual(report["book_contents"]["missing"], 0)
 
-    def test_coverage_reports_dynamic_templates_separately(self) -> None:
+    def test_coverage_reports_placeholder_templates_separately(self) -> None:
         entry = _entry(
             "dialogue",
-            "dialogue:0x0494:template_lord_british_greeting:0",
+            "dialogue:0x0494:fallback_f6112e6f71da14b8:0",
             "@Good <TIME_OF_DAY>, <PLAYER_NAME>.@",
-            "dynamic-template",
+            "gameplay",
         )
         report = coverage_report(
             [entry],
@@ -88,9 +88,211 @@ class AuditReportTest(unittest.TestCase):
                 "@美好的<TIME_OF_DAY>，<PLAYER_NAME>.@",
             )],
         )
-        self.assertEqual(report["dynamic_templates"]["total"], 1)
-        self.assertEqual(report["dynamic_templates"]["translated"], 1)
-        self.assertEqual(report["dynamic_templates"]["missing"], 0)
+        self.assertEqual(report["placeholder_templates"]["total"], 1)
+        self.assertEqual(report["placeholder_templates"]["translated"], 1)
+        self.assertEqual(report["placeholder_templates"]["missing"], 0)
+
+    def test_blaine_good_afternoon_template_is_covered(self) -> None:
+        entry = _entry(
+            "dialogue",
+            "dialogue:0x041b:fallback_5c487d8d34f94a12:0",
+            "@Good <VAR0>.@",
+            "gameplay",
+        )
+        report = coverage_report(
+            [entry],
+            [RuntimeRow(
+                entry.kind,
+                entry.key,
+                entry.source_sha256,
+                "@美好的<VAR0>。@",
+            )],
+        )
+        self.assertEqual(report["placeholder_templates"]["total"], 1)
+        self.assertEqual(report["placeholder_templates"]["translated"], 1)
+        self.assertEqual(report["placeholder_templates"]["missing"], 0)
+
+    def test_taiwan_greeting_terms_and_runtime_honorific_are_audited(self) -> None:
+        morning = _entry("dialogue", "dialogue:0x0401:30:0", "@Good morning.@")
+        prefix = _entry("dialogue", "dialogue:0x041b:23:0", "@Good ")
+        template = _entry(
+            "dialogue",
+            "dialogue:0x041b:fallback_5c487d8d34f94a12:0",
+            "@Good <VAR0>.@",
+        )
+        milord = _entry("dialogue", "dialogue:0x0000:runtime:1", "milord")
+        rows = [
+            RuntimeRow(morning.kind, morning.key, morning.source_sha256, "@早安。@"),
+            RuntimeRow(prefix.kind, prefix.key, prefix.source_sha256, "@"),
+            RuntimeRow(template.kind, template.key, template.source_sha256, "@<VAR0>。@"),
+            RuntimeRow(milord.kind, milord.key, milord.source_sha256, "大人"),
+        ]
+        report = correctness_report([morning, prefix, template, milord], rows, GLOSSARY, None)
+        checks = {issue["check"] for issue in report["deterministic"]["issues"]}
+        self.assertNotIn("greeting_terms", checks)
+        self.assertNotIn("chinese_output", checks)
+
+        invalid = correctness_report(
+            [morning],
+            [RuntimeRow(morning.kind, morning.key, morning.source_sha256, "@早上好。@")],
+            GLOSSARY,
+            None,
+        )
+        self.assertIn(
+            "greeting_terms",
+            {issue["check"] for issue in invalid["deterministic"]["issues"]},
+        )
+
+    def test_runtime_overhead_key_uses_static_source_global_translation(self) -> None:
+        source = "@Oh, my aching back...@"
+        static = CatalogEntry.from_source(
+            "dialogue",
+            "dialogue:0x092e:23:0",
+            source,
+            "gameplay",
+            "static-fallback-item-say-ucxt",
+        )
+        runtime = CatalogEntry.from_source(
+            "dialogue",
+            "dialogue:0x0000:0:0",
+            source,
+            "gameplay",
+            "runtime-capture",
+        )
+        rows = [
+            RuntimeRow(
+                static.kind,
+                static.key,
+                static.source_sha256,
+                "@噢，我的背好痛...@",
+            )
+        ]
+
+        report = coverage_report([static, runtime], rows)
+
+        self.assertEqual(report["by_kind"]["dialogue"]["missing"], 0)
+        self.assertEqual(report["by_kind"]["dialogue"]["translated"], 2)
+        self.assertEqual(report["by_kind"]["dialogue"]["orphan"], 0)
+
+    def test_coverage_reports_untranslated_compiled_assembled_templates(self) -> None:
+        source = (
+            "Turning to you, Gwenneth says, @And what can I do for "
+            "Iolo's friend this fine <VAR0>?@"
+        )
+        entry = CatalogEntry.from_source(
+            "dialogue",
+            "dialogue:0x0416:fallback_93fc9f7add1e08d7:0",
+            source,
+            "gameplay",
+            "static-usecode-template",
+        )
+
+        report = coverage_report([entry], [])
+
+        self.assertEqual(report["assembled_templates"]["total"], 1)
+        self.assertEqual(report["assembled_templates"]["missing"], 1)
+        self.assertEqual(
+            report["assembled_templates"]["missing_keys"], [entry.key]
+        )
+        self.assertIn(
+            "assembled templates: 1 total, 0 translated, 1 missing",
+            format_terminal_report(report),
+        )
+
+    def test_fragment_rows_do_not_hide_missing_canonical_template(self) -> None:
+        canonical_source = (
+            "Very well, <VAR0>, I shall wait here until thy return.@"
+        )
+        canonical = CatalogEntry.from_source(
+            "dialogue",
+            "dialogue:0x0403:fallback_df8a9faac675af03:0",
+            canonical_source,
+            "gameplay",
+            "static-usecode-template",
+        )
+        prefix = _entry("dialogue", "dialogue:0x0403:700:0", "Very well, ")
+        suffix = _entry(
+            "dialogue",
+            "dialogue:0x0403:701:0",
+            ", I shall wait here until thy return.@",
+        )
+        rows = [
+            RuntimeRow(prefix.kind, prefix.key, prefix.source_sha256, "很好，"),
+            RuntimeRow(
+                suffix.kind,
+                suffix.key,
+                suffix.source_sha256,
+                "我會在這裡等你回來。@",
+            ),
+        ]
+
+        report = coverage_report([canonical, prefix, suffix], rows)
+
+        self.assertEqual(report["assembled_templates"]["translated"], 0)
+        self.assertEqual(report["assembled_templates"]["missing"], 1)
+        self.assertEqual(
+            report["assembled_templates"]["missing_keys"], [canonical.key]
+        )
+        self.assertEqual(report["orphan"], 0)
+
+    def test_coverage_reports_unobserved_source_stable_placeholder_rows(self) -> None:
+        key = "dialogue:0x041f:fallback_f613b0dc467ee6f2:0"
+        source = "@Good <VAR0>, friend Avatar.@"
+        report = coverage_report(
+            [_entry("dialogue", "dialogue:0x041f:99:0", "@Good ")],
+            [RuntimeRow("dialogue", key, source_sha256(source), "@美好的<VAR0>，聖者朋友。@")],
+        )
+        placeholder_templates = report["placeholder_templates"]
+        self.assertEqual(placeholder_templates["total"], 0)
+        self.assertEqual(placeholder_templates["unobserved"], 1)
+        self.assertEqual(placeholder_templates["unobserved_keys"], [key])
+
+    def test_ascii_dot_runs_are_preserved_exactly(self) -> None:
+        entries = [
+            _entry("dialogue", "dialogue:0x0401:200:0", "@Goodbye..@"),
+            _entry("dialogue", "dialogue:0x0401:201:0", "@Wait...@"),
+        ]
+        valid_rows = [
+            RuntimeRow(
+                entries[0].kind,
+                entries[0].key,
+                entries[0].source_sha256,
+                "@再見..@",
+            ),
+            RuntimeRow(
+                entries[1].kind,
+                entries[1].key,
+                entries[1].source_sha256,
+                "@等等...@",
+            ),
+        ]
+        valid_report = correctness_report(entries, valid_rows, GLOSSARY, None)
+        self.assertNotIn(
+            "ascii_dot_runs",
+            {issue["check"] for issue in valid_report["deterministic"]["issues"]},
+        )
+
+        invalid_rows = [
+            RuntimeRow(
+                entries[0].kind,
+                entries[0].key,
+                entries[0].source_sha256,
+                "@再見。。@",
+            ),
+            RuntimeRow(
+                entries[1].kind,
+                entries[1].key,
+                entries[1].source_sha256,
+                "@等等……@",
+            ),
+        ]
+        invalid_report = correctness_report(entries, invalid_rows, GLOSSARY, None)
+        dot_issues = [
+            issue
+            for issue in invalid_report["deterministic"]["issues"]
+            if issue["check"] == "ascii_dot_runs"
+        ]
+        self.assertEqual(len(dot_issues), 2)
 
     def test_item_quantity_name_format_is_preserved(self) -> None:
         entry = _entry("item", "item:0x0285:0:0", "/gold nugget//s")
@@ -153,6 +355,88 @@ class AuditReportTest(unittest.TestCase):
             "protected_markers",
             {issue["check"] for issue in invalid_report["deterministic"]["issues"]},
         )
+
+    def test_compiled_templates_require_usecode_speech_markers(self) -> None:
+        source = "@Hello <VAR0>?@"
+        entry = CatalogEntry.from_source(
+            "dialogue",
+            "dialogue:0x0416:fallback_0123456789abcdef:0",
+            source,
+            "gameplay",
+            "static-usecode-template",
+        )
+        missing = RuntimeRow(
+            entry.kind, entry.key, entry.source_sha256, "你好<VAR0>？"
+        )
+        missing_report = correctness_report([entry], [missing], GLOSSARY, None)
+        self.assertIn(
+            "dialogue_speech_markers",
+            {issue["check"] for issue in missing_report["deterministic"]["issues"]},
+        )
+
+        preserved = RuntimeRow(
+            entry.kind, entry.key, entry.source_sha256, "@你好<VAR0>？@"
+        )
+        preserved_report = correctness_report([entry], [preserved], GLOSSARY, None)
+        self.assertNotIn(
+            "dialogue_speech_markers",
+            {issue["check"] for issue in preserved_report["deterministic"]["issues"]},
+        )
+
+    def test_ucxt_fragment_boundary_deficit_is_advisory(self) -> None:
+        entry = CatalogEntry.from_source(
+            "dialogue",
+            "dialogue:0x043e:41:0",
+            "!@",
+            "gameplay",
+            "static-ucxt",
+        )
+        omitted = RuntimeRow(entry.kind, entry.key, entry.source_sha256, "！")
+        report = correctness_report([entry], [omitted], GLOSSARY, None)
+        boundary_issues = [
+            issue for issue in report["deterministic"]["issues"]
+            if issue["check"] == "fragment_speech_boundary"
+        ]
+        self.assertEqual(len(boundary_issues), 1)
+        self.assertEqual(boundary_issues[0]["severity"], "warning")
+        self.assertFalse(boundary_issues[0]["blocking"])
+        self.assertEqual(
+            coverage_report([entry], [omitted])["fragment_speech_boundaries"],
+            {"total": 1, "at_risk": 1, "keys": [entry.key]},
+        )
+
+        preserved = RuntimeRow(entry.kind, entry.key, entry.source_sha256, "！@")
+        preserved_report = correctness_report([entry], [preserved], GLOSSARY, None)
+        self.assertNotIn(
+            "fragment_speech_boundary",
+            {issue["check"] for issue in preserved_report["deterministic"]["issues"]},
+        )
+
+    def test_arbitrary_placeholder_names_are_protected(self) -> None:
+        entry = _entry("dialogue", "dialogue:0x0401:96:0", "Ask <NPC_NAME> <VAR0>")
+        valid = RuntimeRow(
+            entry.kind, entry.key, entry.source_sha256, "詢問 <NPC_NAME> <VAR0>"
+        )
+        valid_report = correctness_report([entry], [valid], GLOSSARY, None)
+        self.assertNotIn(
+            "protected_markers",
+            {issue["check"] for issue in valid_report["deterministic"]["issues"]},
+        )
+
+        renamed = RuntimeRow(
+            entry.kind, entry.key, entry.source_sha256, "詢問 <PLAYER_NAME> <HONORIFIC>"
+        )
+        renamed_report = correctness_report([entry], [renamed], GLOSSARY, None)
+        self.assertNotIn(
+            "placeholders",
+            {issue["check"] for issue in renamed_report["deterministic"]["issues"]},
+        )
+
+        invalid = RuntimeRow(
+            entry.kind, entry.key, entry.source_sha256, "詢問 <NPC_NAME>"
+        )
+        invalid_report = correctness_report([entry], [invalid], GLOSSARY, None)
+        self.assertIn("placeholders", {issue["check"] for issue in invalid_report["deterministic"]["issues"]})
 
     def test_translated_text_may_add_line_breaks_but_may_not_drop_source_breaks(self) -> None:
         entry = _entry("dialogue", "dialogue:0x0401:95:0", "first\nsecond")
@@ -387,6 +671,66 @@ class AuditReportTest(unittest.TestCase):
             bad_report = correctness_report(catalog, [bad_row], glossary, None)
         self.assertIn("protected_term", {issue["check"] for issue in bad_report["deterministic"]["issues"]})
 
+    def test_protected_professional_terms_are_consistent_across_text_kinds(self) -> None:
+        entries = [
+            _entry("dialogue", "dialogue:0x0401:100:0", "The wisp appears."),
+            _entry("choice", "choice:0x0401:0x0088:0", "Fight wisps"),
+            _entry("dialogue", "dialogue:0x0282:100:0", "A page about wisps.", "book"),
+            _entry("dialogue", "dialogue:0x0000:0:0", "Wisps overhead", "gameplay"),
+            _entry("dialogue", "dialogue:0x0000:runtime:2", "wisp", "gameplay"),
+            _entry("dialogue", "dialogue:0x0000:runtime:3", "wisps", "gameplay"),
+        ]
+        rows = [
+            RuntimeRow(entries[0].kind, entries[0].key, entries[0].source_sha256, "wisp 出現了。"),
+            RuntimeRow(entries[1].kind, entries[1].key, entries[1].source_sha256, "對抗 wisps"),
+            RuntimeRow(entries[2].kind, entries[2].key, entries[2].source_sha256, "這是一頁介紹 wisps 的內容。"),
+            RuntimeRow(entries[3].kind, entries[3].key, entries[3].source_sha256, "頭頂出現 Wisps"),
+            RuntimeRow(entries[4].kind, entries[4].key, entries[4].source_sha256, "wisp"),
+            RuntimeRow(entries[5].kind, entries[5].key, entries[5].source_sha256, "wisps"),
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            glossary = Path(directory) / "glossary.tsv"
+            glossary.write_text(
+                "en\tzh\tpolicy\n"
+                "wisp\twisp\truntime_term+protected\n"
+                "wisps\twisps\truntime_term+protected\n",
+                encoding="utf-8",
+            )
+            report = correctness_report(entries, rows, glossary, None)
+            checks = {
+                issue["check"] for issue in report["deterministic"]["issues"]
+            }
+            self.assertNotIn("protected_term", checks)
+            self.assertNotIn("source_duplication", checks)
+            self.assertNotIn("chinese_output", checks)
+
+            bad_rows = list(rows)
+            bad_rows[1] = RuntimeRow(
+                entries[1].kind,
+                entries[1].key,
+                entries[1].source_sha256,
+                "對抗 靈光",
+            )
+            bad_report = correctness_report(entries, bad_rows, glossary, None)
+            self.assertIn(
+                "protected_term",
+                {issue["check"] for issue in bad_report["deterministic"]["issues"]},
+            )
+
+            singular_for_plural = RuntimeRow(
+                entries[1].kind,
+                entries[1].key,
+                entries[1].source_sha256,
+                "對抗 wisp",
+            )
+            plural_report = correctness_report(
+                entries, rows[:1] + [singular_for_plural] + rows[2:], glossary, None
+            )
+            self.assertIn(
+                "protected_term",
+                {issue["check"] for issue in plural_report["deterministic"]["issues"]},
+            )
+
     def test_name_policy_requires_english_names_in_dialogue_and_name_rows(self) -> None:
         entries = [
             _entry("dialogue", "dialogue:0x0401:92:0", "Iolo asks about Britain"),
@@ -433,6 +777,52 @@ class AuditReportTest(unittest.TestCase):
             {issue["check"] for issue in valid_report["deterministic"]["issues"]},
         )
         self.assertFalse(valid_report["deterministic"]["has_failures"])
+
+    def test_name_policy_rejects_transliteration_hidden_by_appended_english(self) -> None:
+        entry = _entry(
+            "dialogue",
+            "dialogue:0x041f:bf:0",
+            "@I'm Daver McCord.@",
+        )
+        row = RuntimeRow(
+            entry.kind,
+            entry.key,
+            entry.source_sha256,
+            "@我是戴弗·麥考德。@。 McCord Daver",
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            names = Path(directory) / "names.tsv"
+            names.write_text(
+                "category\ten\n"
+                "npc\tDaver\n"
+                "npc\tMcCord\n",
+                encoding="utf-8",
+            )
+            report = correctness_report(
+                [entry], [row], GLOSSARY, None, names=names
+            )
+            malformed = RuntimeRow(
+                entry.kind,
+                entry.key,
+                entry.source_sha256,
+                "我是戴弗·麥考德。@。 McCord Daver",
+            )
+            malformed_report = correctness_report(
+                [entry], [malformed], GLOSSARY, None, names=names
+            )
+            name_issues = [
+                issue for issue in report["deterministic"]["issues"]
+                if issue["check"] == "english_name"
+            ]
+            self.assertEqual({issue["key"] for issue in name_issues}, {entry.key})
+            self.assertEqual(
+                {
+                    issue["key"]
+                    for issue in malformed_report["deterministic"]["issues"]
+                    if issue["check"] == "english_name"
+                },
+                {entry.key},
+            )
 
     def test_traditional_policy_requires_glossary_declaration(self) -> None:
         entry = _entry("misc", "misc:0x0052", "Welcome")
@@ -505,6 +895,7 @@ class AuditReportTest(unittest.TestCase):
         self.assertIn("U6 translation audit", terminal)
         self.assertIn("choice", terminal)
         self.assertIn("weighted", terminal)
+        self.assertIn("unobserved", terminal)
 
     def test_terminal_report_mentions_english_name_policy_results(self) -> None:
         entry = _entry("dialogue", "dialogue:0x0401:93:0", "Iolo")
@@ -520,6 +911,25 @@ class AuditReportTest(unittest.TestCase):
             )
         terminal = format_terminal_report(report)
         self.assertIn("English-name policy: 1 names; issues: 0", terminal)
+
+    def test_terminal_report_mentions_english_term_manifest_results(self) -> None:
+        entry = _entry("dialogue", "dialogue:0x0401:94:0", "wisp")
+        with tempfile.TemporaryDirectory() as directory:
+            terms = Path(directory) / "terms.tsv"
+            terms.write_text(
+                "category\ten\tpolicy\n"
+                "professional\twisp\truntime_term+protected\n",
+                encoding="utf-8",
+            )
+            report = correctness_report(
+                [entry],
+                [RuntimeRow(entry.kind, entry.key, entry.source_sha256, "靈光")],
+                GLOSSARY,
+                None,
+                terms=terms,
+            )
+        terminal = format_terminal_report(report)
+        self.assertIn("English-term manifest: 1 entries; issues: 1", terminal)
 
     def test_audit_table_requires_exact_release_headers(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

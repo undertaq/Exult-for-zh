@@ -5,7 +5,7 @@ from pathlib import Path
 
 from .audit import correctness_report
 from .catalog import CatalogEntry
-from .prompts import GLOSSARY_PATH
+from .prompts import GLOSSARY_PATH, TERMS_PATH
 from .runtime_table import RuntimeRow, escape_field
 
 
@@ -130,7 +130,7 @@ def emit_approved_table(
         raise ValueError("catalog contains duplicate kind/key identities")
     records = _load_reviews(review_path)
     rows = _validate_review_records(catalog, records)
-    audit = correctness_report(catalog, rows, GLOSSARY_PATH, None)
+    audit = correctness_report(catalog, rows, GLOSSARY_PATH, None, terms=TERMS_PATH)
     deterministic = audit["deterministic"]
     if deterministic["has_failures"]:
         checks = sorted({str(issue["check"]) for issue in deterministic["issues"]})

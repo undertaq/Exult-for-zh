@@ -73,14 +73,18 @@ class CatalogCodecTest(unittest.TestCase):
         entry = CatalogEntry.from_source(
             kind="dialogue",
                 key="dialogue:0x0401:10:0",
-            source="@name@~*<PLAYER_NAME><HONORIFIC><PRONOUN><GENDER_FLAG><VAR>",
+            source=(
+                "@name@~*<PLAYER_NAME><HONORIFIC><PRONOUN><GENDER_FLAG>"
+                "<VAR><VAR0><NPC_NAME>"
+            ),
             context="gameplay",
             origin="fixture",
         )
         self.assertEqual(
             entry.protected_tokens,
             ("@name@", "~", "*", "<PLAYER_NAME>", "<HONORIFIC>",
-             "<PRONOUN>", "<GENDER_FLAG>", "<VAR>"),
+             "<PRONOUN>", "<GENDER_FLAG>", "<VAR>", "<VAR0>",
+             "<NPC_NAME>"),
         )
 
     def test_duplicate_key_with_different_hash_is_rejected(self) -> None:

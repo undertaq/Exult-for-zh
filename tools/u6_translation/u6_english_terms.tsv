@@ -1,0 +1,6 @@
+category	en	policy
+# The legacy inventory supplies the person/location/proper-name rows.
+# New English-only professional terms are listed directly here.
+# include u6_names.tsv
+professional	wisp	runtime_term+protected
+professional	wisps	runtime_term+protected

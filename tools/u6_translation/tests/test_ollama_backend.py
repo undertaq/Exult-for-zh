@@ -47,7 +47,7 @@ class OllamaBackendTest(unittest.TestCase):
     def test_prompt_glossary_loader_ignores_policy_comments(self) -> None:
         entries = load_glossary()
 
-        self.assertEqual(len(entries), 5)
+        self.assertEqual(len(entries), 9)
         self.assertTrue(all(entry.en != "# policy traditional_chinese=warning" for entry in entries))
 
     def test_prompt_contains_u6_rules_without_u7_guide_names_or_sections(self) -> None:
@@ -55,6 +55,7 @@ class OllamaBackendTest(unittest.TestCase):
 
         self.assertIn("U6 glossary", prompt)
         self.assertIn("繁體中文", prompt)
+        self.assertIn("English-only term inventory", prompt)
         self.assertNotIn("Translation_Guide.md", prompt)
         self.assertNotIn("Lord British", prompt)
         self.assertNotIn("八環法術翻譯", prompt)
