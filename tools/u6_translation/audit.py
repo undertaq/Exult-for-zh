@@ -10,6 +10,7 @@ from .catalog import CatalogEntry, normalize_source, source_sha256
 from .consistency import repeated_source_conflicts
 from .runtime_table import RuntimeRow, split_tsv_fields, unescape_field
 from .terms import load_english_terms
+from .traditional import load_simplified_characters
 
 
 KINDS = ("dialogue", "choice", "textmsg", "item", "location", "misc", "spell")
@@ -72,21 +73,7 @@ _OPAQUE_LANGUAGE_PHRASES = {
     "lum....lum....lum....",
     "slurp",
 }
-_SIMPLIFIED_TO_TRADITIONAL = str.maketrans({
-    "简": "簡", "体": "體", "汉": "漢", "语": "語", "国": "國",
-    "门": "門", "后": "後", "发": "發", "们": "們", "这": "這",
-    "个": "個", "为": "為", "复": "復", "药": "藥", "术": "術",
-    "剑": "劍", "爱": "愛", "学": "學", "头": "頭", "见": "見",
-    "开": "開", "关": "關", "时": "時", "间": "間", "东": "東",
-    "电": "電", "风": "風", "马": "馬", "鱼": "魚", "龙": "龍",
-    "宝": "寶", "岛": "島", "炉": "爐", "灭": "滅", "气": "氣",
-    "灵": "靈", "华": "華", "画": "畫", "书": "書", "万": "萬",
-    "与": "與", "传": "傳", "让": "讓", "听": "聽", "说": "說",
-    "读": "讀", "写": "寫", "习": "習", "阵": "陣", "伤": "傷",
-    "敌": "敵", "数": "數", "认": "認", "识": "識", "对": "對",
-    "错": "錯", "实": "實", "现": "現", "处": "處", "战": "戰",
-    "杂": "雜", "圣": "聖", "术": "術", "炼": "煉", "炼": "煉",
-})
+_SIMPLIFIED_CHARACTERS = load_simplified_characters()
 
 
 def _non_placeholder_markers(text: str) -> Counter[str]:
@@ -651,7 +638,9 @@ def _glossary_rules(
     """Decode glossary policies into term checks and Traditional-Chinese rules."""
 
     term_rules: list[tuple[str, str, str]] = []
-    traditional_characters: set[str] = set()
+    # The character inventory is always active so every audit invocation
+    # checks translated text.  The glossary policy only controls severity.
+    traditional_characters: set[str] = set(_SIMPLIFIED_CHARACTERS)
     traditional_severity = traditional_policy or "warning"
     for english, chinese, policy in entries:
         tokens = _policy_tokens(policy)
@@ -661,8 +650,6 @@ def _glossary_rules(
             term_rules.append((english, chinese, "protected"))
         elif tokens & {"forbidden", "ban", "banned"}:
             term_rules.append((english, chinese, "forbidden"))
-    if traditional_policy is not None:
-        traditional_characters = {chr(code) for code in _SIMPLIFIED_TO_TRADITIONAL}
     return tuple(term_rules), traditional_characters, traditional_severity
 
 
@@ -1273,6 +1260,16 @@ def format_terminal_report(report: dict[str, object]) -> str:
     if correctness is not None:
         deterministic = correctness.get("deterministic", {})
         lines.append(f"deterministic issues: {len(deterministic.get('issues', []))}")
+        traditional_policy = correctness.get("traditional_chinese_policy") or "warning"
+        traditional_issues = sum(
+            1
+            for issue in deterministic.get("issues", [])
+            if issue.get("check") == "traditional_chinese"
+        )
+        lines.append(
+            f"Traditional-Chinese policy: {traditional_policy}; "
+            f"issues: {traditional_issues}"
+        )
         english_name_count = correctness.get("english_name_count")
         if english_name_count is not None:
             english_name_issues = sum(
