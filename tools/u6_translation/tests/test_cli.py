@@ -55,6 +55,42 @@ class TranslationCliTest(unittest.TestCase):
         self.assertIn("U6 translation audit", result.stdout)
         self.assertEqual(report["totals"]["missing"], 1)
 
+    def test_audit_accepts_shared_english_terms_manifest(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            entry = CatalogEntry.from_source(
+                "dialogue", "dialogue:0x0401:100:0", "wisp", "gameplay", "cli"
+            )
+            catalog_path = root / "catalog.jsonl"
+            write_catalog(catalog_path, [entry])
+            table = root / "table.tsv"
+            write_runtime_table(
+                table,
+                [RuntimeRow(entry.kind, entry.key, entry.source_sha256, "靈光")],
+            )
+            glossary = root / "glossary.tsv"
+            glossary.write_text("en\tzh\tpolicy\n", encoding="utf-8")
+            terms = root / "terms.tsv"
+            terms.write_text(
+                "category\ten\tpolicy\n"
+                "professional\twisp\truntime_term+protected\n",
+                encoding="utf-8",
+            )
+            report_path = root / "report.json"
+            result = self._run(
+                "audit", "correctness", "--catalog", str(catalog_path),
+                "--table", str(table), "--report", str(report_path),
+                "--glossary", str(glossary), "--terms", str(terms),
+            )
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(report["english_term_count"], 1)
+        self.assertIn(
+            "protected_term",
+            {issue["check"] for issue in report["deterministic"]["issues"]},
+        )
+
     def test_extract_translate_and_emit_commands_are_exposed(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

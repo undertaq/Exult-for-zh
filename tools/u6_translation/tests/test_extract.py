@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 import shutil
+import struct
 from unittest import mock
 import tempfile
 import unittest
@@ -13,17 +14,250 @@ from tools.u6_translation.extract import (
     _parse_ucxt,
     _pair_usecode_translation_rows,
     _run_ucxt,
+    _item_say_function_ids,
+    _fallback_item_say_catalog,
+    _runtime_term_catalog,
+    extract_compiled_dialogue_templates,
     extract_catalog,
     make_item_key,
 )
-from tools.u6_translation.runtime_table import escape_field
+from tools.u6_translation.runtime_table import RuntimeRow, escape_field, write_runtime_table
+from tools.u6_translation.templates import canonical_template_from_parts
 
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
 
+def _write_pushs_addsv_usecode(path: Path) -> None:
+    prefix = b"Turning to you, Gwenneth says, @And what can I do for Iolo's friend this fine "
+    suffix = b"?@"
+    data = prefix + b"\0" + suffix + b"\0"
+    code = (
+        b"\x1d" + struct.pack("<H", 0)
+        + b"\x21" + struct.pack("<H", 0x000a)
+        + b"\x09"
+        + b"\x1d" + struct.pack("<H", len(prefix) + 1)
+        + b"\x09"
+        + b"\x12" + struct.pack("<H", 0x0024)
+        + b"\x2f" + struct.pack("<H", 0x0024)
+        + b"\x33"
+    )
+    function = (
+        struct.pack("<H", len(data))
+        + data
+        + struct.pack("<HHH", 0, 0x30, 0)
+        + code
+    )
+    path.write_bytes(struct.pack("<HH", 0x0416, len(function)) + function)
+
+
+def _write_hello_again_pushs_addsv_usecode(path: Path) -> None:
+    prefix = b"@Hello again. What can I do for thee this fine "
+    suffix = b"?@"
+    data = prefix + b"\0" + suffix + b"\0"
+    code = (
+        b"\x1d" + struct.pack("<H", 0)
+        + b"\x21" + struct.pack("<H", 0x000a)
+        + b"\x09"
+        + b"\x1d" + struct.pack("<H", len(prefix) + 1)
+        + b"\x09"
+        + b"\x12" + struct.pack("<H", 0x0024)
+        + b"\x2f" + struct.pack("<H", 0x0024)
+        + b"\x33"
+    )
+    function = (
+        struct.pack("<H", len(data))
+        + data
+        + struct.pack("<HHH", 0, 0x30, 0)
+        + code
+    )
+    path.write_bytes(struct.pack("<HH", 0x0416, len(function)) + function)
+
+
+def _write_item_say_usecode(path: Path) -> None:
+    data = b"\0@Inherited bark...@\0"
+    code = (
+        b"\x1d" + struct.pack("<H", 1)
+        + b"\x12" + struct.pack("<H", 0)
+        + b"\x21" + struct.pack("<H", 0)
+        + b"\x21" + struct.pack("<H", 0)
+        + b"\x39" + struct.pack("<H", 0x40) + b"\x02"
+        + b"\x33"
+    )
+    function = (
+        struct.pack("<H", len(data))
+        + data
+        + struct.pack("<HHH", 0, 0x30, 0)
+        + code
+    )
+    path.write_bytes(struct.pack("<HH", 0x092E, len(function)) + function)
+
+
 class ExtractionTest(unittest.TestCase):
-    def test_book_dialogue_is_marked_and_dynamic_templates_are_cataloged(self) -> None:
+    def test_runtime_term_glossary_entries_are_stable_and_auditable(self) -> None:
+        entries = _runtime_term_catalog()
+        by_source = {entry.source: entry for entry in entries}
+        self.assertEqual(by_source["milord"].key, "dialogue:0x0000:runtime:1")
+        self.assertEqual(by_source["milady"].key, "dialogue:0x0000:runtime:0")
+        self.assertEqual(by_source["wisp"].key, "dialogue:0x0000:runtime:2")
+        self.assertEqual(by_source["wisps"].key, "dialogue:0x0000:runtime:3")
+        self.assertEqual(by_source["milord"].origin, "static-runtime-term")
+
+    def test_runtime_term_catalog_reads_professional_terms_manifest(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            glossary = root / "glossary.tsv"
+            glossary.write_text("en\tzh\tpolicy\n", encoding="utf-8")
+            terms = root / "terms.tsv"
+            terms.write_text(
+                "category\ten\tpolicy\n"
+                "professional\twarden\truntime_term+protected\n",
+                encoding="utf-8",
+            )
+
+            entries = _runtime_term_catalog(glossary, terms)
+
+        self.assertEqual(
+            [entry.source for entry in entries],
+            ["warden"],
+        )
+
+    def test_extract_catalog_can_include_runtime_term_glossary_entries(self) -> None:
+        with mock.patch(
+            "tools.u6_translation.extract._static", return_value=([], [])
+        ):
+            entries = extract_catalog(
+                Path("/tmp/u6-empty-mod"), Path("unused"), None,
+                include_runtime_terms=True,
+            )
+        self.assertEqual(
+            {entry.source for entry in entries if entry.origin == "static-runtime-term"},
+            {"milord", "milady", "wisp", "wisps"},
+        )
+
+    def test_item_say_function_discovery_is_intrinsic_based(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            usecode = Path(directory) / "usecode"
+            _write_item_say_usecode(usecode)
+
+            self.assertEqual(_item_say_function_ids(usecode), {0x092E})
+
+    def test_inherited_item_say_catalog_is_filtered_by_function_not_sentence(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            usecode = Path(directory) / "usecode"
+            _write_item_say_usecode(usecode)
+            ucxt = Path(directory) / "ucxt"
+            ucxt.write_text("unused", encoding="utf-8")
+
+            with mock.patch(
+                "tools.u6_translation.extract._item_say_function_ids",
+                return_value={0x092E},
+            ), mock.patch(
+                "tools.u6_translation.extract._run_ucxt_file",
+                return_value=(
+                    "<0x092e>\n"
+                    "  <0x0001>\n"
+                    "  `@Inherited bark...@`\n"
+                    "  </>\n"
+                    "</>\n"
+                ),
+            ):
+                entries = _fallback_item_say_catalog(usecode, ucxt, set())
+
+        self.assertEqual(len(entries), 1)
+        self.assertEqual(entries[0].key, "dialogue:0x092e:1:0")
+        self.assertEqual(entries[0].origin, "static-fallback-item-say-ucxt")
+    def test_compiled_usecode_templates_include_pushs_addsv_dialogue(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            usecode = Path(directory) / "usecode"
+            _write_pushs_addsv_usecode(usecode)
+
+            entries = extract_compiled_dialogue_templates(usecode)
+
+        self.assertEqual(len(entries), 1)
+        self.assertEqual(
+            entries[0].source,
+            "Turning to you, Gwenneth says, @And what can I do for Iolo's friend this fine <VAR0>?@",
+        )
+        self.assertEqual(
+            entries[0].key,
+            "dialogue:0x0416:fallback_93fc9f7add1e08d7:0",
+        )
+        self.assertEqual(entries[0].origin, "static-usecode-template")
+
+    def test_compiled_usecode_templates_include_hello_again_greeting(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            usecode = Path(directory) / "usecode"
+            _write_hello_again_pushs_addsv_usecode(usecode)
+
+            entries = extract_compiled_dialogue_templates(usecode)
+
+        self.assertEqual(len(entries), 1)
+        self.assertEqual(
+            entries[0].source,
+            "@Hello again. What can I do for thee this fine <VAR0>?@",
+        )
+        self.assertEqual(
+            entries[0].key,
+            "dialogue:0x0416:fallback_6696824924c6caa4:0",
+        )
+
+    def test_extract_catalog_integrates_compiled_usecode_templates(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            patch = root / "Ultima6v1.3" / "patch"
+            patch.mkdir(parents=True)
+            _write_pushs_addsv_usecode(patch / "usecode")
+
+            with mock.patch(
+                "tools.u6_translation.extract._static", return_value=([], [])
+            ):
+                entries = extract_catalog(root, Path("unused"), None)
+
+        self.assertEqual(
+            [entry.key for entry in entries],
+            ["dialogue:0x0416:fallback_93fc9f7add1e08d7:0"],
+        )
+
+    def test_malformed_compiled_usecode_fails_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            usecode = Path(directory) / "usecode"
+            # A truncated symbol-table header used to escape before the
+            # function parser could reject the file.
+            usecode.write_bytes(struct.pack("<II", 0xFFFFFFFF, 0x55435359))
+            self.assertEqual(extract_compiled_dialogue_templates(usecode), [])
+
+    def test_runtime_parts_form_generic_template_without_registry(self) -> None:
+        template = canonical_template_from_parts(
+            [("@Hello my good ", False), ("man", True), ("!@", False)]
+        )
+        self.assertEqual(template, "@Hello my good <VAR0>!@")
+
+        second = canonical_template_from_parts(
+            [("Good ", False), ("afternoon", True), (", ", False), ("Ada", True), (".", False)]
+        )
+        self.assertEqual(second, "Good <VAR0>, <VAR1>.")
+
+    def test_runtime_placeholder_row_is_kept_in_main_catalog(self) -> None:
+        source = "@Good <VAR0>, friend Avatar.@"
+        key = "dialogue:0x041f:fallback_f613b0dc467ee6f2:0"
+        with tempfile.TemporaryDirectory() as directory:
+            runtime = Path(directory) / "runtime.tsv"
+            write_runtime_table(
+                runtime,
+                [RuntimeRow("dialogue", key, source_sha256(source), source)],
+            )
+            with mock.patch(
+                "tools.u6_translation.extract._static", return_value=([], [])
+            ):
+                entries = extract_catalog(Path(directory), Path("unused"), runtime)
+
+        self.assertEqual(len(entries), 1)
+        self.assertEqual(entries[0].key, key)
+        self.assertEqual(entries[0].context, "gameplay")
+        self.assertNotIn("dynamic", entries[0].origin)
+
+    def test_book_dialogue_is_marked_and_runtime_templates_are_not_finite(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             patch = root / "Ultima6v1.3" / "patch"
@@ -45,6 +279,30 @@ class ExtractionTest(unittest.TestCase):
                 "  `. What wouldst thou speak of?@`\n"
                 "  </>\n"
                 "</>\n"
+                "<0x0419>\n"
+                "  <0x01c0>\n"
+                "  `@Greetings, `\n"
+                "  </>\n"
+                "  <0x01cd>\n"
+                "  `, and welcome to the Wayfarer'\\''s Inn!@`\n"
+                "  </>\n"
+                "</>\n"
+                "<0x041f>\n"
+                "  <0x0099>\n"
+                "  `@Good `\n"
+                "  </>\n"
+                "  <0x00a0>\n"
+                "  `, friend Avatar.@`\n"
+                "  </>\n"
+                "</>\n"
+                "<0x043e>\n"
+                "  <0x0031>\n"
+                "  `@Hello my good `\n"
+                "  </>\n"
+                "  <0x0041>\n"
+                "  `!@`\n"
+                "  </>\n"
+                "</>\n"
                 "<0x0cdb>\n"
                 "  <0x0010>\n"
                 "  `Book extension`\n"
@@ -60,12 +318,9 @@ class ExtractionTest(unittest.TestCase):
         book = by_key[("dialogue", "dialogue:0x0282:10:0")]
         self.assertEqual(book.context, "book")
         self.assertEqual(by_key[("dialogue", "dialogue:0x0cdb:10:0")].context, "book")
-        template = by_key[("dialogue", "dialogue:0x0494:template_lord_british_greeting:0")]
-        self.assertEqual(
-            template.source,
-            "@Good <TIME_OF_DAY>, <PLAYER_NAME>. What wouldst thou speak of?@",
+        self.assertFalse(
+            any("template_" in entry.key for entry in entries)
         )
-        self.assertEqual(template.context, "dynamic-template")
 
     def test_ucxt_decimal_function_tags_use_decimal_ids(self) -> None:
         entries = _parse_ucxt(
@@ -298,6 +553,50 @@ class ExtractionTest(unittest.TestCase):
             by_key["dialogue:0x0401:2e2:0"].source,
             "Spirituality",
         )
+
+    def test_runtime_overhead_reuses_unique_static_source_key(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            patch = root / "Ultima6v1.3" / "patch"
+            patch.mkdir(parents=True)
+            (patch / "usecode").write_bytes(b"fixture")
+            source = "@Oh, my aching back...@"
+            (root / "ucxt_fixture.sh").write_text(
+                "#!/bin/sh\n"
+                "printf '%s' '<0x092e>\n"
+                "  <0x0023>\n"
+                "  `@Oh, my aching back...@`\n"
+                "  </>\n"
+                "</>'\n",
+                encoding="utf-8",
+            )
+            ucxt = root / "ucxt_fixture.sh"
+            ucxt.chmod(ucxt.stat().st_mode | os.X_OK)
+            runtime = root / "runtime.tsv"
+            runtime.write_text(
+                "dialogue\tdialogue:0x0000:0:0\t"
+                f"{source_sha256(source)}\t{source}\n",
+                encoding="utf-8",
+            )
+
+            # The fixture's compiled patch is intentionally invalid; this
+            # test targets the source-key reconciliation independently of
+            # compiled template extraction.
+            with mock.patch(
+                "tools.u6_translation.extract._static",
+                return_value=(
+                    [CatalogEntry.from_source(
+                        "dialogue", "dialogue:0x092e:23:0", source,
+                        "gameplay", "static-fallback-item-say-ucxt",
+                    )],
+                    [],
+                ),
+            ):
+                entries = extract_catalog(root, ucxt, runtime)
+
+        self.assertEqual(len(entries), 1)
+        self.assertEqual(entries[0].key, "dialogue:0x092e:23:0")
+        self.assertIn("runtime-capture", entries[0].origin)
 
     def test_indexed_u6_resources_emit_item_variants_and_location_context(self) -> None:
         root = FIXTURES / "indexed_mod"

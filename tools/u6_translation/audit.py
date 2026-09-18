@@ -9,11 +9,12 @@ from typing import Iterable
 from .catalog import CatalogEntry, normalize_source, source_sha256
 from .consistency import repeated_source_conflicts
 from .runtime_table import RuntimeRow, split_tsv_fields, unescape_field
+from .terms import load_english_terms
 
 
 KINDS = ("dialogue", "choice", "textmsg", "item", "location", "misc", "spell")
 _KEY_PATTERNS = {
-    "dialogue": re.compile(r"^dialogue:0x[0-9a-f]{4}:(?:[0-9a-f]+|fallback_[0-9a-f]+|template_[a-z0-9_]+)(?:_(?:[0-9a-f]+|fallback_[0-9a-f]+|template_[a-z0-9_]+))*:\d+$"),
+    "dialogue": re.compile(r"^dialogue:0x[0-9a-f]{4}:(?:[0-9a-f]+|runtime|fallback_[0-9a-f]+|template_[a-z0-9_]+)(?:_(?:[0-9a-f]+|runtime|fallback_[0-9a-f]+|template_[a-z0-9_]+))*:\d+$"),
     "choice": re.compile(r"^choice:0x[0-9a-f]{4}:(?:0x[0-9a-f]+|unbound):\d+$"),
     "item": re.compile(r"^item:0x[0-9a-f]{4}:\d+:\d+$"),
     "textmsg": re.compile(r"^textmsg:0x[0-9a-f]+$"),
@@ -21,16 +22,22 @@ _KEY_PATTERNS = {
     "misc": re.compile(r"^misc:0x[0-9a-f]+$"),
     "spell": re.compile(r"^spell:0x[0-9a-f]+$"),
 }
-_PLACEHOLDER_RE = re.compile(r"<[A-Z][A-Z0-9_]*>|\{[A-Za-z0-9_.-]+\}")
+_SOURCE_STABLE_FALLBACK_KEY = re.compile(
+    r"^dialogue:0x[0-9a-f]{4}:fallback_([0-9a-f]{16}):0$"
+)
+_ANGLE_PLACEHOLDER = r"<[A-Za-z][A-Za-z0-9_]*>"
+_PLACEHOLDER_RE = re.compile(_ANGLE_PLACEHOLDER + r"|\{[A-Za-z0-9_.-]+\}")
+_ASCII_DOT_RUN_RE = re.compile(r"(?<!\.)\.{2,}(?!\.)")
 _HASH_RE = re.compile(r"^[0-9a-f]{64}$")
-_AUDIT_TOKENS = re.compile(r"@[^@\n]+@|~|\*|<(?:PLAYER_NAME|HONORIFIC|PRONOUN|GENDER_FLAG|VAR)>")
-_PROTECTED_MARKERS = re.compile(r"~|\*|<(?:PLAYER_NAME|HONORIFIC|PRONOUN|GENDER_FLAG|VAR)>")
+_AUDIT_TOKENS = re.compile(r"@[^@\n]+@|~|\*|" + _ANGLE_PLACEHOLDER)
+_PROTECTED_MARKERS = re.compile(r"~|\*|" + _ANGLE_PLACEHOLDER)
 _TRADITIONAL_POLICY_RE = re.compile(
     r"^#\s*policy\s*:?\s+traditional[_-]chinese\s*=\s*(warning|error)\s*$",
     re.IGNORECASE,
 )
 _NAME_POLICY_HEADER = ("category", "en")
 _NAME_CATEGORIES = {"npc", "place", "town", "location", "proper"}
+_ENGLISH_TERM_NAME_CATEGORIES = {"person", "location", "proper"}
 _OPAQUE_LANGUAGE_FUNCTIONS = {"0x0cb3", "0x0cb6", "0x0cf8", "0x0cff", "0x04e2"}
 _OPAQUE_LANGUAGE_PHRASES = {
     "ag-ra-lem! ges por!",
@@ -82,8 +89,97 @@ _SIMPLIFIED_TO_TRADITIONAL = str.maketrans({
 })
 
 
+def _non_placeholder_markers(text: str) -> Counter[str]:
+    """Return wrappers that must remain exact; angle slots are positional."""
+
+    return Counter(
+        token
+        for token in _PROTECTED_MARKERS.findall(text)
+        if not re.fullmatch(_ANGLE_PLACEHOLDER, token)
+    )
+
+
+def _usecode_speech_marker_count(text: str) -> int:
+    """Count U6's ``@`` speech-boundary markers without interpreting text."""
+
+    return text.count("@")
+
+
+def _split_speech_boundary_deficit(
+    source: str, translated: str
+) -> tuple[str, ...]:
+    """Report one-sided ``@`` boundaries omitted by a UCXT fragment.
+
+    UCXT can expose ``@Good `` and ``.@`` as separate rows.  Those rows are
+    translated as ordinary fragments, so the table value may intentionally
+    omit the boundary that the runtime restores from VM provenance.  Complete
+    ``@...@`` rows are audited by the canonical-template marker check instead.
+    """
+
+    if source.count("@") != 1:
+        return ()
+    deficits: list[str] = []
+    if source.startswith("@") and not translated.startswith("@"):
+        deficits.append("opening")
+    if source.endswith("@") and not translated.endswith("@"):
+        deficits.append("closing")
+    return tuple(deficits)
+
+
+def _fragment_speech_boundary_report(
+    catalog: list[CatalogEntry], rows: list[RuntimeRow]
+) -> dict[str, object]:
+    """Summarize UCXT fragments whose one-sided speech boundary is omitted."""
+
+    entries = {
+        _identity(entry): entry
+        for entry in catalog
+        if set(entry.origin.split(";"))
+        & {"static-ucxt", "static-fallback-item-say-ucxt"}
+    }
+    fragment_rows = [
+        row for row in rows
+        if _identity(row) in entries
+    ]
+    at_risk = sorted(
+        row.key
+        for row in fragment_rows
+        if _split_speech_boundary_deficit(
+            entries[_identity(row)].source, row.zh
+        )
+    )
+    return {
+        "total": len(fragment_rows),
+        "at_risk": len(at_risk),
+        "keys": at_risk,
+    }
+
+
+def _ascii_dot_runs(text: str) -> tuple[str, ...]:
+    """Return contiguous ASCII dot runs that translations must preserve."""
+
+    return tuple(_ASCII_DOT_RUN_RE.findall(text))
+
+
 def _identity(value: CatalogEntry | RuntimeRow) -> tuple[str, str]:
     return value.kind, value.key
+
+
+def _is_unobserved_placeholder_row(
+    row: RuntimeRow, observed_identities: set[tuple[str, str]]
+) -> bool:
+    """Recognize a generic runtime-template row absent from static UCXT output.
+
+    Source-stable fallback keys embed the first 16 hex digits of the
+    positional template hash. Runtime capture is the only source of the
+    template text for opaque ADDSV expressions, so report these rows instead
+    of silently excluding them from the placeholder audit section.
+    """
+
+    if _identity(row) in observed_identities or row.kind != "dialogue":
+        return False
+    match = _SOURCE_STABLE_FALLBACK_KEY.fullmatch(row.key)
+    return match is not None and row.source_sha256.startswith(match.group(1))
 
 
 def _is_unbound(key: str) -> bool:
@@ -142,8 +238,17 @@ def _coverage_for_kind(
     catalog_keys = {(entry.kind, entry.key) for entry in entries}
     entry_hashes = {_identity(entry): entry.source_sha256 for entry in entries}
     row_groups: dict[tuple[str, str], list[RuntimeRow]] = defaultdict(list)
+    source_rows: dict[str, list[RuntimeRow]] = defaultdict(list)
     for row in rows:
         row_groups[_identity(row)].append(row)
+        source_rows[row.source_sha256].append(row)
+
+    # Dialogue/choice/item lookups intentionally have a source-global
+    # fallback in the runtime.  Runtime capture uses key 0 for overhead text
+    # while static UCXT rows use the PUSHS offset; count a reviewed row under
+    # either identity as translated when the source hash proves they are the
+    # same sentence.  Other resource kinds remain strictly key-based.
+    source_fallback_kinds = {"dialogue", "choice", "item"}
 
     translated_length = 0
     translated = 0
@@ -155,15 +260,23 @@ def _coverage_for_kind(
         identity = _identity(entry)
         matching = row_groups.get(identity, [])
         blank_source = not entry.source.strip()
-        if not matching or not any(row.zh.strip() or blank_source for row in matching):
-            result["missing"] = int(result["missing"]) + 1
-            missing_keys.append(entry.key)
-        valid = [
+        translated_rows = [
             row for row in matching
             if row.source_sha256 == entry.source_sha256
             and (bool(row.zh.strip()) or blank_source)
         ]
-        if valid:
+        if (
+            not translated_rows
+            and entry.kind in source_fallback_kinds
+        ):
+            translated_rows = [
+                row for row in source_rows.get(entry.source_sha256, [])
+                if row.zh.strip() or blank_source
+            ]
+        if not translated_rows:
+            result["missing"] = int(result["missing"]) + 1
+            missing_keys.append(entry.key)
+        if translated_rows:
             translated += 1
             translated_length += len(normalize_source(entry.source))
         stale = [row for row in matching if row.source_sha256 != entry.source_sha256]
@@ -177,7 +290,17 @@ def _coverage_for_kind(
             unbound_keys.add(entry.key)
 
     orphan_keys: list[str] = []
+    catalog_source_hashes = {
+        (entry.kind, entry.source_sha256) for entry in entries
+    }
     for row in rows:
+        if _identity(row) in catalog_keys:
+            continue
+        if (
+            row.kind in source_fallback_kinds
+            and (row.kind, row.source_sha256) in catalog_source_hashes
+        ):
+            continue
         if _identity(row) not in catalog_keys:
             orphan_keys.append(row.key)
 
@@ -230,16 +353,44 @@ def coverage_report(catalog: list[CatalogEntry], rows: list[RuntimeRow]) -> dict
     book_identities = {_identity(entry) for entry in book_entries}
     book_rows = [row for row in rows if _identity(row) in book_identities]
     book_contents = _coverage_for_kind(book_entries, book_rows)
-    dynamic_template_entries = [
-        entry for entry in catalog if entry.context == "dynamic-template"
+    placeholder_template_entries = [
+        entry
+        for entry in catalog
+        if entry.kind == "dialogue" and _PLACEHOLDER_RE.search(entry.source)
     ]
-    dynamic_template_identities = {_identity(entry) for entry in dynamic_template_entries}
-    dynamic_template_rows = [
-        row for row in rows if _identity(row) in dynamic_template_identities
+    placeholder_template_identities = {
+        _identity(entry) for entry in placeholder_template_entries
+    }
+    placeholder_template_rows = [
+        row for row in rows if _identity(row) in placeholder_template_identities
     ]
-    dynamic_templates = _coverage_for_kind(
-        dynamic_template_entries, dynamic_template_rows
+    placeholder_templates = _coverage_for_kind(
+        placeholder_template_entries, placeholder_template_rows
     )
+    unobserved_placeholder_keys = sorted(
+        row.key
+        for row in rows
+        if _is_unobserved_placeholder_row(row, placeholder_template_identities)
+    )
+    placeholder_templates["unobserved"] = len(unobserved_placeholder_keys)
+    placeholder_templates["unobserved_keys"] = unobserved_placeholder_keys
+
+    assembled_template_entries = [
+        entry
+        for entry in catalog
+        if entry.kind == "dialogue"
+        and "static-usecode-template" in entry.origin.split(";")
+    ]
+    assembled_template_identities = {
+        _identity(entry) for entry in assembled_template_entries
+    }
+    assembled_template_rows = [
+        row for row in rows if _identity(row) in assembled_template_identities
+    ]
+    assembled_templates = _coverage_for_kind(
+        assembled_template_entries, assembled_template_rows
+    )
+    fragment_speech_boundaries = _fragment_speech_boundary_report(catalog, rows)
 
     totals = _empty_kind_report()
     for kind_report in by_kind.values():
@@ -266,7 +417,9 @@ def coverage_report(catalog: list[CatalogEntry], rows: list[RuntimeRow]) -> dict
         "by_kind": by_kind,
         "kinds": by_kind,
         "book_contents": book_contents,
-        "dynamic_templates": dynamic_templates,
+        "placeholder_templates": placeholder_templates,
+        "assembled_templates": assembled_templates,
+        "fragment_speech_boundaries": fragment_speech_boundaries,
         "totals": totals,
         "total": total,
         "translated": int(totals["translated"]),
@@ -362,6 +515,61 @@ def _is_technical_source(kind: str, source: str) -> bool:
         "ready_type: 0x",
         "3d:",
     }
+
+
+def _is_runtime_greeting_value_row(entry: CatalogEntry, translated: str) -> bool:
+    """Allow a structural ``Good <value>`` row to contain only a marker.
+
+    The time word is supplied by runtime provenance and translated with the
+    greeting context.  Requiring Chinese characters in the prefix/template
+    would incorrectly reject the auditable ``@`` or ``<VAR0>`` scaffold.
+    """
+
+    if entry.kind != "dialogue":
+        return False
+    literal = entry.source.split("<", 1)[0] if "<" in entry.source else entry.source
+    if re.search(r"\bGood\s*$", literal) is None:
+        return False
+    if _has_chinese(translated):
+        return False
+    remainder = _PLACEHOLDER_RE.sub("", translated).replace("@", "")
+    return not any(character.isalpha() for character in remainder)
+
+
+def _is_protected_term_only_source(
+    source: str, term_rules: Iterable[tuple[str, str, str]]
+) -> bool:
+    """Allow standalone English protected terms to remain untranslated.
+
+    A runtime value such as ``wisp`` is intentionally English-only.  It is
+    still audited for the protected spelling, but should not be reported as a
+    duplicated sentence or as missing Chinese output.  Longer sentences that
+    merely contain the term continue through the normal language checks.
+    """
+
+    candidate = source.strip().strip("@~*").strip(
+        " \t\r\n\"'()[]{}.,!?！？。，、:："
+    )
+    return any(
+        policy == "protected" and candidate.casefold() == english.casefold()
+        for english, _chinese, policy in term_rules
+    )
+
+
+def _required_greeting_translation(source: str) -> str | None:
+    match = re.search(r"\bGood\s+(morning|afternoon|evening)\b", source, re.IGNORECASE)
+    if match is None:
+        return None
+    return {
+        "morning": "早安",
+        "afternoon": "午安",
+        "evening": "晚安",
+    }[match.group(1).lower()]
+
+
+def _has_literal_good_greeting(source: str) -> bool:
+    literal = source.split("<", 1)[0] if "<" in source else source
+    return re.search(r"\bGood\s*$", literal) is not None
 
 
 def _is_opaque_language_entry(kind: str, key: str, source: str) -> bool:
@@ -490,6 +698,64 @@ def _contains_english_name(text: str, name: str) -> bool:
     return re.search(pattern, text) is not None
 
 
+def _contains_glossary_term(text: str, term: str) -> bool:
+    """Match a glossary term as a complete token, including case variants.
+
+    Single-word professional terms such as ``wisp`` and ``wisps`` must not
+    cross-match each other (or a longer English word), while multi-word and
+    non-ASCII glossary values retain their literal matching behavior.
+    """
+
+    if re.fullmatch(r"[A-Za-z0-9]+", term):
+        pattern = rf"(?<![A-Za-z0-9]){re.escape(term)}(?![A-Za-z0-9])"
+        return re.search(pattern, text, re.IGNORECASE) is not None
+    return term in text
+
+
+def _name_is_preserved_in_source_segment(
+    source: str, translated: str, name: str
+) -> bool:
+    """Keep an inline name in the same marker-delimited text segment.
+
+    U6 uses ``@`` as a display segment marker.  Requiring a named span to be
+    present in the corresponding translated segment prevents a second English
+    copy from being appended outside the translated sentence to mask a missing
+    or transliterated name.
+    """
+
+    source_segments = source.split("@")
+    translated_segments = translated.split("@")
+    if len(source_segments) != len(translated_segments):
+        # A translated value with an unmatched marker is usually an appended
+        # English annotation (for example ``中文。@ Name``).  Do not let that
+        # copy satisfy the name rule; only a complete marker pair can carry a
+        # protected name when the segment counts differ.
+        source_indices = [
+            index
+            for index, segment in enumerate(source_segments)
+            if _contains_english_name(segment, name)
+        ]
+        if any(index % 2 for index in source_indices):
+            if translated.count("@") == 0:
+                return _contains_english_name(translated, name)
+            if translated.count("@") % 2:
+                return False
+            return any(
+                index % 2 and _contains_english_name(segment, name)
+                for index, segment in enumerate(translated_segments)
+            )
+        return _contains_english_name(translated, name)
+    source_indices = [
+        index
+        for index, segment in enumerate(source_segments)
+        if _contains_english_name(segment, name)
+    ]
+    return bool(source_indices) and all(
+        _contains_english_name(translated_segments[index], name)
+        for index in source_indices
+    )
+
+
 def _append_coverage_issues(
     issues: list[dict[str, object]], coverage: dict[str, object], catalog_by_identity: dict[tuple[str, str], CatalogEntry],
 ) -> None:
@@ -517,6 +783,7 @@ def correctness_report(
     semantic_reviews: list[dict[str, object]] | None,
     semantic_strict: bool = False,
     names: Path | None = None,
+    terms: Path | None = None,
 ) -> dict[str, object]:
     """Run deterministic checks and keep optional semantic results advisory."""
 
@@ -544,6 +811,35 @@ def correctness_report(
         glossary_entries, traditional_policy
     )
 
+    english_term_error: str | None = None
+    english_term_count = 0
+    english_terms = ()
+    if terms is not None:
+        try:
+            english_terms = load_english_terms(terms)
+            english_term_count = len(english_terms)
+            known_term_rules = set(term_rules)
+            term_rules_list = list(term_rules)
+            for term in english_terms:
+                # Named people, locations, and proper entities are checked by
+                # the name policy below. Professional terms use the same
+                # protected-term path as glossary-backed wisp/wisps rows.
+                if term.category != "professional":
+                    continue
+                if "protected" not in _policy_tokens(term.policy):
+                    continue
+                rule = (term.en, term.en, "protected")
+                if rule not in known_term_rules:
+                    term_rules_list.append(rule)
+                    known_term_rules.add(rule)
+            term_rules = tuple(term_rules_list)
+        except (OSError, UnicodeError, ValueError) as error:
+            english_term_error = str(error)
+            issues.append(_issue(
+                key="<english-terms>", check="english_terms", severity="error",
+                message=english_term_error, source_location=str(terms),
+            ))
+
     name_rules: tuple[tuple[str, str], ...] = ()
     name_error: str | None = None
     if names is not None:
@@ -555,6 +851,20 @@ def correctness_report(
                 key="<names>", check="english_name_policy", severity="error",
                 message=name_error, source_location=str(names),
             ))
+
+    if terms is not None and english_term_error is None:
+        existing_names = {name.casefold() for _category, name in name_rules}
+        name_rules_list = list(name_rules)
+        for term in english_terms:
+            if (
+                term.category in _ENGLISH_TERM_NAME_CATEGORIES
+                and "protected" in _policy_tokens(term.policy)
+            ):
+                rule = (term.category, term.en)
+                if term.en.casefold() not in existing_names:
+                    name_rules_list.append(rule)
+                    existing_names.add(term.en.casefold())
+        name_rules = tuple(name_rules_list)
 
     for row in rows:
         entry = catalog_by_identity.get(_identity(row))
@@ -595,25 +905,92 @@ def correctness_report(
         english_name_only = _is_name_only_source(entry.source, name_rules)
         opaque_language = _is_opaque_language_entry(entry.kind, entry.key, entry.source)
         non_translatable = _is_non_linguistic_source(entry.source) or _is_technical_source(entry.kind, entry.source)
+        english_only_glossary_term = _is_protected_term_only_source(
+            entry.source, term_rules
+        )
 
-        expected_markers = Counter(_PROTECTED_MARKERS.findall(entry.source))
-        actual_markers = Counter(_PROTECTED_MARKERS.findall(row.zh))
+        expected_markers = _non_placeholder_markers(entry.source)
+        actual_markers = _non_placeholder_markers(row.zh)
         if expected_markers != actual_markers:
             issues.append(_issue(key=row.key, check="protected_markers", severity="error", message="protected marker multiset differs from source", source_location=location))
 
-        expected_placeholders = Counter(_PLACEHOLDER_RE.findall(entry.source))
-        actual_placeholders = Counter(_PLACEHOLDER_RE.findall(row.zh))
+        # Legacy UCXT segments may intentionally carry only one side of an
+        # ``@`` pair; the compiled static-template rows represent the whole
+        # expression and must retain its speech boundaries for display-time
+        # quote formatting.
+        if (
+            row.kind == "dialogue"
+            and "static-usecode-template" in entry.origin.split(";")
+            and _usecode_speech_marker_count(entry.source)
+            != _usecode_speech_marker_count(row.zh)
+        ):
+            issues.append(_issue(
+                key=row.key,
+                check="dialogue_speech_markers",
+                severity="error",
+                message="usecode @ speech-marker count differs from source",
+                source_location=location,
+            ))
+
+        if row.kind == "dialogue" and set(entry.origin.split(";")) & {
+            "static-ucxt", "static-fallback-item-say-ucxt"
+        }:
+            boundary_deficits = _split_speech_boundary_deficit(
+                entry.source, row.zh
+            )
+            if boundary_deficits:
+                labels = " and ".join(boundary_deficits)
+                issues.append(_issue(
+                    key=row.key,
+                    check="fragment_speech_boundary",
+                    severity="warning",
+                    message=(
+                        f"UCXT fragment omits its {labels} @ speech boundary; "
+                        "runtime restores it from VM provenance"
+                    ),
+                    source_location=location,
+                    blocking=False,
+                ))
+
+        expected_placeholders = len(_PLACEHOLDER_RE.findall(entry.source))
+        actual_placeholders = len(_PLACEHOLDER_RE.findall(row.zh))
         if expected_placeholders != actual_placeholders:
-            issues.append(_issue(key=row.key, check="placeholders", severity="error", message="placeholder set differs from source", source_location=location))
+            issues.append(_issue(key=row.key, check="placeholders", severity="error", message="placeholder count differs from source", source_location=location))
 
         source = normalize_source(entry.source)
         translated = normalize_source(row.zh)
+        runtime_greeting_row = _is_runtime_greeting_value_row(entry, translated)
+        required_greeting = _required_greeting_translation(source)
+        if (
+            (
+                required_greeting is not None
+                and required_greeting not in translated
+            )
+            or (_has_literal_good_greeting(source) and "美好的" in translated)
+        ) and not runtime_greeting_row:
+            expected = required_greeting or "the Taiwan greeting form"
+            issues.append(_issue(
+                key=row.key,
+                check="greeting_terms",
+                severity="error",
+                message=f"Good time-of-day greeting must use {expected}",
+                source_location=location,
+            ))
+        if _ascii_dot_runs(source) != _ascii_dot_runs(translated):
+            issues.append(_issue(
+                key=row.key,
+                check="ascii_dot_runs",
+                severity="error",
+                message="ASCII dot runs (.., ..., and longer runs) must remain unchanged",
+                source_location=location,
+            ))
         if translated.count("\n") < source.count("\n"):
             issues.append(_issue(key=row.key, check="newlines", severity="error", message="newline structure differs from source", source_location=location))
         if source.strip() == translated.strip() and not (
             non_translatable
             or english_name_only
             or opaque_language
+            or english_only_glossary_term
             or (row.kind == "spell" and _is_only_protected_spell_text(row.zh))
         ):
             issues.append(_issue(key=row.key, check="source_duplication", severity="error", message="translation duplicates the English source", source_location=location))
@@ -629,6 +1006,8 @@ def correctness_report(
             and not non_translatable
             and not english_name_only
             and not opaque_language
+            and not english_only_glossary_term
+            and not runtime_greeting_row
             and not _has_chinese(row.zh)
             and not _is_only_protected_spell_text(row.zh)
         ):
@@ -651,15 +1030,15 @@ def correctness_report(
             issues.append(_issue(key=row.key, check="protected_spell_terms", severity="error", message="protected spell terms changed", source_location=location))
 
         for english, chinese, policy in term_rules:
-            if english not in entry.source:
+            if not _contains_glossary_term(entry.source, english):
                 continue
             if _name_protects_term(entry.source, english, name_rules):
                 continue
-            if policy == "translated" and chinese not in row.zh:
+            if policy == "translated" and not _contains_glossary_term(row.zh, chinese):
                 issues.append(_issue(key=row.key, check="glossary", severity="error", message=f"glossary term {english!r} must use {chinese!r}", source_location=location))
-            elif policy == "protected" and english not in row.zh:
+            elif policy == "protected" and not _contains_glossary_term(row.zh, english):
                 issues.append(_issue(key=row.key, check="protected_term", severity="error", message=f"glossary term {english!r} must remain protected", source_location=location))
-            elif policy == "forbidden" and english in row.zh:
+            elif policy == "forbidden" and _contains_glossary_term(row.zh, english):
                 issues.append(_issue(key=row.key, check="protected_term", severity="error", message=f"glossary term {english!r} must not appear in the translation", source_location=location))
 
         for category, name in name_rules:
@@ -669,7 +1048,9 @@ def correctness_report(
             translated_name_is_valid = (
                 row.zh.strip() == name
                 if source_is_name
-                else _contains_english_name(row.zh, name)
+                else _name_is_preserved_in_source_segment(
+                    entry.source, row.zh, name
+                )
             )
             if not translated_name_is_valid:
                 requirement = "remain exactly English" if source_is_name else "remain in English"
@@ -724,6 +1105,9 @@ def correctness_report(
         "names": str(names) if names is not None else None,
         "name_policy_error": name_error,
         "english_name_count": len(name_rules),
+        "terms": str(terms) if terms is not None else None,
+        "english_term_error": english_term_error,
+        "english_term_count": english_term_count,
     }
 
 
@@ -865,12 +1249,26 @@ def format_terminal_report(report: dict[str, object]) -> str:
             f"{int(book_contents['translated'])} translated, "
             f"{int(book_contents['missing'])} missing"
         )
-    dynamic_templates = coverage.get("dynamic_templates")
-    if isinstance(dynamic_templates, dict):
+    placeholder_templates = coverage.get("placeholder_templates")
+    if isinstance(placeholder_templates, dict):
         lines.append(
-            f"dynamic templates: {int(dynamic_templates['total'])} total, "
-            f"{int(dynamic_templates['translated'])} translated, "
-            f"{int(dynamic_templates['missing'])} missing"
+            f"placeholder templates: {int(placeholder_templates['total'])} total, "
+            f"{int(placeholder_templates['translated'])} translated, "
+            f"{int(placeholder_templates['missing'])} missing, "
+            f"{int(placeholder_templates.get('unobserved', 0))} unobserved"
+        )
+    assembled_templates = coverage.get("assembled_templates")
+    if isinstance(assembled_templates, dict):
+        lines.append(
+            f"assembled templates: {int(assembled_templates['total'])} total, "
+            f"{int(assembled_templates['translated'])} translated, "
+            f"{int(assembled_templates['missing'])} missing"
+        )
+    fragment_boundaries = coverage.get("fragment_speech_boundaries")
+    if isinstance(fragment_boundaries, dict):
+        lines.append(
+            f"fragment speech boundaries: {int(fragment_boundaries['total'])} total, "
+            f"{int(fragment_boundaries['at_risk'])} restored from provenance"
         )
     if correctness is not None:
         deterministic = correctness.get("deterministic", {})
@@ -884,6 +1282,17 @@ def format_terminal_report(report: dict[str, object]) -> str:
             lines.append(
                 f"English-name policy: {int(english_name_count)} names; "
                 f"issues: {english_name_issues}"
+            )
+        english_term_count = correctness.get("english_term_count")
+        if english_term_count is not None:
+            english_term_issues = sum(
+                1
+                for issue in deterministic.get("issues", [])
+                if issue.get("check") in {"protected_term", "english_terms"}
+            )
+            lines.append(
+                f"English-term manifest: {int(english_term_count)} entries; "
+                f"issues: {english_term_issues}"
             )
         lines.append(f"semantic reviews: {len(correctness.get('semantic_reviews', []))}")
     return "\n".join(lines) + "\n"

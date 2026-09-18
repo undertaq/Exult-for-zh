@@ -7,16 +7,19 @@ from pathlib import Path
 from typing import Iterable
 
 from .catalog import CatalogEntry
+from .terms import EnglishTerm, load_english_terms
 
 
 GLOSSARY_PATH = Path(__file__).with_name("u6_glossary.tsv")
-PROMPT_VERSION = "u6-zh-traditional-v3"
+TERMS_PATH = Path(__file__).with_name("u6_english_terms.tsv")
+PROMPT_VERSION = "u6-zh-traditional-v5"
 
 U6_GENERAL_GUIDANCE = """U6 general rules:
 - Translate only the supplied Ultima VI gameplay display string.
 - Use Traditional Chinese and preserve English names not present in the U6 glossary.
 - Keep every proper name not listed in the glossary spelled exactly as supplied; do not transliterate or translate it in only some dialogue lines.
 - Use one stable Traditional-Chinese term for the same English game term throughout the batch, especially for names, factions, locations, items, and virtues.
+- Keep glossary terms marked protected in English, including their exact singular/plural form (for example, wisp and wisps), across dialogue, choices, books, items, and overhead text.
 - Preserve protected tokens, placeholders, control sequences, newlines, and ordering exactly.
 - Keep spell incantations such as @Corp Por@ unchanged; translate spell display names only.
 - Preserve choice answer semantics: the English answer remains the internal comparison value.
@@ -50,14 +53,30 @@ def load_glossary(path: Path = GLOSSARY_PATH) -> tuple[GlossaryEntry, ...]:
 
 
 def glossary_sha256(path: Path = GLOSSARY_PATH) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    digest = hashlib.sha256()
+    digest.update(path.read_bytes())
+    # The English-only manifest is part of the model contract too. Include it
+    # in the cache fingerprint so adding a person, location, or professional
+    # term cannot reuse a translation generated under an older inventory.
+    if TERMS_PATH.exists():
+        digest.update(b"\0")
+        digest.update(TERMS_PATH.read_bytes())
+    return digest.hexdigest()
 
 
 def _glossary_guidance(entries: Iterable[GlossaryEntry]) -> str:
     return "\n".join(f"- {entry.en} -> {entry.zh} ({entry.policy})" for entry in entries)
 
 
+def _english_terms_guidance(entries: Iterable[EnglishTerm]) -> str:
+    return "\n".join(
+        f"- [{entry.category}] {entry.en} (English-only; {entry.policy})"
+        for entry in entries
+    )
+
+
 def translation_system_prompt() -> str:
+    english_terms = load_english_terms(TERMS_PATH)
     return (
         "你是《創世紀 6》（Ultima VI）的繁體中文翻譯器。只翻譯提供的 U6 文本，"
         "使用自然、穩定的繁體中文；不要輸出解釋、Markdown 或 JSON 以外的內容。\n"
@@ -65,11 +84,16 @@ def translation_system_prompt() -> str:
         " @...@、~、*、<PLAYER_NAME> 等）的數量、拼寫與順序；魔法咒語保持英文。\n\n"
         "U6 glossary:\n"
         f"{_glossary_guidance(load_glossary())}\n\n"
+        "English-only term inventory (people, locations, professional terms):\n"
+        "Person and location names are audited from the same manifest; the "
+        "professional-term rows are listed here:\n"
+        f"{_english_terms_guidance(entry for entry in english_terms if entry.category == 'professional')}\n\n"
         f"{U6_GENERAL_GUIDANCE}"
     )
 
 
 def review_system_prompt() -> str:
+    english_terms = load_english_terms(TERMS_PATH)
     return (
         "你是《創世紀 6》（Ultima VI）的繁體中文語意審查員。檢查候選譯文是否忠實、"
         "自然、符合 U6 詞彙表與繁體中文規則，並檢查 protected token 是否完整。"
@@ -77,6 +101,10 @@ def review_system_prompt() -> str:
         "不要輸出 Markdown 或解釋。\n\n"
         "U6 glossary:\n"
         f"{_glossary_guidance(load_glossary())}\n\n"
+        "English-only term inventory (people, locations, professional terms):\n"
+        "Person and location names are audited from the same manifest; the "
+        "professional-term rows are listed here:\n"
+        f"{_english_terms_guidance(entry for entry in english_terms if entry.category == 'professional')}\n\n"
         f"{U6_GENERAL_GUIDANCE}"
     )
 

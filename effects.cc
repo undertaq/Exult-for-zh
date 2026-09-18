@@ -57,12 +57,27 @@
 #	pragma GCC diagnostic pop
 #endif    // __GNUC__
 
+#include <algorithm>
+
 using namespace Pentagram;
 
 using std::rand;
 using std::string;
 using std::strlen;
 using std::vector;
+
+namespace {
+
+bool is_ascii_dialogue_source(const char* text) {
+	if (!text) {
+		return false;
+	}
+	return std::all_of(text, text + std::strlen(text), [](const char character) {
+		return static_cast<unsigned char>(character) < 0x80;
+	});
+}
+
+}    // namespace
 
 int Cloud::randcnt           = 0;
 int Lightning_effect::active = 0;
@@ -108,7 +123,15 @@ void Effects_manager::add_text(const char* msg, Game_object* item, int max_ticks
 
 	//	txt->paint(this);        // Draw it.
 	//	painted = 1;
-	const std::string display = GameplayTranslationManager::get().translate_by_source(
+	GameplayTranslationManager& translations = GameplayTranslationManager::get();
+	// item_say may already have produced a Chinese structural translation;
+	// only ASCII text is source material for this generic overhead capture.
+	if (is_ascii_dialogue_source(msg)) {
+		translations.record_runtime_source(
+				GameplayTranslationKind::Dialogue,
+				make_dialogue_translation_key(0, "0", 0), msg);
+	}
+	const std::string display = translations.translate_by_source(
 			GameplayTranslationKind::Dialogue, msg);
 	texts.emplace_front(std::make_unique<Text_effect>(display, item, gwin, max_ticks));
 }
@@ -121,8 +144,19 @@ void Effects_manager::add_text(const char* msg, Game_object* item, int max_ticks
  */
 
 void Effects_manager::add_text(const char* msg, int x, int y) {
+	if (!msg) {
+		return;
+	}
+	GameplayTranslationManager& translations = GameplayTranslationManager::get();
+	if (is_ascii_dialogue_source(msg)) {
+		translations.record_runtime_source(
+				GameplayTranslationKind::Dialogue,
+				make_dialogue_translation_key(0, "0", 0), msg);
+	}
+	const std::string display = translations.translate_by_source(
+			GameplayTranslationKind::Dialogue, msg);
 	texts.emplace_front(
-			std::make_unique<Text_effect>(msg, gwin->get_scrolltx() + x / c_tilesize, gwin->get_scrollty() + y / c_tilesize, gwin));
+			std::make_unique<Text_effect>(display, gwin->get_scrolltx() + x / c_tilesize, gwin->get_scrollty() + y / c_tilesize, gwin));
 }
 
 /**
@@ -1088,7 +1122,8 @@ void Text_effect::add_dirty() {
  */
 
 void Text_effect::init() {
-	msg = strip_usecode_dialogue_markers(msg);
+	msg = format_usecode_dialogue_quotes(
+			msg, BilingualManager::get().get_text_language());
 	set_always(true);    // Always execute in time queue, even
 	//   when paused.
 	Font::is_painting_bark = true;
@@ -1138,7 +1173,7 @@ Text_effect::Text_effect(
 		Game_object*  it,      // Item text is on, or null.
 		Game_window*  gwin_    // Back-reference to gwin from Effects_manager
 		)
-		: Text_effect(strip_usecode_dialogue_markers(m), it, gwin_, 10) {}
+		: Text_effect(m, it, gwin_, 10) {}
 
 /**
  *  Create a text effect for a given object, with a custom lifetime.
@@ -1150,7 +1185,7 @@ Text_effect::Text_effect(
 		Game_window*  gwin_,   // Back-reference to gwin from Effects_manager
 		int           max_ticks_
 		)
-		: gwin(gwin_), msg(strip_usecode_dialogue_markers(m)), item(weak_from_obj(it)), pos(Figure_text_pos()), num_ticks(0), max_ticks(max_ticks_) {
+		: gwin(gwin_), msg(m), item(weak_from_obj(it)), pos(Figure_text_pos()), num_ticks(0), max_ticks(max_ticks_) {
 	init();
 }
 
@@ -1163,7 +1198,7 @@ Text_effect::Text_effect(
 		int t_x, int t_y,     // Abs. tile coords.
 		Game_window* gwin_    // Back-reference to gwin from Effects_manager
 		)
-		: gwin(gwin_), msg(strip_usecode_dialogue_markers(m)), tpos(t_x, t_y, 0), pos(Figure_text_pos()), num_ticks(0), max_ticks(10) {
+		: gwin(gwin_), msg(m), tpos(t_x, t_y, 0), pos(Figure_text_pos()), num_ticks(0), max_ticks(10) {
 	init();
 }
 

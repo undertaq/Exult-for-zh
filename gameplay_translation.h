@@ -29,6 +29,12 @@ struct BookTextPart {
 	bool             translate = true;
 };
 
+struct DialogueTranslationPart {
+	std::string source;
+	std::string translation_key;
+	bool        dynamic = false;
+};
+
 class GameplayTranslationManager {
 public:
 	static GameplayTranslationManager& get();
@@ -55,6 +61,14 @@ public:
 	std::optional<std::string> translate_dialogue_template_if_available(
 			std::string_view english, std::string_view source_template,
 			const std::vector<std::pair<std::string, std::string>>& substitutions);
+	std::optional<std::string> translate_dialogue_template_values_if_available(
+			std::string_view source_template,
+			const std::vector<std::pair<std::string, std::string>>& substitutions);
+	std::optional<std::string> translate_dialogue_template_if_available(
+			std::string_view english, std::string_view source_template);
+	std::optional<std::string> translate_dialogue_fragments_if_available(
+			int function_id, std::string_view english,
+			const std::vector<DialogueTranslationPart>& parts);
 	void record_runtime_source(GameplayTranslationKind kind,
 			std::string_view key, std::string_view english);
 	void record_runtime_speaker(std::string_view key, int speaker_id,
@@ -70,7 +84,6 @@ private:
 	GameplayTranslationTable table_;
 	TranslationDiagnostics diagnostics_;
 	bool table_valid_ = false;
-	bool legacy_alternate_usecode_active_ = false;
 	std::unique_ptr<std::ostream> catalog_stream_;
 	std::set<std::string> catalog_rows_;
 	std::unique_ptr<std::ostream> speaker_stream_;
@@ -79,9 +92,16 @@ private:
 
 std::string make_dialogue_translation_key(
 		int function_id, std::string_view offset_key, int segment);
+std::string make_dialogue_template_translation_key(
+		int function_id, std::string_view source_template);
 std::string make_choice_translation_key(
 		int function_id, int callsite_offset, int ordinal);
 std::string make_item_translation_key(int shape, int frame, int quality);
+// Convert usecode's paired '@' speech markers into display quotes.  The
+// markers remain in source/table strings so translation lookup and auditing
+// stay byte-stable; this helper is only for the final rendered copy.
+std::string format_usecode_dialogue_quotes(
+		std::string_view text, TextLanguage language);
 std::string strip_usecode_dialogue_markers(std::string_view text);
 bool is_safe_catalog_path(std::string_view path);
 

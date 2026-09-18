@@ -29,6 +29,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
+#include <memory>
 #include <new>
 #include <string>    // STL string
 #include <vector>    // STL container
@@ -69,6 +70,11 @@ private:
 	};    // Anonymous union member
 
 	bool undefined = true;
+	// Optional metadata copied together with the value.  The usecode VM uses
+	// this as an opaque carrier for string provenance; keeping it here means
+	// values remain annotated when they are copied into locals, arrays, delayed
+	// scripts, or intrinsic arguments.
+	std::shared_ptr<void> metadata;
 
 	template <typename Op>
 	Usecode_value& operate(const Usecode_value& v2);
@@ -97,6 +103,7 @@ private:
 
 	template <typename T, typename U>
 	void replace(T& var, U&& newval, Val_type newtype, bool newundefined = false) {
+		metadata.reset();
 		if (type == newtype) {
 			var = std::forward<U>(newval);
 		} else {
@@ -136,6 +143,7 @@ private:
 			replaceFrom(&Usecode_value::clsrefval, std::forward<T>(v2), newtype);
 			break;
 		}
+		metadata = std::forward<T>(v2).metadata;
 	}
 
 public:
@@ -206,6 +214,25 @@ public:
 	Usecode_value& operator=(Usecode_class_symbol* ptr) noexcept {
 		replace(clssym, ptr, class_sym_type);
 		return *this;
+	}
+
+	// Attach opaque interpreter metadata without coupling this value class to
+	// the usecode interpreter's provenance types.
+	template <typename T>
+	void set_metadata(std::shared_ptr<T> value) {
+		metadata = std::move(value);
+	}
+
+	template <typename T>
+	std::shared_ptr<T> get_metadata() const {
+		if (!metadata) {
+			return {};
+		}
+		return std::shared_ptr<T>(metadata, static_cast<T*>(metadata.get()));
+	}
+
+	void clear_metadata() {
+		metadata.reset();
 	}
 
 	// Copy ctor.

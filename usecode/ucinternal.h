@@ -35,6 +35,7 @@
 #include <cstddef>
 #include <iosfwd>
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -99,8 +100,24 @@ class Usecode_internal : public Usecode_machine {
 		std::size_t source_start = 0;
 		std::string source;
 		std::string translation_key;    // Empty for dynamic values.
+		bool        dynamic = false;
+	};
+	using Voice_fragment_list = std::vector<Voice_string_part>;
+	struct Voice_value_provenance {
+		Voice_fragment_list fragments;
 	};
 	std::vector<Voice_string_part> voice_string_parts;
+	// Provenance captured for the string argument of the item_say intrinsic.
+	// Overhead text bypasses SAY, so it must carry the same structural VM
+	// fragments into the translation manager before the value is rendered.
+	Voice_fragment_list item_say_fragments;
+	int item_say_function_id = -1;
+	// Keep literal provenance attached to VM values and locals. A global list of
+	// every PUSHS executed by a conversation also includes menu/choice strings,
+	// which makes generic placeholder inference choose the wrong anchors.
+	std::vector<Voice_fragment_list> voice_stack_fragments;
+	std::map<Stack_frame*, std::map<int, Voice_fragment_list>>
+			voice_local_fragments;
 	static constexpr int VOICE_NO_FACE = -999;          // Sentinel: no face has been set yet.
 	int                  voice_current_face_npc = VOICE_NO_FACE; // NPC whose face is currently shown (via show_npc_face).
 
@@ -119,6 +136,16 @@ class Usecode_internal : public Usecode_machine {
 	void           push(const Usecode_value& val);    // Push/pop stack.
 	Usecode_value  pop();
 	Usecode_value  peek();
+	Voice_fragment_list take_voice_fragments();
+	void set_top_voice_fragments(Voice_fragment_list fragments);
+	Voice_fragment_list value_voice_fragments(
+			const Usecode_value& value) const;
+	void set_value_voice_fragments(
+			Usecode_value& value, Voice_fragment_list fragments) const;
+	Voice_fragment_list local_voice_fragments(
+			Stack_frame* owner, int offset) const;
+	void set_local_voice_fragments(
+			Stack_frame* owner, int offset, Voice_fragment_list fragments);
 	void           pushref(Game_object* obj);    // Push itemref
 	void           pushref(Game_object_shared obj);
 	void           pushi(long val);    // Push/pop integers.

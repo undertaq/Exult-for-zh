@@ -78,6 +78,7 @@
 #endif
 
 #include <algorithm>    // STL function things
+#include <cctype>
 #include <cstdio>       /* Debugging.           */
 #include <cstdlib>
 #include <cstring>
@@ -264,7 +265,10 @@ bool Usecode_internal::call_function(int funcid, int eventid, Game_object* calle
 	int i;
 	for (i = 0; i < num_args; i++) {
 		const Usecode_value val         = pop();
-		frame->locals[num_args - i - 1] = val;
+		const auto fragments            = take_voice_fragments();
+		const int local_offset          = num_args - i - 1;
+		frame->locals[local_offset]     = val;
+		set_local_voice_fragments(frame, local_offset, fragments);
 	}
 
 	// save stack pointer
@@ -322,6 +326,7 @@ void Usecode_internal::previous_stack_frame() {
 		call_stack.push_front(nullptr);
 	}
 
+	voice_local_fragments.erase(frame);
 	delete frame;
 }
 
@@ -343,11 +348,16 @@ void Usecode_internal::return_from_function(Usecode_value& retval) {
 	const int oldfunction = call_stack.front()->function->id;
 #endif
 
+	// Preserve provenance while the current frame is removed.  The return
+	// value may itself be an assembled string consumed by ADDSV in its caller.
+	const auto fragments = take_voice_fragments();
+
 	// back up a stack frame
 	previous_stack_frame();
 
 	// push the return value
 	push(retval);
+	set_top_voice_fragments(fragments);
 
 #ifdef DEBUG
 	Stack_frame* parent_frame = call_stack.front();
@@ -440,12 +450,19 @@ void Usecode_internal::append_string(const char* str) {
 
 // Push/pop stack.
 inline void Usecode_internal::push(const Usecode_value& val) {
+	const std::size_t index = static_cast<std::size_t>(sp - stack);
 	*sp++ = val;
+	if (index < voice_stack_fragments.size()) {
+		voice_stack_fragments[index] = value_voice_fragments(stack[index]);
+	}
 }
 
 inline Usecode_value Usecode_internal::pop() {
 	if (sp <= stack) {
 		// Happens in SI #0x939
+		if (!voice_stack_fragments.empty()) {
+			voice_stack_fragments.front().clear();
+		}
 		cerr << "Stack underflow on function ";
 		print_usecode_function(symtbl, call_stack.front()->function->id);
 		cerr << " at IP ";
@@ -455,6 +472,75 @@ inline Usecode_value Usecode_internal::pop() {
 
 	// +++++SHARED:  Shouldn't we reset *sp.
 	return *--sp;
+}
+
+Usecode_internal::Voice_fragment_list Usecode_internal::take_voice_fragments() {
+	// After popping the bottom stack value, sp == stack and index 0 still
+	// contains the value's provenance.  Only a pointer below the base is
+	// invalid (the interpreter itself guards against that in pop()).
+	if (sp < stack) {
+		return {};
+	}
+	const std::size_t index = static_cast<std::size_t>(sp - stack);
+	if (index >= voice_stack_fragments.size()) {
+		return {};
+	}
+	Voice_fragment_list fragments = std::move(voice_stack_fragments[index]);
+	if (fragments.empty()) {
+		// Values copied through arrays and scheduled scripts carry their
+		// provenance directly.  The side table is still used for the fast
+		// interpreter stack path, but fall back to the value metadata when a
+		// value crossed one of those boundaries.
+		fragments = value_voice_fragments(stack[index]);
+	}
+	voice_stack_fragments[index].clear();
+	stack[index].clear_metadata();
+	return fragments;
+}
+
+void Usecode_internal::set_top_voice_fragments(
+		Voice_fragment_list fragments) {
+	if (sp <= stack) {
+		return;
+	}
+	const std::size_t index = static_cast<std::size_t>(sp - stack - 1);
+	if (index < voice_stack_fragments.size()) {
+		voice_stack_fragments[index] = fragments;
+		set_value_voice_fragments(stack[index], std::move(fragments));
+	}
+}
+
+Usecode_internal::Voice_fragment_list Usecode_internal::value_voice_fragments(
+		const Usecode_value& value) const {
+	const std::shared_ptr<Voice_value_provenance> provenance =
+			value.get_metadata<Voice_value_provenance>();
+	return provenance ? provenance->fragments : Voice_fragment_list{};
+}
+
+void Usecode_internal::set_value_voice_fragments(
+		Usecode_value& value, Voice_fragment_list fragments) const {
+	if (fragments.empty()) {
+		value.clear_metadata();
+		return;
+	}
+	value.set_metadata(std::make_shared<Voice_value_provenance>(
+			Voice_value_provenance{std::move(fragments)}));
+}
+
+Usecode_internal::Voice_fragment_list Usecode_internal::local_voice_fragments(
+		Stack_frame* owner, int offset) const {
+	const auto frame_it = voice_local_fragments.find(owner);
+	if (frame_it == voice_local_fragments.end()) {
+		return {};
+	}
+	const auto local_it = frame_it->second.find(offset);
+	return local_it == frame_it->second.end() ? Voice_fragment_list{}
+																					: local_it->second;
+}
+
+void Usecode_internal::set_local_voice_fragments(
+		Stack_frame* owner, int offset, Voice_fragment_list fragments) {
+	voice_local_fragments[owner][offset] = std::move(fragments);
 }
 
 inline Usecode_value Usecode_internal::peek() {
@@ -759,185 +845,28 @@ void Usecode_internal::say_string() {
 	auto translate_dialogue_fragment = [&]() {
 		// Dynamic U6 questions can be assembled from several usecode values.
 		// Their runtime offset may differ from the static UCXT offset, so first
-		// match the complete assembled source against the translation catalog.
+		// try an exact source lookup against the translation catalog.
 		if (const auto source_translation =
 				translations.translate_dialogue_by_source_if_available(String);
 				source_translation.has_value()) {
 			return *source_translation;
 		}
 
-		// The gypsy's destiny line is assembled as one runtime string with the
-		// Avatar name embedded in it, so it has no per-fragment trace. Match its
-		// source template and substitute the runtime name in the translation.
-		constexpr std::string_view gypsy_destiny_template =
-				"@The path of the Avatar lies beneath thy feet, worthy "
-				"<PLAYER_NAME>@, the gypsy intones. With a mysterious smile, "
-				"she passes you the flask of shimmering liquids.";
-		if (const auto template_translation =
-				translations.translate_dialogue_template_if_available(
-						String, gypsy_destiny_template, "<PLAYER_NAME>");
-				template_translation.has_value()) {
-			return *template_translation;
+		// Provenance tokens are authoritative: static ADDSI/PUSHS text and
+		// dynamic values are already separated by the interpreter. Build the
+		// canonical placeholder source and translate structurally; do not search
+		// the completed English sentence for anchors or apply a sentence pattern.
+		std::vector<DialogueTranslationPart> parts;
+		parts.reserve(voice_string_parts.size());
+		for (const Voice_string_part& part : voice_string_parts) {
+			parts.push_back({part.source, part.translation_key, part.dynamic});
 		}
-
-		// Iolo's opening greeting is emitted by the active U6 usecode as one
-		// runtime string, with the Avatar's name already embedded. Its static
-		// prefix/suffix entries therefore cannot identify the complete line.
-		constexpr std::string_view iolo_greeting_template =
-				"@Well, <PLAYER_NAME>, do you need help with something? Or maybe "
-				"you've got time for a story, eh?@";
-		if (const auto template_translation =
-				translations.translate_dialogue_template_if_available(
-						String, iolo_greeting_template, "<PLAYER_NAME>");
-				template_translation.has_value()) {
-			return *template_translation;
+		if (const auto translated = translations.translate_dialogue_fragments_if_available(
+					voice_func_id, String, parts);
+				translated.has_value()) {
+			return *translated;
 		}
-
-		// Dupre's first response is also assembled from a static prefix, the
-		// Avatar name, and a suffix before it is spoken as one string. Match the
-		// complete source template so the translated greeting is not split apart.
-		constexpr std::string_view dupre_greeting_template =
-				"@Yes, <PLAYER_NAME>?@";
-		if (const auto template_translation =
-				translations.translate_dialogue_template_if_available(
-						String, dupre_greeting_template, "<PLAYER_NAME>");
-				template_translation.has_value()) {
-			return *template_translation;
-		}
-
-		// Lord British's return greeting and the later Honesty line are built
-		// by concatenating the Avatar name with the complete static suffix
-		// before one ADDSV.  The interpreter therefore cannot retain a trace
-		// for the suffix; match the complete source templates explicitly.
-		constexpr std::string_view lord_british_return_greeting_template =
-				"@<PLAYER_NAME>! 'Tis good to see thee again. Much hath happened since "
-				"thou last departed our realm.@";
-		if (const auto template_translation =
-				translations.translate_dialogue_template_if_available(
-						String, lord_british_return_greeting_template, "<PLAYER_NAME>");
-				template_translation.has_value()) {
-			return *template_translation;
-		}
-
-		constexpr std::string_view lord_british_honesty_template =
-				"@<PLAYER_NAME>, I knowest Honesty is one of the virtues and all..@";
-		if (const auto template_translation =
-				translations.translate_dialogue_template_if_available(
-						String, lord_british_honesty_template, "<PLAYER_NAME>");
-				template_translation.has_value()) {
-			return *template_translation;
-		}
-
-		// Lord British's opening greeting has two addsv values: the time of
-		// day and the Avatar's name. Give those values semantic placeholders so
-		// the complete sentence can be translated as one catalog row.
-		if (voice_func_id == 0x0494) {
-			constexpr std::string_view lord_british_greeting_template =
-					"@Good <TIME_OF_DAY>, <PLAYER_NAME>. What wouldst thou speak of?@";
-			std::size_t source_pos = 0;
-			std::size_t dynamic_index = 0;
-			std::vector<std::pair<std::string, std::string>> substitutions;
-			bool valid_parts = true;
-			for (const auto& part : voice_string_parts) {
-				const std::size_t part_end = part.source_start + part.source.size();
-				if (part.source_start != source_pos || part_end > strlen(String)) {
-					valid_parts = false;
-					break;
-				}
-				if (part.translation_key.empty()) {
-					const char* placeholder = dynamic_index == 0
-							? "<TIME_OF_DAY>"
-							: dynamic_index == 1 ? "<PLAYER_NAME>" : nullptr;
-					if (placeholder == nullptr) {
-						valid_parts = false;
-						break;
-					}
-					substitutions.emplace_back(
-							placeholder,
-							translations.translate_by_source(
-									GameplayTranslationKind::Dialogue, part.source));
-					++dynamic_index;
-				}
-				source_pos = part_end;
-			}
-			if (valid_parts && dynamic_index == 2 && source_pos == strlen(String)) {
-				if (const auto template_translation =
-						translations.translate_dialogue_template_if_available(
-								String, lord_british_greeting_template, substitutions);
-					template_translation.has_value()) {
-					return *template_translation;
-				}
-			}
-		}
-
-		// Other questions are assembled from static addsi text and one or more
-		// addsv values. Build the same placeholder form used by the catalog so
-		// a single translation can cover the complete sentence. Dynamic values
-		// are translated by source when a safe, unique row exists; names and
-		// other values remain unchanged when they have no translation.
-		const std::size_t source_length = strlen(String);
-		std::size_t source_pos = 0;
-		std::string source_template;
-		std::vector<std::pair<std::string, std::string>> substitutions;
-		bool has_dynamic_value = false;
-		std::size_t variable_index = 0;
-		for (const auto& part : voice_string_parts) {
-			const std::size_t part_end = part.source_start + part.source.size();
-			if (part.source_start != source_pos || part_end > source_length) {
-				return std::string();
-			}
-			if (part.translation_key.empty()) {
-				const std::string placeholder =
-						"<VAR" + std::to_string(variable_index++) + ">";
-				source_template += placeholder;
-				substitutions.emplace_back(
-						placeholder,
-						translations.translate_by_source(
-								GameplayTranslationKind::Dialogue, part.source));
-				has_dynamic_value = true;
-			} else {
-				source_template += part.source;
-			}
-			source_pos = part_end;
-		}
-		if (has_dynamic_value && !substitutions.empty()
-				&& source_pos == source_length) {
-			if (const auto template_translation =
-					translations.translate_dialogue_template_if_available(
-							String, source_template, substitutions);
-					template_translation.has_value()) {
-				return *template_translation;
-			}
-		}
-
-		source_pos = 0;
-		std::string translated;
-		for (const auto& part : voice_string_parts) {
-			const std::size_t part_end = part.source_start + part.source.size();
-			if (part.source_start != source_pos || part_end > source_length) {
-				return std::string();
-			}
-			if (part.translation_key.empty()) {
-				translated += translations.translate_by_source(
-						GameplayTranslationKind::Dialogue, part.source);
-			} else {
-				translated += translations.translate(
-						GameplayTranslationKind::Dialogue, part.translation_key,
-						part.source);
-			}
-			source_pos = part_end;
-		}
-		if (voice_string_parts.empty() || source_pos != source_length) {
-			return std::string();
-		}
-		auto marker_count = [](const std::string& text, char marker) {
-			return std::count(text.begin(), text.end(), marker);
-		};
-		if (marker_count(translated, '~') != marker_count(String, '~')
-				|| marker_count(translated, '*') != marker_count(String, '*')) {
-			return std::string();
-		}
-		return translated;
+		return std::string();
 	};
 	const std::string translated_dialogue = translate_dialogue_fragment();
 
@@ -1284,7 +1213,68 @@ void Usecode_internal::item_say(Usecode_value& objval, Usecode_value& strval) {
 		if (gwin->failed_copy_protection()) {
 			str = get_text_msg(0x6F0 - msg_file_start);    // "Oink!"
 		}
-		eman->add_text(str, obj);
+		Voice_fragment_list value_fragments = item_say_fragments;
+		int value_function_id = item_say_function_id;
+		if (value_fragments.empty()) {
+			const std::shared_ptr<Voice_value_provenance> provenance =
+					strval.get_metadata<Voice_value_provenance>();
+			if (provenance) {
+				value_fragments = provenance->fragments;
+			}
+		}
+		// A delayed usecode script invokes item_say outside call_intrinsic, so
+		// there is no current frame from which to obtain the function id.  The
+		// static fragment keys are authoritative and provide it without any
+		// sentence-specific knowledge.
+		if (value_function_id < 0) {
+			for (const Voice_string_part& part : value_fragments) {
+				constexpr std::string_view prefix = "dialogue:0x";
+				if (part.translation_key.compare(0, prefix.size(), prefix) != 0) {
+					continue;
+				}
+				const std::size_t end = part.translation_key.find(':', prefix.size());
+				if (end == std::string::npos || end == prefix.size()) {
+					continue;
+				}
+				try {
+					value_function_id = std::stoi(
+							part.translation_key.substr(prefix.size(), end - prefix.size()),
+							nullptr, 16);
+				} catch (...) {
+					// Keep the unknown id; source-global fallback remains safe.
+				}
+				if (value_function_id >= 0) {
+					break;
+				}
+			}
+		}
+		std::optional<std::string> translated;
+		if (!value_fragments.empty()) {
+			std::vector<DialogueTranslationPart> parts;
+			parts.reserve(value_fragments.size());
+			for (const Voice_string_part& part : value_fragments) {
+				parts.push_back({part.source, part.translation_key, part.dynamic});
+			}
+			translated = GameplayTranslationManager::get()
+					.translate_dialogue_fragments_if_available(
+							value_function_id, str, parts);
+		}
+		// Effects_manager receives the final display copy, so capture the raw
+		// English source here before structural translation.  This keeps runtime
+		// audit rows useful for delayed item_say overhead (including placeholder
+		// sentences) without relying on any sentence-specific pattern.
+		if (value_function_id >= 0 && str) {
+			GameplayTranslationManager::get().record_runtime_source(
+					GameplayTranslationKind::Dialogue,
+					make_dialogue_translation_key(
+							value_function_id, "runtime", 0),
+					str);
+		}
+		// Effects_manager still performs the exact-source lookup for ordinary
+		// overhead strings.  Pass a structural result only when VM provenance
+		// proves that this value is an assembled placeholder sentence.
+		const std::string display = translated.value_or(str);
+		eman->add_text(display.c_str(), obj);
 	}
 }
 
@@ -1982,9 +1972,11 @@ Usecode_value Usecode_internal::call_intrinsic(
 	static_assert(std::size(intrinsics_si) <= std::numeric_limits<uint16>::max());
 	static_assert(std::size(intrinsics_sib) <= std::numeric_limits<uint16>::max());
 	Usecode_value parms[13];    // Get parms.
+	Voice_fragment_list parameter_fragments[13];
 	for (int i = 0; i < num_parms; i++) {
 		const Usecode_value val = pop();
 		parms[i]                = val;
+		parameter_fragments[i]  = take_voice_fragments();
 	}
 	tcb::span<Usecode_internal::IntrinsicTableEntry> table;
 	if (Game::get_game_type() == SERPENT_ISLE) {
@@ -2000,7 +1992,19 @@ Usecode_value Usecode_internal::call_intrinsic(
 		auto&                    table_entry = table[intrinsic];
 		const UsecodeIntrinsicFn func        = table_entry.func;
 		const char*              name        = table_entry.name;
-		return Execute_Intrinsic(func, name, intrinsic, num_parms, parms);
+		const bool capture_item_say = name && std::strcmp(name, "item_say") == 0
+				&& num_parms > 1;
+		if (capture_item_say) {
+			item_say_fragments   = std::move(parameter_fragments[1]);
+			item_say_function_id = frame ? frame->function->id : -1;
+		}
+		const Usecode_value result =
+				Execute_Intrinsic(func, name, intrinsic, num_parms, parms);
+		if (capture_item_say) {
+			item_say_fragments.clear();
+			item_say_function_id = -1;
+		}
+		return result;
 	}
 	return no_ret;
 }
@@ -2078,9 +2082,9 @@ int Usecode_internal::get_user_choice_num() {
 	}
 	conv->set_choice_context(choice_function_id, choice_callsite_offset);
 	conv->show_avatar_choices();
-	// Conversation choice rectangles are already in the input coordinate space
-	// expected by game_to_screen(), including the image-window offset when
-	// deferred text rendering is active.
+	// Conversation choice rectangles are in game coordinates, matching the
+	// coordinates returned by Get_click's screen_to_game conversion.  The
+	// renderer applies image-window offsets only when painting pixels.
 	auto choice_visual_rect = [this](int index) {
 		return conv->get_choice_rect(index);
 	};
@@ -2296,7 +2300,8 @@ Usecode_machine* Usecode_machine::create() {
  *  Create machine from a 'usecode' file.
  */
 
-Usecode_internal::Usecode_internal() : stack(new Usecode_value[1024]) {
+Usecode_internal::Usecode_internal()
+		: voice_stack_fragments(1024), stack(new Usecode_value[1024]) {
 	sp = stack;
 	// Read in usecode.
 	std::cout << "Reading usecode file." << std::endl;
@@ -2624,9 +2629,29 @@ int Usecode_internal::run() {
 			} break;
 			case UC_ADD: {    // ADD.
 				const Usecode_value v2     = pop();
+				auto                   f2 = take_voice_fragments();
 				const Usecode_value v1     = pop();
+				auto                   f1 = take_voice_fragments();
+				// A string operand without prior provenance is itself a dynamic
+				// token.  Keep it as a slot instead of trying to rediscover its
+				// boundary by searching the completed English sentence later.
+				auto ensure_dynamic_fragment =
+						[](const Usecode_value& value, Voice_fragment_list fragments) {
+						const char* string_value = value.get_str_value();
+						if (fragments.empty() && string_value) {
+							fragments.push_back({0, string_value, "", true});
+						}
+						return fragments;
+					};
+				f1 = ensure_dynamic_fragment(v1, std::move(f1));
+				f2 = ensure_dynamic_fragment(v2, std::move(f2));
 				const Usecode_value retval = v1 + v2;
 				push(retval);
+				Voice_fragment_list fragments;
+				fragments.reserve(f1.size() + f2.size());
+				fragments.insert(fragments.end(), f1.begin(), f1.end());
+				fragments.insert(fragments.end(), f2.begin(), f2.end());
+				set_top_voice_fragments(std::move(fragments));
 				break;
 			}
 			case UC_SUB: {    // SUB.
@@ -2678,10 +2703,12 @@ int Usecode_internal::run() {
 				offset = little_endian::Read2(frame->ip);
 				// Get value.
 				const Usecode_value val = pop();
+				const auto             fragments = take_voice_fragments();
 				if (offset < 0 || offset >= num_locals) {
 					LOCAL_VAR_ERROR(offset);
 				} else {
 					frame->locals[offset] = val;
+					set_local_voice_fragments(frame, offset, fragments);
 				}
 				break;
 			}
@@ -2738,7 +2765,7 @@ int Usecode_internal::run() {
 				break;
 			}
 			case UC_PUSHS:      // PUSHS.
-			case UC_PUSHS32:    // PUSHS32
+			case UC_PUSHS32: {  // PUSHS32
 				if (opcode < UC_EXTOPCODE) {
 					offset = little_endian::Read2(frame->ip);
 				} else {
@@ -2748,10 +2775,20 @@ int Usecode_internal::run() {
 					DATA_SEGMENT_ERROR();
 					break;
 				}
+				const char* const static_text =
+						reinterpret_cast<const char*>(frame->data + offset);
 				voice_string_trace.push_back({frame->function->id,
-											  offset | VOICE_TRACE_PUSHS_FLAG});
+																	  offset | VOICE_TRACE_PUSHS_FLAG});
 				pushs(frame->data + offset);
+				char offset_hex[16];
+				std::snprintf(offset_hex, sizeof(offset_hex), "%x", offset);
+				set_top_voice_fragments({Voice_string_part{
+						0, static_text,
+						make_dialogue_translation_key(
+								frame->function->id, offset_hex, 0),
+						false}});
 				break;
+			}
 			case UC_ARRC: {    // ARRC.
 				// Get # values to pop into array.
 				const int     num = little_endian::Read2(frame->ip);
@@ -2787,6 +2824,8 @@ int Usecode_internal::run() {
 					pushi(0);
 				} else {
 					push(frame->locals[offset]);
+					const auto fragments = local_voice_fragments(frame, offset);
+					set_top_voice_fragments(fragments);
 				}
 				break;
 			case UC_CMPEQ: {    // CMPEQ.
@@ -3090,34 +3129,76 @@ int Usecode_internal::run() {
 				if (!str) {
 					break;    // Negative int: nothing appended (as before).
 				}
-				// Dual/zh merged templates carry "<VAR>" slots where the
-				// generator kept the addsv alive. Multiple addsv ops fill the
-				// slots SEQUENTIALLY: each value replaces the first remaining
-				// "<VAR>" in the ZH half and the matching one in the EN half
-				// (translated to English when known), so a line like
-				// "我該如何協助 <VAR>，<VAR>？\nHow may I assist <VAR>, <VAR>?"
-				// renders as "我該如何協助 你們隊伍，聖者？\nHow may I assist
-				// your party, Avatar?".
+				// Carry literal anchors from the value being appended.  This keeps
+				// provenance tied to the local expression instead of collecting
+				// unrelated PUSHS values executed earlier in the conversation.
+				Voice_fragment_list local_fragments =
+						local_voice_fragments(frame, offset);
+				if (local_fragments.empty() && str) {
+					local_fragments.push_back({0, str, "", true});
+				}
+				// A translated alternate-usecode string can retain one or more
+				// angle-bracket slots for ADDSV values.  Fill the next slot by
+				// position, regardless of its name (<VAR>, <VAR0>, <NPC_NAME>, ...).
+				auto is_placeholder_name = [](std::string_view name) {
+					if (name.empty()
+							|| !std::isalpha(static_cast<unsigned char>(name.front()))) {
+						return false;
+					}
+					for (const char character : name) {
+						if (!std::isalnum(static_cast<unsigned char>(character))
+								&& character != '_') {
+							return false;
+						}
+					}
+					return true;
+				};
+				auto replace_first_placeholder =
+						[&](std::string& text, std::string_view value) {
+						std::size_t search = 0;
+						while ((search = text.find('<', search)) != std::string::npos) {
+							const std::size_t close = text.find('>', search + 1);
+							if (close == std::string::npos) {
+								return false;
+							}
+							if (is_placeholder_name(std::string_view(text).substr(
+									search + 1, close - search - 1))) {
+								text.replace(search, close - search + 1, value);
+								return true;
+							}
+							search = close + 1;
+						}
+						return false;
+					};
+				auto has_placeholder = [&](std::string_view text) {
+					std::size_t search = 0;
+					while ((search = text.find('<', search)) != std::string::npos) {
+						const std::size_t close = text.find('>', search + 1);
+						if (close == std::string::npos) {
+							return false;
+						}
+						if (is_placeholder_name(text.substr(
+								search + 1, close - search - 1))) {
+							return true;
+						}
+						search = close + 1;
+					}
+					return false;
+				};
+				// A placeholder in an already translated alternate-usecode
+				// sentence is filled in place.  An English placeholder sentence,
+				// however, is still source text and must retain its VM fragments so
+				// the generic catalog template can translate the complete sentence.
+				auto has_non_ascii_text = [](std::string_view text) {
+					return std::any_of(text.begin(), text.end(), [](char character) {
+						return static_cast<unsigned char>(character) >= 0x80;
+					});
+				};
 				if (*str && BilingualManager::get().is_zh_text() && String != nullptr
-				    && strstr(String, "<VAR>") != nullptr) {
+						&& has_placeholder(String) && has_non_ascii_text(String)) {
 					voice_string_parts.clear();
 					std::string s(String);
-					const std::string tok("<VAR>");
 					std::string       val(str);
-					// Split a value that is already bilingual "ZH(EN)" (topic
-					// keywords like "英勇的戰士(valiant warrior)" are stored
-					// that way): the ZH half gets the leading Chinese, the EN
-					// half gets the parenthesized English. Otherwise the ZH
-					// half keeps the value and the EN half uses a small
-					// translation map (the ZH addsv only carries Chinese) or
-					// the value itself.
-					// Compare against UTF-8 byte strings (no /utf-8 on MSVC,
-					// so raw Chinese literals would not compile).
-					const std::string b_you("\xe4\xbd\xa0");                 // 你
-					const std::string b_party("\xe4\xbd\xa0\xe5\x80\x91\xe9\x9a\x8a\xe4\xbc\x8d");  // 你們隊伍
-					const std::string b_avatar("\xe8\x81\x96\xe8\x80\x85");   // 聖者
-					const std::string b_him("\xe4\xbb\x96");                  // 他
-					const std::string b_her("\xe5\xa5\xb9");                  // 她
 					std::string       zh_val = val;
 					std::string       en_val = val;
 					const size_t      lp     = val.rfind('(');
@@ -3134,13 +3215,9 @@ int Usecode_internal::run() {
 							en_val = val.substr(lp + 1, val.size() - lp - 2);
 						}
 					}
-					if (zh_val == val) {    // Not "ZH(EN)": use the map.
-						if (val == b_you)            en_val = "thee";
-						else if (val == b_party)     en_val = "your party";
-						else if (val == b_avatar)    en_val = "Avatar";
-						else if (val == b_him)       en_val = "him";
-						else if (val == b_her)       en_val = "her";
-						else                         en_val = val;
+					if (zh_val == val) {
+						zh_val = GameplayTranslationManager::get().translate_by_source(
+								GameplayTranslationKind::Dialogue, val);
 					}
 					const bool in_dual =
 					    BilingualManager::get().get_text_language()
@@ -3155,32 +3232,44 @@ int Usecode_internal::run() {
 						std::string  en = (nl == std::string::npos)
 						                      ? ""
 						                      : s.substr(nl + 1);
-						auto fill_first = [&tok](std::string& t,
-						                          const std::string& v) {
-							const size_t at = t.find(tok);
-							if (at != std::string::npos) {
-								t.replace(at, tok.size(), v);
-							}
-						};
-						fill_first(zh, zh_val);
+						replace_first_placeholder(zh, zh_val);
 						if (!en.empty()) {
-							fill_first(en, en_val);
+							replace_first_placeholder(en, en_val);
 						}
 						s = en.empty() ? zh : zh + "\n" + en;
 					} else {
-						size_t at = 0;
-						while ((at = s.find(tok, at)) != std::string::npos) {
-							s.replace(at, tok.size(), val);
-							at += val.size();
-						}
+						replace_first_placeholder(s, zh_val);
 					}
 					delete[] String;
 					String = new char[s.size() + 1];
 					memcpy(String, s.c_str(), s.size() + 1);
 				} else {
-					const std::size_t source_start = String ? strlen(String) : 0;
-					append_string(str);
-					voice_string_parts.push_back({source_start, str, {}});
+					std::string reconstructed;
+					for (const Voice_string_part& part : local_fragments) {
+						reconstructed += part.source;
+					}
+					if (reconstructed != str) {
+						local_fragments.clear();
+					}
+					if (local_fragments.empty()) {
+						const std::size_t source_start = String ? strlen(String) : 0;
+						append_string(str);
+						voice_string_parts.push_back({source_start, str, {}, true});
+					} else {
+						for (Voice_string_part& part : local_fragments) {
+							const std::size_t source_start = String ? strlen(String) : 0;
+							append_string(part.source.c_str());
+							// ADDSV is the structural boundary: even when the value
+							// was returned by another function with literal provenance,
+							// it is a dynamic slot in the sentence being assembled here.
+							// This keeps generic placeholder handling independent of
+							// which helper produced values such as "afternoon".
+							part.dynamic = true;
+							voice_string_parts.push_back({
+									source_start, part.source, part.translation_key,
+									true});
+						}
+					}
 				}
 				break;
 			}			case UC_IN: {    // IN.  Is a val. in an array?
@@ -3736,7 +3825,10 @@ bool Usecode_internal::call_method(
 	int i;
 	for (i = 0; i < frame->num_args; i++) {
 		const Usecode_value val                = pop();
-		frame->locals[frame->num_args - i - 1] = val;
+		const auto fragments                  = take_voice_fragments();
+		const int local_offset                = frame->num_args - i - 1;
+		frame->locals[local_offset]           = val;
+		set_local_voice_fragments(frame, local_offset, fragments);
 	}
 
 	// save stack pointer

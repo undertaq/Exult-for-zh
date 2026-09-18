@@ -7,9 +7,11 @@ from pathlib import Path
 import re
 
 
-_TOKENS = re.compile(
-    r"@[A-Za-z0-9_]+@|~|\*|<(?:PLAYER_NAME|HONORIFIC|PRONOUN|GENDER_FLAG|VAR)>"
-)
+# Protected placeholders are an extensible protocol between the usecode
+# runtime, the translation table, and the audit.  Do not enumerate names here:
+# U6 data contains both semantic names (``<PLAYER_NAME>``) and positional
+# values (``<VAR0>``, ``<VAR1>``), and future usecode may add more.
+_TOKENS = re.compile(r"@[A-Za-z0-9_]+@|~|\*|<[A-Za-z][A-Za-z0-9_]*>")
 
 
 def normalize_source(source: str) -> str:

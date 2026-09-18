@@ -222,7 +222,7 @@ bool parse_kind(std::string_view value, GameplayTranslationKind& kind) {
 
 bool valid_key(GameplayTranslationKind kind, std::string_view value) {
 	static const std::regex dialogue(
-			R"(^dialogue:0x[0-9a-f]{4}:(?:[0-9a-f]+|fallback_[0-9a-f]+|template_[a-z0-9_]+)(?:_(?:[0-9a-f]+|fallback_[0-9a-f]+|template_[a-z0-9_]+))*:[0-9]+$)");
+			R"(^dialogue:0x[0-9a-f]{4}:(?:[0-9a-f]+|runtime|fallback_[0-9a-f]+|template_[a-z0-9_]+)(?:_(?:[0-9a-f]+|runtime|fallback_[0-9a-f]+|template_[a-z0-9_]+))*:[0-9]+$)");
 	static const std::regex choice(
 			R"(^choice:0x[0-9a-f]{4}:(?:0x[0-9a-f]+|unbound):[0-9]+$)");
 	static const std::regex item(R"(^item:0x[0-9a-f]{4}:[0-9]+:[0-9]+$)");

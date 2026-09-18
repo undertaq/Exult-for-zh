@@ -1,70 +1,36 @@
+"""Generic helpers for runtime-assembled dialogue templates.
+
+The runtime records the fragments that were appended to a dialogue string.
+This module deliberately contains no NPC names or sentence registry: every
+observed sequence is converted to the same positional placeholder protocol.
+"""
+
 from __future__ import annotations
 
-from dataclasses import dataclass
+from collections.abc import Iterable
+import re
 
 
-@dataclass(frozen=True)
-class DynamicDialogueTemplate:
-    function: int
-    name: str
-    source: str
-    anchors: tuple[str, ...]
+def canonical_template_from_parts(parts: Iterable[tuple[str, bool]]) -> str:
+    """Build a source template from ``(text, is_dynamic)`` fragments.
 
-    @property
-    def key(self) -> str:
-        return f"dialogue:0x{self.function:04x}:template_{self.name}:0"
+    Static fragments remain literal. Dynamic fragments are numbered by their
+    appearance order, allowing arbitrary usecode values and placeholder names
+    without a hard-coded sentence list.
+    """
+
+    result: list[str] = []
+    dynamic_index = 0
+    for text, is_dynamic in parts:
+        if is_dynamic:
+            result.append(f"<VAR{dynamic_index}>")
+            dynamic_index += 1
+        else:
+            result.append(text)
+    return "".join(result)
 
 
-# These lines are assembled by U6 usecode from static strings and addsv values.
-# Keep the semantic placeholders stable: the runtime translator uses the same
-# names when it replaces values in the translated template.
-DYNAMIC_DIALOGUE_TEMPLATES = (
-    DynamicDialogueTemplate(
-        0x0401,
-        "iolo_greeting",
-        "@Well, <PLAYER_NAME>, do you need help with something? Or maybe "
-        "you've got time for a story, eh?@",
-        (
-            "@Well, ",
-            ", do you need help with something? Or maybe you've got time for a story, eh?@",
-        ),
-    ),
-    DynamicDialogueTemplate(
-        0x0404,
-        "dupre_greeting",
-        "@Yes, <PLAYER_NAME>?@",
-        ("@Yes, ", "?@"),
-    ),
-    DynamicDialogueTemplate(
-        0x0464,
-        "gypsy_path",
-        "@The path of the Avatar lies beneath thy feet, worthy "
-        "<PLAYER_NAME>@, the gypsy intones. With a mysterious smile, "
-        "she passes you the flask of shimmering liquids.",
-        (
-            "@The path of the Avatar lies beneath thy feet, worthy ",
-            "@, the gypsy intones. With a mysterious smile, she passes you the flask of shimmering liquids.",
-        ),
-    ),
-    DynamicDialogueTemplate(
-        0x0494,
-        "lord_british_greeting",
-        "@Good <TIME_OF_DAY>, <PLAYER_NAME>. What wouldst thou speak of?@",
-        ("@Good ", ". What wouldst thou speak of?@"),
-    ),
-    DynamicDialogueTemplate(
-        0x0494,
-        "lord_british_return_greeting",
-        "@<PLAYER_NAME>! 'Tis good to see thee again. Much hath happened since "
-        "thou last departed our realm.@",
-        (
-            "! 'Tis good to see thee again. Much hath happened since thou last departed our realm.@",
-        ),
-    ),
-    DynamicDialogueTemplate(
-        0x0494,
-        "lord_british_honesty",
-        "@<PLAYER_NAME>, I knowest Honesty is one of the virtues and all..@",
-        (", I knowest Honesty is one of the virtues and all..@",),
-    ),
-)
+def placeholder_names(source: str) -> tuple[str, ...]:
+    """Return valid angle-placeholder tokens in source order."""
+
+    return tuple(re.findall(r"<[A-Za-z][A-Za-z0-9_]*>", source))

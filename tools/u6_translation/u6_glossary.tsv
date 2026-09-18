@@ -5,3 +5,7 @@ The Fellowship	友誼會	translated
 Fellowship Hall	友誼會館	translated
 Inner Voice	內在之聲	translated
 Passion Play	受難劇	translated
+milady	女士	runtime_term
+milord	大人	runtime_term
+wisp	wisp	runtime_term+protected
+wisps	wisps	runtime_term+protected

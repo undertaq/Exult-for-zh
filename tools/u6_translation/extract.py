@@ -10,7 +10,8 @@ from collections.abc import Iterable
 
 from .catalog import CatalogEntry, _merge, parse_runtime_catalog, source_sha256
 from .runtime_table import RuntimeRow
-from .templates import DYNAMIC_DIALOGUE_TEMPLATES
+from .terms import load_english_terms, policy_tokens
+from .usecode_templates import extract_compiled_dialogue_templates
 
 
 def make_dialogue_key(function: int, callsite: str, ordinal: int) -> str:
@@ -67,6 +68,8 @@ _BOOK_USECODE_FUNCTIONS = frozenset({0x0282, 0x031D, 0x0638, 0x0710, 0x0CDB})
 # these two base BG functions (the other known handlers are not callo targets
 # in this mod and their Chinese usecode has a different data layout).
 _FALLBACK_BOOK_USECODE_FUNCTIONS = frozenset({0x0282, 0x031D})
+_RUNTIME_TERM_GLOSSARY = Path(__file__).with_name("u6_glossary.tsv")
+_ENGLISH_TERMS = Path(__file__).with_name("u6_english_terms.tsv")
 
 
 def _find_usecode(root: Path) -> Path:
@@ -427,6 +430,80 @@ def _parse_ucxt(text: str) -> list[CatalogEntry]:
     return entries
 
 
+# ``STATIC/USECODE`` is loaded underneath a mod patch at runtime.  The patch
+# may therefore call an inherited helper which is absent from the mod's own
+# compiled usecode.  Keep the intrinsic IDs here (rather than any NPC or
+# sentence names) so all inherited overhead helpers are discovered by the
+# same path.  The first value is Black Gate's ordinary item_say; the others
+# are the corresponding Serpent Isle/gump slots used by shared usecode.
+_ITEM_SAY_INTRINSICS = frozenset({0x40, 0x4C, 0x4D, 0x7F, 0x99})
+
+
+def _item_say_function_ids(usecode: Path) -> set[int]:
+    """Return compiled functions that invoke an item_say intrinsic.
+
+    This deliberately follows the bytecode call graph instead of matching
+    literal text.  It consequently covers every inherited overhead helper
+    (and future helpers with the same intrinsic) without maintaining an NPC
+    or sentence registry.
+    """
+
+    from tools.voice_acting import disassemble_usecode as disassembler
+
+    data = usecode.resolve().read_bytes()
+    try:
+        offset = disassembler.skip_symbol_table(data, 0)
+    except (IndexError, ValueError, TypeError, struct.error):
+        return set()
+
+    functions: set[int] = set()
+    while offset < len(data):
+        try:
+            function_id, function_data, extended, next_offset = (
+                disassembler.parse_function(data, offset)
+            )
+            if next_offset <= offset or next_offset > len(data):
+                break
+            function = disassembler.disassemble_function(
+                function_id, function_data, extended
+            )
+        except (IndexError, ValueError, TypeError, struct.error):
+            break
+        if any(
+            name == "calli"
+            and params
+            and int(params[0]) in _ITEM_SAY_INTRINSICS
+            for _address, _raw, name, params, _comment in function["instructions"]
+        ):
+            functions.add(function_id)
+        offset = next_offset
+    return functions
+
+
+def _fallback_item_say_catalog(
+    usecode: Path, ucxt: Path, shadowed_functions: set[int]
+) -> list[CatalogEntry]:
+    """Extract only inherited static strings that can reach item_say.
+
+    A mod function completely replaces its base function, so shadowed
+    function IDs must not contribute duplicate/different UCXT rows.  Keeping
+    the filter at function/intrinsic level avoids hard-coded sentence lists
+    while keeping the audit catalog focused on display text rather than all
+    inherited books and conversation data.
+    """
+
+    functions = _item_say_function_ids(usecode) - shadowed_functions
+    if not functions:
+        return []
+    entries = _parse_ucxt(_run_ucxt_file(usecode, ucxt, "-ftt"))
+    result: list[CatalogEntry] = []
+    for entry in entries:
+        if _dialogue_function(entry.key) not in functions:
+            continue
+        result.append(replace(entry, origin="static-fallback-item-say-ucxt"))
+    return result
+
+
 def _dialogue_function(key: str) -> int | None:
     parts = key.split(":")
     if len(parts) < 2 or not parts[1].startswith("0x"):
@@ -437,33 +514,46 @@ def _dialogue_function(key: str) -> int | None:
         return None
 
 
-def _dynamic_dialogue_templates(entries: list[CatalogEntry]) -> list[CatalogEntry]:
-    sources_by_function: dict[int, set[str]] = {}
-    for entry in entries:
-        if entry.kind != "dialogue":
-            continue
-        function = _dialogue_function(entry.key)
-        if function is not None:
-            sources_by_function.setdefault(function, set()).add(entry.source)
+def _runtime_term_catalog(
+    glossary: Path = _RUNTIME_TERM_GLOSSARY,
+    terms: Path = _ENGLISH_TERMS,
+) -> list[CatalogEntry]:
+    """Expose source-global usecode helper values to extraction and audit.
 
-    templates = []
-    for template in DYNAMIC_DIALOGUE_TEMPLATES:
-        function_sources = sources_by_function.get(template.function, set())
-        if not all(
-            any(anchor in source for source in function_sources)
-            for anchor in template.anchors
-        ):
+    Shared helpers such as the inherited gendered-title function return a
+    string without an NPC-specific UCXT callsite.  Marking those glossary
+    entries as ``runtime_term`` gives the catalog a stable, auditable source
+    identity while the runtime still resolves the translation globally.
+    """
+
+    runtime_terms: set[str] = set()
+    for line in glossary.read_text(encoding="utf-8").splitlines():
+        if not line.strip() or line.lstrip().startswith("#"):
             continue
-        templates.append(
+        fields = line.split("\t")
+        if len(fields) != 3 or not all(fields):
+            continue
+        english, _chinese, policy = fields
+        if "runtime_term" not in policy_tokens(policy):
+            continue
+        runtime_terms.add(english)
+
+    for term in load_english_terms(terms):
+        if "runtime_term" in policy_tokens(term.policy):
+            runtime_terms.add(term.en)
+
+    entries: list[CatalogEntry] = []
+    for ordinal, english in enumerate(sorted(runtime_terms)):
+        entries.append(
             CatalogEntry.from_source(
                 "dialogue",
-                template.key,
-                template.source,
-                "dynamic-template",
-                "static-template",
+                f"dialogue:0x0000:runtime:{ordinal}",
+                english,
+                "gameplay",
+                "static-runtime-term",
             )
         )
-    return templates
+    return entries
 
 
 def _parse_function_id(line: str, path: Path) -> int | None:
@@ -558,6 +648,17 @@ def _static(
 ) -> tuple[list[CatalogEntry], list[_StaticChoice]]:
     entries = _parse_ucxt(_run_ucxt(root, ucxt))
     if fallback_usecode is not None:
+        shadowed_functions = {
+            function
+            for entry in entries
+            for function in [_dialogue_function(entry.key)]
+            if function is not None
+        }
+        entries.extend(
+            _fallback_item_say_catalog(
+                fallback_usecode, ucxt, shadowed_functions
+            )
+        )
         entries.extend(extract_fallback_book_catalog(fallback_usecode, ucxt))
     choices, choice_metadata = _parse_static_choices(root)
     return entries + choices, choice_metadata
@@ -790,6 +891,15 @@ def _reconcile_runtime_dialogues(
             reconciled.append(row)
             continue
 
+        source_matches = [
+            entry
+            for entry in static_dialogues
+            if entry.source_sha256 == row.source_sha256
+        ]
+        if len(source_matches) == 1:
+            reconciled.append(replace(row, key=source_matches[0].key))
+            continue
+
         same_key = next(
             (entry for entry in static_dialogues if entry.key == row.key), None
         )
@@ -882,11 +992,20 @@ def extract_catalog(
     ucxt_path: Path,
     runtime_catalog: Path | None,
     fallback_usecode: Path | None = None,
+    include_runtime_terms: bool = False,
+    terms: Path | None = None,
 ) -> list[CatalogEntry]:
     entries, static_choices = _static(mod_root, ucxt_path, fallback_usecode)
+    try:
+        usecode = _find_usecode(mod_root)
+    except FileNotFoundError:
+        usecode = None
+    if usecode is not None:
+        entries.extend(extract_compiled_dialogue_templates(usecode))
     entries.extend(_parse_indexed_resources(mod_root))
     entries.extend(_parse_spell_names(mod_root))
-    entries.extend(_dynamic_dialogue_templates(entries))
+    if include_runtime_terms:
+        entries.extend(_runtime_term_catalog(terms=terms or _ENGLISH_TERMS))
     if runtime_catalog is not None:
         runtime = parse_runtime_catalog(runtime_catalog)
         runtime = _reconcile_runtime_dialogues(entries, runtime)

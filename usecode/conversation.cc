@@ -28,7 +28,6 @@
 #include "actors.h"
 #include "bilingual_manager.h"
 #include "data/exult_bg_flx.h"
-#include "deferred_text.h"
 #include "effects.h"
 #include "exult.h"
 #include "gameplay_translation.h"
@@ -496,12 +495,14 @@ void Conversation::show_npc_message(const char* msg) {
 	if (last_face_shown == -1) {
 		return;
 	}
-	// '@' marks voice/string boundaries in usecode. They are not display
-	// characters and may occur around several fragments in one message.
+	// '@' surrounds a speaker's words in usecode. Keep those markers in the
+	// lookup/capture path, but turn them into mode-specific quotes only on the
+	// final display copy.
 	std::string clean;
 	const char* display = msg;
 	if (msg) {
-		clean   = strip_usecode_dialogue_markers(msg);
+		clean   = format_usecode_dialogue_quotes(
+				msg, BilingualManager::get().get_text_language());
 		display = clean.c_str();
 	}
 	// Resolve <PLAYER_NAME>/<HONORIFIC>/... tokens baked into merged
@@ -959,8 +960,6 @@ void Conversation::show_avatar_choices(int num_choices, char** choices) {
 	std::vector<TileRect> choice_text_rects;
 	choice_text_rects.reserve(num_choices);
 	const int text_bg = gwin->get_text_bg();
-	const bool choices_use_deferred_text =
-			Deferred_text_renderer::instance().is_active();
 	// For CJK text the pixel-font formula gives a negative offset; just align to row top.
 	const int bg_offset = use_cjk_layout ? 0 : (sman->get_text_height(0) - line_height) / 2;
 	// First pass: determine positions and draw all backgrounds.
@@ -988,16 +987,18 @@ void Conversation::show_avatar_choices(int num_choices, char** choices) {
 		const TileRect text_rect(tbox.x + x, tbox.y + y, width, hit_h);
 		choice_text_rects.push_back(text_rect);
 
-		// Deferred TTF text is composited from the draw surface without its
-		// Image_buffer offset. Mouse input is converted back through that offset,
-		// so the interactive rectangle must be in the input coordinate space,
-		// while text_rect remains in the renderer's coordinate space.
-		TileRect hit_rect = text_rect;
-		if (choices_use_deferred_text) {
-			hit_rect.x += gwin->get_win()->get_start_x();
-			hit_rect.y += gwin->get_win()->get_start_y();
-		}
-		conv_choices[i] = hit_rect.intersect(gwin->get_full_rect());
+		// text_rect is expressed in game coordinates, the same coordinates
+		// returned by Image_window::screen_to_game() in Get_click.  This remains
+		// true when deferred TTF text is active: the renderer adds the image
+		// buffer offset only while writing pixels to its compositor surface.
+		// Applying get_start_* here shifts every hit box a second time and leaves
+		// the right-most translated choices outside the visible text.
+		// The background and the next option both include the trailing gap. Keep
+		// that visible spacing clickable, then clip the complete area to game
+		// coordinates so screen_to_game() and conversation_choice() agree.
+		const TileRect hit_area(text_rect.x, text_rect.y, width + space_width, hit_h);
+		const TileRect hit_rect = hit_area.intersect(gwin->get_game_rect());
+		conv_choices[i] = hit_rect;
 		avatar_face     = avatar_face.add(text_rect).add(conv_choices[i]);
 		if (text_bg >= 0) {
 			gwin->get_win()->fill_translucent8(

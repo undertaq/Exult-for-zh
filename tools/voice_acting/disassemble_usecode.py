@@ -30,7 +30,10 @@ def read4s(data, offset):
     return struct.unpack_from("<i", data, offset)[0]
 
 
-from npc_data import get_npc_name_by_func as get_npc_name
+try:
+    from .npc_data import get_npc_name_by_func as get_npc_name
+except ImportError:  # pragma: no cover - direct script execution
+    from npc_data import get_npc_name_by_func as get_npc_name
 
 # Curated speaker overrides applied after face/caller inference.
 # Needed where show_npc_face encoding cannot resolve a speaker:
