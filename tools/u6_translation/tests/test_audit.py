@@ -9,6 +9,7 @@ from tools.u6_translation.audit import (
     coverage_report,
     format_terminal_report,
     load_audit_table,
+    merge_input_issues,
     report_exit_code,
 )
 from tools.u6_translation.catalog import CatalogEntry, source_sha256
@@ -1090,6 +1091,25 @@ class AuditReportTest(unittest.TestCase):
 
         self.assertEqual(rows, [])
         self.assertEqual({issue["check"] for issue in issues}, {"table_version", "table_columns"})
+
+    def test_coverage_audit_reports_loader_fatal_runtime_key_syntax(self) -> None:
+        malformed_key = "dialogue:0x0622:fallback_329192252e8588c4"
+        source = "In how many hours shall we wake thee up, Joe?"
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "malformed.tsv"
+            path.write_text(
+                "# u6-translation-v1\n"
+                "# kind\tkey\tsource_sha256\tzh\n"
+                f"dialogue\t{malformed_key}\t{source_sha256(source)}\t中文\n",
+                encoding="utf-8",
+            )
+            rows, issues = load_audit_table(path)
+
+        self.assertEqual(len(rows), 1)
+        self.assertEqual({issue["check"] for issue in issues}, {"key_syntax"})
+        entry = _entry("dialogue", malformed_key, source)
+        report = merge_input_issues(coverage_report([entry], rows), issues)
+        self.assertEqual(report_exit_code(report, strict=False), 1)
 
     def test_correctness_recomputes_catalog_source_hash(self) -> None:
         entry = _entry("misc", "misc:0x0050", "Welcome")
