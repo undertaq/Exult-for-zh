@@ -158,8 +158,15 @@ The emitter sorts rows by kind and key, rejects duplicate keys, and writes a sta
 The pipeline lives under `tools/u6_translation/` and never runs a model from the game process.
 
 ```text
-extract --> catalog.jsonl --> translate/cache --> audit --> human review --> emit
+extract --> catalog.jsonl --> translate/cache --> convert-traditional --> audit --> human review --> emit
 ```
+
+The `convert-traditional` stage checks the candidate/runtime TSV against the
+same unambiguous Simplified-character inventory used by correctness auditing.
+It applies the checked-in OpenCC-s2t-derived character map, preserves
+placeholders, English-only names, protected terms, hashes, and punctuation,
+and writes atomically. `--check` is the non-mutating release gate; the emitter
+repeats the conversion before its final deterministic audit as a safety net.
 
 ### Extraction
 
