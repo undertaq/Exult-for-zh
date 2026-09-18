@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from tools.u6_translation.catalog import CatalogEntry
 from tools.u6_translation.emit import emit_approved_table
@@ -38,6 +39,18 @@ def _catalog_from_reviews() -> list[CatalogEntry]:
 
 
 class EmitApprovedTableTest(unittest.TestCase):
+    def test_emission_defaults_to_the_staged_release_table(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "deploy" / "zh_translation.tsv"
+            with patch("tools.u6_translation.emit.DEFAULT_TABLE_PATH", output):
+                emit_approved_table(
+                    _catalog_from_reviews(),
+                    FIXTURES / "approved_review.jsonl",
+                )
+
+            self.assertTrue(output.exists())
+            self.assertEqual(len(load_runtime_table(output)), 7)
+
     def test_emission_requires_approved_review_and_writes_sorted_versioned_table(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "zh_translation.tsv"

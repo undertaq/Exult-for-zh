@@ -140,6 +140,30 @@ class TranslationCliTest(unittest.TestCase):
             self.assertEqual(emit.returncode, 0, emit.stderr)
             self.assertTrue(emitted.read_text(encoding="utf-8").startswith("# u6-translation-v1\n"))
 
+    def test_deploy_command_supports_dry_run_and_staging_root(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            stage = root / "stage"
+            game = root / "game"
+            staged = {
+                "patch/autonotes.txt": "0x0:午安\r\n",
+                "patch/textmsg.txt": "0x0:早安\r\n",
+                "mods/Ultima6v1.3/patch/zh_translation.tsv": "# u6-translation-v1\n",
+            }
+            for relative, content in staged.items():
+                path = stage / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(content.encode("utf-8"))
+
+            result = self._run(
+                "deploy", "--game-root", str(game),
+                "--staging-root", str(stage), "--dry-run",
+            )
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("dry_run=1", result.stdout)
+            self.assertFalse((game / "patch/textmsg.txt").exists())
+
     def test_convert_traditional_command_checks_and_writes_a_table(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
