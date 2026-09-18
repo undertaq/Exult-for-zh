@@ -6,6 +6,15 @@ from pathlib import Path
 from .runtime_table import decode_tsv_row
 
 
+class CapturedSpeaker(str):
+    """A display-compatible speaker name retaining its runtime capture ID."""
+
+    def __new__(cls, speaker: str, speaker_id: int) -> "CapturedSpeaker":
+        value = super().__new__(cls, speaker)
+        value.speaker_id = speaker_id
+        return value
+
+
 @dataclass(frozen=True)
 class SpeakerCaptureRow:
     kind: str
@@ -39,7 +48,13 @@ def speaker_map_from_capture(rows: list[SpeakerCaptureRow]) -> dict[str, str]:
     for key, values in observations.items():
         names = sorted({name for _, name in values if name})
         if len(names) == 1:
-            mapping[key] = names[0]
+            ids = sorted({speaker_id for speaker_id, _ in values})
+            if len(ids) == 1:
+                mapping[key] = CapturedSpeaker(names[0], ids[0])
+            else:
+                mapping[key] = "Ambiguous · " + " / ".join(
+                    f"NPC {speaker_id}" for speaker_id in ids
+                )
             continue
         elif names:
             mapping[key] = "Ambiguous · " + " / ".join(names)
