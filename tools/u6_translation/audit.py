@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections import Counter, defaultdict
+from functools import lru_cache
 import json
 from pathlib import Path
 import re
@@ -39,7 +40,14 @@ _TRADITIONAL_POLICY_RE = re.compile(
 _NAME_POLICY_HEADER = ("category", "en")
 _NAME_CATEGORIES = {"npc", "place", "town", "location", "proper"}
 _ENGLISH_TERM_NAME_CATEGORIES = {"person", "location", "proper"}
-_OPAQUE_LANGUAGE_FUNCTIONS = {"0x0cb3", "0x0cb6", "0x0cf8", "0x0cff", "0x04e2"}
+_OPAQUE_LANGUAGE_FUNCTIONS = {
+    "0x0282",
+    "0x0cb3",
+    "0x0cb6",
+    "0x0cf8",
+    "0x0cff",
+    "0x04e2",
+}
 _OPAQUE_LANGUAGE_PHRASES = {
     "ag-ra-lem! ges por!",
     "an-bal-sil-fer!",
@@ -63,6 +71,7 @@ _OPAQUE_LANGUAGE_PHRASES = {
     "blank.",
     "...zzz...",
     "rrrrlr grrtl...",
+    "..rrrrlr grrtl...",
     "mrtlx hmlsh fbbn...",
     "beh....beh....beh....",
     "cah....cah....cah....",
@@ -283,6 +292,8 @@ def _coverage_for_kind(
     for row in rows:
         if _identity(row) in catalog_keys:
             continue
+        if _is_unobserved_placeholder_row(row, catalog_keys):
+            continue
         if (
             row.kind in source_fallback_kinds
             and (row.kind, row.source_sha256) in catalog_source_hashes
@@ -305,7 +316,12 @@ def _coverage_for_kind(
     result["orphan_identities"] = [
         list(identity)
         for identity in sorted(
-            {_identity(row) for row in rows if _identity(row) not in catalog_keys}
+            {
+                _identity(row)
+                for row in rows
+                if _identity(row) not in catalog_keys
+                and not _is_unobserved_placeholder_row(row, catalog_keys)
+            }
         )
     ]
     result["unbound_identities"] = sorted({(entry.kind, entry.key) for entry in entries if _is_unbound(entry.key)})
@@ -582,11 +598,36 @@ def _name_signature(text: str) -> str:
     return " ".join(re.findall(r"[A-Za-z0-9]+", text)).casefold()
 
 
-def _is_name_only_source(source: str, name_rules: Iterable[tuple[str, str]]) -> bool:
-    """Recognize a name surrounded by dialogue punctuation/format markers."""
+@lru_cache(maxsize=8)
+def _known_name_tokens(
+    name_rules: tuple[tuple[str, str], ...],
+) -> frozenset[str]:
+    return frozenset(
+        token.casefold()
+        for _category, name in name_rules
+        for token in re.findall(r"[A-Za-z0-9]+", name)
+    )
 
-    signature = _name_signature(source)
-    return bool(signature) and any(signature == _name_signature(name) for _category, name in name_rules)
+
+def _is_name_only_source(source: str, name_rules: Iterable[tuple[str, str]]) -> bool:
+    """Recognize a name or name/location label surrounded by formatting."""
+
+    candidate = source.strip().strip("@~*").strip()
+    tokens = re.findall(r"[A-Za-z0-9]+", candidate)
+    if not tokens:
+        return False
+    known_tokens = _known_name_tokens(tuple(name_rules))
+    recognized = False
+    for token in tokens:
+        normalized = token.casefold()
+        if normalized == "x":
+            continue
+        if normalized not in known_tokens:
+            return False
+        recognized = True
+    # ``(x)`` and an empty parenthesized marker are emitted by the scroll
+    # roster display; they are formatting, not translatable prose.
+    return recognized
 
 
 def _name_protects_term(
@@ -1017,6 +1058,8 @@ def correctness_report(
             issues.append(_issue(key=row.key, check="protected_spell_terms", severity="error", message="protected spell terms changed", source_location=location))
 
         for english, chinese, policy in term_rules:
+            if non_translatable or opaque_language:
+                continue
             if not _contains_glossary_term(entry.source, english):
                 continue
             if _name_protects_term(entry.source, english, name_rules):

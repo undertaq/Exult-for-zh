@@ -246,6 +246,7 @@ class AuditReportTest(unittest.TestCase):
         self.assertEqual(placeholder_templates["total"], 0)
         self.assertEqual(placeholder_templates["unobserved"], 1)
         self.assertEqual(placeholder_templates["unobserved_keys"], [key])
+        self.assertEqual(report["orphan"], 0)
 
     def test_ascii_dot_runs_are_preserved_exactly(self) -> None:
         entries = [
@@ -670,6 +671,64 @@ class AuditReportTest(unittest.TestCase):
             glossary.write_text("en\tzh\tpolicy\nAvatar\t聖者\ttranslated\nRune\tRune\tprotected\n", encoding="utf-8")
             bad_report = correctness_report(catalog, [bad_row], glossary, None)
         self.assertIn("protected_term", {issue["check"] for issue in bad_report["deterministic"]["issues"]})
+
+    def test_technical_event_identifiers_do_not_trigger_translated_glossary_terms(self) -> None:
+        entry = _entry(
+            "dialogue",
+            "dialogue:0x0bf3:20f:0",
+            "Event AVATAR_GIVE_LENS called",
+        )
+        row = RuntimeRow(
+            entry.kind,
+            entry.key,
+            entry.source_sha256,
+            "呼叫事件 AVATAR_GIVE_LENS",
+        )
+        report = correctness_report([entry], [row], GLOSSARY, None)
+        self.assertNotIn(
+            "glossary",
+            {issue["check"] for issue in report["deterministic"]["issues"]},
+        )
+
+    def test_opaque_language_and_noise_rows_are_not_required_to_be_chinese(self) -> None:
+        entries = [
+            _entry("dialogue", "dialogue:0x0282:100:0", "akk"),
+            _entry("dialogue", "dialogue:0x0449:95:0", "@..Rrrrlr Grrtl...@"),
+        ]
+        rows = [
+            RuntimeRow(entry.kind, entry.key, entry.source_sha256, entry.source)
+            for entry in entries
+        ]
+        report = correctness_report(entries, rows, GLOSSARY, None)
+        checks = {
+            issue["check"] for issue in report["deterministic"]["issues"]
+        }
+        self.assertNotIn("source_duplication", checks)
+        self.assertNotIn("chinese_output", checks)
+
+    def test_composite_name_labels_are_recognized_as_english_only(self) -> None:
+        entry = _entry(
+            "dialogue",
+            "dialogue:0x031d:fallback_65d:0",
+            "Finster - Britain (x)",
+        )
+        row = RuntimeRow(entry.kind, entry.key, entry.source_sha256, entry.source)
+        with tempfile.TemporaryDirectory() as directory:
+            names = Path(directory) / "names.tsv"
+            names.write_text(
+                "category\ten\n"
+                "npc\tFinster\n"
+                "town\tBritain\n",
+                encoding="utf-8",
+            )
+            report = correctness_report(
+                [entry], [row], GLOSSARY, None, names=names
+            )
+        checks = {
+            issue["check"] for issue in report["deterministic"]["issues"]
+        }
+        self.assertNotIn("source_duplication", checks)
+        self.assertNotIn("chinese_output", checks)
 
     def test_protected_professional_terms_are_consistent_across_text_kinds(self) -> None:
         entries = [

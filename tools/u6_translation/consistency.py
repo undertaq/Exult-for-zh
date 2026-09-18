@@ -45,7 +45,13 @@ def canonicalize_repeated_translations(
 def repeated_source_conflicts(
     entries: Iterable[CatalogEntry], rows: Iterable[RuntimeRow]
 ) -> list[dict[str, object]]:
-    """Return exact repeated English sources that have multiple ZH outputs."""
+    """Return repeated prose sources that have multiple ZH outputs.
+
+    One-character values are UCXT assembly fragments (for example ``a`` or
+    ``.``), not independently translatable sentences.  Their translations
+    legitimately depend on the surrounding fragment, so comparing them as
+    translation-memory entries creates false blocking conflicts.
+    """
 
     ordered_entries = list(entries)
     rows_by_identity = {(row.kind, row.key): row for row in rows}
@@ -54,7 +60,10 @@ def repeated_source_conflicts(
         row = rows_by_identity.get((entry.kind, entry.key))
         if row is None or not row.zh.strip():
             continue
-        grouped[normalize_source(entry.source)].append((entry.key, row.zh.strip()))
+        source = normalize_source(entry.source).strip()
+        if len(source) <= 1 or source.count("@") % 2:
+            continue
+        grouped[source].append((entry.key, row.zh.strip()))
 
     conflicts: list[dict[str, object]] = []
     for source, values in grouped.items():
