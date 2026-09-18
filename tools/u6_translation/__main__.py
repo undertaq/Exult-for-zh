@@ -14,6 +14,7 @@ from .review_html import write_review_html
 from .runtime_table import load_runtime_table, merge_runtime_rows, write_runtime_table
 from .speaker_map import load_speaker_capture, speaker_map_from_capture
 from .translate import translate_catalog
+from .traditional import convert_runtime_table
 
 def main(argv=None):
     parser = argparse.ArgumentParser(prog="python -m tools.u6_translation")
@@ -49,6 +50,15 @@ def main(argv=None):
         p.add_argument("--strict", action="store_true")
         p.add_argument("--semantic-strict", action="store_true")
     emit = sub.add_parser("emit"); emit.add_argument("--catalog", required=True); emit.add_argument("--review", required=True); emit.add_argument("--output", required=True)
+    convert_traditional = sub.add_parser(
+        "convert-traditional",
+        help="check or convert Simplified glyphs in a runtime translation table",
+    )
+    convert_traditional.add_argument("--input", required=True)
+    convert_traditional.add_argument("--output")
+    convert_mode = convert_traditional.add_mutually_exclusive_group()
+    convert_mode.add_argument("--check", action="store_true")
+    convert_mode.add_argument("--dry-run", action="store_true")
     review_html = sub.add_parser("review-html")
     review_html.add_argument("--catalog", required=True); review_html.add_argument("--table", required=True)
     review_html.add_argument("--output", required=True); review_html.add_argument("--model", default="qwen3.8:27b")
@@ -121,6 +131,31 @@ def main(argv=None):
         write_json_report(Path(args.report), report); print(format_terminal_report(report)); return report_exit_code(report, args.strict)
     if args.command == "emit":
         emit_approved_table(load_catalog(Path(args.catalog)), Path(args.review), Path(args.output)); return 0
+    if args.command == "convert-traditional":
+        if not (args.check or args.dry_run) and not args.output:
+            raise ValueError("--output is required unless --check or --dry-run is used")
+        report = convert_runtime_table(
+            Path(args.input),
+            Path(args.output) if args.output else None,
+            check=args.check,
+            dry_run=args.dry_run,
+        )
+        print(
+            "Traditional conversion: "
+            f"rows={report.rows} changed_rows={report.changed_rows} "
+            f"changed_characters={report.changed_characters} "
+            f"unresolved={len(report.unresolved)}"
+        )
+        if args.dry_run:
+            for change in report.changes:
+                print(f"{change.kind}\t{change.key}\t{change.before} => {change.after}")
+        if report.unresolved:
+            for key, character in report.unresolved:
+                print(f"unresolved Simplified character {character} in {key}")
+            return 2
+        if args.check and report.changed_rows:
+            return 1
+        return 0
     if args.command == "review-html":
         audit = None
         if args.audit:
