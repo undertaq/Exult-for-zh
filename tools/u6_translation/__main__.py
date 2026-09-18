@@ -6,6 +6,7 @@ from .audit import (correctness_report, coverage_report, format_terminal_report,
                     combine_audit_reports, load_audit_table, merge_input_issues, report_exit_code,
                     write_json_report)
 from .catalog import load_catalog, write_catalog
+from .deploy import DEPLOY_ROOT, DEFAULT_TABLE_PATH, deploy_staged_files
 from .emit import emit_approved_table
 from .extract import extract_catalog, extract_usecode_translation_rows
 from .ollama_backend import OllamaBackend, OllamaConfig
@@ -33,7 +34,7 @@ def main(argv=None):
     fallback_books.add_argument("--english-usecode", required=True)
     fallback_books.add_argument("--chinese-usecode", required=True)
     fallback_books.add_argument("--ucxt", required=True)
-    fallback_books.add_argument("--table", required=True)
+    fallback_books.add_argument("--table", default=str(DEFAULT_TABLE_PATH))
     translate = sub.add_parser("translate")
     translate.add_argument("--catalog", required=True); translate.add_argument("--output", required=True)
     translate.add_argument("--cache", required=True); translate.add_argument("--model", required=True)
@@ -49,7 +50,7 @@ def main(argv=None):
         p.add_argument("--terms", default=str(TERMS_PATH))
         p.add_argument("--strict", action="store_true")
         p.add_argument("--semantic-strict", action="store_true")
-    emit = sub.add_parser("emit"); emit.add_argument("--catalog", required=True); emit.add_argument("--review", required=True); emit.add_argument("--output", required=True)
+    emit = sub.add_parser("emit"); emit.add_argument("--catalog", required=True); emit.add_argument("--review", required=True); emit.add_argument("--output", default=str(DEFAULT_TABLE_PATH))
     convert_traditional = sub.add_parser(
         "convert-traditional",
         help="check or convert Simplified glyphs in a runtime translation table",
@@ -68,6 +69,10 @@ def main(argv=None):
         "--speaker-capture",
         help="runtime U6 speaker capture TSV; overrides static map entries",
     )
+    deploy = sub.add_parser("deploy", help="copy checked-in translation files into a game tree")
+    deploy.add_argument("--game-root", required=True)
+    deploy.add_argument("--staging-root", default=str(DEPLOY_ROOT))
+    deploy.add_argument("--dry-run", action="store_true")
     # Task 6/7 accepted a bare catalog path; retain that invocation.
     if argv is None:
         import sys
@@ -131,6 +136,25 @@ def main(argv=None):
         write_json_report(Path(args.report), report); print(format_terminal_report(report)); return report_exit_code(report, args.strict)
     if args.command == "emit":
         emit_approved_table(load_catalog(Path(args.catalog)), Path(args.review), Path(args.output)); return 0
+    if args.command == "deploy":
+        game_root = Path(args.game_root).resolve()
+        report = deploy_staged_files(
+            game_root,
+            Path(args.staging_root),
+            dry_run=args.dry_run,
+        )
+        label = "planned" if report.dry_run else "copied"
+        for path in report.copied:
+            print(f"{label}\t{path.relative_to(game_root).as_posix()}")
+        for path in report.skipped:
+            print(f"skipped\t{path.relative_to(game_root).as_posix()}")
+        print(
+            "Deployment: "
+            f"copied={len(report.copied)} "
+            f"skipped={len(report.skipped)} "
+            f"dry_run={int(report.dry_run)}"
+        )
+        return 0
     if args.command == "convert-traditional":
         if not (args.check or args.dry_run) and not args.output:
             raise ValueError("--output is required unless --check or --dry-run is used")

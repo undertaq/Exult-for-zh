@@ -5,6 +5,7 @@ from pathlib import Path
 
 from .audit import correctness_report
 from .catalog import CatalogEntry
+from .deploy import DEFAULT_TABLE_PATH
 from .prompts import GLOSSARY_PATH, TERMS_PATH
 from .runtime_table import RuntimeRow, escape_field
 from .traditional import convert_text
@@ -122,10 +123,11 @@ def _write_versioned_table(path: Path, rows: list[RuntimeRow]) -> None:
 
 
 def emit_approved_table(
-    catalog: list[CatalogEntry], review_path: Path, output_path: Path
+    catalog: list[CatalogEntry], review_path: Path, output_path: Path | None = None
 ) -> None:
     """Emit a release table only after review and deterministic checks pass."""
 
+    output_path = Path(output_path) if output_path is not None else DEFAULT_TABLE_PATH
     identities = [(entry.kind, entry.key) for entry in catalog]
     if len(set(identities)) != len(identities):
         raise ValueError("catalog contains duplicate kind/key identities")
