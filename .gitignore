@@ -366,3 +366,6 @@ tools/voice_acting/reference_candidates/
 tools/journal_notes/__pycache__/
 tools/journal_notes/*_cache.jsonl
 minidump.dmp
+
+# Generated remaster extraction, graph, and report data
+/remaster_data/
