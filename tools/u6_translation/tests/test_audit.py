@@ -967,6 +967,26 @@ class AuditReportTest(unittest.TestCase):
         ]
         self.assertTrue(any("皱" in issue["message"] for issue in traditional))
 
+    def test_maldric_greeting_rejects_simplified_glyph(self) -> None:
+        entry = _entry(
+            "dialogue",
+            "dialogue:0x0430:50:0",
+            "A bare chested, muscular man, his body gleaming with sweat.",
+        )
+        row = RuntimeRow(
+            entry.kind,
+            entry.key,
+            entry.source_sha256,
+            "一個赤裸上身、肌肉发达的男人，他身上閃著汗水的亮光。",
+        )
+        report = correctness_report([entry], [row], GLOSSARY, None)
+        traditional = [
+            issue
+            for issue in report["deterministic"]["issues"]
+            if issue["check"] == "traditional_chinese"
+        ]
+        self.assertTrue(any("发达" in issue["message"] for issue in traditional))
+
     def test_traditional_policy_checks_every_text_kind(self) -> None:
         entries = [
             _entry("dialogue", "dialogue:0x0401:95:0", "Dialogue"),
