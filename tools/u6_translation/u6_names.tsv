@@ -309,6 +309,19 @@ npc	Ylem
 npc	Yuna
 npc	Zagros
 npc	Zellivan
+# Names emitted by scroll rosters and authored document signatures.
+npc	Athelas
+npc	Brax
+npc	Christopher
+npc	Corwin
+npc	Denyel
+npc	Finster
+npc	Fransisa
+npc	Frederico
+npc	Runeb
+npc	Salamon
+npc	Selwyn
+npc	Tania
 # Towns, settlements, named buildings, roads, islands, and other locations.
 place	Avatar Lane
 place	Bellringer Lane
