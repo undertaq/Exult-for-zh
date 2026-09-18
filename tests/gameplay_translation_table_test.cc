@@ -1019,6 +1019,15 @@ void assert_optional_release_table_loads() {
 	std::string error;
 	assert(table.load(input, error));
 	assert(error.empty());
+	assert(table.size() > 0);
+	const TranslationLookup wake = table.lookup_dialogue_by_source_globally(
+			"\"In how many hours shall <VAR0> wake thee up, <VAR1>?\"");
+	assert(wake.status == TranslationLookupStatus::SourceFallback);
+	assert(wake.text == "「你想睡多久？<VAR0>會叫醒你的， <VAR1>？」");
+	const TranslationLookup bark = table.lookup_dialogue_by_source_globally(
+			"<VAR0> gives you an exasperated look.* \"Never mind, then.\"");
+	assert(bark.status == TranslationLookupStatus::SourceFallback);
+	assert(bark.text == "<VAR0> 給你一個不耐煩的眼神。「算了。」*");
 }
 
 void assert_numeric_dialogue_fragments_keep_the_runtime_value() {
