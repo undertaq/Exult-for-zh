@@ -17,6 +17,7 @@ from .speaker_map import load_speaker_capture, speaker_map_from_capture
 from .translate import translate_catalog
 from .traditional import convert_runtime_table
 from .voice_generation import run_voice_generation
+from .voice_package import package_voice_archives
 from .voice_manifest import (
     build_voice_rows,
     load_voice_assignments,
@@ -80,6 +81,11 @@ def main(argv=None):
     deploy.add_argument("--game-root", required=True)
     deploy.add_argument("--staging-root", default=str(DEPLOY_ROOT))
     deploy.add_argument("--dry-run", action="store_true")
+    deploy.add_argument(
+        "--include-voice",
+        action="store_true",
+        help="also deploy the paired generated U6 voice archives",
+    )
     voice_manifest = sub.add_parser("voice-manifest")
     voice_manifest.add_argument("--catalog", required=True)
     voice_manifest.add_argument("--table", required=True)
@@ -91,6 +97,10 @@ def main(argv=None):
     voice_generate.add_argument("--output-root", required=True)
     voice_generate.add_argument("--language", choices=("en", "zh", "both"), required=True)
     voice_generate.add_argument("--dry-run", action="store_true")
+    voice_pack = sub.add_parser("voice-pack")
+    voice_pack.add_argument("--audio-root", required=True)
+    voice_pack.add_argument("--manifest-dir", required=True)
+    voice_pack.add_argument("--staging-root", required=True)
     # Task 6/7 accepted a bare catalog path; retain that invocation.
     if argv is None:
         import sys
@@ -160,6 +170,7 @@ def main(argv=None):
             game_root,
             Path(args.staging_root),
             dry_run=args.dry_run,
+            include_voice=args.include_voice,
         )
         label = "planned" if report.dry_run else "copied"
         for path in report.copied:
@@ -172,6 +183,19 @@ def main(argv=None):
             f"skipped={len(report.skipped)} "
             f"dry_run={int(report.dry_run)}"
         )
+        return 0
+    if args.command == "voice-pack":
+        report = package_voice_archives(
+            Path(args.audio_root), Path(args.manifest_dir), Path(args.staging_root)
+        )
+        for language in ("en", "zh"):
+            pak_path, idx_path = report.archive_paths[language]
+            pak_size, idx_size = report.archive_sizes[language]
+            print(
+                f"{language}: entries={report.entries_by_language[language]} "
+                f"pak={pak_path} ({pak_size} bytes) "
+                f"idx={idx_path} ({idx_size} bytes)"
+            )
         return 0
     if args.command == "voice-manifest":
         rows = build_voice_rows(

@@ -14,6 +14,12 @@ DEPLOY_RELATIVE_PATHS: tuple[str, ...] = (
     "patch/textmsg.txt",
     "mods/Ultima6v1.3/patch/zh_translation.tsv",
 )
+VOICE_DEPLOY_RELATIVE_PATHS: tuple[str, ...] = (
+    "mods/Ultima6v1.3/patch/voice_acting/en_voices.pak",
+    "mods/Ultima6v1.3/patch/voice_acting/en_voices.idx",
+    "mods/Ultima6v1.3/patch/voice_acting/zh_voices.pak",
+    "mods/Ultima6v1.3/patch/voice_acting/zh_voices.idx",
+)
 DEFAULT_TABLE_PATH = (
     DEPLOY_ROOT / "mods" / "Ultima6v1.3" / "patch" / "zh_translation.tsv"
 )
@@ -43,7 +49,17 @@ def _inside(root: Path, path: Path, description: str) -> Path:
     return resolved_path
 
 
-def validate_staging(stage_root: Path = DEPLOY_ROOT) -> tuple[Path, ...]:
+def _deploy_relative_paths(include_voice: bool) -> tuple[str, ...]:
+    if include_voice:
+        return DEPLOY_RELATIVE_PATHS + VOICE_DEPLOY_RELATIVE_PATHS
+    return DEPLOY_RELATIVE_PATHS
+
+
+def validate_staging(
+    stage_root: Path = DEPLOY_ROOT,
+    *,
+    include_voice: bool = False,
+) -> tuple[Path, ...]:
     """Validate the complete checked-in release tree and return source paths."""
 
     stage_root = Path(stage_root)
@@ -53,7 +69,8 @@ def validate_staging(stage_root: Path = DEPLOY_ROOT) -> tuple[Path, ...]:
 
     sources: list[Path] = []
     expected: set[str] = set()
-    for relative in DEPLOY_RELATIVE_PATHS:
+    relative_paths = _deploy_relative_paths(include_voice)
+    for relative in relative_paths:
         parts = _relative_parts(relative)
         expected.add(PurePosixPath(*parts).as_posix())
         source = _inside(resolved_root, resolved_root.joinpath(*parts), "staged path")
@@ -133,6 +150,7 @@ def deploy_staged_files(
     stage_root: Path = DEPLOY_ROOT,
     *,
     dry_run: bool = False,
+    include_voice: bool = False,
 ) -> DeploymentReport:
     """Copy every validated staged release file into a mirrored game tree."""
 
@@ -141,10 +159,11 @@ def deploy_staged_files(
     if game_root.exists() and not game_root.is_dir():
         raise ValueError(f"game root is not a directory: {game_root}")
 
-    sources = validate_staging(stage_root)
+    relative_paths = _deploy_relative_paths(include_voice)
+    sources = validate_staging(stage_root, include_voice=include_voice)
     targets = tuple(
         _target_path(game_root, relative)
-        for relative in DEPLOY_RELATIVE_PATHS
+        for relative in relative_paths
     )
 
     copied: list[Path] = []
