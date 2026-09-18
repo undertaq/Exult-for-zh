@@ -9,9 +9,14 @@ import unittest
 
 from tools.u6_translation.catalog import CatalogEntry, load_catalog, write_catalog
 from tools.u6_translation.runtime_table import RuntimeRow, load_runtime_table, write_runtime_table
-from tools.u6_translation.speaker_map import load_speaker_capture, speaker_map_from_capture
+from tools.u6_translation.speaker_map import (
+    SpeakerCaptureRow,
+    load_speaker_capture,
+    speaker_map_from_capture,
+)
 from tools.u6_translation.voice_manifest import (
     VoiceManifestRow,
+    VoiceAssignment,
     build_voice_rows,
     load_voice_assignments,
     normalize_tts_text,
@@ -172,6 +177,60 @@ class VoiceManifestMergeTests(unittest.TestCase):
         self.assertEqual(rows[0].status, "needs-review")
         self.assertIn("translation", rows[0].skip_reason)
         self.assertIn("speaker", rows[0].skip_reason)
+
+    def test_named_runtime_capture_uses_its_id_for_casting_fallback(self) -> None:
+        entry = CatalogEntry.from_source(
+            "dialogue", "dialogue:0x0401:1a_2f:2", "Hello", "gameplay", "test"
+        )
+        speakers = speaker_map_from_capture(
+            [SpeakerCaptureRow("dialogue", entry.key, 42, "Runtime Iolo")]
+        )
+        assignments = [
+            VoiceAssignment(
+                speaker="",
+                speaker_id=42,
+                voice_id_en="en-id-fallback",
+                voice_id_zh="zh-id-fallback",
+                voice_desc="numeric casting",
+                status="approved",
+            )
+        ]
+
+        rows = build_voice_rows(
+            [entry],
+            [RuntimeRow(entry.kind, entry.key, entry.source_sha256, "你好")],
+            speakers,
+            assignments,
+        )
+
+        self.assertEqual(rows[0].speaker_id, 42)
+        self.assertEqual(rows[0].voice_id_en, "en-id-fallback")
+        self.assertEqual(rows[0].status, "approved")
+
+    def test_placeholder_mismatches_are_review_rows(self) -> None:
+        dropped = CatalogEntry.from_source(
+            "dialogue", "dialogue:0x0401:1a_2f:3", "Hello <PLAYER_NAME>", "gameplay", "test"
+        )
+        added = CatalogEntry.from_source(
+            "dialogue", "dialogue:0x0401:1a_2f:4", "Welcome", "gameplay", "test"
+        )
+        assignment = VoiceAssignment("Iolo", 1, "en-iolo", "zh-iolo", "Iolo", "approved")
+
+        rows = build_voice_rows(
+            [dropped, added],
+            [
+                RuntimeRow(dropped.kind, dropped.key, dropped.source_sha256, "你好"),
+                RuntimeRow(added.kind, added.key, added.source_sha256, "歡迎 <PLAYER_NAME>"),
+            ],
+            {dropped.key: "Iolo", added.key: "Iolo"},
+            [assignment],
+        )
+
+        self.assertEqual([row.status for row in rows], ["needs-review", "needs-review"])
+        self.assertEqual(
+            [row.skip_reason for row in rows],
+            ["protected placeholders differ", "protected placeholders differ"],
+        )
 
 
 class VoiceManifestOutputTests(unittest.TestCase):

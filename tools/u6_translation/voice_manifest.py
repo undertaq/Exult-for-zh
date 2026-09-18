@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+from collections import Counter
 from dataclasses import asdict, dataclass
 import json
 from pathlib import Path
@@ -185,12 +186,15 @@ def build_voice_rows(
         )
         translation_values = {match.zh for match in translation_matches if match.zh.strip()}
         text_zh = sorted(translation_values)[0] if len(translation_values) == 1 else ""
-        speaker = speakers.get(entry.key, "").strip()
-        speaker_id = _speaker_id(speaker)
+        captured_speaker = speakers.get(entry.key, "")
+        speaker = captured_speaker.strip()
+        speaker_id = getattr(captured_speaker, "speaker_id", _speaker_id(speaker))
         assignment = _assignment_for(speaker, speaker_id, ordered_assignments)
         reasons: list[str] = []
         if not text_zh:
             reasons.append("translation missing or ambiguous")
+        elif Counter(token for token in entry.protected_tokens if token.startswith("<")) != Counter(_PLACEHOLDER.findall(text_zh)):
+            reasons.append("protected placeholders differ")
         if not speaker or speaker.startswith(("Ambiguous ·", "Unresolved ·")):
             reasons.append("speaker missing or ambiguous")
         if assignment is None:
