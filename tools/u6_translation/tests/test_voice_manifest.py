@@ -1,14 +1,24 @@
 from __future__ import annotations
 
+import csv
 import hashlib
+import json
+from pathlib import Path
+import tempfile
 import unittest
 
+from tools.u6_translation.catalog import CatalogEntry, load_catalog, write_catalog
+from tools.u6_translation.runtime_table import RuntimeRow, load_runtime_table, write_runtime_table
+from tools.u6_translation.speaker_map import load_speaker_capture, speaker_map_from_capture
 from tools.u6_translation.voice_manifest import (
     VoiceManifestRow,
+    build_voice_rows,
+    load_voice_assignments,
     normalize_tts_text,
     parse_voice_key,
     voice_filename,
     voice_key_collisions,
+    write_generation_manifests,
 )
 
 
@@ -109,6 +119,102 @@ class VoiceManifestTtsTests(unittest.TestCase):
                 }
             ],
         )
+
+
+class VoiceManifestMergeTests(unittest.TestCase):
+    def _fixtures(self, directory: Path) -> tuple[list[CatalogEntry], list[RuntimeRow], dict[str, str], object]:
+        entry = CatalogEntry.from_source(
+            "dialogue", "dialogue:0x0401:1a_2f:0", "Hello <PLAYER_NAME>", "gameplay", "test"
+        )
+        catalog_path = directory / "catalog.jsonl"
+        write_catalog(catalog_path, [entry])
+        translations_path = directory / "translations.tsv"
+        write_runtime_table(
+            translations_path,
+            [RuntimeRow(entry.kind, entry.key, entry.source_sha256, "你好，<PLAYER_NAME>")],
+        )
+        speakers_path = directory / "speakers.tsv"
+        speakers_path.write_text(
+            "dialogue\tdialogue:0x0401:1a_2f:0\t1\tIolo\n", encoding="utf-8"
+        )
+        assignments_path = directory / "assignments.csv"
+        assignments_path.write_text(
+            "speaker,speaker_id,en_voice_id,zh_voice_id,voice_desc,status\n"
+            "Iolo,1,en-test-voice,zh-test-voice,test voice,approved\n",
+            encoding="utf-8",
+        )
+        return (
+            load_catalog(catalog_path),
+            load_runtime_table(translations_path),
+            speaker_map_from_capture(load_speaker_capture(speakers_path)),
+            load_voice_assignments(assignments_path),
+        )
+
+    def test_build_voice_rows_joins_all_u6_sources(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            catalog, translations, speakers, assignments = self._fixtures(Path(directory))
+            rows = build_voice_rows(catalog, translations, speakers, assignments)
+
+        self.assertEqual(rows[0].key, "dialogue:0x0401:1a_2f:0")
+        self.assertEqual(rows[0].source_en, "Hello <PLAYER_NAME>")
+        self.assertEqual(rows[0].text_zh, "你好，<PLAYER_NAME>")
+        self.assertEqual(rows[0].speaker, "Iolo")
+        self.assertEqual(rows[0].voice_id_en, "en-test-voice")
+        self.assertEqual(rows[0].voice_id_zh, "zh-test-voice")
+        self.assertEqual(rows[0].status, "approved")
+
+    def test_missing_translation_and_ambiguous_speaker_are_review_rows(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            catalog, _translations, _speakers, assignments = self._fixtures(Path(directory))
+            ambiguous_speakers = {catalog[0].key: "Ambiguous · Dupre / Shamino"}
+            rows = build_voice_rows(catalog, [], ambiguous_speakers, assignments)
+
+        self.assertEqual(rows[0].status, "needs-review")
+        self.assertIn("translation", rows[0].skip_reason)
+        self.assertIn("speaker", rows[0].skip_reason)
+
+
+class VoiceManifestOutputTests(unittest.TestCase):
+    def test_generation_manifests_share_approved_filenames_and_keep_review_rows_jsonl(self) -> None:
+        approved = row_with(
+            key="dialogue:0x0401:1a_2f:0",
+            offset_key="1a_2f",
+            source_en="Hello <PLAYER_NAME>",
+            text_zh="你好，<PLAYER_NAME>",
+            tts_en="Hello Avatar",
+            tts_zh="你好，你",
+            voice_id_en="en-test-voice",
+            voice_id_zh="zh-test-voice",
+        )
+        review = row_with(
+            key="dialogue:0x0401:1a_2f:1",
+            offset_key="1a_2f",
+            segment=1,
+            status="needs-review",
+            skip_reason="translation",
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory)
+            write_generation_manifests(output, [approved, review])
+            with (output / "en_manifest.csv").open(encoding="utf-8", newline="") as handle:
+                english = list(csv.DictReader(handle))
+            with (output / "zh_manifest.csv").open(encoding="utf-8", newline="") as handle:
+                chinese = list(csv.DictReader(handle))
+            full_rows = [json.loads(line) for line in (output / "u6_voice_manifest.jsonl").read_text(encoding="utf-8").splitlines()]
+
+        header = [
+            "filename", "func_id", "offset_key", "segment", "speaker", "speaker_source", "npc_num",
+            "voice_id", "voice_desc", "prev_text", "next_text", "text",
+        ]
+        self.assertEqual(list(english[0]), header)
+        self.assertEqual(list(chinese[0]), header)
+        self.assertEqual([row["filename"] for row in english], ["0401_1a_2f_0.ogg"])
+        self.assertEqual([row["filename"] for row in chinese], ["0401_1a_2f_0.ogg"])
+        self.assertEqual(english[0]["voice_id"], "en-test-voice")
+        self.assertEqual(chinese[0]["voice_id"], "zh-test-voice")
+        self.assertEqual(english[0]["text"], "Hello Avatar")
+        self.assertEqual(chinese[0]["text"], "你好，你")
+        self.assertEqual(len(full_rows), 2)
 
 
 if __name__ == "__main__":
