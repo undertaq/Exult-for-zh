@@ -99,7 +99,7 @@ and preserves the original `~` page separators for runtime display:
 python3 -m tools.u6_translation import-fallback-books \
   --english-usecode "$PWD/../Ultima_7/STATIC/USECODE" \
   --chinese-usecode "$PWD/../Ultima_7/patch/usecode.zh" \
-  --ucxt "$UCXT" --table tools/u6_translation/zh_translation.tsv
+  --ucxt "$UCXT"
 ```
 
 The fixture includes a choice row such as `choice:0x0401:0x0088:0` with English source `one`. Choices are translated only for display. The English `answers` remain unchanged internally for usecode comparison, choice indexing, and game logic; no translated answer is written into usecode or configuration.
@@ -244,12 +244,27 @@ requested review gate.
 
 ## Emit the approved table
 
-After strict audit succeeds and human approval is recorded in the review JSONL, emit directly to the actual patch directory:
+After strict audit succeeds and human approval is recorded in the review JSONL, emit to the checked-in staging tree:
 
 ```sh
 python3 -m tools.u6_translation emit \
-  --catalog /tmp/u6_catalog.jsonl --review /tmp/u6_review.jsonl \
-  --output "$PATCH_DIR/zh_translation.tsv"
+  --catalog /tmp/u6_catalog.jsonl --review /tmp/u6_review.jsonl
 ```
 
-`zh_translation.tsv` is external generated output and must be reviewed before it is copied into the mod directory. Do not commit the `/tmp` catalog, candidates, cache, audit, or review artifacts. Do not modify the existing `Ultima6v1.3.cfg` or add an alternate usecode file. Runtime behavior is display-time translation while English answers and game logic remain authoritative. Spell names follow the same rule: the English name is captured from `spellnames.txt` and translated only at Spellbook paint time.
+The default output is `tools/u6_translation/deploy/mods/Ultima6v1.3/patch/zh_translation.tsv`; pass `--output /path/to/another/table.tsv` when an alternate output is needed. The release tree also contains the converted global resources at `deploy/patch/textmsg.txt` and `deploy/patch/autonotes.txt`. It is intentionally limited to these three text files; the compiled `usecode.zh` alternate-usecode binary is not staged. Do not commit the `/tmp` catalog, candidates, cache, audit, or review artifacts. Do not modify the existing `Ultima6v1.3.cfg`. Runtime behavior is display-time translation while English answers and game logic remain authoritative. Spell names follow the same rule: the English name is captured from `spellnames.txt` and translated only at Spellbook paint time.
+
+## Deploy the checked-in release tree
+
+The staging directory mirrors the game installation. Validate and copy it into
+an Ultima 7 game directory with:
+
+```sh
+python3 -m tools.u6_translation deploy \
+  --game-root "$PWD/../Ultima_7"
+```
+
+Deployment validates the complete manifest before copying, creates missing
+parent directories, writes changed files atomically, preserves their modes and
+line endings, and skips identical files on subsequent runs. Use `--dry-run` to
+see the planned paths without modifying the game directory, or
+`--staging-root /path/to/another/deploy` to deploy a separately reviewed tree.
