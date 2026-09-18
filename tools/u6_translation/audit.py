@@ -1208,7 +1208,20 @@ def load_audit_table(path: Path) -> tuple[list[RuntimeRow], list[dict[str, objec
         except ValueError as error:
             issues.append(_issue(key=fields[1], check="tsv_escaping", severity="error", message=str(error), source_location=location))
             continue
-        rows.append(RuntimeRow(*decoded))
+        row = RuntimeRow(*decoded)
+        rows.append(row)
+        # The C++ runtime rejects the complete release table when any row
+        # has an invalid key.  Report that at table-load time so a coverage-
+        # only audit cannot appear clean while the game silently falls back
+        # to English.
+        if row.kind not in KINDS or not _key_is_valid(row.kind, row.key):
+            issues.append(_issue(
+                key=row.key,
+                check="key_syntax",
+                severity="error",
+                message="runtime key has invalid syntax",
+                source_location=location,
+            ))
     return rows, issues
 
 

@@ -5,6 +5,7 @@
 #undef private
 
 #include <cassert>
+#include <cstdlib>
 #include <fstream>
 #include <iterator>
 #include <sstream>
@@ -1007,6 +1008,19 @@ void assert_checked_in_placeholder_rows_use_canonical_runtime_sources() {
 				== "大人");
 }
 
+void assert_optional_release_table_loads() {
+	const char* const path = std::getenv("U6_ZH_TRANSLATION_TABLE");
+	if (path == nullptr || *path == '\0') {
+		return;
+	}
+	std::ifstream input(path);
+	assert(input.good());
+	GameplayTranslationTable table;
+	std::string error;
+	assert(table.load(input, error));
+	assert(error.empty());
+}
+
 void assert_numeric_dialogue_fragments_keep_the_runtime_value() {
 	std::ifstream table_file("tools/u6_translation/zh_translation.tsv");
 	assert(table_file);
@@ -1765,6 +1779,7 @@ int main() {
 	assert_dialogue_template_preserves_named_reordering_and_repetition();
 	assert_dialogue_template_rejects_ambiguous_literal_boundaries();
 	assert_checked_in_placeholder_rows_use_canonical_runtime_sources();
+	assert_optional_release_table_loads();
 	assert_numeric_dialogue_fragments_keep_the_runtime_value();
 	assert_numeric_uc_add_provenance_is_preserved();
 	assert_fragment_fallback_restores_split_speech_markers();
