@@ -135,6 +135,13 @@ def _templates_from_function(function: dict[str, Any]) -> set[str]:
             string_parts.append(
                 _ExpressionPart("static", function["strings"].get(params[0], ""))
             )
+            static_count = sum(
+                part.kind == "static" and bool(str(part.value))
+                for part in string_parts
+            )
+            dynamic_count = sum(part.kind == "dynamic" for part in string_parts)
+            if static_count >= 1 and dynamic_count >= 1:
+                has_assembled_expression = True
             stack.clear()
             continue
 
@@ -142,21 +149,30 @@ def _templates_from_function(function: dict[str, Any]) -> set[str]:
             expression = locals_.get(params[0])
             parts = _flatten(expression)
             if not parts:
-                string_parts.clear()
-                has_assembled_expression = False
-            else:
-                string_parts.extend(parts)
-                static_count = sum(
-                    part.kind == "static" and bool(str(part.value))
-                    for part in parts
-                )
-                dynamic_count = sum(part.kind == "dynamic" for part in parts)
-                # Runtime static-fragment inference is specifically for a
-                # complete expression assembled from at least two PUSHS
-                # anchors.  A lone ADDSI + ADDSV path already has its own
-                # fragment provenance and must not be duplicated here.
-                if static_count >= 2 and dynamic_count >= 1:
-                    has_assembled_expression = True
+                # ADDSV is a dynamic provenance boundary even when the
+                # compiler filled the local from a literal branch (for
+                # example, ``we`` versus ``I``).  The runtime therefore
+                # exposes that value as a slot; retain the boundary instead
+                # of treating it as a static source string.
+                parts = [_ExpressionPart("dynamic", params[0])]
+            elif all(part.kind == "static" for part in parts):
+                # A literal assigned to a local and later passed through
+                # ADDSV has the same runtime shape as any other dynamic
+                # value.  Do not bake the current branch value into the
+                # catalog template.
+                parts = [_ExpressionPart("dynamic", params[0])]
+
+            string_parts.extend(parts)
+            static_count = sum(
+                part.kind == "static" and bool(str(part.value))
+                for part in string_parts
+            )
+            dynamic_count = sum(part.kind == "dynamic" for part in string_parts)
+            # Any literal anchor makes a positional template safe.  This
+            # includes a direct ADDSI/ADDSV sequence and assembled locals;
+            # adjacent dynamic slots are still rejected by ``_template``.
+            if static_count >= 1 and dynamic_count >= 1:
+                has_assembled_expression = True
             stack.clear()
             continue
 

@@ -12037,6 +12037,8 @@ dialogue	dialogue:0x04fe:3a3:0	b492d42989407f084ae689b9d4c284ec170f1aff30af51151
 dialogue	dialogue:0x04fe:8e:0	a985369135aa515e60e0506b9660fc574532ca4be94d61d8869cef3fad8eab9c	@我們早就想撬開那個金庫了。運氣真好，你找到了鑰匙，還有裡面的寶物。@
 dialogue	dialogue:0x060e:0:0	611824111f1fa308b4342c7369f99deb3843996cf0a7cae5cbc95fcd277be082	聖者 劇本事件已觸發
 dialogue	dialogue:0x060e:1d:0	363c27d2b15b93834827ed949662ee95b8e8a84140b0426ab78f7e276441b664	聖者 死亡事件已觸發
+dialogue	dialogue:0x0622:fallback_329192252e8588c4:0	329192252e8588c4df5762c5fc7309e464eadfe03f62f5399ed0bbd57b0beeb7	「你想睡多久？<VAR0>會叫醒你的， <VAR1>？」
+dialogue	dialogue:0x0622:fallback_a1f69a23d8b103c7:0	a1f69a23d8b103c7bf801b434979204fa00486a29c9c03644aaf624bc0209962	<VAR0> 給你一個不耐煩的眼神。「算了。」*
 dialogue	dialogue:0x0625:0:0	20cbededdc70a92d4de7259f4a3e64478f07f5a2acdc068213b5dd3fba062e42	逮捕的衛兵數量是 
 dialogue	dialogue:0x0625:1f:0	e78d632510c1bc8ed76e69e831914cfd32eade5caedf2e972666d545dfa5799b	你看到一名憤怒的衛兵。
 dialogue	dialogue:0x0625:37:0	4cc85a87f143156fb6ed94f58a5e1b73a9cc99fa233a34a263c44939a5902f8c	@你願意束手就擒嗎？@

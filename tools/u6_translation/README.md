@@ -78,7 +78,10 @@ BG `STATIC/USECODE` functions. The same base file also supplies schedule-driven
 `item_say` overhead helpers (for example Blaine's bark function). Include that
 fallback source in the audit catalog with `--fallback-usecode`; extraction
 follows the compiled `item_say` intrinsic calls and does not maintain a list
-of NPC names or sentences:
+of NPC names or sentences. It also disassembles unshadowed inherited functions
+for direct `ADDSI`/`ADDSV` dialogue templates, so branch-selected values (such
+as pronouns or player names) remain positional placeholders and are audited by
+the same generic template rules:
 
 ```sh
 python3 -m tools.u6_translation extract \
