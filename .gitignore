@@ -348,6 +348,7 @@ voice_backup/
 
 # Python virtual environments
 .venv/
+*.pyc
 
 === .gitignore additions ===
 voice/
