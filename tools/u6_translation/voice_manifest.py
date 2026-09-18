@@ -55,12 +55,16 @@ def normalize_tts_text(text: str, language: str) -> str:
 
 
 def voice_key_collisions(rows: Iterable[VoiceManifestRow]) -> list[dict[str, Any]]:
-    by_key: dict[str, set[str]] = {}
+    by_key: dict[str, list[VoiceManifestRow]] = {}
     for row in rows:
-        by_key.setdefault(row.key, set()).add(row.source_sha256)
+        by_key.setdefault(row.key, []).append(row)
 
     return [
-        {"key": key, "source_sha256": sorted(source_hashes)}
-        for key, source_hashes in sorted(by_key.items())
-        if len(source_hashes) > 1
+        {
+            "key": key,
+            "source_sha256": sorted({row.source_sha256 for row in key_rows}),
+            "row_count": len(key_rows),
+        }
+        for key, key_rows in sorted(by_key.items())
+        if len(key_rows) > 1
     ]
