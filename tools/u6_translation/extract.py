@@ -1002,6 +1002,18 @@ def extract_catalog(
         usecode = None
     if usecode is not None:
         entries.extend(extract_compiled_dialogue_templates(usecode))
+    if fallback_usecode is not None:
+        shadowed_functions = {
+            function
+            for entry in entries
+            for function in [_dialogue_function(entry.key)]
+            if function is not None
+        }
+        entries.extend(
+            replace(entry, origin="static-fallback-usecode-template")
+            for entry in extract_compiled_dialogue_templates(fallback_usecode)
+            if _dialogue_function(entry.key) not in shadowed_functions
+        )
     entries.extend(_parse_indexed_resources(mod_root))
     entries.extend(_parse_spell_names(mod_root))
     if include_runtime_terms:

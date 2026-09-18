@@ -376,6 +376,54 @@ void assert_structural_fragment_fallback_translates_missing_template() {
 	assert(*translated == "很好，Avatar我會在這裡等你回來。@");
 }
 
+void assert_inherited_bed_dialogue_fragments_translate() {
+	std::ifstream table_file("tools/u6_translation/zh_translation.tsv");
+	assert(table_file);
+	GameplayTranslationManager& manager = GameplayTranslationManager::get();
+	manager.shutdown();
+	manager.set_text_language(TextLanguage::CHINESE);
+	std::string error;
+	assert(manager.load_table(table_file, error));
+	assert(error.empty());
+
+	const std::string runtime_source =
+			"\"In how many hours shall we wake thee up, Joe?\"";
+	const std::optional<std::string> translated =
+			manager.translate_dialogue_fragments_if_available(
+					0x0622, runtime_source,
+					std::vector<DialogueTranslationPart>{
+							{"\"In how many hours shall ", "dialogue:0x0622:5:0", false},
+							{"we", "", true},
+							{" wake thee up, ", "dialogue:0x0622:1f:0", false},
+							{"Joe", "", true},
+							{"?\"", "dialogue:0x0622:2f:0", false}});
+	assert(translated.has_value());
+	assert(*translated == "「你想睡多久？我們會叫醒你的， Joe？」");
+}
+
+void assert_inherited_bed_dialogue_bark_translates() {
+	std::ifstream table_file("tools/u6_translation/zh_translation.tsv");
+	assert(table_file);
+	GameplayTranslationManager& manager = GameplayTranslationManager::get();
+	manager.shutdown();
+	manager.set_text_language(TextLanguage::CHINESE);
+	std::string error;
+	assert(manager.load_table(table_file, error));
+	assert(error.empty());
+
+	const std::string runtime_source =
+			"Dupre gives you an exasperated look.* \"Never mind, then.\"";
+	const std::optional<std::string> translated =
+			manager.translate_dialogue_fragments_if_available(
+					0x0622, runtime_source,
+					std::vector<DialogueTranslationPart>{
+							{"Dupre", "", true},
+							{" gives you an exasperated look.* \"Never mind, then.\"",
+							 "dialogue:0x0622:32:0", false}});
+	assert(translated.has_value());
+	assert(*translated == "Dupre 給你一個不耐煩的眼神。「算了。」*");
+}
+
 void assert_conversation_display_changes_only_copy_get_answer_stays_byte_for_byte_identical() {
 	std::ifstream conversation_header("usecode/conversation.h");
 	const std::string header(
@@ -1592,6 +1640,8 @@ int main() {
 	assert_gwenneth_hello_again_static_anchor_template_is_translated();
 	assert_shamino_wait_here_template_is_translated();
 	assert_structural_fragment_fallback_translates_missing_template();
+	assert_inherited_bed_dialogue_fragments_translate();
+	assert_inherited_bed_dialogue_bark_translates();
 
 	assert(sha256_hex("abc") == kAbcSha256);
 	assert(normalize_translation_source("a\r\nb\rc") == "a\nb\nc");

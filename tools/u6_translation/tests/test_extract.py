@@ -74,6 +74,30 @@ def _write_hello_again_pushs_addsv_usecode(path: Path) -> None:
     path.write_bytes(struct.pack("<HH", 0x0416, len(function)) + function)
 
 
+def _write_direct_addsi_addsv_usecode(path: Path) -> None:
+    prefix = b'"In how many hours shall '
+    middle = b' wake thee up, '
+    suffix = b'?"'
+    data = prefix + b"\0" + middle + b"\0" + suffix + b"\0"
+    middle_offset = len(prefix) + 1
+    suffix_offset = middle_offset + len(middle) + 1
+    code = (
+        b"\x1c" + struct.pack("<H", 0)
+        + b"\x2f" + struct.pack("<H", 0)
+        + b"\x1c" + struct.pack("<H", middle_offset)
+        + b"\x2f" + struct.pack("<H", 1)
+        + b"\x1c" + struct.pack("<H", suffix_offset)
+        + b"\x33"
+    )
+    function = (
+        struct.pack("<H", len(data))
+        + data
+        + struct.pack("<HHH", 0, 0x30, 0)
+        + code
+    )
+    path.write_bytes(struct.pack("<HH", 0x0622, len(function)) + function)
+
+
 def _write_item_say_usecode(path: Path) -> None:
     data = b"\0@Inherited bark...@\0"
     code = (
@@ -202,6 +226,23 @@ class ExtractionTest(unittest.TestCase):
             "dialogue:0x0416:fallback_6696824924c6caa4:0",
         )
 
+    def test_compiled_usecode_templates_treat_direct_addsv_values_as_slots(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            usecode = Path(directory) / "usecode"
+            _write_direct_addsi_addsv_usecode(usecode)
+
+            entries = extract_compiled_dialogue_templates(usecode)
+
+        self.assertEqual(len(entries), 1)
+        self.assertEqual(
+            entries[0].source,
+            '"In how many hours shall <VAR0> wake thee up, <VAR1>?"',
+        )
+        self.assertEqual(
+            entries[0].key,
+            "dialogue:0x0622:fallback_329192252e8588c4:0",
+        )
+
     def test_extract_catalog_integrates_compiled_usecode_templates(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -217,6 +258,28 @@ class ExtractionTest(unittest.TestCase):
         self.assertEqual(
             [entry.key for entry in entries],
             ["dialogue:0x0416:fallback_93fc9f7add1e08d7:0"],
+        )
+
+    def test_extract_catalog_includes_unshadowed_fallback_templates(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            patch = root / "Ultima6v1.3" / "patch"
+            patch.mkdir(parents=True)
+            _write_pushs_addsv_usecode(patch / "usecode")
+            fallback = root / "STATIC_USECODE"
+            _write_direct_addsi_addsv_usecode(fallback)
+
+            with mock.patch(
+                "tools.u6_translation.extract._static", return_value=([], [])
+            ):
+                entries = extract_catalog(root, Path("unused"), None, fallback)
+
+        self.assertEqual(
+            [entry.key for entry in entries],
+            [
+                "dialogue:0x0416:fallback_93fc9f7add1e08d7:0",
+                "dialogue:0x0622:fallback_329192252e8588c4:0",
+            ],
         )
 
     def test_malformed_compiled_usecode_fails_closed(self) -> None:
