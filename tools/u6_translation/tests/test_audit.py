@@ -62,6 +62,37 @@ class AuditReportTest(unittest.TestCase):
         self.assertEqual(report["by_kind"]["dialogue"]["weighted_coverage"], 1.0)
         self.assertEqual(report["totals"]["total"], len(self.catalog))
 
+    def test_coverage_reports_missing_dialogue_rows_by_catalog_origin(self) -> None:
+        item_speech = CatalogEntry.from_source(
+            "dialogue",
+            "dialogue:0x009a:0:0",
+            "@Damn candles!@",
+            "gameplay",
+            "static-fallback-item-say-ucxt",
+        )
+        usecode_template = CatalogEntry.from_source(
+            "dialogue",
+            "dialogue:0x0216:fallback_0123456789abcdef:0",
+            "@Hello <VAR0>.@",
+            "gameplay",
+            "static-usecode-template",
+        )
+        report = coverage_report([item_speech, usecode_template], [])
+
+        self.assertEqual(
+            report["by_kind"]["dialogue"]["missing_by_origin"],
+            {
+                "static-fallback-item-say-ucxt": 1,
+                "static-usecode-template": 1,
+            },
+        )
+        self.assertIn(
+            "dialogue missing by origin:"
+            " static-fallback-item-say-ucxt=1,"
+            " static-usecode-template=1",
+            format_terminal_report(report),
+        )
+
     def test_coverage_reports_book_contents_separately(self) -> None:
         entry = _entry(
             "dialogue", "dialogue:0x0282:10:0", "A page of book text", "book"

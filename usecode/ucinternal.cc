@@ -2633,13 +2633,24 @@ int Usecode_internal::run() {
 				const Usecode_value v1     = pop();
 				auto                   f1 = take_voice_fragments();
 				// A string operand without prior provenance is itself a dynamic
-				// token.  Keep it as a slot instead of trying to rediscover its
-				// boundary by searching the completed English sentence later.
+				// token. Integer operands are also text when UC_ADD performs a
+				// string concatenation (Usecode_value converts them with
+				// std::to_string). Keep both forms as slots instead of trying to
+				// rediscover their boundary by searching the completed sentence.
+				const bool string_concatenation =
+						v1.get_type() == Usecode_value::string_type
+						|| v2.get_type() == Usecode_value::string_type;
 				auto ensure_dynamic_fragment =
-						[](const Usecode_value& value, Voice_fragment_list fragments) {
+						[string_concatenation](const Usecode_value& value,
+												Voice_fragment_list fragments) {
+						if (!string_concatenation) {
+							return fragments;
+						}
 						const char* string_value = value.get_str_value();
 						if (fragments.empty() && string_value) {
 							fragments.push_back({0, string_value, "", true});
+						} else if (fragments.empty() && value.is_int()) {
+							fragments.push_back({0, std::to_string(value.get_int_value()), "", true});
 						}
 						return fragments;
 					};
