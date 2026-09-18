@@ -1028,6 +1028,18 @@ void assert_optional_release_table_loads() {
 			"<VAR0> gives you an exasperated look.* \"Never mind, then.\"");
 	assert(bark.status == TranslationLookupStatus::SourceFallback);
 	assert(bark.text == "<VAR0> 給你一個不耐煩的眼神。「算了。」*");
+	const TranslationLookup maldric = table.lookup(
+			GameplayTranslationKind::Dialogue,
+			"dialogue:0x0430:50:0",
+			"A bare chested, muscular man, his body gleaming with sweat.");
+	assert(maldric.status == TranslationLookupStatus::Hit);
+	assert(maldric.text == "一個赤裸上身、肌肉發達的男人，他身上閃著汗水的亮光。");
+	const TranslationLookup maldric_secret = table.lookup(
+			GameplayTranslationKind::Dialogue,
+			"dialogue:0x0430:491:0",
+			"@The secret is in the spices. It's an old family recipe.@");
+	assert(maldric_secret.status == TranslationLookupStatus::Hit);
+	assert(maldric_secret.text == "祕密在於香料。這是一份古老的家族食譜。");
 }
 
 void assert_numeric_dialogue_fragments_keep_the_runtime_value() {
