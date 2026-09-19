@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import json
 import os
+from contextlib import redirect_stdout
+from io import StringIO
 from pathlib import Path
 import subprocess
 import sys
@@ -13,6 +15,7 @@ from tools.u6_translation.catalog import CatalogEntry, write_catalog
 from tools.u6_translation.runtime_table import RuntimeRow, load_runtime_table, write_runtime_table
 from tools.u6_translation.__main__ import main
 from tools.u6_translation.ollama_backend import OllamaBackend
+from tools.voice_acting.pack_voice import read_idx
 
 
 ROOT = Path(__file__).parents[3]
@@ -92,6 +95,98 @@ class TranslationCliTest(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("en_manifest.csv", result.stdout)
         self.assertIn("zh_manifest.csv", result.stdout)
+
+    def test_u6_voice_cli_pipeline_reaches_paired_archives_and_deploy_dry_run(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            entry = CatalogEntry.from_source(
+                "dialogue", "dialogue:0x0401:10:0", "Hello", "gameplay", "cli"
+            )
+            catalog = root / "catalog.jsonl"
+            write_catalog(catalog, [entry])
+            table = root / "translations.tsv"
+            write_runtime_table(
+                table, [RuntimeRow(entry.kind, entry.key, entry.source_sha256, "你好")]
+            )
+            speakers = root / "speakers.tsv"
+            speakers.write_text(f"dialogue\t{entry.key}\t1\tIolo\n", encoding="utf-8")
+            assignments = root / "assignments.csv"
+            assignments.write_text(
+                "speaker,speaker_id,en_voice_id,zh_voice_id,voice_desc,status\n"
+                "Iolo,1,en-iolo,zh-iolo,Iolo,approved\n",
+                encoding="utf-8",
+            )
+            manifests = root / "manifests"
+            self.assertEqual(
+                main([
+                    "voice-manifest", "--catalog", str(catalog), "--table", str(table),
+                    "--speaker-capture", str(speakers), "--assignments", str(assignments),
+                    "--output-dir", str(manifests),
+                ]),
+                0,
+            )
+
+            audio = root / "audio"
+            self.assertEqual(
+                main([
+                    "voice-generate", "--manifest-dir", str(manifests),
+                    "--output-root", str(audio), "--language", "both", "--dry-run",
+                ]),
+                0,
+            )
+            filename = "0401_10_0.ogg"
+            for language in ("en", "zh"):
+                language_root = audio / language
+                language_root.mkdir(parents=True)
+                (language_root / filename).write_bytes(b"OggSfixture")
+
+            staging = root / "staging"
+            voice_pack_output = StringIO()
+            with redirect_stdout(voice_pack_output):
+                self.assertEqual(
+                    main([
+                        "voice-pack", "--audio-root", str(audio),
+                        "--manifest-dir", str(manifests), "--staging-root", str(staging),
+                    ]),
+                    0,
+                )
+            self.assertIn("en: entries=1", voice_pack_output.getvalue())
+            self.assertIn("zh: entries=1", voice_pack_output.getvalue())
+            self.assertIn("en_voices.pak", voice_pack_output.getvalue())
+            self.assertIn("bytes", voice_pack_output.getvalue())
+            archive_root = staging / "mods/Ultima6v1.3/patch/voice_acting"
+            self.assertEqual(
+                [entry.name for entry in read_idx(archive_root / "en_voices.idx")],
+                [filename[:-4]],
+            )
+            self.assertEqual(
+                [entry.name for entry in read_idx(archive_root / "zh_voices.idx")],
+                [filename[:-4]],
+            )
+
+            for relative, content in {
+                "patch/autonotes.txt": "0x0:午安\r\n",
+                "patch/textmsg.txt": "0x0:早安\r\n",
+                "mods/Ultima6v1.3/patch/zh_translation.tsv":
+                    "# u6-translation-v1\n",
+            }.items():
+                path = staging / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(content, encoding="utf-8", newline="")
+
+            game = root / "game"
+            self.assertEqual(
+                main([
+                    "deploy", "--game-root", str(game),
+                    "--staging-root", str(staging), "--include-voice", "--dry-run",
+                ]),
+                0,
+            )
+            self.assertFalse(game.exists())
+            forbidden = {"usecode.zh", "usecode.dual", "bilingual_map.dat", "dual_map.dat"}
+            self.assertFalse(
+                any(path.name in forbidden for path in staging.rglob("*"))
+            )
 
     def test_audit_subcommand_writes_json_terminal_report_and_strict_status(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

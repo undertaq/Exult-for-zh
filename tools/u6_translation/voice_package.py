@@ -3,6 +3,7 @@ from __future__ import annotations
 import csv
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass
+import json
 import os
 from pathlib import Path
 import shutil
@@ -15,6 +16,7 @@ from tools.voice_acting.pack_voice import cmd_pack, read_idx
 LANGUAGES = ("en", "zh")
 VOICE_ARCHIVE_RELATIVE_DIR = Path("mods/Ultima6v1.3/patch/voice_acting")
 OGG_MAGIC = b"OggS"
+_INSTALL_JOURNAL_NAME = ".voice_acting.install.json"
 
 
 @dataclass(frozen=True)
@@ -128,6 +130,20 @@ def _verify_language_archive(
     except (IndexError, UnicodeError, OSError, struct.error, ValueError) as error:
         raise ValueError(f"invalid {language} voice index: {idx_path}") from error
 
+    expected_index_size = 12
+    for entry in entries:
+        try:
+            name_size = len(entry.name.encode("ascii"))
+        except UnicodeEncodeError as error:
+            raise ValueError(f"invalid {language} voice index: {idx_path}") from error
+        expected_index_size += 2 + name_size + 12
+    actual_index_size = idx_path.stat().st_size
+    if actual_index_size != expected_index_size:
+        raise ValueError(
+            f"trailing or missing bytes in {language} voice index: "
+            f"expected={expected_index_size} actual={actual_index_size}"
+        )
+
     indexed_names = [f"{entry.name}.ogg" for entry in entries]
     if len(indexed_names) != len(set(indexed_names)):
         raise ValueError(f"duplicate {language} voice index entries")
@@ -177,41 +193,173 @@ def verify_voice_archives(
         _verify_language_archive(archive_root, language, names)
 
 
-def _backup_existing(path: Path, backup_path: Path) -> None:
+def _path_exists(path: Path) -> bool:
+    return path.exists() or path.is_symlink()
+
+
+def _remove_path(path: Path) -> None:
+    if path.is_symlink() or (path.exists() and not path.is_dir()):
+        path.unlink()
+    elif path.is_dir():
+        shutil.rmtree(path)
+
+
+def _fsync_directory(path: Path) -> None:
     try:
-        os.link(path, backup_path)
+        descriptor = os.open(path, os.O_RDONLY)
     except OSError:
-        shutil.copy2(path, backup_path)
+        return
+    try:
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
+
+
+def _write_install_journal(path: Path, payload: Mapping[str, object]) -> None:
+    temporary = path.with_name(f".{path.name}.tmp-{os.getpid()}")
+    try:
+        with temporary.open("w", encoding="utf-8") as handle:
+            json.dump(payload, handle, sort_keys=True)
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, path)
+        _fsync_directory(path.parent)
+    finally:
+        if temporary.exists():
+            temporary.unlink()
+
+
+def _clear_install_journal(path: Path) -> None:
+    if path.exists():
+        path.unlink()
+        _fsync_directory(path.parent)
+
+
+def _journal_path(output_root: Path) -> Path:
+    return output_root.parent / _INSTALL_JOURNAL_NAME
+
+
+def _journal_entry_path(payload: Mapping[str, object], key: str, output_root: Path) -> Path:
+    raw_path = payload.get(key)
+    if not isinstance(raw_path, str):
+        raise ValueError(f"voice archive install journal is missing {key}")
+    path = Path(raw_path)
+    if path.parent != output_root.parent:
+        raise ValueError(f"voice archive install journal has unsafe {key}")
+    return path
+
+
+def _recover_archive_install(output_root: Path) -> None:
+    journal = _journal_path(output_root)
+    if not journal.is_file():
+        for temporary in output_root.parent.glob(f".{journal.name}.tmp-*"):
+            if temporary.is_file() or temporary.is_symlink():
+                temporary.unlink()
+        return
+    try:
+        payload = json.loads(journal.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        raise ValueError(f"invalid voice archive install journal: {journal}") from error
+    if not isinstance(payload, dict):
+        raise ValueError(f"invalid voice archive install journal: {journal}")
+
+    stored_output = _journal_entry_path(payload, "output_root", output_root)
+    if stored_output != output_root:
+        raise ValueError(f"voice archive install journal targets another directory: {journal}")
+    backup_root = _journal_entry_path(payload, "backup_root", output_root)
+    staged_root = _journal_entry_path(payload, "staged_root", output_root)
+    had_output = payload.get("had_output") is True
+
+    if output_root.is_symlink():
+        raise ValueError(f"voice archive target is a symlink: {output_root}")
+    if _path_exists(backup_root) and backup_root.is_symlink():
+        raise ValueError(f"voice archive backup is a symlink: {backup_root}")
+    if _path_exists(staged_root) and staged_root.is_symlink():
+        raise ValueError(f"voice archive staging path is a symlink: {staged_root}")
+
+    if _path_exists(output_root) and _path_exists(backup_root):
+        # The new directory was installed; discard the old complete pair.
+        _remove_path(backup_root)
+    elif not _path_exists(output_root) and _path_exists(backup_root):
+        if had_output:
+            os.replace(backup_root, output_root)
+            _fsync_directory(output_root.parent)
+        else:
+            _remove_path(backup_root)
+
+    if _path_exists(staged_root):
+        _remove_path(staged_root)
+    _clear_install_journal(journal)
 
 
 def _install_archives(temp_root: Path, output_root: Path) -> None:
-    output_root.mkdir(parents=True, exist_ok=True)
-    targets = tuple(
-        output_root / f"{language}_voices.{suffix}"
+    temp_root = Path(temp_root).absolute()
+    output_root = Path(output_root).absolute()
+    if temp_root.is_symlink() or not temp_root.is_dir():
+        raise ValueError(f"voice archive staging path is not a directory: {temp_root}")
+    if output_root.is_symlink():
+        raise ValueError(f"voice archive target is a symlink: {output_root}")
+
+    output_root.parent.mkdir(parents=True, exist_ok=True)
+    _recover_archive_install(output_root)
+
+    expected_names = {
+        f"{language}_voices.{suffix}"
         for language in LANGUAGES
         for suffix in ("pak", "idx")
-    )
-    sources = tuple(temp_root / target.name for target in targets)
-    backups: dict[Path, Path] = {}
-    installed: list[Path] = []
+    }
+    if output_root.exists():
+        if not output_root.is_dir():
+            raise ValueError(f"voice archive target is not a directory: {output_root}")
+        actual_names = {path.name for path in output_root.iterdir()}
+        extra = sorted(actual_names - expected_names)
+        if extra:
+            raise ValueError(
+                "existing voice archive directory mismatch: unexpected "
+                + ", ".join(extra)
+            )
+        if any(path.is_symlink() or not path.is_file() for path in output_root.iterdir()):
+            raise ValueError("existing voice archive directory contains non-file entries")
+
+    staged_names = {path.name for path in temp_root.iterdir()}
+    if staged_names != expected_names:
+        raise ValueError("voice archive staging directory mismatch")
+    if any(not (temp_root / name).is_file() for name in expected_names):
+        raise ValueError("voice archive staging directory contains non-file entries")
+
+    backup_root = Path(tempfile.mkdtemp(
+        prefix=f".{output_root.name}.backup-", dir=str(output_root.parent)
+    ))
+    backup_root.rmdir()
+    journal = _journal_path(output_root)
+    payload: dict[str, object] = {
+        "output_root": str(output_root),
+        "backup_root": str(backup_root),
+        "staged_root": str(temp_root),
+        "had_output": output_root.exists(),
+        "phase": "prepared",
+    }
+    _write_install_journal(journal, payload)
     try:
-        for index, target in enumerate(targets):
-            if target.is_symlink():
-                raise ValueError(f"voice archive target is a symlink: {target}")
-            if target.exists():
-                backup = temp_root / f".backup-{index}-{target.name}"
-                _backup_existing(target, backup)
-                backups[target] = backup
-        for source, target in zip(sources, targets):
-            os.replace(source, target)
-            installed.append(target)
+        if output_root.exists():
+            os.replace(output_root, backup_root)
+            payload["phase"] = "old_moved"
+            _write_install_journal(journal, payload)
+        os.replace(temp_root, output_root)
+        payload["phase"] = "new_installed"
+        _write_install_journal(journal, payload)
+        if _path_exists(backup_root):
+            _remove_path(backup_root)
+        _clear_install_journal(journal)
+        _fsync_directory(output_root.parent)
     except Exception:
-        for target in reversed(installed):
-            backup = backups.get(target)
-            if backup is not None and backup.exists():
-                os.replace(backup, target)
-            elif target.exists():
-                target.unlink()
+        try:
+            _recover_archive_install(output_root)
+        except Exception as recovery_error:
+            raise RuntimeError(
+                f"voice archive installation failed and recovery failed: {recovery_error}"
+            ) from recovery_error
         raise
 
 
