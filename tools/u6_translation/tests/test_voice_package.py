@@ -2,10 +2,14 @@ from __future__ import annotations
 
 import csv
 from pathlib import Path
+import os
+import struct
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from tools.u6_translation.voice_package import (
+    _install_archives,
     package_voice_archives,
     verify_voice_archives,
 )
@@ -139,8 +143,6 @@ class VoicePackageTest(unittest.TestCase):
             archive.mkdir()
             (archive / "en_voices.pak").write_bytes(b"OggS")
             # VAIX v1, one entry named "line", claiming bytes beyond the pak.
-            import struct
-
             name = b"line"
             index = b"VAIX" + struct.pack("<II", 1, 1)
             index += struct.pack("<H", len(name)) + name + struct.pack("<QI", 0, 99)
@@ -157,6 +159,52 @@ class VoicePackageTest(unittest.TestCase):
 
             with self.assertRaisesRegex(ValueError, "invalid en voice index"):
                 verify_voice_archives(archive, {"en": {"line.ogg"}})
+
+    def test_verify_rejects_trailing_index_bytes(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            archive = Path(directory)
+            (archive / "en_voices.pak").write_bytes(b"OggS")
+            name = b"line"
+            index = b"VAIX" + struct.pack("<II", 1, 1)
+            index += struct.pack("<H", len(name)) + name + struct.pack("<QI", 0, 4)
+            (archive / "en_voices.idx").write_bytes(index + b"trailing")
+
+            with self.assertRaisesRegex(ValueError, "trailing"):
+                verify_voice_archives(archive, {"en": {"line.ogg"}})
+
+    def test_archive_install_failure_restores_the_previous_complete_pair(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            output = root / "voice_acting"
+            incoming = root / "incoming"
+            output.mkdir()
+            incoming.mkdir()
+            names = (
+                "en_voices.pak", "en_voices.idx",
+                "zh_voices.pak", "zh_voices.idx",
+            )
+            for name in names:
+                (output / name).write_bytes(f"old {name}".encode())
+                (incoming / name).write_bytes(f"new {name}".encode())
+
+            real_replace = os.replace
+            failed = False
+
+            def fail_once(source, target):
+                nonlocal failed
+                if Path(target) == output and not failed:
+                    failed = True
+                    raise OSError("simulated archive directory swap failure")
+                return real_replace(source, target)
+
+            with patch("tools.u6_translation.voice_package.os.replace", side_effect=fail_once):
+                with self.assertRaisesRegex(OSError, "directory swap failure"):
+                    _install_archives(incoming, output)
+
+            self.assertTrue(output.is_dir())
+            for name in names:
+                self.assertEqual((output / name).read_bytes(), f"old {name}".encode())
+            self.assertFalse((output.parent / ".voice_acting.install.json").exists())
 
 
 if __name__ == "__main__":

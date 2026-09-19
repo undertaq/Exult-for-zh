@@ -277,6 +277,27 @@ python3 -m tools.u6_translation voice-generate \
   --language both
 ```
 
+After Qwen3 finishes, package the paired OGG directories into the checked-in
+staging tree. The packer requires identical English/Chinese filename sets and
+verifies OGG headers, VAIX index coverage, offsets, and archive sizes before
+replacing either language's archive:
+
+```sh
+python3 -m tools.u6_translation voice-pack \
+  --audio-root build/u6_voice/audio \
+  --manifest-dir build/u6_voice \
+  --staging-root tools/u6_translation/deploy
+```
+
+Voice archives are generated release artifacts and are not committed as Git
+blobs. Include them explicitly when deploying the complete U6 release tree:
+
+```sh
+python3 -m tools.u6_translation deploy \
+  --game-root "$PWD/../Ultima_7" \
+  --include-voice
+```
+
 ## Emit the approved table
 
 After strict audit succeeds and human approval is recorded in the review JSONL, emit to the checked-in staging tree:
