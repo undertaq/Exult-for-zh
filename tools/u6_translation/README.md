@@ -277,6 +277,14 @@ python3 -m tools.u6_translation voice-generate \
   --language both
 ```
 
+`voice-generate` reuses exact NPC-name matches from the U7 `voice/refs`
+directory by default (`npc_<name>_{en,zh}_ref.ogg`). Those clips are copied
+into the isolated U6 output and marked as U7 references, so Phase A skips
+VoiceDesign for them. Unmatched U6 speakers continue through Qwen3
+VoiceDesign, and all available references then feed Qwen3 VoiceClone. Use
+`--u7-reference-root /path/to/voice/refs` to select a different U7 reference
+directory; no partial-name matches are accepted.
+
 After Qwen3 finishes, package the paired OGG directories into the checked-in
 staging tree. The packer requires identical English/Chinese filename sets and
 verifies OGG headers, VAIX index coverage, offsets, and archive sizes before

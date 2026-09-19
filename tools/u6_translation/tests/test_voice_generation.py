@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import json
 from pathlib import Path
 import tempfile
 import unittest
@@ -124,6 +125,66 @@ class VoiceGenerationTests(unittest.TestCase):
         self.assertIn('"voice_desc_en":"Warm, measured voice"', designs)
         self.assertIn('"ref_en_text":"Hello"', designs)
         self.assertNotIn("A clear voice for Runtime Name", designs)
+
+    def test_reuses_exact_name_u7_reference_pair_from_voice_refs(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            manifests = root / "manifests"
+            manifests.mkdir()
+            write_manifest(manifests / "en_manifest.csv", ["0401_10_0.ogg"], "Iolo")
+            write_manifest(manifests / "zh_manifest.csv", ["0401_10_0.ogg"], "Iolo")
+            u7_refs = root / "voice" / "refs"
+            u7_refs.mkdir(parents=True)
+            (u7_refs / "npc_iolo_en_ref.ogg").write_bytes(b"u7 english")
+            (u7_refs / "npc_iolo_zh_ref.ogg").write_bytes(b"u7 chinese")
+            output = root / "audio"
+
+            with patch("tools.u6_translation.voice_generation.subprocess.run") as run:
+                run_voice_generation(
+                    manifests,
+                    output,
+                    "both",
+                    False,
+                    Path("generator.py"),
+                    u7_reference_root=u7_refs,
+                )
+
+            self.assertEqual((output / "refs" / "npc_iolo_en_ref.ogg").read_bytes(), b"u7 english")
+            self.assertEqual((output / "refs" / "npc_iolo_zh_ref.ogg").read_bytes(), b"u7 chinese")
+            designs = json.loads((manifests / "qwen3" / "u6_designs.json").read_text(encoding="utf-8"))
+            override = designs["designs"]["npc_iolo"]["reference_overrides"]
+            self.assertEqual(override["en"]["source"], "u7")
+            self.assertEqual(override["en"]["filename"], "npc_iolo_en_ref.ogg")
+            self.assertEqual(override["zh"]["filename"], "npc_iolo_zh_ref.ogg")
+            run.assert_called_once()
+
+    def test_does_not_use_partial_npc_name_for_u7_reference(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            manifests = root / "manifests"
+            manifests.mkdir()
+            write_manifest(manifests / "en_manifest.csv", ["0401_10_0.ogg"], "Iol")
+            write_manifest(manifests / "zh_manifest.csv", ["0401_10_0.ogg"], "Iol")
+            u7_refs = root / "voice" / "refs"
+            u7_refs.mkdir(parents=True)
+            (u7_refs / "npc_iolo_en_ref.ogg").write_bytes(b"u7 english")
+            (u7_refs / "npc_iolo_zh_ref.ogg").write_bytes(b"u7 chinese")
+            output = root / "audio"
+
+            with patch("tools.u6_translation.voice_generation.subprocess.run"):
+                run_voice_generation(
+                    manifests,
+                    output,
+                    "both",
+                    False,
+                    Path("generator.py"),
+                    u7_reference_root=u7_refs,
+                )
+
+            designs = json.loads((manifests / "qwen3" / "u6_designs.json").read_text(encoding="utf-8"))
+            design = next(iter(designs["designs"].values()))
+            self.assertNotIn("reference_overrides", design)
+            self.assertFalse((output / "refs").exists())
 
     def test_launches_requested_language_once_with_qwen3_argument_list(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

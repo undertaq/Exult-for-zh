@@ -1276,6 +1276,36 @@ class GenerateQwen3VoiceBehaviorTest(unittest.TestCase):
 
             self.assertEqual((generated, skipped, errors), (0, 1, 0))
 
+    def test_phase_a_reuses_staged_u7_reference_overrides(self):
+        module = load_script_module()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            module.PROJECT_DIR = tmpdir
+            module.REFS_DIR = str(tmp / "refs")
+            module.CLONE_PROMPTS_PATH = str(tmp / "clone_prompts.pkl")
+            Path(module.REFS_DIR).mkdir()
+            (Path(module.REFS_DIR) / "npc_iolo_en_ref.ogg").write_bytes(b"u7 english")
+            (Path(module.REFS_DIR) / "npc_iolo_zh_ref.ogg").write_bytes(b"u7 chinese")
+            designs = {
+                "designs": {
+                    "npc_iolo": {
+                        "npc": "Iolo",
+                        "ref_en_text": "Hello.",
+                        "ref_zh_text": "你好。",
+                        "reference_overrides": {
+                            "en": {"source": "u7", "filename": "npc_iolo_en_ref.ogg"},
+                            "zh": {"source": "u7", "filename": "npc_iolo_zh_ref.ogg"},
+                        },
+                    },
+                },
+            }
+            args = argparse.Namespace(dry_run=False, force_refs=False, device="cuda:0")
+
+            generated, skipped, errors = module.phase_a_generate_refs(designs, args)
+
+            self.assertEqual((generated, skipped, errors), (0, 2, 0))
+
     def test_phase_c_refuses_to_generate_entry_with_noncanonical_runtime_key(self):
         module = load_script_module()
 
