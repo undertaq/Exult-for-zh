@@ -153,6 +153,53 @@ void assert_runtime_speaker_capture_source_policy() {
 	assert(ucinternal.find("get_npc_name()") != std::string::npos);
 }
 
+void assert_u6_shared_voice_lookup_contract() {
+	std::ifstream voice_source("audio/VoiceActingManager.cc");
+	const std::string voice(
+			(std::istreambuf_iterator<char>(voice_source)),
+			std::istreambuf_iterator<char>());
+	assert(!voice.empty());
+	// U6 voice manifests use the original runtime identity as the shared
+	// English/Chinese filename stem. Cross-language remapping is optional and
+	// must never replace that identity when no bilingual map is available.
+	assert(voice.find("string base = string(func_hex) + \"_\" + offset_key")
+			!= std::string::npos);
+	assert(voice.find(
+				"if (BilingualManager::get().is_bilingual_available() && map_needed)")
+			!= std::string::npos);
+
+	std::ifstream usecode_source("usecode/ucinternal.cc");
+	const std::string usecode(
+			(std::istreambuf_iterator<char>(usecode_source)),
+			std::istreambuf_iterator<char>());
+	assert(!usecode.empty());
+	// The same captured function/offset/segment tuple drives both consumers.
+	assert(usecode.find("VoiceActingManager::play_for_conversation(")
+			!= std::string::npos);
+	assert(usecode.find("make_dialogue_translation_key(")
+			!= std::string::npos);
+
+	std::ifstream deploy_source("tools/u6_translation/deploy.py");
+	const std::string deploy(
+			(std::istreambuf_iterator<char>(deploy_source)),
+			std::istreambuf_iterator<char>());
+	assert(!deploy.empty());
+	// U6 deployment is display-time translation plus optional voice archives;
+	// it must not manufacture U7's alternate-usecode/map artifacts.
+	assert(deploy.find("usecode.zh") == std::string::npos);
+	assert(deploy.find("usecode.dual") == std::string::npos);
+	assert(deploy.find("bilingual_map.dat") == std::string::npos);
+	assert(deploy.find("dual_map.dat") == std::string::npos);
+
+	std::ifstream readme_source("tools/u6_translation/README.md");
+	const std::string readme(
+			(std::istreambuf_iterator<char>(readme_source)),
+			std::istreambuf_iterator<char>());
+	assert(!readme.empty());
+	assert(readme.find("compiled `usecode.zh` alternate-usecode binary is not staged")
+			!= std::string::npos);
+}
+
 void assert_placeholder_translation_has_no_dynamic_registry_dependency() {
 	std::ifstream translation_source("gameplay_translation.cc");
 	const std::string implementation(
@@ -1668,6 +1715,7 @@ int main() {
 	assert_mod_usecode_is_loaded_for_all_language_modes();
 	assert_safe_catalog_paths();
 	assert_runtime_speaker_capture_source_policy();
+	assert_u6_shared_voice_lookup_contract();
 	assert_placeholder_translation_has_no_dynamic_registry_dependency();
 	assert_provenance_templates_use_source_stable_keys();
 	assert_runtime_provenance_is_value_scoped();
