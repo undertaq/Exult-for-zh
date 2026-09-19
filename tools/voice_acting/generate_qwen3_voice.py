@@ -106,6 +106,12 @@ def is_voice_generation_skipped(entry):
     return (entry.get('voice_generation') or '') == 'skip'
 
 
+def staged_reference_override(design, lang):
+    """Return a trusted staged reference override for one language, if present."""
+    override = (design.get('reference_overrides') or {}).get(lang)
+    return override if isinstance(override, dict) and override.get('source') == 'u7' else None
+
+
 def filter_voice_generation_skipped_designs(designs):
     """Return (designs_without_skipped, skipped_count)."""
     kept = {}
@@ -1024,6 +1030,15 @@ def phase_a_generate_refs(designs, args):
                 ('EN', 'ref_en_text', 'voice_desc_en', 'Neutral clear speaking voice, natural and pleasant'),
             ]:
                 ref_path = os.path.join(REFS_DIR, f'{did}_{lang.lower()}_ref.ogg')
+                override = (design.get('reference_overrides') or {}).get(lang.lower())
+                if isinstance(override, dict) and override.get('source') == 'u7':
+                    if os.path.exists(ref_path):
+                        print(f'  [{npc_label}] {lang} ref reused from U7: {override.get("filename", ref_path)}')
+                        skipped += 1
+                    else:
+                        print(f'  [{npc_label}] {lang} U7 ref missing: {ref_path}')
+                        skipped += 1
+                    continue
                 ref_text = design.get(text_key, '')
                 ref_desc = design.get(desc_key, '') or default_desc
                 if not ref_text:
@@ -1065,78 +1080,98 @@ def phase_a_generate_refs(designs, args):
             ref_en_path = os.path.join(REFS_DIR, f'{did}_en_ref.ogg')
 
             # ZH reference
-            zh_text = design.get('ref_zh_text', '')
-            zh_desc = design.get('voice_desc_zh', '') or '用標準的普通話朗讀'
-            if not zh_text:
-                print(f'  [{npc_label}] No ZH ref text, skipping')
-                skipped += 1
-            elif (
-                os.path.exists(ref_zh_path)
-                and not args.force_refs
-                and reference_file_matches_design(ref_zh_path, zh_text, zh_desc)
-            ):
-                print(f'  [{npc_label}] ZH ref exists, skipping')
-                skipped += 1
-            else:
-                # Convert to Simplified Chinese
-                zh_text_sc = tc2sc(zh_text, 'zh-cn')
-                if args.dry_run:
-                    print(f'  [{npc_label}] Would generate ZH ref: {zh_text_sc[:60]}...')
-                    continue
-                try:
-                    wavs, sr = model.generate_voice_design(
-                        text=zh_text_sc,
-                        language='Chinese',
-                        instruct=zh_desc,
-                        max_new_tokens=SHORT_MAX_TOKENS,
-                        non_streaming_mode=True,
-                    )
-                    wav_out = ensure_minimum_duration(wavs[0], sr)
-                    write_ogg_direct(
-                        ref_zh_path, wav_out, sr, npc_label, zh_text_sc,
-                        metadata={'REFERENCE_HASH': reference_fingerprint(zh_text, zh_desc)},
-                    )
-                    total += 1
-                    print(f'  [{npc_label}] ZH ref generated ({len(wav_out)/sr:.1f}s)')
-                except Exception as ex:
-                    print(f'  [{npc_label}] ZH ref ERROR: {ex}')
+            zh_override = staged_reference_override(design, 'zh')
+            if zh_override:
+                if os.path.exists(ref_zh_path):
+                    print(f'  [{npc_label}] ZH ref reused from U7: {zh_override.get("filename", ref_zh_path)}')
+                    skipped += 1
+                else:
+                    print(f'  [{npc_label}] ZH U7 ref missing: {ref_zh_path}')
                     errors += 1
+            else:
+                zh_text = design.get('ref_zh_text', '')
+            if not zh_override:
+                zh_desc = design.get('voice_desc_zh', '') or '用標準的普通話朗讀'
+                if not zh_text:
+                    print(f'  [{npc_label}] No ZH ref text, skipping')
+                    skipped += 1
+                elif (
+                    os.path.exists(ref_zh_path)
+                    and not args.force_refs
+                    and reference_file_matches_design(ref_zh_path, zh_text, zh_desc)
+                ):
+                    print(f'  [{npc_label}] ZH ref exists, skipping')
+                    skipped += 1
+                else:
+                    # Convert to Simplified Chinese
+                    zh_text_sc = tc2sc(zh_text, 'zh-cn')
+                    if args.dry_run:
+                        print(f'  [{npc_label}] Would generate ZH ref: {zh_text_sc[:60]}...')
+                        continue
+                    try:
+                        wavs, sr = model.generate_voice_design(
+                            text=zh_text_sc,
+                            language='Chinese',
+                            instruct=zh_desc,
+                            max_new_tokens=SHORT_MAX_TOKENS,
+                            non_streaming_mode=True,
+                        )
+                        wav_out = ensure_minimum_duration(wavs[0], sr)
+                        write_ogg_direct(
+                            ref_zh_path, wav_out, sr, npc_label, zh_text_sc,
+                            metadata={'REFERENCE_HASH': reference_fingerprint(zh_text, zh_desc)},
+                        )
+                        total += 1
+                        print(f'  [{npc_label}] ZH ref generated ({len(wav_out)/sr:.1f}s)')
+                    except Exception as ex:
+                        print(f'  [{npc_label}] ZH ref ERROR: {ex}')
+                        errors += 1
 
             # EN reference
-            en_text = design.get('ref_en_text', '')
-            en_desc = design.get('voice_desc_en', '') or 'Neutral clear speaking voice, natural and pleasant'
-            if not en_text:
-                print(f'  [{npc_label}] No EN ref text, skipping')
-                skipped += 1
-            elif (
-                os.path.exists(ref_en_path)
-                and not args.force_refs
-                and reference_file_matches_design(ref_en_path, en_text, en_desc)
-            ):
-                print(f'  [{npc_label}] EN ref exists, skipping')
-                skipped += 1
-            else:
-                if args.dry_run:
-                    print(f'  [{npc_label}] Would generate EN ref: {en_text[:60]}...')
-                    continue
-                try:
-                    wavs, sr = model.generate_voice_design(
-                        text=en_text,
-                        language='English',
-                        instruct=en_desc,
-                        max_new_tokens=SHORT_MAX_TOKENS,
-                        non_streaming_mode=True,
-                    )
-                    wav_out = ensure_minimum_duration(wavs[0], sr)
-                    write_ogg_direct(
-                        ref_en_path, wav_out, sr, npc_label, en_text,
-                        metadata={'REFERENCE_HASH': reference_fingerprint(en_text, en_desc)},
-                    )
-                    total += 1
-                    print(f'  [{npc_label}] EN ref generated ({len(wav_out)/sr:.1f}s)')
-                except Exception as ex:
-                    print(f'  [{npc_label}] EN ref ERROR: {ex}')
+            en_override = staged_reference_override(design, 'en')
+            if en_override:
+                if os.path.exists(ref_en_path):
+                    print(f'  [{npc_label}] EN ref reused from U7: {en_override.get("filename", ref_en_path)}')
+                    skipped += 1
+                else:
+                    print(f'  [{npc_label}] EN U7 ref missing: {ref_en_path}')
                     errors += 1
+            else:
+                en_text = design.get('ref_en_text', '')
+            if not en_override:
+                en_desc = design.get('voice_desc_en', '') or 'Neutral clear speaking voice, natural and pleasant'
+                if not en_text:
+                    print(f'  [{npc_label}] No EN ref text, skipping')
+                    skipped += 1
+                elif (
+                    os.path.exists(ref_en_path)
+                    and not args.force_refs
+                    and reference_file_matches_design(ref_en_path, en_text, en_desc)
+                ):
+                    print(f'  [{npc_label}] EN ref exists, skipping')
+                    skipped += 1
+                else:
+                    if args.dry_run:
+                        print(f'  [{npc_label}] Would generate EN ref: {en_text[:60]}...')
+                        continue
+                    try:
+                        wavs, sr = model.generate_voice_design(
+                            text=en_text,
+                            language='English',
+                            instruct=en_desc,
+                            max_new_tokens=SHORT_MAX_TOKENS,
+                            non_streaming_mode=True,
+                        )
+                        wav_out = ensure_minimum_duration(wavs[0], sr)
+                        write_ogg_direct(
+                            ref_en_path, wav_out, sr, npc_label, en_text,
+                            metadata={'REFERENCE_HASH': reference_fingerprint(en_text, en_desc)},
+                        )
+                        total += 1
+                        print(f'  [{npc_label}] EN ref generated ({len(wav_out)/sr:.1f}s)')
+                    except Exception as ex:
+                        print(f'  [{npc_label}] EN ref ERROR: {ex}')
+                        errors += 1
 
             gc.collect()
             torch.cuda.empty_cache()

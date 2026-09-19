@@ -16,7 +16,7 @@ from .runtime_table import load_runtime_table, merge_runtime_rows, write_runtime
 from .speaker_map import load_speaker_capture, speaker_map_from_capture
 from .translate import translate_catalog
 from .traditional import convert_runtime_table
-from .voice_generation import run_voice_generation
+from .voice_generation import DEFAULT_U7_REFERENCE_ROOT, run_voice_generation
 from .voice_package import package_voice_archives
 from .voice_manifest import (
     build_voice_rows,
@@ -97,6 +97,11 @@ def main(argv=None):
     voice_generate.add_argument("--output-root", required=True)
     voice_generate.add_argument("--language", choices=("en", "zh", "both"), required=True)
     voice_generate.add_argument("--dry-run", action="store_true")
+    voice_generate.add_argument(
+        "--u7-reference-root",
+        default=str(DEFAULT_U7_REFERENCE_ROOT),
+        help="U7 refs used for exact NPC-name matches (default: voice/refs)",
+    )
     voice_pack = sub.add_parser("voice-pack")
     voice_pack.add_argument("--audio-root", required=True)
     voice_pack.add_argument("--manifest-dir", required=True)
@@ -219,7 +224,7 @@ def main(argv=None):
         generator = Path(__file__).parents[1] / "voice_acting" / "generate_qwen3_voice.py"
         return run_voice_generation(
             Path(args.manifest_dir), Path(args.output_root), args.language,
-            args.dry_run, generator,
+            args.dry_run, generator, Path(args.u7_reference_root),
         )
     if args.command == "convert-traditional":
         if not (args.check or args.dry_run) and not args.output:

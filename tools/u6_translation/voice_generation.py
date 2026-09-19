@@ -6,6 +6,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import shutil
 import shlex
 import subprocess
 import sys
@@ -13,9 +14,67 @@ from typing import Any
 
 
 QWEN3_DESIGNS = Path(__file__).parents[1] / "voice_acting" / "npc_voice_designs.json"
+DEFAULT_U7_REFERENCE_ROOT = Path(__file__).parents[2] / "voice" / "refs"
 REQUIRED_PROVIDER_COLUMNS = (
     "filename", "func_id", "offset_key", "segment", "speaker", "voice_desc", "text",
 )
+
+
+def _npc_reference_slug(name: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "_", name.lower()).strip("_")
+
+
+def _single_npc_name(design: dict[str, Any]) -> str:
+    names = design.get("npcs")
+    if not isinstance(names, list) or len(names) != 1:
+        return ""
+    name = str(names[0] or "").strip()
+    return name if name and _npc_reference_slug(name) else ""
+
+
+def _stage_u7_reference_overrides(
+    designs_path: Path,
+    output_root: Path,
+    u7_reference_root: Path | None,
+    dry_run: bool,
+) -> None:
+    """Copy exact-name U7 refs into the isolated U6 output and mark provenance."""
+
+    if u7_reference_root is None or not u7_reference_root.is_dir():
+        return
+
+    payload = json.loads(designs_path.read_text(encoding="utf-8"))
+    refs_dir = output_root / "refs"
+    changed = False
+    for design_id, design in sorted(payload.get("designs", {}).items()):
+        npc = _single_npc_name(design)
+        slug = _npc_reference_slug(npc)
+        if not slug:
+            continue
+        overrides: dict[str, dict[str, str]] = {}
+        for language in ("en", "zh"):
+            source = u7_reference_root / f"npc_{slug}_{language}_ref.ogg"
+            if not source.is_file():
+                continue
+            destination = refs_dir / f"{design_id}_{language}_ref.ogg"
+            if dry_run:
+                print(f"  [{npc}] {language.upper()} ref would reuse U7 {source.name}")
+            else:
+                refs_dir.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(source, destination)
+            overrides[language] = {
+                "source": "u7",
+                "filename": source.name,
+            }
+        if overrides and not dry_run:
+            design["reference_overrides"] = overrides
+            changed = True
+
+    if changed:
+        designs_path.write_text(
+            json.dumps(payload, ensure_ascii=False, separators=(",", ":")),
+            encoding="utf-8",
+        )
 
 
 def _read_manifest(path: Path) -> list[dict[str, str]]:
@@ -129,6 +188,7 @@ def run_voice_generation(
     language: str,
     dry_run: bool,
     generator_path: Path,
+    u7_reference_root: Path | None = DEFAULT_U7_REFERENCE_ROOT,
 ) -> int:
     """Stage paired U6 lines for the Qwen3 three-phase voice pipeline."""
 
@@ -141,6 +201,12 @@ def run_voice_generation(
     if Counter(row["filename"] for row in en_rows) != Counter(row["filename"] for row in zh_rows):
         raise ValueError("English and Chinese manifests must use identical filenames")
     mapping, designs = _stage_qwen3_inputs(manifest_dir, en_rows, zh_rows)
+    _stage_u7_reference_overrides(
+        designs,
+        output_root,
+        u7_reference_root,
+        dry_run,
+    )
     command = [
         sys.executable, str(generator_path),
         "--phase", "all", "--reference-workflow", "legacy",
