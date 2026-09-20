@@ -1123,6 +1123,40 @@ def test_routed_clone_manifest_and_completion_serialize_route_metadata(tmp_path)
     }
 
 
+def test_manifest_uses_published_actual_route_hashes_after_reference_replacement(tmp_path, monkeypatch):
+    speaker_reference = tmp_path / "speaker.ogg"
+    narrator_reference = tmp_path / "narrator.ogg"
+    speaker_reference.write_bytes(b"old speaker")
+    narrator_reference.write_bytes(b"old narrator")
+    job = CloneJob(
+        design_id="u6_ada", npc="Ada", lang="en", text="Hello then goodbye",
+        ref_audio=speaker_reference, ref_text="Ada reference", output=tmp_path / "line.ogg",
+        func_id="0401", offset_key="2", segment=0,
+        reference_role="mixed", reference_revision=generator.ROUTED_REFERENCE_REVISION,
+        reference_sha256=generator.sha256_file(speaker_reference),
+        voice_parts=(
+            generator.VoicePart("speaker", "Hello", speaker_reference, "Ada reference", "u6_ada", generator.sha256_file(speaker_reference)),
+            generator.VoicePart("narrator", "She waves.", narrator_reference, "Narrator", "npc_unknown", generator.sha256_file(narrator_reference)),
+        ),
+    )
+    speaker_reference.write_bytes(b"replacement speaker")
+    narrator_reference.write_bytes(b"replacement narrator")
+    monkeypatch.setattr(generator, "_write_ogg_atomic", lambda path, _audio, _rate: path.write_bytes(b"ogg"))
+    publish_args = type("Args", (), {"model": "test", "gpu": 0})()
+    manifest_args = type("Args", (), {
+        "model": "test", "manifest_path": tmp_path / "manifest.json",
+        "reference_review_dir": tmp_path / "review",
+    })()
+
+    generator._publish_clone(job, [0.1, 0.2], 2, 123, publish_args)
+    generator.write_manifest(manifest_args, [], [job])
+
+    sidecar = json.loads(job.output.with_suffix(".json").read_text(encoding="utf-8"))
+    record = json.loads(manifest_args.manifest_path.read_text(encoding="utf-8"))["clone_records"][0]
+    assert record["reference_sha256"] == sidecar["reference_sha256"] == generator.sha256_file(speaker_reference)
+    assert record["voice_parts"] == sidecar["voice_parts"]
+
+
 def test_mixed_renderer_uses_each_part_reference_caches_prompts_and_splices_in_order(tmp_path, monkeypatch):
     class Model:
         sampling_rate = 1000

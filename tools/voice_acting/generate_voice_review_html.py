@@ -272,11 +272,12 @@ def rows_from_full_voice(voice_dir, mapping_path, since_mtime=0, only_new=False)
             generic_fn = f"{base}.ogg"
             if generic_fn in lang_files:
                 resolved_filenames = [generic_fn]
-            else:
-                prefix = f"{base}_"
-                matches = [f for f in lang_files if f.startswith(prefix) and f.endswith(".ogg")]
-                if matches:
-                    resolved_filenames = sorted(matches)
+            elif str(npc).strip().casefold() == "avatar":
+                avatar_variants = {
+                    f"{base}_avatar_male.ogg",
+                    f"{base}_avatar_female.ogg",
+                }
+                resolved_filenames = sorted(avatar_variants & lang_files)
         if not resolved_filenames:
             resolved_filenames = [filename]
 

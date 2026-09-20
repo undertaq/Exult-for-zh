@@ -168,20 +168,49 @@ class GenerateVoiceReviewHtmlTest(unittest.TestCase):
                         {"role": "narrator", "reference_id": "npc_unknown"},
                     ],
                 }), encoding="utf-8")
+            (root / "en" / "0401_4_0_avatar_other.ogg").write_bytes(b"audio")
 
             rows = module.rows_from_full_voice(root, mapping_path)
 
         self.assertEqual(
-            {row["filename"] for row in rows},
+            {row["filename"] for row in rows if row["character"] == "Avatar"},
             {"0401_4_0_avatar_male.ogg", "0401_4_0_avatar_female.ogg"},
         )
-        for row in rows:
+        avatar_rows = [row for row in rows if row["character"] == "Avatar"]
+        self.assertEqual(
+            [row["filename"] for row in rows if row["status"] == "orphan"],
+            ["0401_4_0_avatar_other.ogg"],
+        )
+        for row in avatar_rows:
             self.assertEqual(row["character"], "Avatar")
             self.assertEqual(row["reference_role"], "mixed")
             self.assertEqual(row["reference_revision"], "u6-omnivoice-role-routing-v1")
             self.assertEqual(row["part_roles"], ["speaker", "narrator"])
             self.assertEqual(row["part_reference_ids"][1], "npc_unknown")
             self.assertIn("Route: mixed", row["note"])
+
+    def test_rows_from_full_voice_does_not_associate_avatar_suffixes_with_non_avatar_mapping(self):
+        module = load_script_module()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            (root / "en").mkdir()
+            mapping_path = root / "mapping.json"
+            mapping_path.write_text(json.dumps([{
+                "npc": "Iolo", "en_func_id": "0401", "en_offset_key": "4",
+                "en_segment": 0, "en_text": "Hello.",
+            }]), encoding="utf-8")
+            for gender in ("male", "female"):
+                (root / "en" / f"0401_4_0_avatar_{gender}.ogg").write_bytes(b"audio")
+
+            rows = module.rows_from_full_voice(root, mapping_path)
+
+        mapped = [row for row in rows if row["character"] == "Iolo"]
+        self.assertEqual([(row["filename"], row["status"]) for row in mapped], [("0401_4_0_npc1.ogg", "missing")])
+        self.assertEqual(
+            {row["filename"] for row in rows if row["status"] == "orphan"},
+            {"0401_4_0_avatar_male.ogg", "0401_4_0_avatar_female.ogg"},
+        )
 
 
 if __name__ == "__main__":

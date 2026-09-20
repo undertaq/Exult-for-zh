@@ -1499,6 +1499,12 @@ def write_manifest(args: argparse.Namespace, refs: list[ReferenceJob], clones: l
     clone_records = []
     for job in clones:
         metadata = _read_metadata(job.output)
+        reference_role = metadata.get("reference_role", job.reference_role)
+        reference_revision = metadata.get("reference_revision", job.reference_revision)
+        reference_sha256 = metadata.get("reference_sha256", job.reference_sha256)
+        voice_parts = metadata.get("voice_parts", [part.record() for part in job.voice_parts])
+        avatar_gender = metadata.get("avatar_gender", job.avatar_gender)
+        variant = metadata.get("variant", job.variant)
         clone_records.append({
             "design_id": job.design_id,
             "npc": job.npc,
@@ -1508,12 +1514,12 @@ def write_manifest(args: argparse.Namespace, refs: list[ReferenceJob], clones: l
             "override_revision": job.override_revision,
             "ref_audio": str(job.ref_audio),
             "ref_text": job.ref_text,
-            "reference_role": job.reference_role,
-            "reference_revision": job.reference_revision,
-            "reference_sha256": job.reference_sha256,
-            "voice_parts": [part.record() for part in job.voice_parts],
-            "avatar_gender": job.avatar_gender,
-            "variant": job.variant,
+            "reference_role": reference_role,
+            "reference_revision": reference_revision,
+            "reference_sha256": reference_sha256,
+            "voice_parts": voice_parts,
+            "avatar_gender": avatar_gender,
+            "variant": variant,
             "output": str(job.output),
             "status": "generated" if _complete(job.output, job) else "missing",
             "metadata": metadata,
