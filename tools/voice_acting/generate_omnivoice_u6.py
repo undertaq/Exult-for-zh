@@ -23,12 +23,18 @@ from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import Any
 
+try:
+    from .omnivoice_overrides import OmniVoiceOverrides, load_omnivoice_overrides
+except ImportError:  # Direct script execution.
+    from omnivoice_overrides import OmniVoiceOverrides, load_omnivoice_overrides
+
 
 PROJECT_DIR = Path(__file__).resolve().parents[2]
 SCRIPT_DIR = Path(__file__).resolve().parent
 DEFAULT_DESIGNS = PROJECT_DIR / "u6_voice" / "u6_npc_voice_designs.json"
 DEFAULT_MAPPING = PROJECT_DIR / "u6_voice" / "manifests" / "u6_qwen3_mapping.json"
 DEFAULT_U7_MANIFEST = SCRIPT_DIR / "reference_import_manifest.json"
+DEFAULT_OVERRIDES = PROJECT_DIR / "u6_voice" / "manifests" / "omnivoice_overrides.json"
 DEFAULT_REFS_DIR = PROJECT_DIR / "u6_voice" / "omnivoice_refs"
 DEFAULT_OUTPUT_DIR = PROJECT_DIR / "u6_voice" / "omnivoice"
 DEFAULT_REVIEW_DIR = PROJECT_DIR / "u6_voice" / "omnivoice_review"
@@ -68,6 +74,8 @@ class ReferenceJob:
     source: str
     ref_audio: Path | None
     ref_text: str
+    tts_text: str = ""
+    override_revision: str | None = None
 
 
 @dataclass(frozen=True)
@@ -82,6 +90,8 @@ class CloneJob:
     func_id: str
     offset_key: str
     segment: int
+    tts_text: str = ""
+    override_revision: str | None = None
 
 
 def load_json(path: Path) -> Any:
@@ -201,6 +211,7 @@ def build_reference_jobs(
     designs: dict[str, dict[str, Any]],
     refs_dir: Path,
     overrides: dict[tuple[str, str], dict[str, Any]],
+    generation_overrides: OmniVoiceOverrides | None = None,
 ) -> list[ReferenceJob]:
     jobs: list[ReferenceJob] = []
     for design_id, design in sorted(designs.items()):
@@ -221,18 +232,34 @@ def build_reference_jobs(
                     source="u7",
                     ref_audio=Path(override["path"]),
                     ref_text=str(override.get("ref_text") or text),
+                    tts_text=text,
                 ))
             else:
+                tts_text = generation_overrides.tts_text(text, lang) if generation_overrides else text
+                affected = bool(
+                    generation_overrides
+                    and (
+                        tts_text != text
+                        or generation_overrides.has_voice_design(design_id, lang)
+                    )
+                )
                 jobs.append(ReferenceJob(
                     design_id=design_id,
                     npc=npc,
                     lang=lang,
                     text=text,
-                    instruct=omnivoice_instruction(design, lang, design_id),
+                    instruct=omnivoice_instruction(
+                        design,
+                        lang,
+                        design_id,
+                        generation_overrides.voice_design if generation_overrides else None,
+                    ),
                     output=refs_dir / _reference_filename(design_id, lang),
                     source="omnivoice_design",
                     ref_audio=None,
                     ref_text=text,
+                    tts_text=tts_text,
+                    override_revision=generation_overrides.revision if affected else None,
                 ))
     return jobs
 
@@ -253,6 +280,7 @@ def build_clone_jobs(
     refs_dir: Path,
     output_dir: Path,
     overrides: dict[tuple[str, str], dict[str, Any]],
+    generation_overrides: OmniVoiceOverrides | None = None,
 ) -> list[CloneJob]:
     by_npc = _designs_by_npc(designs)
     jobs: list[CloneJob] = []
@@ -274,6 +302,17 @@ def build_clone_jobs(
             else:
                 ref_audio = refs_dir / _reference_filename(design_id, lang)
                 ref_text = str(design.get(f"ref_{lang}_text") or "").strip()
+            tts_text = generation_overrides.tts_text(text, lang) if generation_overrides else text
+            affected = bool(
+                generation_overrides
+                and (
+                    tts_text != text
+                    or (
+                        override is None
+                        and generation_overrides.has_voice_design(design_id, lang)
+                    )
+                )
+            )
             jobs.append(CloneJob(
                 design_id=design_id,
                 npc=npc,
@@ -285,6 +324,8 @@ def build_clone_jobs(
                 func_id=str(entry.get(f"{lang}_func_id") or entry.get("en_func_id") or entry.get("zh_func_id") or ""),
                 offset_key=str(entry.get(f"{lang}_offset_key") or entry.get("en_offset_key") or entry.get("zh_offset_key") or ""),
                 segment=int(entry.get(f"{lang}_segment", 0) or 0),
+                tts_text=tts_text,
+                override_revision=generation_overrides.revision if affected else None,
             ))
     return jobs
 
@@ -332,9 +373,45 @@ def _read_metadata(audio_path: Path) -> dict[str, Any]:
         return {}
 
 
-def _complete(audio_path: Path, expected: dict[str, Any]) -> bool:
+def _job_tts_text(job: ReferenceJob | CloneJob) -> str:
+    return job.tts_text or job.text
+
+
+def _job_seed(job: ReferenceJob | CloneJob) -> int:
+    return stable_seed(
+        job.design_id,
+        job.npc,
+        job.lang,
+        job.text,
+        _job_tts_text(job),
+        job.override_revision or "",
+        job.output,
+    )
+
+
+def _completion_expected(job: ReferenceJob | CloneJob) -> dict[str, Any]:
+    expected = {
+        "status": "generated",
+        "design_id": job.design_id,
+        "lang": job.lang,
+        "text": job.text,
+    }
+    if job.override_revision:
+        expected.update({
+            "tts_text": _job_tts_text(job),
+            "override_revision": job.override_revision,
+        })
+    return expected
+
+
+def _complete(
+    audio_path: Path,
+    expected: dict[str, Any] | ReferenceJob | CloneJob,
+) -> bool:
     if not audio_path.is_file():
         return False
+    if isinstance(expected, (ReferenceJob, CloneJob)):
+        expected = _completion_expected(expected)
     metadata = _read_metadata(audio_path)
     try:
         duration = float(metadata.get("duration_seconds") or 0)
@@ -416,8 +493,8 @@ def _audio_from_model(
 ):
     import torch
 
-    target_text = job.text if text_override is None else text_override
-    seed = stable_seed(job.design_id, job.npc, job.lang, job.text, job.output) + seed_offset
+    target_text = _job_tts_text(job) if text_override is None else text_override
+    seed = _job_seed(job) + seed_offset
     _seed_torch(seed)
     kwargs = {
         "num_step": 32,
@@ -463,7 +540,7 @@ def _render_with_fallbacks(
 ):
     """Retry failed/empty renders with deterministic seeds and safe text."""
     last_error: Exception | None = None
-    for text_override in fallback_texts(job.text, job.lang):
+    for text_override in fallback_texts(_job_tts_text(job), job.lang):
         for seed_offset in range(4):
             try:
                 result = _audio_from_model(
@@ -578,7 +655,7 @@ def _audio_batch_from_model(model, jobs: list[ReferenceJob | CloneJob], prompt_c
         return []
     import torch
 
-    _seed_torch(stable_seed(*(job.output for job in jobs)))
+    _seed_torch(stable_seed(*(_job_seed(job) for job in jobs)))
     kwargs = {
         "num_step": 32,
         "guidance_scale": 2.0,
@@ -589,7 +666,7 @@ def _audio_batch_from_model(model, jobs: list[ReferenceJob | CloneJob], prompt_c
         if not all(isinstance(job, ReferenceJob) for job in jobs):
             raise TypeError("reference and clone jobs cannot share a batch")
         audios = model.generate(
-            text=[job.text for job in jobs],
+            text=[_job_tts_text(job) for job in jobs],
             language=[LANGUAGE_NAMES[job.lang] for job in jobs],
             instruct=[job.instruct for job in jobs],
             **kwargs,
@@ -610,14 +687,14 @@ def _audio_batch_from_model(model, jobs: list[ReferenceJob | CloneJob], prompt_c
                     prompt_cache[key] = prompt
             prompts.append(prompt)
         audios = model.generate(
-            text=[job.text for job in jobs],
+            text=[_job_tts_text(job) for job in jobs],
             language=[LANGUAGE_NAMES[job.lang] for job in jobs],
             voice_clone_prompt=prompts,
             **kwargs,
         )
     if len(audios) != len(jobs):
         raise RuntimeError(f"OmniVoice returned {len(audios)} outputs for {len(jobs)} jobs")
-    return [(audio, int(model.sampling_rate), stable_seed(job.design_id, job.npc, job.lang, job.text, job.output))
+    return [(audio, int(model.sampling_rate), _job_seed(job))
             for job, audio in zip(jobs, audios)]
 
 
@@ -637,8 +714,10 @@ def _publish_reference(
         "design_id": job.design_id,
         "lang": job.lang,
         "text": job.text,
-        "rendered_text": rendered_text or job.text,
-        "fallback_used": (rendered_text or job.text) != job.text,
+        "tts_text": _job_tts_text(job),
+        "override_revision": job.override_revision,
+        "rendered_text": rendered_text or _job_tts_text(job),
+        "fallback_used": (rendered_text or _job_tts_text(job)) != _job_tts_text(job),
         "npc": job.npc,
         "source": job.source,
         "instruct": job.instruct,
@@ -668,8 +747,10 @@ def _publish_clone(
         "design_id": job.design_id,
         "lang": job.lang,
         "text": job.text,
-        "rendered_text": rendered_text or job.text,
-        "fallback_used": (rendered_text or job.text) != job.text,
+        "tts_text": _job_tts_text(job),
+        "override_revision": job.override_revision,
+        "rendered_text": rendered_text or _job_tts_text(job),
+        "fallback_used": (rendered_text or _job_tts_text(job)) != _job_tts_text(job),
         "npc": job.npc,
         "ref_audio": str(job.ref_audio),
         "ref_text": job.ref_text,
@@ -699,8 +780,7 @@ def process_references(args: argparse.Namespace, all_jobs: list[ReferenceJob]) -
         if job.source == "u7":
             print(f"[ref {index}/{len(jobs)}] reuse {job.npc} {job.lang}: {job.ref_audio}", flush=True)
             continue
-        expected = {"status": "generated", "design_id": job.design_id, "lang": job.lang, "text": job.text}
-        if _complete(job.output, expected):
+        if _complete(job.output, job):
             print(f"[ref {index}/{len(jobs)}] resume {job.npc} {job.lang}", flush=True)
             continue
         pending.append(job)
@@ -726,7 +806,7 @@ def process_references(args: argparse.Namespace, all_jobs: list[ReferenceJob]) -
                 print(f"[ref] ERROR {batch[0].npc} {batch[0].lang}: {error}", flush=True)
                 results = [None]
         for job, result in zip(batch, results):
-            rendered_text = job.text
+            rendered_text = _job_tts_text(job)
             if result is None or _audio_length(result[0]) == 0:
                 try:
                     result, rendered_text = _render_with_fallbacks(model, job)
@@ -757,13 +837,7 @@ def process_voice(args: argparse.Namespace, all_jobs: list[CloneJob]) -> None:
     prompt_cache: dict[str, Any] = {}
     pending = []
     for index, job in enumerate(jobs, 1):
-        expected = {
-            "status": "generated",
-            "design_id": job.design_id,
-            "lang": job.lang,
-            "text": job.text,
-        }
-        if _complete(job.output, expected):
+        if _complete(job.output, job):
             print(f"[voice {index}/{len(jobs)}] resume {job.npc} {job.lang} {job.output.name}", flush=True)
             continue
         if not job.ref_audio.is_file():
@@ -792,7 +866,7 @@ def process_voice(args: argparse.Namespace, all_jobs: list[CloneJob]) -> None:
                 print(f"[voice] ERROR {batch[0].npc} {batch[0].lang} {batch[0].output.name}: {error}", flush=True)
                 results = [None]
         for job, result in zip(batch, results):
-            rendered_text = job.text
+            rendered_text = _job_tts_text(job)
             if result is None or _audio_length(result[0]) == 0:
                 try:
                     result, rendered_text = _render_with_fallbacks(model, job, prompt_cache)
@@ -823,6 +897,8 @@ def write_manifest(args: argparse.Namespace, refs: list[ReferenceJob], clones: l
             "npc": job.npc,
             "lang": job.lang,
             "text": job.text,
+            "tts_text": _job_tts_text(job),
+            "override_revision": job.override_revision,
             "ref_audio": str(job.ref_audio),
             "ref_text": job.ref_text,
             "output": str(job.output),
@@ -849,6 +925,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--designs", type=Path, default=DEFAULT_DESIGNS)
     parser.add_argument("--mapping", type=Path, default=DEFAULT_MAPPING)
     parser.add_argument("--u7-manifest", type=Path, default=DEFAULT_U7_MANIFEST)
+    parser.add_argument("--overrides", type=Path, default=DEFAULT_OVERRIDES)
     parser.add_argument("--refs-dir", type=Path, default=DEFAULT_REFS_DIR)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("--review-dir", type=Path, default=DEFAULT_REVIEW_DIR)
@@ -865,8 +942,16 @@ def main() -> int:
     args = parse_args()
     designs = load_json(args.designs).get("designs", {})
     overrides = load_reference_overrides(args.u7_manifest)
-    refs = build_reference_jobs(designs, args.refs_dir, overrides)
-    clones = build_clone_jobs(args.mapping, designs, args.refs_dir, args.output_dir, overrides)
+    generation_overrides = load_omnivoice_overrides(args.overrides)
+    refs = build_reference_jobs(designs, args.refs_dir, overrides, generation_overrides)
+    clones = build_clone_jobs(
+        args.mapping,
+        designs,
+        args.refs_dir,
+        args.output_dir,
+        overrides,
+        generation_overrides,
+    )
     print(f"U6 designs={len(designs)} refs={len(refs)} clones={len(clones)}", flush=True)
 
     if args.phase in {"refs", "all"}:

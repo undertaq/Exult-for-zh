@@ -1,9 +1,14 @@
+import importlib
 import json
+import sys
 from pathlib import Path
 
 import pytest
 
+import tools.voice_acting.generate_omnivoice_u6 as generator
 from tools.voice_acting.generate_omnivoice_u6 import (
+    CloneJob,
+    ReferenceJob,
     build_clone_jobs,
     build_reference_jobs,
     chunked,
@@ -166,3 +171,232 @@ def test_fallback_texts_collapse_repeated_terminal_punctuation():
     variants = list(fallback_texts("Excuse me..", "en"))
     assert "Excuse me." in variants
     assert "Excuse me" in variants
+
+
+def _override_manifest(tmp_path):
+    path = tmp_path / "omnivoice_overrides.json"
+    path.write_text(
+        json.dumps(
+            {
+                "revision": "u6-omnivoice-overrides-v1",
+                "voice_design": {
+                    "u6_arty_762c615c": {
+                        "en": "male, moderate pitch, American accent",
+                        "zh": "男, 中音調",
+                    }
+                },
+                "pronunciation": [
+                    {
+                        "lang": "zh",
+                        "source": "馴蛇者",
+                        "tts": "XUN4蛇者",
+                        "expected_pinyin": "xùn shé zhě",
+                        "reason": "Taiwan Mandarin reading in this phrase",
+                    }
+                ],
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    try:
+        module = importlib.import_module("tools.voice_acting.omnivoice_overrides")
+    except ModuleNotFoundError:
+        pytest.fail("OmniVoice override loader is not implemented")
+    return module.load_omnivoice_overrides(path)
+
+
+def test_clone_job_keeps_source_text_and_carries_tts_override(tmp_path):
+    mapping = tmp_path / "mapping.json"
+    mapping.write_text(
+        json.dumps(
+            [
+                {
+                    "npc": "Snakecharmer",
+                    "zh_text": "萬歲，馴蛇者！",
+                    "zh_output_filename": "line.ogg",
+                }
+            ],
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    designs = {
+        "snake": {
+            "npc": "Snakecharmer",
+            "ref_zh_text": "參考文字",
+            "casting_inference": {"gender": "male", "age": "adult"},
+        }
+    }
+
+    jobs = build_clone_jobs(
+        mapping,
+        designs,
+        tmp_path / "refs",
+        tmp_path / "output",
+        {},
+        _override_manifest(tmp_path),
+    )
+
+    assert jobs[0].text == "萬歲，馴蛇者！"
+    assert jobs[0].tts_text == "萬歲，XUN4蛇者！"
+    assert jobs[0].override_revision == "u6-omnivoice-overrides-v1"
+
+
+def test_voice_design_override_preserves_u7_reference_reuse(tmp_path):
+    designs = {
+        "u6_arty_762c615c": {
+            "npc": "Arty",
+            "ref_en_text": "Hello.",
+            "ref_zh_text": "你好。",
+            "casting_inference": {"gender": "male", "age": "adult"},
+        }
+    }
+    u7 = {
+        ("arty", "en"): {"path": tmp_path / "arty.ogg", "ref_text": "U7 Arty"}
+    }
+
+    jobs = build_reference_jobs(
+        designs,
+        tmp_path / "refs",
+        u7,
+        _override_manifest(tmp_path),
+    )
+    by_lang = {job.lang: job for job in jobs}
+
+    assert by_lang["en"].source == "u7"
+    assert by_lang["en"].override_revision is None
+    assert by_lang["zh"].instruct == "男, 中音調"
+    assert by_lang["zh"].override_revision == "u6-omnivoice-overrides-v1"
+
+
+def test_affected_job_metadata_and_completion_require_current_revision(tmp_path, monkeypatch):
+    job = CloneJob(
+        design_id="snake",
+        npc="Snakecharmer",
+        lang="zh",
+        text="馴蛇者",
+        ref_audio=tmp_path / "ref.ogg",
+        ref_text="參考",
+        output=tmp_path / "line.ogg",
+        func_id="04c1",
+        offset_key="447",
+        segment=0,
+        tts_text="XUN4蛇者",
+        override_revision="u6-omnivoice-overrides-v1",
+    )
+    monkeypatch.setattr(
+        generator,
+        "_write_ogg_atomic",
+        lambda path, audio, sample_rate: path.write_bytes(b"ogg"),
+    )
+    args = type("Args", (), {"model": "test-model", "gpu": 0})()
+
+    generator._publish_clone(job, [0.1, 0.2], 2, 123, args)
+    metadata = json.loads(job.output.with_suffix(".json").read_text(encoding="utf-8"))
+
+    assert metadata["text"] == "馴蛇者"
+    assert metadata["tts_text"] == "XUN4蛇者"
+    assert metadata["override_revision"] == "u6-omnivoice-overrides-v1"
+    assert generator._complete(job.output, job)
+
+    metadata["override_revision"] = "stale-revision"
+    job.output.with_suffix(".json").write_text(
+        json.dumps(metadata, ensure_ascii=False), encoding="utf-8"
+    )
+    assert not generator._complete(job.output, job)
+
+
+def test_unaffected_jobs_keep_legacy_completion_compatibility(tmp_path):
+    audio = tmp_path / "line.ogg"
+    audio.write_bytes(b"ogg")
+    audio.with_suffix(".json").write_text(
+        json.dumps(
+            {
+                "status": "generated",
+                "duration_seconds": 1.0,
+                "design_id": "plain",
+                "lang": "en",
+                "text": "Hello",
+            }
+        ),
+        encoding="utf-8",
+    )
+    job = CloneJob(
+        design_id="plain",
+        npc="Plain",
+        lang="en",
+        text="Hello",
+        ref_audio=tmp_path / "ref.ogg",
+        ref_text="Reference",
+        output=audio,
+        func_id="1",
+        offset_key="2",
+        segment=0,
+        tts_text="Hello",
+    )
+
+    assert generator._complete(audio, job)
+
+
+def test_job_seed_changes_with_tts_text_and_override_revision(tmp_path):
+    base = dict(
+        design_id="snake",
+        npc="Snakecharmer",
+        lang="zh",
+        text="馴蛇者",
+        ref_audio=tmp_path / "ref.ogg",
+        ref_text="參考",
+        output=tmp_path / "line.ogg",
+        func_id="04c1",
+        offset_key="447",
+        segment=0,
+    )
+
+    old = CloneJob(**base, tts_text="馴蛇者")
+    tts_changed = CloneJob(**base, tts_text="XUN4蛇者")
+    revision_changed = CloneJob(
+        **base,
+        tts_text="XUN4蛇者",
+        override_revision="u6-omnivoice-overrides-v1",
+    )
+
+    assert generator._job_seed(old) != generator._job_seed(tts_changed)
+    assert generator._job_seed(tts_changed) != generator._job_seed(revision_changed)
+
+
+def test_omnivoice_generation_uses_tts_text_without_changing_source(tmp_path, monkeypatch):
+    class Model:
+        sampling_rate = 24000
+
+        def generate(self, **kwargs):
+            self.text = kwargs["text"]
+            return [[0.1]]
+
+    job = ReferenceJob(
+        design_id="snake",
+        npc="Snakecharmer",
+        lang="zh",
+        text="馴蛇者",
+        instruct="男, 中音調",
+        output=tmp_path / "ref.ogg",
+        source="omnivoice_design",
+        ref_audio=None,
+        ref_text="馴蛇者",
+        tts_text="XUN4蛇者",
+        override_revision="u6-omnivoice-overrides-v1",
+    )
+    model = Model()
+    monkeypatch.setitem(sys.modules, "torch", object())
+    monkeypatch.setattr(generator, "_seed_torch", lambda seed: None)
+
+    generator._audio_batch_from_model(model, [job])
+
+    assert model.text == ["XUN4蛇者"]
+    assert job.text == "馴蛇者"
+
+
+def test_default_overrides_path_points_to_revisioned_manifest():
+    assert generator.DEFAULT_OVERRIDES == (
+        PROJECT / "u6_voice" / "manifests" / "omnivoice_overrides.json"
+    )

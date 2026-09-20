@@ -1,0 +1,25 @@
+{
+  "revision": "u6-omnivoice-overrides-v1",
+  "voice_design": {
+    "u6_arty_762c615c": {
+      "en": "male, moderate pitch, American accent",
+      "zh": "男, 中音調"
+    }
+  },
+  "pronunciation": [
+    {
+      "lang": "zh",
+      "source": "馴蛇者",
+      "tts": "XUN4蛇者",
+      "expected_pinyin": "xùn shé zhě",
+      "reason": "Taiwan Mandarin reading in this phrase"
+    },
+    {
+      "lang": "zh",
+      "source": "偽先知",
+      "tts": "WEI4先知",
+      "expected_pinyin": "wèi xiān zhī",
+      "reason": "Taiwan Mandarin reading in this phrase"
+    }
+  ]
+}
