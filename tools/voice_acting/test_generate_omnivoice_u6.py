@@ -36,10 +36,17 @@ def test_instruction_uses_omnivoice_language_specific_tags():
     assert omnivoice_instruction(design, "zh") == "女, 青年, 高音调"
 
 
-def test_adult_cheerful_description_does_not_imply_high_pitch():
+@pytest.mark.parametrize(
+    "description",
+    [
+        "A warm and lightly cheerful adult voice.",
+        "A warm and lively adult voice.",
+    ],
+)
+def test_adult_emotion_description_does_not_imply_high_pitch(description):
     design = {
         "casting_inference": {"gender": "male", "age": "adult"},
-        "voice_desc_en": "A warm and lightly cheerful adult voice.",
+        "voice_desc_en": description,
     }
 
     assert omnivoice_instruction(design, "en") == "male, moderate pitch, American accent"
@@ -49,21 +56,21 @@ def test_adult_cheerful_description_does_not_imply_high_pitch():
 @pytest.mark.parametrize(
     ("design_id", "expected_en", "expected_zh"),
     [
-        ("u6_aaron_324a17d2", "male, moderate pitch, American accent", "男, 中音调"),
-        ("u6_amanda_161b5245", "female, moderate pitch, American accent", "女, 中音调"),
-        ("u6_arty_762c615c", "male, moderate pitch, American accent", "男, 中音调"),
-        ("u6_budo_4b6e65fd", "male, moderate pitch, American accent", "男, 中音调"),
-        ("u6_dezana_6642c6a6", "female, moderate pitch, American accent", "女, 中音调"),
-        ("u6_dunbar_d41e3d0c", "male, moderate pitch, American accent", "男, 中音调"),
-        ("u6_kenneth_ca70c45c", "male, moderate pitch, American accent", "男, 中音调"),
-        ("u6_leonna_c563a3bc", "female, moderate pitch, American accent", "女, 中音调"),
-        ("u6_marney_b33f933c", "female, low pitch, American accent", "女, 低音调"),
-        ("u6_sandy_e42e5767", "male, low pitch, American accent", "男, 低音调"),
-        ("u6_shawn_66e52fa9", "male, moderate pitch, American accent", "男, 中音调"),
-        ("u6_timothy_f787b4f6", "male, moderate pitch, American accent", "男, 中音调"),
-        ("u6_trenton_bell_50adc94b", "male, moderate pitch, American accent", "男, 中音调"),
-        ("u6_wilbur_63606e9b", "male, moderate pitch, American accent", "男, 中音调"),
-        ("u6_zoltan_5aadd2f1", "male, moderate pitch, American accent", "男, 中音调"),
+        ("u6_aaron_324a17d2", "male, moderate pitch, American accent", "男, 中音調"),
+        ("u6_amanda_161b5245", "female, moderate pitch, American accent", "女, 中音調"),
+        ("u6_arty_762c615c", "male, moderate pitch, American accent", "男, 中音調"),
+        ("u6_budo_4b6e65fd", "male, moderate pitch, American accent", "男, 中音調"),
+        ("u6_dezana_6642c6a6", "female, moderate pitch, American accent", "女, 中音調"),
+        ("u6_dunbar_d41e3d0c", "male, moderate pitch, American accent", "男, 中音調"),
+        ("u6_kenneth_ca70c45c", "male, moderate pitch, American accent", "男, 中音調"),
+        ("u6_leonna_c563a3bc", "female, moderate pitch, American accent", "女, 中音調"),
+        ("u6_marney_b33f933c", "female, low pitch, American accent", "女, 低音調"),
+        ("u6_sandy_e42e5767", "male, low pitch, American accent", "男, 低音調"),
+        ("u6_shawn_66e52fa9", "male, moderate pitch, American accent", "男, 中音調"),
+        ("u6_timothy_f787b4f6", "male, moderate pitch, American accent", "男, 中音調"),
+        ("u6_trenton_bell_50adc94b", "male, moderate pitch, American accent", "男, 中音調"),
+        ("u6_wilbur_63606e9b", "male, moderate pitch, American accent", "男, 中音調"),
+        ("u6_zoltan_5aadd2f1", "male, moderate pitch, American accent", "男, 中音調"),
     ],
 )
 def test_audited_design_overrides_take_precedence(design_id, expected_en, expected_zh):
@@ -73,15 +80,15 @@ def test_audited_design_overrides_take_precedence(design_id, expected_en, expect
     assert omnivoice_instruction(design, "zh", design_id) == expected_zh
 
 
-def test_manifest_overrides_extend_the_audited_design_defaults():
+def test_manifest_overrides_can_replace_the_audited_design_defaults():
     design = _designs()["u6_sandy_e42e5767"]
 
     assert omnivoice_instruction(
         design,
         "en",
         "u6_sandy_e42e5767",
-        {"u6_future_design": {"en": "male, high pitch, American accent"}},
-    ) == "male, low pitch, American accent"
+        {"u6_sandy_e42e5767": {"en": "male, high pitch, American accent"}},
+    ) == "male, high pitch, American accent"
 
 
 def test_age_and_non_human_pitch_rules_keep_their_precedence():
