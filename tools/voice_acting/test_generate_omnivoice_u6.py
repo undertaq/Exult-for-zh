@@ -97,7 +97,13 @@ def test_default_role_manifest_covers_every_u6_mapping_key():
             "He smiles. @Hello!@",
             "他微笑。 「你好！」",
             "zh",
-            [("narrator", "他微笑。"), ("speaker", "你好！")],
+            [("speaker", "他微笑。 「你好！」")],
+        ),
+        (
+            "He smiles. @Hello!@",
+            "他微笑。你好！",
+            "zh",
+            [("speaker", "他微笑。你好！")],
         ),
         (
             "He smiles.",
@@ -894,11 +900,17 @@ def test_stage_u7_special_references_copies_verified_families_idempotently(tmp_p
         item["destination"] for item in items
     }
     assert {path.name: path.stat().st_mtime_ns for path in destination_refs.iterdir()} == before
-    avatar_female_en = staged[("npc_avatar_female", "en")]
-    assert avatar_female_en["path"] == destination_refs / "npc_avatar_female_en_ref.ogg"
-    assert avatar_female_en["reference_id"] == "npc_avatar_female"
-    assert avatar_female_en["ref_text"] == "Greetings, traveler. What brings you to these lands this day?"
-    assert avatar_female_en["sha256"] == generator.sha256_file(avatar_female_en["path"])
+    for item in items:
+        lang = "en" if item["language"] == "English" else "zh"
+        route = staged[(item["design_id"], lang)]
+        source = source_refs / item["destination"]
+        destination = destination_refs / item["destination"]
+        assert route["path"] == destination
+        assert route["source"] == source
+        assert route["reference_id"] == item["design_id"]
+        assert route["ref_text"] == item["reference_text"]
+        assert route["sha256"] == generator.sha256_file(source)
+        assert generator.sha256_file(destination) == route["sha256"]
 
 
 def test_build_clone_jobs_routes_parts_and_expands_avatar_variants(tmp_path):
@@ -984,8 +996,8 @@ def test_build_clone_jobs_routes_parts_and_expands_avatar_variants(tmp_path):
     assert len(avatars) == 2
     assert {job.design_id for job in avatars} == {"npc_avatar_male", "npc_avatar_female"}
     assert {job.output.name for job in avatars} == {
-        "0401_4_0_0_avatar_male.ogg",
-        "0401_4_0_0_avatar_female.ogg",
+        "0401_4_0_avatar_male.ogg",
+        "0401_4_0_avatar_female.ogg",
     }
     for job in avatars:
         gender = job.avatar_gender
@@ -994,16 +1006,26 @@ def test_build_clone_jobs_routes_parts_and_expands_avatar_variants(tmp_path):
             (f"npc_avatar_{gender}", "speaker"),
             ("npc_narrator_male" if gender == "male" else "npc_unknown", "narrator"),
         ]
-        assert job.reference_revision == generator.ROUTED_REFERENCE_REVISION
+        assert job.reference_revision.startswith(generator.ROUTED_REFERENCE_REVISION + ":")
+
+
+def test_avatar_explicit_output_filename_keeps_its_authoritative_stem():
+    assert generator._avatar_filename(
+        {"en_output_filename": "0401_4_0_custom.ogg"}, "en", "male"
+    ) == "0401_4_0_custom_avatar_male.ogg"
 
 
 def test_routed_clone_manifest_and_completion_serialize_route_metadata(tmp_path):
+    speaker_reference = tmp_path / "ada.ogg"
+    narrator_reference = tmp_path / "narrator.ogg"
+    speaker_reference.write_bytes(b"Ada reference")
+    narrator_reference.write_bytes(b"Narrator reference")
     job = CloneJob(
         design_id="u6_ada",
         npc="Ada",
         lang="en",
         text="Hello then goodbye",
-        ref_audio=tmp_path / "ada.ogg",
+        ref_audio=speaker_reference,
         ref_text="Ada reference",
         output=tmp_path / "line.ogg",
         func_id="0401",
@@ -1011,9 +1033,16 @@ def test_routed_clone_manifest_and_completion_serialize_route_metadata(tmp_path)
         segment=0,
         reference_role="mixed",
         reference_revision=generator.ROUTED_REFERENCE_REVISION,
+        reference_sha256=generator.sha256_file(speaker_reference),
         voice_parts=(
-            generator.VoicePart("speaker", "Hello", tmp_path / "ada.ogg", "Ada reference", "u6_ada"),
-            generator.VoicePart("narrator", "She waves.", tmp_path / "narrator.ogg", "Narrator", "npc_unknown"),
+            generator.VoicePart(
+                "speaker", "Hello", speaker_reference, "Ada reference", "u6_ada",
+                generator.sha256_file(speaker_reference),
+            ),
+            generator.VoicePart(
+                "narrator", "She waves.", narrator_reference, "Narrator", "npc_unknown",
+                generator.sha256_file(narrator_reference),
+            ),
         ),
     )
     job.output.write_bytes(b"ogg")
@@ -1029,10 +1058,46 @@ def test_routed_clone_manifest_and_completion_serialize_route_metadata(tmp_path)
 
     assert generator._complete(job.output, job)
     assert record["reference_revision"] == generator.ROUTED_REFERENCE_REVISION
+    assert record["reference_sha256"] == generator.sha256_file(speaker_reference)
+    assert metadata["reference_sha256"] == generator.sha256_file(speaker_reference)
     assert record["voice_parts"][1] == {
         "role": "narrator",
         "text": "She waves.",
-        "reference_path": str(tmp_path / "narrator.ogg"),
+        "reference_path": str(narrator_reference),
         "reference_text": "Narrator",
         "reference_id": "npc_unknown",
+        "reference_sha256": generator.sha256_file(narrator_reference),
     }
+
+
+def test_routed_reference_hash_change_invalidates_completed_clone(tmp_path):
+    refs = tmp_path / "refs"
+    refs.mkdir()
+    reference = refs / "u6_ada_en_ref.ogg"
+    reference.write_bytes(b"first reference")
+    mapping = tmp_path / "mapping.json"
+    mapping.write_text(json.dumps([
+        {"npc": "Ada", "en_text": "Hello", "en_func_id": "0401", "en_offset_key": "0", "en_segment": 0}
+    ]), encoding="utf-8")
+    roles = {
+        role_key("0401", "0", "0"): {"source_en": "@Hello@", "text_zh": ""}
+    }
+    designs = {"u6_ada": {"npc": "Ada", "ref_en_text": "Ada reference"}}
+
+    first = build_clone_jobs(
+        mapping, designs, refs, tmp_path / "out", {}, role_sources=roles, reference_routes={}
+    )[0]
+    first.output.parent.mkdir(parents=True)
+    first.output.write_bytes(b"clone")
+    first.output.with_suffix(".json").write_text(json.dumps({
+        **generator._completion_expected(first), "duration_seconds": 1.0,
+    }), encoding="utf-8")
+    reference.write_bytes(b"replacement reference")
+    replacement = build_clone_jobs(
+        mapping, designs, refs, tmp_path / "out", {}, role_sources=roles, reference_routes={}
+    )[0]
+
+    assert first.reference_sha256 != replacement.reference_sha256
+    assert first.reference_revision != replacement.reference_revision
+    assert generator._job_seed(first) != generator._job_seed(replacement)
+    assert not generator._complete(first.output, replacement)

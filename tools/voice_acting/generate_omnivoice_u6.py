@@ -94,6 +94,7 @@ class VoicePart:
     reference_path: Path
     reference_text: str
     reference_id: str
+    reference_sha256: str = ""
 
     def record(self) -> dict[str, str]:
         return {
@@ -102,6 +103,7 @@ class VoicePart:
             "reference_path": str(self.reference_path),
             "reference_text": self.reference_text,
             "reference_id": self.reference_id,
+            "reference_sha256": self.reference_sha256,
         }
 
 
@@ -121,6 +123,7 @@ class CloneJob:
     override_revision: str | None = None
     reference_role: str | None = None
     reference_revision: str | None = None
+    reference_sha256: str = ""
     voice_parts: tuple[VoicePart, ...] = field(default_factory=tuple)
     avatar_gender: str | None = None
     variant: str | None = None
@@ -197,23 +200,6 @@ def _marker_role_parts(text: str) -> list[tuple[str, str]]:
     return parts
 
 
-def _quoted_role_parts(text: str) -> list[tuple[str, str]]:
-    parts: list[tuple[str, str]] = []
-    cursor = 0
-    for quote in re.finditer(r"「([^「」]*)」", text):
-        narrator = _clean_voice_part(text[cursor:quote.start()])
-        speaker = _clean_voice_part(quote.group(1))
-        if narrator:
-            parts.append(("narrator", narrator))
-        if speaker:
-            parts.append(("speaker", speaker))
-        cursor = quote.end()
-    narrator = _clean_voice_part(text[cursor:])
-    if narrator:
-        parts.append(("narrator", narrator))
-    return parts
-
-
 def parse_role_parts(source_en: str, translated_text: str, lang: str) -> list[tuple[str, str]]:
     """Split dialogue by English-authoritative speaker markers for one language."""
     if lang not in LANGUAGE_NAMES:
@@ -226,14 +212,8 @@ def parse_role_parts(source_en: str, translated_text: str, lang: str) -> list[tu
         return [("narrator", text)] if text else []
     if re.search(r"@[^@]*@", translated_text):
         return _marker_role_parts(translated_text)
-    if "「" in translated_text and "」" in translated_text:
-        return _quoted_role_parts(translated_text)
-    english_parts = _marker_role_parts(source_en)
-    if len(english_parts) == 1 and english_parts[0][0] == "speaker":
-        text = _clean_voice_part(translated_text)
-        return [("speaker", text)] if text else []
     text = _clean_voice_part(translated_text)
-    return [("narrator", text)] if text else []
+    return [("speaker", text)] if text else []
 
 
 def sha256_file(path: Path) -> str:
@@ -328,11 +308,12 @@ def _design_gender(design: dict[str, Any]) -> str:
 
 
 def _reference_from_override(override: dict[str, Any], fallback_id: str) -> dict[str, Any]:
+    path = Path(override["path"])
     return {
-        "path": Path(override["path"]),
+        "path": path,
         "ref_text": str(override.get("ref_text") or "").strip(),
         "reference_id": str(override.get("reference_id") or override.get("design_id") or fallback_id),
-        "sha256": str(override.get("sha256") or ""),
+        "sha256": sha256_file(path) if path.is_file() else str(override.get("sha256") or ""),
     }
 
 
@@ -368,7 +349,9 @@ def _narrator_reference(
 
 
 def _avatar_filename(entry: dict[str, Any], lang: str, gender: str) -> str:
-    filename = _mapping_filename(entry, lang)
+    filename = str(entry.get(f"{lang}_output_filename") or "").strip()
+    if not filename:
+        return f"{_runtime_output_stem(entry, lang)}_avatar_{gender}.ogg"
     stem = filename[:-4] if filename.lower().endswith(".ogg") else filename
     return f"{stem}_avatar_{gender}.ogg"
 
@@ -500,10 +483,34 @@ def _mapping_filename(entry: dict[str, Any], lang: str) -> str:
     value = str(entry.get(f"{lang}_output_filename") or "").strip()
     if value:
         return value
+    return f"{_runtime_output_stem(entry, lang)}_0.ogg"
+
+
+def _runtime_output_stem(entry: dict[str, Any], lang: str) -> str:
     fid = str(entry.get(f"{lang}_func_id") or "0000").lower().removeprefix("0x").zfill(4)
     offset = str(entry.get(f"{lang}_offset_key") or "0")
     segment = entry.get(f"{lang}_segment", 0) or 0
-    return f"{fid}_{offset}_{segment}_0.ogg"
+    return f"{fid}_{offset}_{segment}"
+
+
+def _reference_sha256(reference: dict[str, Any]) -> str:
+    path = Path(reference["path"])
+    return sha256_file(path) if path.is_file() else str(reference.get("sha256") or "")
+
+
+def _reference_revision(parts: list[VoicePart]) -> str:
+    identity = [
+        {
+            "role": part.role,
+            "reference_id": part.reference_id,
+            "reference_sha256": part.reference_sha256,
+        }
+        for part in parts
+    ]
+    digest = hashlib.sha256(
+        json.dumps(identity, ensure_ascii=False, sort_keys=True).encode("utf-8")
+    ).hexdigest()
+    return f"{ROUTED_REFERENCE_REVISION}:{digest}"
 
 
 def build_clone_jobs(
@@ -590,12 +597,14 @@ def build_clone_jobs(
                             reference_path=Path(part_reference["path"]),
                             reference_text=str(part_reference["ref_text"]),
                             reference_id=str(part_reference["reference_id"]),
+                            reference_sha256=_reference_sha256(part_reference),
                         ))
                     ref = {
                         "path": routed_parts[0].reference_path,
                         "ref_text": routed_parts[0].reference_text,
                     }
-                    reference_revision = ROUTED_REFERENCE_REVISION
+                    reference_revision = _reference_revision(routed_parts)
+                    reference_sha256 = routed_parts[0].reference_sha256
                     if len(routed_parts) > 1:
                         voice_parts = tuple(routed_parts)
                         reference_role = "mixed"
@@ -621,6 +630,7 @@ def build_clone_jobs(
                     override_revision=generation_overrides.revision if affected else None,
                     reference_role=reference_role,
                     reference_revision=reference_revision,
+                    reference_sha256=reference_sha256 if routed else "",
                     voice_parts=voice_parts,
                     avatar_gender=avatar_gender,
                     variant=f"avatar_{avatar_gender}" if avatar_gender else None,
@@ -681,6 +691,7 @@ def _job_seed(job: ReferenceJob | CloneJob) -> int:
         routing_identity = json.dumps({
             "reference_role": job.reference_role,
             "reference_revision": job.reference_revision,
+            "reference_sha256": job.reference_sha256,
             "voice_parts": [part.record() for part in job.voice_parts],
             "avatar_gender": job.avatar_gender,
             "variant": job.variant,
@@ -713,6 +724,7 @@ def _completion_expected(job: ReferenceJob | CloneJob) -> dict[str, Any]:
         expected.update({
             "reference_role": job.reference_role,
             "reference_revision": job.reference_revision,
+            "reference_sha256": job.reference_sha256,
             "voice_parts": [part.record() for part in job.voice_parts],
             "avatar_gender": job.avatar_gender,
             "variant": job.variant,
@@ -1207,6 +1219,7 @@ def _publish_clone(
         metadata.update({
             "reference_role": job.reference_role,
             "reference_revision": job.reference_revision,
+            "reference_sha256": job.reference_sha256,
             "voice_parts": [part.record() for part in job.voice_parts],
             "avatar_gender": job.avatar_gender,
             "variant": job.variant,
@@ -1356,6 +1369,7 @@ def write_manifest(args: argparse.Namespace, refs: list[ReferenceJob], clones: l
             "ref_text": job.ref_text,
             "reference_role": job.reference_role,
             "reference_revision": job.reference_revision,
+            "reference_sha256": job.reference_sha256,
             "voice_parts": [part.record() for part in job.voice_parts],
             "avatar_gender": job.avatar_gender,
             "variant": job.variant,
