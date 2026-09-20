@@ -492,6 +492,72 @@ def test_reference_records_mark_stale_affected_audio_missing(tmp_path):
     assert generator._reference_records([job])[0]["status"] == "missing"
 
 
+@pytest.mark.parametrize(
+    ("audio_exists", "metadata_revision", "expected_status"),
+    [
+        (True, "u6-omnivoice-overrides-v1", "generated"),
+        (True, "old-revision", "missing"),
+        (False, "u6-omnivoice-overrides-v1", "missing"),
+    ],
+)
+def test_manifest_clone_status_uses_revision_aware_completion(
+    tmp_path,
+    audio_exists,
+    metadata_revision,
+    expected_status,
+):
+    audio = tmp_path / "line.ogg"
+    if audio_exists:
+        audio.write_bytes(b"ogg")
+    audio.with_suffix(".json").write_text(
+        json.dumps(
+            {
+                "status": "generated",
+                "duration_seconds": 1.0,
+                "design_id": "snake",
+                "lang": "zh",
+                "text": "馴蛇者",
+                "tts_text": "XUN4蛇者",
+                "override_revision": metadata_revision,
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    job = CloneJob(
+        design_id="snake",
+        npc="Snakecharmer",
+        lang="zh",
+        text="馴蛇者",
+        ref_audio=tmp_path / "ref.ogg",
+        ref_text="參考",
+        output=audio,
+        func_id="04c1",
+        offset_key="447",
+        segment=0,
+        tts_text="XUN4蛇者",
+        override_revision="u6-omnivoice-overrides-v1",
+    )
+    manifest_path = tmp_path / "manifest.json"
+    args = type(
+        "Args",
+        (),
+        {
+            "model": "test-model",
+            "manifest_path": manifest_path,
+            "reference_review_dir": tmp_path / "reference_review",
+        },
+    )()
+
+    generator.write_manifest(args, [], [job])
+    record = json.loads(manifest_path.read_text(encoding="utf-8"))["clone_records"][0]
+
+    assert record["status"] == expected_status
+    assert record["text"] == "馴蛇者"
+    assert record["tts_text"] == "XUN4蛇者"
+    assert record["override_revision"] == "u6-omnivoice-overrides-v1"
+
+
 def test_job_seed_changes_with_tts_text_and_override_revision(tmp_path):
     base = dict(
         design_id="snake",

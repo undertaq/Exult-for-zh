@@ -909,7 +909,7 @@ def write_manifest(args: argparse.Namespace, refs: list[ReferenceJob], clones: l
             "ref_audio": str(job.ref_audio),
             "ref_text": job.ref_text,
             "output": str(job.output),
-            "status": metadata.get("status", "missing"),
+            "status": "generated" if _complete(job.output, job) else "missing",
             "metadata": metadata,
         })
     _write_json_atomic(args.manifest_path, {
