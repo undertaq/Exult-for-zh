@@ -688,14 +688,23 @@ def _job_tts_text(job: ReferenceJob | CloneJob) -> str:
 def _job_seed(job: ReferenceJob | CloneJob) -> int:
     routing_identity = ""
     if isinstance(job, CloneJob):
-        routing_identity = json.dumps({
+        routing_payload = {
             "reference_role": job.reference_role,
             "reference_revision": job.reference_revision,
-            "reference_sha256": job.reference_sha256,
             "voice_parts": [part.record() for part in job.voice_parts],
             "avatar_gender": job.avatar_gender,
             "variant": job.variant,
-        }, ensure_ascii=False, sort_keys=True)
+        }
+        if any((
+            job.reference_role,
+            job.reference_revision,
+            job.reference_sha256,
+            job.voice_parts,
+            job.avatar_gender,
+            job.variant,
+        )):
+            routing_payload["reference_sha256"] = job.reference_sha256
+        routing_identity = json.dumps(routing_payload, ensure_ascii=False, sort_keys=True)
     return stable_seed(
         job.design_id,
         job.npc,

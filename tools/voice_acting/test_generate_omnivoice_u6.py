@@ -685,6 +685,58 @@ def test_job_seed_changes_with_tts_text_and_override_revision(tmp_path):
     assert generator._job_seed(tts_changed) != generator._job_seed(revision_changed)
 
 
+def test_job_seed_preserves_legacy_payload_and_routes_reference_hash(tmp_path):
+    base = dict(
+        design_id="snake",
+        npc="Snakecharmer",
+        lang="zh",
+        text="馴蛇者",
+        ref_audio=tmp_path / "ref.ogg",
+        ref_text="參考",
+        output=tmp_path / "line.ogg",
+        func_id="04c1",
+        offset_key="447",
+        segment=0,
+        tts_text="馴蛇者",
+    )
+    job = CloneJob(**base)
+
+    historical_routing_identity = json.dumps({
+        "reference_role": None,
+        "reference_revision": None,
+        "voice_parts": [],
+        "avatar_gender": None,
+        "variant": None,
+    }, ensure_ascii=False, sort_keys=True)
+    historical_seed = generator.stable_seed(
+        job.design_id,
+        job.npc,
+        job.lang,
+        job.text,
+        generator._job_tts_text(job),
+        job.override_revision or "",
+        historical_routing_identity,
+        job.output,
+    )
+
+    assert generator._job_seed(job) == historical_seed
+
+    routed_a = CloneJob(
+        **base,
+        reference_role="speaker",
+        reference_revision=generator.ROUTED_REFERENCE_REVISION,
+        reference_sha256="a" * 64,
+    )
+    routed_b = CloneJob(
+        **base,
+        reference_role="speaker",
+        reference_revision=generator.ROUTED_REFERENCE_REVISION,
+        reference_sha256="b" * 64,
+    )
+
+    assert generator._job_seed(routed_a) != generator._job_seed(routed_b)
+
+
 def test_omnivoice_generation_uses_tts_text_without_changing_source(tmp_path, monkeypatch):
     class Model:
         sampling_rate = 24000
