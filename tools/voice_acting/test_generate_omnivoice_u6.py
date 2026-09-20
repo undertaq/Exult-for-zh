@@ -13,14 +13,107 @@ from tools.voice_acting.generate_omnivoice_u6 import (
     build_reference_jobs,
     chunked,
     fallback_texts,
+    load_role_manifest,
     omnivoice_instruction,
+    parse_role_parts,
     load_reference_overrides,
     parse_args,
+    role_key,
     select_target_jobs,
 )
 
 
 PROJECT = Path(__file__).resolve().parents[2]
+
+
+def test_role_manifest_loader_tolerates_malformed_rows_and_normalizes_keys(tmp_path):
+    manifest = tmp_path / "roles.jsonl"
+    manifest.write_text(
+        "\n".join(
+            [
+                json.dumps(
+                    {
+                        "function_id": 1025,
+                        "offset_key": " 0 ",
+                        "segment": 0,
+                        "source_en": "  @Hello, Avatar!@  ",
+                        "text_zh": "  @你好，聖者！@  ",
+                    },
+                    ensure_ascii=False,
+                ),
+                "{ this is not JSON }",
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    roles = load_role_manifest(manifest)
+
+    assert roles == {
+        ("0401", "0", "0"): {
+            "source_en": "@Hello, Avatar!@",
+            "text_zh": "@你好，聖者！@",
+        }
+    }
+    assert role_key("1025", " 0 ", "0") == ("0401", "0", "0")
+    assert role_key("0401", "0", "0") == ("0401", "0", "0")
+
+
+def test_default_role_manifest_covers_every_u6_mapping_key():
+    roles = load_role_manifest(generator.DEFAULT_ROLE_MANIFEST)
+    mapping = json.loads(generator.DEFAULT_MAPPING.read_text(encoding="utf-8"))
+    mapping_keys = {
+        role_key(
+            entry[f"{lang}_func_id"],
+            entry[f"{lang}_offset_key"],
+            entry.get(f"{lang}_segment", 0),
+        )
+        for entry in mapping
+        for lang in ("en", "zh")
+    }
+
+    assert len(roles) == len(mapping) == 10_543
+    assert set(roles) == mapping_keys
+
+
+@pytest.mark.parametrize(
+    ("source_en", "translated_text", "lang", "expected"),
+    [
+        ("@Hello, Avatar!@", "ignored", "en", [("speaker", "Hello, Avatar!")]),
+        ("He smiles.", "ignored", "en", [("narrator", "He smiles.")]),
+        (
+            "He smiles. @Hello!@ He waves.*",
+            "ignored",
+            "en",
+            [("narrator", "He smiles."), ("speaker", "Hello!"), ("narrator", "He waves.")],
+        ),
+        (
+            "他微笑。 @Hello!@ 他揮手。",
+            "他微笑。 @你好！@ 他揮手。",
+            "zh",
+            [("narrator", "他微笑。"), ("speaker", "你好！"), ("narrator", "他揮手。")],
+        ),
+        (
+            "He smiles. @Hello!@",
+            "他微笑。 「你好！」",
+            "zh",
+            [("narrator", "他微笑。"), ("speaker", "你好！")],
+        ),
+        (
+            "He smiles.",
+            "他微笑。 「你好！」*",
+            "zh",
+            [("narrator", "他微笑。 「你好！」")],
+        ),
+    ],
+)
+def test_parse_role_parts_uses_english_markers_as_role_authority(
+    source_en,
+    translated_text,
+    lang,
+    expected,
+):
+    assert parse_role_parts(source_en, translated_text, lang) == expected
 
 
 def _designs():

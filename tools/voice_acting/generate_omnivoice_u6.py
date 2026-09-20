@@ -33,6 +33,7 @@ PROJECT_DIR = Path(__file__).resolve().parents[2]
 SCRIPT_DIR = Path(__file__).resolve().parent
 DEFAULT_DESIGNS = PROJECT_DIR / "u6_voice" / "u6_npc_voice_designs.json"
 DEFAULT_MAPPING = PROJECT_DIR / "u6_voice" / "manifests" / "u6_qwen3_mapping.json"
+DEFAULT_ROLE_MANIFEST = PROJECT_DIR / "u6_voice" / "manifests" / "u6_voice_roles.jsonl"
 DEFAULT_U7_MANIFEST = SCRIPT_DIR / "reference_import_manifest.json"
 DEFAULT_OVERRIDES = PROJECT_DIR / "u6_voice" / "manifests" / "omnivoice_overrides.json"
 DEFAULT_REFS_DIR = PROJECT_DIR / "u6_voice" / "omnivoice_refs"
@@ -96,6 +97,112 @@ class CloneJob:
 
 def load_json(path: Path) -> Any:
     return json.loads(Path(path).read_text(encoding="utf-8"))
+
+
+def _normalize_role_text(value: str) -> str:
+    return re.sub(r"\s+", " ", value).strip()
+
+
+def role_key(function_id: str, offset_key: str, segment: str) -> tuple[str, str, str]:
+    """Return a stable U6 role-source key across numeric and hex manifests."""
+    function_text = str(function_id).strip().lower()
+    if function_text.startswith("0x"):
+        function_value = int(function_text, 16)
+    elif function_text.startswith("0") and len(function_text) == 4:
+        function_value = int(function_text, 16)
+    else:
+        function_value = int(function_text, 10)
+    offset_text = str(offset_key).strip().lower().removeprefix("0x")
+    offset_text = offset_text.lstrip("0") or "0"
+    return (f"{function_value:04x}", offset_text, str(int(str(segment).strip() or "0")))
+
+
+def load_role_manifest(path: Path) -> dict[tuple[str, str, str], dict[str, str]]:
+    """Load valid JSONL role sources, reporting malformed rows to stderr."""
+    result: dict[tuple[str, str, str], dict[str, str]] = {}
+    for line_number, line in enumerate(Path(path).read_text(encoding="utf-8").splitlines(), 1):
+        if not line.strip():
+            continue
+        try:
+            row = json.loads(line)
+            if not isinstance(row, dict):
+                raise ValueError("row is not an object")
+            source_en = row["source_en"]
+            text_zh = row["text_zh"]
+            if not isinstance(source_en, str) or not isinstance(text_zh, str):
+                raise ValueError("role text is not a string")
+            key = role_key(row["function_id"], row["offset_key"], row["segment"])
+        except (KeyError, TypeError, ValueError, json.JSONDecodeError) as error:
+            print(f"Skipping malformed role manifest row {line_number}: {error}", file=sys.stderr)
+            continue
+        result[key] = {
+            "source_en": _normalize_role_text(source_en),
+            "text_zh": _normalize_role_text(text_zh),
+        }
+    return result
+
+
+def _clean_voice_part(text: str) -> str:
+    normalized = _normalize_role_text(text).replace("@", "")
+    while normalized.endswith("*"):
+        normalized = normalized[:-1].rstrip()
+    return normalized
+
+
+def _marker_role_parts(text: str) -> list[tuple[str, str]]:
+    parts: list[tuple[str, str]] = []
+    cursor = 0
+    for marker in re.finditer(r"@([^@]*)@", text):
+        narrator = _clean_voice_part(text[cursor:marker.start()])
+        speaker = _clean_voice_part(marker.group(1))
+        if narrator:
+            parts.append(("narrator", narrator))
+        if speaker:
+            parts.append(("speaker", speaker))
+        cursor = marker.end()
+    narrator = _clean_voice_part(text[cursor:])
+    if narrator:
+        parts.append(("narrator", narrator))
+    return parts
+
+
+def _quoted_role_parts(text: str) -> list[tuple[str, str]]:
+    parts: list[tuple[str, str]] = []
+    cursor = 0
+    for quote in re.finditer(r"「([^「」]*)」", text):
+        narrator = _clean_voice_part(text[cursor:quote.start()])
+        speaker = _clean_voice_part(quote.group(1))
+        if narrator:
+            parts.append(("narrator", narrator))
+        if speaker:
+            parts.append(("speaker", speaker))
+        cursor = quote.end()
+    narrator = _clean_voice_part(text[cursor:])
+    if narrator:
+        parts.append(("narrator", narrator))
+    return parts
+
+
+def parse_role_parts(source_en: str, translated_text: str, lang: str) -> list[tuple[str, str]]:
+    """Split dialogue by English-authoritative speaker markers for one language."""
+    if lang not in LANGUAGE_NAMES:
+        raise ValueError(f"unsupported language: {lang}")
+    english_has_speaker = bool(re.search(r"@[^@]*@", source_en))
+    if lang == "en":
+        return _marker_role_parts(source_en) if english_has_speaker else [("narrator", _clean_voice_part(source_en))]
+    if not english_has_speaker:
+        text = _clean_voice_part(translated_text)
+        return [("narrator", text)] if text else []
+    if re.search(r"@[^@]*@", translated_text):
+        return _marker_role_parts(translated_text)
+    if "「" in translated_text and "」" in translated_text:
+        return _quoted_role_parts(translated_text)
+    english_parts = _marker_role_parts(source_en)
+    if len(english_parts) == 1 and english_parts[0][0] == "speaker":
+        text = _clean_voice_part(translated_text)
+        return [("speaker", text)] if text else []
+    text = _clean_voice_part(translated_text)
+    return [("narrator", text)] if text else []
 
 
 def sha256_file(path: Path) -> str:
@@ -281,6 +388,7 @@ def build_clone_jobs(
     output_dir: Path,
     overrides: dict[tuple[str, str], dict[str, Any]],
     generation_overrides: OmniVoiceOverrides | None = None,
+    role_sources: dict[tuple[str, str, str], dict[str, str]] | None = None,
 ) -> list[CloneJob]:
     by_npc = _designs_by_npc(designs)
     jobs: list[CloneJob] = []
@@ -1028,6 +1136,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--model", default=MODEL_ID)
     parser.add_argument("--designs", type=Path, default=DEFAULT_DESIGNS)
     parser.add_argument("--mapping", type=Path, default=DEFAULT_MAPPING)
+    parser.add_argument("--role-manifest", type=Path, default=DEFAULT_ROLE_MANIFEST)
     parser.add_argument("--u7-manifest", type=Path, default=DEFAULT_U7_MANIFEST)
     parser.add_argument("--overrides", type=Path, default=DEFAULT_OVERRIDES)
     parser.add_argument("--refs-dir", type=Path, default=DEFAULT_REFS_DIR)
@@ -1079,6 +1188,7 @@ def main() -> int:
     designs = load_json(args.designs).get("designs", {})
     overrides = load_reference_overrides(args.u7_manifest)
     generation_overrides = load_omnivoice_overrides(args.overrides)
+    role_sources = load_role_manifest(args.role_manifest)
     refs = build_reference_jobs(designs, args.refs_dir, overrides, generation_overrides)
     clones = build_clone_jobs(
         args.mapping,
@@ -1087,6 +1197,7 @@ def main() -> int:
         args.output_dir,
         overrides,
         generation_overrides,
+        role_sources,
     )
     print(f"U6 designs={len(designs)} refs={len(refs)} clones={len(clones)}", flush=True)
 
