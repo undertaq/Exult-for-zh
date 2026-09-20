@@ -206,6 +206,8 @@ def rows_from_full_voice(voice_dir, mapping_path, since_mtime=0, only_new=False)
         if lang_dir.exists():
             disk_files[lang] = set()
             for p in lang_dir.glob("*.ogg"):
+                if p.name.startswith("."):
+                    continue
                 disk_files[lang].add(p.name)
                 disk_mtimes[(lang, p.name)] = int(p.stat().st_mtime)
 
@@ -269,6 +271,8 @@ def rows_from_full_voice(voice_dir, mapping_path, since_mtime=0, only_new=False)
         if not lang_dir.exists():
             continue
         for path in sorted(lang_dir.glob("*.ogg")):
+            if path.name.startswith("."):
+                continue
             if (lang, path.name) in seen:
                 continue
             mtime = int(path.stat().st_mtime)

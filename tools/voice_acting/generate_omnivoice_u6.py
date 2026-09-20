@@ -45,21 +45,21 @@ LANGUAGE_NAMES = {"en": "English", "zh": "Chinese"}
 # Task 3 can replace or extend these values with a revisioned manifest at the
 # omnivoice_instruction() call boundary without changing pitch heuristics.
 DESIGN_INSTRUCTION_OVERRIDES = {
-    "u6_aaron_324a17d2": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
-    "u6_amanda_161b5245": {"en": "female, moderate pitch, American accent", "zh": "女, 中音調"},
-    "u6_arty_762c615c": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
-    "u6_budo_4b6e65fd": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
-    "u6_dezana_6642c6a6": {"en": "female, moderate pitch, American accent", "zh": "女, 中音調"},
-    "u6_dunbar_d41e3d0c": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
-    "u6_kenneth_ca70c45c": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
-    "u6_leonna_c563a3bc": {"en": "female, moderate pitch, American accent", "zh": "女, 中音調"},
-    "u6_marney_b33f933c": {"en": "female, low pitch, American accent", "zh": "女, 低音調"},
-    "u6_sandy_e42e5767": {"en": "male, low pitch, American accent", "zh": "男, 低音調"},
-    "u6_shawn_66e52fa9": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
-    "u6_timothy_f787b4f6": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
-    "u6_trenton_bell_50adc94b": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
-    "u6_wilbur_63606e9b": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
-    "u6_zoltan_5aadd2f1": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
+    "u6_aaron_324a17d2": {"en": "male, moderate pitch, American accent", "zh": "男, 中音调"},
+    "u6_amanda_161b5245": {"en": "female, moderate pitch, American accent", "zh": "女, 中音调"},
+    "u6_arty_762c615c": {"en": "male, moderate pitch, American accent", "zh": "男, 中音调"},
+    "u6_budo_4b6e65fd": {"en": "male, moderate pitch, American accent", "zh": "男, 中音调"},
+    "u6_dezana_6642c6a6": {"en": "female, moderate pitch, American accent", "zh": "女, 中音调"},
+    "u6_dunbar_d41e3d0c": {"en": "male, moderate pitch, American accent", "zh": "男, 中音调"},
+    "u6_kenneth_ca70c45c": {"en": "male, moderate pitch, American accent", "zh": "男, 中音调"},
+    "u6_leonna_c563a3bc": {"en": "female, moderate pitch, American accent", "zh": "女, 中音调"},
+    "u6_marney_b33f933c": {"en": "female, low pitch, American accent", "zh": "女, 低音调"},
+    "u6_sandy_e42e5767": {"en": "male, low pitch, American accent", "zh": "男, 低音调"},
+    "u6_shawn_66e52fa9": {"en": "male, moderate pitch, American accent", "zh": "男, 中音调"},
+    "u6_timothy_f787b4f6": {"en": "male, moderate pitch, American accent", "zh": "男, 中音调"},
+    "u6_trenton_bell_50adc94b": {"en": "male, moderate pitch, American accent", "zh": "男, 中音调"},
+    "u6_wilbur_63606e9b": {"en": "male, moderate pitch, American accent", "zh": "男, 中音调"},
+    "u6_zoltan_5aadd2f1": {"en": "male, moderate pitch, American accent", "zh": "男, 中音调"},
 }
 
 
@@ -156,10 +156,10 @@ def _pitch_tag(design: dict[str, Any], lang: str) -> str:
         value = "moderate pitch"
     if lang == "zh":
         return {
-            "very low pitch": "極低音調",
-            "low pitch": "低音調",
-            "moderate pitch": "中音調",
-            "high pitch": "高音調",
+            "very low pitch": "极低音调",
+            "low pitch": "低音调",
+            "moderate pitch": "中音调",
+            "high pitch": "高音调",
         }[value]
     return value
 
@@ -430,6 +430,98 @@ def _complete(
         and all(
         metadata.get(key) == value for key, value in expected.items()
         )
+    )
+
+
+def _normalize_target(value: object) -> str:
+    return str(value).strip().replace("\\", "/").lower()
+
+
+def _target_values(values: list[str] | None) -> set[str]:
+    result = set()
+    for value in values or []:
+        result.update(
+            _normalize_target(part)
+            for part in str(value).split(",")
+            if part.strip()
+        )
+    return result
+
+
+def _job_output_keys(job: ReferenceJob | CloneJob) -> set[str]:
+    path = job.output
+    keys = {
+        path.name,
+        path.stem,
+        path.as_posix(),
+        f"{job.lang}/{path.name}",
+        f"{job.lang}/{path.stem}",
+    }
+    try:
+        keys.add(path.relative_to(PROJECT_DIR).as_posix())
+    except ValueError:
+        pass
+    if isinstance(job, ReferenceJob):
+        keys.update({
+            f"{job.design_id}:{job.lang}",
+            f"{job.design_id}_{job.lang}_ref",
+            f"{job.design_id}_{job.lang}_ref.ogg",
+        })
+    else:
+        output_key = f"{job.func_id}_{job.offset_key}_{job.segment}"
+        keys.update({
+            output_key,
+            f"{output_key}.ogg",
+            f"{job.lang}/{output_key}",
+            f"{job.lang}/{output_key}.ogg",
+            f"{job.func_id}:{job.offset_key}:{job.segment}",
+        })
+    return {_normalize_target(key) for key in keys}
+
+
+def _job_is_stale(job: ReferenceJob | CloneJob) -> bool:
+    if isinstance(job, ReferenceJob) and job.source == "u7":
+        return not (job.ref_audio and job.ref_audio.is_file())
+    return not _complete(job.output, job)
+
+
+def select_target_jobs(
+    jobs: list[ReferenceJob | CloneJob],
+    *,
+    npcs: list[str] | None = None,
+    design_ids: list[str] | None = None,
+    output_keys: list[str] | None = None,
+    lang: str = "both",
+    stale_only: bool = False,
+) -> list[ReferenceJob | CloneJob]:
+    """Select only requested jobs, optionally limiting the result to stale work."""
+    if lang not in (*LANGUAGE_NAMES, "both"):
+        raise ValueError(f"unsupported language selector: {lang}")
+    npc_targets = _target_values(npcs)
+    design_targets = _target_values(design_ids)
+    output_targets = _target_values(output_keys)
+    has_targets = bool(npc_targets or design_targets or output_targets)
+    selected = []
+    for job in jobs:
+        if lang != "both" and job.lang != lang:
+            continue
+        matches_target = (
+            not has_targets
+            or _normalize_target(job.npc) in npc_targets
+            or _normalize_target(job.design_id) in design_targets
+            or bool(_job_output_keys(job) & output_targets)
+        )
+        if matches_target and (not stale_only or _job_is_stale(job)):
+            selected.append(job)
+    return selected
+
+
+def _print_target_counts(label: str, jobs: list[ReferenceJob | CloneJob]) -> None:
+    stale = sum(_job_is_stale(job) for job in jobs)
+    complete = len(jobs) - stale
+    print(
+        f"Target {label}: {len(jobs)} matched; {stale} stale; {complete} already complete",
+        flush=True,
     )
 
 
@@ -773,7 +865,12 @@ def _publish_clone(
     })
 
 
-def process_references(args: argparse.Namespace, all_jobs: list[ReferenceJob]) -> None:
+def process_references(
+    args: argparse.Namespace,
+    all_jobs: list[ReferenceJob],
+    review_jobs: list[ReferenceJob] | None = None,
+) -> None:
+    review_jobs = review_jobs or all_jobs
     jobs = _worker_jobs(all_jobs, args.worker_index, args.worker_count)
     generated_jobs = [job for job in jobs if job.source == "omnivoice_design"]
     print(
@@ -781,7 +878,6 @@ def process_references(args: argparse.Namespace, all_jobs: list[ReferenceJob]) -
         f"{len(generated_jobs)} OmniVoice designs, {len(jobs) - len(generated_jobs)} U7 reuses",
         flush=True,
     )
-    model = load_model(args.gpu, args.model) if generated_jobs else None
     pending = []
     for index, job in enumerate(jobs, 1):
         if job.source == "u7":
@@ -791,6 +887,7 @@ def process_references(args: argparse.Namespace, all_jobs: list[ReferenceJob]) -
             print(f"[ref {index}/{len(jobs)}] resume {job.npc} {job.lang}", flush=True)
             continue
         pending.append(job)
+    model = load_model(args.gpu, args.model) if pending else None
     for batch_index, batch in enumerate(chunked(pending, args.batch_size), 1):
         try:
             results = _audio_batch_from_model(model, batch)
@@ -828,20 +925,18 @@ def process_references(args: argparse.Namespace, all_jobs: list[ReferenceJob]) -
             except Exception as error:
                 print(f"[ref] ERROR writing {job.npc} {job.lang}: {error}", flush=True)
         if args.worker_index == 0 and time.time() - args.last_review >= args.review_interval:
-            write_reference_review(all_jobs, args.reference_review_dir)
+            write_reference_review(review_jobs, args.reference_review_dir)
             args.last_review = time.time()
     # Every worker refreshes on exit.  With split workers, the last worker to
     # finish publishes the complete reference tree rather than leaving a
     # stale page from whichever language happened to finish first.
-    write_reference_review(all_jobs, args.reference_review_dir)
+    write_reference_review(review_jobs, args.reference_review_dir)
 
 
 def process_voice(args: argparse.Namespace, all_jobs: list[CloneJob]) -> None:
     selected = [job for job in all_jobs if args.lang == "both" or job.lang == args.lang]
     jobs = _worker_jobs(selected, args.worker_index, args.worker_count)
     print(f"Voice worker {args.worker_index}/{args.worker_count}: {len(jobs)} assigned", flush=True)
-    model = load_model(args.gpu, args.model)
-    prompt_cache: dict[str, Any] = {}
     pending = []
     for index, job in enumerate(jobs, 1):
         if _complete(job.output, job):
@@ -851,6 +946,8 @@ def process_voice(args: argparse.Namespace, all_jobs: list[CloneJob]) -> None:
             print(f"[voice {index}/{len(jobs)}] ERROR missing ref {job.ref_audio}", flush=True)
             continue
         pending.append(job)
+    model = load_model(args.gpu, args.model) if pending else None
+    prompt_cache: dict[str, Any] = {}
     for batch_index, batch in enumerate(chunked(pending, args.batch_size), 1):
         try:
             results = _audio_batch_from_model(model, batch, prompt_cache)
@@ -940,6 +1037,38 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--manifest-path", type=Path, default=PROJECT_DIR / "u6_voice" / "omnivoice_manifest.json")
     parser.add_argument("--batch-size", type=int, default=4, help="OmniVoice inference batch size; falls back to single jobs on failure")
     parser.add_argument("--review-interval", type=float, default=120.0)
+    parser.add_argument(
+        "--npc-id",
+        "--npc",
+        dest="target_npcs",
+        action="append",
+        default=[],
+        help="Target an NPC name; repeat or comma-separate values",
+    )
+    parser.add_argument(
+        "--design-id",
+        dest="target_design_ids",
+        action="append",
+        default=[],
+        help="Target a voice-design ID; repeat or comma-separate values",
+    )
+    parser.add_argument(
+        "--output-key",
+        dest="target_output_keys",
+        action="append",
+        default=[],
+        help="Target an output filename/key; repeat or comma-separate values",
+    )
+    parser.add_argument(
+        "--stale-only",
+        action="store_true",
+        help="Exclude selected jobs whose current audio and metadata are complete",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Report selected and stale job counts without loading the model or writing audio",
+    )
     args = parser.parse_args()
     args.last_review = 0.0
     return args
@@ -961,10 +1090,31 @@ def main() -> int:
     )
     print(f"U6 designs={len(designs)} refs={len(refs)} clones={len(clones)}", flush=True)
 
+    selected_refs = select_target_jobs(
+        refs,
+        npcs=args.target_npcs,
+        design_ids=args.target_design_ids,
+        output_keys=args.target_output_keys,
+        lang=args.lang,
+        stale_only=args.stale_only,
+    )
+    selected_clones = select_target_jobs(
+        clones,
+        npcs=args.target_npcs,
+        design_ids=args.target_design_ids,
+        output_keys=args.target_output_keys,
+        lang=args.lang,
+        stale_only=args.stale_only,
+    )
+    _print_target_counts("references", selected_refs)
+    _print_target_counts("clones", selected_clones)
+    if args.dry_run:
+        return 0
+
     if args.phase in {"refs", "all"}:
-        process_references(args, refs)
+        process_references(args, selected_refs, refs)
     if args.phase in {"voice", "all"}:
-        process_voice(args, clones)
+        process_voice(args, selected_clones)
     if args.phase == "finalize":
         write_reference_review(refs, args.reference_review_dir)
         write_clone_review(args.output_dir, args.mapping, args.review_dir, "U6 OmniVoice Clone Review")

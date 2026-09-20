@@ -15,6 +15,8 @@ from tools.voice_acting.generate_omnivoice_u6 import (
     fallback_texts,
     omnivoice_instruction,
     load_reference_overrides,
+    parse_args,
+    select_target_jobs,
 )
 
 
@@ -38,7 +40,7 @@ def test_instruction_uses_omnivoice_language_specific_tags():
     assert omnivoice_instruction(design, "en") == (
         "female, young adult, high pitch, American accent"
     )
-    assert omnivoice_instruction(design, "zh") == "女, 青年, 高音調"
+    assert omnivoice_instruction(design, "zh") == "女, 青年, 高音调"
 
 
 @pytest.mark.parametrize(
@@ -55,27 +57,27 @@ def test_adult_emotion_description_does_not_imply_high_pitch(description):
     }
 
     assert omnivoice_instruction(design, "en") == "male, moderate pitch, American accent"
-    assert omnivoice_instruction(design, "zh") == "男, 中音調"
+    assert omnivoice_instruction(design, "zh") == "男, 中音调"
 
 
 @pytest.mark.parametrize(
     ("design_id", "expected_en", "expected_zh"),
     [
-        ("u6_aaron_324a17d2", "male, moderate pitch, American accent", "男, 中音調"),
-        ("u6_amanda_161b5245", "female, moderate pitch, American accent", "女, 中音調"),
-        ("u6_arty_762c615c", "male, moderate pitch, American accent", "男, 中音調"),
-        ("u6_budo_4b6e65fd", "male, moderate pitch, American accent", "男, 中音調"),
-        ("u6_dezana_6642c6a6", "female, moderate pitch, American accent", "女, 中音調"),
-        ("u6_dunbar_d41e3d0c", "male, moderate pitch, American accent", "男, 中音調"),
-        ("u6_kenneth_ca70c45c", "male, moderate pitch, American accent", "男, 中音調"),
-        ("u6_leonna_c563a3bc", "female, moderate pitch, American accent", "女, 中音調"),
-        ("u6_marney_b33f933c", "female, low pitch, American accent", "女, 低音調"),
-        ("u6_sandy_e42e5767", "male, low pitch, American accent", "男, 低音調"),
-        ("u6_shawn_66e52fa9", "male, moderate pitch, American accent", "男, 中音調"),
-        ("u6_timothy_f787b4f6", "male, moderate pitch, American accent", "男, 中音調"),
-        ("u6_trenton_bell_50adc94b", "male, moderate pitch, American accent", "男, 中音調"),
-        ("u6_wilbur_63606e9b", "male, moderate pitch, American accent", "男, 中音調"),
-        ("u6_zoltan_5aadd2f1", "male, moderate pitch, American accent", "男, 中音調"),
+        ("u6_aaron_324a17d2", "male, moderate pitch, American accent", "男, 中音调"),
+        ("u6_amanda_161b5245", "female, moderate pitch, American accent", "女, 中音调"),
+        ("u6_arty_762c615c", "male, moderate pitch, American accent", "男, 中音调"),
+        ("u6_budo_4b6e65fd", "male, moderate pitch, American accent", "男, 中音调"),
+        ("u6_dezana_6642c6a6", "female, moderate pitch, American accent", "女, 中音调"),
+        ("u6_dunbar_d41e3d0c", "male, moderate pitch, American accent", "男, 中音调"),
+        ("u6_kenneth_ca70c45c", "male, moderate pitch, American accent", "男, 中音调"),
+        ("u6_leonna_c563a3bc", "female, moderate pitch, American accent", "女, 中音调"),
+        ("u6_marney_b33f933c", "female, low pitch, American accent", "女, 低音调"),
+        ("u6_sandy_e42e5767", "male, low pitch, American accent", "男, 低音调"),
+        ("u6_shawn_66e52fa9", "male, moderate pitch, American accent", "男, 中音调"),
+        ("u6_timothy_f787b4f6", "male, moderate pitch, American accent", "男, 中音调"),
+        ("u6_trenton_bell_50adc94b", "male, moderate pitch, American accent", "男, 中音调"),
+        ("u6_wilbur_63606e9b", "male, moderate pitch, American accent", "男, 中音调"),
+        ("u6_zoltan_5aadd2f1", "male, moderate pitch, American accent", "男, 中音调"),
     ],
 )
 def test_audited_design_overrides_take_precedence(design_id, expected_en, expected_zh):
@@ -102,7 +104,7 @@ def test_manifest_overrides_can_replace_the_audited_design_defaults():
         "zh",
         "u6_sandy_e42e5767",
         overrides,
-    ) == "男, 低音調"
+    ) == "男, 低音调"
 
 
 def test_age_and_non_human_pitch_rules_keep_their_precedence():
@@ -117,8 +119,8 @@ def test_age_and_non_human_pitch_rules_keep_their_precedence():
     }
 
     assert omnivoice_instruction(elderly, "en") == "female, elderly, low pitch, American accent"
-    assert omnivoice_instruction(elderly, "zh") == "女, 老年, 低音調"
-    assert omnivoice_instruction(non_human, "zh") == "極低音調"
+    assert omnivoice_instruction(elderly, "zh") == "女, 老年, 低音调"
+    assert omnivoice_instruction(non_human, "zh") == "极低音调"
     assert omnivoice_instruction(
         designs["u6_weaponsmith_7e98139a"], "en", "u6_weaponsmith_7e98139a"
     ) == "young adult, very low pitch, American accent"
@@ -182,7 +184,7 @@ def _override_manifest(tmp_path):
                 "voice_design": {
                     "u6_arty_762c615c": {
                         "en": "male, moderate pitch, American accent",
-                        "zh": "男, 中音調",
+                        "zh": "男, 中音调",
                     }
                 },
                 "pronunciation": [
@@ -266,7 +268,7 @@ def test_voice_design_override_preserves_u7_reference_reuse(tmp_path):
 
     assert by_lang["en"].source == "u7"
     assert by_lang["en"].override_revision is None
-    assert by_lang["zh"].instruct == "男, 中音調"
+    assert by_lang["zh"].instruct == "男, 中音调"
     assert by_lang["zh"].override_revision == "u6-omnivoice-overrides-v1"
 
 
@@ -274,21 +276,21 @@ def test_default_manifest_covers_all_task_2_design_corrections():
     overrides = generator.load_omnivoice_overrides(generator.DEFAULT_OVERRIDES)
 
     assert overrides.voice_design == {
-        "u6_aaron_324a17d2": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
-        "u6_amanda_161b5245": {"en": "female, moderate pitch, American accent", "zh": "女, 中音調"},
-        "u6_arty_762c615c": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
-        "u6_budo_4b6e65fd": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
-        "u6_dezana_6642c6a6": {"en": "female, moderate pitch, American accent", "zh": "女, 中音調"},
-        "u6_dunbar_d41e3d0c": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
-        "u6_kenneth_ca70c45c": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
-        "u6_leonna_c563a3bc": {"en": "female, moderate pitch, American accent", "zh": "女, 中音調"},
-        "u6_marney_b33f933c": {"en": "female, low pitch, American accent", "zh": "女, 低音調"},
-        "u6_sandy_e42e5767": {"en": "male, low pitch, American accent", "zh": "男, 低音調"},
-        "u6_shawn_66e52fa9": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
-        "u6_timothy_f787b4f6": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
-        "u6_trenton_bell_50adc94b": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
-        "u6_wilbur_63606e9b": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
-        "u6_zoltan_5aadd2f1": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
+        "u6_aaron_324a17d2": {"en": "male, moderate pitch, American accent", "zh": "男, 中音调"},
+        "u6_amanda_161b5245": {"en": "female, moderate pitch, American accent", "zh": "女, 中音调"},
+        "u6_arty_762c615c": {"en": "male, moderate pitch, American accent", "zh": "男, 中音调"},
+        "u6_budo_4b6e65fd": {"en": "male, moderate pitch, American accent", "zh": "男, 中音调"},
+        "u6_dezana_6642c6a6": {"en": "female, moderate pitch, American accent", "zh": "女, 中音调"},
+        "u6_dunbar_d41e3d0c": {"en": "male, moderate pitch, American accent", "zh": "男, 中音调"},
+        "u6_kenneth_ca70c45c": {"en": "male, moderate pitch, American accent", "zh": "男, 中音调"},
+        "u6_leonna_c563a3bc": {"en": "female, moderate pitch, American accent", "zh": "女, 中音调"},
+        "u6_marney_b33f933c": {"en": "female, low pitch, American accent", "zh": "女, 低音调"},
+        "u6_sandy_e42e5767": {"en": "male, low pitch, American accent", "zh": "男, 低音调"},
+        "u6_shawn_66e52fa9": {"en": "male, moderate pitch, American accent", "zh": "男, 中音调"},
+        "u6_timothy_f787b4f6": {"en": "male, moderate pitch, American accent", "zh": "男, 中音调"},
+        "u6_trenton_bell_50adc94b": {"en": "male, moderate pitch, American accent", "zh": "男, 中音调"},
+        "u6_wilbur_63606e9b": {"en": "male, moderate pitch, American accent", "zh": "男, 中音调"},
+        "u6_zoltan_5aadd2f1": {"en": "male, moderate pitch, American accent", "zh": "男, 中音调"},
     }
 
 
@@ -318,7 +320,7 @@ def test_non_arty_generated_design_jobs_receive_current_revision():
     aaron_clones = [job for job in clones if job.design_id == "u6_aaron_324a17d2"]
     assert {job.instruct for job in aaron_refs} == {
         "male, moderate pitch, American accent",
-        "男, 中音調",
+        "男, 中音调",
     }
     assert aaron_refs and all(job.override_revision == "u6-omnivoice-overrides-v1" for job in aaron_refs)
     assert aaron_clones and all(job.override_revision == "u6-omnivoice-overrides-v1" for job in aaron_clones)
@@ -597,7 +599,7 @@ def test_omnivoice_generation_uses_tts_text_without_changing_source(tmp_path, mo
         npc="Snakecharmer",
         lang="zh",
         text="馴蛇者",
-        instruct="男, 中音調",
+        instruct="男, 中音调",
         output=tmp_path / "ref.ogg",
         source="omnivoice_design",
         ref_audio=None,
@@ -619,3 +621,146 @@ def test_default_overrides_path_points_to_revisioned_manifest():
     assert generator.DEFAULT_OVERRIDES == (
         PROJECT / "u6_voice" / "manifests" / "omnivoice_overrides.json"
     )
+
+
+def _selection_clone(tmp_path, design_id, npc, output_name, revision=None):
+    return CloneJob(
+        design_id=design_id,
+        npc=npc,
+        lang="en",
+        text=f"{npc} line",
+        ref_audio=tmp_path / "ref.ogg",
+        ref_text="Reference",
+        output=tmp_path / "omnivoice" / "en" / output_name,
+        func_id="0401",
+        offset_key=output_name.split("_")[1],
+        segment=0,
+        tts_text=f"{npc} line",
+        override_revision=revision,
+    )
+
+
+def _write_selection_metadata(job, revision=None):
+    job.output.parent.mkdir(parents=True, exist_ok=True)
+    job.output.write_bytes(b"ogg")
+    metadata = {
+        "status": "generated",
+        "duration_seconds": 1.0,
+        "design_id": job.design_id,
+        "lang": job.lang,
+        "text": job.text,
+    }
+    if job.override_revision is not None:
+        metadata.update({
+            "tts_text": job.tts_text,
+            "override_revision": revision,
+        })
+    job.output.with_suffix(".json").write_text(
+        json.dumps(metadata, ensure_ascii=False), encoding="utf-8"
+    )
+
+
+def test_target_selection_matches_npc_design_or_output_key(tmp_path):
+    arty = _selection_clone(tmp_path, "u6_arty", "Arty", "arty_1_0.ogg")
+    iolo = _selection_clone(tmp_path, "u6_iolo", "Iolo", "iolo_2_0.ogg")
+    snake = _selection_clone(tmp_path, "u6_snake", "Snakecharmer", "snake_3_0.ogg")
+
+    selected = select_target_jobs(
+        [arty, iolo, snake],
+        npcs=["iolo"],
+        design_ids=["u6_arty"],
+        output_keys=["en/snake_3_0.ogg"],
+        lang="en",
+    )
+
+    assert selected == [arty, iolo, snake]
+
+
+def test_stale_only_preserves_current_completed_jobs(tmp_path):
+    stale = _selection_clone(
+        tmp_path,
+        "changed-design",
+        "Arty",
+        "stale_1_0.ogg",
+        revision="current-revision",
+    )
+    complete = _selection_clone(
+        tmp_path,
+        "changed-design",
+        "Arty",
+        "complete_2_0.ogg",
+        revision="current-revision",
+    )
+    unaffected = _selection_clone(tmp_path, "plain", "Iolo", "plain_3_0.ogg")
+    _write_selection_metadata(stale, revision="old-revision")
+    _write_selection_metadata(complete, revision="current-revision")
+    _write_selection_metadata(unaffected)
+
+    selected = select_target_jobs(
+        [stale, complete, unaffected],
+        design_ids=["changed-design"],
+        stale_only=True,
+        lang="en",
+    )
+
+    assert selected == [stale]
+    assert select_target_jobs(
+        [stale, complete, unaffected],
+        design_ids=["changed-design"],
+        lang="en",
+    ) == [stale, complete]
+
+
+def test_parse_args_accepts_repeatable_target_selectors(monkeypatch):
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "generate_omnivoice_u6.py",
+            "--npc-id",
+            "Arty",
+            "--npc-id",
+            "Iolo",
+            "--design-id",
+            "u6_arty",
+            "--output-key",
+            "en/arty_1_0.ogg",
+            "--stale-only",
+            "--dry-run",
+        ],
+    )
+
+    args = parse_args()
+
+    assert args.target_npcs == ["Arty", "Iolo"]
+    assert args.target_design_ids == ["u6_arty"]
+    assert args.target_output_keys == ["en/arty_1_0.ogg"]
+    assert args.stale_only is True
+    assert args.dry_run is True
+
+
+def test_dry_run_reports_target_counts_without_loading_model(monkeypatch, capsys):
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "generate_omnivoice_u6.py",
+            "--phase",
+            "all",
+            "--lang",
+            "en",
+            "--design-id",
+            "u6_arty_762c615c",
+            "--dry-run",
+        ],
+    )
+    monkeypatch.setattr(
+        generator,
+        "load_model",
+        lambda *_args, **_kwargs: pytest.fail("dry-run must not load OmniVoice"),
+    )
+
+    assert generator.main() == 0
+    output = capsys.readouterr().out
+    assert "Target references: 1 matched" in output
+    assert "Target clones:" in output

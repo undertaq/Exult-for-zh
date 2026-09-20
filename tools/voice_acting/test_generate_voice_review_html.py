@@ -110,6 +110,38 @@ class GenerateVoiceReviewHtmlTest(unittest.TestCase):
         self.assertTrue(all("npc277" not in k[1] for k in keys))
         self.assertTrue(any("npc1" in k[1] for k in keys))
 
+    def test_rows_from_full_voice_ignores_atomic_write_temp_audio(self):
+        module = load_script_module()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            (root / "en").mkdir()
+            (root / "zh").mkdir()
+            mapping_path = root / "mapping.json"
+            mapping_path.write_text(
+                json.dumps([
+                    {
+                        "npc": "Arty",
+                        "en_func_id": "0428",
+                        "en_offset_key": "0",
+                        "en_segment": 0,
+                        "en_text": "Hello.",
+                        "zh_func_id": "0428",
+                        "zh_offset_key": "0",
+                        "zh_segment": 0,
+                        "zh_text": "你好。",
+                    }
+                ], ensure_ascii=False),
+                encoding="utf-8",
+            )
+            (root / "en" / "0428_0_0.ogg").write_bytes(b"audio")
+            (root / "zh" / "0428_0_0.ogg").write_bytes(b"audio")
+            (root / "zh" / ".0428_1_0.abcdef.ogg").write_bytes(b"partial")
+
+            rows = module.rows_from_full_voice(root, mapping_path)
+
+        self.assertEqual({row["filename"] for row in rows}, {"0428_0_0.ogg"})
+
 
 if __name__ == "__main__":
     unittest.main()
