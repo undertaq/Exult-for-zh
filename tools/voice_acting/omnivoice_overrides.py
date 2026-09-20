@@ -10,7 +10,7 @@ from typing import Any
 
 
 SUPPORTED_LANGUAGES = {"en", "zh"}
-TONE_TOKEN_RE = re.compile(r"[A-Za-zÜüVv]+[0-9]*")
+TONE_TOKEN_RE = re.compile(r"[A-Za-z0-9ÜüVv]+")
 VALID_TONE_TOKEN_RE = re.compile(r"[A-ZÜV]+[1-5]")
 
 

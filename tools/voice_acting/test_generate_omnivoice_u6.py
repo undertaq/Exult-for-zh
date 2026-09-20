@@ -270,6 +270,90 @@ def test_voice_design_override_preserves_u7_reference_reuse(tmp_path):
     assert by_lang["zh"].override_revision == "u6-omnivoice-overrides-v1"
 
 
+def test_default_manifest_covers_all_task_2_design_corrections():
+    overrides = generator.load_omnivoice_overrides(generator.DEFAULT_OVERRIDES)
+
+    assert overrides.voice_design == {
+        "u6_aaron_324a17d2": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
+        "u6_amanda_161b5245": {"en": "female, moderate pitch, American accent", "zh": "女, 中音調"},
+        "u6_arty_762c615c": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
+        "u6_budo_4b6e65fd": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
+        "u6_dezana_6642c6a6": {"en": "female, moderate pitch, American accent", "zh": "女, 中音調"},
+        "u6_dunbar_d41e3d0c": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
+        "u6_kenneth_ca70c45c": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
+        "u6_leonna_c563a3bc": {"en": "female, moderate pitch, American accent", "zh": "女, 中音調"},
+        "u6_marney_b33f933c": {"en": "female, low pitch, American accent", "zh": "女, 低音調"},
+        "u6_sandy_e42e5767": {"en": "male, low pitch, American accent", "zh": "男, 低音調"},
+        "u6_shawn_66e52fa9": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
+        "u6_timothy_f787b4f6": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
+        "u6_trenton_bell_50adc94b": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
+        "u6_wilbur_63606e9b": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
+        "u6_zoltan_5aadd2f1": {"en": "male, moderate pitch, American accent", "zh": "男, 中音調"},
+    }
+
+
+def test_non_arty_generated_design_jobs_receive_current_revision():
+    designs = _designs()
+    u7 = load_reference_overrides(
+        PROJECT / "tools" / "voice_acting" / "reference_import_manifest.json"
+    )
+    overrides = generator.load_omnivoice_overrides(generator.DEFAULT_OVERRIDES)
+
+    refs = build_reference_jobs(
+        designs,
+        PROJECT / "u6_voice" / "omnivoice_refs",
+        u7,
+        overrides,
+    )
+    clones = build_clone_jobs(
+        PROJECT / "u6_voice" / "manifests" / "u6_qwen3_mapping.json",
+        designs,
+        PROJECT / "u6_voice" / "omnivoice_refs",
+        PROJECT / "u6_voice" / "omnivoice",
+        u7,
+        overrides,
+    )
+
+    aaron_refs = [job for job in refs if job.design_id == "u6_aaron_324a17d2"]
+    aaron_clones = [job for job in clones if job.design_id == "u6_aaron_324a17d2"]
+    assert {job.instruct for job in aaron_refs} == {
+        "male, moderate pitch, American accent",
+        "男, 中音調",
+    }
+    assert aaron_refs and all(job.override_revision == "u6-omnivoice-overrides-v1" for job in aaron_refs)
+    assert aaron_clones and all(job.override_revision == "u6-omnivoice-overrides-v1" for job in aaron_clones)
+
+
+@pytest.mark.parametrize("design_id", ["u6_amanda_161b5245", "u6_budo_4b6e65fd"])
+def test_u7_owned_design_jobs_are_not_affected_by_manifest_design_entry(design_id):
+    designs = _designs()
+    u7 = load_reference_overrides(
+        PROJECT / "tools" / "voice_acting" / "reference_import_manifest.json"
+    )
+    overrides = generator.load_omnivoice_overrides(generator.DEFAULT_OVERRIDES)
+    assert design_id in overrides.voice_design
+
+    refs = build_reference_jobs(
+        designs,
+        PROJECT / "u6_voice" / "omnivoice_refs",
+        u7,
+        overrides,
+    )
+    clones = build_clone_jobs(
+        PROJECT / "u6_voice" / "manifests" / "u6_qwen3_mapping.json",
+        designs,
+        PROJECT / "u6_voice" / "omnivoice_refs",
+        PROJECT / "u6_voice" / "omnivoice",
+        u7,
+        overrides,
+    )
+
+    owned_refs = [job for job in refs if job.design_id == design_id]
+    owned_clones = [job for job in clones if job.design_id == design_id]
+    assert owned_refs and all(job.source == "u7" and job.override_revision is None for job in owned_refs)
+    assert owned_clones and all(job.override_revision is None for job in owned_clones)
+
+
 def test_affected_job_metadata_and_completion_require_current_revision(tmp_path, monkeypatch):
     job = CloneJob(
         design_id="snake",
@@ -337,6 +421,75 @@ def test_unaffected_jobs_keep_legacy_completion_compatibility(tmp_path):
     )
 
     assert generator._complete(audio, job)
+
+
+def test_removed_override_rejects_metadata_with_old_revision(tmp_path):
+    audio = tmp_path / "line.ogg"
+    audio.write_bytes(b"ogg")
+    audio.with_suffix(".json").write_text(
+        json.dumps(
+            {
+                "status": "generated",
+                "duration_seconds": 1.0,
+                "design_id": "plain",
+                "lang": "zh",
+                "text": "原文",
+                "tts_text": "OLD3原文",
+                "override_revision": "old-revision",
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    job = CloneJob(
+        design_id="plain",
+        npc="Plain",
+        lang="zh",
+        text="原文",
+        ref_audio=tmp_path / "ref.ogg",
+        ref_text="參考",
+        output=audio,
+        func_id="1",
+        offset_key="2",
+        segment=0,
+        tts_text="原文",
+    )
+
+    assert not generator._complete(audio, job)
+
+
+def test_reference_records_mark_stale_affected_audio_missing(tmp_path):
+    audio = tmp_path / "ref.ogg"
+    audio.write_bytes(b"ogg")
+    audio.with_suffix(".json").write_text(
+        json.dumps(
+            {
+                "status": "generated",
+                "duration_seconds": 1.0,
+                "design_id": "u6_aaron_324a17d2",
+                "lang": "en",
+                "text": "Hello",
+                "tts_text": "Hello",
+                "override_revision": "old-revision",
+            }
+        ),
+        encoding="utf-8",
+    )
+    job = ReferenceJob(
+        design_id="u6_aaron_324a17d2",
+        npc="Aaron",
+        lang="en",
+        text="Hello",
+        instruct="male, moderate pitch, American accent",
+        output=audio,
+        source="omnivoice_design",
+        ref_audio=None,
+        ref_text="Hello",
+        tts_text="Hello",
+        override_revision="u6-omnivoice-overrides-v1",
+    )
+
+    assert generator._reference_records([job])[0]["status"] == "missing"
 
 
 def test_job_seed_changes_with_tts_text_and_override_revision(tmp_path):

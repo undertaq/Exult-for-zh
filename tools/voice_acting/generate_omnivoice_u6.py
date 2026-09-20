@@ -410,9 +410,16 @@ def _complete(
 ) -> bool:
     if not audio_path.is_file():
         return False
-    if isinstance(expected, (ReferenceJob, CloneJob)):
-        expected = _completion_expected(expected)
+    job = expected if isinstance(expected, (ReferenceJob, CloneJob)) else None
+    if job:
+        expected = _completion_expected(job)
     metadata = _read_metadata(audio_path)
+    if (
+        job
+        and job.override_revision is None
+        and metadata.get("override_revision") is not None
+    ):
+        return False
     try:
         duration = float(metadata.get("duration_seconds") or 0)
     except (TypeError, ValueError):
@@ -568,7 +575,7 @@ def _reference_records(jobs: list[ReferenceJob]) -> list[dict[str, Any]]:
         else:
             audio = job.output if job.output.exists() else None
             metadata = _read_metadata(job.output)
-            status = "generated" if metadata.get("status") == "generated" and audio else "missing"
+            status = "generated" if _complete(job.output, job) else "missing"
         records.append({
             "design_id": job.design_id,
             "npc": job.npc,
