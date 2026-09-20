@@ -16,10 +16,11 @@ import html
 import json
 import os
 import re
+import shutil
 import sys
 import tempfile
 import time
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
@@ -36,12 +37,19 @@ DEFAULT_MAPPING = PROJECT_DIR / "u6_voice" / "manifests" / "u6_qwen3_mapping.jso
 DEFAULT_ROLE_MANIFEST = PROJECT_DIR / "u6_voice" / "manifests" / "u6_voice_roles.jsonl"
 DEFAULT_U7_MANIFEST = SCRIPT_DIR / "reference_import_manifest.json"
 DEFAULT_OVERRIDES = PROJECT_DIR / "u6_voice" / "manifests" / "omnivoice_overrides.json"
-DEFAULT_REFS_DIR = PROJECT_DIR / "u6_voice" / "omnivoice_refs"
+DEFAULT_REFS_DIR = PROJECT_DIR / "u6_voice" / "refs"
 DEFAULT_OUTPUT_DIR = PROJECT_DIR / "u6_voice" / "omnivoice"
 DEFAULT_REVIEW_DIR = PROJECT_DIR / "u6_voice" / "omnivoice_review"
 DEFAULT_REFERENCE_REVIEW_DIR = PROJECT_DIR / "u6_voice" / "omnivoice_reference_review"
 MODEL_ID = "k2-fsa/OmniVoice"
 LANGUAGE_NAMES = {"en": "English", "zh": "Chinese"}
+ROUTED_REFERENCE_REVISION = "u6-omnivoice-role-routing-v1"
+SPECIAL_REFERENCE_IDS = frozenset({
+    "npc_avatar_female",
+    "npc_avatar_male",
+    "npc_unknown",
+    "npc_narrator_male",
+})
 
 # Task 3 can replace or extend these values with a revisioned manifest at the
 # omnivoice_instruction() call boundary without changing pitch heuristics.
@@ -80,6 +88,24 @@ class ReferenceJob:
 
 
 @dataclass(frozen=True)
+class VoicePart:
+    role: str
+    text: str
+    reference_path: Path
+    reference_text: str
+    reference_id: str
+
+    def record(self) -> dict[str, str]:
+        return {
+            "role": self.role,
+            "text": self.text,
+            "reference_path": str(self.reference_path),
+            "reference_text": self.reference_text,
+            "reference_id": self.reference_id,
+        }
+
+
+@dataclass(frozen=True)
 class CloneJob:
     design_id: str
     npc: str
@@ -93,6 +119,11 @@ class CloneJob:
     segment: int
     tts_text: str = ""
     override_revision: str | None = None
+    reference_role: str | None = None
+    reference_revision: str | None = None
+    voice_parts: tuple[VoicePart, ...] = field(default_factory=tuple)
+    avatar_gender: str | None = None
+    variant: str | None = None
 
 
 def load_json(path: Path) -> Any:
@@ -243,9 +274,103 @@ def load_reference_overrides(manifest_path: Path) -> dict[tuple[str, str], dict[
             "path": path,
             "ref_text": str(item.get("reference_text", "")).strip(),
             "destination": destination,
+            "design_id": str(item.get("design_id", "")).strip(),
+            "reference_id": str(item.get("design_id", "")).strip(),
+            "sha256": str(item.get("sha256", "")).strip(),
             "candidate_index": item.get("candidate_index"),
         }
     return result
+
+
+def stage_u7_special_references(
+    manifest_path: Path,
+    source_refs_dir: Path,
+    refs_dir: Path,
+) -> dict[tuple[str, str], dict[str, Any]]:
+    """Verify and copy the U7 Avatar/narrator reference families for U6 routing."""
+    staged: dict[tuple[str, str], dict[str, Any]] = {}
+    for item in load_json(manifest_path).get("items", []):
+        reference_id = str(item.get("design_id", "")).strip()
+        if reference_id not in SPECIAL_REFERENCE_IDS:
+            continue
+        language = str(item.get("language", "")).lower()
+        lang = "en" if language.startswith("english") else "zh" if language.startswith("chinese") else ""
+        destination_name = str(item.get("destination", "")).strip()
+        transcript = str(item.get("reference_text", "")).strip()
+        if not lang or not destination_name or not transcript:
+            raise ValueError(f"invalid special U7 reference entry: {item!r}")
+        source = Path(source_refs_dir) / destination_name
+        if not source.is_file():
+            raise FileNotFoundError(f"missing U7 special reference: {source}")
+        source_hash = sha256_file(source)
+        destination = Path(refs_dir) / destination_name
+        if not destination.is_file() or sha256_file(destination) != source_hash:
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, destination)
+        if sha256_file(destination) != source_hash:
+            raise ValueError(f"staged U7 special reference hash mismatch: {destination}")
+        staged[(reference_id, lang)] = {
+            "path": destination,
+            "ref_text": transcript,
+            "reference_id": reference_id,
+            "sha256": source_hash,
+            "source": source,
+        }
+    expected_count = len(SPECIAL_REFERENCE_IDS) * len(LANGUAGE_NAMES)
+    if len(staged) != expected_count:
+        raise ValueError(f"expected {expected_count} special U7 references, staged {len(staged)}")
+    return staged
+
+
+def _design_gender(design: dict[str, Any]) -> str:
+    gender = str((design.get("casting_inference") or {}).get("gender", "")).lower()
+    return gender if gender in {"male", "female"} else "female"
+
+
+def _reference_from_override(override: dict[str, Any], fallback_id: str) -> dict[str, Any]:
+    return {
+        "path": Path(override["path"]),
+        "ref_text": str(override.get("ref_text") or "").strip(),
+        "reference_id": str(override.get("reference_id") or override.get("design_id") or fallback_id),
+        "sha256": str(override.get("sha256") or ""),
+    }
+
+
+def _speaker_reference(
+    design_id: str,
+    design: dict[str, Any],
+    npc: str,
+    lang: str,
+    refs_dir: Path,
+    overrides: dict[tuple[str, str], dict[str, Any]],
+) -> dict[str, Any]:
+    override = overrides.get((npc.lower(), lang))
+    if override:
+        return _reference_from_override(override, design_id)
+    return {
+        "path": refs_dir / _reference_filename(design_id, lang),
+        "ref_text": str(design.get(f"ref_{lang}_text") or "").strip(),
+        "reference_id": design_id,
+        "sha256": "",
+    }
+
+
+def _narrator_reference(
+    gender: str,
+    lang: str,
+    reference_routes: dict[tuple[str, str], dict[str, Any]],
+) -> dict[str, Any]:
+    reference_id = "npc_narrator_male" if gender == "male" else "npc_unknown"
+    try:
+        return reference_routes[(reference_id, lang)]
+    except KeyError as error:
+        raise ValueError(f"missing routed narrator reference {reference_id}/{lang}") from error
+
+
+def _avatar_filename(entry: dict[str, Any], lang: str, gender: str) -> str:
+    filename = _mapping_filename(entry, lang)
+    stem = filename[:-4] if filename.lower().endswith(".ogg") else filename
+    return f"{stem}_avatar_{gender}.ogg"
 
 
 def _pitch_tag(design: dict[str, Any], lang: str) -> str:
@@ -389,6 +514,7 @@ def build_clone_jobs(
     overrides: dict[tuple[str, str], dict[str, Any]],
     generation_overrides: OmniVoiceOverrides | None = None,
     role_sources: dict[tuple[str, str, str], dict[str, str]] | None = None,
+    reference_routes: dict[tuple[str, str], dict[str, Any]] | None = None,
 ) -> list[CloneJob]:
     by_npc = _designs_by_npc(designs)
     jobs: list[CloneJob] = []
@@ -398,43 +524,107 @@ def build_clone_jobs(
         npc = str(entry.get("npc") or "").strip()
         if not npc:
             continue
-        design_id, design = by_npc[npc.lower()]
+        is_avatar = npc.lower() == "avatar"
+        if is_avatar:
+            design_id, design = "", {}
+        else:
+            design_id, design = by_npc[npc.lower()]
         for lang in ("en", "zh"):
             text = str(entry.get(f"{lang}_text") or "").strip()
             if not text:
                 continue
-            override = overrides.get((npc.lower(), lang))
-            if override:
-                ref_audio = Path(override["path"])
-                ref_text = str(override.get("ref_text") or "").strip()
-            else:
-                ref_audio = refs_dir / _reference_filename(design_id, lang)
-                ref_text = str(design.get(f"ref_{lang}_text") or "").strip()
-            tts_text = generation_overrides.tts_text(text, lang) if generation_overrides else text
-            affected = bool(
-                generation_overrides
-                and (
-                    tts_text != text
-                    or (
-                        override is None
-                        and generation_overrides.has_voice_design(design_id, lang)
+            func_id = str(entry.get(f"{lang}_func_id") or entry.get("en_func_id") or entry.get("zh_func_id") or "")
+            offset_key = str(entry.get(f"{lang}_offset_key") or entry.get("en_offset_key") or entry.get("zh_offset_key") or "")
+            segment = int(entry.get(f"{lang}_segment", 0) or 0)
+            route_source = role_sources.get(role_key(func_id, offset_key, str(segment))) if role_sources else None
+            routed = route_source is not None and reference_routes is not None
+            variants = ("male", "female") if is_avatar and routed else (None,)
+            for avatar_gender in variants:
+                current_design_id = f"npc_avatar_{avatar_gender}" if avatar_gender else design_id
+                current_design = design
+                if is_avatar:
+                    current_design = {"casting_inference": {"gender": avatar_gender}}
+                speaker = (
+                    reference_routes[(current_design_id, lang)]
+                    if is_avatar and reference_routes is not None
+                    else _speaker_reference(
+                        current_design_id,
+                        current_design,
+                        npc,
+                        lang,
+                        refs_dir,
+                        overrides,
                     )
                 )
-            )
-            jobs.append(CloneJob(
-                design_id=design_id,
-                npc=npc,
-                lang=lang,
-                text=text,
-                ref_audio=ref_audio,
-                ref_text=ref_text,
-                output=output_dir / lang / _mapping_filename(entry, lang),
-                func_id=str(entry.get(f"{lang}_func_id") or entry.get("en_func_id") or entry.get("zh_func_id") or ""),
-                offset_key=str(entry.get(f"{lang}_offset_key") or entry.get("en_offset_key") or entry.get("zh_offset_key") or ""),
-                segment=int(entry.get(f"{lang}_segment", 0) or 0),
-                tts_text=tts_text,
-                override_revision=generation_overrides.revision if affected else None,
-            ))
+                tts_text = generation_overrides.tts_text(text, lang) if generation_overrides else text
+                affected = bool(
+                    generation_overrides
+                    and (
+                        tts_text != text
+                        or (
+                            not overrides.get((npc.lower(), lang))
+                            and not is_avatar
+                            and generation_overrides.has_voice_design(current_design_id, lang)
+                        )
+                    )
+                )
+                voice_parts: tuple[VoicePart, ...] = ()
+                reference_role: str | None = None
+                reference_revision: str | None = None
+                ref = speaker
+                if routed:
+                    source_text = str(route_source["source_en"])
+                    translated_text = str(route_source.get("text_zh") or text)
+                    parts = parse_role_parts(source_text, translated_text, lang)
+                    if not parts:
+                        parts = [("narrator", text)]
+                    gender = avatar_gender or _design_gender(current_design)
+                    routed_parts = []
+                    for role, part_text in parts:
+                        part_reference = speaker if role == "speaker" else _narrator_reference(
+                            gender, lang, reference_routes
+                        )
+                        routed_parts.append(VoicePart(
+                            role=role,
+                            text=part_text,
+                            reference_path=Path(part_reference["path"]),
+                            reference_text=str(part_reference["ref_text"]),
+                            reference_id=str(part_reference["reference_id"]),
+                        ))
+                    ref = {
+                        "path": routed_parts[0].reference_path,
+                        "ref_text": routed_parts[0].reference_text,
+                    }
+                    reference_revision = ROUTED_REFERENCE_REVISION
+                    if len(routed_parts) > 1:
+                        voice_parts = tuple(routed_parts)
+                        reference_role = "mixed"
+                    elif routed_parts[0].role == "speaker":
+                        reference_role = f"avatar_{gender}" if avatar_gender else "speaker"
+                    else:
+                        reference_role = f"narrator_{gender}"
+                jobs.append(CloneJob(
+                    design_id=current_design_id,
+                    npc=npc,
+                    lang=lang,
+                    text=text,
+                    ref_audio=Path(ref["path"]),
+                    ref_text=str(ref["ref_text"]),
+                    output=output_dir / lang / (
+                        _avatar_filename(entry, lang, avatar_gender)
+                        if avatar_gender else _mapping_filename(entry, lang)
+                    ),
+                    func_id=func_id,
+                    offset_key=offset_key,
+                    segment=segment,
+                    tts_text=tts_text,
+                    override_revision=generation_overrides.revision if affected else None,
+                    reference_role=reference_role,
+                    reference_revision=reference_revision,
+                    voice_parts=voice_parts,
+                    avatar_gender=avatar_gender,
+                    variant=f"avatar_{avatar_gender}" if avatar_gender else None,
+                ))
     return jobs
 
 
@@ -486,6 +676,15 @@ def _job_tts_text(job: ReferenceJob | CloneJob) -> str:
 
 
 def _job_seed(job: ReferenceJob | CloneJob) -> int:
+    routing_identity = ""
+    if isinstance(job, CloneJob):
+        routing_identity = json.dumps({
+            "reference_role": job.reference_role,
+            "reference_revision": job.reference_revision,
+            "voice_parts": [part.record() for part in job.voice_parts],
+            "avatar_gender": job.avatar_gender,
+            "variant": job.variant,
+        }, ensure_ascii=False, sort_keys=True)
     return stable_seed(
         job.design_id,
         job.npc,
@@ -493,6 +692,7 @@ def _job_seed(job: ReferenceJob | CloneJob) -> int:
         job.text,
         _job_tts_text(job),
         job.override_revision or "",
+        routing_identity,
         job.output,
     )
 
@@ -508,6 +708,14 @@ def _completion_expected(job: ReferenceJob | CloneJob) -> dict[str, Any]:
         expected.update({
             "tts_text": _job_tts_text(job),
             "override_revision": job.override_revision,
+        })
+    if isinstance(job, CloneJob) and job.reference_revision:
+        expected.update({
+            "reference_role": job.reference_role,
+            "reference_revision": job.reference_revision,
+            "voice_parts": [part.record() for part in job.voice_parts],
+            "avatar_gender": job.avatar_gender,
+            "variant": job.variant,
         })
     return expected
 
@@ -526,6 +734,13 @@ def _complete(
         job
         and job.override_revision is None
         and metadata.get("override_revision") is not None
+    ):
+        return False
+    if (
+        job
+        and isinstance(job, CloneJob)
+        and job.reference_revision is None
+        and metadata.get("reference_revision") is not None
     ):
         return False
     try:
@@ -629,6 +844,23 @@ def _print_target_counts(label: str, jobs: list[ReferenceJob | CloneJob]) -> Non
     complete = len(jobs) - stale
     print(
         f"Target {label}: {len(jobs)} matched; {stale} stale; {complete} already complete",
+        flush=True,
+    )
+
+
+def _print_route_counts(jobs: list[CloneJob]) -> None:
+    ordinary = sum(job.reference_role == "speaker" for job in jobs)
+    narrator_only = sum(
+        bool(job.reference_role and job.reference_role.startswith("narrator_"))
+        for job in jobs
+    )
+    mixed = sum(bool(job.voice_parts) for job in jobs)
+    avatar_male = sum(job.avatar_gender == "male" for job in jobs)
+    avatar_female = sum(job.avatar_gender == "female" for job in jobs)
+    print(
+        "Route counts "
+        f"ordinary={ordinary} narrator_only={narrator_only} mixed={mixed} "
+        f"avatar_male={avatar_male} avatar_female={avatar_female}",
         flush=True,
     )
 
@@ -949,7 +1181,7 @@ def _publish_clone(
     if _audio_length(audio) == 0:
         raise ValueError("cannot publish empty clone audio")
     _write_ogg_atomic(job.output, audio, sample_rate)
-    _write_json_atomic(_metadata_path(job.output), {
+    metadata = {
         "status": "generated",
         "design_id": job.design_id,
         "lang": job.lang,
@@ -970,7 +1202,16 @@ def _publish_clone(
         "func_id": job.func_id,
         "offset_key": job.offset_key,
         "segment": job.segment,
-    })
+    }
+    if job.reference_revision:
+        metadata.update({
+            "reference_role": job.reference_role,
+            "reference_revision": job.reference_revision,
+            "voice_parts": [part.record() for part in job.voice_parts],
+            "avatar_gender": job.avatar_gender,
+            "variant": job.variant,
+        })
+    _write_json_atomic(_metadata_path(job.output), metadata)
 
 
 def process_references(
@@ -1113,6 +1354,11 @@ def write_manifest(args: argparse.Namespace, refs: list[ReferenceJob], clones: l
             "override_revision": job.override_revision,
             "ref_audio": str(job.ref_audio),
             "ref_text": job.ref_text,
+            "reference_role": job.reference_role,
+            "reference_revision": job.reference_revision,
+            "voice_parts": [part.record() for part in job.voice_parts],
+            "avatar_gender": job.avatar_gender,
+            "variant": job.variant,
             "output": str(job.output),
             "status": "generated" if _complete(job.output, job) else "missing",
             "metadata": metadata,
@@ -1189,6 +1435,11 @@ def main() -> int:
     overrides = load_reference_overrides(args.u7_manifest)
     generation_overrides = load_omnivoice_overrides(args.overrides)
     role_sources = load_role_manifest(args.role_manifest)
+    reference_routes = stage_u7_special_references(
+        args.u7_manifest,
+        PROJECT_DIR / "voice" / "refs",
+        args.refs_dir,
+    )
     refs = build_reference_jobs(designs, args.refs_dir, overrides, generation_overrides)
     clones = build_clone_jobs(
         args.mapping,
@@ -1198,8 +1449,10 @@ def main() -> int:
         overrides,
         generation_overrides,
         role_sources,
+        reference_routes,
     )
     print(f"U6 designs={len(designs)} refs={len(refs)} clones={len(clones)}", flush=True)
+    _print_route_counts(clones)
 
     selected_refs = select_target_jobs(
         refs,

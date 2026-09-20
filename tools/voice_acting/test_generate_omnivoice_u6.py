@@ -857,3 +857,182 @@ def test_dry_run_reports_target_counts_without_loading_model(monkeypatch, capsys
     output = capsys.readouterr().out
     assert "Target references: 1 matched" in output
     assert "Target clones:" in output
+
+
+def test_stage_u7_special_references_copies_verified_families_idempotently(tmp_path):
+    source_refs = tmp_path / "voice_refs"
+    destination_refs = tmp_path / "u6_refs"
+    source_refs.mkdir()
+    source_manifest = json.loads(generator.DEFAULT_U7_MANIFEST.read_text(encoding="utf-8"))
+    special_ids = {
+        "npc_avatar_female",
+        "npc_avatar_male",
+        "npc_unknown",
+        "npc_narrator_male",
+    }
+    items = []
+    for item in source_manifest["items"]:
+        if item["design_id"] not in special_ids:
+            continue
+        payload = f"{item['destination']} source".encode("utf-8")
+        (source_refs / item["destination"]).write_bytes(payload)
+        item = dict(item)
+        # The import manifest records the pre-sanitization candidate hash;
+        # staging verifies and carries the current checked-in source clip hash.
+        item["sha256"] = "pre-sanitization-candidate-hash"
+        items.append(item)
+    manifest = tmp_path / "references.json"
+    manifest.write_text(json.dumps({"items": items}, ensure_ascii=False), encoding="utf-8")
+
+    staged = generator.stage_u7_special_references(manifest, source_refs, destination_refs)
+    before = {path.name: path.stat().st_mtime_ns for path in destination_refs.iterdir()}
+    staged_again = generator.stage_u7_special_references(manifest, source_refs, destination_refs)
+
+    assert len(staged) == 8
+    assert staged_again == staged
+    assert {path.name for path in destination_refs.iterdir()} == {
+        item["destination"] for item in items
+    }
+    assert {path.name: path.stat().st_mtime_ns for path in destination_refs.iterdir()} == before
+    avatar_female_en = staged[("npc_avatar_female", "en")]
+    assert avatar_female_en["path"] == destination_refs / "npc_avatar_female_en_ref.ogg"
+    assert avatar_female_en["reference_id"] == "npc_avatar_female"
+    assert avatar_female_en["ref_text"] == "Greetings, traveler. What brings you to these lands this day?"
+    assert avatar_female_en["sha256"] == generator.sha256_file(avatar_female_en["path"])
+
+
+def test_build_clone_jobs_routes_parts_and_expands_avatar_variants(tmp_path):
+    refs = tmp_path / "refs"
+    output = tmp_path / "output"
+    refs.mkdir()
+    mapping = tmp_path / "mapping.json"
+    mapping.write_text(
+        json.dumps(
+            [
+                {"npc": "Ada", "en_text": "Hello", "en_func_id": "0401", "en_offset_key": "0", "en_segment": 0},
+                {"npc": "Ada", "en_text": "She waves.", "en_func_id": "0401", "en_offset_key": "1", "en_segment": 0},
+                {"npc": "Ada", "en_text": "Hello then goodbye", "en_func_id": "0401", "en_offset_key": "2", "en_segment": 0},
+                {"npc": "Budo", "en_text": "U7 hello", "en_func_id": "0401", "en_offset_key": "3", "en_segment": 0},
+                {"npc": "Avatar", "en_text": "Avatar hello", "en_func_id": "0401", "en_offset_key": "4", "en_segment": 0},
+            ]
+        ),
+        encoding="utf-8",
+    )
+    role_manifest = tmp_path / "roles.jsonl"
+    role_manifest.write_text(
+        "\n".join(
+            json.dumps({
+                "function_id": "0401", "offset_key": offset, "segment": 0,
+                "source_en": source_en, "text_zh": "",
+            })
+            for offset, source_en in (
+                ("0", "@Hello@"),
+                ("1", "She waves."),
+                ("2", "@Hello@ She waves. @Goodbye@"),
+                ("3", "@U7 hello@"),
+                ("4", "@Avatar hello@ He waves."),
+            )
+        ),
+        encoding="utf-8",
+    )
+    roles = load_role_manifest(role_manifest)
+    designs = {
+        "u6_ada": {
+            "npc": "Ada",
+            "ref_en_text": "Ada reference",
+            "casting_inference": {"gender": "female"},
+        },
+        "u6_budo": {
+            "npc": "Budo",
+            "ref_en_text": "Budo design reference",
+            "casting_inference": {"gender": "male"},
+        },
+    }
+    special = {
+        ("npc_avatar_female", "en"): {"path": refs / "npc_avatar_female_en_ref.ogg", "ref_text": "Female Avatar", "reference_id": "npc_avatar_female", "sha256": "avatar-f"},
+        ("npc_avatar_male", "en"): {"path": refs / "npc_avatar_male_en_ref.ogg", "ref_text": "Male Avatar", "reference_id": "npc_avatar_male", "sha256": "avatar-m"},
+        ("npc_unknown", "en"): {"path": refs / "npc_unknown_en_ref.ogg", "ref_text": "Female narrator", "reference_id": "npc_unknown", "sha256": "narrator-f"},
+        ("npc_narrator_male", "en"): {"path": refs / "npc_narrator_male_en_ref.ogg", "ref_text": "Male narrator", "reference_id": "npc_narrator_male", "sha256": "narrator-m"},
+    }
+    u7_budo = tmp_path / "u7_budo.ogg"
+    overrides = {("budo", "en"): {"path": u7_budo, "ref_text": "Exact U7 Budo", "design_id": "npc_budo", "sha256": "u7-budo"}}
+
+    jobs = build_clone_jobs(
+        mapping, designs, refs, output, overrides,
+        role_sources=roles, reference_routes=special,
+    )
+    by_offset = {job.offset_key: job for job in jobs if job.npc != "Avatar"}
+    speaker = by_offset["0"]
+    narrator = by_offset["1"]
+    mixed = by_offset["2"]
+    u7 = by_offset["3"]
+    avatars = [job for job in jobs if job.npc == "Avatar"]
+
+    assert speaker.ref_audio == refs / "u6_ada_en_ref.ogg"
+    assert speaker.reference_role == "speaker"
+    assert speaker.voice_parts == ()
+    assert narrator.ref_audio == refs / "npc_unknown_en_ref.ogg"
+    assert narrator.reference_role == "narrator_female"
+    assert narrator.voice_parts == ()
+    assert [(part.role, part.text, part.reference_id) for part in mixed.voice_parts] == [
+        ("speaker", "Hello", "u6_ada"),
+        ("narrator", "She waves.", "npc_unknown"),
+        ("speaker", "Goodbye", "u6_ada"),
+    ]
+    assert u7.ref_audio == u7_budo
+    assert u7.ref_text == "Exact U7 Budo"
+    assert len(avatars) == 2
+    assert {job.design_id for job in avatars} == {"npc_avatar_male", "npc_avatar_female"}
+    assert {job.output.name for job in avatars} == {
+        "0401_4_0_0_avatar_male.ogg",
+        "0401_4_0_0_avatar_female.ogg",
+    }
+    for job in avatars:
+        gender = job.avatar_gender
+        assert job.func_id == "0401" and job.offset_key == "4" and job.segment == 0
+        assert [(part.reference_id, part.role) for part in job.voice_parts] == [
+            (f"npc_avatar_{gender}", "speaker"),
+            ("npc_narrator_male" if gender == "male" else "npc_unknown", "narrator"),
+        ]
+        assert job.reference_revision == generator.ROUTED_REFERENCE_REVISION
+
+
+def test_routed_clone_manifest_and_completion_serialize_route_metadata(tmp_path):
+    job = CloneJob(
+        design_id="u6_ada",
+        npc="Ada",
+        lang="en",
+        text="Hello then goodbye",
+        ref_audio=tmp_path / "ada.ogg",
+        ref_text="Ada reference",
+        output=tmp_path / "line.ogg",
+        func_id="0401",
+        offset_key="2",
+        segment=0,
+        reference_role="mixed",
+        reference_revision=generator.ROUTED_REFERENCE_REVISION,
+        voice_parts=(
+            generator.VoicePart("speaker", "Hello", tmp_path / "ada.ogg", "Ada reference", "u6_ada"),
+            generator.VoicePart("narrator", "She waves.", tmp_path / "narrator.ogg", "Narrator", "npc_unknown"),
+        ),
+    )
+    job.output.write_bytes(b"ogg")
+    metadata = {
+        **generator._completion_expected(job),
+        "duration_seconds": 1.0,
+    }
+    job.output.with_suffix(".json").write_text(json.dumps(metadata), encoding="utf-8")
+    args = type("Args", (), {"model": "test", "manifest_path": tmp_path / "manifest.json", "reference_review_dir": tmp_path / "review"})()
+
+    generator.write_manifest(args, [], [job])
+    record = json.loads(args.manifest_path.read_text(encoding="utf-8"))["clone_records"][0]
+
+    assert generator._complete(job.output, job)
+    assert record["reference_revision"] == generator.ROUTED_REFERENCE_REVISION
+    assert record["voice_parts"][1] == {
+        "role": "narrator",
+        "text": "She waves.",
+        "reference_path": str(tmp_path / "narrator.ogg"),
+        "reference_text": "Narrator",
+        "reference_id": "npc_unknown",
+    }
