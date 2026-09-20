@@ -33,7 +33,7 @@ def test_instruction_uses_omnivoice_language_specific_tags():
     assert omnivoice_instruction(design, "en") == (
         "female, young adult, high pitch, American accent"
     )
-    assert omnivoice_instruction(design, "zh") == "女, 青年, 高音调"
+    assert omnivoice_instruction(design, "zh") == "女, 青年, 高音調"
 
 
 @pytest.mark.parametrize(
@@ -50,7 +50,7 @@ def test_adult_emotion_description_does_not_imply_high_pitch(description):
     }
 
     assert omnivoice_instruction(design, "en") == "male, moderate pitch, American accent"
-    assert omnivoice_instruction(design, "zh") == "男, 中音调"
+    assert omnivoice_instruction(design, "zh") == "男, 中音調"
 
 
 @pytest.mark.parametrize(
@@ -82,13 +82,22 @@ def test_audited_design_overrides_take_precedence(design_id, expected_en, expect
 
 def test_manifest_overrides_can_replace_the_audited_design_defaults():
     design = _designs()["u6_sandy_e42e5767"]
+    overrides = {
+        "u6_sandy_e42e5767": {"en": "male, high pitch, American accent"}
+    }
 
     assert omnivoice_instruction(
         design,
         "en",
         "u6_sandy_e42e5767",
-        {"u6_sandy_e42e5767": {"en": "male, high pitch, American accent"}},
+        overrides,
     ) == "male, high pitch, American accent"
+    assert omnivoice_instruction(
+        design,
+        "zh",
+        "u6_sandy_e42e5767",
+        overrides,
+    ) == "男, 低音調"
 
 
 def test_age_and_non_human_pitch_rules_keep_their_precedence():
@@ -103,7 +112,8 @@ def test_age_and_non_human_pitch_rules_keep_their_precedence():
     }
 
     assert omnivoice_instruction(elderly, "en") == "female, elderly, low pitch, American accent"
-    assert omnivoice_instruction(non_human, "zh") == "极低音调"
+    assert omnivoice_instruction(elderly, "zh") == "女, 老年, 低音調"
+    assert omnivoice_instruction(non_human, "zh") == "極低音調"
     assert omnivoice_instruction(
         designs["u6_weaponsmith_7e98139a"], "en", "u6_weaponsmith_7e98139a"
     ) == "young adult, very low pitch, American accent"

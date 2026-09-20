@@ -146,10 +146,10 @@ def _pitch_tag(design: dict[str, Any], lang: str) -> str:
         value = "moderate pitch"
     if lang == "zh":
         return {
-            "very low pitch": "极低音调",
-            "low pitch": "低音调",
-            "moderate pitch": "中音调",
-            "high pitch": "高音调",
+            "very low pitch": "極低音調",
+            "low pitch": "低音調",
+            "moderate pitch": "中音調",
+            "high pitch": "高音調",
         }[value]
     return value
 
@@ -161,9 +161,13 @@ def omnivoice_instruction(
     instruction_overrides: dict[str, dict[str, str]] | None = None,
 ) -> str:
     """Convert the U6 casting bible into OmniVoice's validated tag syntax."""
-    overrides = {**DESIGN_INSTRUCTION_OVERRIDES, **(instruction_overrides or {})}
-    if design_id and (instruction := overrides.get(design_id, {}).get(lang)):
-        return instruction
+    if design_id:
+        overrides = {
+            **DESIGN_INSTRUCTION_OVERRIDES.get(design_id, {}),
+            **(instruction_overrides or {}).get(design_id, {}),
+        }
+        if instruction := overrides.get(lang):
+            return instruction
     casting = design.get("casting_inference") or {}
     gender = str(casting.get("gender", "")).lower()
     age = str(casting.get("age", "")).lower()
