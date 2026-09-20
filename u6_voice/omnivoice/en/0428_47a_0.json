@@ -1,0 +1,22 @@
+{
+  "status": "generated",
+  "design_id": "u6_arty_762c615c",
+  "lang": "en",
+  "text": "After accepting the gold, Arty smiles and hands you the sextant. He seems pleased.",
+  "tts_text": "After accepting the gold, Arty smiles and hands you the sextant. He seems pleased.",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "After accepting the gold, Arty smiles and hands you the sextant. He seems pleased.",
+  "fallback_used": false,
+  "npc": "Arty",
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/omnivoice_refs/u6_arty_762c615c_en_ref.ogg",
+  "ref_text": "Greetings, traveler. I am Arty. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1330048400,
+  "sample_rate": 24000,
+  "duration_seconds": 5.32,
+  "sha256": "d443f871a12af8eca32733eababf118202e07e6d92fa6a4b2aa9a2a3c15da57c",
+  "func_id": "0428",
+  "offset_key": "47a",
+  "segment": 0
+}

@@ -1,0 +1,22 @@
+{
+  "status": "generated",
+  "design_id": "u6_arty_762c615c",
+  "lang": "en",
+  "text": "Arty smiles and nods.",
+  "tts_text": "Arty smiles and nods.",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "Arty smiles and nods.",
+  "fallback_used": false,
+  "npc": "Arty",
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/omnivoice_refs/u6_arty_762c615c_en_ref.ogg",
+  "ref_text": "Greetings, traveler. I am Arty. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3932345411,
+  "sample_rate": 24000,
+  "duration_seconds": 1.92,
+  "sha256": "2ba1794ea28ad8ea8b8ec9fbaf145421d483caa3777005821663c3c239e1d099",
+  "func_id": "0428",
+  "offset_key": "225",
+  "segment": 0
+}

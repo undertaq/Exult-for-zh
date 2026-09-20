@@ -1,0 +1,22 @@
+{
+  "status": "generated",
+  "design_id": "u6_arty_762c615c",
+  "lang": "en",
+  "text": "He smiles and points to the workbench. On the bench, you see the tools of a shipwright.",
+  "tts_text": "He smiles and points to the workbench. On the bench, you see the tools of a shipwright.",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "He smiles and points to the workbench. On the bench, you see the tools of a shipwright.",
+  "fallback_used": false,
+  "npc": "Arty",
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/omnivoice_refs/u6_arty_762c615c_en_ref.ogg",
+  "ref_text": "Greetings, traveler. I am Arty. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3998607780,
+  "sample_rate": 24000,
+  "duration_seconds": 5.46,
+  "sha256": "25a902d1f7cc68edc3a8c2c8b61a39adec7b24ac683ca7a15e4d09cd8deb1121",
+  "func_id": "0428",
+  "offset_key": "1cd",
+  "segment": 0
+}

@@ -1,0 +1,22 @@
+{
+  "status": "generated",
+  "design_id": "u6_arty_762c615c",
+  "lang": "en",
+  "text": "Shop is open",
+  "tts_text": "Shop is open",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "Shop is open",
+  "fallback_used": false,
+  "npc": "Arty",
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/omnivoice_refs/u6_arty_762c615c_en_ref.ogg",
+  "ref_text": "Greetings, traveler. I am Arty. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2733024934,
+  "sample_rate": 24000,
+  "duration_seconds": 1.55,
+  "sha256": "799177fd186658bbc026472df0dd90219bd557f22d7ecc5a3583163f87d70a05",
+  "func_id": "0428",
+  "offset_key": "0",
+  "segment": 0
+}

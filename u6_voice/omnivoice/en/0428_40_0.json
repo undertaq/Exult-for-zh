@@ -1,0 +1,22 @@
+{
+  "status": "generated",
+  "design_id": "u6_arty_762c615c",
+  "lang": "en",
+  "text": "A silent but good-natured man.",
+  "tts_text": "A silent but good-natured man.",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "A silent but good-natured man.",
+  "fallback_used": false,
+  "npc": "Arty",
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/omnivoice_refs/u6_arty_762c615c_en_ref.ogg",
+  "ref_text": "Greetings, traveler. I am Arty. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 678936026,
+  "sample_rate": 24000,
+  "duration_seconds": 2.16,
+  "sha256": "37a04641f2d25c1bff2c768c41b0c05e3fc8dcb5fe7243044efe6d43bfeb126e",
+  "func_id": "0428",
+  "offset_key": "40",
+  "segment": 0
+}

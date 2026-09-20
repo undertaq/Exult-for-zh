@@ -1,0 +1,22 @@
+{
+  "status": "generated",
+  "design_id": "u6_arty_762c615c",
+  "lang": "en",
+  "text": "You don't have enough room to carry the sextant",
+  "tts_text": "You don't have enough room to carry the sextant",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "You don't have enough room to carry the sextant",
+  "fallback_used": false,
+  "npc": "Arty",
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/omnivoice_refs/u6_arty_762c615c_en_ref.ogg",
+  "ref_text": "Greetings, traveler. I am Arty. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3851155819,
+  "sample_rate": 24000,
+  "duration_seconds": 3.12,
+  "sha256": "f6d889575642d000e9ec729165524a5e67c5d5a4090ca94a345515901908ccc7",
+  "func_id": "0428",
+  "offset_key": "4cd",
+  "segment": 0
+}

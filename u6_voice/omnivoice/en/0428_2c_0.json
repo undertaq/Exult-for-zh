@@ -1,0 +1,22 @@
+{
+  "status": "generated",
+  "design_id": "u6_arty_762c615c",
+  "lang": "en",
+  "text": "...",
+  "tts_text": "...",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "...",
+  "fallback_used": false,
+  "npc": "Arty",
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/omnivoice_refs/u6_arty_762c615c_en_ref.ogg",
+  "ref_text": "Greetings, traveler. I am Arty. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1833877469,
+  "sample_rate": 24000,
+  "duration_seconds": 0.96,
+  "sha256": "ceb1dc623f1ef2b860d286df7aade10cffecbc687f48e20446c425f4a69da172",
+  "func_id": "0428",
+  "offset_key": "2c",
+  "segment": 0
+}

@@ -1,0 +1,22 @@
+{
+  "status": "generated",
+  "design_id": "u6_arty_762c615c",
+  "lang": "en",
+  "text": "The man shakes his head.",
+  "tts_text": "The man shakes his head.",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "The man shakes his head.",
+  "fallback_used": false,
+  "npc": "Arty",
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/omnivoice_refs/u6_arty_762c615c_en_ref.ogg",
+  "ref_text": "Greetings, traveler. I am Arty. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 4068904964,
+  "sample_rate": 24000,
+  "duration_seconds": 2.0,
+  "sha256": "2c4dd967511f9d215b93458c9fb8e91f33cf2f5562994a0257ef4121a2de0163",
+  "func_id": "0428",
+  "offset_key": "23b",
+  "segment": 0
+}

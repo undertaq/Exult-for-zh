@@ -1,0 +1,22 @@
+{
+  "status": "generated",
+  "design_id": "u6_arty_762c615c",
+  "lang": "en",
+  "text": "He looks up from his tankard of ale, sees you and smiles.",
+  "tts_text": "He looks up from his tankard of ale, sees you and smiles.",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "He looks up from his tankard of ale, sees you and smiles.",
+  "fallback_used": false,
+  "npc": "Arty",
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/omnivoice_refs/u6_arty_762c615c_en_ref.ogg",
+  "ref_text": "Greetings, traveler. I am Arty. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3291620464,
+  "sample_rate": 24000,
+  "duration_seconds": 3.64,
+  "sha256": "30c70c540b48951956a115cd68e048f466d4b12b707651dcedc4e4b3c04fd6f3",
+  "func_id": "0428",
+  "offset_key": "60",
+  "segment": 0
+}

@@ -1,0 +1,22 @@
+{
+  "status": "generated",
+  "design_id": "u6_arty_762c615c",
+  "lang": "en",
+  "text": "Arty waves as you leave, then returns to his ale.",
+  "tts_text": "Arty waves as you leave, then returns to his ale.",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "Arty waves as you leave, then returns to his ale.",
+  "fallback_used": false,
+  "npc": "Arty",
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/omnivoice_refs/u6_arty_762c615c_en_ref.ogg",
+  "ref_text": "Greetings, traveler. I am Arty. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 859790772,
+  "sample_rate": 24000,
+  "duration_seconds": 3.2,
+  "sha256": "00ef1f95872a22a9f41c39554899db92860c710f1411445c09ebdbddfefee743",
+  "func_id": "0428",
+  "offset_key": "4fd",
+  "segment": 0
+}

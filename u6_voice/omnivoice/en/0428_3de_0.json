@@ -1,0 +1,22 @@
+{
+  "status": "generated",
+  "design_id": "u6_arty_762c615c",
+  "lang": "en",
+  "text": "You don't have enough gold for that.",
+  "tts_text": "You don't have enough gold for that.",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "You don't have enough gold for that.",
+  "fallback_used": false,
+  "npc": "Arty",
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/omnivoice_refs/u6_arty_762c615c_en_ref.ogg",
+  "ref_text": "Greetings, traveler. I am Arty. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 604027495,
+  "sample_rate": 24000,
+  "duration_seconds": 2.4,
+  "sha256": "7d53d3d847a25fe1b4a6ad2f0ed44ae04a2bcd6ca76fc3a3145c0efd05995609",
+  "func_id": "0428",
+  "offset_key": "3de",
+  "segment": 0
+}
