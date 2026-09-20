@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_leroy_e054bd68",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Leroy. What brings you to these lands today?",
+  "npc": "Leroy",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Leroy. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 89849269,
+  "sample_rate": 24000,
+  "duration_seconds": 4.33,
+  "sha256": "dc074ee256987ba7809924fb08d661e400a156e5b66ecec8fe45b47377514757"
+}

@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_shubin_c5f2a0ed",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Shubin. What brings you to these lands today?",
+  "npc": "Shubin",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Shubin. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3329513510,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "c17735d52681fd2608a620ed95e069c6df4df8e08beb580f606f625a33c6d312"
+}

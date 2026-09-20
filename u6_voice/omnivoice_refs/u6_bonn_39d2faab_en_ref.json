@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_bonn_39d2faab",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Bonn. What brings you to these lands today?",
+  "npc": "Bonn",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Bonn. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1258783114,
+  "sample_rate": 24000,
+  "duration_seconds": 4.32,
+  "sha256": "944552aff36bcb24c76ce2a591dd44cb518242923717c0c707cf570986eb5195"
+}

@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_pegbyter_c750adcf",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Pegbyter. What brings you to these lands today?",
+  "npc": "Pegbyter",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Pegbyter. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2484583303,
+  "sample_rate": 24000,
+  "duration_seconds": 4.6,
+  "sha256": "7cb44b8a38f5411857e814d6c6d88819c902fa8522345b08d027c760d25ae886"
+}

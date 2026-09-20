@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_de_hugh_712d5052",
+  "lang": "zh",
+  "text": "旅人，你好。我是de Hugh。今天你为何来到这片土地？",
+  "npc": "de Hugh",
+  "source": "omnivoice_design",
+  "instruct": "男, 低音调",
+  "ref_text": "旅人，你好。我是de Hugh。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3764790488,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "57dda44534b70315c3e5997511523fc17c24af1341f1042bde0da8a1f874fe1b"
+}

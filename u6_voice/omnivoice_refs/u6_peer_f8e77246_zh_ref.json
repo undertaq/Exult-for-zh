@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_peer_f8e77246",
+  "lang": "zh",
+  "text": "旅人，你好。我是Peer。今天你为何来到这片土地？",
+  "npc": "Peer",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Peer。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2831141184,
+  "sample_rate": 24000,
+  "duration_seconds": 3.89,
+  "sha256": "1f2263f14d54265f48eb17c899f0f6593d82c5e26a87fc318f84e25edcf40652"
+}

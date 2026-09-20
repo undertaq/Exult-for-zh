@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_renthar_46dd7cee",
+  "lang": "zh",
+  "text": "旅人，你好。我是Renthar。今天你为何来到这片土地？",
+  "npc": "Renthar",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Renthar。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1365943147,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "4f25f0ab8a71bd670b13bab487b7d44f40c0422327a96a8bc26178c917e0c817"
+}

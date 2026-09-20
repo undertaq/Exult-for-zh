@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_brandon_3183caf9",
+  "lang": "zh",
+  "text": "旅人，你好。我是Brandon。今天你为何来到这片土地？",
+  "npc": "Brandon",
+  "source": "omnivoice_design",
+  "instruct": "男, 青年, 高音调",
+  "ref_text": "旅人，你好。我是Brandon。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2434772437,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "e1aab438034005a359bc3a0711efe2155267e904b494003e0f1a77ddf36d5728"
+}

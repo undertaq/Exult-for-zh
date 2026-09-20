@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_gertan_b0e89008",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Gertan. What brings you to these lands today?",
+  "npc": "Gertan",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Gertan. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1314483636,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "a713dedfa53622efb97c6dc8e590e95822beaa59cfa1d2eef87af482e0c95495"
+}

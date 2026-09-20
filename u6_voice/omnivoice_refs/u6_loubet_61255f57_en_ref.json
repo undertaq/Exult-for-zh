@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_loubet_61255f57",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Loubet. What brings you to these lands today?",
+  "npc": "Loubet",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Loubet. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2134522498,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "cb439148d0ae726a53ad8a1d219c7d39edfb644c359dea1e11ea7f142a062213"
+}

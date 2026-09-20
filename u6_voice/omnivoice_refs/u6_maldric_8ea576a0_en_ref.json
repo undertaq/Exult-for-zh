@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_maldric_8ea576a0",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Maldric. What brings you to these lands today?",
+  "npc": "Maldric",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Maldric. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2548039191,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "cddf8d5c9448b392cca8b04d44d35c5af28eb351b4818d56f23fd8b21a166977"
+}

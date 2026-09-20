@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_aganar_c5ffe447",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Aganar. What brings you to these lands today?",
+  "npc": "Aganar",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Aganar. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 752480313,
+  "sample_rate": 24000,
+  "duration_seconds": 4.37,
+  "sha256": "96dc8744b9f39f18fd48d2583b56cbe3377a3f3c9bc5e4c14b8d8e75ad615465"
+}

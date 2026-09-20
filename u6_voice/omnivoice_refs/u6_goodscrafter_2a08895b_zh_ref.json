@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_goodscrafter_2a08895b",
+  "lang": "zh",
+  "text": "旅人，你好。我是Goodscrafter。今天你为何来到这片土地？",
+  "npc": "Goodscrafter",
+  "source": "omnivoice_design",
+  "instruct": "极低音调",
+  "ref_text": "旅人，你好。我是Goodscrafter。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1108765436,
+  "sample_rate": 24000,
+  "duration_seconds": 4.8,
+  "sha256": "0207d322ef42ac58762ede0660cfc0c69b7a871a94f7963828bad556e469c7bc"
+}

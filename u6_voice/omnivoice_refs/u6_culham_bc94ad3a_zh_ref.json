@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_culham_bc94ad3a",
+  "lang": "zh",
+  "text": "旅人，你好。我是Culham。今天你为何来到这片土地？",
+  "npc": "Culham",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Culham。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2736522168,
+  "sample_rate": 24000,
+  "duration_seconds": 3.91,
+  "sha256": "517b7626efb5cdb3695c96fec3fe359d6515b6750e906da336d0c0636a8838f0"
+}

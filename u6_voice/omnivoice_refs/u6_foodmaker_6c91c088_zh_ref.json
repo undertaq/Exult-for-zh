@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_foodmaker_6c91c088",
+  "lang": "zh",
+  "text": "旅人，你好。我是Foodmaker。今天你为何来到这片土地？",
+  "npc": "Foodmaker",
+  "source": "omnivoice_design",
+  "instruct": "极低音调",
+  "ref_text": "旅人，你好。我是Foodmaker。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2127470748,
+  "sample_rate": 24000,
+  "duration_seconds": 4.56,
+  "sha256": "1cd0abfd90b8b875812c71fb781547eb7835ad969cbb1c443dbc7ecae2ed4a05"
+}

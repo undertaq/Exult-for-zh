@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_tara_11607c3b",
+  "lang": "zh",
+  "text": "旅人，你好。我是Tara。今天你为何来到这片土地？",
+  "npc": "Tara",
+  "source": "omnivoice_design",
+  "instruct": "女, 老年, 低音调",
+  "ref_text": "旅人，你好。我是Tara。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3676671305,
+  "sample_rate": 24000,
+  "duration_seconds": 4.13,
+  "sha256": "44587d8bab8372d71746ba9aee35904fc2350338a49438fa63c6055af9338296"
+}

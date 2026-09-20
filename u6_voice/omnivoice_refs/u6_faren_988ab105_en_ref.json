@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_faren_988ab105",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Faren. What brings you to these lands today?",
+  "npc": "Faren",
+  "source": "omnivoice_design",
+  "instruct": "male, young adult, high pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Faren. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1163363880,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "15a4e402d7392c758074ff9233242751c366d4ec5bd9cee05e700742462c776c"
+}

@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_morgoth_0b0878d9",
+  "lang": "zh",
+  "text": "旅人，你好。我是Morgoth。今天你为何来到这片土地？",
+  "npc": "Morgoth",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Morgoth。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2008069443,
+  "sample_rate": 24000,
+  "duration_seconds": 4.01,
+  "sha256": "a5723d12aecc80171af82f116d2c2ded7083712149d014b36fc34c377ac8d4dc"
+}

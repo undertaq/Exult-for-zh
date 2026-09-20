@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_antonio_1f0ca711",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Antonio. What brings you to these lands today?",
+  "npc": "Antonio",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Antonio. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1358437952,
+  "sample_rate": 24000,
+  "duration_seconds": 4.28,
+  "sha256": "ef4c5a0a0d1251d6fe894e25f6b23c7b3a5df993aeefd3c651a9301e4c50271d"
+}

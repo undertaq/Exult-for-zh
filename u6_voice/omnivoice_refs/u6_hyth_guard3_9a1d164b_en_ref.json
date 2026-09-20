@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_hyth_guard3_9a1d164b",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Hyth_Guard3. What brings you to these lands today?",
+  "npc": "Hyth_Guard3",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Hyth_Guard3. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3452195572,
+  "sample_rate": 24000,
+  "duration_seconds": 4.81,
+  "sha256": "64a0232ae2a99d14b7cc785cc9a038fb9964bb1ce71575a6770f86041f821152"
+}

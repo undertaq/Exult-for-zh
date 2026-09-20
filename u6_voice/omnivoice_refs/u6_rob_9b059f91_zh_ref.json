@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_rob_9b059f91",
+  "lang": "zh",
+  "text": "旅人，你好。我是Rob。今天你为何来到这片土地？",
+  "npc": "Rob",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Rob。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3552662473,
+  "sample_rate": 24000,
+  "duration_seconds": 3.54,
+  "sha256": "b1e8f4e38f5c98e4da6b0f0585ed77e2bb13d25799955fa3dd12deb5fbb4a603"
+}

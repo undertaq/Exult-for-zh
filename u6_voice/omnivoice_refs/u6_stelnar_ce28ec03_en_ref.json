@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_stelnar_ce28ec03",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Stelnar. What brings you to these lands today?",
+  "npc": "Stelnar",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Stelnar. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1969313227,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "f1114cd282076a74f4f79e1a1e3cbb5d321e24cb7e69a57c2de0dd8337aff79c"
+}

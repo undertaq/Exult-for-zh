@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_lenard_7585a376",
+  "lang": "zh",
+  "text": "旅人，你好。我是Lenard。今天你为何来到这片土地？",
+  "npc": "Lenard",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Lenard。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1188260185,
+  "sample_rate": 24000,
+  "duration_seconds": 3.89,
+  "sha256": "c9a272f2ad96925065cd3b3379be8f0e93bc4b6caa1de0338a0a9f2315e6a7f3"
+}

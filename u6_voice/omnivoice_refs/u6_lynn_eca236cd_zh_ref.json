@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_lynn_eca236cd",
+  "lang": "zh",
+  "text": "旅人，你好。我是Lynn。今天你为何来到这片土地？",
+  "npc": "Lynn",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Lynn。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1940740285,
+  "sample_rate": 24000,
+  "duration_seconds": 4.24,
+  "sha256": "0eb47e7bbd19731e9427e4c6b4bbfddb239e3ca881184bc8710f6e5f9db5b3bc"
+}

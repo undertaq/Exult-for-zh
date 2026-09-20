@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_hyth_guard1_789ec77f",
+  "lang": "zh",
+  "text": "旅人，你好。我是Hyth_Guard1。今天你为何来到这片土地？",
+  "npc": "Hyth_Guard1",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Hyth_Guard1。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1983442280,
+  "sample_rate": 24000,
+  "duration_seconds": 4.6,
+  "sha256": "8c48b3072d04f238c450747e2a5bb7970e6b35545589807f3458a57385deeca2"
+}

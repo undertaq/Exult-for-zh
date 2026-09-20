@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_derydlus_72d2ba79",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Derydlus. What brings you to these lands today?",
+  "npc": "Derydlus",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Derydlus. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3443608246,
+  "sample_rate": 24000,
+  "duration_seconds": 4.6,
+  "sha256": "9625ba4f8c9621593288e7d573f139d774fbd1c3463a9992830dcc841d68c4d6"
+}

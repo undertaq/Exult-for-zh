@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_sionnach_df945d70",
+  "lang": "zh",
+  "text": "旅人，你好。我是Sionnach。今天你为何来到这片土地？",
+  "npc": "Sionnach",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Sionnach。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2646640227,
+  "sample_rate": 24000,
+  "duration_seconds": 4.4,
+  "sha256": "f876edaef6ff53555d5528cc92bab02f2871224a6c3a99ec5da597ed34d400e4"
+}

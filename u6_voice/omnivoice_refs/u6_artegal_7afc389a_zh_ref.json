@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_artegal_7afc389a",
+  "lang": "zh",
+  "text": "旅人，你好。我是Artegal。今天你为何来到这片土地？",
+  "npc": "Artegal",
+  "source": "omnivoice_design",
+  "instruct": "男, 低音调",
+  "ref_text": "旅人，你好。我是Artegal。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1463738928,
+  "sample_rate": 24000,
+  "duration_seconds": 4.28,
+  "sha256": "a16b4c079a321738b24431f5d9e5674062c69d49a306ee971a8dd7814a31aeb3"
+}

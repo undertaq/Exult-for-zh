@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_ephemerides_fcd41c9b",
+  "lang": "zh",
+  "text": "旅人，你好。我是Ephemerides。今天你为何来到这片土地？",
+  "npc": "Ephemerides",
+  "source": "omnivoice_design",
+  "instruct": "男, 老年, 低音调",
+  "ref_text": "旅人，你好。我是Ephemerides。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 813243298,
+  "sample_rate": 24000,
+  "duration_seconds": 4.61,
+  "sha256": "1d7b5e4b974472f4d8a5cc023820413fcf7dc59b10af1a220a654b119dfc1dc2"
+}

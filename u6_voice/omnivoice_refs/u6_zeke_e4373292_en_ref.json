@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_zeke_e4373292",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Zeke. What brings you to these lands today?",
+  "npc": "Zeke",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Zeke. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1781224660,
+  "sample_rate": 24000,
+  "duration_seconds": 4.32,
+  "sha256": "934b4fc0669925f42328ca18623d65cd3776b4c8165f6aeb6b18691cd897f6b9"
+}

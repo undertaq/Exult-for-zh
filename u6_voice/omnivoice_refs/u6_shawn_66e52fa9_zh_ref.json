@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_shawn_66e52fa9",
+  "lang": "zh",
+  "text": "旅人，你好。我是Shawn。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Shawn。今天你为何来到这片土地？",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "旅人，你好。我是Shawn。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Shawn",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Shawn。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3585268361,
+  "sample_rate": 24000,
+  "duration_seconds": 4.28,
+  "sha256": "ad8bdb2b575ed9bb1d6936e128a10b2875e7691e05bc9ca066a5d6d9d80d440a"
+}

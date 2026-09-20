@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_boskin_8551f1cc",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Boskin. What brings you to these lands today?",
+  "npc": "Boskin",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Boskin. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1993025216,
+  "sample_rate": 24000,
+  "duration_seconds": 4.42,
+  "sha256": "c882426ba803bacb69b2349583514186eb9346b5d3f61cc0b25a06565d6ae756"
+}

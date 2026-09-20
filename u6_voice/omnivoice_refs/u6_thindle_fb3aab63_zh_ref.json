@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_thindle_fb3aab63",
+  "lang": "zh",
+  "text": "旅人，你好。我是Thindle。今天你为何来到这片土地？",
+  "npc": "Thindle",
+  "source": "omnivoice_design",
+  "instruct": "男, 老年, 低音调",
+  "ref_text": "旅人，你好。我是Thindle。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1075765989,
+  "sample_rate": 24000,
+  "duration_seconds": 4.37,
+  "sha256": "f48cf3686846a4d92c1334d31db17272f71601855f892a969a16175b5df475f4"
+}

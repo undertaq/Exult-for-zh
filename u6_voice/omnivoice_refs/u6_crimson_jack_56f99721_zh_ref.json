@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_crimson_jack_56f99721",
+  "lang": "zh",
+  "text": "旅人，你好。我是Crimson Jack。今天你为何来到这片土地？",
+  "npc": "Crimson Jack",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Crimson Jack。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 170683317,
+  "sample_rate": 24000,
+  "duration_seconds": 4.72,
+  "sha256": "d40f1fe6ad10713ba08f98f0050a8c107b7a9e6b2de17d788ba7f4c7ee4e1ae1"
+}

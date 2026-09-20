@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_marta_c14d56be",
+  "lang": "zh",
+  "text": "旅人，你好。我是Marta。今天你为何来到这片土地？",
+  "npc": "Marta",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Marta。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2286945859,
+  "sample_rate": 24000,
+  "duration_seconds": 4.28,
+  "sha256": "c5b23d2e1c30a23a7e979a1232f35672cebc17fff823b933ea008c524c6dad78"
+}

@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_naxalitor_446c2a00",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Naxalitor. What brings you to these lands today?",
+  "npc": "Naxalitor",
+  "source": "omnivoice_design",
+  "instruct": "very low pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Naxalitor. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3790480379,
+  "sample_rate": 24000,
+  "duration_seconds": 4.68,
+  "sha256": "5e3cbcd58d13d138327bfb2bd35669f2e638b1b4d826263a2406620f3ab1a09c"
+}

@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_ava_149f7514",
+  "lang": "zh",
+  "text": "旅人，你好。我是Ava。今天你为何来到这片土地？",
+  "npc": "Ava",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Ava。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2200308757,
+  "sample_rate": 24000,
+  "duration_seconds": 3.83,
+  "sha256": "f0d437bf52df26d3f27e7168645720f1075172fb2c9843c40b1963744106ce6e"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_leonna_c563a3bc",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Leonna. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Leonna. What brings you to these lands today?",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "Greetings, traveler. I am Leonna. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Leonna",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Leonna. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 167889936,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "5138dfbbdad6b97a87a373ec3432b28a0dafc1a66e91b975690d6e914f28a9d6"
+}

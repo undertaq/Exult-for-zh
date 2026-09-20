@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_conor_76f9b3ae",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Conor. What brings you to these lands today?",
+  "npc": "Conor",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Conor. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1544046305,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "1f2416b752bca64b6cd24d8232da66c8cb1c5c2e58d8dca074f7b22e5c3f3b88"
+}

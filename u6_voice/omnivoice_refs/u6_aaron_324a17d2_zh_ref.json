@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_aaron_324a17d2",
+  "lang": "zh",
+  "text": "旅人，你好。我是Aaron。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Aaron。今天你为何来到这片土地？",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "旅人，你好。我是Aaron。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Aaron",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Aaron。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1021667053,
+  "sample_rate": 24000,
+  "duration_seconds": 4.21,
+  "sha256": "700e0c62e96168100b904db7295308641c5fde1784f37308e962887b457a7a89"
+}

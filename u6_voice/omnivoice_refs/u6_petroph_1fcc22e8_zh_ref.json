@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_petroph_1fcc22e8",
+  "lang": "zh",
+  "text": "旅人，你好。我是Petroph。今天你为何来到这片土地？",
+  "npc": "Petroph",
+  "source": "omnivoice_design",
+  "instruct": "男, 低音调",
+  "ref_text": "旅人，你好。我是Petroph。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3475779493,
+  "sample_rate": 24000,
+  "duration_seconds": 4.12,
+  "sha256": "217faff7f65f8f12085074144e1ffb1d5a97839896d713c330cc98ff69d238a8"
+}

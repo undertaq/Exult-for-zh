@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_gwenneth_1ea559d5",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Gwenneth. What brings you to these lands today?",
+  "npc": "Gwenneth",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Gwenneth. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1948114828,
+  "sample_rate": 24000,
+  "duration_seconds": 4.6,
+  "sha256": "d9f339c8b69e924ee872c90dbd70b63b6821ad247e38ed7298ded22b68cd7f7e"
+}

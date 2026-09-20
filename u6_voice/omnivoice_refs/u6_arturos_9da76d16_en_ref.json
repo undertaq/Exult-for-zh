@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_arturos_9da76d16",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Arturos. What brings you to these lands today?",
+  "npc": "Arturos",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Arturos. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1082443422,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "b1f113692767c7796ecc97a41a9bd12e8b7061ffaf71acef2df43f75bfa2316d"
+}

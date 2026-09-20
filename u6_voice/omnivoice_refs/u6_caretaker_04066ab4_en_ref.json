@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_caretaker_04066ab4",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Caretaker. What brings you to these lands today?",
+  "npc": "Caretaker",
+  "source": "omnivoice_design",
+  "instruct": "very low pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Caretaker. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 4211242431,
+  "sample_rate": 24000,
+  "duration_seconds": 4.62,
+  "sha256": "b1da66cdc407593218979dd2f2e24fdcdb834aa4cfacc8b36441eb4780553983"
+}

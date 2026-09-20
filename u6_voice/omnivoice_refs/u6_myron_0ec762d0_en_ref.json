@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_myron_0ec762d0",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Myron. What brings you to these lands today?",
+  "npc": "Myron",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Myron. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2487594561,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "2ee4f5faba8c0e98c5a755070092f77909c3479de47a7202115ebdc6ee99ce93"
+}

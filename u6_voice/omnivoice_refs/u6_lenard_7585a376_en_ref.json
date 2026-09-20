@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_lenard_7585a376",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Lenard. What brings you to these lands today?",
+  "npc": "Lenard",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Lenard. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 151083448,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "0fdac296ae62991ce93d03e2280f511f95a109dd9e442562a83e38dd5d092e9a"
+}

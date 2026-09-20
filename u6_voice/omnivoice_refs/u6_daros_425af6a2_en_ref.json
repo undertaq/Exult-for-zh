@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_daros_425af6a2",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Daros. What brings you to these lands today?",
+  "npc": "Daros",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Daros. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2600217911,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "263fa33ca163c317ef1f389fca7e540b9afb5f0bf20f3bf7f60812c740c56028"
+}

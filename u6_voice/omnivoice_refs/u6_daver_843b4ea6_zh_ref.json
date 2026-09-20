@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_daver_843b4ea6",
+  "lang": "zh",
+  "text": "旅人，你好。我是Daver。今天你为何来到这片土地？",
+  "npc": "Daver",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Daver。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1671740875,
+  "sample_rate": 24000,
+  "duration_seconds": 3.93,
+  "sha256": "c0cf6061144f6d772f450d6ecbed615acec647ecbbb1f1e9f49ca363eccb1a4c"
+}

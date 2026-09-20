@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_hendle_91d9c1fa",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Hendle. What brings you to these lands today?",
+  "npc": "Hendle",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Hendle. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 980144519,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "cfa8fcd9dfbbd3ec71de9ea74ec8ae12ceebf2c608b985b3b28b14be6593f710"
+}

@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_anya_d8b4e5c1",
+  "lang": "zh",
+  "text": "旅人，你好。我是Anya。今天你为何来到这片土地？",
+  "npc": "Anya",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Anya。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1579539851,
+  "sample_rate": 24000,
+  "duration_seconds": 4.18,
+  "sha256": "459504c640b846cc843634011ef059c8e3025e6bc4b098c3aaa27e68e13da572"
+}

@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_marta_c14d56be",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Marta. What brings you to these lands today?",
+  "npc": "Marta",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Marta. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3935693714,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "d13bf1d04b90c1a12e13f0f52dcd76a0d5eb252b3a836a613b1bd410c251241e"
+}

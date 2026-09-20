@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_mortude_a7713080",
+  "lang": "zh",
+  "text": "旅人，你好。我是Mortude。今天你为何来到这片土地？",
+  "npc": "Mortude",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Mortude。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2102854117,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "087896a39581333924ed6451a29bdcb4d6909cf53c26610dac280e818576db84"
+}

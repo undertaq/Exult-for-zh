@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_efram_aa5c9aa4",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Efram. What brings you to these lands today?",
+  "npc": "Efram",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Efram. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1569963613,
+  "sample_rate": 24000,
+  "duration_seconds": 4.3,
+  "sha256": "b85c0b249993434b6c650d41d553780d5af97f5cdea9a1283d40a1a6b3ff1327"
+}

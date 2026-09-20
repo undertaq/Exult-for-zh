@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_kytyn_8d5da029",
+  "lang": "zh",
+  "text": "旅人，你好。我是Kytyn。今天你为何来到这片土地？",
+  "npc": "Kytyn",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Kytyn。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2757605859,
+  "sample_rate": 24000,
+  "duration_seconds": 4.28,
+  "sha256": "b23a2ffbabe3b247e215648c6f1fd5853c2511973a2ad56d5cae848b824868ca"
+}

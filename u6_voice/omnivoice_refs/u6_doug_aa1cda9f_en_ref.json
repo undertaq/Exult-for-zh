@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_doug_aa1cda9f",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Doug. What brings you to these lands today?",
+  "npc": "Doug",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Doug. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1944314352,
+  "sample_rate": 24000,
+  "duration_seconds": 4.32,
+  "sha256": "497406ff2842d26c5b75363c79dd6e70ec7fae533b3b31e36142b6c71adce115"
+}

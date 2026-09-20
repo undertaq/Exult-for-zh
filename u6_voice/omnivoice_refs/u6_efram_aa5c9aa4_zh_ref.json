@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_efram_aa5c9aa4",
+  "lang": "zh",
+  "text": "旅人，你好。我是Efram。今天你为何来到这片土地？",
+  "npc": "Efram",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Efram。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3835915161,
+  "sample_rate": 24000,
+  "duration_seconds": 3.89,
+  "sha256": "0be31ebe496f9f70f691a2afc666e03cf3010009782434647c3281cb6d2261f5"
+}

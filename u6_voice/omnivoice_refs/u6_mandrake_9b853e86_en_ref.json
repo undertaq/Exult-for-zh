@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_mandrake_9b853e86",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Mandrake. What brings you to these lands today?",
+  "npc": "Mandrake",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Mandrake. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3781640640,
+  "sample_rate": 24000,
+  "duration_seconds": 4.6,
+  "sha256": "22021d13dbc1dfd2926b29d26b111ca4cd425d1f9947e3cd477a8826365ab2f0"
+}

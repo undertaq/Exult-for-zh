@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_stivius_f0337380",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Stivius. What brings you to these lands today?",
+  "npc": "Stivius",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Stivius. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1037760005,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "5873e8ff1806ba20612adb89be3b8dea6f019af73c8ea9a064df4d55c2c02971"
+}

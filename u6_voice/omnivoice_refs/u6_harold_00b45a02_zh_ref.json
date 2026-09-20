@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_harold_00b45a02",
+  "lang": "zh",
+  "text": "旅人，你好。我是Harold。今天你为何来到这片土地？",
+  "npc": "Harold",
+  "source": "omnivoice_design",
+  "instruct": "男, 低音调",
+  "ref_text": "旅人，你好。我是Harold。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1008839276,
+  "sample_rate": 24000,
+  "duration_seconds": 4.23,
+  "sha256": "2d08b74169fe13e342b0c3a5ae9b2020308315b0f1ad399eb55a9e724e02be5b"
+}

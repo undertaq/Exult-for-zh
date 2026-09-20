@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_corwyn_11a5409d",
+  "lang": "zh",
+  "text": "旅人，你好。我是Corwyn。今天你为何来到这片土地？",
+  "npc": "Corwyn",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Corwyn。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 921056874,
+  "sample_rate": 24000,
+  "duration_seconds": 4.26,
+  "sha256": "719c286690e932b9275b00740d295101187f9294db1016d9cf3850139786cf48"
+}

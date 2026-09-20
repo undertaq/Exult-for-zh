@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_andrea_253387e8",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Andrea. What brings you to these lands today?",
+  "npc": "Andrea",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Andrea. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3229020922,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "a8ca28e1ef5333e663db331d1dba093a51e55b2c7138b2759a3aa0d4c4c730c1"
+}

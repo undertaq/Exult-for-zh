@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_isabella_a81ef43a",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Isabella. What brings you to these lands today?",
+  "npc": "Isabella",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Isabella. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2082505782,
+  "sample_rate": 24000,
+  "duration_seconds": 4.6,
+  "sha256": "c67d230e75ee60f0bd4f3294d5b2e723aad1c8b26bb587c0f88bc4bf89f1a0f0"
+}

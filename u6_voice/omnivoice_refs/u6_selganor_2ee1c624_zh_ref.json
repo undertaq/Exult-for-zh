@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_selganor_2ee1c624",
+  "lang": "zh",
+  "text": "旅人，你好。我是Selganor。今天你为何来到这片土地？",
+  "npc": "Selganor",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Selganor。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2195733310,
+  "sample_rate": 24000,
+  "duration_seconds": 4.25,
+  "sha256": "ce46f72e0eef9f4197771a060f0597938dafb170ce800a58525725e80661b58a"
+}

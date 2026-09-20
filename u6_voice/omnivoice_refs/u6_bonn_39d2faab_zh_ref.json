@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_bonn_39d2faab",
+  "lang": "zh",
+  "text": "旅人，你好。我是Bonn。今天你为何来到这片土地？",
+  "npc": "Bonn",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Bonn。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1944905470,
+  "sample_rate": 24000,
+  "duration_seconds": 3.76,
+  "sha256": "50eeef009cd78753a00e1e145ae9f625b8ac525904754d275dba5a6bba1e07e3"
+}

@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_peyton_3783cd9e",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Peyton. What brings you to these lands today?",
+  "npc": "Peyton",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Peyton. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1563367436,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "4d36a342273c3923b79ba9e4f5aa2b53908544de23760f1e5841d14151ff2435"
+}

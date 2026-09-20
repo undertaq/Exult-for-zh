@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_arbeth_ddee2cdd",
+  "lang": "zh",
+  "text": "旅人，你好。我是Arbeth。今天你为何来到这片土地？",
+  "npc": "Arbeth",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Arbeth。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3964808129,
+  "sample_rate": 24000,
+  "duration_seconds": 4.25,
+  "sha256": "ca4071cc76169bf42e2cb6b48d64afb12551a6c49e546d21fea53eaf5fea622f"
+}

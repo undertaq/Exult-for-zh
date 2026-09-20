@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_pegbyter_c750adcf",
+  "lang": "zh",
+  "text": "旅人，你好。我是Pegbyter。今天你为何来到这片土地？",
+  "npc": "Pegbyter",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Pegbyter。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2025432089,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "c2509b09fa20932640e867a1103fe9ac48d8b38574f16e730a0db7867b363639"
+}

@@ -1,0 +1,30 @@
+{
+  "captured_at_utc": "2026-09-20T05:33:22.669689+00:00",
+  "phase": "post-conversion-pre-pronunciation-cleanup",
+  "branch": "u6_voice",
+  "head_commit": "e6bd475df4d653141788dd8f9b3b55f16eaea745",
+  "generator_sha256": "60f76bd607c35eaba422f854de8b4d7208b5a7bf3172955a4e81d844f936f097",
+  "generator_mtime_utc": "2026-09-20T05:27:52.318357+00:00",
+  "clone_review_mtime_utc": "2026-09-20T05:30:25.473435+00:00",
+  "design_count": 203,
+  "reference_count": 406,
+  "reference_counts": {
+    "omnivoice_design_generated_en": 172,
+    "omnivoice_design_generated_zh": 172,
+    "u7_reused_u7_en": 31,
+    "u7_reused_u7_zh": 31
+  },
+  "clone_count": 21011,
+  "clone_counts": {
+    "en_complete": 10522,
+    "zh_complete": 10489
+  },
+  "invalid_ogg_count": 0,
+  "missing_jobs": [],
+  "active_omnivoice_workers": 0,
+  "active_qwen3_workers": 0,
+  "notes": [
+    "All completion checks require generated metadata, matching source text/design/language, positive duration, and a readable non-empty OGG.",
+    "Lensmaker EN source text remains Excuse me..; its successful OmniVoice fallback rendered_text is Excuse me."
+  ]
+}

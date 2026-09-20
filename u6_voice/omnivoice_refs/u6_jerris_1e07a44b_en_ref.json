@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_jerris_1e07a44b",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Jerris. What brings you to these lands today?",
+  "npc": "Jerris",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Jerris. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 19727728,
+  "sample_rate": 24000,
+  "duration_seconds": 4.4,
+  "sha256": "6ef2f1db90b0d4660fc9550b276ccbbadaf2668ca1628204b46741b1eaa3f79e"
+}

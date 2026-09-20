@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_rufus_d9c8b0f3",
+  "lang": "zh",
+  "text": "旅人，你好。我是Rufus。今天你为何来到这片土地？",
+  "npc": "Rufus",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Rufus。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3029089496,
+  "sample_rate": 24000,
+  "duration_seconds": 3.98,
+  "sha256": "f3a396c1f3c46dcd059fd5e94271f602656f0ae82a25f564af008a66d2d5031a"
+}

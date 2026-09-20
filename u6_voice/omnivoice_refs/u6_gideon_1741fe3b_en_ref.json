@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_gideon_1741fe3b",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Gideon. What brings you to these lands today?",
+  "npc": "Gideon",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Gideon. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 369421086,
+  "sample_rate": 24000,
+  "duration_seconds": 4.41,
+  "sha256": "b5c823f29e8ca843516e7743b9fae535e26d164671c30f8e555921dbaea681c0"
+}

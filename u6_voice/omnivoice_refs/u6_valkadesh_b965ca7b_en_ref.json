@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_valkadesh_b965ca7b",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Valkadesh. What brings you to these lands today?",
+  "npc": "Valkadesh",
+  "source": "omnivoice_design",
+  "instruct": "very low pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Valkadesh. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 77914589,
+  "sample_rate": 24000,
+  "duration_seconds": 4.58,
+  "sha256": "9b2c28f71682b572ca152661154738c2e31363f37dbe6f150ea95617f31c0f74"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_dunbar_d41e3d0c",
+  "lang": "zh",
+  "text": "旅人，你好。我是Dunbar。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Dunbar。今天你为何来到这片土地？",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "旅人，你好。我是Dunbar。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Dunbar",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Dunbar。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3404826466,
+  "sample_rate": 24000,
+  "duration_seconds": 4.01,
+  "sha256": "dd7a045a9953a1a5c76f1a4a7c02c63d9c913114be30106dcdffd1dfdeeb483f"
+}

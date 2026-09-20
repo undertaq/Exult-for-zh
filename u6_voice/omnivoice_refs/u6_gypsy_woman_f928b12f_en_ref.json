@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_gypsy_woman_f928b12f",
+  "lang": "en",
+  "text": "Greetings, traveler. I am gypsy woman. What brings you to these lands today?",
+  "npc": "gypsy woman",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am gypsy woman. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2017864062,
+  "sample_rate": 24000,
+  "duration_seconds": 4.76,
+  "sha256": "aa7f044678dc36eb51741ac186460e0b09b67684324872a33854df6139e3afe0"
+}

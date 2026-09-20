@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_immanuelle_7778611b",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Immanuelle. What brings you to these lands today?",
+  "npc": "Immanuelle",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Immanuelle. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2353933874,
+  "sample_rate": 24000,
+  "duration_seconds": 4.72,
+  "sha256": "2cbda1e87c37211ca65cd5d6bd3a4b52e7b228bc56cdd1ae8eb5eb9232969c84"
+}

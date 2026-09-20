@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_petroph_1fcc22e8",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Petroph. What brings you to these lands today?",
+  "npc": "Petroph",
+  "source": "omnivoice_design",
+  "instruct": "male, low pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Petroph. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3536137019,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "1d12b155706d991693887cc2c235199676d293bc51271ef7f2d31d03d6f90483"
+}

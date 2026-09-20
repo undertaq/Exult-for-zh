@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_homer_ff69e655",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Homer. What brings you to these lands today?",
+  "npc": "Homer",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Homer. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3551566371,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "6f5e6728acc99012e613fc35276e95eb24f299e7c54767e3ba758c398d53a4a9"
+}

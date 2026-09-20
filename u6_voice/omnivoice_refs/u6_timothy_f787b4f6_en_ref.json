@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_timothy_f787b4f6",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Timothy. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Timothy. What brings you to these lands today?",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "Greetings, traveler. I am Timothy. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Timothy",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Timothy. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 717509088,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "ebec56bc354c09a7179438abe1c5f7531add6b93a895e42607da296b59924e0a"
+}

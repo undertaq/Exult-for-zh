@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_dorin_4331a797",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Dorin. What brings you to these lands today?",
+  "npc": "Dorin",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Dorin. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 868187059,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "d3e85e071e18e0630b0347282a9574d77357751b90cb085ed12ffe6f3858dbee"
+}

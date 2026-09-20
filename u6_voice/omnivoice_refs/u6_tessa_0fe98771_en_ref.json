@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_tessa_0fe98771",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Tessa. What brings you to these lands today?",
+  "npc": "Tessa",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Tessa. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3257992622,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "30b6ef3ce43b8d6fa09adacaa1812d35e4981d8ada2f80d315eb9d0277ed8e6c"
+}

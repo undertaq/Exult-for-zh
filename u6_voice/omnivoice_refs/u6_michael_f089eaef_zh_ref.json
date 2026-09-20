@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_michael_f089eaef",
+  "lang": "zh",
+  "text": "旅人，你好。我是Michael。今天你为何来到这片土地？",
+  "npc": "Michael",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Michael。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 4193657944,
+  "sample_rate": 24000,
+  "duration_seconds": 3.71,
+  "sha256": "522f891bc7bb5d0abdf88a475fa1791ca17fdbb8e8227110d30fdcb4ea66c4db"
+}

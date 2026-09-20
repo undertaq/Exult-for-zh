@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_koranada_1c5e6121",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Koranada. What brings you to these lands today?",
+  "npc": "Koranada",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Koranada. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2603893717,
+  "sample_rate": 24000,
+  "duration_seconds": 4.6,
+  "sha256": "b22d3d182020c437e04aa772399efa74e25e2ddc20cf11feee4c467de90aa79f"
+}

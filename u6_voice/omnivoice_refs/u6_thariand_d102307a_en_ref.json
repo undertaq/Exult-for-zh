@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_thariand_d102307a",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Thariand. What brings you to these lands today?",
+  "npc": "Thariand",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Thariand. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1096798971,
+  "sample_rate": 24000,
+  "duration_seconds": 4.6,
+  "sha256": "6b2b3cb3c0e01c29e844f1c635cd1a90e54bc48301dd7219e1863622e8322a1b"
+}

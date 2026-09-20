@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_wanda_950fada6",
+  "lang": "zh",
+  "text": "旅人，你好。我是Wanda。今天你为何来到这片土地？",
+  "npc": "Wanda",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Wanda。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3694445339,
+  "sample_rate": 24000,
+  "duration_seconds": 4.28,
+  "sha256": "cf52b3fcb0f97e5f09870a16b5134b454083cf4964821baa22e38a556b4a508d"
+}

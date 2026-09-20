@@ -1,0 +1,35 @@
+{
+  "status": "generated",
+  "design_id": "u6_mariah_aaba06fd",
+  "lang": "zh",
+  "text": "Mariah 停頓了一下，陷入深思。「當他們提到‘偽先知’時，指的肯定是妳。」她說道。",
+  "tts_text": "Mariah 停頓了一下，陷入深思。「當他們提到‘偽先知’時，指的肯定是妳。」她說道。",
+  "override_revision": "pronunciation-audit-v1",
+  "rendered_text": "Mariah 停頓了一下，陷入深思。「當他們提到‘偽先知’時，指的肯定是妳。」她說道。",
+  "fallback_used": false,
+  "npc": "Mariah",
+  "ref_audio": "/home/joe/project/Exult-for-zh/voice/refs/npc_mariah_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 4157177303,
+  "sample_rate": 24000,
+  "duration_seconds": 8.43,
+  "sha256": "b0edf8228669d11118f62ce44591a18449a7abe56cfce710be9e88b5cead9ca6",
+  "func_id": "0499",
+  "offset_key": "e75",
+  "segment": 0,
+  "candidate_id": "zh-1ca0561db657abf8",
+  "variant": "traditional",
+  "eligible_for_adoption": false,
+  "sources": [
+    {
+      "kind": "mapping",
+      "npc": "Mariah",
+      "function": "0499",
+      "output": "0499_e75_0.ogg",
+      "row_index": 8133,
+      "row_key": "Mariah:0499:e75:0:0499_e75_0.ogg"
+    }
+  ]
+}

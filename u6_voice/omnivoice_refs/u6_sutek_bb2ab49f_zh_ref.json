@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_sutek_bb2ab49f",
+  "lang": "zh",
+  "text": "旅人，你好。我是Sutek。今天你为何来到这片土地？",
+  "npc": "Sutek",
+  "source": "omnivoice_design",
+  "instruct": "男, 老年, 低音调",
+  "ref_text": "旅人，你好。我是Sutek。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3125700937,
+  "sample_rate": 24000,
+  "duration_seconds": 4.07,
+  "sha256": "8b8a5e7d7189977f13c3545b5a3f058d0a4734912ca302b3bf107570e01e0124"
+}

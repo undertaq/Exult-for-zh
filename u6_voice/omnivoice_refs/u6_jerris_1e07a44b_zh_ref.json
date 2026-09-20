@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_jerris_1e07a44b",
+  "lang": "zh",
+  "text": "旅人，你好。我是Jerris。今天你为何来到这片土地？",
+  "npc": "Jerris",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Jerris。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2630466943,
+  "sample_rate": 24000,
+  "duration_seconds": 3.87,
+  "sha256": "c66c4fbb1dc115c9868dd7bf02d267d025746e888d87b3ca3eeaec2208174114"
+}

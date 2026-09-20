@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_ariana_94227eed",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Ariana. What brings you to these lands today?",
+  "npc": "Ariana",
+  "source": "omnivoice_design",
+  "instruct": "female, young adult, high pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Ariana. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 4092351759,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "486dee2d2813bb85b4489fcdff9909b4f63d6236cf78b1c5154087f8aae88051"
+}

@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_sionnach_df945d70",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Sionnach. What brings you to these lands today?",
+  "npc": "Sionnach",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Sionnach. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 4276814452,
+  "sample_rate": 24000,
+  "duration_seconds": 4.6,
+  "sha256": "e6868a0f0c0ad30f007012daa43ec85fcd42114d95b05faf44fa7a0f0d1160b4"
+}

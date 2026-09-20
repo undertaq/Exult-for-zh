@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_taynith_badd5ae4",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Taynith. What brings you to these lands today?",
+  "npc": "Taynith",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Taynith. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2417707977,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "af6a94c10e03b67d63831b4b88c7659bcb8e90d4eb37c9bffa4237159d5f5eb9"
+}

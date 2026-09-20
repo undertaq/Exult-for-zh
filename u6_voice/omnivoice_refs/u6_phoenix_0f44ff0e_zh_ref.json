@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_phoenix_0f44ff0e",
+  "lang": "zh",
+  "text": "旅人，你好。我是Phoenix。今天你为何来到这片土地？",
+  "npc": "Phoenix",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Phoenix。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3716153712,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "1fbe385587948f8321768b35ebd5ce340ed8dc190daa8cff6bd89d1f73ee41df"
+}

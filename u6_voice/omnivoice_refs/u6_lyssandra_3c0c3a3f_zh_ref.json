@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_lyssandra_3c0c3a3f",
+  "lang": "zh",
+  "text": "旅人，你好。我是Lyssandra。今天你为何来到这片土地？",
+  "npc": "Lyssandra",
+  "source": "omnivoice_design",
+  "instruct": "女, 青年, 高音调",
+  "ref_text": "旅人，你好。我是Lyssandra。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1771097025,
+  "sample_rate": 24000,
+  "duration_seconds": 4.41,
+  "sha256": "85f891b01f30b9984a169c06c5668d40339261d3c0062625a697f552807dc13b"
+}

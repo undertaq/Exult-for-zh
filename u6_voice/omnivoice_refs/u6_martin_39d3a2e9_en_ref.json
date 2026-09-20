@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_martin_39d3a2e9",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Martin. What brings you to these lands today?",
+  "npc": "Martin",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Martin. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 148256295,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "277969d9e68b6798064ef1e7cf68d8eb5686beae685a1158e086f44a7d5e3e49"
+}

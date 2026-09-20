@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_boskin_8551f1cc",
+  "lang": "zh",
+  "text": "旅人，你好。我是Boskin。今天你为何来到这片土地？",
+  "npc": "Boskin",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Boskin。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1034885345,
+  "sample_rate": 24000,
+  "duration_seconds": 3.71,
+  "sha256": "3a7dcf5ee8e0ab9d2b6ef343aea61f0443f973541e577e976f357cfec9f60492"
+}

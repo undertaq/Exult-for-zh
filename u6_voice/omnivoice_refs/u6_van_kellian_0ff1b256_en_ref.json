@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_van_kellian_0ff1b256",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Van Kellian. What brings you to these lands today?",
+  "npc": "Van Kellian",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Van Kellian. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 800473616,
+  "sample_rate": 24000,
+  "duration_seconds": 4.76,
+  "sha256": "a27d037566c1bca9561a107d282b379f1476509744ca57a3d9d9c88d196c250b"
+}

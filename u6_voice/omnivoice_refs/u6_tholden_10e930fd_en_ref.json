@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_tholden_10e930fd",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Tholden. What brings you to these lands today?",
+  "npc": "Tholden",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Tholden. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3879308597,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "91c15ee4cdd5bae4ed3cc5f2f65726b66837c5258836e0abe3e882fbee9b5ede"
+}

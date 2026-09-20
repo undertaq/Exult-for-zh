@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_ybarra_640a0e74",
+  "lang": "zh",
+  "text": "旅人，你好。我是Ybarra。今天你为何来到这片土地？",
+  "npc": "Ybarra",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Ybarra。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2172817257,
+  "sample_rate": 24000,
+  "duration_seconds": 3.46,
+  "sha256": "a443c15078725422c500581056c44eef8518e028b98a6aa6f9a2fbda5b7e5b4c"
+}

@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_dorin_4331a797",
+  "lang": "zh",
+  "text": "旅人，你好。我是Dorin。今天你为何来到这片土地？",
+  "npc": "Dorin",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Dorin。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1771355756,
+  "sample_rate": 24000,
+  "duration_seconds": 4.07,
+  "sha256": "a22c8b99babb4f201c7e939fe0c51c7471139a9307e70e39f94b085c6f784e8d"
+}

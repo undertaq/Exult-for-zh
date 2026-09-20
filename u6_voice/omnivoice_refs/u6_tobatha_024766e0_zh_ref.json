@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_tobatha_024766e0",
+  "lang": "zh",
+  "text": "旅人，你好。我是Tobatha。今天你为何来到这片土地？",
+  "npc": "Tobatha",
+  "source": "omnivoice_design",
+  "instruct": "女, 老年, 低音调",
+  "ref_text": "旅人，你好。我是Tobatha。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2631247998,
+  "sample_rate": 24000,
+  "duration_seconds": 4.33,
+  "sha256": "b49cd46fa98661b4730341a4284ca739dc8eefec4a62917cd4c3903a44e08783"
+}

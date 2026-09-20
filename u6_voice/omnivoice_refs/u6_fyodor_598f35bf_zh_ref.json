@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_fyodor_598f35bf",
+  "lang": "zh",
+  "text": "旅人，你好。我是Fyodor。今天你为何来到这片土地？",
+  "npc": "Fyodor",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Fyodor。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1497844967,
+  "sample_rate": 24000,
+  "duration_seconds": 4.09,
+  "sha256": "eb3340d6cbf8b34b6643912b00a0da924e280fbd6a244a6419b36bb37103d6ce"
+}

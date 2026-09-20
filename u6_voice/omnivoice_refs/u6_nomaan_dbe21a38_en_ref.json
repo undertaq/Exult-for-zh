@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_nomaan_dbe21a38",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Nomaan. What brings you to these lands today?",
+  "npc": "Nomaan",
+  "source": "omnivoice_design",
+  "instruct": "male, low pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Nomaan. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 45146321,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "85ff99ae5ea295d992d00cb32375811aeebe44b290b98bd727e0f1d027b5043a"
+}

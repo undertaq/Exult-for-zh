@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_trebor_803f9560",
+  "lang": "zh",
+  "text": "旅人，你好。我是Trebor。今天你为何来到这片土地？",
+  "npc": "Trebor",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Trebor。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 780531864,
+  "sample_rate": 24000,
+  "duration_seconds": 3.75,
+  "sha256": "049dd398cb0a3d2f565c8808d0f34b056697a41e524eed8a87883450f07b13d0"
+}

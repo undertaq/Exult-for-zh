@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_thariand_d102307a",
+  "lang": "zh",
+  "text": "旅人，你好。我是Thariand。今天你为何来到这片土地？",
+  "npc": "Thariand",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Thariand。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1026273594,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "574f8605c2766ef278b2ecff14f74cab5b1c3a0fdde825dfc5bacdbfbd31bcae"
+}

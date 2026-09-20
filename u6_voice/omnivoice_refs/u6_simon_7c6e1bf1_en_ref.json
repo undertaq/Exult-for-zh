@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_simon_7c6e1bf1",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Simon. What brings you to these lands today?",
+  "npc": "Simon",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Simon. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3668166708,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "ac89276e1279b7c74f9315d3d011fce941b0deb6531da5c87a119c8d86555a80"
+}

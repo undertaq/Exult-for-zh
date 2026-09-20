@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_tiberius_8a089126",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Tiberius. What brings you to these lands today?",
+  "npc": "Tiberius",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Tiberius. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3371188103,
+  "sample_rate": 24000,
+  "duration_seconds": 4.6,
+  "sha256": "f7dc46f02bda5b923dff5a484acaaa2947ce1b2711a23ff435138f5663273520"
+}

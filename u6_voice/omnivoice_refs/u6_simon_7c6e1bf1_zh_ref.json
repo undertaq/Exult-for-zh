@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_simon_7c6e1bf1",
+  "lang": "zh",
+  "text": "旅人，你好。我是Simon。今天你为何来到这片土地？",
+  "npc": "Simon",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Simon。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2854718881,
+  "sample_rate": 24000,
+  "duration_seconds": 3.83,
+  "sha256": "5b3a9d95554374e63141e8db62e3540da2af2ad3f49ad21aa0ad3e841779f073"
+}

@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_meredith_b69b3f30",
+  "lang": "zh",
+  "text": "旅人，你好。我是Meredith。今天你为何来到这片土地？",
+  "npc": "Meredith",
+  "source": "omnivoice_design",
+  "instruct": "女, 青年, 高音调",
+  "ref_text": "旅人，你好。我是Meredith。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3532230673,
+  "sample_rate": 24000,
+  "duration_seconds": 4.13,
+  "sha256": "8f50e0ff58d2b10a1e73072feee18b1bd5b33aef547ad7508832ff805f6f963d"
+}

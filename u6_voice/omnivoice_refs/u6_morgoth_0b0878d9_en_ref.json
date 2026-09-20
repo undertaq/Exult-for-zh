@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_morgoth_0b0878d9",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Morgoth. What brings you to these lands today?",
+  "npc": "Morgoth",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Morgoth. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1318912798,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "9491a956391f59a07c55b112141b147848ecd9a34024c780e83b32ba281bd6b7"
+}

@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_dr_cat_4f52cf83",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Dr. Cat. What brings you to these lands today?",
+  "npc": "Dr. Cat",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Dr. Cat. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 466808158,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "14e76a699cbfbf14b4f0af109a814f8d68ff87cae5ccf1af0f4330532722d063"
+}

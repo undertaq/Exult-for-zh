@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_phoenix_0f44ff0e",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Phoenix. What brings you to these lands today?",
+  "npc": "Phoenix",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Phoenix. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1817531497,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "71210f64fade10c06c9c7e1810bd280be4f587f9e430f7e3096d07dd062b8a05"
+}

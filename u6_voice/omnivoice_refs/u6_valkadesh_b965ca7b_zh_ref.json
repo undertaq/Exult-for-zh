@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_valkadesh_b965ca7b",
+  "lang": "zh",
+  "text": "旅人，你好。我是Valkadesh。今天你为何来到这片土地？",
+  "npc": "Valkadesh",
+  "source": "omnivoice_design",
+  "instruct": "极低音调",
+  "ref_text": "旅人，你好。我是Valkadesh。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1240562925,
+  "sample_rate": 24000,
+  "duration_seconds": 4.56,
+  "sha256": "fc73f60938fa9e9ee2ebf76b53c176c12b7c58525e4e9ea77fdd2a4d7f86e945"
+}

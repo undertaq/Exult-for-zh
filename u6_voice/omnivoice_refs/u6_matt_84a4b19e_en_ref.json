@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_matt_84a4b19e",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Matt. What brings you to these lands today?",
+  "npc": "Matt",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Matt. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 280458846,
+  "sample_rate": 24000,
+  "duration_seconds": 4.32,
+  "sha256": "bd45569ea3daf1cf9ef48b7f2328dbd6ce0866a8b146e7d6f1bcf4b30508c887"
+}

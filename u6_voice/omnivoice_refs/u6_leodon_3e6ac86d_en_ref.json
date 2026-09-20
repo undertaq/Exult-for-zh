@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_leodon_3e6ac86d",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Leodon. What brings you to these lands today?",
+  "npc": "Leodon",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Leodon. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3590885185,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "51b457e34588295a8fdb5ba945f932a16c263362197a17665b42c8d2066a8446"
+}

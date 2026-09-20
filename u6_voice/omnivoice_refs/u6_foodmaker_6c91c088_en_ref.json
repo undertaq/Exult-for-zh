@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_foodmaker_6c91c088",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Foodmaker. What brings you to these lands today?",
+  "npc": "Foodmaker",
+  "source": "omnivoice_design",
+  "instruct": "very low pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Foodmaker. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 561182866,
+  "sample_rate": 24000,
+  "duration_seconds": 4.68,
+  "sha256": "b068cf01c096da36b754f47503e07f9f206237dabad2fdc61856cb214c6561ec"
+}

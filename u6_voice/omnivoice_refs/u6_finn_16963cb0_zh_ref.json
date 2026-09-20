@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_finn_16963cb0",
+  "lang": "zh",
+  "text": "旅人，你好。我是Finn。今天你为何来到这片土地？",
+  "npc": "Finn",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Finn。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1719188602,
+  "sample_rate": 24000,
+  "duration_seconds": 4.24,
+  "sha256": "cf69fe1dd77892ff4148ae99fc6e919dcf64f41af9a2148e5674ababa2a341fe"
+}

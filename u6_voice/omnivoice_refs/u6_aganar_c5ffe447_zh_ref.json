@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_aganar_c5ffe447",
+  "lang": "zh",
+  "text": "旅人，你好。我是Aganar。今天你为何来到这片土地？",
+  "npc": "Aganar",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Aganar。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 26849057,
+  "sample_rate": 24000,
+  "duration_seconds": 3.99,
+  "sha256": "dadbbab29cb71a9430002d1c07bcacb370267e7281744c10e3697fa5c17ecbff"
+}

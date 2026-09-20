@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_doris_cafd9289",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Doris. What brings you to these lands today?",
+  "npc": "Doris",
+  "source": "omnivoice_design",
+  "instruct": "female, young adult, high pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Doris. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3527689556,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "650c3b1bbcb3ea00829619c2c492771506bd97ffb454f8ba653fc2976fedec52"
+}

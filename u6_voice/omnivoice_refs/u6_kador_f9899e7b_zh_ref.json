@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_kador_f9899e7b",
+  "lang": "zh",
+  "text": "旅人，你好。我是Kador。今天你为何来到这片土地？",
+  "npc": "Kador",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Kador。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 434636731,
+  "sample_rate": 24000,
+  "duration_seconds": 4.28,
+  "sha256": "dc188570d7ba5b7c7cc7bf2c562d3f0b399b454f935e81a3bf36f39ab95c5e7b"
+}

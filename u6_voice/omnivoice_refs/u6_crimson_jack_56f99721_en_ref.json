@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_crimson_jack_56f99721",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Crimson Jack. What brings you to these lands today?",
+  "npc": "Crimson Jack",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Crimson Jack. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3812313797,
+  "sample_rate": 24000,
+  "duration_seconds": 4.8,
+  "sha256": "2bc06bbc45992877c15e97c5e9e723d12963f655bb4a86a9c628c2253cd405d8"
+}

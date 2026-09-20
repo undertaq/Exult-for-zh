@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_captain_fox_10c70c5e",
+  "lang": "zh",
+  "text": "旅人，你好。我是Captain Fox。今天你为何来到这片土地？",
+  "npc": "Captain Fox",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Captain Fox。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3886827972,
+  "sample_rate": 24000,
+  "duration_seconds": 4.68,
+  "sha256": "1950b0afee4541177f042bc812d40455ff4299e1eb3443119e9f9c4dfcc0e957"
+}

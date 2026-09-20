@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_grison_b29a4d56",
+  "lang": "zh",
+  "text": "旅人，你好。我是Grison。今天你为何来到这片土地？",
+  "npc": "Grison",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Grison。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3802281619,
+  "sample_rate": 24000,
+  "duration_seconds": 4.12,
+  "sha256": "75381a7cd5a1865819079e2f1eebe3534405cd63ef75b8812c10171fd7f7e5ed"
+}

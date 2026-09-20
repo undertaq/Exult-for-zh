@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_lawrence_76364d81",
+  "lang": "zh",
+  "text": "旅人，你好。我是Lawrence。今天你为何来到这片土地？",
+  "npc": "Lawrence",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Lawrence。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 4065725917,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "aa2cc85ea9564708585e0ebb58b2b7c21c32d6a46f2a08874d652115c09cc8c5"
+}

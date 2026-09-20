@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_marissa_df4b16b6",
+  "lang": "zh",
+  "text": "旅人，你好。我是Marissa。今天你为何来到这片土地？",
+  "npc": "Marissa",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Marissa。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3042596981,
+  "sample_rate": 24000,
+  "duration_seconds": 3.64,
+  "sha256": "e5f7300c090f218459e7c98ddb876da8ab7ee5c3a57a289d02028625372b4288"
+}

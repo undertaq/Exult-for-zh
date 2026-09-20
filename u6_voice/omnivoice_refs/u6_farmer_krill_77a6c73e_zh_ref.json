@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_farmer_krill_77a6c73e",
+  "lang": "zh",
+  "text": "旅人，你好。我是Farmer Krill。今天你为何来到这片土地？",
+  "npc": "Farmer Krill",
+  "source": "omnivoice_design",
+  "instruct": "极低音调",
+  "ref_text": "旅人，你好。我是Farmer Krill。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3645852353,
+  "sample_rate": 24000,
+  "duration_seconds": 4.72,
+  "sha256": "9f361a98f4d6eea1a7d038096c5aaf8f84370e68a7d017e1e038ae42f99782da"
+}

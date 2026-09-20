@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_gypsy_woman_f928b12f",
+  "lang": "zh",
+  "text": "旅人，你好。我是gypsy woman。今天你为何来到这片土地？",
+  "npc": "gypsy woman",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是gypsy woman。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2491465919,
+  "sample_rate": 24000,
+  "duration_seconds": 4.63,
+  "sha256": "0013efa85556aa0d431b4110b614a9ae58d3fd5c8b40273b21b1888e0c5a7af2"
+}

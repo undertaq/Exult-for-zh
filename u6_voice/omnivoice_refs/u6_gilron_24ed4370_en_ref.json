@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_gilron_24ed4370",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Gilron. What brings you to these lands today?",
+  "npc": "Gilron",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Gilron. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 4101634741,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "6bed7d7a18e48392eb078515b06177d2ee85e2cc9c5910ea625acf8365f90912"
+}

@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_pushmepullyu_db6758d2",
+  "lang": "en",
+  "text": "Greetings, traveler. I am PushmePullyu. What brings you to these lands today?",
+  "npc": "PushmePullyu",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am PushmePullyu. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3822181676,
+  "sample_rate": 24000,
+  "duration_seconds": 4.69,
+  "sha256": "ae201cb2a1f61142392ba4141884f896f8519256444ffa89db943735a2a76a8a"
+}

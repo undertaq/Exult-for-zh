@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_gherick_ca509b5f",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Gherick. What brings you to these lands today?",
+  "npc": "Gherick",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Gherick. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3638360397,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "16f3609fd6d8064478b305b220d6e4fd0775cd1b0125d798c846830e1ef08a25"
+}

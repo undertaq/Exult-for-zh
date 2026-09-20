@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_gwenno_a33727fa",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Gwenno. What brings you to these lands today?",
+  "npc": "Gwenno",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Gwenno. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1285009800,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "75aa40d7165a1bfeb38e091b1e2a27198d9c1aa0a1a5ddb6a7365d325ebe2918"
+}

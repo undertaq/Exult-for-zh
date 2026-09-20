@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_beh_lem_f8a0c8cb",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Beh Lem. What brings you to these lands today?",
+  "npc": "Beh Lem",
+  "source": "omnivoice_design",
+  "instruct": "very low pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Beh Lem. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1403685183,
+  "sample_rate": 24000,
+  "duration_seconds": 4.48,
+  "sha256": "fb7c5b81527c5933a03959effb0a6902550a94e926d670b42a3bcf53608f22d7"
+}

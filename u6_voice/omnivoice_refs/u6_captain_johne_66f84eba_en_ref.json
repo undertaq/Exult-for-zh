@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_captain_johne_66f84eba",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Captain Johne. What brings you to these lands today?",
+  "npc": "Captain Johne",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Captain Johne. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3563737826,
+  "sample_rate": 24000,
+  "duration_seconds": 4.88,
+  "sha256": "280faf85a7b88fdf8f4eee3840fbcafe4c22d312e2b2af48780007be5782c958"
+}

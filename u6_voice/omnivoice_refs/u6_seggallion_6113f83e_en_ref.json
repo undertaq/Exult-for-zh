@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_seggallion_6113f83e",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Seggallion. What brings you to these lands today?",
+  "npc": "Seggallion",
+  "source": "omnivoice_design",
+  "instruct": "male, low pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Seggallion. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2175163507,
+  "sample_rate": 24000,
+  "duration_seconds": 4.72,
+  "sha256": "cac53438b01ec122ae271d192bbdb680c0ba3f686e699b45c792b82ef4a40d74"
+}

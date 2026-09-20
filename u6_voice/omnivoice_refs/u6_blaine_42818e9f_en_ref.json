@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_blaine_42818e9f",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Blaine. What brings you to these lands today?",
+  "npc": "Blaine",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Blaine. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 4205989962,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "752fd5de448cbf41230b360a24615cf03459ac5ef7af9aa787587c24e8b9c83a"
+}

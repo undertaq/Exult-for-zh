@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_leonna_c563a3bc",
+  "lang": "zh",
+  "text": "旅人，你好。我是Leonna。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Leonna。今天你为何来到这片土地？",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "旅人，你好。我是Leonna。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Leonna",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Leonna。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1869965402,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "09f8ecb0c531a6b7590e92933b92f946bfe41a3bba03e38f1432b7d3e4cdadad"
+}

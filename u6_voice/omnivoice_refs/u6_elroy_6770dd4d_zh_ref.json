@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_elroy_6770dd4d",
+  "lang": "zh",
+  "text": "旅人，你好。我是Elroy。今天你为何来到这片土地？",
+  "npc": "Elroy",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Elroy。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1996994367,
+  "sample_rate": 24000,
+  "duration_seconds": 4.28,
+  "sha256": "f85292c48edc52d1528c97f26c4824703e0255908d5273efc4e5be6f9144b1bb"
+}

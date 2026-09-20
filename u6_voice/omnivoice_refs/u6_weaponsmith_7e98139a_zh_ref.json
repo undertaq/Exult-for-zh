@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_weaponsmith_7e98139a",
+  "lang": "zh",
+  "text": "旅人，你好。我是Weaponsmith。今天你为何来到这片土地？",
+  "npc": "Weaponsmith",
+  "source": "omnivoice_design",
+  "instruct": "青年, 极低音调",
+  "ref_text": "旅人，你好。我是Weaponsmith。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3894572102,
+  "sample_rate": 24000,
+  "duration_seconds": 4.53,
+  "sha256": "88bab858983686e4200ed487592fd94afe58db22da6001168e8745efd1771c29"
+}

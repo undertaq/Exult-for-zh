@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_yorl_d76a5c27",
+  "lang": "zh",
+  "text": "旅人，你好。我是Yorl。今天你为何来到这片土地？",
+  "npc": "Yorl",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Yorl。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2746017689,
+  "sample_rate": 24000,
+  "duration_seconds": 3.47,
+  "sha256": "a1dfaf12251537bdf5be2b4db630510865387166b8fb8963b7f0331115f1827a"
+}

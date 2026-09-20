@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_sandy_e42e5767",
+  "lang": "zh",
+  "text": "旅人，你好。我是Sandy。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Sandy。今天你为何来到这片土地？",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "旅人，你好。我是Sandy。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Sandy",
+  "source": "omnivoice_design",
+  "instruct": "男, 低音调",
+  "ref_text": "旅人，你好。我是Sandy。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1777137618,
+  "sample_rate": 24000,
+  "duration_seconds": 4.06,
+  "sha256": "54755ec0209f4cb7e29de282a5b655cd4c2cbcb9174c6009df3f4d8f79dea6bb"
+}

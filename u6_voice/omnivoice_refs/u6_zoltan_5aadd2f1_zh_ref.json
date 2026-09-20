@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_zoltan_5aadd2f1",
+  "lang": "zh",
+  "text": "旅人，你好。我是Zoltan。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Zoltan。今天你为何来到这片土地？",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "旅人，你好。我是Zoltan。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Zoltan",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Zoltan。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 989338791,
+  "sample_rate": 24000,
+  "duration_seconds": 4.19,
+  "sha256": "62f5885bed356dd19dbc495f2df3dad69c74f449d3b691085cf6355a07bb3ca8"
+}

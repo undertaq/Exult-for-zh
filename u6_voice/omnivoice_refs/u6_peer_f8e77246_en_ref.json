@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_peer_f8e77246",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Peer. What brings you to these lands today?",
+  "npc": "Peer",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Peer. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 4175503942,
+  "sample_rate": 24000,
+  "duration_seconds": 4.32,
+  "sha256": "02ba48341c209c70666acc76068f0b12a23dc31f832fb8df462b03ee8e9fa711"
+}

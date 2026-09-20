@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_artegal_7afc389a",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Artegal. What brings you to these lands today?",
+  "npc": "Artegal",
+  "source": "omnivoice_design",
+  "instruct": "male, low pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Artegal. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1224123931,
+  "sample_rate": 24000,
+  "duration_seconds": 4.5,
+  "sha256": "37a111d2cfb32412981ba788fd59f99be220cc01f7db76ce9ad325ce9255ea69"
+}

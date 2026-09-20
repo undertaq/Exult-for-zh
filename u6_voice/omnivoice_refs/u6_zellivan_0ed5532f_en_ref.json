@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_zellivan_0ed5532f",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Zellivan. What brings you to these lands today?",
+  "npc": "Zellivan",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Zellivan. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 713879761,
+  "sample_rate": 24000,
+  "duration_seconds": 4.6,
+  "sha256": "ac2659d9b4c4efa0b99398462e73a8236c1278dd01e61b8f2b1651ad480c5700"
+}

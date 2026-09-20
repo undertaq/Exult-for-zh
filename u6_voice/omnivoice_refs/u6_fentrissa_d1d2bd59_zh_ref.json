@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_fentrissa_d1d2bd59",
+  "lang": "zh",
+  "text": "旅人，你好。我是Fentrissa。今天你为何来到这片土地？",
+  "npc": "Fentrissa",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Fentrissa。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3029654376,
+  "sample_rate": 24000,
+  "duration_seconds": 4.56,
+  "sha256": "aa74bb804ed267cbd055ea1fc5b415c2ccd2f3f4b95467356727519dd3d99d7a"
+}

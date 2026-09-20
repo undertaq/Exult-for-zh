@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_terri_c4b3034a",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Terri. What brings you to these lands today?",
+  "npc": "Terri",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Terri. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1615695107,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "82eb61d7dcc5aad01e9d5101e95756b4a90cad896ec78311494e78c7dbf68781"
+}

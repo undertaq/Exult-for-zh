@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_ariana_94227eed",
+  "lang": "zh",
+  "text": "旅人，你好。我是Ariana。今天你为何来到这片土地？",
+  "npc": "Ariana",
+  "source": "omnivoice_design",
+  "instruct": "女, 青年, 高音调",
+  "ref_text": "旅人，你好。我是Ariana。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1078129068,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "4788236ca9d46b5ed8e5c6313c60ab6b851f2c35cde5ad240d0b7045bc2b62e6"
+}

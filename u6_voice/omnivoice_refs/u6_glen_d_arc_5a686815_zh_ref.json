@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_glen_d_arc_5a686815",
+  "lang": "zh",
+  "text": "旅人，你好。我是Glen D'Arc。今天你为何来到这片土地？",
+  "npc": "Glen D'Arc",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Glen D'Arc。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3988999376,
+  "sample_rate": 24000,
+  "duration_seconds": 4.56,
+  "sha256": "c7419a1c183ba20161c22a4339bf90b463a1b6e163a62d108ba6dbe8ad373ff6"
+}

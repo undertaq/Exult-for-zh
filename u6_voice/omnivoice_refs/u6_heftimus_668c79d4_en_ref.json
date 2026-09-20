@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_heftimus_668c79d4",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Heftimus. What brings you to these lands today?",
+  "npc": "Heftimus",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Heftimus. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1045687212,
+  "sample_rate": 24000,
+  "duration_seconds": 4.6,
+  "sha256": "b8e7a4d7e72e401c03e255bb46ee33f5379083fc2b8593edc96458f9cd305abd"
+}

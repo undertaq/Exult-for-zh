@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_morchella_6dc3cfc0",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Morchella. What brings you to these lands today?",
+  "npc": "Morchella",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Morchella. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1681980652,
+  "sample_rate": 24000,
+  "duration_seconds": 4.68,
+  "sha256": "cf3f93f11c65d9ac5b2fe25c1e7a01f75328529c326544ea53f777eb3484521a"
+}

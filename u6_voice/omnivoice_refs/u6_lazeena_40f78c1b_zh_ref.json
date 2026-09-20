@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_lazeena_40f78c1b",
+  "lang": "zh",
+  "text": "旅人，你好。我是Lazeena。今天你为何来到这片土地？",
+  "npc": "Lazeena",
+  "source": "omnivoice_design",
+  "instruct": "女, 低音调",
+  "ref_text": "旅人，你好。我是Lazeena。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 492656797,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "dd021dc5ab60643831561eebb1df3ed13fe0a534a4c59587e57281f103beb75c"
+}

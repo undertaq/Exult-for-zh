@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_captain_elad_6898ad51",
+  "lang": "zh",
+  "text": "旅人，你好。我是Captain Elad。今天你为何来到这片土地？",
+  "npc": "Captain Elad",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Captain Elad。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3562535128,
+  "sample_rate": 24000,
+  "duration_seconds": 4.57,
+  "sha256": "f80ac2a85f42a3e20f12189776ecb6265bf8de066d4d8f9bb005fe73672f6fcf"
+}

@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_zellivan_0ed5532f",
+  "lang": "zh",
+  "text": "旅人，你好。我是Zellivan。今天你为何来到这片土地？",
+  "npc": "Zellivan",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Zellivan。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3131836628,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "ca1a11aa5190be72da79f474c44c07f6590939d77c880726c2b8306b5867220f"
+}

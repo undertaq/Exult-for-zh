@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_dezana_6642c6a6",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Dezana. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Dezana. What brings you to these lands today?",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "Greetings, traveler. I am Dezana. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Dezana",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Dezana. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1431602000,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "40af0611c26cea2bcf1642f6b05461c2ea71b5c902b25f51a52404496911fc94"
+}

@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_finn_16963cb0",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Finn. What brings you to these lands today?",
+  "npc": "Finn",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Finn. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2005842932,
+  "sample_rate": 24000,
+  "duration_seconds": 4.27,
+  "sha256": "ade23607ffa7d9c6b10c50d171b8e50835b24ef7f6c25b455677e2543c0a32d6"
+}

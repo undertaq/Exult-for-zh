@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_blaine_42818e9f",
+  "lang": "zh",
+  "text": "旅人，你好。我是Blaine。今天你为何来到这片土地？",
+  "npc": "Blaine",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Blaine。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 4020190767,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "46997b730e02707eab8958c78418019d7722cf3f74667bbf2b08034704361c50"
+}

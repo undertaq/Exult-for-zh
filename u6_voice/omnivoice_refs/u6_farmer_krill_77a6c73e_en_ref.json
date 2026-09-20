@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_farmer_krill_77a6c73e",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Farmer Krill. What brings you to these lands today?",
+  "npc": "Farmer Krill",
+  "source": "omnivoice_design",
+  "instruct": "very low pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Farmer Krill. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 766723678,
+  "sample_rate": 24000,
+  "duration_seconds": 4.8,
+  "sha256": "adc16d62f548b783bf817b5e2c4eba33be56669f54dab3e79c28048b1652fb8a"
+}

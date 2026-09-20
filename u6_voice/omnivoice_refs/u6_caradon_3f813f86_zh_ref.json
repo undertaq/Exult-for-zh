@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_caradon_3f813f86",
+  "lang": "zh",
+  "text": "旅人，你好。我是Caradon。今天你为何来到这片土地？",
+  "npc": "Caradon",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Caradon。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3751148163,
+  "sample_rate": 24000,
+  "duration_seconds": 4.32,
+  "sha256": "4b43b9301587a379272f180e8d8ea3b6826d58f6a6920ab479be861b0b40998e"
+}

@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_andreas_9eea6242",
+  "lang": "zh",
+  "text": "旅人，你好。我是Andreas。今天你为何来到这片土地？",
+  "npc": "Andreas",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Andreas。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 782594679,
+  "sample_rate": 24000,
+  "duration_seconds": 4.31,
+  "sha256": "8a2818804bddcbbdd36b00bb9e1604c9326608a52b4d4a4a5ccff9eb049d5077"
+}

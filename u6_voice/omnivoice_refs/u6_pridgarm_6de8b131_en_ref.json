@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_pridgarm_6de8b131",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Pridgarm. What brings you to these lands today?",
+  "npc": "Pridgarm",
+  "source": "omnivoice_design",
+  "instruct": "male, elderly, low pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Pridgarm. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 855916644,
+  "sample_rate": 24000,
+  "duration_seconds": 4.6,
+  "sha256": "6cdcd0c55bcfd9842a7373594dfbdd3ba74e2d2383e1d86dc29052b455cdc9dd"
+}

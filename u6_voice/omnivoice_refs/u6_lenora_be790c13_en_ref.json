@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_lenora_be790c13",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Lenora. What brings you to these lands today?",
+  "npc": "Lenora",
+  "source": "omnivoice_design",
+  "instruct": "female, low pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Lenora. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 4185976597,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "550be92a7ddcfeea11b08408d09d826d4db11cc182f314e25b275164b5f26682"
+}

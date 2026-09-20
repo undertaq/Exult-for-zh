@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_nomaan_dbe21a38",
+  "lang": "zh",
+  "text": "旅人，你好。我是Nomaan。今天你为何来到这片土地？",
+  "npc": "Nomaan",
+  "source": "omnivoice_design",
+  "instruct": "男, 低音调",
+  "ref_text": "旅人，你好。我是Nomaan。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 95494306,
+  "sample_rate": 24000,
+  "duration_seconds": 4.23,
+  "sha256": "fa26f3286e978e18c18cb49d47a0060e90a958c5c9db258ceed74624f4f4a5fa"
+}

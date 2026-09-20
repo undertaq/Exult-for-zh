@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_xiao_fc262ad0",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Xiao. What brings you to these lands today?",
+  "npc": "Xiao",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Xiao. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2865633869,
+  "sample_rate": 24000,
+  "duration_seconds": 4.32,
+  "sha256": "ee6a992eb0cd49e0573a64ee3205b4b9d4f24c70c687a64c5435d40fb6c705a5"
+}

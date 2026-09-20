@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_stephanie_6307ab01",
+  "lang": "zh",
+  "text": "旅人，你好。我是Stephanie。今天你为何来到这片土地？",
+  "npc": "Stephanie",
+  "source": "omnivoice_design",
+  "instruct": "女, 青年, 高音调",
+  "ref_text": "旅人，你好。我是Stephanie。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3241310501,
+  "sample_rate": 24000,
+  "duration_seconds": 4.56,
+  "sha256": "e7ee966e36e6de5a76f4397f09de2708916c5e82bc276b3537f1ae67c80d1444"
+}

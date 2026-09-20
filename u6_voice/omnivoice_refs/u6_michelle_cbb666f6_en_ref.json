@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_michelle_cbb666f6",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Michelle. What brings you to these lands today?",
+  "npc": "Michelle",
+  "source": "omnivoice_design",
+  "instruct": "female, young adult, high pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Michelle. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 862507191,
+  "sample_rate": 24000,
+  "duration_seconds": 4.6,
+  "sha256": "a9105fc7f4a079c86347690b2cc6ceecf50dd2651add106f73403c7ce22c8cee"
+}

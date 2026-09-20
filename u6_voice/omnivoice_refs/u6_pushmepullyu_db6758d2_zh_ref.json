@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_pushmepullyu_db6758d2",
+  "lang": "zh",
+  "text": "旅人，你好。我是PushmePullyu。今天你为何来到这片土地？",
+  "npc": "PushmePullyu",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是PushmePullyu。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3413601290,
+  "sample_rate": 24000,
+  "duration_seconds": 4.46,
+  "sha256": "a216994f38eb39c4af9404b0ce704aa1a33caf9d71c1be60f924bb7150e336be"
+}

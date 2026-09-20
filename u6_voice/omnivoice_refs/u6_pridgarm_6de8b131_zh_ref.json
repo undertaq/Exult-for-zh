@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_pridgarm_6de8b131",
+  "lang": "zh",
+  "text": "旅人，你好。我是Pridgarm。今天你为何来到这片土地？",
+  "npc": "Pridgarm",
+  "source": "omnivoice_design",
+  "instruct": "男, 老年, 低音调",
+  "ref_text": "旅人，你好。我是Pridgarm。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2195320113,
+  "sample_rate": 24000,
+  "duration_seconds": 4.51,
+  "sha256": "0e39211da5fe5099b5c4e902d459cea4623fa55f68e1203022a354a524482d65"
+}

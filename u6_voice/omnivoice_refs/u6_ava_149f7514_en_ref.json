@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_ava_149f7514",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Ava. What brings you to these lands today?",
+  "npc": "Ava",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Ava. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 659616841,
+  "sample_rate": 24000,
+  "duration_seconds": 4.24,
+  "sha256": "1c8cf30058f4b00061602f7b150a2c9313b9358220cd0333d4b5965267e36e8d"
+}

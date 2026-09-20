@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_grison_b29a4d56",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Grison. What brings you to these lands today?",
+  "npc": "Grison",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Grison. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2460293077,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "c40dc9cdfeefe0b81f20887d73768c2df76a24de30ed35eb07ae5aa64647c686"
+}

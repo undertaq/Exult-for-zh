@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_snakecharmer_f5b0be62",
+  "lang": "zh",
+  "text": "旅人，你好。我是Snakecharmer。今天你为何来到这片土地？",
+  "npc": "Snakecharmer",
+  "source": "omnivoice_design",
+  "instruct": "极低音调",
+  "ref_text": "旅人，你好。我是Snakecharmer。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3674112535,
+  "sample_rate": 24000,
+  "duration_seconds": 4.8,
+  "sha256": "d7e4ef0b9bb90a9741131f0adacee791ba39de506b269b6fadeeed384009f124"
+}

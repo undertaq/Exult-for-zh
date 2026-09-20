@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_yorl_d76a5c27",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Yorl. What brings you to these lands today?",
+  "npc": "Yorl",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Yorl. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2677753187,
+  "sample_rate": 24000,
+  "duration_seconds": 4.32,
+  "sha256": "9b59e998529c9b115dffbba597bf18a3b65dfd63f3a0aad3bf5e3159173af460"
+}

@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_culham_bc94ad3a",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Culham. What brings you to these lands today?",
+  "npc": "Culham",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Culham. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1940979483,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "48e6dbf487d08e3b9d303e1d0ff1f1f81badca6f827537bd554268540b6550eb"
+}

@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_andrea_253387e8",
+  "lang": "zh",
+  "text": "旅人，你好。我是Andrea。今天你为何来到这片土地？",
+  "npc": "Andrea",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Andrea。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3656399785,
+  "sample_rate": 24000,
+  "duration_seconds": 4.16,
+  "sha256": "ecc7a98b6783c73fe7a1f78e34472b1e3352f8f3ca1f7871b3a7e341495683fa"
+}

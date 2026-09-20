@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_linda_1bda9e50",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Linda. What brings you to these lands today?",
+  "npc": "Linda",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Linda. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2747910606,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "b58c07b1e4aebf31503d0d8f5ab10aa42424f03e41900705f6f6deecc0888c91"
+}

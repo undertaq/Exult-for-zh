@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_cullen_ac684611",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Cullen. What brings you to these lands today?",
+  "npc": "Cullen",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Cullen. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3979923128,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "96d23ea599047d4c15c12abc20e662f9c2ed54e580559d4babef411c56ccfd51"
+}

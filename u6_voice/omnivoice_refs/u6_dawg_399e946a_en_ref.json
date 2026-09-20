@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_dawg_399e946a",
+  "lang": "en",
+  "text": "Greetings, traveler. I am dawg. What brings you to these lands today?",
+  "npc": "dawg",
+  "source": "omnivoice_design",
+  "instruct": "very low pitch, American accent",
+  "ref_text": "Greetings, traveler. I am dawg. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1035595425,
+  "sample_rate": 24000,
+  "duration_seconds": 4.32,
+  "sha256": "bad76b4d9e898a138d7886b9bc7ea3a312e787830981b3633f9dc211c220d257"
+}

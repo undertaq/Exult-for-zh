@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_sylania_29347146",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Sylania. What brings you to these lands today?",
+  "npc": "Sylania",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Sylania. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 294237229,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "14c68db1a6d747e794a2b588a7941be34357f3cad0854b49d3b5c30dcc9131fb"
+}

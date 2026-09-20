@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_enrik_c3d42c94",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Enrik. What brings you to these lands today?",
+  "npc": "Enrik",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Enrik. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3952387880,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "f88f1a3d67fbc0b7800aa818fc0318589db06ec955fb10b561722d3641b7620c"
+}

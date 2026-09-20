@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_thug1_09dec9e2",
+  "lang": "zh",
+  "text": "旅人，你好。我是thug1。今天你为何来到这片土地？",
+  "npc": "thug1",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是thug1。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3022997783,
+  "sample_rate": 24000,
+  "duration_seconds": 4.14,
+  "sha256": "f3715b2f202dd3791a1a82f4d1233365f267f91bd34c917f42de010409f91414"
+}

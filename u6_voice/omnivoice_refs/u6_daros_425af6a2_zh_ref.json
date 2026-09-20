@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_daros_425af6a2",
+  "lang": "zh",
+  "text": "旅人，你好。我是Daros。今天你为何来到这片土地？",
+  "npc": "Daros",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Daros。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2202484320,
+  "sample_rate": 24000,
+  "duration_seconds": 4.13,
+  "sha256": "5aff8c529e464afc6aabc7229664cb2c9080b557b2ff88ff0cc7e8b7cbb6669d"
+}

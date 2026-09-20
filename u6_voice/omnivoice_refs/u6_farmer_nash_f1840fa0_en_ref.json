@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_farmer_nash_f1840fa0",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Farmer Nash. What brings you to these lands today?",
+  "npc": "Farmer Nash",
+  "source": "omnivoice_design",
+  "instruct": "very low pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Farmer Nash. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3249012627,
+  "sample_rate": 24000,
+  "duration_seconds": 4.76,
+  "sha256": "a142b3213c80c57201aa397f89b57aea51b2883a40d88c37c51fc7da39aaa6fe"
+}

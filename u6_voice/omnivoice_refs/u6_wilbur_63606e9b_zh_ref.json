@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_wilbur_63606e9b",
+  "lang": "zh",
+  "text": "旅人，你好。我是Wilbur。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Wilbur。今天你为何来到这片土地？",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "旅人，你好。我是Wilbur。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Wilbur",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Wilbur。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2384044784,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "99a5028acd5769756e2fd070842ba2d50192ad098d6a4c7bd968b19861a16a79"
+}

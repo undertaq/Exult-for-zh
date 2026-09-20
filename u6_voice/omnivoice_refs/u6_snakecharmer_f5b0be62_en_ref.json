@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_snakecharmer_f5b0be62",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Snakecharmer. What brings you to these lands today?",
+  "npc": "Snakecharmer",
+  "source": "omnivoice_design",
+  "instruct": "very low pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Snakecharmer. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2820344741,
+  "sample_rate": 24000,
+  "duration_seconds": 4.88,
+  "sha256": "e06699a30524f24c7c7b097075b56eddf9d070e885241662df22d54b08e311ee"
+}

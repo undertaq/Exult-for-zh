@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_lawrence_76364d81",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Lawrence. What brings you to these lands today?",
+  "npc": "Lawrence",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Lawrence. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3804882332,
+  "sample_rate": 24000,
+  "duration_seconds": 4.6,
+  "sha256": "4f038cd1586238f40a35bef6c56bc0a839e3e2a2b210e21c123dc392cb1d5662"
+}

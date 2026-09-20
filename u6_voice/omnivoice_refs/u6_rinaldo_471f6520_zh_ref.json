@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_rinaldo_471f6520",
+  "lang": "zh",
+  "text": "旅人，你好。我是Rinaldo。今天你为何来到这片土地？",
+  "npc": "Rinaldo",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Rinaldo。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1187842257,
+  "sample_rate": 24000,
+  "duration_seconds": 4.02,
+  "sha256": "2bbbcf281555389b38be173fa35bb536eca6377d681a962cb9035ec1f41ae9ee"
+}

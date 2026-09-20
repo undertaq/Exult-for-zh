@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_xiao_fc262ad0",
+  "lang": "zh",
+  "text": "旅人，你好。我是Xiao。今天你为何来到这片土地？",
+  "npc": "Xiao",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Xiao。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2323611338,
+  "sample_rate": 24000,
+  "duration_seconds": 3.95,
+  "sha256": "721b1bc3d9b7ad360c4d68c85713fcb2075ecb842a7b30aa821ee07ccc35e2e0"
+}

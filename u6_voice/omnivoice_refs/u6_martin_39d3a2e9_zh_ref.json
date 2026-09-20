@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_martin_39d3a2e9",
+  "lang": "zh",
+  "text": "旅人，你好。我是Martin。今天你为何来到这片土地？",
+  "npc": "Martin",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Martin。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 331557620,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "725d0c8df2d72bd749608e51601b25465754e6e7f38b90cb1bd5dbbef9836b63"
+}

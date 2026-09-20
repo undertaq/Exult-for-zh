@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_koranada_1c5e6121",
+  "lang": "zh",
+  "text": "旅人，你好。我是Koranada。今天你为何来到这片土地？",
+  "npc": "Koranada",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Koranada。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1747647543,
+  "sample_rate": 24000,
+  "duration_seconds": 4.09,
+  "sha256": "3206fe970af2f60e7bdd44d85da6e0087e06e50f1dcf8a1f3ea0edbc0fbb31e2"
+}

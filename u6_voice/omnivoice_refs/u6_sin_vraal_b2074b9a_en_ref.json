@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_sin_vraal_b2074b9a",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Sin Vraal. What brings you to these lands today?",
+  "npc": "Sin Vraal",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Sin Vraal. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1943566635,
+  "sample_rate": 24000,
+  "duration_seconds": 4.6,
+  "sha256": "75365269f6f21f08d87a589caaab035e5c742798adbef1ab21818606f9546a72"
+}

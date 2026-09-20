@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_troy_5a99c57b",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Troy. What brings you to these lands today?",
+  "npc": "Troy",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Troy. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 51244701,
+  "sample_rate": 24000,
+  "duration_seconds": 4.32,
+  "sha256": "f384a617000643c8f8e2097ef336fe06383f604922d074bd94d92b84d96faf91"
+}

@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_sutek_bb2ab49f",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Sutek. What brings you to these lands today?",
+  "npc": "Sutek",
+  "source": "omnivoice_design",
+  "instruct": "male, elderly, low pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Sutek. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 4268056104,
+  "sample_rate": 24000,
+  "duration_seconds": 4.23,
+  "sha256": "4cf9e82a996918a8633d03bb6c4ffc23c7c0f878a141415b8c83fbdb3e8a4b53"
+}

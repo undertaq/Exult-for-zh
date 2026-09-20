@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_ahrmaand_7c9a01cd",
+  "lang": "zh",
+  "text": "旅人，你好。我是Ahrmaand。今天你为何来到这片土地？",
+  "npc": "Ahrmaand",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Ahrmaand。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3986313195,
+  "sample_rate": 24000,
+  "duration_seconds": 4.08,
+  "sha256": "e95e0123be00661f776afa4e4147788fe3f4b3b612fc3e636560715c07c5b4f8"
+}

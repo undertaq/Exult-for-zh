@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_lazeena_40f78c1b",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Lazeena. What brings you to these lands today?",
+  "npc": "Lazeena",
+  "source": "omnivoice_design",
+  "instruct": "female, low pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Lazeena. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1213229870,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "65a24edc3cd0e240969aeb014073a2f77210dd9c1d53090169935813c961df8e"
+}

@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_captain_elad_6898ad51",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Captain Elad. What brings you to these lands today?",
+  "npc": "Captain Elad",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Captain Elad. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2863350340,
+  "sample_rate": 24000,
+  "duration_seconds": 4.8,
+  "sha256": "2c1d33fd6b67067a364d7f5871d807adc68e2845183f1eb381bd0e4b3d5b6e71"
+}

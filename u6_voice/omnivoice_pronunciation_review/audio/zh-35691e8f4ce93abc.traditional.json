@@ -1,0 +1,35 @@
+{
+  "status": "generated",
+  "design_id": "u6_snakecharmer_f5b0be62",
+  "lang": "zh",
+  "text": "萬歲，馴蛇者！",
+  "tts_text": "萬歲，馴蛇者！",
+  "override_revision": "pronunciation-audit-v1",
+  "rendered_text": "萬歲，馴蛇者！",
+  "fallback_used": false,
+  "npc": "Snakecharmer",
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/omnivoice_refs/u6_snakecharmer_f5b0be62_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Snakecharmer。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 4196090218,
+  "sample_rate": 24000,
+  "duration_seconds": 1.72,
+  "sha256": "2589c95a1442bf72453a80ed8aa47e499543bfb6d918bf30e12d63cbd6097892",
+  "func_id": "04c1",
+  "offset_key": "a2",
+  "segment": 0,
+  "candidate_id": "zh-35691e8f4ce93abc",
+  "variant": "traditional",
+  "eligible_for_adoption": false,
+  "sources": [
+    {
+      "kind": "mapping",
+      "npc": "Snakecharmer",
+      "function": "04c1",
+      "output": "04c1_a2_0.ogg",
+      "row_index": 9238,
+      "row_key": "Snakecharmer:04c1:a2:0:04c1_a2_0.ogg"
+    }
+  ]
+}

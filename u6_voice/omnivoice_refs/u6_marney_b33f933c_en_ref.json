@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_marney_b33f933c",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Marney. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Marney. What brings you to these lands today?",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "Greetings, traveler. I am Marney. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Marney",
+  "source": "omnivoice_design",
+  "instruct": "female, low pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Marney. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 459802362,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "5e6ff6bfd58aec4b99f54a1ceb35bc08db504106fa064a8d9a76cd8e1e119fe4"
+}

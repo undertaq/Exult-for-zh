@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_marissa_df4b16b6",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Marissa. What brings you to these lands today?",
+  "npc": "Marissa",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Marissa. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1457486607,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "6b44c3c9444193f9ca499c886167a0c0e6800a7d54060c04e16373115f06382a"
+}

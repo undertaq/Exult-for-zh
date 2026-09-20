@@ -1,0 +1,16 @@
+{
+  "status": "generated",
+  "design_id": "u6_utomo_9351ea87",
+  "lang": "zh",
+  "text": "旅人，你好。我是Utomo。今天你为何来到这片土地？",
+  "npc": "Utomo",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Utomo。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 558202844,
+  "sample_rate": 24000,
+  "duration_seconds": 4.01,
+  "sha256": "d55b212ef91e061819c7f68874379d612253f7391866212af5766fd739b2737b"
+}
