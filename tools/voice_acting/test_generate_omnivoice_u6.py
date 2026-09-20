@@ -3,6 +3,7 @@ import json
 import sys
 from pathlib import Path
 
+import numpy as np
 import pytest
 
 import tools.voice_acting.generate_omnivoice_u6 as generator
@@ -1120,6 +1121,104 @@ def test_routed_clone_manifest_and_completion_serialize_route_metadata(tmp_path)
         "reference_id": "npc_unknown",
         "reference_sha256": generator.sha256_file(narrator_reference),
     }
+
+
+def test_mixed_renderer_uses_each_part_reference_caches_prompts_and_splices_in_order(tmp_path, monkeypatch):
+    class Model:
+        sampling_rate = 1000
+
+        def __init__(self):
+            self.prompt_calls = []
+            self.generate_prompts = []
+
+        def create_voice_clone_prompt(self, *, ref_audio, ref_text):
+            self.prompt_calls.append((Path(ref_audio).name, ref_text))
+            return f"prompt:{Path(ref_audio).name}:{ref_text}"
+
+        def generate(self, *, voice_clone_prompt, **_kwargs):
+            self.generate_prompts.append(voice_clone_prompt)
+            value = 1.0 if "speaker.ogg" in voice_clone_prompt else 2.0
+            return [np.full(4, value, dtype=np.float32)]
+
+    speaker = tmp_path / "speaker.ogg"
+    narrator = tmp_path / "narrator.ogg"
+    speaker.write_bytes(b"speaker")
+    narrator.write_bytes(b"narrator")
+    job = CloneJob(
+        design_id="u6_ada", npc="Ada", lang="en", text="whole line",
+        ref_audio=speaker, ref_text="Ada reference", output=tmp_path / "line.ogg",
+        func_id="0401", offset_key="2", segment=0,
+        reference_role="mixed", reference_revision=generator.ROUTED_REFERENCE_REVISION,
+        voice_parts=(
+            generator.VoicePart("speaker", "Hello", speaker, "Ada reference", "u6_ada"),
+            generator.VoicePart("narrator", "She waves.", narrator, "Narrator reference", "npc_unknown"),
+            generator.VoicePart("speaker", "Goodbye", speaker, "Ada reference", "u6_ada"),
+        ),
+    )
+    seeded = []
+    monkeypatch.setattr(generator, "_seed_torch", seeded.append)
+
+    audio, sample_rate, seed, rendered_parts = generator._render_mixed_clone(Model(), job, {})
+
+    assert sample_rate == 1000
+    assert seed == generator._job_seed(job)
+    assert rendered_parts == ("Hello", "She waves.", "Goodbye")
+    assert len(seeded) == 3 and len(set(seeded)) == 3
+    assert np.allclose(audio, [1, 1, 1, 0, 0, 2, 2, 0, 0, 1, 1, 1])
+
+    model = Model()
+    generator._render_mixed_clone(model, job, {})
+    assert model.prompt_calls == [
+        ("speaker.ogg", "Ada reference"),
+        ("narrator.ogg", "Narrator reference"),
+    ]
+    assert model.generate_prompts == [
+        "prompt:speaker.ogg:Ada reference",
+        "prompt:narrator.ogg:Narrator reference",
+        "prompt:speaker.ogg:Ada reference",
+    ]
+
+
+def test_process_voice_keeps_single_reference_jobs_on_batch_path(tmp_path, monkeypatch):
+    class Model:
+        sampling_rate = 1000
+
+        def __init__(self):
+            self.generate_calls = []
+
+        def create_voice_clone_prompt(self, **_kwargs):
+            return "single-prompt"
+
+        def generate(self, **kwargs):
+            self.generate_calls.append(kwargs)
+            return [np.array([1.0], dtype=np.float32)]
+
+    reference = tmp_path / "speaker.ogg"
+    reference.write_bytes(b"speaker")
+    job = CloneJob(
+        design_id="u6_ada", npc="Ada", lang="en", text="Hello",
+        ref_audio=reference, ref_text="Ada reference", output=tmp_path / "line.ogg",
+        func_id="0401", offset_key="0", segment=0,
+    )
+    model = Model()
+    published = []
+    args = type("Args", (), {
+        "lang": "both", "worker_index": 0, "worker_count": 1, "batch_size": 4,
+        "gpu": 0, "model": "fake", "last_review": float("inf"), "review_interval": float("inf"),
+        "output_dir": tmp_path, "mapping": tmp_path / "mapping.json", "review_dir": tmp_path / "review",
+    })()
+    monkeypatch.setitem(sys.modules, "torch", object())
+    monkeypatch.setattr(generator, "_seed_torch", lambda _seed: None)
+    monkeypatch.setattr(generator, "load_model", lambda *_args: model)
+    monkeypatch.setattr(generator, "_publish_clone", lambda *values: published.append(values))
+    monkeypatch.setattr(generator, "write_clone_review", lambda *_args: None)
+    monkeypatch.setattr(generator, "_render_mixed_clone", lambda *_args: pytest.fail("single job must not use mixed renderer"))
+
+    generator.process_voice(args, [job])
+
+    assert model.generate_calls[0]["text"] == ["Hello"]
+    assert model.generate_calls[0]["voice_clone_prompt"] == ["single-prompt"]
+    assert len(published) == 1
 
 
 def test_routed_reference_hash_change_invalidates_completed_clone(tmp_path):

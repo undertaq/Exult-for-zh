@@ -50,6 +50,7 @@ SPECIAL_REFERENCE_IDS = frozenset({
     "npc_unknown",
     "npc_narrator_male",
 })
+MIXED_BOUNDARY_FADE_SECONDS = 0.002
 
 # Task 3 can replace or extend these values with a revisioned manifest at the
 # omnivoice_instruction() call boundary without changing pitch heuristics.
@@ -943,6 +944,20 @@ def _audio_length(audio: Any) -> int:
         return 0
 
 
+def _clone_prompt(model, ref_audio: Path, ref_text: str, prompt_cache: dict[str, Any] | None):
+    """Get a clone prompt, caching by the exact reference asset and transcript."""
+    key = f"{ref_audio.resolve()}\n{ref_text}"
+    prompt = prompt_cache.get(key) if prompt_cache is not None else None
+    if prompt is None:
+        prompt = model.create_voice_clone_prompt(
+            ref_audio=str(ref_audio),
+            ref_text=ref_text,
+        )
+        if prompt_cache is not None:
+            prompt_cache[key] = prompt
+    return prompt
+
+
 def _audio_from_model(
     model,
     job: ReferenceJob | CloneJob,
@@ -970,15 +985,7 @@ def _audio_from_model(
             **kwargs,
         )
     else:
-        key = f"{job.ref_audio.resolve()}\n{job.ref_text}"
-        prompt = prompt_cache.get(key) if prompt_cache is not None else None
-        if prompt is None:
-            prompt = model.create_voice_clone_prompt(
-                ref_audio=str(job.ref_audio),
-                ref_text=job.ref_text,
-            )
-            if prompt_cache is not None:
-                prompt_cache[key] = prompt
+        prompt = _clone_prompt(model, job.ref_audio, job.ref_text, prompt_cache)
         audios = model.generate(
             text=target_text,
             language=LANGUAGE_NAMES[job.lang],
@@ -991,6 +998,118 @@ def _audio_from_model(
     if _audio_length(audio) == 0:
         raise RuntimeError("OmniVoice returned empty audio")
     return audio, int(model.sampling_rate), seed
+
+
+def _part_seed(job: CloneJob, part: VoicePart, index: int) -> int:
+    return stable_seed(
+        _job_seed(job),
+        index,
+        part.role,
+        part.text,
+        part.reference_path.resolve(),
+        part.reference_text,
+        part.reference_id,
+        part.reference_sha256,
+    )
+
+
+def _audio_from_clone_part(
+    model,
+    job: CloneJob,
+    part: VoicePart,
+    index: int,
+    prompt_cache: dict[str, Any] | None,
+    *,
+    seed_offset: int = 0,
+    text_override: str | None = None,
+):
+    target_text = part.text if text_override is None else text_override
+    seed = _part_seed(job, part, index) + seed_offset
+    _seed_torch(seed)
+    prompt = _clone_prompt(model, part.reference_path, part.reference_text, prompt_cache)
+    audios = model.generate(
+        text=target_text,
+        language=LANGUAGE_NAMES[job.lang],
+        voice_clone_prompt=prompt,
+        num_step=32,
+        guidance_scale=2.0,
+        speed=1.0,
+        postprocess_output=True,
+    )
+    if not audios:
+        raise RuntimeError("OmniVoice returned no audio")
+    audio = audios[0]
+    if _audio_length(audio) == 0:
+        raise RuntimeError("OmniVoice returned empty audio")
+    return audio, int(model.sampling_rate), seed
+
+
+def _render_clone_part_with_fallbacks(
+    model,
+    job: CloneJob,
+    part: VoicePart,
+    index: int,
+    prompt_cache: dict[str, Any] | None,
+):
+    last_error: Exception | None = None
+    for text_override in fallback_texts(part.text, job.lang):
+        for seed_offset in range(4):
+            try:
+                result = _audio_from_clone_part(
+                    model, job, part, index, prompt_cache,
+                    seed_offset=seed_offset, text_override=text_override,
+                )
+                return result, text_override
+            except Exception as error:
+                last_error = error
+    raise RuntimeError(
+        f"OmniVoice failed for mixed part {index} of {job.npc} {job.lang} after fallback retries: {last_error}"
+    )
+
+
+def _splice_mixed_audio(parts: list[Any], sample_rate: int):
+    import numpy as np
+
+    if not parts:
+        raise ValueError("cannot splice no mixed voice parts")
+    arrays = [np.asarray(part, dtype=np.float32).copy() for part in parts]
+    fade_samples = max(1, round(sample_rate * MIXED_BOUNDARY_FADE_SECONDS))
+    for index, array in enumerate(arrays):
+        fade = min(fade_samples, len(array))
+        if not fade:
+            raise ValueError("cannot splice empty mixed voice part")
+        shape = (fade,) + (1,) * max(0, array.ndim - 1)
+        if index:
+            array[:fade] *= np.linspace(0.0, 1.0, fade, dtype=np.float32).reshape(shape)
+        if index < len(arrays) - 1:
+            array[-fade:] *= np.linspace(1.0, 0.0, fade, dtype=np.float32).reshape(shape)
+    return np.concatenate(arrays, axis=0)
+
+
+def _render_mixed_clone(model, job: CloneJob, prompt_cache: dict[str, Any] | None = None):
+    """Render each routed role part and splice the ordered clips with short fades."""
+    if len(job.voice_parts) < 2:
+        raise ValueError("mixed rendering requires at least two voice parts")
+    rendered_audio = []
+    rendered_parts = []
+    sample_rate = None
+    for index, part in enumerate(job.voice_parts):
+        result, rendered_text = _render_clone_part_with_fallbacks(
+            model, job, part, index, prompt_cache,
+        )
+        audio, part_sample_rate, _part_seed_value = result
+        if sample_rate is None:
+            sample_rate = part_sample_rate
+        elif sample_rate != part_sample_rate:
+            raise RuntimeError("OmniVoice returned mixed parts with different sample rates")
+        rendered_audio.append(audio)
+        rendered_parts.append(rendered_text)
+    return (
+        _splice_mixed_audio(rendered_audio, int(sample_rate)),
+        int(sample_rate),
+        _job_seed(job),
+        tuple(rendered_parts),
+    )
 
 
 def _render_with_fallbacks(
@@ -1136,16 +1255,7 @@ def _audio_batch_from_model(model, jobs: list[ReferenceJob | CloneJob], prompt_c
             raise TypeError("reference and clone jobs cannot share a batch")
         prompts = []
         for job in jobs:
-            key = f"{job.ref_audio.resolve()}\n{job.ref_text}"
-            prompt = prompt_cache.get(key) if prompt_cache is not None else None
-            if prompt is None:
-                prompt = model.create_voice_clone_prompt(
-                    ref_audio=str(job.ref_audio),
-                    ref_text=job.ref_text,
-                )
-                if prompt_cache is not None:
-                    prompt_cache[key] = prompt
-            prompts.append(prompt)
+            prompts.append(_clone_prompt(model, job.ref_audio, job.ref_text, prompt_cache))
         audios = model.generate(
             text=[_job_tts_text(job) for job in jobs],
             language=[LANGUAGE_NAMES[job.lang] for job in jobs],
@@ -1198,6 +1308,7 @@ def _publish_clone(
     seed: int,
     args: argparse.Namespace,
     rendered_text: str | None = None,
+    rendered_parts: tuple[str, ...] = (),
 ) -> None:
     if _audio_length(audio) == 0:
         raise ValueError("cannot publish empty clone audio")
@@ -1214,6 +1325,21 @@ def _publish_clone(
         "npc": job.npc,
         "ref_audio": str(job.ref_audio),
         "ref_text": job.ref_text,
+        "reference_role": job.reference_role or "speaker",
+        "reference_revision": job.reference_revision,
+        "reference_sha256": sha256_file(job.ref_audio) if job.ref_audio.is_file() else job.reference_sha256,
+        "voice_parts": [
+            {
+                **part.record(),
+                "reference_sha256": (
+                    sha256_file(part.reference_path)
+                    if part.reference_path.is_file() else part.reference_sha256
+                ),
+            }
+            for part in job.voice_parts
+        ],
+        "avatar_gender": job.avatar_gender,
+        "variant": job.variant,
         "model": args.model,
         "gpu": args.gpu,
         "seed": seed,
@@ -1224,15 +1350,9 @@ def _publish_clone(
         "offset_key": job.offset_key,
         "segment": job.segment,
     }
-    if job.reference_revision:
-        metadata.update({
-            "reference_role": job.reference_role,
-            "reference_revision": job.reference_revision,
-            "reference_sha256": job.reference_sha256,
-            "voice_parts": [part.record() for part in job.voice_parts],
-            "avatar_gender": job.avatar_gender,
-            "variant": job.variant,
-        })
+    if rendered_parts:
+        metadata["rendered_parts"] = list(rendered_parts)
+        metadata["fallback_used"] = list(rendered_parts) != [part.text for part in job.voice_parts]
     _write_json_atomic(_metadata_path(job.output), metadata)
 
 
@@ -1319,7 +1439,19 @@ def process_voice(args: argparse.Namespace, all_jobs: list[CloneJob]) -> None:
         pending.append(job)
     model = load_model(args.gpu, args.model) if pending else None
     prompt_cache: dict[str, Any] = {}
-    for batch_index, batch in enumerate(chunked(pending, args.batch_size), 1):
+    mixed_jobs = [job for job in pending if len(job.voice_parts) > 1]
+    batchable_jobs = [job for job in pending if len(job.voice_parts) <= 1]
+    for job in mixed_jobs:
+        try:
+            audio, sample_rate, seed, rendered_parts = _render_mixed_clone(model, job, prompt_cache)
+            _publish_clone(
+                job, audio, sample_rate, seed, args,
+                rendered_text="\n".join(rendered_parts), rendered_parts=rendered_parts,
+            )
+            print(f"[voice] OK mixed {job.npc} {job.lang} {job.output.name}", flush=True)
+        except Exception as error:
+            print(f"[voice] ERROR mixed {job.npc} {job.lang} {job.output.name}: {error}", flush=True)
+    for batch_index, batch in enumerate(chunked(batchable_jobs, args.batch_size), 1):
         try:
             results = _audio_batch_from_model(model, batch, prompt_cache)
         except Exception as error:

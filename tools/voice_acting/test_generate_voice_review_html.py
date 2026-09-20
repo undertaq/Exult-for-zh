@@ -142,6 +142,47 @@ class GenerateVoiceReviewHtmlTest(unittest.TestCase):
 
         self.assertEqual({row["filename"] for row in rows}, {"0428_0_0.ogg"})
 
+    def test_rows_from_full_voice_associates_avatar_variants_and_route_sidecars(self):
+        module = load_script_module()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            (root / "en").mkdir()
+            mapping_path = root / "mapping.json"
+            mapping_path.write_text(
+                json.dumps([{
+                    "npc": "Avatar", "en_func_id": "0401", "en_offset_key": "4",
+                    "en_segment": 0, "en_text": "Avatar speaks.",
+                }]),
+                encoding="utf-8",
+            )
+            for gender in ("male", "female"):
+                audio = root / "en" / f"0401_4_0_avatar_{gender}.ogg"
+                audio.write_bytes(b"audio")
+                audio.with_suffix(".json").write_text(json.dumps({
+                    "reference_role": "mixed",
+                    "reference_revision": "u6-omnivoice-role-routing-v1",
+                    "reference_sha256": f"{gender}-hash",
+                    "voice_parts": [
+                        {"role": "speaker", "reference_id": f"npc_avatar_{gender}"},
+                        {"role": "narrator", "reference_id": "npc_unknown"},
+                    ],
+                }), encoding="utf-8")
+
+            rows = module.rows_from_full_voice(root, mapping_path)
+
+        self.assertEqual(
+            {row["filename"] for row in rows},
+            {"0401_4_0_avatar_male.ogg", "0401_4_0_avatar_female.ogg"},
+        )
+        for row in rows:
+            self.assertEqual(row["character"], "Avatar")
+            self.assertEqual(row["reference_role"], "mixed")
+            self.assertEqual(row["reference_revision"], "u6-omnivoice-role-routing-v1")
+            self.assertEqual(row["part_roles"], ["speaker", "narrator"])
+            self.assertEqual(row["part_reference_ids"][1], "npc_unknown")
+            self.assertIn("Route: mixed", row["note"])
+
 
 if __name__ == "__main__":
     unittest.main()

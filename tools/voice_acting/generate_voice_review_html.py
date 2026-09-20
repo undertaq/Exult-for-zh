@@ -190,6 +190,50 @@ def _build_paired_new(voice_dir, mapping_path, since_mtime):
     return paired
 
 
+def route_metadata_for_audio(audio_path):
+    """Return routed clone fields from an adjacent generator sidecar, if present."""
+    sidecar = Path(audio_path).with_suffix(".json")
+    if not sidecar.is_file():
+        return {
+            "reference_role": "",
+            "reference_revision": "",
+            "reference_sha256": "",
+            "voice_parts": [],
+            "part_roles": [],
+            "part_reference_ids": [],
+            "note": "",
+        }
+    try:
+        metadata = load_json(sidecar)
+    except (OSError, json.JSONDecodeError):
+        metadata = {}
+    parts = metadata.get("voice_parts") if isinstance(metadata, dict) else []
+    parts = [part for part in parts if isinstance(part, dict)] if isinstance(parts, list) else []
+    roles = [part.get("role", "") for part in parts]
+    reference_ids = [part.get("reference_id", "") for part in parts]
+    role = metadata.get("reference_role", "") if isinstance(metadata, dict) else ""
+    revision = metadata.get("reference_revision", "") if isinstance(metadata, dict) else ""
+    summary = []
+    if role:
+        summary.append(f"Route: {role}")
+    if revision:
+        summary.append(f"revision={revision}")
+    if roles:
+        summary.append("parts=" + ", ".join(
+            f"{part_role}/{reference_id}"
+            for part_role, reference_id in zip(roles, reference_ids)
+        ))
+    return {
+        "reference_role": role,
+        "reference_revision": revision,
+        "reference_sha256": metadata.get("reference_sha256", "") if isinstance(metadata, dict) else "",
+        "voice_parts": parts,
+        "part_roles": roles,
+        "part_reference_ids": reference_ids,
+        "note": " · ".join(summary),
+    }
+
+
 def rows_from_full_voice(voice_dir, mapping_path, since_mtime=0, only_new=False):
     mapping = build_mapping_index(mapping_path)
 
@@ -219,36 +263,36 @@ def rows_from_full_voice(voice_dir, mapping_path, since_mtime=0, only_new=False)
             continue
         
         lang_files = disk_files.get(lang, set())
-        exists = False
-        resolved_filename = filename
+        resolved_filenames = []
 
         if filename in lang_files:
-            exists = True
-            resolved_filename = filename
+            resolved_filenames = [filename]
         else:
             base = filename.rsplit("_npc", 1)[0] if "_npc" in filename else filename.rsplit(".", 1)[0]
             generic_fn = f"{base}.ogg"
             if generic_fn in lang_files:
-                exists = True
-                resolved_filename = generic_fn
+                resolved_filenames = [generic_fn]
             else:
                 prefix = f"{base}_"
                 matches = [f for f in lang_files if f.startswith(prefix) and f.endswith(".ogg")]
                 if matches:
-                    exists = True
-                    resolved_filename = sorted(matches)[0]
+                    resolved_filenames = sorted(matches)
+        if not resolved_filenames:
+            resolved_filenames = [filename]
 
-        path = voice_dir / lang / resolved_filename
-        mtime = disk_mtimes.get((lang, resolved_filename), 0) if exists else 0
-        is_new = bool(exists and since_mtime and mtime >= since_mtime)
-        if only_new and not is_new:
-            if (lang, resolved_filename) in paired_new or (lang, filename) in paired_new:
-                is_new = True
-            else:
-                continue
-        seen.add((lang, resolved_filename))
-        seen.add((lang, filename))
-        rows.append({
+        for resolved_filename in resolved_filenames:
+            exists = resolved_filename in lang_files
+            path = voice_dir / lang / resolved_filename
+            mtime = disk_mtimes.get((lang, resolved_filename), 0) if exists else 0
+            is_new = bool(exists and since_mtime and mtime >= since_mtime)
+            if only_new and not is_new:
+                if (lang, resolved_filename) in paired_new or (lang, filename) in paired_new:
+                    is_new = True
+                else:
+                    continue
+            seen.add((lang, resolved_filename))
+            seen.add((lang, filename))
+            rows.append({
                 "kind": "generated",
                 "status": "new" if is_new else ("generated" if exists else "missing"),
                 "character": meta.get("npc", ""),
@@ -265,6 +309,7 @@ def rows_from_full_voice(voice_dir, mapping_path, since_mtime=0, only_new=False)
                 "func_id": meta.get("func_id", ""),
                 "offset_key": meta.get("offset_key", ""),
                 "segment": meta.get("segment", ""),
+                **route_metadata_for_audio(path),
             })
     for lang in ("en", "zh"):
         lang_dir = voice_dir / lang
@@ -300,6 +345,7 @@ def rows_from_full_voice(voice_dir, mapping_path, since_mtime=0, only_new=False)
                 "segment": meta.get("segment", parsed.get("segment", "")),
                 "size": path.stat().st_size,
                 "modified": mtime,
+                **route_metadata_for_audio(path),
             })
     return rows
 
