@@ -185,6 +185,11 @@ def _clean_voice_part(text: str) -> str:
 
 
 def _marker_role_parts(text: str) -> list[tuple[str, str]]:
+    # A few U6 captures duplicate the opening boundary (``@@text@``).  The
+    # empty marker is not a narration segment; collapse it before pairing
+    # markers so the actual text remains speaker dialogue.
+    while text.startswith("@@"):
+        text = text[1:]
     parts: list[tuple[str, str]] = []
     cursor = 0
     for marker in re.finditer(r"@([^@]*)@", text):

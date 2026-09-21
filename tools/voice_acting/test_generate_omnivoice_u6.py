@@ -158,6 +158,30 @@ def test_default_role_manifest_covers_every_u6_mapping_key():
             "zh",
             [("speaker", "! 很高興又見到你了。")],
         ),
+        (
+            "@@Anything else?@",
+            "ignored",
+            "en",
+            [("speaker", "Anything else?")],
+        ),
+        (
+            "@@Sir Caradon..@",
+            "ignored",
+            "en",
+            [("speaker", "Sir Caradon..")],
+        ),
+        (
+            "@@Anything else?@",
+            "@@還有其他事嗎？@",
+            "zh",
+            [("speaker", "還有其他事嗎？")],
+        ),
+        (
+            "@@Sir Caradon..@",
+            "@@Sir Caradon 爵士..@",
+            "zh",
+            [("speaker", "Sir Caradon 爵士..")],
+        ),
     ],
 )
 def test_parse_role_parts_uses_english_markers_as_role_authority(
