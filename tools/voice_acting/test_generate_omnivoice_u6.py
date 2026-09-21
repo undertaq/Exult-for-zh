@@ -73,7 +73,8 @@ def test_default_role_manifest_covers_every_u6_mapping_key():
         for lang in ("en", "zh")
     }
 
-    assert len(roles) == len(mapping) == 10_543
+    assert len(mapping) == 10_725
+    assert len(roles) == 10_704
     assert set(roles) == mapping_keys
 
 
@@ -240,6 +241,12 @@ def test_reference_jobs_keep_u7_overrides_and_generate_the_rest():
 
 def test_clone_jobs_match_the_u6_mapping_counts():
     designs = _designs()
+    role_sources = load_role_manifest(generator.DEFAULT_ROLE_MANIFEST)
+    reference_routes = generator.stage_u7_special_references(
+        PROJECT / "tools" / "voice_acting" / "reference_import_manifest.json",
+        PROJECT / "voice" / "refs",
+        PROJECT / "u6_voice" / "omnivoice_refs",
+    )
     jobs = build_clone_jobs(
         PROJECT / "u6_voice" / "manifests" / "u6_qwen3_mapping.json",
         designs,
@@ -248,10 +255,14 @@ def test_clone_jobs_match_the_u6_mapping_counts():
         load_reference_overrides(
             PROJECT / "tools" / "voice_acting" / "reference_import_manifest.json"
         ),
+        role_sources=role_sources,
+        reference_routes=reference_routes,
     )
 
-    assert sum(job.lang == "en" for job in jobs) == 10522
-    assert sum(job.lang == "zh" for job in jobs) == 10489
+    assert sum(job.lang == "en" for job in jobs) == 10886
+    assert sum(job.lang == "zh" for job in jobs) == 10853
+    assert sum(job.avatar_gender == "male" for job in jobs) == 364
+    assert sum(job.avatar_gender == "female" for job in jobs) == 364
     assert all(job.ref_text for job in jobs)
 
 
