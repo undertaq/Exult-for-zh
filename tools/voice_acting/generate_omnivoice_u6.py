@@ -43,6 +43,13 @@ DEFAULT_REVIEW_DIR = PROJECT_DIR / "u6_voice" / "omnivoice_review"
 DEFAULT_REFERENCE_REVIEW_DIR = PROJECT_DIR / "u6_voice" / "omnivoice_reference_review"
 MODEL_ID = "k2-fsa/OmniVoice"
 LANGUAGE_NAMES = {"en": "English", "zh": "Chinese"}
+CLONE_GENERATION_REVISION = "u6-omnivoice-clone-instruction-v1"
+OMNIVOICE_CLONE_GENERATION = {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": True,
+}
 ROUTED_REFERENCE_REVISION = "u6-omnivoice-role-routing-v1"
 SPECIAL_REFERENCE_IDS = frozenset({
     "npc_avatar_female",
@@ -96,8 +103,9 @@ class VoicePart:
     reference_text: str
     reference_id: str
     reference_sha256: str = ""
+    instruct: str | None = None
 
-    def record(self) -> dict[str, str]:
+    def record(self) -> dict[str, Any]:
         return {
             "role": self.role,
             "text": self.text,
@@ -105,6 +113,7 @@ class VoicePart:
             "reference_text": self.reference_text,
             "reference_id": self.reference_id,
             "reference_sha256": self.reference_sha256,
+            "instruct": self.instruct,
         }
 
 
@@ -128,6 +137,7 @@ class CloneJob:
     voice_parts: tuple[VoicePart, ...] = field(default_factory=tuple)
     avatar_gender: str | None = None
     variant: str | None = None
+    instruct: str | None = None
 
 
 def load_json(path: Path) -> Any:
@@ -518,6 +528,25 @@ def omnivoice_instruction(
     return ", ".join(result)
 
 
+def _reference_instruction(
+    reference_id: str,
+    lang: str,
+    designs: dict[str, dict[str, Any]],
+    instruction_overrides: dict[str, dict[str, str]] | None = None,
+) -> str | None:
+    """Return the style guard matching the reference actually being cloned."""
+    synthetic_designs = {
+        "npc_narrator_male": {"casting_inference": {"gender": "male", "age": "adult"}},
+        "npc_unknown": {"casting_inference": {"gender": "female", "age": "adult"}},
+        "npc_avatar_male": {"casting_inference": {"gender": "male", "age": "adult"}},
+        "npc_avatar_female": {"casting_inference": {"gender": "female", "age": "adult"}},
+    }
+    design = designs.get(reference_id) or synthetic_designs.get(reference_id)
+    if design is None:
+        return None
+    return omnivoice_instruction(design, lang, reference_id, instruction_overrides)
+
+
 def _reference_filename(design_id: str, lang: str) -> str:
     return f"{design_id}_{lang}_ref.ogg"
 
@@ -651,6 +680,10 @@ def build_clone_jobs(
                 current_design = design
                 if is_avatar:
                     current_design = {"casting_inference": {"gender": avatar_gender}}
+                instruction_overrides = (
+                    generation_overrides.voice_design
+                    if generation_overrides else None
+                )
                 speaker = (
                     reference_routes[(current_design_id, lang)]
                     if is_avatar and reference_routes is not None
@@ -691,6 +724,21 @@ def build_clone_jobs(
                         part_reference = speaker if role == "speaker" else _narrator_reference(
                             gender, lang, reference_routes
                         )
+                        part_instruct = (
+                            omnivoice_instruction(
+                                current_design,
+                                lang,
+                                current_design_id,
+                                instruction_overrides,
+                            )
+                            if role == "speaker"
+                            else _reference_instruction(
+                                str(part_reference["reference_id"]),
+                                lang,
+                                designs,
+                                instruction_overrides,
+                            )
+                        )
                         routed_parts.append(VoicePart(
                             role=role,
                             text=part_text,
@@ -698,6 +746,7 @@ def build_clone_jobs(
                             reference_text=str(part_reference["ref_text"]),
                             reference_id=str(part_reference["reference_id"]),
                             reference_sha256=_reference_sha256(part_reference),
+                            instruct=part_instruct,
                         ))
                     ref = {
                         "path": routed_parts[0].reference_path,
@@ -734,6 +783,20 @@ def build_clone_jobs(
                     voice_parts=voice_parts,
                     avatar_gender=avatar_gender,
                     variant=f"avatar_{avatar_gender}" if avatar_gender else None,
+                    instruct=(
+                        None
+                        if len(voice_parts) > 1
+                        else (
+                            routed_parts[0].instruct
+                            if routed
+                            else omnivoice_instruction(
+                                current_design,
+                                lang,
+                                current_design_id,
+                                instruction_overrides,
+                            )
+                        )
+                    ),
                 ))
     return jobs
 
@@ -805,7 +868,7 @@ def _job_seed(job: ReferenceJob | CloneJob) -> int:
         )):
             routing_payload["reference_sha256"] = job.reference_sha256
         routing_identity = json.dumps(routing_payload, ensure_ascii=False, sort_keys=True)
-    return stable_seed(
+    seed_parts = [
         job.design_id,
         job.npc,
         job.lang,
@@ -814,7 +877,10 @@ def _job_seed(job: ReferenceJob | CloneJob) -> int:
         job.override_revision or "",
         routing_identity,
         job.output,
-    )
+    ]
+    if isinstance(job, CloneJob) and job.instruct:
+        seed_parts.append(job.instruct)
+    return stable_seed(*seed_parts)
 
 
 def _completion_expected(job: ReferenceJob | CloneJob) -> dict[str, Any]:
@@ -837,6 +903,15 @@ def _completion_expected(job: ReferenceJob | CloneJob) -> dict[str, Any]:
             "voice_parts": [part.record() for part in job.voice_parts],
             "avatar_gender": job.avatar_gender,
             "variant": job.variant,
+        })
+    has_clone_instruction = isinstance(job, CloneJob) and (
+        job.instruct is not None
+        or any(part.instruct is not None for part in job.voice_parts)
+    )
+    if has_clone_instruction:
+        expected.update({
+            "clone_generation_revision": CLONE_GENERATION_REVISION,
+            "instruct": job.instruct,
         })
     return expected
 
@@ -1070,12 +1145,7 @@ def _audio_from_model(
     target_text = _job_tts_text(job) if text_override is None else text_override
     seed = _job_seed(job) + seed_offset
     _seed_torch(seed)
-    kwargs = {
-        "num_step": 32,
-        "guidance_scale": 2.0,
-        "speed": 1.0,
-        "postprocess_output": True,
-    }
+    kwargs = dict(OMNIVOICE_CLONE_GENERATION)
     if isinstance(job, ReferenceJob):
         audios = model.generate(
             text=target_text,
@@ -1089,6 +1159,7 @@ def _audio_from_model(
             text=target_text,
             language=LANGUAGE_NAMES[job.lang],
             voice_clone_prompt=prompt,
+            instruct=job.instruct,
             **kwargs,
         )
     if not audios:
@@ -1100,7 +1171,7 @@ def _audio_from_model(
 
 
 def _part_seed(job: CloneJob, part: VoicePart, index: int) -> int:
-    return stable_seed(
+    seed_parts = [
         _job_seed(job),
         index,
         part.role,
@@ -1109,7 +1180,10 @@ def _part_seed(job: CloneJob, part: VoicePart, index: int) -> int:
         part.reference_text,
         part.reference_id,
         part.reference_sha256,
-    )
+    ]
+    if part.instruct:
+        seed_parts.append(part.instruct)
+    return stable_seed(*seed_parts)
 
 
 def _audio_from_clone_part(
@@ -1130,10 +1204,8 @@ def _audio_from_clone_part(
         text=target_text,
         language=LANGUAGE_NAMES[job.lang],
         voice_clone_prompt=prompt,
-        num_step=32,
-        guidance_scale=2.0,
-        speed=1.0,
-        postprocess_output=True,
+        instruct=part.instruct,
+        **OMNIVOICE_CLONE_GENERATION,
     )
     if not audios:
         raise RuntimeError("OmniVoice returned no audio")
@@ -1334,12 +1406,7 @@ def _audio_batch_from_model(model, jobs: list[ReferenceJob | CloneJob], prompt_c
     import torch
 
     _seed_torch(stable_seed(*(_job_seed(job) for job in jobs)))
-    kwargs = {
-        "num_step": 32,
-        "guidance_scale": 2.0,
-        "speed": 1.0,
-        "postprocess_output": True,
-    }
+    kwargs = dict(OMNIVOICE_CLONE_GENERATION)
     if isinstance(jobs[0], ReferenceJob):
         if not all(isinstance(job, ReferenceJob) for job in jobs):
             raise TypeError("reference and clone jobs cannot share a batch")
@@ -1359,6 +1426,7 @@ def _audio_batch_from_model(model, jobs: list[ReferenceJob | CloneJob], prompt_c
             text=[_job_tts_text(job) for job in jobs],
             language=[LANGUAGE_NAMES[job.lang] for job in jobs],
             voice_clone_prompt=prompts,
+            instruct=[job.instruct for job in jobs],
             **kwargs,
         )
     if len(audios) != len(jobs):
@@ -1422,6 +1490,9 @@ def _publish_clone(
         "rendered_text": rendered_text or _job_tts_text(job),
         "fallback_used": (rendered_text or _job_tts_text(job)) != _job_tts_text(job),
         "npc": job.npc,
+        "clone_generation_revision": CLONE_GENERATION_REVISION,
+        "instruct": job.instruct,
+        "clone_generation": dict(OMNIVOICE_CLONE_GENERATION),
         "ref_audio": str(job.ref_audio),
         "ref_text": job.ref_text,
         "reference_role": job.reference_role or "speaker",

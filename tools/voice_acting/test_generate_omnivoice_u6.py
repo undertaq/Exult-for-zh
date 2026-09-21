@@ -333,6 +333,16 @@ def test_clone_jobs_match_the_u6_mapping_counts():
     assert sum(job.avatar_gender == "male" for job in jobs) == 364
     assert sum(job.avatar_gender == "female" for job in jobs) == 364
     assert all(job.ref_text for job in jobs)
+    assert all(
+        job.instruct is not None
+        or any(part.instruct is not None for part in job.voice_parts)
+        for job in jobs
+    )
+    maldric = next(
+        job for job in jobs
+        if job.npc == "Maldric" and job.lang == "zh" and job.output.name == "0430_819_0.ogg"
+    )
+    assert maldric.instruct == "男, 中音调"
 
 
 def test_chunked_preserves_order_and_covers_every_job():
@@ -849,6 +859,90 @@ def test_omnivoice_generation_uses_tts_text_without_changing_source(tmp_path, mo
     assert job.text == "馴蛇者"
 
 
+def test_clone_generation_passes_voice_instruction_to_omnivoice(tmp_path, monkeypatch):
+    class Model:
+        sampling_rate = 24000
+
+        def create_voice_clone_prompt(self, **_kwargs):
+            return "clone-prompt"
+
+        def generate(self, **kwargs):
+            self.kwargs = kwargs
+            return [np.array([0.1], dtype=np.float32)]
+
+    job = CloneJob(
+        design_id="u6_maldric",
+        npc="Maldric",
+        lang="zh",
+        text="是的，沒錯。",
+        ref_audio=tmp_path / "maldric.ogg",
+        ref_text="旅人，你好。",
+        output=tmp_path / "line.ogg",
+        func_id="0430",
+        offset_key="819",
+        segment=0,
+        instruct="男, 中音调",
+    )
+    model = Model()
+    monkeypatch.setitem(sys.modules, "torch", object())
+    monkeypatch.setattr(generator, "_seed_torch", lambda _seed: None)
+
+    generator._audio_batch_from_model(model, [job])
+
+    assert model.kwargs["voice_clone_prompt"] == ["clone-prompt"]
+    assert model.kwargs["instruct"] == ["男, 中音调"]
+
+
+def test_mixed_clone_passes_each_part_voice_instruction(tmp_path, monkeypatch):
+    class Model:
+        sampling_rate = 1000
+
+        def __init__(self):
+            self.instructions = []
+
+        def create_voice_clone_prompt(self, *, ref_audio, ref_text):
+            return f"prompt:{Path(ref_audio).name}:{ref_text}"
+
+        def generate(self, **kwargs):
+            self.instructions.append(kwargs["instruct"])
+            return [np.ones(4, dtype=np.float32)]
+
+    speaker = tmp_path / "speaker.ogg"
+    narrator = tmp_path / "narrator.ogg"
+    speaker.write_bytes(b"speaker")
+    narrator.write_bytes(b"narrator")
+    job = CloneJob(
+        design_id="u6_ada",
+        npc="Ada",
+        lang="zh",
+        text="整句",
+        ref_audio=speaker,
+        ref_text="Ada reference",
+        output=tmp_path / "line.ogg",
+        func_id="0401",
+        offset_key="2",
+        segment=0,
+        reference_role="mixed",
+        reference_revision=generator.ROUTED_REFERENCE_REVISION,
+        voice_parts=(
+            generator.VoicePart(
+                "speaker", "說話", speaker, "Ada reference", "u6_ada",
+                instruct="女, 中音调",
+            ),
+            generator.VoicePart(
+                "narrator", "旁白", narrator, "Narrator reference", "npc_unknown",
+                instruct="女, 中音调",
+            ),
+        ),
+    )
+    model = Model()
+    monkeypatch.setattr(generator, "_seed_torch", lambda _seed: None)
+
+    generator._render_mixed_clone(model, job, {})
+
+    assert model.instructions == ["女, 中音调", "女, 中音调"]
+
+
 def test_default_overrides_path_points_to_revisioned_manifest():
     assert generator.DEFAULT_OVERRIDES == (
         PROJECT / "u6_voice" / "manifests" / "omnivoice_overrides.json"
@@ -1210,6 +1304,7 @@ def test_routed_clone_manifest_and_completion_serialize_route_metadata(tmp_path)
         "reference_text": "Narrator",
         "reference_id": "npc_unknown",
         "reference_sha256": generator.sha256_file(narrator_reference),
+        "instruct": None,
     }
 
 
