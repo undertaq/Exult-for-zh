@@ -113,6 +113,51 @@ def test_default_role_manifest_covers_every_u6_mapping_key():
             "zh",
             [("narrator", "他微笑。 「你好！」")],
         ),
+        (
+            "@Hey, my old buddy ",
+            "ignored",
+            "en",
+            [("speaker", "Hey, my old buddy")],
+        ),
+        (
+            "! Good to see you again.@",
+            "ignored",
+            "en",
+            [("speaker", "! Good to see you again.")],
+        ),
+        (
+            "! Good to see you again.@*",
+            "ignored",
+            "en",
+            [("speaker", "! Good to see you again.")],
+        ),
+        (
+            "Turning to you, Gwenneth says, @And what can I do",
+            "ignored",
+            "en",
+            [
+                ("narrator", "Turning to you, Gwenneth says,"),
+                ("speaker", "And what can I do"),
+            ],
+        ),
+        (
+            "!@ she screams and backs away.",
+            "ignored",
+            "en",
+            [("speaker", "!"), ("narrator", "she screams and backs away.")],
+        ),
+        (
+            "@Hey, my old buddy ",
+            "@嘿，我的老朋友 ",
+            "zh",
+            [("speaker", "嘿，我的老朋友")],
+        ),
+        (
+            "! Good to see you again.@",
+            "! 很高興又見到你了。@",
+            "zh",
+            [("speaker", "! 很高興又見到你了。")],
+        ),
     ],
 )
 def test_parse_role_parts_uses_english_markers_as_role_authority(
@@ -990,6 +1035,8 @@ def test_build_clone_jobs_routes_parts_and_expands_avatar_variants(tmp_path):
                 {"npc": "Ada", "en_text": "Hello then goodbye", "en_func_id": "0401", "en_offset_key": "2", "en_segment": 0},
                 {"npc": "Budo", "en_text": "U7 hello", "en_func_id": "0401", "en_offset_key": "3", "en_segment": 0},
                 {"npc": "Avatar", "en_text": "Avatar hello", "en_func_id": "0401", "en_offset_key": "4", "en_segment": 0},
+                {"npc": "Ada", "en_text": "Hey old buddy", "en_func_id": "0401", "en_offset_key": "5", "en_segment": 0},
+                {"npc": "Ada", "en_text": "Good again", "en_func_id": "0401", "en_offset_key": "6", "en_segment": 0},
             ]
         ),
         encoding="utf-8",
@@ -1007,6 +1054,8 @@ def test_build_clone_jobs_routes_parts_and_expands_avatar_variants(tmp_path):
                 ("2", "@Hello@ She waves. @Goodbye@"),
                 ("3", "@U7 hello@"),
                 ("4", "@Avatar hello@ He waves."),
+                ("5", "@Hey old buddy "),
+                ("6", "! Good again.@"),
             )
         ),
         encoding="utf-8",
@@ -1042,6 +1091,8 @@ def test_build_clone_jobs_routes_parts_and_expands_avatar_variants(tmp_path):
     narrator = by_offset["1"]
     mixed = by_offset["2"]
     u7 = by_offset["3"]
+    placeholder_open = by_offset["5"]
+    placeholder_close = by_offset["6"]
     avatars = [job for job in jobs if job.npc == "Avatar"]
 
     assert speaker.ref_audio == refs / "u6_ada_en_ref.ogg"
@@ -1057,6 +1108,10 @@ def test_build_clone_jobs_routes_parts_and_expands_avatar_variants(tmp_path):
     ]
     assert u7.ref_audio == u7_budo
     assert u7.ref_text == "Exact U7 Budo"
+    assert placeholder_open.reference_role == "speaker"
+    assert placeholder_open.ref_audio == refs / "u6_ada_en_ref.ogg"
+    assert placeholder_close.reference_role == "speaker"
+    assert placeholder_close.ref_audio == refs / "u6_ada_en_ref.ogg"
     assert len(avatars) == 2
     assert {job.design_id for job in avatars} == {"npc_avatar_male", "npc_avatar_female"}
     assert {job.output.name for job in avatars} == {

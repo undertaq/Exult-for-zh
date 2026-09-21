@@ -5,18 +5,45 @@
   "text": "The man looks at you, puzzled. He shakes his head and spreads his hands as if to say sorry.",
   "tts_text": "The man looks at you, puzzled. He shakes his head and spreads his hands as if to say sorry.",
   "override_revision": "u6-omnivoice-overrides-v1",
-  "rendered_text": "The man looks at you, puzzled. He shakes his head and spreads his hands as if to say sorry.",
+  "rendered_text": "The man looks at you, puzzled. He shakes his head and spreads his hands as if to say\nsorry.",
   "fallback_used": false,
   "npc": "Arty",
-  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/omnivoice_refs/u6_arty_762c615c_en_ref.ogg",
-  "ref_text": "Greetings, traveler. I am Arty. What brings you to these lands today?",
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_en_ref.ogg",
+  "ref_text": "Greetings, traveler. What brings you to these lands this day?",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:07b5d2fe07a92554ca003a3bed10c35de219c50a886715e95365f929a89ef665",
+  "reference_sha256": "fb3ebb4d2ea42e8f7ee2fe51feac92d21ae160fb8c2bbab2f081acec26337caa",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "The man looks at you, puzzled. He shakes his head and spreads his hands as if to say",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "fb3ebb4d2ea42e8f7ee2fe51feac92d21ae160fb8c2bbab2f081acec26337caa"
+    },
+    {
+      "role": "speaker",
+      "text": "sorry.",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_arty_762c615c_en_ref.ogg",
+      "reference_text": "Greetings, traveler. I am Arty. What brings you to these lands today?",
+      "reference_id": "u6_arty_762c615c",
+      "reference_sha256": "a067e8bc7f8772382eebdd507015aad4569faad5e9afb821865b232a45aeb6fe"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
   "model": "k2-fsa/OmniVoice",
   "gpu": 0,
-  "seed": 3771402459,
+  "seed": 737148665,
   "sample_rate": 24000,
-  "duration_seconds": 5.72,
-  "sha256": "886ee086743d1b221ec93b89fa034f26e4d69a0e88cc1dcae45e3d661677d27c",
+  "duration_seconds": 7.1,
+  "sha256": "b5377937b9aef8ad4f5fcae57bbab79dbe92529c017733bb1096ea968492095b",
   "func_id": "0428",
   "offset_key": "254",
-  "segment": 0
+  "segment": 0,
+  "rendered_parts": [
+    "The man looks at you, puzzled. He shakes his head and spreads his hands as if to say",
+    "sorry."
+  ]
 }

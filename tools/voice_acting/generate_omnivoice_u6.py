@@ -201,18 +201,112 @@ def _marker_role_parts(text: str) -> list[tuple[str, str]]:
     return parts
 
 
+_DIALOGUE_CUE_RE = re.compile(
+    r"(?:say|says|said|ask|asks|asked|whisper|whispers|whispered|"
+    r"scream|screams|screamed|shout|shouts|shouted|yell|yells|yelled|"
+    r"call|calls|called|murmur|murmurs|murmured)\s*[,;:]?\s*$",
+    re.IGNORECASE,
+)
+_NARRATION_PREFIX_RE = re.compile(
+    r"(?:he|she|they|it|his|her|their|as|while|when|after|before|"
+    r"and|but|the|you\s+(?:see|notice)|"
+    r"[他她它其這那這些那些])",
+    re.IGNORECASE,
+)
+_NARRATION_NAME_CUE_RE = re.compile(
+    r"^[A-Z][\w'’-]*(?:\s+[A-Z][\w'’-]*){0,3}\s+"
+    r"(?:say|says|said|ask|asks|asked|whisper|whispers|whispered|"
+    r"grunt|grunts|grunted|shake|shakes|shook|bow|bows|bowed|"
+    r"hand|hands|handed|laugh|laughs|laughed|smile|smiles|smiled)\b",
+)
+
+
+def _looks_like_dialogue_opening(prefix: str) -> bool:
+    """Return whether text before an unmatched marker is narration setup."""
+    return bool(_DIALOGUE_CUE_RE.search(prefix.rstrip()))
+
+
+def _looks_like_narration(suffix: str) -> bool:
+    """Return whether text after an unmatched marker looks like an action."""
+    value = _normalize_role_text(suffix)
+    return bool(
+        _NARRATION_PREFIX_RE.match(value)
+        or _NARRATION_NAME_CUE_RE.match(value)
+    )
+
+
+def _unbalanced_marker_role_parts(text: str) -> list[tuple[str, str]]:
+    """Split a source fragment whose ``@`` boundary crosses another row.
+
+    U6 can place the opening and closing marker of one spoken expression in
+    different static strings around an ``ADDSV`` placeholder.  A fragment
+    containing one marker is therefore not automatically narration: a marker
+    at the beginning opens speech, a marker at the end closes speech, and a
+    marker in the middle is classified from the surrounding dialogue/action
+    cues.  Multiple odd markers are handled as the same alternating state
+    machine, which also covers speech followed by an action description.
+    """
+    marker_positions = [match.start() for match in re.finditer("@", text)]
+    if not marker_positions:
+        value = _clean_voice_part(text)
+        return [("narrator", value)] if value else []
+
+    first = marker_positions[0]
+    marker_tail = text[first + 1:].strip()
+    marker_at_logical_end = not marker_tail.strip("*").strip()
+    if first == 0:
+        role_before_first = "narrator"
+    elif marker_at_logical_end and not _looks_like_dialogue_opening(text[:first]):
+        role_before_first = "speaker"
+    elif _looks_like_dialogue_opening(text[:first]):
+        role_before_first = "narrator"
+    elif _looks_like_narration(text[first + 1:]):
+        role_before_first = "speaker"
+    else:
+        role_before_first = "narrator"
+
+    parts: list[tuple[str, str]] = []
+    cursor = 0
+    role = role_before_first
+    for marker_position in marker_positions:
+        value = _clean_voice_part(text[cursor:marker_position])
+        if value:
+            if parts and parts[-1][0] == role:
+                parts[-1] = (role, f"{parts[-1][1]} {value}".strip())
+            else:
+                parts.append((role, value))
+        role = "speaker" if role == "narrator" else "narrator"
+        cursor = marker_position + 1
+
+    value = _clean_voice_part(text[cursor:])
+    if value:
+        if parts and parts[-1][0] == role:
+            parts[-1] = (role, f"{parts[-1][1]} {value}".strip())
+        else:
+            parts.append((role, value))
+    return parts
+
+
 def parse_role_parts(source_en: str, translated_text: str, lang: str) -> list[tuple[str, str]]:
     """Split dialogue by English-authoritative speaker markers for one language."""
     if lang not in LANGUAGE_NAMES:
         raise ValueError(f"unsupported language: {lang}")
+    english_has_marker = "@" in source_en
     english_has_speaker = bool(re.search(r"@[^@]*@", source_en))
     if lang == "en":
-        return _marker_role_parts(source_en) if english_has_speaker else [("narrator", _clean_voice_part(source_en))]
-    if not english_has_speaker:
+        if english_has_speaker:
+            return _marker_role_parts(source_en)
+        if english_has_marker:
+            return _unbalanced_marker_role_parts(source_en)
+        text = _clean_voice_part(source_en)
+        return [("narrator", text)] if text else []
+    if not english_has_marker:
         text = _clean_voice_part(translated_text)
         return [("narrator", text)] if text else []
     if re.search(r"@[^@]*@", translated_text):
         return _marker_role_parts(translated_text)
+    if "@" in translated_text:
+        return _unbalanced_marker_role_parts(translated_text)
     text = _clean_voice_part(translated_text)
     return [("speaker", text)] if text else []
 
