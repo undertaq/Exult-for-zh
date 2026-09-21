@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_kytyn_8d5da029",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Kytyn. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Kytyn. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Kytyn. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Kytyn",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Kytyn. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 734410113,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "da82b995095dd6bfad485f429cc5a2ebaeb823317a2c70e65bfe70efd9eb802c"
+}

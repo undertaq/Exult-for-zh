@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_gwenneth_1ea559d5",
+  "lang": "zh",
+  "text": "旅人，你好。我是Gwenneth。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Gwenneth。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Gwenneth。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Gwenneth",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Gwenneth。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2854968881,
+  "sample_rate": 24000,
+  "duration_seconds": 4.43,
+  "sha256": "00659f8a30cf740e19cfbc2fa653656ec675cd27a4d9babb9a782d1243ce3b53"
+}

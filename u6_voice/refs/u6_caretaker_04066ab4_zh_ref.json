@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_caretaker_04066ab4",
+  "lang": "zh",
+  "text": "旅人，你好。我是Caretaker。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Caretaker。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Caretaker。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Caretaker",
+  "source": "omnivoice_design",
+  "instruct": "极低音调",
+  "ref_text": "旅人，你好。我是Caretaker。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3336029875,
+  "sample_rate": 24000,
+  "duration_seconds": 4.56,
+  "sha256": "1ee7c7ec0b5d8dfcd6b9ddeb970af4857c11fe5dabb40a3dfb1582d6cce251dc"
+}

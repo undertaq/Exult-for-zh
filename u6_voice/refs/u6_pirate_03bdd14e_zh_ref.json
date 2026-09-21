@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_pirate_03bdd14e",
+  "lang": "zh",
+  "text": "旅人，你好。我是pirate。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是pirate。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是pirate。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "pirate",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是pirate。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3181064809,
+  "sample_rate": 24000,
+  "duration_seconds": 4.3,
+  "sha256": "3c11c6056b6f04b04c8a23798453e459ed0309990d55c1921c9cb9ff02d3da4e"
+}

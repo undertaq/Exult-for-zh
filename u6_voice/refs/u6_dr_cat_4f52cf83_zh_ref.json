@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_dr_cat_4f52cf83",
+  "lang": "zh",
+  "text": "旅人，你好。我是Dr. Cat。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Dr. Cat。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Dr. Cat。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Dr. Cat",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Dr. Cat。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 4103598,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "612216c383ee98e40504161ca5569ca8cbe16934da8d105363dc29d6f0552151"
+}

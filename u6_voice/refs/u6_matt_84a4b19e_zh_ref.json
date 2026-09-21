@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_matt_84a4b19e",
+  "lang": "zh",
+  "text": "旅人，你好。我是Matt。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Matt。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Matt。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Matt",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Matt。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3380924075,
+  "sample_rate": 24000,
+  "duration_seconds": 4.17,
+  "sha256": "bfd8d6d7ed65059c42f867922578f2cb9e44b82e8a70ee148f9fb73bdb169597"
+}

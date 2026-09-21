@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_gwenno_a33727fa",
+  "lang": "zh",
+  "text": "旅人，你好。我是Gwenno。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Gwenno。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Gwenno。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Gwenno",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Gwenno。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3755660736,
+  "sample_rate": 24000,
+  "duration_seconds": 4.05,
+  "sha256": "b8fd7b3838c7e9f1dd5b636174e00f3f7f441c5c5bb2ae7fd0af0c9a9df207d5"
+}

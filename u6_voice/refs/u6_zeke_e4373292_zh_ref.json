@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_zeke_e4373292",
+  "lang": "zh",
+  "text": "旅人，你好。我是Zeke。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Zeke。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Zeke。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Zeke",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Zeke。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2752077119,
+  "sample_rate": 24000,
+  "duration_seconds": 3.62,
+  "sha256": "2a60be9ee3b3b3e89a2a643fc7932ca07e444a1fac811d47c19a23a18f1dfb4e"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_arvin_c620e6a4",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Arvin. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Arvin. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Arvin. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Arvin",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Arvin. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1192261088,
+  "sample_rate": 24000,
+  "duration_seconds": 4.25,
+  "sha256": "9230be04048d10f0f0738660cb75b1f95159693b609b59e11d7f69a84b83d4c8"
+}

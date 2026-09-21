@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_wanda_950fada6",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Wanda. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Wanda. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Wanda. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Wanda",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Wanda. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 4119721389,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "f23b9da4380792e1d2f1c3f63c5b56105112cbc79e8d8fbeff4c21c8ce69d29c"
+}

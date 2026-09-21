@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_de_hugh_712d5052",
+  "lang": "en",
+  "text": "Greetings, traveler. I am de Hugh. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am de Hugh. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am de Hugh. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "de Hugh",
+  "source": "omnivoice_design",
+  "instruct": "male, low pitch, American accent",
+  "ref_text": "Greetings, traveler. I am de Hugh. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 227065213,
+  "sample_rate": 24000,
+  "duration_seconds": 4.34,
+  "sha256": "f68b8aec19899ed1d04f1ff0011446abc0854d791a15a16379cfbafa472dbafc"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_immanuelle_7778611b",
+  "lang": "zh",
+  "text": "旅人，你好。我是Immanuelle。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Immanuelle。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Immanuelle。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Immanuelle",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Immanuelle。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3802214805,
+  "sample_rate": 24000,
+  "duration_seconds": 4.57,
+  "sha256": "421c8ef364e4d205ddbc2e438b807dae6ed8932a02bcb285d558801f443b8032"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_myles_d99501d9",
+  "lang": "zh",
+  "text": "旅人，你好。我是Myles。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Myles。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Myles。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Myles",
+  "source": "omnivoice_design",
+  "instruct": "男, 青年, 高音调",
+  "ref_text": "旅人，你好。我是Myles。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3442796425,
+  "sample_rate": 24000,
+  "duration_seconds": 3.51,
+  "sha256": "39f9001b10cf2cc62840ee2ba98282dea7643ad6bf4795b69918ef0a32d249de"
+}

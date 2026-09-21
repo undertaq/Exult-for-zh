@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_isabella_a81ef43a",
+  "lang": "zh",
+  "text": "旅人，你好。我是Isabella。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Isabella。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Isabella。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Isabella",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Isabella。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2465532771,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "9cd8a0f4a43d8f7ed0ca79ce81924c8e1eecbfee0f63193f2df21f0abdfad2ce"
+}

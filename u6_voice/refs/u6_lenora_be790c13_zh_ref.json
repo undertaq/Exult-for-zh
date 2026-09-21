@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_lenora_be790c13",
+  "lang": "zh",
+  "text": "旅人，你好。我是Lenora。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Lenora。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Lenora。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Lenora",
+  "source": "omnivoice_design",
+  "instruct": "女, 低音调",
+  "ref_text": "旅人，你好。我是Lenora。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 351909283,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "8da6d7ad5e2c868619e2909c65e7b1b5cc9b84c855a39a34156cccfe9129055b"
+}

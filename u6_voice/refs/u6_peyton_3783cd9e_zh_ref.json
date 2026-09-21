@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_peyton_3783cd9e",
+  "lang": "zh",
+  "text": "旅人，你好。我是Peyton。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Peyton。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Peyton。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Peyton",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Peyton。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 4241976981,
+  "sample_rate": 24000,
+  "duration_seconds": 3.76,
+  "sha256": "e3acf34da24f5a433f700a6e54e6390c7a45713242e83eecd31f28a849e208d6"
+}

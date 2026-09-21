@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_derydlus_72d2ba79",
+  "lang": "zh",
+  "text": "旅人，你好。我是Derydlus。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Derydlus。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Derydlus。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Derydlus",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Derydlus。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3618412711,
+  "sample_rate": 24000,
+  "duration_seconds": 4.24,
+  "sha256": "4712d4b501c1f0e5ace25230ddcaabe4e2189b399d77067511bf30d23366f094"
+}

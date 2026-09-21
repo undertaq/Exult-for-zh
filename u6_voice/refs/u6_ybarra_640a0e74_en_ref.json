@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_ybarra_640a0e74",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Ybarra. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Ybarra. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Ybarra. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Ybarra",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Ybarra. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1877522147,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "8881c6dda446c9d2fb0d497a6e7c3d1a5040c78638a81f2bec27f6405b581105"
+}

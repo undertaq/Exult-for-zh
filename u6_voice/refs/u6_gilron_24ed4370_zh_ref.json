@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_gilron_24ed4370",
+  "lang": "zh",
+  "text": "旅人，你好。我是Gilron。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Gilron。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Gilron。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Gilron",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Gilron。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 146760587,
+  "sample_rate": 24000,
+  "duration_seconds": 4.18,
+  "sha256": "9b9f2b39184d83c2792f77b739bd0cc3b011fe24d6e2323ebd604eeb3ed5e8e5"
+}

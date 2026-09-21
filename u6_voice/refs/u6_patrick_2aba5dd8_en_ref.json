@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_patrick_2aba5dd8",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Patrick. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Patrick. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Patrick. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Patrick",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Patrick. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1945336724,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "29af2cc85eee4abca31750183d3e24ebd284af313ad81d55f2b2b7d2910eab0e"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_timothy_f787b4f6",
+  "lang": "zh",
+  "text": "旅人，你好。我是Timothy。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Timothy。今天你为何来到这片土地？",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "旅人，你好。我是Timothy。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Timothy",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Timothy。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3293381370,
+  "sample_rate": 24000,
+  "duration_seconds": 4.18,
+  "sha256": "035e7e188e0fab98221c98b92bf0a583885e7f60902b1a2f1cd784c820827782"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_manrel_89621c9f",
+  "lang": "zh",
+  "text": "旅人，你好。我是Manrel。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Manrel。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Manrel。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Manrel",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Manrel。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1948917244,
+  "sample_rate": 24000,
+  "duration_seconds": 4.29,
+  "sha256": "9b8a70e58f6522a2260c34959f7e32784f6254151f02149388c8907ee0a745a5"
+}

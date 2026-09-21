@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_meredith_b69b3f30",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Meredith. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Meredith. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Meredith. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Meredith",
+  "source": "omnivoice_design",
+  "instruct": "female, young adult, high pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Meredith. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1518725306,
+  "sample_rate": 24000,
+  "duration_seconds": 4.6,
+  "sha256": "890ce9f9475c70e8c1f21d7aa17a3c34619a60af7a6f618151ce906193d7a305"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_kenneth_ca70c45c",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Kenneth. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Kenneth. What brings you to these lands today?",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "Greetings, traveler. I am Kenneth. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Kenneth",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Kenneth. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1530487231,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "7b259b09f9a8e958c7f6dbbc631f05219a7208a85f33cda60c8a8bb4c17ee393"
+}

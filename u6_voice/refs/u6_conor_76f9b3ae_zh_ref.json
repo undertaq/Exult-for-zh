@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_conor_76f9b3ae",
+  "lang": "zh",
+  "text": "旅人，你好。我是Conor。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Conor。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Conor。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Conor",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Conor。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 726009832,
+  "sample_rate": 24000,
+  "duration_seconds": 3.3,
+  "sha256": "05eb5fd7ff49f394f4240c7c604129c12d38a32fd08b8f7d8c46039a78710588"
+}

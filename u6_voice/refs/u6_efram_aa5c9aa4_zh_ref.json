@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_efram_aa5c9aa4",
+  "lang": "zh",
+  "text": "旅人，你好。我是Efram。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Efram。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Efram。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Efram",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Efram。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2350408983,
+  "sample_rate": 24000,
+  "duration_seconds": 4.23,
+  "sha256": "00f4252eeb1577e511746a4e3f455486fab007fccdde5726ae74dce84396a2f7"
+}

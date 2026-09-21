@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_stivius_f0337380",
+  "lang": "zh",
+  "text": "旅人，你好。我是Stivius。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Stivius。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Stivius。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Stivius",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Stivius。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3194200094,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "10e4b74e2475fe8c3697eba183308271d84b71c8a36a5dea06714b12737fb6b8"
+}

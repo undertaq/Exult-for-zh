@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_ed_61b96822",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Ed. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Ed. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Ed. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Ed",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Ed. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1281699014,
+  "sample_rate": 24000,
+  "duration_seconds": 4.16,
+  "sha256": "cf2cade8a7bfe7ad5aedea9f49c7178d2c32ecfc65d07992b070557c7766b53f"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_matt_84a4b19e",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Matt. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Matt. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Matt. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Matt",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Matt. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3458708330,
+  "sample_rate": 24000,
+  "duration_seconds": 4.32,
+  "sha256": "e54e52c4603008fe2d80ed376fe29448e70001b8a7808e79f764cc95e42c05ca"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_bolesh_93805ca0",
+  "lang": "zh",
+  "text": "旅人，你好。我是Bolesh。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Bolesh。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Bolesh。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Bolesh",
+  "source": "omnivoice_design",
+  "instruct": "极低音调",
+  "ref_text": "旅人，你好。我是Bolesh。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2309577877,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "4ec54cdbd346a45385e61b795cd9967e1787bfa0f8fcd9ee9b9c17ee6990afdf"
+}

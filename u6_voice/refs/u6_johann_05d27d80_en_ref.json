@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_johann_05d27d80",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Johann. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Johann. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Johann. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Johann",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Johann. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1150406723,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "f31a227aa19e2567e717576e19f3af6213c6432c10f455856b59274d86edeebd"
+}

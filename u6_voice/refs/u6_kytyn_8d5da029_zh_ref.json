@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_kytyn_8d5da029",
+  "lang": "zh",
+  "text": "旅人，你好。我是Kytyn。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Kytyn。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Kytyn。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Kytyn",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Kytyn。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1858979357,
+  "sample_rate": 24000,
+  "duration_seconds": 4.28,
+  "sha256": "612ebef9ec765d5cc31b2a589e506ffdb0aa439bfb2caef202b87875a550ee1a"
+}

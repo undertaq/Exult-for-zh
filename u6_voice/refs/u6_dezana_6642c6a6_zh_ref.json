@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_dezana_6642c6a6",
+  "lang": "zh",
+  "text": "旅人，你好。我是Dezana。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Dezana。今天你为何来到这片土地？",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "旅人，你好。我是Dezana。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Dezana",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Dezana。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3203287034,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "259aa19d76428c941a666d6c32a44108fca40ae1e4a2e2e03f1aa326b8b9af5a"
+}

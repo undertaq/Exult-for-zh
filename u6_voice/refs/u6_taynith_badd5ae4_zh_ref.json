@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_taynith_badd5ae4",
+  "lang": "zh",
+  "text": "旅人，你好。我是Taynith。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Taynith。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Taynith。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Taynith",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Taynith。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2704498672,
+  "sample_rate": 24000,
+  "duration_seconds": 4.23,
+  "sha256": "bdcedd83fdb538755cfb40a150ad225098888c1b61274398ce812a32ac109081"
+}

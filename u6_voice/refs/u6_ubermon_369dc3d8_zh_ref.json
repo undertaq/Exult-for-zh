@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_ubermon_369dc3d8",
+  "lang": "zh",
+  "text": "旅人，你好。我是Ubermon。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Ubermon。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Ubermon。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Ubermon",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Ubermon。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 297798333,
+  "sample_rate": 24000,
+  "duration_seconds": 4.28,
+  "sha256": "4a700e893f90cce5ec448fb6e69434f94ca35965299bfaaff32f95f29230da3f"
+}

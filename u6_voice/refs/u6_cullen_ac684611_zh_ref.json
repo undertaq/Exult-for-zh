@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_cullen_ac684611",
+  "lang": "zh",
+  "text": "旅人，你好。我是Cullen。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Cullen。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Cullen。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Cullen",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Cullen。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3991565408,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "5a69539f9d1e55dae2e538151f5a2340352e0aa4316f69a05b92d1c1e79dbe03"
+}

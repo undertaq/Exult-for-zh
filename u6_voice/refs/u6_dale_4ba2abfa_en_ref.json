@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_dale_4ba2abfa",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Dale. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Dale. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Dale. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Dale",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Dale. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 895509454,
+  "sample_rate": 24000,
+  "duration_seconds": 4.32,
+  "sha256": "ce1fb14ddb40f54b7292e8e4ef8266e9e10b9f745cd71f0f7d03a4557f3ec296"
+}

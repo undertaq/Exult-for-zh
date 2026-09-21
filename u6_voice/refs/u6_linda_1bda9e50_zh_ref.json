@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_linda_1bda9e50",
+  "lang": "zh",
+  "text": "旅人，你好。我是Linda。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Linda。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Linda。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Linda",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Linda。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 313827971,
+  "sample_rate": 24000,
+  "duration_seconds": 4.28,
+  "sha256": "1319fd163b3af0104d1c0180a12b76580381b5e10eb4ab7c3f9d5ff5ff97d49a"
+}

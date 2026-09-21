@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_heftimus_668c79d4",
+  "lang": "zh",
+  "text": "旅人，你好。我是Heftimus。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Heftimus。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Heftimus。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Heftimus",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Heftimus。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2926309603,
+  "sample_rate": 24000,
+  "duration_seconds": 4.43,
+  "sha256": "9cfcc64639dd45b7f9e32cff3216c431921fea7194fe902a151dd51da534419e"
+}

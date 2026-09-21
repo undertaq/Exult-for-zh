@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_arvin_c620e6a4",
+  "lang": "zh",
+  "text": "旅人，你好。我是Arvin。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Arvin。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Arvin。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Arvin",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Arvin。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2808347022,
+  "sample_rate": 24000,
+  "duration_seconds": 3.86,
+  "sha256": "7090d36938beb1625049eb9417e5d8428418a70978d3eeef34a6b814fe485999"
+}

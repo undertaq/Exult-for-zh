@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_doug_aa1cda9f",
+  "lang": "zh",
+  "text": "旅人，你好。我是Doug。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Doug。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Doug。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Doug",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Doug。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 4190596541,
+  "sample_rate": 24000,
+  "duration_seconds": 3.89,
+  "sha256": "d01c3371a05f1fc5ee386513d68db7617bf9fcaacefe0cc698b251b1bbfd27c2"
+}

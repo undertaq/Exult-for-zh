@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_stephanie_6307ab01",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Stephanie. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Stephanie. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Stephanie. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Stephanie",
+  "source": "omnivoice_design",
+  "instruct": "female, young adult, high pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Stephanie. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3296032391,
+  "sample_rate": 24000,
+  "duration_seconds": 4.68,
+  "sha256": "1fe205c837cbab360a6eb9d12db762737646e3773f340cea18f15493a70e3d50"
+}

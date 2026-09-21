@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_naxalitor_446c2a00",
+  "lang": "zh",
+  "text": "旅人，你好。我是Naxalitor。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Naxalitor。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Naxalitor。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Naxalitor",
+  "source": "omnivoice_design",
+  "instruct": "极低音调",
+  "ref_text": "旅人，你好。我是Naxalitor。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1647494507,
+  "sample_rate": 24000,
+  "duration_seconds": 4.56,
+  "sha256": "058bc221cc40985266af9c54f0e6ece11ac5b2e7a654cffe29c372885e5c2df2"
+}

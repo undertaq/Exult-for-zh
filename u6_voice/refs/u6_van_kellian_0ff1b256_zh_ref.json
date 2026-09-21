@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_van_kellian_0ff1b256",
+  "lang": "zh",
+  "text": "旅人，你好。我是Van Kellian。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Van Kellian。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Van Kellian。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Van Kellian",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Van Kellian。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 4230257938,
+  "sample_rate": 24000,
+  "duration_seconds": 3.89,
+  "sha256": "959d82869a8bb6ab028db67c92f8af286990b844ed7388d4a486fe3526232263"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_terri_c4b3034a",
+  "lang": "zh",
+  "text": "旅人，你好。我是Terri。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Terri。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Terri。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Terri",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Terri。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1378457242,
+  "sample_rate": 24000,
+  "duration_seconds": 4.04,
+  "sha256": "c01409a6bb9bfe9c28c326e983c54551cf0740324c602c9ddd3048baf1a7335a"
+}

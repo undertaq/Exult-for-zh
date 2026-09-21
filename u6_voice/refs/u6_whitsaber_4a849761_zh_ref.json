@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_whitsaber_4a849761",
+  "lang": "zh",
+  "text": "旅人，你好。我是Whitsaber。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Whitsaber。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Whitsaber。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Whitsaber",
+  "source": "omnivoice_design",
+  "instruct": "男, 低音调",
+  "ref_text": "旅人，你好。我是Whitsaber。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1442720430,
+  "sample_rate": 24000,
+  "duration_seconds": 4.53,
+  "sha256": "910bc042900270700bc469896f46f087781b066da29b243cb66605635012cb81"
+}

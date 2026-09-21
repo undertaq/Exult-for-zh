@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_eckhart_4889b287",
+  "lang": "zh",
+  "text": "旅人，你好。我是Eckhart。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Eckhart。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Eckhart。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Eckhart",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Eckhart。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 488294555,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "c613e7b4117caf91a84048828c2cdf85c3307b73d4b5299f0c2f12d342704420"
+}

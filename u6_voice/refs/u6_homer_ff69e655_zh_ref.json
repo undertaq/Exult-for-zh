@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_homer_ff69e655",
+  "lang": "zh",
+  "text": "旅人，你好。我是Homer。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Homer。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Homer。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Homer",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Homer。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 498169563,
+  "sample_rate": 24000,
+  "duration_seconds": 3.64,
+  "sha256": "6a13a0b6b360f7f4d59781a20af40e98d6d5b2890a8bacf5e3c45581c62ba89e"
+}

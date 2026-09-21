@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_rinaldo_471f6520",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Rinaldo. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Rinaldo. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Rinaldo. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Rinaldo",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Rinaldo. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1375556761,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "4f53b58d0d107a5bf3bf54b422530b5c2de954961fc04872167a602b386e1f72"
+}

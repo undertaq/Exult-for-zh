@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_maldric_8ea576a0",
+  "lang": "zh",
+  "text": "旅人，你好。我是Maldric。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Maldric。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Maldric。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Maldric",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Maldric。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1589902526,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "49481d0306c8c7843843b39cc5041f0e4be0f69dec215a8dc2179fe5757193e4"
+}

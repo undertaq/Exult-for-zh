@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_corwyn_11a5409d",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Corwyn. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Corwyn. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Corwyn. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Corwyn",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Corwyn. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 478396842,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "95217fa7ce5e3d2499fb3ae895fb385c1a8247d8dea9ec8bf7b5e7ca6205e2c9"
+}

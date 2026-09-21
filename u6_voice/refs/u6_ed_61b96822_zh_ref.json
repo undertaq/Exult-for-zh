@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_ed_61b96822",
+  "lang": "zh",
+  "text": "旅人，你好。我是Ed。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Ed。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Ed。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Ed",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Ed。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2051865246,
+  "sample_rate": 24000,
+  "duration_seconds": 4.0,
+  "sha256": "632b189e98420137e8b95157b9b41ff3940c2edf3d0b9d48deebab3819689905"
+}

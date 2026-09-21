@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_antonio_1f0ca711",
+  "lang": "zh",
+  "text": "旅人，你好。我是Antonio。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Antonio。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Antonio。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Antonio",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Antonio。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2296120557,
+  "sample_rate": 24000,
+  "duration_seconds": 3.85,
+  "sha256": "6481d8b20f0c436992e4d99ff6e3a96f3454f4987ab931b5884bace262d4ee2b"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_brandon_3183caf9",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Brandon. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Brandon. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Brandon. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Brandon",
+  "source": "omnivoice_design",
+  "instruct": "male, young adult, high pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Brandon. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1104020293,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "694a048f2183eba31d13cd5f1c8a2f9cf91c687cf5ac3db1812014ff3d170945"
+}

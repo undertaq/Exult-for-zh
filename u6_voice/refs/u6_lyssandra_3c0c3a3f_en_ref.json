@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_lyssandra_3c0c3a3f",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Lyssandra. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Lyssandra. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Lyssandra. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Lyssandra",
+  "source": "omnivoice_design",
+  "instruct": "female, young adult, high pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Lyssandra. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1597633105,
+  "sample_rate": 24000,
+  "duration_seconds": 4.68,
+  "sha256": "c463c7e5f06a1b5121f5cd3228d349a307b2955b89815307262aa12175a31034"
+}

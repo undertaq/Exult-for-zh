@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_charlotte_2e7041b7",
+  "lang": "zh",
+  "text": "旅人，你好。我是Charlotte。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Charlotte。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Charlotte。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Charlotte",
+  "source": "omnivoice_design",
+  "instruct": "女, 青年, 高音调",
+  "ref_text": "旅人，你好。我是Charlotte。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2861909028,
+  "sample_rate": 24000,
+  "duration_seconds": 4.56,
+  "sha256": "304789c9ab015a191bf608791df9a83997a6fee1e7f6e2f5d081ab083d520579"
+}

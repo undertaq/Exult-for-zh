@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_lazeena_40f78c1b",
+  "lang": "zh",
+  "text": "旅人，你好。我是Lazeena。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Lazeena。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Lazeena。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Lazeena",
+  "source": "omnivoice_design",
+  "instruct": "女, 低音调",
+  "ref_text": "旅人，你好。我是Lazeena。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3189073793,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "1590e3161c25c2f6c5707c87ae601480f8712ca3e37d633309f44d522499c7e3"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_sylania_29347146",
+  "lang": "zh",
+  "text": "旅人，你好。我是Sylania。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Sylania。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Sylania。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Sylania",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Sylania。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2633849634,
+  "sample_rate": 24000,
+  "duration_seconds": 4.04,
+  "sha256": "aeccc02eb0596bde8c0e5459caa23081b326ce1f18da40c9bad08e3f4f4b3214"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_tholden_10e930fd",
+  "lang": "zh",
+  "text": "旅人，你好。我是Tholden。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Tholden。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Tholden。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Tholden",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Tholden。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 4222009051,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "29ecffb8b98b0c95f215c6d31d0e8895e3c73fc6b128b4f9a5aa8fb5cfcdd579"
+}

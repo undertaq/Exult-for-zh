@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_sin_vraal_b2074b9a",
+  "lang": "zh",
+  "text": "旅人，你好。我是Sin Vraal。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Sin Vraal。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Sin Vraal。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Sin Vraal",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Sin Vraal。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3832203496,
+  "sample_rate": 24000,
+  "duration_seconds": 4.22,
+  "sha256": "e84893c1d8e27dbc32142c5cadd9eb74b31e6070a378f22ab2d6515587e94e60"
+}

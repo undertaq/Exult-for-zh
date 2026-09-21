@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_arturos_9da76d16",
+  "lang": "zh",
+  "text": "旅人，你好。我是Arturos。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Arturos。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Arturos。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Arturos",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Arturos。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3063772964,
+  "sample_rate": 24000,
+  "duration_seconds": 4.41,
+  "sha256": "700f1c9f4d9e23f6cfed66ea09bf4b57bd0db7a4501e996a6c08de8c95045349"
+}

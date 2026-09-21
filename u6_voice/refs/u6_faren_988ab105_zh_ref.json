@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_faren_988ab105",
+  "lang": "zh",
+  "text": "旅人，你好。我是Faren。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Faren。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Faren。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Faren",
+  "source": "omnivoice_design",
+  "instruct": "男, 青年, 高音调",
+  "ref_text": "旅人，你好。我是Faren。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1351093051,
+  "sample_rate": 24000,
+  "duration_seconds": 3.99,
+  "sha256": "2133a7d22e76ec05141ce662257edf028f5e7c061ffcb9ac8ffce0939c8cb7f3"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_tara_11607c3b",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Tara. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Tara. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Tara. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Tara",
+  "source": "omnivoice_design",
+  "instruct": "female, elderly, low pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Tara. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3453473792,
+  "sample_rate": 24000,
+  "duration_seconds": 4.32,
+  "sha256": "657e279d73a86757703fff300fc20413e6ac04bdf8a82937f9d98ee64fe40942"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_whitsaber_4a849761",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Whitsaber. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Whitsaber. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Whitsaber. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Whitsaber",
+  "source": "omnivoice_design",
+  "instruct": "male, low pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Whitsaber. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2239681729,
+  "sample_rate": 24000,
+  "duration_seconds": 4.68,
+  "sha256": "16d00a94c38d32a5d1336968c086eb4df91ce51adc1b88107687acef0a7a2521"
+}

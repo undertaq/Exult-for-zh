@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_tessa_0fe98771",
+  "lang": "zh",
+  "text": "旅人，你好。我是Tessa。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Tessa。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Tessa。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Tessa",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Tessa。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 474135725,
+  "sample_rate": 24000,
+  "duration_seconds": 4.22,
+  "sha256": "8b31a09e0f58c535c9e950507eb2c31399b26cdd89f69869c9f3d69af8e4fed1"
+}

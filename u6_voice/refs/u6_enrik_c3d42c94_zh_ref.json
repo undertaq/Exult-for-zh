@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_enrik_c3d42c94",
+  "lang": "zh",
+  "text": "旅人，你好。我是Enrik。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Enrik。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Enrik。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Enrik",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Enrik。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 785235883,
+  "sample_rate": 24000,
+  "duration_seconds": 4.04,
+  "sha256": "2ffa66b1343d6d996b5d0ee2c2ecce63942fd31674b6e4ca10cb6cd82073890d"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_stelnar_ce28ec03",
+  "lang": "zh",
+  "text": "旅人，你好。我是Stelnar。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Stelnar。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Stelnar。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Stelnar",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Stelnar。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1114738754,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "c39709e9f07d88e2394f951756e84973ff2d472b6bedfa68182a1b0442ad85a2"
+}

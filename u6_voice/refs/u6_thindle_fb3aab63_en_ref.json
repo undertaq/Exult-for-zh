@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_thindle_fb3aab63",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Thindle. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Thindle. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Thindle. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Thindle",
+  "source": "omnivoice_design",
+  "instruct": "male, elderly, low pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Thindle. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 712858842,
+  "sample_rate": 24000,
+  "duration_seconds": 4.43,
+  "sha256": "940328d95b6ae33c7886e9e73ff78d3027ce16a168aef73f6b83578701c81f6b"
+}

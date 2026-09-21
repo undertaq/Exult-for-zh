@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_gideon_1741fe3b",
+  "lang": "zh",
+  "text": "旅人，你好。我是Gideon。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Gideon。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Gideon。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Gideon",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Gideon。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 127990681,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "516bd7c5d381b6b9d96ad3046a6d7c6f131b250b562ac68c04db69fcbdde9a83"
+}

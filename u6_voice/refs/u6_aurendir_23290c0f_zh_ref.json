@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_aurendir_23290c0f",
+  "lang": "zh",
+  "text": "旅人，你好。我是Aurendir。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Aurendir。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Aurendir。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Aurendir",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Aurendir。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 149026502,
+  "sample_rate": 24000,
+  "duration_seconds": 4.49,
+  "sha256": "1a6ccd7bfa901d5d7d70372dd5041c9db963e8e005ede359b77c7afa688a4447"
+}

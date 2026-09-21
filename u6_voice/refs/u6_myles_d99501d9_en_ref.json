@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_myles_d99501d9",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Myles. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Myles. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Myles. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Myles",
+  "source": "omnivoice_design",
+  "instruct": "male, young adult, high pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Myles. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 596839370,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "a2b0bdf7dba4e38a6d870661dd24c4565253855057b0a8fade3ce88a1ec22cf0"
+}

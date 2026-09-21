@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_harold_00b45a02",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Harold. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Harold. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Harold. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Harold",
+  "source": "omnivoice_design",
+  "instruct": "male, low pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Harold. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1703674505,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "6baf3ea0711978de841a3960d8468e5b3bd09b788a43b1811646399b2aeeecdf"
+}

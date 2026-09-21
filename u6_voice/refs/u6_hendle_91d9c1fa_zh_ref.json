@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_hendle_91d9c1fa",
+  "lang": "zh",
+  "text": "旅人，你好。我是Hendle。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Hendle。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Hendle。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Hendle",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Hendle。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 780772619,
+  "sample_rate": 24000,
+  "duration_seconds": 4.2,
+  "sha256": "5bb42e67e48f9487a8e7213eb910ddf99308ada3238c736362f9dd44a1109e29"
+}

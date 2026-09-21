@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_lyssandra_3c0c3a3f",
+  "lang": "zh",
+  "text": "旅人，你好。我是Lyssandra。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Lyssandra。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Lyssandra。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Lyssandra",
+  "source": "omnivoice_design",
+  "instruct": "女, 青年, 高音调",
+  "ref_text": "旅人，你好。我是Lyssandra。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1415427491,
+  "sample_rate": 24000,
+  "duration_seconds": 4.54,
+  "sha256": "3dae9dca3ebd726ea545155b5e8f6a30f155741a4950c7a82f500483646b7382"
+}

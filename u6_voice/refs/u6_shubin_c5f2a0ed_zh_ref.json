@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_shubin_c5f2a0ed",
+  "lang": "zh",
+  "text": "旅人，你好。我是Shubin。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Shubin。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Shubin。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Shubin",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Shubin。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3267420862,
+  "sample_rate": 24000,
+  "duration_seconds": 4.28,
+  "sha256": "705a431561a69abe486c79b7172bdb15e0a68f2c5c3bc743328438f0a2aebb70"
+}

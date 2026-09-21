@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_glen_d_arc_5a686815",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Glen D'Arc. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Glen D'Arc. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Glen D'Arc. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Glen D'Arc",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Glen D'Arc. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 865653643,
+  "sample_rate": 24000,
+  "duration_seconds": 4.64,
+  "sha256": "853a9fce9aa5b0d6aea226a9ce883b658c7154281427d50617825c5f891de7f1"
+}

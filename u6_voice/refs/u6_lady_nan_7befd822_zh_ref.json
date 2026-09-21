@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_lady_nan_7befd822",
+  "lang": "zh",
+  "text": "旅人，你好。我是Lady Nan。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Lady Nan。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Lady Nan。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Lady Nan",
+  "source": "omnivoice_design",
+  "instruct": "女, 青年, 高音调",
+  "ref_text": "旅人，你好。我是Lady Nan。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2850668064,
+  "sample_rate": 24000,
+  "duration_seconds": 4.23,
+  "sha256": "a57336982bcca2957c658b2a1c6b7c12738de73db06df2b2907910a1ec8105d1"
+}

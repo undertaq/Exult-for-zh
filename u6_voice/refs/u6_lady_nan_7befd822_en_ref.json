@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_lady_nan_7befd822",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Lady Nan. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Lady Nan. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Lady Nan. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Lady Nan",
+  "source": "omnivoice_design",
+  "instruct": "female, young adult, high pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Lady Nan. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2949923391,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "42660d7897bfa8d48741c12644dbdfba6f384ca3740c7e02302d18abe5bef17e"
+}

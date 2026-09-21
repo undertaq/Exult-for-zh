@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_captain_johne_66f84eba",
+  "lang": "zh",
+  "text": "旅人，你好。我是Captain Johne。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Captain Johne。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Captain Johne。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Captain Johne",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Captain Johne。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 12123553,
+  "sample_rate": 24000,
+  "duration_seconds": 4.78,
+  "sha256": "004df69c6eb86b0cde975a361c49267141e839a87707fd1fbdc734b3905c7bbe"
+}

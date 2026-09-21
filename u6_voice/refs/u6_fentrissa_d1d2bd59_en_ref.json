@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_fentrissa_d1d2bd59",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Fentrissa. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Fentrissa. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Fentrissa. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Fentrissa",
+  "source": "omnivoice_design",
+  "instruct": "female, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Fentrissa. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3308673823,
+  "sample_rate": 24000,
+  "duration_seconds": 4.68,
+  "sha256": "64f88aa4e59e9a8bda9f3721977bcf1dc8585a91708639d25c8d539df7e4de18"
+}

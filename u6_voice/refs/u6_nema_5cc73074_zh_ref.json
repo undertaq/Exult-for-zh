@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_nema_5cc73074",
+  "lang": "zh",
+  "text": "旅人，你好。我是Nema。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Nema。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Nema。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Nema",
+  "source": "omnivoice_design",
+  "instruct": "女, 青年, 高音调",
+  "ref_text": "旅人，你好。我是Nema。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1213573967,
+  "sample_rate": 24000,
+  "duration_seconds": 4.24,
+  "sha256": "a59113f78178346950aad204ec22319bb2d217cab3d077c157623043091bd960"
+}

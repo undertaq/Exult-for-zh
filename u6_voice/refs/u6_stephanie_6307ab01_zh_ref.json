@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_stephanie_6307ab01",
+  "lang": "zh",
+  "text": "旅人，你好。我是Stephanie。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Stephanie。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Stephanie。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Stephanie",
+  "source": "omnivoice_design",
+  "instruct": "女, 青年, 高音调",
+  "ref_text": "旅人，你好。我是Stephanie。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3282868589,
+  "sample_rate": 24000,
+  "duration_seconds": 4.29,
+  "sha256": "d5563f2a63eedda9574bc300413a0efccb123be7c2dbfcfac4a7313eb323697f"
+}

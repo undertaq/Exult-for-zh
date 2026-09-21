@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_healer_a491a33c",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Healer. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Healer. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Healer. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Healer",
+  "source": "omnivoice_design",
+  "instruct": "very low pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Healer. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2541102248,
+  "sample_rate": 24000,
+  "duration_seconds": 4.44,
+  "sha256": "4effee4936390a27868292fe9be39a622820dc629df8af87f56c1a7d8fdd6ba8"
+}

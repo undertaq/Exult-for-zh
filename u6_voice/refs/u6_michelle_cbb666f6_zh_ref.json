@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_michelle_cbb666f6",
+  "lang": "zh",
+  "text": "旅人，你好。我是Michelle。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Michelle。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Michelle。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Michelle",
+  "source": "omnivoice_design",
+  "instruct": "女, 青年, 高音调",
+  "ref_text": "旅人，你好。我是Michelle。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2269261476,
+  "sample_rate": 24000,
+  "duration_seconds": 4.27,
+  "sha256": "59c2c16d3885f373c3a5938c1b6bb7941b69aa20e7ddeaf7e3fbe35c0b7ce77f"
+}

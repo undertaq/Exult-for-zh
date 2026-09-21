@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_leodon_3e6ac86d",
+  "lang": "zh",
+  "text": "旅人，你好。我是Leodon。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Leodon。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Leodon。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Leodon",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Leodon。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1008491325,
+  "sample_rate": 24000,
+  "duration_seconds": 4.08,
+  "sha256": "d002ef0df2d6b03623206fac2de0ebbb04b40ac69e96f0935f000ccb49c266c0"
+}

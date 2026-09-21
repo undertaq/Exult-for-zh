@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_mortude_a7713080",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Mortude. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Mortude. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Mortude. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Mortude",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Mortude. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 4118017965,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "539f303181f6f263c5285f97e25489a69d05e92a15b3d7fa22f55c7e0988bc74"
+}

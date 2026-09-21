@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_myron_0ec762d0",
+  "lang": "zh",
+  "text": "旅人，你好。我是Myron。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Myron。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Myron。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Myron",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Myron。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3084978942,
+  "sample_rate": 24000,
+  "duration_seconds": 4.28,
+  "sha256": "a7310763fee6f2a9211a8bb19019707eab0d39bfa17c45e91b479c9cc97518af"
+}

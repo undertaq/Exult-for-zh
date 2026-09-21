@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_tiberius_8a089126",
+  "lang": "zh",
+  "text": "旅人，你好。我是Tiberius。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Tiberius。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Tiberius。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Tiberius",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Tiberius。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3180072641,
+  "sample_rate": 24000,
+  "duration_seconds": 4.47,
+  "sha256": "70e832583b6110334f39925f1bcdc81980800f8440c452070460f6a9ba02e925"
+}

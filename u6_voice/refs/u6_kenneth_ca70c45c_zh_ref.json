@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_kenneth_ca70c45c",
+  "lang": "zh",
+  "text": "旅人，你好。我是Kenneth。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Kenneth。今天你为何来到这片土地？",
+  "override_revision": "u6-omnivoice-overrides-v1",
+  "rendered_text": "旅人，你好。我是Kenneth。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Kenneth",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Kenneth。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 405649908,
+  "sample_rate": 24000,
+  "duration_seconds": 4.43,
+  "sha256": "db4d813b81bb4d0843cba4943149f7596b7e026e2464e7a9f465e66b37f04133"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_daver_843b4ea6",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Daver. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Daver. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Daver. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Daver",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Daver. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3875064289,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "2c21ad0d19c2bf1680fc62f990c7c59f1ea55a0c46568bdc1a7d50985f5da69c"
+}

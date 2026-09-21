@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_morchella_6dc3cfc0",
+  "lang": "zh",
+  "text": "旅人，你好。我是Morchella。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Morchella。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Morchella。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Morchella",
+  "source": "omnivoice_design",
+  "instruct": "女, 中音调",
+  "ref_text": "旅人，你好。我是Morchella。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2968314589,
+  "sample_rate": 24000,
+  "duration_seconds": 4.35,
+  "sha256": "88d10604c68182f913dae335f254b497c3bba11a454a505462d37526cbd510e6"
+}

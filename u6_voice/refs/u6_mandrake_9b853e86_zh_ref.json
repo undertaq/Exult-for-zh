@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_mandrake_9b853e86",
+  "lang": "zh",
+  "text": "旅人，你好。我是Mandrake。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Mandrake。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Mandrake。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Mandrake",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Mandrake。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2607713248,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "10212c02c601c9907a016447189b9b239ae4286f5e1d85afd7470b066bd44fd3"
+}

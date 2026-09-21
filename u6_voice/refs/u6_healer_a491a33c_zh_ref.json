@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_healer_a491a33c",
+  "lang": "zh",
+  "text": "旅人，你好。我是Healer。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Healer。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Healer。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Healer",
+  "source": "omnivoice_design",
+  "instruct": "极低音调",
+  "ref_text": "旅人，你好。我是Healer。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 895558287,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "83b01a2ddd5f0d711effbf3875d5e89eee781ba3dabebb951d59eaf75ac7c225"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_renthar_46dd7cee",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Renthar. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Renthar. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Renthar. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Renthar",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Renthar. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 11130795,
+  "sample_rate": 24000,
+  "duration_seconds": 4.52,
+  "sha256": "532d4ce276c1c9e1d19a2cd4ca96b792c852c5797660d2062b471e005b901230"
+}

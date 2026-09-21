@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_doris_cafd9289",
+  "lang": "zh",
+  "text": "旅人，你好。我是Doris。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Doris。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Doris。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Doris",
+  "source": "omnivoice_design",
+  "instruct": "女, 青年, 高音调",
+  "ref_text": "旅人，你好。我是Doris。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1030273918,
+  "sample_rate": 24000,
+  "duration_seconds": 4.22,
+  "sha256": "2dbb5cb5354682c6dfc491df15c259142a64ef3e7a8295ae4988ab4664df6d1b"
+}

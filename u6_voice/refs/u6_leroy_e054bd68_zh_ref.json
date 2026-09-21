@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_leroy_e054bd68",
+  "lang": "zh",
+  "text": "旅人，你好。我是Leroy。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Leroy。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Leroy。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Leroy",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Leroy。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3121650465,
+  "sample_rate": 24000,
+  "duration_seconds": 4.04,
+  "sha256": "518a9c2e745c4959fdc53a5a263adb326de8b72c4f08a50fda58b6d3e32a9155"
+}

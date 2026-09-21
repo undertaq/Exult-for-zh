@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_dawg_399e946a",
+  "lang": "zh",
+  "text": "旅人，你好。我是dawg。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是dawg。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是dawg。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "dawg",
+  "source": "omnivoice_design",
+  "instruct": "极低音调",
+  "ref_text": "旅人，你好。我是dawg。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3876647753,
+  "sample_rate": 24000,
+  "duration_seconds": 4.24,
+  "sha256": "750dd2fd8a6c439764c7f5df7f61e6409cdf6f5782978448577f601b843cbb2c"
+}

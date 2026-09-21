@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_caradon_3f813f86",
+  "lang": "en",
+  "text": "Greetings, traveler. I am Caradon. What brings you to these lands today?",
+  "tts_text": "Greetings, traveler. I am Caradon. What brings you to these lands today?",
+  "override_revision": null,
+  "rendered_text": "Greetings, traveler. I am Caradon. What brings you to these lands today?",
+  "fallback_used": false,
+  "npc": "Caradon",
+  "source": "omnivoice_design",
+  "instruct": "male, moderate pitch, American accent",
+  "ref_text": "Greetings, traveler. I am Caradon. What brings you to these lands today?",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3697582194,
+  "sample_rate": 24000,
+  "duration_seconds": 4.51,
+  "sha256": "75dc34f9b41312e34152efc419a8e473d540007750b5ec01cbc8076185cac62b"
+}

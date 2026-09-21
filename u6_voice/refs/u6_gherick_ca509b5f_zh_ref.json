@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_gherick_ca509b5f",
+  "lang": "zh",
+  "text": "旅人，你好。我是Gherick。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Gherick。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Gherick。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Gherick",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Gherick。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 840778483,
+  "sample_rate": 24000,
+  "duration_seconds": 4.08,
+  "sha256": "e5b1b026ee6effc38fa8dfaa60604ff1659ba2450fe28acfb6dba475c2bb0618"
+}

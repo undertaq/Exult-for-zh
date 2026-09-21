@@ -1,0 +1,20 @@
+{
+  "status": "generated",
+  "design_id": "u6_jerris_1e07a44b",
+  "lang": "zh",
+  "text": "旅人，你好。我是Jerris。今天你为何来到这片土地？",
+  "tts_text": "旅人，你好。我是Jerris。今天你为何来到这片土地？",
+  "override_revision": null,
+  "rendered_text": "旅人，你好。我是Jerris。今天你为何来到这片土地？",
+  "fallback_used": false,
+  "npc": "Jerris",
+  "source": "omnivoice_design",
+  "instruct": "男, 中音调",
+  "ref_text": "旅人，你好。我是Jerris。今天你为何来到这片土地？",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1596290558,
+  "sample_rate": 24000,
+  "duration_seconds": 4.36,
+  "sha256": "b2dc64cdedef69db8e6d7bf94d9bc09c290040d91744dd635695942a192da4e7"
+}
