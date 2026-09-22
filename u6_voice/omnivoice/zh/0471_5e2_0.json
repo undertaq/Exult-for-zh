@@ -1,0 +1,69 @@
+{
+  "status": "generated",
+  "design_id": "u6_smith_9f542590",
+  "lang": "zh",
+  "text": "你看到Iolo推了Dupre的肋骨一下。你欠我一瓶酒，他說，咧嘴笑著。",
+  "tts_text": "你看到Iolo推了Dupre的肋骨一下。你欠我一瓶酒，他說，咧嘴笑著。",
+  "override_revision": null,
+  "rendered_text": "你看到Iolo推了Dupre的肋骨一下。\n你欠我一瓶酒，\n他說，咧嘴笑著。",
+  "fallback_used": false,
+  "npc": "Smith",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:0108cdc759a841b4a7fb46c4da68ab505ad25b1691cd269746e57c32a2be4266",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "你看到Iolo推了Dupre的肋骨一下。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "你欠我一瓶酒，",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_smith_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_smith",
+      "reference_sha256": "4ba45e880555cc95be881433a4f75cddb5b9edab2bd31db07496e5a0d1a92f7e",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他說，咧嘴笑著。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 122347744,
+  "sample_rate": 24000,
+  "duration_seconds": 7.34,
+  "sha256": "44e8b6c7f4c0570485d2cc685efb4e6917aafe1d3a64f8a6557f97419c8c0c9d",
+  "func_id": "0471",
+  "offset_key": "5e2",
+  "segment": 0,
+  "rendered_parts": [
+    "你看到Iolo推了Dupre的肋骨一下。",
+    "你欠我一瓶酒，",
+    "他說，咧嘴笑著。"
+  ]
+}

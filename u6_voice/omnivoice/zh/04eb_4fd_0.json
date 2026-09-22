@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_koranada_1c5e6121",
+  "lang": "zh",
+  "text": "柯拉納達（Koranada）瞥了一眼你的盾牌。聖者，你必須向格裡克（Gherick）購買並打造屬於你自己的巨蛇盾。別人的盾牌是不夠的...",
+  "tts_text": "柯拉納達（Koranada）瞥了一眼你的盾牌。聖者，你必須向格裡克（Gherick）購買並打造屬於你自己的巨蛇盾。別人的盾牌是不夠的...",
+  "override_revision": null,
+  "rendered_text": "柯拉納達（Koranada）瞥了一眼你的盾牌。\n聖者，你必須向格裡克（Gherick）購買並打造屬於你自己的巨蛇盾。別人的盾牌是不夠的...",
+  "fallback_used": false,
+  "npc": "Koranada",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:fcf04b8a55012849852b5663c5da3edc9eed16fa5f2982b8d9f4d403b18bf707",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "柯拉納達（Koranada）瞥了一眼你的盾牌。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "聖者，你必須向格裡克（Gherick）購買並打造屬於你自己的巨蛇盾。別人的盾牌是不夠的...",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_koranada_1c5e6121_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Koranada。今天你为何来到这片土地？",
+      "reference_id": "u6_koranada_1c5e6121",
+      "reference_sha256": "0502375f89aa663050015cdd2871f5cc31339c109e54fee0903a526fc996a5ed",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 64903557,
+  "sample_rate": 24000,
+  "duration_seconds": 12.19,
+  "sha256": "910d57808456127b89f209ebc768002b5a4fbde622d0ba3b222696fb0efba985",
+  "func_id": "04eb",
+  "offset_key": "4fd",
+  "segment": 0,
+  "rendered_parts": [
+    "柯拉納達（Koranada）瞥了一眼你的盾牌。",
+    "聖者，你必須向格裡克（Gherick）購買並打造屬於你自己的巨蛇盾。別人的盾牌是不夠的..."
+  ]
+}

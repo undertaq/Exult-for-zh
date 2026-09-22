@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_terri_c4b3034a",
+  "lang": "zh",
+  "text": "是的，我看你的畫像認出了你...我小時候，我媽媽常給我講關於你的故事。。",
+  "tts_text": "是的，我看你的畫像認出了你...我小時候，我媽媽常給我講關於你的故事。。",
+  "override_revision": null,
+  "rendered_text": "是的，我看你的畫像認出了你...我小時候，我媽媽常給我講關於你的故事。\n。",
+  "fallback_used": false,
+  "npc": "Terri",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_terri_c4b3034a_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Terri。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:0c47de2d89d50c97a371d916e1f59e9ed9b79666ae9dff00d78f39fb9cd2cad9",
+  "reference_sha256": "c01409a6bb9bfe9c28c326e983c54551cf0740324c602c9ddd3048baf1a7335a",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "是的，我看你的畫像認出了你...我小時候，我媽媽常給我講關於你的故事。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_terri_c4b3034a_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Terri。今天你为何来到这片土地？",
+      "reference_id": "u6_terri_c4b3034a",
+      "reference_sha256": "c01409a6bb9bfe9c28c326e983c54551cf0740324c602c9ddd3048baf1a7335a",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 4155108161,
+  "sample_rate": 24000,
+  "duration_seconds": 6.36,
+  "sha256": "5c5b4e0153d47c68964949655577b0c84f42e87a5ab571cae1f221cd95086039",
+  "func_id": "0420",
+  "offset_key": "108",
+  "segment": 0,
+  "rendered_parts": [
+    "是的，我看你的畫像認出了你...我小時候，我媽媽常給我講關於你的故事。",
+    "。"
+  ]
+}

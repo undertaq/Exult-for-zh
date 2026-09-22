@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_meredith_b69b3f30",
+  "lang": "zh",
+  "text": "她揮動娃娃的手向你說 再見。",
+  "tts_text": "她揮動娃娃的手向你說 再見。",
+  "override_revision": null,
+  "rendered_text": "她揮動娃娃的手向你說\n再見。",
+  "fallback_used": false,
+  "npc": "Meredith",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:ef1aeed3b238ddc01bd23f54a14f11020f2f583cb0835fe690e2121d2e576db3",
+  "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "她揮動娃娃的手向你說",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "再見。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_meredith_b69b3f30_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Meredith。今天你为何来到这片土地？",
+      "reference_id": "u6_meredith_b69b3f30",
+      "reference_sha256": "a415e473dfa004039701b0605a59c37f23d597ff0db15384402dbd26506e1481",
+      "instruct": "女, 青年, 高音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 4090325748,
+  "sample_rate": 24000,
+  "duration_seconds": 3.57,
+  "sha256": "2e90c35fea7e63f8dcdb0e401fbfb9bff8a38466f1912ce8e35888dcc89263bb",
+  "func_id": "047b",
+  "offset_key": "352",
+  "segment": 0,
+  "rendered_parts": [
+    "她揮動娃娃的手向你說",
+    "再見。"
+  ]
+}

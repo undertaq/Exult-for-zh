@@ -1,0 +1,69 @@
+{
+  "status": "generated",
+  "design_id": "u6_pridgarm_6de8b131",
+  "lang": "zh",
+  "text": "Drudgeworth and Saduj？ 他想了一下。聽沒聽說過。這些天我們這兒關押了許多囚犯。",
+  "tts_text": "Drudgeworth and Saduj？ 他想了一下。聽沒聽說過。這些天我們這兒關押了許多囚犯。",
+  "override_revision": null,
+  "rendered_text": "Drudgeworth and Saduj？\n他想了一下。\n聽沒聽說過。這些天我們這兒關押了許多囚犯。",
+  "fallback_used": false,
+  "npc": "Pridgarm",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_pridgarm_6de8b131_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Pridgarm。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:6eab8dd3062e0ac73952ad4511f50920fbcd90532b0684c526e62099f3071b6b",
+  "reference_sha256": "443e745da2a148e026afb97be1b61eca62bdff45f28c1c59247a83253066b0d4",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "Drudgeworth and Saduj？",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_pridgarm_6de8b131_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Pridgarm。今天你为何来到这片土地？",
+      "reference_id": "u6_pridgarm_6de8b131",
+      "reference_sha256": "443e745da2a148e026afb97be1b61eca62bdff45f28c1c59247a83253066b0d4",
+      "instruct": "男, 老年, 低音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他想了一下。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "聽沒聽說過。這些天我們這兒關押了許多囚犯。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_pridgarm_6de8b131_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Pridgarm。今天你为何来到这片土地？",
+      "reference_id": "u6_pridgarm_6de8b131",
+      "reference_sha256": "443e745da2a148e026afb97be1b61eca62bdff45f28c1c59247a83253066b0d4",
+      "instruct": "男, 老年, 低音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2271030547,
+  "sample_rate": 24000,
+  "duration_seconds": 7.06,
+  "sha256": "50b6254bae8a8ccba7ad6b37844e4fae4011771b354a1eb309d98ccf3d8a2592",
+  "func_id": "0413",
+  "offset_key": "735",
+  "segment": 0,
+  "rendered_parts": [
+    "Drudgeworth and Saduj？",
+    "他想了一下。",
+    "聽沒聽說過。這些天我們這兒關押了許多囚犯。"
+  ]
+}

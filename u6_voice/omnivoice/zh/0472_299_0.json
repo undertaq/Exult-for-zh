@@ -1,0 +1,69 @@
+{
+  "status": "generated",
+  "design_id": "u6_eckhart_4889b287",
+  "lang": "zh",
+  "text": "這些排， 他指了指， 是無籽葡萄。",
+  "tts_text": "這些排， 他指了指， 是無籽葡萄。",
+  "override_revision": null,
+  "rendered_text": "這些排，\n他指了指，\n是無籽葡萄。",
+  "fallback_used": false,
+  "npc": "Eckhart",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_eckhart_4889b287_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Eckhart。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:a44d9a90653b4279243ec2022fceaf8a991246d18a81748cdcaffcb1c440c631",
+  "reference_sha256": "c613e7b4117caf91a84048828c2cdf85c3307b73d4b5299f0c2f12d342704420",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "這些排，",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_eckhart_4889b287_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Eckhart。今天你为何来到这片土地？",
+      "reference_id": "u6_eckhart_4889b287",
+      "reference_sha256": "c613e7b4117caf91a84048828c2cdf85c3307b73d4b5299f0c2f12d342704420",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他指了指，",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "是無籽葡萄。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_eckhart_4889b287_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Eckhart。今天你为何来到这片土地？",
+      "reference_id": "u6_eckhart_4889b287",
+      "reference_sha256": "c613e7b4117caf91a84048828c2cdf85c3307b73d4b5299f0c2f12d342704420",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 705358859,
+  "sample_rate": 24000,
+  "duration_seconds": 5.12,
+  "sha256": "dc1ca63d8994e5df5a6504a920ed98c975bfc386dd798a5c212d886635eb2a53",
+  "func_id": "0472",
+  "offset_key": "299",
+  "segment": 0,
+  "rendered_parts": [
+    "這些排，",
+    "他指了指，",
+    "是無籽葡萄。"
+  ]
+}

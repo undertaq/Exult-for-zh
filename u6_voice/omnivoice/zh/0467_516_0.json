@@ -1,0 +1,69 @@
+{
+  "status": "generated",
+  "design_id": "u6_ybarra_640a0e74",
+  "lang": "zh",
+  "text": "沒有食物？ 他問道。那你也會註定毀滅的！",
+  "tts_text": "沒有食物？ 他問道。那你也會註定毀滅的！",
+  "override_revision": null,
+  "rendered_text": "沒有食物？\n他問道。\n那你也會註定毀滅的！",
+  "fallback_used": false,
+  "npc": "Ybarra",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_ybarra_640a0e74_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Ybarra。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:88e048c07fda7f37e537c929f8c81f7fa5fe3276fc5d2cbc3ad0bc194f8be0d4",
+  "reference_sha256": "98fd552cc21503adf8465b654c764622dbb42045d326a2c0642e8e1c8c7dd9bc",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "沒有食物？",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_ybarra_640a0e74_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Ybarra。今天你为何来到这片土地？",
+      "reference_id": "u6_ybarra_640a0e74",
+      "reference_sha256": "98fd552cc21503adf8465b654c764622dbb42045d326a2c0642e8e1c8c7dd9bc",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他問道。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "那你也會註定毀滅的！",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_ybarra_640a0e74_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Ybarra。今天你为何来到这片土地？",
+      "reference_id": "u6_ybarra_640a0e74",
+      "reference_sha256": "98fd552cc21503adf8465b654c764622dbb42045d326a2c0642e8e1c8c7dd9bc",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3376428653,
+  "sample_rate": 24000,
+  "duration_seconds": 3.57,
+  "sha256": "432a7ceb2959a6100dfc53765ee0e59ddb9d27f93e4ae9ca28a4540d92e997ed",
+  "func_id": "0467",
+  "offset_key": "516",
+  "segment": 0,
+  "rendered_parts": [
+    "沒有食物？",
+    "他問道。",
+    "那你也會註定毀滅的！"
+  ]
+}

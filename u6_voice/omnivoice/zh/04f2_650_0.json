@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_gherick_ca509b5f",
+  "lang": "zh",
+  "text": "出去的時候把門關好， 他怒吼道。",
+  "tts_text": "出去的時候把門關好， 他怒吼道。",
+  "override_revision": null,
+  "rendered_text": "出去的時候把門關好，\n他怒吼道。",
+  "fallback_used": false,
+  "npc": "Gherick",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_gherick_ca509b5f_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Gherick。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:2ad93ccdbe0f124b6261013c52d4708e9c2c0660604eae9d5d1085ce43b0919c",
+  "reference_sha256": "e5b1b026ee6effc38fa8dfaa60604ff1659ba2450fe28acfb6dba475c2bb0618",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "出去的時候把門關好，",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_gherick_ca509b5f_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Gherick。今天你为何来到这片土地？",
+      "reference_id": "u6_gherick_ca509b5f",
+      "reference_sha256": "e5b1b026ee6effc38fa8dfaa60604ff1659ba2450fe28acfb6dba475c2bb0618",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他怒吼道。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3656340609,
+  "sample_rate": 24000,
+  "duration_seconds": 3.65,
+  "sha256": "5114614a46e7165acbbdb74851d43b73278c96a564f58bd9a903baa370451b4f",
+  "func_id": "04f2",
+  "offset_key": "650",
+  "segment": 0,
+  "rendered_parts": [
+    "出去的時候把門關好，",
+    "他怒吼道。"
+  ]
+}

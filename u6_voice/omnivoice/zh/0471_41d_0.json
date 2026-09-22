@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_smith_9f542590",
+  "lang": "zh",
+  "text": "你瞧，它們是用釘子釘在我腳上的。 他舉起一個蹄子讓你看了看。",
+  "tts_text": "你瞧，它們是用釘子釘在我腳上的。 他舉起一個蹄子讓你看了看。",
+  "override_revision": null,
+  "rendered_text": "你瞧，它們是用釘子釘在我腳上的。\n他舉起一個蹄子讓你看了看。",
+  "fallback_used": false,
+  "npc": "Smith",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/voice/refs/npc_smith_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:e40f516f677354912e1772fca882e564037c18aae7998ecc16c3e181b2fb63f2",
+  "reference_sha256": "4ba45e880555cc95be881433a4f75cddb5b9edab2bd31db07496e5a0d1a92f7e",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "你瞧，它們是用釘子釘在我腳上的。",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_smith_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_smith",
+      "reference_sha256": "4ba45e880555cc95be881433a4f75cddb5b9edab2bd31db07496e5a0d1a92f7e",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他舉起一個蹄子讓你看了看。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1374645657,
+  "sample_rate": 24000,
+  "duration_seconds": 7.7,
+  "sha256": "4c4107da89e866cbbc2af336f38a8de7fe30c570c1e30c4874a3b1891244de44",
+  "func_id": "0471",
+  "offset_key": "41d",
+  "segment": 0,
+  "rendered_parts": [
+    "你瞧，它們是用釘子釘在我腳上的。",
+    "他舉起一個蹄子讓你看了看。"
+  ]
+}

@@ -4,7 +4,7 @@
   "lang": "zh",
   "text": "旅人，你好。我是Trenton Bell。今天你为何来到这片土地？",
   "tts_text": "旅人，你好。我是Trenton Bell。今天你为何来到这片土地？",
-  "override_revision": "u6-omnivoice-overrides-v1",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "旅人，你好。我是Trenton Bell。今天你为何来到这片土地？",
   "fallback_used": false,
   "npc": "Trenton Bell",
@@ -12,9 +12,9 @@
   "instruct": "男, 中音调",
   "ref_text": "旅人，你好。我是Trenton Bell。今天你为何来到这片土地？",
   "model": "k2-fsa/OmniVoice",
-  "gpu": 1,
-  "seed": 3349956168,
+  "gpu": 0,
+  "seed": 2534091539,
   "sample_rate": 24000,
-  "duration_seconds": 4.56,
-  "sha256": "7dd2b1cf8f821e561f6ca2e173d462a8b99adb74c80f9177998b282cfcee01ee"
+  "duration_seconds": 4.32,
+  "sha256": "f68010714c7bb08cef4fa2b9a6d9ba697de7206cf1a4718e7271ee72b6f1b333"
 }

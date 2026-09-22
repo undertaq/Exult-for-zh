@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_anya_d8b4e5c1",
+  "lang": "zh",
+  "text": "她的臉突然亮了起來。你看起來是位習練魔法藝術的人。或許你能找到某種法術，來恢復我丈夫的聽力！我知道這要求很多，但你願意試試嗎？",
+  "tts_text": "她的臉突然亮了起來。你看起來是位習練魔法藝術的人。或許你能找到某種法術，來恢復我丈夫的聽力！我知道這要求很多，但你願意試試嗎？",
+  "override_revision": null,
+  "rendered_text": "她的臉突然亮了起來。\n你看起來是位習練魔法藝術的人。或許你能找到某種法術，來恢復我丈夫的聽力！我知道這要求很多，但你願意試試嗎？",
+  "fallback_used": false,
+  "npc": "Anya",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:131013507dd0bbc5cbfc13f4bd2b83188a8aa89d84edfd24ce3c1c2a9c435d83",
+  "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "她的臉突然亮了起來。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "你看起來是位習練魔法藝術的人。或許你能找到某種法術，來恢復我丈夫的聽力！我知道這要求很多，但你願意試試嗎？",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_anya_d8b4e5c1_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Anya。今天你为何来到这片土地？",
+      "reference_id": "u6_anya_d8b4e5c1",
+      "reference_sha256": "3b3981914be8a9b366c310ffeb2489037873f3212fe2ad1ae594a1563ab75a2e",
+      "instruct": "女, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1224817046,
+  "sample_rate": 24000,
+  "duration_seconds": 13.7,
+  "sha256": "cf0cadcabad16257a35b02256b22f902ad02579afbf7581484e449edb25863af",
+  "func_id": "0425",
+  "offset_key": "6ee",
+  "segment": 0,
+  "rendered_parts": [
+    "她的臉突然亮了起來。",
+    "你看起來是位習練魔法藝術的人。或許你能找到某種法術，來恢復我丈夫的聽力！我知道這要求很多，但你願意試試嗎？"
+  ]
+}

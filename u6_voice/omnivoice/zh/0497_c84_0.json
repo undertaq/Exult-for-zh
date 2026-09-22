@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_ephemerides_fcd41c9b",
+  "lang": "zh",
+  "text": "他在口袋裡翻找。哦不！我好像把鏡頭弄丟了！",
+  "tts_text": "他在口袋裡翻找。哦不！我好像把鏡頭弄丟了！",
+  "override_revision": null,
+  "rendered_text": "他在口袋裡翻找。\n哦不！我好像把鏡頭弄丟了！",
+  "fallback_used": false,
+  "npc": "Ephemerides",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:4b0a25fff6464ef6f5c405263bc6beb04ea9c38ed2fa424e4e16707c99e2c7fe",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "他在口袋裡翻找。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "哦不！我好像把鏡頭弄丟了！",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_ephemerides_fcd41c9b_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Ephemerides。今天你为何来到这片土地？",
+      "reference_id": "u6_ephemerides_fcd41c9b",
+      "reference_sha256": "fe5f491769aa6cde1322e8ff833a09cad4692b04274f2472355123e0fe132a44",
+      "instruct": "男, 老年, 低音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 474556697,
+  "sample_rate": 24000,
+  "duration_seconds": 4.38,
+  "sha256": "e18fa75f2c356d3db9760ef8c6a223dfaa179e1232d39436bf802df66aa35e7e",
+  "func_id": "0497",
+  "offset_key": "c84",
+  "segment": 0,
+  "rendered_parts": [
+    "他在口袋裡翻找。",
+    "哦不！我好像把鏡頭弄丟了！"
+  ]
+}

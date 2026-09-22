@@ -1,5 +1,6 @@
 import importlib
 import json
+from pathlib import Path
 
 import pytest
 
@@ -94,3 +95,103 @@ def test_valid_tone_controls_remain_accepted(tmp_path):
     overrides = module.load_omnivoice_overrides(path)
 
     assert overrides.tts_text("馴蛇者與偽先知", "zh") == "XUN4蛇者與WEI4先知"
+
+
+def test_project_manifest_covers_context_sensitive_zh_readings():
+    module = _overrides_module()
+    project_root = Path(__file__).resolve().parents[2]
+    overrides = module.load_omnivoice_overrides(
+        project_root / "u6_voice/manifests/omnivoice_overrides.json"
+    )
+
+    expected = {
+        "馴蛇師": "XUN4蛇師",
+        "偽裝": "WEI4裝",
+        "偽預言者": "WEI4預言者",
+        "虛偽": "虛WEI4",
+        "一位優雅的銀髮女子": "一位優雅的銀FA4女子",
+        "乾草": "GAN1草",
+        "餅乾": "餅GAN1",
+        "長久": "CHANG2久",
+        "長袍": "CHANG2袍",
+        "調整": "TIAO2整",
+        "調校": "TIAO2校",
+        "調查": "調查",
+        "音樂": "音YUE4",
+        "樂意": "樂意",
+        "處理": "CHU3理",
+        "此處": "此處",
+        "幾乎": "JI1乎",
+        "幾個": "幾個",
+        "災難": "災NAN4",
+        "難以": "難以",
+        "答應": "答YING4",
+        "應該": "應該",
+        "還給": "HUAN2給",
+        "還是": "還是",
+        "種植": "ZHONG4植",
+        "種族": "種族",
+        "結實": "JIE1實",
+        "運轉": "運ZHUAN4",
+        "轉身": "轉身",
+        "睡覺": "睡JIAO4",
+        "彷彿": "FANG3彿",
+        "繃帶": "BENG1帶",
+        "強迫": "QIANG3迫",
+        "裁縫": "裁FENG2",
+        "憑藉": "憑JIE4",
+        "記載": "記ZAI3",
+        "彈琴": "TAN2琴",
+        "籠罩": "LONG3罩",
+        "數不清": "SHU3不清",
+        "可惡": "可WU4",
+        "成為": "成WEI2",
+        "盡快": "JIN3快",
+        "重啟": "CHONG2啟",
+        "冠軍": "GUAN4軍",
+        "銀行": "銀HANG2",
+        "恰當": "恰DANG4",
+        "寶藏": "寶ZANG4",
+        "藏身": "CANG2身",
+        "角色": "JUE2色",
+        "率領": "SHUAI4領",
+        "數人數": "SHU3人SHU4",
+        "「..對對對..」": "DUI4 DUI4 DUI4",
+        "長睫毛": "CHANG2睫毛",
+        "長凳": "CHANG2凳",
+        "長長的": "CHANG2 CHANG2的",
+        "長兩倍": "CHANG2兩倍",
+        "太長": "太CHANG2",
+        "售價為": "售價WEI2",
+        "價格為": "價格WEI2",
+        "發音為": "發音WEI2",
+        "設定為": "設定WEI2",
+        "設置為": "設置WEI2",
+        "替換為": "替換WEI2",
+        "變更為": "變更WEI2",
+        "轉化為": "轉化WEI2",
+        "轉變為": "轉變WEI2",
+        "名為": "名WEI2",
+        "稱我為": "稱我WEI2",
+        "被列為": "被列WEI2",
+        "身為": "身WEI2",
+        "廣為": "廣WEI2",
+        "更為": "更WEI2",
+        "最為": "最WEI2",
+        "譯為": "譯WEI2",
+        "為證": "WEI2證",
+        "為所欲為": "WEI2所欲WEI2",
+        "故事為": "故事WEI2",
+        "盡了責": "JIN4了責",
+        "受盡": "受JIN4",
+        "盡你所能": "JIN4你所能",
+        "懂行": "懂HANG2",
+        "長大": "長大",
+        "為你": "為你",
+        "因為": "因為",
+        "為了": "為了",
+    }
+
+    for source, tts in expected.items():
+        assert overrides.tts_text(source, "zh") == tts, source
+        assert overrides.tts_text(source, "en") == source, source

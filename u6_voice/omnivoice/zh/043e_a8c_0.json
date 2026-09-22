@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_finn_16963cb0",
+  "lang": "zh",
+  "text": "再見..。",
+  "tts_text": "再見..。",
+  "override_revision": null,
+  "rendered_text": "再見..\n。",
+  "fallback_used": false,
+  "npc": "Finn",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_finn_16963cb0_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Finn。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:7c8d9e299ce82e9184a79de025b87b4ca6329defc81f94bf11bd3a52fec5f415",
+  "reference_sha256": "69a1c0fbe2e39ff25619e08921b201e88b9e8622f074e12b413dd13991a95170",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "再見..",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_finn_16963cb0_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Finn。今天你为何来到这片土地？",
+      "reference_id": "u6_finn_16963cb0",
+      "reference_sha256": "69a1c0fbe2e39ff25619e08921b201e88b9e8622f074e12b413dd13991a95170",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 699683414,
+  "sample_rate": 24000,
+  "duration_seconds": 1.41,
+  "sha256": "959d7fcb739e3013ab97991246d6916dfc8d728c3b51572ef3284d86d83e4e7d",
+  "func_id": "043e",
+  "offset_key": "a8c",
+  "segment": 0,
+  "rendered_parts": [
+    "再見..",
+    "。"
+  ]
+}

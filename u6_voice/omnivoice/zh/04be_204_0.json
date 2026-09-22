@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_weaponsmith_7e98139a",
+  "lang": "zh",
+  "text": "詢問我如何能幫助您，尊貴者。.",
+  "tts_text": "詢問我如何能幫助您，尊貴者。.",
+  "override_revision": null,
+  "rendered_text": "詢問我如何能幫助您，尊貴者。\n.",
+  "fallback_used": false,
+  "npc": "Weaponsmith",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_weaponsmith_7e98139a_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Weaponsmith。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:b830ea7992838efb1a80e8aa4231812850ca40c8b267c01daf4e223ec7fb3e79",
+  "reference_sha256": "e44c6289caffd4e25c4236c423af2d3c7588c8508a25cb164d644cefdca98787",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "詢問我如何能幫助您，尊貴者。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_weaponsmith_7e98139a_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Weaponsmith。今天你为何来到这片土地？",
+      "reference_id": "u6_weaponsmith_7e98139a",
+      "reference_sha256": "e44c6289caffd4e25c4236c423af2d3c7588c8508a25cb164d644cefdca98787",
+      "instruct": "青年, 极低音调"
+    },
+    {
+      "role": "narrator",
+      "text": ".",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2823769783,
+  "sample_rate": 24000,
+  "duration_seconds": 3.11,
+  "sha256": "61199f817a886c14e43fb311a2cb251447f606dc67529086d794b9fe0d307a39",
+  "func_id": "04be",
+  "offset_key": "204",
+  "segment": 0,
+  "rendered_parts": [
+    "詢問我如何能幫助您，尊貴者。",
+    "."
+  ]
+}

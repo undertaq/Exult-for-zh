@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_dr_cat_4f52cf83",
+  "lang": "zh",
+  "text": "我再提醒一下規則，萬一你忘了的話。我們每個人先拿十顆珠子。他從口袋裡掏出一些彩色的玻璃珠。",
+  "tts_text": "我再提醒一下規則，萬一你忘了的話。我們每個人先拿十顆珠子。他從口袋裡掏出一些彩色的玻璃珠。",
+  "override_revision": null,
+  "rendered_text": "我再提醒一下規則，萬一你忘了的話。我們每個人先拿十顆珠子。\n他從口袋裡掏出一些彩色的玻璃珠。",
+  "fallback_used": false,
+  "npc": "Dr. Cat",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_dr_cat_4f52cf83_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Dr. Cat。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:d999b9657a4dc61e29911651881b8b294b9ab02b1258b1a7e3e447428181b232",
+  "reference_sha256": "612216c383ee98e40504161ca5569ca8cbe16934da8d105363dc29d6f0552151",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "我再提醒一下規則，萬一你忘了的話。我們每個人先拿十顆珠子。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_dr_cat_4f52cf83_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Dr. Cat。今天你为何来到这片土地？",
+      "reference_id": "u6_dr_cat_4f52cf83",
+      "reference_sha256": "612216c383ee98e40504161ca5569ca8cbe16934da8d105363dc29d6f0552151",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他從口袋裡掏出一些彩色的玻璃珠。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1461932089,
+  "sample_rate": 24000,
+  "duration_seconds": 9.64,
+  "sha256": "252667aac1d4fe644bccc67b924b2e32dd2a2fc7ea85b12996bdf5b8cf925364",
+  "func_id": "047f",
+  "offset_key": "e17",
+  "segment": 0,
+  "rendered_parts": [
+    "我再提醒一下規則，萬一你忘了的話。我們每個人先拿十顆珠子。",
+    "他從口袋裡掏出一些彩色的玻璃珠。"
+  ]
+}

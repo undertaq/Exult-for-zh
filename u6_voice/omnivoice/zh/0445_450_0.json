@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_zellivan_0ed5532f",
+  "lang": "zh",
+  "text": "啊，戰鬥！ 他嘆了一口氣。一時之間，他與你 reminisces，交換著關於過去豐功偉業的故事。",
+  "tts_text": "啊，戰鬥！ 他嘆了一口氣。一時之間，他與你 reminisces，交換著關於過去豐功偉業的故事。",
+  "override_revision": null,
+  "rendered_text": "啊，戰鬥！\n他嘆了一口氣。一時之間，他與你 reminisces，交換著關於過去豐功偉業的故事。",
+  "fallback_used": false,
+  "npc": "Zellivan",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_zellivan_0ed5532f_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Zellivan。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:effeedb2ab2f409cd44a85f47c166c540fded455464d3be5356400f6fed0c46c",
+  "reference_sha256": "f74b95e1018a79ed8525b09737d602d016770df9f745ecfbf24e9f4f33e66981",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "啊，戰鬥！",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_zellivan_0ed5532f_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Zellivan。今天你为何来到这片土地？",
+      "reference_id": "u6_zellivan_0ed5532f",
+      "reference_sha256": "f74b95e1018a79ed8525b09737d602d016770df9f745ecfbf24e9f4f33e66981",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他嘆了一口氣。一時之間，他與你 reminisces，交換著關於過去豐功偉業的故事。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1179072780,
+  "sample_rate": 24000,
+  "duration_seconds": 11.35,
+  "sha256": "427633cd07f8b47dddeaa2790802e5a4871b1d4760e4b35e31733f000b167d6b",
+  "func_id": "0445",
+  "offset_key": "450",
+  "segment": 0,
+  "rendered_parts": [
+    "啊，戰鬥！",
+    "他嘆了一口氣。一時之間，他與你 reminisces，交換著關於過去豐功偉業的故事。"
+  ]
+}

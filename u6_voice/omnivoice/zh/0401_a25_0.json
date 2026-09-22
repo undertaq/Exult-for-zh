@@ -1,0 +1,69 @@
+{
+  "status": "generated",
+  "design_id": "u6_iolo_61080470",
+  "lang": "zh",
+  "text": "是的，你是對的。對不起。 他小聲地對你說，等他不在旁邊時再問我...",
+  "tts_text": "是的，你是對的。對不起。 他小聲地對你說，等他不在旁邊時再問我...",
+  "override_revision": null,
+  "rendered_text": "是的，你是對的。對不起。\n他小聲地對你說，\n等他不在旁邊時再問我...",
+  "fallback_used": false,
+  "npc": "Iolo",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/voice/refs/npc_iolo_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:5da94f8168beccd72a7672abbc8e2d5d79dbc2871d79ffa6213cf3affae7e5f3",
+  "reference_sha256": "703c4c1e9c07c410cf3802c98c4791f36b1ff79b49e8de7654f7712d8c595e69",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "是的，你是對的。對不起。",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_iolo_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_iolo",
+      "reference_sha256": "703c4c1e9c07c410cf3802c98c4791f36b1ff79b49e8de7654f7712d8c595e69",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他小聲地對你說，",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "等他不在旁邊時再問我...",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_iolo_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_iolo",
+      "reference_sha256": "703c4c1e9c07c410cf3802c98c4791f36b1ff79b49e8de7654f7712d8c595e69",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 516012559,
+  "sample_rate": 24000,
+  "duration_seconds": 7.06,
+  "sha256": "cd062c3d1bf40734dcf7ba41214f026d4c5ffdf688dadc1be5fe9a6940d61b4b",
+  "func_id": "0401",
+  "offset_key": "a25",
+  "segment": 0,
+  "rendered_parts": [
+    "是的，你是對的。對不起。",
+    "他小聲地對你說，",
+    "等他不在旁邊時再問我..."
+  ]
+}

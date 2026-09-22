@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_rinaldo_471f6520",
+  "lang": "zh",
+  "text": "聖者，與汝相見是榮幸。他握了握你的手。",
+  "tts_text": "聖者，與汝相見是榮幸。他握了握你的手。",
+  "override_revision": null,
+  "rendered_text": "聖者，與汝相見是榮幸。\n他握了握你的手。",
+  "fallback_used": false,
+  "npc": "Rinaldo",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_rinaldo_471f6520_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Rinaldo。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:f12d859d5bea27026afab2724add45a9475925108481d7cf2f4ed485378bd2b5",
+  "reference_sha256": "f5f0686f611c3f03b047966f626fe5a0bedb04aa0bfa575719e0861b8b3d87fd",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "聖者，與汝相見是榮幸。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_rinaldo_471f6520_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Rinaldo。今天你为何来到这片土地？",
+      "reference_id": "u6_rinaldo_471f6520",
+      "reference_sha256": "f5f0686f611c3f03b047966f626fe5a0bedb04aa0bfa575719e0861b8b3d87fd",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他握了握你的手。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2954481155,
+  "sample_rate": 24000,
+  "duration_seconds": 3.74,
+  "sha256": "fc6b331c0f079fc62024e13187d55197e53e0cfe51b07d3150a2b014775f6604",
+  "func_id": "0432",
+  "offset_key": "849",
+  "segment": 0,
+  "rendered_parts": [
+    "聖者，與汝相見是榮幸。",
+    "他握了握你的手。"
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_homer_ff69e655",
+  "lang": "zh",
+  "text": "那就交出來，我們就兩清了。 他的眼睛閃爍著貪婪的期待。你要把斗篷給他嗎？",
+  "tts_text": "那就交出來，我們就兩清了。 他的眼睛閃爍著貪婪的期待。你要把斗篷給他嗎？",
+  "override_revision": null,
+  "rendered_text": "那就交出來，我們就兩清了。\n他的眼睛閃爍著貪婪的期待。你要把斗篷給他嗎？",
+  "fallback_used": false,
+  "npc": "Homer",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_homer_ff69e655_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Homer。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:c7cfbaef3066a24174656ce4e5c8b029f762a53281ea9c6e6ccb53047cd80809",
+  "reference_sha256": "6a13a0b6b360f7f4d59781a20af40e98d6d5b2890a8bacf5e3c45581c62ba89e",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "那就交出來，我們就兩清了。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_homer_ff69e655_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Homer。今天你为何来到这片土地？",
+      "reference_id": "u6_homer_ff69e655",
+      "reference_sha256": "6a13a0b6b360f7f4d59781a20af40e98d6d5b2890a8bacf5e3c45581c62ba89e",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他的眼睛閃爍著貪婪的期待。你要把斗篷給他嗎？",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 236200662,
+  "sample_rate": 24000,
+  "duration_seconds": 8.8,
+  "sha256": "82fb8dc58fb6b7946467b2e796cc3dfd55556e9f3ce1f2bcebc28e2832c12ef9",
+  "func_id": "04de",
+  "offset_key": "121",
+  "segment": 0,
+  "rendered_parts": [
+    "那就交出來，我們就兩清了。",
+    "他的眼睛閃爍著貪婪的期待。你要把斗篷給他嗎？"
+  ]
+}

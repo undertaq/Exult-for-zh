@@ -1,0 +1,69 @@
+{
+  "status": "generated",
+  "design_id": "u6_weaponsmith_7e98139a",
+  "lang": "zh",
+  "text": "An-bal-sil-fer! 岩石巨魔尖叫著。Agra-lem! Agra-Lem!",
+  "tts_text": "An-bal-sil-fer! 岩石巨魔尖叫著。Agra-lem! Agra-Lem!",
+  "override_revision": null,
+  "rendered_text": "An-bal-sil-fer!\n岩石巨魔尖叫著。\nAgra-lem! Agra-Lem!",
+  "fallback_used": false,
+  "npc": "Weaponsmith",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_weaponsmith_7e98139a_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Weaponsmith。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:f49ca10ff3463d536b659e891473d557eefd1e9cca9562590580030cdb9d438d",
+  "reference_sha256": "e44c6289caffd4e25c4236c423af2d3c7588c8508a25cb164d644cefdca98787",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "An-bal-sil-fer!",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_weaponsmith_7e98139a_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Weaponsmith。今天你为何来到这片土地？",
+      "reference_id": "u6_weaponsmith_7e98139a",
+      "reference_sha256": "e44c6289caffd4e25c4236c423af2d3c7588c8508a25cb164d644cefdca98787",
+      "instruct": "青年, 极低音调"
+    },
+    {
+      "role": "narrator",
+      "text": "岩石巨魔尖叫著。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "Agra-lem! Agra-Lem!",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_weaponsmith_7e98139a_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Weaponsmith。今天你为何来到这片土地？",
+      "reference_id": "u6_weaponsmith_7e98139a",
+      "reference_sha256": "e44c6289caffd4e25c4236c423af2d3c7588c8508a25cb164d644cefdca98787",
+      "instruct": "青年, 极低音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2568863213,
+  "sample_rate": 24000,
+  "duration_seconds": 5.71,
+  "sha256": "06c17994ee59a6ef64963a8a4975d48f2a83da872d7b6599e40b91ea00060944",
+  "func_id": "04be",
+  "offset_key": "e9",
+  "segment": 0,
+  "rendered_parts": [
+    "An-bal-sil-fer!",
+    "岩石巨魔尖叫著。",
+    "Agra-lem! Agra-Lem!"
+  ]
+}

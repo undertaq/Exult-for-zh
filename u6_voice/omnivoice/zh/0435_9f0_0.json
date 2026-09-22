@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_arturos_9da76d16",
+  "lang": "zh",
+  "text": "你抽取另一張牌。這張是‘命運之輪’。",
+  "tts_text": "你抽取另一張牌。這張是‘命運之輪’。",
+  "override_revision": null,
+  "rendered_text": "你抽取另一張牌。\n這張是‘命運之輪’。",
+  "fallback_used": false,
+  "npc": "Arturos",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:cf30440146d8b595e2ace06a522fa4abb2d7cb2e838c069e586b79942ff1f840",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "你抽取另一張牌。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "這張是‘命運之輪’。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_arturos_9da76d16_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Arturos。今天你为何来到这片土地？",
+      "reference_id": "u6_arturos_9da76d16",
+      "reference_sha256": "700f1c9f4d9e23f6cfed66ea09bf4b57bd0db7a4501e996a6c08de8c95045349",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1497448586,
+  "sample_rate": 24000,
+  "duration_seconds": 4.24,
+  "sha256": "155a1215544e73f8ee8a238b25dcba03fa1a364fd9abd16c36fd107afafcd97e",
+  "func_id": "0435",
+  "offset_key": "9f0",
+  "segment": 0,
+  "rendered_parts": [
+    "你抽取另一張牌。",
+    "這張是‘命運之輪’。"
+  ]
+}

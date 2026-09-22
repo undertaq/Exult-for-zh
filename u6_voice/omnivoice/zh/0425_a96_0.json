@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_anya_d8b4e5c1",
+  "lang": "zh",
+  "text": "你想向我女兒借用慈悲之靈符嗎？ 她停下腳步沉思了一會兒。",
+  "tts_text": "你想向我女兒借用慈悲之靈符嗎？ 她停下腳步沉思了一會兒。",
+  "override_revision": null,
+  "rendered_text": "你想向我女兒借用慈悲之靈符嗎？\n她停下腳步沉思了一會兒。",
+  "fallback_used": false,
+  "npc": "Anya",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_anya_d8b4e5c1_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Anya。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:12384b4550615c1de5fd89e760fffa5c2fcec1161ca29ebeab3e3de45faf59c6",
+  "reference_sha256": "3b3981914be8a9b366c310ffeb2489037873f3212fe2ad1ae594a1563ab75a2e",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "你想向我女兒借用慈悲之靈符嗎？",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_anya_d8b4e5c1_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Anya。今天你为何来到这片土地？",
+      "reference_id": "u6_anya_d8b4e5c1",
+      "reference_sha256": "3b3981914be8a9b366c310ffeb2489037873f3212fe2ad1ae594a1563ab75a2e",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "她停下腳步沉思了一會兒。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3013235097,
+  "sample_rate": 24000,
+  "duration_seconds": 6.13,
+  "sha256": "70bd7102ab0526d3ae98816aa5c444f16451d03463cef7be0a44059a7396ffe5",
+  "func_id": "0425",
+  "offset_key": "a96",
+  "segment": 0,
+  "rendered_parts": [
+    "你想向我女兒借用慈悲之靈符嗎？",
+    "她停下腳步沉思了一會兒。"
+  ]
+}

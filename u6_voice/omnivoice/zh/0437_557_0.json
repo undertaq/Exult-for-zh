@@ -1,0 +1,69 @@
+{
+  "status": "generated",
+  "design_id": "u6_chuckles_3e646829",
+  "lang": "zh",
+  "text": "「吼 咿歐 嘿 哼，我有一個線索！這很重要，而且是專門為你的！」",
+  "tts_text": "「吼 咿歐 嘿 哼，我有一個線索！這很重要，而且是專門為你的！」",
+  "override_revision": null,
+  "rendered_text": "「\n吼 咿歐 嘿 哼，我有一個線索！這很重要，而且是專門為你的！\n」",
+  "fallback_used": false,
+  "npc": "Chuckles",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:c21459e5454399affceaad784de47a1ad3c9935f3c8aac545b5fb6e731822528",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "「",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "吼 咿歐 嘿 哼，我有一個線索！這很重要，而且是專門為你的！",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_chuckles_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_chuckles",
+      "reference_sha256": "b09d941c3e249af93c271eba44d8dabfb20c0357597e8807c4147f27596a79b5",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "」",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 4009437973,
+  "sample_rate": 24000,
+  "duration_seconds": 8.52,
+  "sha256": "fb016330cb744662d81c06f94d504ef8eb5b48ae7950b1353ed840205ea55f30",
+  "func_id": "0437",
+  "offset_key": "557",
+  "segment": 0,
+  "rendered_parts": [
+    "「",
+    "吼 咿歐 嘿 哼，我有一個線索！這很重要，而且是專門為你的！",
+    "」"
+  ]
+}

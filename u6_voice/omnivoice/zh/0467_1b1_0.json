@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_ybarra_640a0e74",
+  "lang": "zh",
+  "text": "求求你，你一定要幫幫我。 他虛弱地說道。",
+  "tts_text": "求求你，你一定要幫幫我。 他虛弱地說道。",
+  "override_revision": null,
+  "rendered_text": "求求你，你一定要幫幫我。\n他虛弱地說道。",
+  "fallback_used": false,
+  "npc": "Ybarra",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_ybarra_640a0e74_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Ybarra。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:8be73e358d081b95c55bc134276f95bc2bafd87bd7749b844a5e31e43e43a1f5",
+  "reference_sha256": "98fd552cc21503adf8465b654c764622dbb42045d326a2c0642e8e1c8c7dd9bc",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "求求你，你一定要幫幫我。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_ybarra_640a0e74_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Ybarra。今天你为何来到这片土地？",
+      "reference_id": "u6_ybarra_640a0e74",
+      "reference_sha256": "98fd552cc21503adf8465b654c764622dbb42045d326a2c0642e8e1c8c7dd9bc",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他虛弱地說道。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 754063820,
+  "sample_rate": 24000,
+  "duration_seconds": 3.43,
+  "sha256": "9102b52171ca19e2e9893278be389f330aef4c2827b55c4e8b7b028140446dfb",
+  "func_id": "0467",
+  "offset_key": "1b1",
+  "segment": 0,
+  "rendered_parts": [
+    "求求你，你一定要幫幫我。",
+    "他虛弱地說道。"
+  ]
+}

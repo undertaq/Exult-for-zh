@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_gideon_1741fe3b",
+  "lang": "zh",
+  "text": "現在我們照顧他的女兒Marney。她是個非常勇敢的女孩。 他停頓了一下，然後繼續說。",
+  "tts_text": "現在我們照顧他的女兒Marney。她是個非常勇敢的女孩。 他停頓了一下，然後繼續說。",
+  "override_revision": null,
+  "rendered_text": "現在我們照顧他的女兒Marney。她是個非常勇敢的女孩。\n他停頓了一下，然後繼續說。",
+  "fallback_used": false,
+  "npc": "Gideon",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_gideon_1741fe3b_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Gideon。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:2ca32596fcda5d54fa77d5d82c300b7dd14072d41bdf1d22f555594c23a64d2e",
+  "reference_sha256": "516bd7c5d381b6b9d96ad3046a6d7c6f131b250b562ac68c04db69fcbdde9a83",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "現在我們照顧他的女兒Marney。她是個非常勇敢的女孩。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_gideon_1741fe3b_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Gideon。今天你为何来到这片土地？",
+      "reference_id": "u6_gideon_1741fe3b",
+      "reference_sha256": "516bd7c5d381b6b9d96ad3046a6d7c6f131b250b562ac68c04db69fcbdde9a83",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他停頓了一下，然後繼續說。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 4107810895,
+  "sample_rate": 24000,
+  "duration_seconds": 8.08,
+  "sha256": "9c2fc2bf7fde42ab98b1937faca6b6b0a310e8a8a34d3d42daf73ea466c4d747",
+  "func_id": "048c",
+  "offset_key": "dcb",
+  "segment": 0,
+  "rendered_parts": [
+    "現在我們照顧他的女兒Marney。她是個非常勇敢的女孩。",
+    "他停頓了一下，然後繼續說。"
+  ]
+}

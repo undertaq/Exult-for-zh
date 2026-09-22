@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_manrel_89621c9f",
+  "lang": "zh",
+  "text": "非常好！ 收下您的黃金後，Manrel交出了",
+  "tts_text": "非常好！ 收下您的黃金後，Manrel交出了",
+  "override_revision": null,
+  "rendered_text": "非常好！\n收下您的黃金後，Manrel交出了",
+  "fallback_used": false,
+  "npc": "Manrel",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_manrel_89621c9f_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Manrel。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:4b52b8caa3ad05cffd33863a0e7c59e7e2d4922b475ddc3363a55b7bf8a61345",
+  "reference_sha256": "9b8a70e58f6522a2260c34959f7e32784f6254151f02149388c8907ee0a745a5",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "非常好！",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_manrel_89621c9f_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Manrel。今天你为何来到这片土地？",
+      "reference_id": "u6_manrel_89621c9f",
+      "reference_sha256": "9b8a70e58f6522a2260c34959f7e32784f6254151f02149388c8907ee0a745a5",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "收下您的黃金後，Manrel交出了",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2963364762,
+  "sample_rate": 24000,
+  "duration_seconds": 5.13,
+  "sha256": "af7bf7c0bf51c2d851066f86713abbcc0665552c5f536f4b01cea8926e96de5a",
+  "func_id": "049d",
+  "offset_key": "114",
+  "segment": 0,
+  "rendered_parts": [
+    "非常好！",
+    "收下您的黃金後，Manrel交出了"
+  ]
+}

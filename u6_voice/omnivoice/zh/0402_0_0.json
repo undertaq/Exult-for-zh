@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_dawg_399e946a",
+  "lang": "zh",
+  "text": "-growl (注：此處保留語氣詞原文或譯為咆哮，但根據指令魔法咒語保持英文，非咒語則翻譯。Grrrrr 為擬聲詞，建議保留原文或譯為「嗚嗚」，考慮到遊戲語境，通常擬聲詞不強制翻譯，但若要自然繁體中文，可譯為「嗚嗚」。鑑於其他條目如 Woof 通常翻譯，這裡選擇翻譯)",
+  "tts_text": "-growl (注：此處保留語氣詞原文或譯WEI2咆哮，但根據指令魔法咒語保持英文，非咒語則翻譯。Grrrrr 為擬聲詞，建議保留原文或譯WEI2「嗚嗚」，考慮到遊戲語境，通常擬聲詞不強制翻譯，但若要自然繁體中文，可譯WEI2「嗚嗚」。鑑於其他條目如 Woof 通常翻譯，這裡選擇翻譯)",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
+  "rendered_text": "-growl\n(注：此處保留語氣詞原文或譯為咆哮，但根據指令魔法咒語保持英文，非咒語則翻譯。Grrrrr 為擬聲詞，建議保留原文或譯為「嗚嗚」，考慮到遊戲語境，通常擬聲詞不強制翻譯，但若要自然繁體中文，可譯為「嗚嗚」。鑑於其他條目如 Woof 通常翻譯，這裡選擇翻譯)",
+  "fallback_used": false,
+  "npc": "dawg",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_dawg_399e946a_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是dawg。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:4063c4fa647d04b968a53d6cf3dec2a20a2774205cbee43edbfaaa986bcf5c7d",
+  "reference_sha256": "750dd2fd8a6c439764c7f5df7f61e6409cdf6f5782978448577f601b843cbb2c",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "-growl",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_dawg_399e946a_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是dawg。今天你为何来到这片土地？",
+      "reference_id": "u6_dawg_399e946a",
+      "reference_sha256": "750dd2fd8a6c439764c7f5df7f61e6409cdf6f5782978448577f601b843cbb2c",
+      "instruct": "极低音调"
+    },
+    {
+      "role": "narrator",
+      "text": "(注：此處保留語氣詞原文或譯為咆哮，但根據指令魔法咒語保持英文，非咒語則翻譯。Grrrrr 為擬聲詞，建議保留原文或譯為「嗚嗚」，考慮到遊戲語境，通常擬聲詞不強制翻譯，但若要自然繁體中文，可譯為「嗚嗚」。鑑於其他條目如 Woof 通常翻譯，這裡選擇翻譯)",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 4150479872,
+  "sample_rate": 24000,
+  "duration_seconds": 31.14,
+  "sha256": "898516aa66548ef2d7f70abbda0196c6d2c78be1bace219dd5adddb378182bb6",
+  "func_id": "0402",
+  "offset_key": "0",
+  "segment": 0,
+  "rendered_parts": [
+    "-growl",
+    "(注：此處保留語氣詞原文或譯為咆哮，但根據指令魔法咒語保持英文，非咒語則翻譯。Grrrrr 為擬聲詞，建議保留原文或譯為「嗚嗚」，考慮到遊戲語境，通常擬聲詞不強制翻譯，但若要自然繁體中文，可譯為「嗚嗚」。鑑於其他條目如 Woof 通常翻譯，這裡選擇翻譯)"
+  ]
+}

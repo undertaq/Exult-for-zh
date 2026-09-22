@@ -1,0 +1,69 @@
+{
+  "status": "generated",
+  "design_id": "u6_lord_british_ab0c40cc",
+  "lang": "zh",
+  "text": "輕輕地，他拿起了這本書。 這是你的報酬。 他給你一些發光的寶石。",
+  "tts_text": "輕輕地，他拿起了這本書。 這是你的報酬。 他給你一些發光的寶石。",
+  "override_revision": null,
+  "rendered_text": "輕輕地，他拿起了這本書。\n這是你的報酬。\n他給你一些發光的寶石。",
+  "fallback_used": false,
+  "npc": "Lord British",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:07e12c3a2cad7a6c5bde198fc7f088cff1587b47dd4c9da4fcd41eb81d232b8c",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "輕輕地，他拿起了這本書。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "這是你的報酬。",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_lord_british_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_lord_british",
+      "reference_sha256": "7d27e97f69300a8f62a00fe91f747300e6d903c7ffaa68fc862773ef1d3ab5d4",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他給你一些發光的寶石。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 247011192,
+  "sample_rate": 24000,
+  "duration_seconds": 9.52,
+  "sha256": "c381ad371c2e0c2c5ba74cda91e8edc18baa12a103bc7dd8f3a6c903a553db95",
+  "func_id": "0494",
+  "offset_key": "fd0",
+  "segment": 0,
+  "rendered_parts": [
+    "輕輕地，他拿起了這本書。",
+    "這是你的報酬。",
+    "他給你一些發光的寶石。"
+  ]
+}

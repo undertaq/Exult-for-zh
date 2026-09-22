@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_stivius_f0337380",
+  "lang": "zh",
+  "text": "他滿懷疑惑地看著你。 不，不會",
+  "tts_text": "他滿懷疑惑地看著你。 不，不會",
+  "override_revision": null,
+  "rendered_text": "他滿懷疑惑地看著你。\n不，不會",
+  "fallback_used": false,
+  "npc": "Stivius",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:239ed0eeaa90362d3eb9ab7c26702529e744a95c68d4a143ad77f047fc12ee91",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "他滿懷疑惑地看著你。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "不，不會",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_stivius_f0337380_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Stivius。今天你为何来到这片土地？",
+      "reference_id": "u6_stivius_f0337380",
+      "reference_sha256": "10e4b74e2475fe8c3697eba183308271d84b71c8a36a5dea06714b12737fb6b8",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3728894989,
+  "sample_rate": 24000,
+  "duration_seconds": 3.09,
+  "sha256": "59b0f21c7d26fa1b9009e4028d4fcecb20991fec900faefc72653b8ac03daf49",
+  "func_id": "0493",
+  "offset_key": "e26",
+  "segment": 0,
+  "rendered_parts": [
+    "他滿懷疑惑地看著你。",
+    "不，不會"
+  ]
+}

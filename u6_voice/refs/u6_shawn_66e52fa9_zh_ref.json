@@ -4,7 +4,7 @@
   "lang": "zh",
   "text": "旅人，你好。我是Shawn。今天你为何来到这片土地？",
   "tts_text": "旅人，你好。我是Shawn。今天你为何来到这片土地？",
-  "override_revision": "u6-omnivoice-overrides-v1",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "旅人，你好。我是Shawn。今天你为何来到这片土地？",
   "fallback_used": false,
   "npc": "Shawn",
@@ -12,9 +12,9 @@
   "instruct": "男, 中音调",
   "ref_text": "旅人，你好。我是Shawn。今天你为何来到这片土地？",
   "model": "k2-fsa/OmniVoice",
-  "gpu": 1,
-  "seed": 1235451507,
+  "gpu": 0,
+  "seed": 2719790815,
   "sample_rate": 24000,
-  "duration_seconds": 4.27,
-  "sha256": "7309741c8623fd256e8981c55b1c16a3a1473574b990a23fa7779961f2570b45"
+  "duration_seconds": 4.28,
+  "sha256": "5a683c9466441891d3911461d0ec3ff728951e17ee585f5fbfd1e59560efec5c"
 }

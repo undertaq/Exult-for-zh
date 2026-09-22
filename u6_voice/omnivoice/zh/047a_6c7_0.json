@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_dorin_4331a797",
+  "lang": "zh",
+  "text": "再見..。",
+  "tts_text": "再見..。",
+  "override_revision": null,
+  "rendered_text": "再見..\n。",
+  "fallback_used": false,
+  "npc": "Dorin",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_dorin_4331a797_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Dorin。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:fcff6cf5779d37a4e4fe854c3e512057981cd013445d3bd0d40be741fd67238f",
+  "reference_sha256": "1dabadad82d3fd9bea9909a13a3e241a2ec26e9e5e20709a564d85088523542a",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "再見..",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_dorin_4331a797_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Dorin。今天你为何来到这片土地？",
+      "reference_id": "u6_dorin_4331a797",
+      "reference_sha256": "1dabadad82d3fd9bea9909a13a3e241a2ec26e9e5e20709a564d85088523542a",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1028057070,
+  "sample_rate": 24000,
+  "duration_seconds": 1.75,
+  "sha256": "6e28e593d1577c1ab59c7f7167a85cb9f9ece37e93b309b25fa2907f8e20c68f",
+  "func_id": "047a",
+  "offset_key": "6c7",
+  "segment": 0,
+  "rendered_parts": [
+    "再見..",
+    "。"
+  ]
+}

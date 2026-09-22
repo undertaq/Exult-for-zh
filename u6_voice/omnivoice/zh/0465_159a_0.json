@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_renthar_46dd7cee",
+  "lang": "zh",
+  "text": "Renthar 加入你的隊伍。 我將帶你去 Michael 可能藏身的安全屋。我們必須趕路，因為他不會在那裡待太久。",
+  "tts_text": "Renthar 加入你的隊伍。 我將帶你去 Michael 可能CANG2身的安全屋。我們必須趕路，因為他不會在那裡待太久。",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
+  "rendered_text": "Renthar 加入你的隊伍。\n我將帶你去 Michael 可能藏身的安全屋。我們必須趕路，因為他不會在那裡待太久。",
+  "fallback_used": false,
+  "npc": "Renthar",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:5c2dc1319b70c9df213ed79a5711d423a11e9d84e25f08a7a3978b8eaf58ad26",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "Renthar 加入你的隊伍。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "我將帶你去 Michael 可能藏身的安全屋。我們必須趕路，因為他不會在那裡待太久。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_renthar_46dd7cee_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Renthar。今天你为何来到这片土地？",
+      "reference_id": "u6_renthar_46dd7cee",
+      "reference_sha256": "3ed277509b2db66e0ff5c92e88eb02a2421d587100939845b450e952e90ccdcf",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1448707832,
+  "sample_rate": 24000,
+  "duration_seconds": 9.39,
+  "sha256": "d98c3036fdd32b2a82144dd2d19899125117d76a803191c40854de045b5eb5ba",
+  "func_id": "0465",
+  "offset_key": "159a",
+  "segment": 0,
+  "rendered_parts": [
+    "Renthar 加入你的隊伍。",
+    "我將帶你去 Michael 可能藏身的安全屋。我們必須趕路，因為他不會在那裡待太久。"
+  ]
+}

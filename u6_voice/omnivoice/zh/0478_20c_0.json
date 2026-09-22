@@ -1,0 +1,89 @@
+{
+  "status": "generated",
+  "design_id": "u6_arbeth_ddee2cdd",
+  "lang": "zh",
+  "text": "「嗯，」他話說得很輕，你得湊近才能聽見，「我將羊毛紡成線。」",
+  "tts_text": "「嗯，」他話說得很輕，你得湊近才能聽見，「我將羊毛紡成線。」",
+  "override_revision": null,
+  "rendered_text": "「\n嗯，\n」他話說得很輕，你得湊近才能聽見，「\n我將羊毛紡成線。\n」",
+  "fallback_used": false,
+  "npc": "Arbeth",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:254667c2cbb68484caf1a81c528e0eb42387a350334ab045e9cd8d6b693cc5f2",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "「",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "嗯，",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_arbeth_ddee2cdd_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Arbeth。今天你为何来到这片土地？",
+      "reference_id": "u6_arbeth_ddee2cdd",
+      "reference_sha256": "397bad9f03291a2d975a2e791361c637f56f52410c78b650dc369040da4b7ba3",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "」他話說得很輕，你得湊近才能聽見，「",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "我將羊毛紡成線。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_arbeth_ddee2cdd_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Arbeth。今天你为何来到这片土地？",
+      "reference_id": "u6_arbeth_ddee2cdd",
+      "reference_sha256": "397bad9f03291a2d975a2e791361c637f56f52410c78b650dc369040da4b7ba3",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "」",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3584024706,
+  "sample_rate": 24000,
+  "duration_seconds": 8.12,
+  "sha256": "58c98966b7eb1759843ae23be3bb5fb3766eaabcf267e12fe0f7a0180baa17dc",
+  "func_id": "0478",
+  "offset_key": "20c",
+  "segment": 0,
+  "rendered_parts": [
+    "「",
+    "嗯，",
+    "」他話說得很輕，你得湊近才能聽見，「",
+    "我將羊毛紡成線。",
+    "」"
+  ]
+}

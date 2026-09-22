@@ -1,0 +1,79 @@
+{
+  "status": "generated",
+  "design_id": "u6_gwenno_a33727fa",
+  "lang": "zh",
+  "text": "離開前，她緊緊擁抱了 Iolo。記得保持襪子乾爽，她說，等任務結束我們再見。",
+  "tts_text": "離開前，她緊緊擁抱了 Iolo。記得保持襪子GAN1爽，她說，等任務結束我們再見。",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
+  "rendered_text": "離開前，她緊緊擁抱了 Iolo。\n記得保持襪子乾爽\n，她說，\n等任務結束我們再見。",
+  "fallback_used": false,
+  "npc": "Gwenno",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:c9df3cfda967e4f07326fce2372a8e8526d19a717048612c6109c6da33e7a4b4",
+  "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "離開前，她緊緊擁抱了 Iolo。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "記得保持襪子乾爽",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_gwenno_a33727fa_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Gwenno。今天你为何来到这片土地？",
+      "reference_id": "u6_gwenno_a33727fa",
+      "reference_sha256": "b8fd7b3838c7e9f1dd5b636174e00f3f7f441c5c5bb2ae7fd0af0c9a9df207d5",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "，她說，",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "等任務結束我們再見。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_gwenno_a33727fa_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Gwenno。今天你为何来到这片土地？",
+      "reference_id": "u6_gwenno_a33727fa",
+      "reference_sha256": "b8fd7b3838c7e9f1dd5b636174e00f3f7f441c5c5bb2ae7fd0af0c9a9df207d5",
+      "instruct": "女, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1679779294,
+  "sample_rate": 24000,
+  "duration_seconds": 8.88,
+  "sha256": "32f12e5a9e7b612ac024346ded8910ff417d9f1a0222f4d7a56a349b779faaff",
+  "func_id": "0457",
+  "offset_key": "58b",
+  "segment": 0,
+  "rendered_parts": [
+    "離開前，她緊緊擁抱了 Iolo。",
+    "記得保持襪子乾爽",
+    "，她說，",
+    "等任務結束我們再見。"
+  ]
+}

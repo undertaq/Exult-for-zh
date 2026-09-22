@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_yorl_d76a5c27",
+  "lang": "zh",
+  "text": "Yorl 的聲音因憤怒而破裂。我就想把這鉤子刺穿你的頭蓋骨。滾出這裡，別再回來...",
+  "tts_text": "Yorl 的聲音因憤怒而破裂。我就想把這鉤子刺穿你的頭蓋骨。滾出這裡，別再回來...",
+  "override_revision": null,
+  "rendered_text": "Yorl 的聲音因憤怒而破裂。\n我就想把這鉤子刺穿你的頭蓋骨。滾出這裡，別再回來...",
+  "fallback_used": false,
+  "npc": "Yorl",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:b29e47ed99c25b7c67e53d0661e2fdd8566896d0e10d6a17f9fd51bd15cb17d4",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "Yorl 的聲音因憤怒而破裂。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "我就想把這鉤子刺穿你的頭蓋骨。滾出這裡，別再回來...",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_yorl_d76a5c27_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Yorl。今天你为何来到这片土地？",
+      "reference_id": "u6_yorl_d76a5c27",
+      "reference_sha256": "f390db21022bfd87e4d8f7e3c17d72d107ffe1c8456343ed0befb15d9493bcad",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3639810590,
+  "sample_rate": 24000,
+  "duration_seconds": 8.17,
+  "sha256": "fe1ffa307e28a11c54caa263b70a9ed300d058c53952a956ebd9531aaad8edff",
+  "func_id": "0491",
+  "offset_key": "102",
+  "segment": 0,
+  "rendered_parts": [
+    "Yorl 的聲音因憤怒而破裂。",
+    "我就想把這鉤子刺穿你的頭蓋骨。滾出這裡，別再回來..."
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "status": "generated",
+  "design_id": "u6_marney_b33f933c",
+  "lang": "zh",
+  "text": "噢，Yorl。她對著自己微笑。他和父親從未分開過。在我母親被綁架後，Yorl 幫父親重新站起來。他們總是在一起。",
+  "tts_text": "噢，Yorl。她對著自己微笑。他和父親從未分開過。在我母親被綁架後，Yorl 幫父親CHONG2新站起來。他們總是在一起。",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
+  "rendered_text": "噢，Yorl。\n她對著自己微笑。\n他和父親從未分開過。在我母親被綁架後，Yorl 幫父親重新站起來。他們總是在一起。",
+  "fallback_used": false,
+  "npc": "Marney",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_marney_b33f933c_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Marney。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:24226ed2a94998f93c4f2622341792fe5bf644235e616cebf04888c9de69d261",
+  "reference_sha256": "55f70a3a6441b63c8d45e52fabd8d1e5d974c6be1eee319cf32a42ea1ea42be2",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "噢，Yorl。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_marney_b33f933c_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Marney。今天你为何来到这片土地？",
+      "reference_id": "u6_marney_b33f933c",
+      "reference_sha256": "55f70a3a6441b63c8d45e52fabd8d1e5d974c6be1eee319cf32a42ea1ea42be2",
+      "instruct": "女, 低音调"
+    },
+    {
+      "role": "narrator",
+      "text": "她對著自己微笑。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "他和父親從未分開過。在我母親被綁架後，Yorl 幫父親重新站起來。他們總是在一起。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_marney_b33f933c_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Marney。今天你为何来到这片土地？",
+      "reference_id": "u6_marney_b33f933c",
+      "reference_sha256": "55f70a3a6441b63c8d45e52fabd8d1e5d974c6be1eee319cf32a42ea1ea42be2",
+      "instruct": "女, 低音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3165616229,
+  "sample_rate": 24000,
+  "duration_seconds": 11.35,
+  "sha256": "41bc7da6280b9b45beb3f8e01021dc6190cc78f89eafca91adb6cb8e90e9f5f1",
+  "func_id": "044b",
+  "offset_key": "17e6",
+  "segment": 0,
+  "rendered_parts": [
+    "噢，Yorl。",
+    "她對著自己微笑。",
+    "他和父親從未分開過。在我母親被綁架後，Yorl 幫父親重新站起來。他們總是在一起。"
+  ]
+}

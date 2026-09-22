@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_enrik_c3d42c94",
+  "lang": "zh",
+  "text": "很好！ Enrik",
+  "tts_text": "很好！ Enrik",
+  "override_revision": null,
+  "rendered_text": "很好！\nEnrik",
+  "fallback_used": false,
+  "npc": "Enrik",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_enrik_c3d42c94_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Enrik。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:6242c06947e4b65013d42f95fdbb1416bcf20fd152e08000eec6e5be1973854d",
+  "reference_sha256": "2ffa66b1343d6d996b5d0ee2c2ecce63942fd31674b6e4ca10cb6cd82073890d",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "很好！",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_enrik_c3d42c94_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Enrik。今天你为何来到这片土地？",
+      "reference_id": "u6_enrik_c3d42c94",
+      "reference_sha256": "2ffa66b1343d6d996b5d0ee2c2ecce63942fd31674b6e4ca10cb6cd82073890d",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "Enrik",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2747313526,
+  "sample_rate": 24000,
+  "duration_seconds": 1.93,
+  "sha256": "eb5ce9a5a9cf4f9fd6ad576ab0a05ac6c6639a355cb78d92373c5b3367e4c085",
+  "func_id": "04e6",
+  "offset_key": "141",
+  "segment": 0,
+  "rendered_parts": [
+    "很好！",
+    "Enrik"
+  ]
+}

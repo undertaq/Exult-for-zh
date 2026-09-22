@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_penumbra_ad93155f",
+  "lang": "zh",
+  "text": "終於，Penumbra再次睜開眼睛。你尋找的那個詞是「ahm。」",
+  "tts_text": "終於，Penumbra再次睜開眼睛。你尋找的那個詞是「ahm。」",
+  "override_revision": null,
+  "rendered_text": "終於，Penumbra再次睜開眼睛。\n你尋找的那個詞是「ahm。」",
+  "fallback_used": false,
+  "npc": "Penumbra",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:c30da597f1cf498e651e59e91f1b12c99a39734b24d07224c690ac01ccf124b6",
+  "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "終於，Penumbra再次睜開眼睛。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "你尋找的那個詞是「ahm。」",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_penumbra_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_penumbra",
+      "reference_sha256": "37efc7900dd9a90106104d9d85538afb7f0cfdeaccae8af564f78a9da06920ec",
+      "instruct": "女, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1727516896,
+  "sample_rate": 24000,
+  "duration_seconds": 6.01,
+  "sha256": "6a5497ebec0747804cdc2df2bd07b3de95392d31e06406adb61827512f4186c1",
+  "func_id": "0496",
+  "offset_key": "9a1",
+  "segment": 0,
+  "rendered_parts": [
+    "終於，Penumbra再次睜開眼睛。",
+    "你尋找的那個詞是「ahm。」"
+  ]
+}

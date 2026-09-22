@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_horance_b379d731",
+  "lang": "zh",
+  "text": "我希望你覺得它和我一樣有用... Horance",
+  "tts_text": "我希望你覺得它和我一樣有用... Horance",
+  "override_revision": null,
+  "rendered_text": "我希望你覺得它和我一樣有用...\nHorance",
+  "fallback_used": false,
+  "npc": "Horance",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/voice/refs/npc_horance_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:9e794d6a79dbe35d80a67a4db673bfd0845e4d3a7f90e3e7243fb41d7b62174a",
+  "reference_sha256": "d1034b7c4108cb11d4ed3d6f6aad66b84b02cc7f0d8f2a7a2139e5cac8d8c3eb",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "我希望你覺得它和我一樣有用...",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_horance_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_horance",
+      "reference_sha256": "d1034b7c4108cb11d4ed3d6f6aad66b84b02cc7f0d8f2a7a2139e5cac8d8c3eb",
+      "instruct": "男, 老年, 低音调"
+    },
+    {
+      "role": "narrator",
+      "text": "Horance",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3484431580,
+  "sample_rate": 24000,
+  "duration_seconds": 5.86,
+  "sha256": "733dae2dde1df3ba1dbe6cea8af0286735ef650fac08af36f3f7d31b910eee24",
+  "func_id": "048d",
+  "offset_key": "dfc",
+  "segment": 0,
+  "rendered_parts": [
+    "我希望你覺得它和我一樣有用...",
+    "Horance"
+  ]
+}

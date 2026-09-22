@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_faren_988ab105",
+  "lang": "zh",
+  "text": ". 他啜飲著他的酒杯。",
+  "tts_text": ". 他啜飲著他的酒杯。",
+  "override_revision": null,
+  "rendered_text": ".\n他啜飲著他的酒杯。",
+  "fallback_used": false,
+  "npc": "Faren",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_faren_988ab105_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Faren。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:1256f05129148a75ef24c0a6e4bc494943669c12e5ec9a102d13ef5f5f8dcf27",
+  "reference_sha256": "2133a7d22e76ec05141ce662257edf028f5e7c061ffcb9ac8ffce0939c8cb7f3",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": ".",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_faren_988ab105_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Faren。今天你为何来到这片土地？",
+      "reference_id": "u6_faren_988ab105",
+      "reference_sha256": "2133a7d22e76ec05141ce662257edf028f5e7c061ffcb9ac8ffce0939c8cb7f3",
+      "instruct": "男, 青年, 高音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他啜飲著他的酒杯。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1230394193,
+  "sample_rate": 24000,
+  "duration_seconds": 2.57,
+  "sha256": "3e2dfa628ae7e5d01234918ef0391f4c87c3d7d59a754050652acb5989647856",
+  "func_id": "046a",
+  "offset_key": "52c",
+  "segment": 0,
+  "rendered_parts": [
+    ".",
+    "他啜飲著他的酒杯。"
+  ]
+}

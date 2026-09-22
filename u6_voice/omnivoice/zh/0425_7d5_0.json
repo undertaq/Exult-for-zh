@@ -1,0 +1,79 @@
+{
+  "status": "generated",
+  "design_id": "u6_anya_d8b4e5c1",
+  "lang": "zh",
+  "text": "她眼中的希望轉為哀傷，低頭看著地板以掩飾尷尬。對不起打擾了， 她說道，我相信你肯定有更重要的事情要做。",
+  "tts_text": "她眼中的希望轉WEI2哀傷，低頭看著地板以掩飾尷尬。對不起打擾了， 她說道，我相信你肯定有更重要的事情要做。",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
+  "rendered_text": "她眼中的希望轉為哀傷，低頭看著地板以掩飾尷尬。\n對不起打擾了，\n她說道，\n我相信你肯定有更重要的事情要做。",
+  "fallback_used": false,
+  "npc": "Anya",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:c3c4fa4a06ac3704159a7f98f430fb9f314c2e9cc0454f032287b84a6c390980",
+  "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "她眼中的希望轉為哀傷，低頭看著地板以掩飾尷尬。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "對不起打擾了，",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_anya_d8b4e5c1_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Anya。今天你为何来到这片土地？",
+      "reference_id": "u6_anya_d8b4e5c1",
+      "reference_sha256": "3b3981914be8a9b366c310ffeb2489037873f3212fe2ad1ae594a1563ab75a2e",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "她說道，",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "我相信你肯定有更重要的事情要做。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_anya_d8b4e5c1_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Anya。今天你为何来到这片土地？",
+      "reference_id": "u6_anya_d8b4e5c1",
+      "reference_sha256": "3b3981914be8a9b366c310ffeb2489037873f3212fe2ad1ae594a1563ab75a2e",
+      "instruct": "女, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1229521055,
+  "sample_rate": 24000,
+  "duration_seconds": 12.89,
+  "sha256": "7d48b8f6365634af655a614c7540944db55575b72c6552e2675965e24776f26e",
+  "func_id": "0425",
+  "offset_key": "7d5",
+  "segment": 0,
+  "rendered_parts": [
+    "她眼中的希望轉為哀傷，低頭看著地板以掩飾尷尬。",
+    "對不起打擾了，",
+    "她說道，",
+    "我相信你肯定有更重要的事情要做。"
+  ]
+}

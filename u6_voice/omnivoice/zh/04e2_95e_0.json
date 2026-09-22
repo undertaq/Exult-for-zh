@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_captain_elad_6898ad51",
+  "lang": "zh",
+  "text": "確實。 他又一大口茶。",
+  "tts_text": "確實。 他又一大口茶。",
+  "override_revision": null,
+  "rendered_text": "確實。\n他又一大口茶。",
+  "fallback_used": false,
+  "npc": "Captain Elad",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_captain_elad_6898ad51_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Captain Elad。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:7b49394a8fe384ffe2f0ee9d69b159ff979e92b8946c713c3c32270833b374d0",
+  "reference_sha256": "d655236c744b7eca9ab9f33608a0c7ba167242b16b1def0c823d074a8bde8bb8",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "確實。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_captain_elad_6898ad51_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Captain Elad。今天你为何来到这片土地？",
+      "reference_id": "u6_captain_elad_6898ad51",
+      "reference_sha256": "d655236c744b7eca9ab9f33608a0c7ba167242b16b1def0c823d074a8bde8bb8",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他又一大口茶。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 339027583,
+  "sample_rate": 24000,
+  "duration_seconds": 3.57,
+  "sha256": "cecfcd351c9203fe466b37a9facecc1944ebfec3dba17084d4141b5a790c91a6",
+  "func_id": "04e2",
+  "offset_key": "95e",
+  "segment": 0,
+  "rendered_parts": [
+    "確實。",
+    "他又一大口茶。"
+  ]
+}

@@ -4,7 +4,7 @@
   "lang": "zh",
   "text": "旅人，你好。我是Kenneth。今天你为何来到这片土地？",
   "tts_text": "旅人，你好。我是Kenneth。今天你为何来到这片土地？",
-  "override_revision": "u6-omnivoice-overrides-v1",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "旅人，你好。我是Kenneth。今天你为何来到这片土地？",
   "fallback_used": false,
   "npc": "Kenneth",
@@ -12,9 +12,9 @@
   "instruct": "男, 中音调",
   "ref_text": "旅人，你好。我是Kenneth。今天你为何来到这片土地？",
   "model": "k2-fsa/OmniVoice",
-  "gpu": 1,
-  "seed": 405649908,
+  "gpu": 0,
+  "seed": 698585650,
   "sample_rate": 24000,
-  "duration_seconds": 4.43,
-  "sha256": "db4d813b81bb4d0843cba4943149f7596b7e026e2464e7a9f465e66b37f04133"
+  "duration_seconds": 4.36,
+  "sha256": "e8acdd86e68b51de96a711d9d330f8f2a930aa8761b61196724fef477692ff06"
 }

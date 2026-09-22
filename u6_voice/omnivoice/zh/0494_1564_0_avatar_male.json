@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "npc_avatar_male",
+  "lang": "zh",
+  "text": "他嘆了口氣。 我必須為此和Chuckles談談。過了這麼多年，你還要我做些什麼？而且為什麼是現在，把這事告訴我，而我們還有像石像鬼入侵這樣更緊迫的問題？",
+  "tts_text": "他嘆了口氣。 我必須為此和Chuckles談談。過了這麼多年，你還要我做些什麼？而且為什麼是現在，把這事告訴我，而我們還有像石像鬼入侵這樣更緊迫的問題？",
+  "override_revision": null,
+  "rendered_text": "他嘆了口氣。\n我必須為此和Chuckles談談。過了這麼多年，你還要我做些什麼？而且為什麼是現在，把這事告訴我，而我們還有像石像鬼入侵這樣更緊迫的問題？",
+  "fallback_used": false,
+  "npc": "Avatar",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:c984421f3544d078de5e20b5834a1538051db15cbaeced3bd76d4d00cb50d774",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "他嘆了口氣。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "我必須為此和Chuckles談談。過了這麼多年，你還要我做些什麼？而且為什麼是現在，把這事告訴我，而我們還有像石像鬼入侵這樣更緊迫的問題？",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_avatar_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_avatar_male",
+      "reference_sha256": "1999d8a701333e11ec525056bdfb23b87dcdc991957160eb677267f8f29e9197",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": "male",
+  "variant": "avatar_male",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2392959965,
+  "sample_rate": 24000,
+  "duration_seconds": 16.99,
+  "sha256": "d7884fe34a620130def510d90133ae9d664df41030fdd3586a9be3acaab45702",
+  "func_id": "0494",
+  "offset_key": "1564",
+  "segment": 0,
+  "rendered_parts": [
+    "他嘆了口氣。",
+    "我必須為此和Chuckles談談。過了這麼多年，你還要我做些什麼？而且為什麼是現在，把這事告訴我，而我們還有像石像鬼入侵這樣更緊迫的問題？"
+  ]
+}

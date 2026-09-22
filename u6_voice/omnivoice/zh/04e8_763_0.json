@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_seggallion_6113f83e",
+  "lang": "zh",
+  "text": "從他寬闊的笑容和魁梧的身軀可以看出，他將是一位強大的對手。那麼，我們出發吧？",
+  "tts_text": "從他寬闊的笑容和魁梧的身軀可以看出，他將是一位強大的對手。那麼，我們出發吧？",
+  "override_revision": null,
+  "rendered_text": "從他寬闊的笑容和魁梧的身軀可以看出，他將是一位強大的對手。\n那麼，我們出發吧？",
+  "fallback_used": false,
+  "npc": "Seggallion",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:490304216b2bf556f1d4409c08acca7b032952577bc90419c1db1c2fa05379b0",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "從他寬闊的笑容和魁梧的身軀可以看出，他將是一位強大的對手。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "那麼，我們出發吧？",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_seggallion_6113f83e_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Seggallion。今天你为何来到这片土地？",
+      "reference_id": "u6_seggallion_6113f83e",
+      "reference_sha256": "f18f8684b7b7ba5542312e6d70101f45a9c624b5a35262a240e909d3e0dffebb",
+      "instruct": "男, 低音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1846865042,
+  "sample_rate": 24000,
+  "duration_seconds": 9.0,
+  "sha256": "31f5b4fe703f08d114c9dae62945b6ef3c64c4f893c8bd37cb77c3868fb69e40",
+  "func_id": "04e8",
+  "offset_key": "763",
+  "segment": 0,
+  "rendered_parts": [
+    "從他寬闊的笑容和魁梧的身軀可以看出，他將是一位強大的對手。",
+    "那麼，我們出發吧？"
+  ]
+}

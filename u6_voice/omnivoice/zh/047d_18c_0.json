@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_ubermon_369dc3d8",
+  "lang": "zh",
+  "text": "為您服務。 他立刻立正。",
+  "tts_text": "為您服務。 他立刻立正。",
+  "override_revision": null,
+  "rendered_text": "為您服務。\n他立刻立正。",
+  "fallback_used": false,
+  "npc": "Ubermon",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_ubermon_369dc3d8_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Ubermon。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:37c91888ac3d4925fb017d55f20ac88b0eb68e0c99028f3f760d08edc429ad54",
+  "reference_sha256": "4a700e893f90cce5ec448fb6e69434f94ca35965299bfaaff32f95f29230da3f",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "為您服務。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_ubermon_369dc3d8_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Ubermon。今天你为何来到这片土地？",
+      "reference_id": "u6_ubermon_369dc3d8",
+      "reference_sha256": "4a700e893f90cce5ec448fb6e69434f94ca35965299bfaaff32f95f29230da3f",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他立刻立正。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 147455220,
+  "sample_rate": 24000,
+  "duration_seconds": 2.46,
+  "sha256": "3730eacf125df3cb06bfd8aec87a4711f14c6e0e08700effc5d9e5f5fe34cda9",
+  "func_id": "047d",
+  "offset_key": "18c",
+  "segment": 0,
+  "rendered_parts": [
+    "為您服務。",
+    "他立刻立正。"
+  ]
+}

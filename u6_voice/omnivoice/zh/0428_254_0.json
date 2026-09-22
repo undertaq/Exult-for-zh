@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_arty_762c615c",
+  "lang": "zh",
+  "text": "那人困惑地看著你。他搖搖頭並攤開雙手，似乎想說 抱歉。",
+  "tts_text": "那人困惑地看著你。他搖搖頭並攤開雙手，似乎想說 抱歉。",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
+  "rendered_text": "那人困惑地看著你。他搖搖頭並攤開雙手，似乎想說\n抱歉。",
+  "fallback_used": false,
+  "npc": "Arty",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:9aa4a8aff578e31071df71fe2ae17a744f7c0b99be9c08cf1beef2af6fb554a0",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "那人困惑地看著你。他搖搖頭並攤開雙手，似乎想說",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "抱歉。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_arty_762c615c_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Arty。今天你为何来到这片土地？",
+      "reference_id": "u6_arty_762c615c",
+      "reference_sha256": "1f7c6b6b5f0905e516871341e9aa8ffd15ff0d4549ef3b11a6005c8e13b92286",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1010529684,
+  "sample_rate": 24000,
+  "duration_seconds": 7.97,
+  "sha256": "fdcc1b9a6ec60a677e0fc91193071eece95c5b3e2836a090aca73e06f528d084",
+  "func_id": "0428",
+  "offset_key": "254",
+  "segment": 0,
+  "rendered_parts": [
+    "那人困惑地看著你。他搖搖頭並攤開雙手，似乎想說",
+    "抱歉。"
+  ]
+}

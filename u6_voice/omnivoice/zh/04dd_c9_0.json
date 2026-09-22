@@ -1,0 +1,69 @@
+{
+  "status": "generated",
+  "design_id": "u6_leodon_3e6ac86d",
+  "lang": "zh",
+  "text": "! 她躲開了這一拳。 我很忙！",
+  "tts_text": "! 她躲開了這一拳。 我很忙！",
+  "override_revision": null,
+  "rendered_text": "!\n她躲開了這一拳。\n我很忙！",
+  "fallback_used": false,
+  "npc": "Leodon",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:8fcd440411271402f8cebcff7b4ef7f582dd1b52f654424ed6d9ac13ec102d85",
+  "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "!",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "她躲開了這一拳。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_leodon_3e6ac86d_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Leodon。今天你为何来到这片土地？",
+      "reference_id": "u6_leodon_3e6ac86d",
+      "reference_sha256": "d002ef0df2d6b03623206fac2de0ebbb04b40ac69e96f0935f000ccb49c266c0",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "我很忙！",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2598616742,
+  "sample_rate": 24000,
+  "duration_seconds": 4.08,
+  "sha256": "82e55b4aea44da99e4d6c7217094a1e4028c9a2d16fc1eed461c452123199bb8",
+  "func_id": "04dd",
+  "offset_key": "c9",
+  "segment": 0,
+  "rendered_parts": [
+    "!",
+    "她躲開了這一拳。",
+    "我很忙！"
+  ]
+}

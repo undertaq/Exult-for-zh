@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_stivius_f0337380",
+  "lang": "zh",
+  "text": "再見..。",
+  "tts_text": "再見..。",
+  "override_revision": null,
+  "rendered_text": "再見..\n。",
+  "fallback_used": false,
+  "npc": "Stivius",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_stivius_f0337380_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Stivius。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:048087cafdc86e76607b9a8efd3438eb2f7d5de7340083f08ce4204394b84a52",
+  "reference_sha256": "10e4b74e2475fe8c3697eba183308271d84b71c8a36a5dea06714b12737fb6b8",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "再見..",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_stivius_f0337380_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Stivius。今天你为何来到这片土地？",
+      "reference_id": "u6_stivius_f0337380",
+      "reference_sha256": "10e4b74e2475fe8c3697eba183308271d84b71c8a36a5dea06714b12737fb6b8",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 4256389560,
+  "sample_rate": 24000,
+  "duration_seconds": 1.65,
+  "sha256": "6da16ecc88cdfa9cc9fd40b6a8f7893ac937b8592451561a3db1cbece613a9bf",
+  "func_id": "0493",
+  "offset_key": "f2b",
+  "segment": 0,
+  "rendered_parts": [
+    "再見..",
+    "。"
+  ]
+}

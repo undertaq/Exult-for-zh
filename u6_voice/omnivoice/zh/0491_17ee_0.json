@@ -1,0 +1,79 @@
+{
+  "status": "generated",
+  "design_id": "u6_yorl_d76a5c27",
+  "lang": "zh",
+  "text": "當它靠得更近時，前面伴隨著一個巨大的波浪，我們能看清一張巨大的嘴。他把煙斗從嘴裡拿出，朝你揮手。我跟你說，你從來沒見過兩個男孩讓小船跑得那麼快。他大聲笑了出來，這次彎下腰支撐著自己。",
+  "tts_text": "當它靠得更近時，前面伴隨著一個巨大的波浪，我們能看清一張巨大的嘴。他把煙斗從嘴裡拿出，朝你揮手。我跟你說，你從來沒見過兩個男孩讓小船跑得那麼快。他大聲笑了出來，這次彎下腰支撐著自己。",
+  "override_revision": null,
+  "rendered_text": "當它靠得更近時，前面伴隨著一個巨大的波浪，我們能看清一張巨大的嘴。\n他把煙斗從嘴裡拿出，朝你揮手。\n我跟你說，你從來沒見過兩個男孩讓小船跑得那麼快。\n他大聲笑了出來，這次彎下腰支撐著自己。",
+  "fallback_used": false,
+  "npc": "Yorl",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_yorl_d76a5c27_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Yorl。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:152eaffcb40eaa18f93baf95af0628d42f05b050c782ce6fc54b742a62b8099d",
+  "reference_sha256": "f390db21022bfd87e4d8f7e3c17d72d107ffe1c8456343ed0befb15d9493bcad",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "當它靠得更近時，前面伴隨著一個巨大的波浪，我們能看清一張巨大的嘴。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_yorl_d76a5c27_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Yorl。今天你为何来到这片土地？",
+      "reference_id": "u6_yorl_d76a5c27",
+      "reference_sha256": "f390db21022bfd87e4d8f7e3c17d72d107ffe1c8456343ed0befb15d9493bcad",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他把煙斗從嘴裡拿出，朝你揮手。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "我跟你說，你從來沒見過兩個男孩讓小船跑得那麼快。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_yorl_d76a5c27_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Yorl。今天你为何来到这片土地？",
+      "reference_id": "u6_yorl_d76a5c27",
+      "reference_sha256": "f390db21022bfd87e4d8f7e3c17d72d107ffe1c8456343ed0befb15d9493bcad",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他大聲笑了出來，這次彎下腰支撐著自己。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 282187156,
+  "sample_rate": 24000,
+  "duration_seconds": 19.96,
+  "sha256": "727c70204be3897162ddc72871e6bc131c442a8428595dcdc476118b91f0e651",
+  "func_id": "0491",
+  "offset_key": "17ee",
+  "segment": 0,
+  "rendered_parts": [
+    "當它靠得更近時，前面伴隨著一個巨大的波浪，我們能看清一張巨大的嘴。",
+    "他把煙斗從嘴裡拿出，朝你揮手。",
+    "我跟你說，你從來沒見過兩個男孩讓小船跑得那麼快。",
+    "他大聲笑了出來，這次彎下腰支撐著自己。"
+  ]
+}

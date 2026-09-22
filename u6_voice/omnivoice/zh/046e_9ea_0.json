@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_captain_johne_66f84eba",
+  "lang": "zh",
+  "text": "給。他遞給你一卷羊皮卷。",
+  "tts_text": "給。他遞給你一卷羊皮卷。",
+  "override_revision": null,
+  "rendered_text": "給。\n他遞給你一卷羊皮卷。",
+  "fallback_used": false,
+  "npc": "Captain Johne",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_captain_johne_66f84eba_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Captain Johne。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:c8876bc86e52f6e55d555e20967e51425d300111f008a4794a8a9de5559e43b8",
+  "reference_sha256": "004df69c6eb86b0cde975a361c49267141e839a87707fd1fbdc734b3905c7bbe",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "給。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_captain_johne_66f84eba_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Captain Johne。今天你为何来到这片土地？",
+      "reference_id": "u6_captain_johne_66f84eba",
+      "reference_sha256": "004df69c6eb86b0cde975a361c49267141e839a87707fd1fbdc734b3905c7bbe",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他遞給你一卷羊皮卷。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2183258256,
+  "sample_rate": 24000,
+  "duration_seconds": 2.64,
+  "sha256": "e2c3576b1ec9f9c5650c542ae42f5cf82457591c9453f3b24de64e95af2d4d46",
+  "func_id": "046e",
+  "offset_key": "9ea",
+  "segment": 0,
+  "rendered_parts": [
+    "給。",
+    "他遞給你一卷羊皮卷。"
+  ]
+}

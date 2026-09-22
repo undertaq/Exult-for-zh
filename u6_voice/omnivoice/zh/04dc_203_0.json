@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_petroph_1fcc22e8",
+  "lang": "zh",
+  "text": "他把手遞給你。門在你右邊最後一間，玩得愉快？",
+  "tts_text": "他把手遞給你。門在你右邊最後一間，玩得愉快？",
+  "override_revision": null,
+  "rendered_text": "他把手遞給你。\n門在你右邊最後一間，玩得愉快？",
+  "fallback_used": false,
+  "npc": "Petroph",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:de5b0a060fef6531db2cd088d90f4db61e468188a6e2de111180219752da99a4",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "他把手遞給你。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "門在你右邊最後一間，玩得愉快？",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_petroph_1fcc22e8_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Petroph。今天你为何来到这片土地？",
+      "reference_id": "u6_petroph_1fcc22e8",
+      "reference_sha256": "28c8dc58299cc78e4c2541873a80e6fa11c9cf4e88a96cb19330a57a037e58e8",
+      "instruct": "男, 低音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3406785488,
+  "sample_rate": 24000,
+  "duration_seconds": 5.21,
+  "sha256": "30aa9428929d4b209381311e4b1ecb809c53554bf90fbf49ceea17a1ea87f08f",
+  "func_id": "04dc",
+  "offset_key": "203",
+  "segment": 0,
+  "rendered_parts": [
+    "他把手遞給你。",
+    "門在你右邊最後一間，玩得愉快？"
+  ]
+}

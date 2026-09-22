@@ -4,7 +4,7 @@
   "lang": "zh",
   "text": "旅人，你好。我是Dunbar。今天你为何来到这片土地？",
   "tts_text": "旅人，你好。我是Dunbar。今天你为何来到这片土地？",
-  "override_revision": "u6-omnivoice-overrides-v1",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "旅人，你好。我是Dunbar。今天你为何来到这片土地？",
   "fallback_used": false,
   "npc": "Dunbar",
@@ -12,9 +12,9 @@
   "instruct": "男, 中音调",
   "ref_text": "旅人，你好。我是Dunbar。今天你为何来到这片土地？",
   "model": "k2-fsa/OmniVoice",
-  "gpu": 1,
-  "seed": 290061653,
+  "gpu": 0,
+  "seed": 985805898,
   "sample_rate": 24000,
-  "duration_seconds": 4.09,
-  "sha256": "d8083754af77d3f9894793b521fe40c659b41cb6f14e5b909ba78bd98c5d100d"
+  "duration_seconds": 3.99,
+  "sha256": "d7facee477b3b3ec3d97602d77dfeaebbfd555a253f5aea4efb087d1abc55e8f"
 }

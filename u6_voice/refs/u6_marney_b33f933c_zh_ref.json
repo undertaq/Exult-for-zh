@@ -4,7 +4,7 @@
   "lang": "zh",
   "text": "旅人，你好。我是Marney。今天你为何来到这片土地？",
   "tts_text": "旅人，你好。我是Marney。今天你为何来到这片土地？",
-  "override_revision": "u6-omnivoice-overrides-v1",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "旅人，你好。我是Marney。今天你为何来到这片土地？",
   "fallback_used": false,
   "npc": "Marney",
@@ -12,9 +12,9 @@
   "instruct": "女, 低音调",
   "ref_text": "旅人，你好。我是Marney。今天你为何来到这片土地？",
   "model": "k2-fsa/OmniVoice",
-  "gpu": 1,
-  "seed": 3095126272,
+  "gpu": 0,
+  "seed": 173679599,
   "sample_rate": 24000,
   "duration_seconds": 4.36,
-  "sha256": "3bd42436e38c7aa9a7b5c5c7cb01c3d3c3bbc0eee12c258e93dbd40694e6a010"
+  "sha256": "55f70a3a6441b63c8d45e52fabd8d1e5d974c6be1eee319cf32a42ea1ea42be2"
 }

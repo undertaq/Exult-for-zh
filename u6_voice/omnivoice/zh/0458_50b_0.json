@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_selganor_2ee1c624",
+  "lang": "zh",
+  "text": "他檢查了排簫。非常好，非常好。現在請演奏《Stones》中的音符序列，我就讓你加入公會。",
+  "tts_text": "他檢查了排簫。非常好，非常好。現在請演奏《Stones》中的音符序列，我就讓你加入公會。",
+  "override_revision": null,
+  "rendered_text": "他檢查了排簫。\n非常好，非常好。現在請演奏《Stones》中的音符序列，我就讓你加入公會。",
+  "fallback_used": false,
+  "npc": "Selganor",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:78641233bf91fac93eed8b43b7c5425e7a51dfcc63c711ba5377b9b9e79c62b5",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "他檢查了排簫。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "非常好，非常好。現在請演奏《Stones》中的音符序列，我就讓你加入公會。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_selganor_2ee1c624_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Selganor。今天你为何来到这片土地？",
+      "reference_id": "u6_selganor_2ee1c624",
+      "reference_sha256": "6ce03bed4fb727444fc27f1ed42423b7433b100a0a68658aac82997cf4815ff0",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2919329716,
+  "sample_rate": 24000,
+  "duration_seconds": 7.07,
+  "sha256": "d47eb03a476fa63e171e2e84dd0f9093659b0ba3c55ac6754fba017b3a195a5e",
+  "func_id": "0458",
+  "offset_key": "50b",
+  "segment": 0,
+  "rendered_parts": [
+    "他檢查了排簫。",
+    "非常好，非常好。現在請演奏《Stones》中的音符序列，我就讓你加入公會。"
+  ]
+}

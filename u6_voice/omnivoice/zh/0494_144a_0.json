@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_lord_british_ab0c40cc",
+  "lang": "zh",
+  "text": "Lord British 閱讀小冊子，眉頭緊皺。 這確實不是我的筆跡，但確是我的信紙。隱瞞這個祕密這麼多年...",
+  "tts_text": "Lord British 閱讀小冊子，眉頭緊皺。 這確實不是我的筆跡，但確是我的信紙。隱瞞這個祕密這麼多年...",
+  "override_revision": null,
+  "rendered_text": "Lord British 閱讀小冊子，眉頭緊皺。\n這確實不是我的筆跡，但確是我的信紙。隱瞞這個祕密這麼多年...",
+  "fallback_used": false,
+  "npc": "Lord British",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:ae56f84ed97283667eda82706a105725473765bd25540d2e180748cee874722f",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "Lord British 閱讀小冊子，眉頭緊皺。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "這確實不是我的筆跡，但確是我的信紙。隱瞞這個祕密這麼多年...",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_lord_british_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_lord_british",
+      "reference_sha256": "7d27e97f69300a8f62a00fe91f747300e6d903c7ffaa68fc862773ef1d3ab5d4",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3210165041,
+  "sample_rate": 24000,
+  "duration_seconds": 13.39,
+  "sha256": "3abadeb1ed169ada888036d98db51def025684237e2fbc5ad3b19b9416db6153",
+  "func_id": "0494",
+  "offset_key": "144a",
+  "segment": 0,
+  "rendered_parts": [
+    "Lord British 閱讀小冊子，眉頭緊皺。",
+    "這確實不是我的筆跡，但確是我的信紙。隱瞞這個祕密這麼多年..."
+  ]
+}

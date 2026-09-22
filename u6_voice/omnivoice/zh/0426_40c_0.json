@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_efram_aa5c9aa4",
+  "lang": "zh",
+  "text": "再見..。",
+  "tts_text": "再見..。",
+  "override_revision": null,
+  "rendered_text": "再見..\n。",
+  "fallback_used": false,
+  "npc": "Efram",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_efram_aa5c9aa4_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Efram。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:3d758403687107f02842d7ece0fe3d3f17e541fcfa6997dea0a0154b2af59b10",
+  "reference_sha256": "00f4252eeb1577e511746a4e3f455486fab007fccdde5726ae74dce84396a2f7",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "再見..",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_efram_aa5c9aa4_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Efram。今天你为何来到这片土地？",
+      "reference_id": "u6_efram_aa5c9aa4",
+      "reference_sha256": "00f4252eeb1577e511746a4e3f455486fab007fccdde5726ae74dce84396a2f7",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2806595963,
+  "sample_rate": 24000,
+  "duration_seconds": 1.7,
+  "sha256": "935259ffc3c9fa9b0cf7656932cf0e115b0ddfd65281e4e6ff0e78c9f9b09318",
+  "func_id": "0426",
+  "offset_key": "40c",
+  "segment": 0,
+  "rendered_parts": [
+    "再見..",
+    "。"
+  ]
+}

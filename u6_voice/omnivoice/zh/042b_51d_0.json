@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_tholden_10e930fd",
+  "lang": "zh",
+  "text": "Tholden 深深地鞠了一躬。希望我對您有所幫助，聖者。",
+  "tts_text": "Tholden 深深地鞠了一躬。希望我對您有所幫助，聖者。",
+  "override_revision": null,
+  "rendered_text": "Tholden 深深地鞠了一躬。\n希望我對您有所幫助，聖者。",
+  "fallback_used": false,
+  "npc": "Tholden",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:faae1586c721b230e96d910f68c4c90b69c5c538446481096472aab3c97c3bf6",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "Tholden 深深地鞠了一躬。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "希望我對您有所幫助，聖者。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_tholden_10e930fd_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Tholden。今天你为何来到这片土地？",
+      "reference_id": "u6_tholden_10e930fd",
+      "reference_sha256": "29ecffb8b98b0c95f215c6d31d0e8895e3c73fc6b128b4f9a5aa8fb5cfcdd579",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3281534549,
+  "sample_rate": 24000,
+  "duration_seconds": 4.95,
+  "sha256": "5acef20cd3374b612e33db4223773496f68cdf4d069b56b0edf8a2cd230f2e6b",
+  "func_id": "042b",
+  "offset_key": "51d",
+  "segment": 0,
+  "rendered_parts": [
+    "Tholden 深深地鞠了一躬。",
+    "希望我對您有所幫助，聖者。"
+  ]
+}

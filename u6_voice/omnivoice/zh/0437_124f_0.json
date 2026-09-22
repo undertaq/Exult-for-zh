@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_chuckles_3e646829",
+  "lang": "zh",
+  "text": "這是一個奇怪的請求，但我保證會去！ Chuckles 緊張地走開了。",
+  "tts_text": "這是一個奇怪的請求，但我保證會去！ Chuckles 緊張地走開了。",
+  "override_revision": null,
+  "rendered_text": "這是一個奇怪的請求，但我保證會去！\nChuckles 緊張地走開了。",
+  "fallback_used": false,
+  "npc": "Chuckles",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/voice/refs/npc_chuckles_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:e1ac6be51eabc1ec5b8eb645172381c01fa77c293cb5c5537440a69cedf2550c",
+  "reference_sha256": "b09d941c3e249af93c271eba44d8dabfb20c0357597e8807c4147f27596a79b5",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "這是一個奇怪的請求，但我保證會去！",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_chuckles_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_chuckles",
+      "reference_sha256": "b09d941c3e249af93c271eba44d8dabfb20c0357597e8807c4147f27596a79b5",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "Chuckles 緊張地走開了。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2512588780,
+  "sample_rate": 24000,
+  "duration_seconds": 7.18,
+  "sha256": "d417c78ea33e8a22dd1ca6816073fbea80b05788bc07b256971675b65ebf03eb",
+  "func_id": "0437",
+  "offset_key": "124f",
+  "segment": 0,
+  "rendered_parts": [
+    "這是一個奇怪的請求，但我保證會去！",
+    "Chuckles 緊張地走開了。"
+  ]
+}

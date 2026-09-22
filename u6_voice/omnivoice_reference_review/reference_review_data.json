@@ -10,7 +10,7 @@
       "ref_text": "Greetings, traveler. I am Aaron. What brings you to these lands today?",
       "instruct": "male, moderate pitch, American accent",
       "source": "omnivoice_design",
-      "status": "generated",
+      "status": "missing",
       "audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_aaron_324a17d2_en_ref.ogg",
       "filename": "u6_aaron_324a17d2_en_ref.ogg",
       "metadata": {
@@ -51,7 +51,7 @@
         "lang": "zh",
         "text": "旅人，你好。我是Aaron。今天你为何来到这片土地？",
         "tts_text": "旅人，你好。我是Aaron。今天你为何来到这片土地？",
-        "override_revision": "u6-omnivoice-overrides-v1",
+        "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
         "rendered_text": "旅人，你好。我是Aaron。今天你为何来到这片土地？",
         "fallback_used": false,
         "npc": "Aaron",
@@ -59,11 +59,11 @@
         "instruct": "男, 中音调",
         "ref_text": "旅人，你好。我是Aaron。今天你为何来到这片土地？",
         "model": "k2-fsa/OmniVoice",
-        "gpu": 1,
-        "seed": 779638347,
+        "gpu": 0,
+        "seed": 3869527906,
         "sample_rate": 24000,
-        "duration_seconds": 3.53,
-        "sha256": "8422e648d7772502cb95b98a318e6db6a0f88c06efe8bcac3bb03bcf3ee9eb45"
+        "duration_seconds": 3.76,
+        "sha256": "96a9c776c4d7fd24d645bf00d53101482a0e687d8ba5e7aecf484f0ad00f2958"
       }
     },
     {
@@ -740,7 +740,7 @@
       "ref_text": "Greetings, traveler. I am Arty. What brings you to these lands today?",
       "instruct": "male, moderate pitch, American accent",
       "source": "omnivoice_design",
-      "status": "generated",
+      "status": "missing",
       "audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_arty_762c615c_en_ref.ogg",
       "filename": "u6_arty_762c615c_en_ref.ogg",
       "metadata": {
@@ -781,7 +781,7 @@
         "lang": "zh",
         "text": "旅人，你好。我是Arty。今天你为何来到这片土地？",
         "tts_text": "旅人，你好。我是Arty。今天你为何来到这片土地？",
-        "override_revision": "u6-omnivoice-overrides-v1",
+        "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
         "rendered_text": "旅人，你好。我是Arty。今天你为何来到这片土地？",
         "fallback_used": false,
         "npc": "Arty",
@@ -789,11 +789,11 @@
         "instruct": "男, 中音调",
         "ref_text": "旅人，你好。我是Arty。今天你为何来到这片土地？",
         "model": "k2-fsa/OmniVoice",
-        "gpu": 1,
-        "seed": 362055927,
+        "gpu": 0,
+        "seed": 1763136814,
         "sample_rate": 24000,
-        "duration_seconds": 3.42,
-        "sha256": "287e9d2b5230d1918dc830e1cfa96c584d3a0ac11c00113bb54429d4b5476cdb"
+        "duration_seconds": 4.22,
+        "sha256": "1f7c6b6b5f0905e516871341e9aa8ffd15ff0d4549ef3b11a6005c8e13b92286"
       }
     },
     {
@@ -2610,7 +2610,7 @@
       "ref_text": "Greetings, traveler. I am Dezana. What brings you to these lands today?",
       "instruct": "female, moderate pitch, American accent",
       "source": "omnivoice_design",
-      "status": "generated",
+      "status": "missing",
       "audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_dezana_6642c6a6_en_ref.ogg",
       "filename": "u6_dezana_6642c6a6_en_ref.ogg",
       "metadata": {
@@ -2651,7 +2651,7 @@
         "lang": "zh",
         "text": "旅人，你好。我是Dezana。今天你为何来到这片土地？",
         "tts_text": "旅人，你好。我是Dezana。今天你为何来到这片土地？",
-        "override_revision": "u6-omnivoice-overrides-v1",
+        "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
         "rendered_text": "旅人，你好。我是Dezana。今天你为何来到这片土地？",
         "fallback_used": false,
         "npc": "Dezana",
@@ -2659,11 +2659,11 @@
         "instruct": "女, 中音调",
         "ref_text": "旅人，你好。我是Dezana。今天你为何来到这片土地？",
         "model": "k2-fsa/OmniVoice",
-        "gpu": 1,
-        "seed": 3203287034,
+        "gpu": 0,
+        "seed": 3404960921,
         "sample_rate": 24000,
-        "duration_seconds": 4.36,
-        "sha256": "259aa19d76428c941a666d6c32a44108fca40ae1e4a2e2e03f1aa326b8b9af5a"
+        "duration_seconds": 4.35,
+        "sha256": "004475ffc355a444e5273c5dd2dc6292efcec85763c60b9a428376e0b03a7382"
       }
     },
     {
@@ -2956,7 +2956,7 @@
       "ref_text": "Greetings, traveler. I am Dunbar. What brings you to these lands today?",
       "instruct": "male, moderate pitch, American accent",
       "source": "omnivoice_design",
-      "status": "generated",
+      "status": "missing",
       "audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_dunbar_d41e3d0c_en_ref.ogg",
       "filename": "u6_dunbar_d41e3d0c_en_ref.ogg",
       "metadata": {
@@ -2997,7 +2997,7 @@
         "lang": "zh",
         "text": "旅人，你好。我是Dunbar。今天你为何来到这片土地？",
         "tts_text": "旅人，你好。我是Dunbar。今天你为何来到这片土地？",
-        "override_revision": "u6-omnivoice-overrides-v1",
+        "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
         "rendered_text": "旅人，你好。我是Dunbar。今天你为何来到这片土地？",
         "fallback_used": false,
         "npc": "Dunbar",
@@ -3005,11 +3005,11 @@
         "instruct": "男, 中音调",
         "ref_text": "旅人，你好。我是Dunbar。今天你为何来到这片土地？",
         "model": "k2-fsa/OmniVoice",
-        "gpu": 1,
-        "seed": 290061653,
+        "gpu": 0,
+        "seed": 985805898,
         "sample_rate": 24000,
-        "duration_seconds": 4.09,
-        "sha256": "d8083754af77d3f9894793b521fe40c659b41cb6f14e5b909ba78bd98c5d100d"
+        "duration_seconds": 3.99,
+        "sha256": "d7facee477b3b3ec3d97602d77dfeaebbfd555a253f5aea4efb087d1abc55e8f"
       }
     },
     {
@@ -5622,7 +5622,7 @@
       "ref_text": "Greetings, traveler. I am Kenneth. What brings you to these lands today?",
       "instruct": "male, moderate pitch, American accent",
       "source": "omnivoice_design",
-      "status": "generated",
+      "status": "missing",
       "audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_kenneth_ca70c45c_en_ref.ogg",
       "filename": "u6_kenneth_ca70c45c_en_ref.ogg",
       "metadata": {
@@ -5663,7 +5663,7 @@
         "lang": "zh",
         "text": "旅人，你好。我是Kenneth。今天你为何来到这片土地？",
         "tts_text": "旅人，你好。我是Kenneth。今天你为何来到这片土地？",
-        "override_revision": "u6-omnivoice-overrides-v1",
+        "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
         "rendered_text": "旅人，你好。我是Kenneth。今天你为何来到这片土地？",
         "fallback_used": false,
         "npc": "Kenneth",
@@ -5671,11 +5671,11 @@
         "instruct": "男, 中音调",
         "ref_text": "旅人，你好。我是Kenneth。今天你为何来到这片土地？",
         "model": "k2-fsa/OmniVoice",
-        "gpu": 1,
-        "seed": 405649908,
+        "gpu": 0,
+        "seed": 698585650,
         "sample_rate": 24000,
-        "duration_seconds": 4.43,
-        "sha256": "db4d813b81bb4d0843cba4943149f7596b7e026e2464e7a9f465e66b37f04133"
+        "duration_seconds": 4.36,
+        "sha256": "e8acdd86e68b51de96a711d9d330f8f2a930aa8761b61196724fef477692ff06"
       }
     },
     {
@@ -6262,7 +6262,7 @@
       "ref_text": "Greetings, traveler. I am Leonna. What brings you to these lands today?",
       "instruct": "female, moderate pitch, American accent",
       "source": "omnivoice_design",
-      "status": "generated",
+      "status": "missing",
       "audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_leonna_c563a3bc_en_ref.ogg",
       "filename": "u6_leonna_c563a3bc_en_ref.ogg",
       "metadata": {
@@ -6303,7 +6303,7 @@
         "lang": "zh",
         "text": "旅人，你好。我是Leonna。今天你为何来到这片土地？",
         "tts_text": "旅人，你好。我是Leonna。今天你为何来到这片土地？",
-        "override_revision": "u6-omnivoice-overrides-v1",
+        "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
         "rendered_text": "旅人，你好。我是Leonna。今天你为何来到这片土地？",
         "fallback_used": false,
         "npc": "Leonna",
@@ -6311,11 +6311,11 @@
         "instruct": "女, 中音调",
         "ref_text": "旅人，你好。我是Leonna。今天你为何来到这片土地？",
         "model": "k2-fsa/OmniVoice",
-        "gpu": 1,
-        "seed": 892845422,
+        "gpu": 0,
+        "seed": 1427009992,
         "sample_rate": 24000,
-        "duration_seconds": 4.04,
-        "sha256": "9ad3a61a77e2e69644f0f085e4f37a061648ece09444e0fc8901d846c7d4784c"
+        "duration_seconds": 4.27,
+        "sha256": "b390f13bc6d8b0f5e57a49df79efba75af42cbae3470e9736f9fbe5d70a30bf5"
       }
     },
     {
@@ -6980,7 +6980,7 @@
       "ref_text": "Greetings, traveler. I am Marney. What brings you to these lands today?",
       "instruct": "female, low pitch, American accent",
       "source": "omnivoice_design",
-      "status": "generated",
+      "status": "missing",
       "audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_marney_b33f933c_en_ref.ogg",
       "filename": "u6_marney_b33f933c_en_ref.ogg",
       "metadata": {
@@ -7021,7 +7021,7 @@
         "lang": "zh",
         "text": "旅人，你好。我是Marney。今天你为何来到这片土地？",
         "tts_text": "旅人，你好。我是Marney。今天你为何来到这片土地？",
-        "override_revision": "u6-omnivoice-overrides-v1",
+        "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
         "rendered_text": "旅人，你好。我是Marney。今天你为何来到这片土地？",
         "fallback_used": false,
         "npc": "Marney",
@@ -7029,11 +7029,11 @@
         "instruct": "女, 低音调",
         "ref_text": "旅人，你好。我是Marney。今天你为何来到这片土地？",
         "model": "k2-fsa/OmniVoice",
-        "gpu": 1,
-        "seed": 3095126272,
+        "gpu": 0,
+        "seed": 173679599,
         "sample_rate": 24000,
         "duration_seconds": 4.36,
-        "sha256": "3bd42436e38c7aa9a7b5c5c7cb01c3d3c3bbc0eee12c258e93dbd40694e6a010"
+        "sha256": "55f70a3a6441b63c8d45e52fabd8d1e5d974c6be1eee319cf32a42ea1ea42be2"
       }
     },
     {
@@ -8980,7 +8980,7 @@
       "ref_text": "Greetings, traveler. I am Sandy. What brings you to these lands today?",
       "instruct": "male, low pitch, American accent",
       "source": "omnivoice_design",
-      "status": "generated",
+      "status": "missing",
       "audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_sandy_e42e5767_en_ref.ogg",
       "filename": "u6_sandy_e42e5767_en_ref.ogg",
       "metadata": {
@@ -9021,7 +9021,7 @@
         "lang": "zh",
         "text": "旅人，你好。我是Sandy。今天你为何来到这片土地？",
         "tts_text": "旅人，你好。我是Sandy。今天你为何来到这片土地？",
-        "override_revision": "u6-omnivoice-overrides-v1",
+        "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
         "rendered_text": "旅人，你好。我是Sandy。今天你为何来到这片土地？",
         "fallback_used": false,
         "npc": "Sandy",
@@ -9029,11 +9029,11 @@
         "instruct": "男, 低音调",
         "ref_text": "旅人，你好。我是Sandy。今天你为何来到这片土地？",
         "model": "k2-fsa/OmniVoice",
-        "gpu": 1,
-        "seed": 997391375,
+        "gpu": 0,
+        "seed": 2853683378,
         "sample_rate": 24000,
-        "duration_seconds": 4.24,
-        "sha256": "0600573fdca80b0386e539332b5a25fbbd8e0048af1e498dc1c0ac2bff176889"
+        "duration_seconds": 3.96,
+        "sha256": "7f12b5c1178bf9984aa930584725552c997d43388330ee9d0ddcc76a0f9f6109"
       }
     },
     {
@@ -9250,7 +9250,7 @@
       "ref_text": "Greetings, traveler. I am Shawn. What brings you to these lands today?",
       "instruct": "male, moderate pitch, American accent",
       "source": "omnivoice_design",
-      "status": "generated",
+      "status": "missing",
       "audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_shawn_66e52fa9_en_ref.ogg",
       "filename": "u6_shawn_66e52fa9_en_ref.ogg",
       "metadata": {
@@ -9291,7 +9291,7 @@
         "lang": "zh",
         "text": "旅人，你好。我是Shawn。今天你为何来到这片土地？",
         "tts_text": "旅人，你好。我是Shawn。今天你为何来到这片土地？",
-        "override_revision": "u6-omnivoice-overrides-v1",
+        "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
         "rendered_text": "旅人，你好。我是Shawn。今天你为何来到这片土地？",
         "fallback_used": false,
         "npc": "Shawn",
@@ -9299,11 +9299,11 @@
         "instruct": "男, 中音调",
         "ref_text": "旅人，你好。我是Shawn。今天你为何来到这片土地？",
         "model": "k2-fsa/OmniVoice",
-        "gpu": 1,
-        "seed": 1235451507,
+        "gpu": 0,
+        "seed": 2719790815,
         "sample_rate": 24000,
-        "duration_seconds": 4.27,
-        "sha256": "7309741c8623fd256e8981c55b1c16a3a1473574b990a23fa7779961f2570b45"
+        "duration_seconds": 4.28,
+        "sha256": "5a683c9466441891d3911461d0ec3ff728951e17ee585f5fbfd1e59560efec5c"
       }
     },
     {
@@ -10582,7 +10582,7 @@
       "ref_text": "Greetings, traveler. I am Timothy. What brings you to these lands today?",
       "instruct": "male, moderate pitch, American accent",
       "source": "omnivoice_design",
-      "status": "generated",
+      "status": "missing",
       "audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_timothy_f787b4f6_en_ref.ogg",
       "filename": "u6_timothy_f787b4f6_en_ref.ogg",
       "metadata": {
@@ -10623,7 +10623,7 @@
         "lang": "zh",
         "text": "旅人，你好。我是Timothy。今天你为何来到这片土地？",
         "tts_text": "旅人，你好。我是Timothy。今天你为何来到这片土地？",
-        "override_revision": "u6-omnivoice-overrides-v1",
+        "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
         "rendered_text": "旅人，你好。我是Timothy。今天你为何来到这片土地？",
         "fallback_used": false,
         "npc": "Timothy",
@@ -10631,11 +10631,11 @@
         "instruct": "男, 中音调",
         "ref_text": "旅人，你好。我是Timothy。今天你为何来到这片土地？",
         "model": "k2-fsa/OmniVoice",
-        "gpu": 1,
-        "seed": 3293381370,
+        "gpu": 0,
+        "seed": 175131938,
         "sample_rate": 24000,
-        "duration_seconds": 4.18,
-        "sha256": "035e7e188e0fab98221c98b92bf0a583885e7f60902b1a2f1cd784c820827782"
+        "duration_seconds": 4.26,
+        "sha256": "9aabe5658e52f314f038482d1fe3a1e253b04c75e81b9c42211495c34d7a3e29"
       }
     },
     {
@@ -10774,7 +10774,7 @@
       "ref_text": "Greetings, traveler. I am Trenton Bell. What brings you to these lands today?",
       "instruct": "male, moderate pitch, American accent",
       "source": "omnivoice_design",
-      "status": "generated",
+      "status": "missing",
       "audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_trenton_bell_50adc94b_en_ref.ogg",
       "filename": "u6_trenton_bell_50adc94b_en_ref.ogg",
       "metadata": {
@@ -10815,7 +10815,7 @@
         "lang": "zh",
         "text": "旅人，你好。我是Trenton Bell。今天你为何来到这片土地？",
         "tts_text": "旅人，你好。我是Trenton Bell。今天你为何来到这片土地？",
-        "override_revision": "u6-omnivoice-overrides-v1",
+        "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
         "rendered_text": "旅人，你好。我是Trenton Bell。今天你为何来到这片土地？",
         "fallback_used": false,
         "npc": "Trenton Bell",
@@ -10823,11 +10823,11 @@
         "instruct": "男, 中音调",
         "ref_text": "旅人，你好。我是Trenton Bell。今天你为何来到这片土地？",
         "model": "k2-fsa/OmniVoice",
-        "gpu": 1,
-        "seed": 3349956168,
+        "gpu": 0,
+        "seed": 2534091539,
         "sample_rate": 24000,
-        "duration_seconds": 4.56,
-        "sha256": "7dd2b1cf8f821e561f6ca2e173d462a8b99adb74c80f9177998b282cfcee01ee"
+        "duration_seconds": 4.32,
+        "sha256": "f68010714c7bb08cef4fa2b9a6d9ba697de7206cf1a4718e7271ee72b6f1b333"
       }
     },
     {
@@ -11350,7 +11350,7 @@
       "ref_text": "Greetings, traveler. I am Wilbur. What brings you to these lands today?",
       "instruct": "male, moderate pitch, American accent",
       "source": "omnivoice_design",
-      "status": "generated",
+      "status": "missing",
       "audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_wilbur_63606e9b_en_ref.ogg",
       "filename": "u6_wilbur_63606e9b_en_ref.ogg",
       "metadata": {
@@ -11391,7 +11391,7 @@
         "lang": "zh",
         "text": "旅人，你好。我是Wilbur。今天你为何来到这片土地？",
         "tts_text": "旅人，你好。我是Wilbur。今天你为何来到这片土地？",
-        "override_revision": "u6-omnivoice-overrides-v1",
+        "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
         "rendered_text": "旅人，你好。我是Wilbur。今天你为何来到这片土地？",
         "fallback_used": false,
         "npc": "Wilbur",
@@ -11399,11 +11399,11 @@
         "instruct": "男, 中音调",
         "ref_text": "旅人，你好。我是Wilbur。今天你为何来到这片土地？",
         "model": "k2-fsa/OmniVoice",
-        "gpu": 1,
-        "seed": 3604779004,
+        "gpu": 0,
+        "seed": 1738681642,
         "sample_rate": 24000,
-        "duration_seconds": 4.25,
-        "sha256": "44ebd53db7a65d6dec3ab0cb11f3cbb2ce8045b69cb1b2e0b43a8a58154aea42"
+        "duration_seconds": 3.99,
+        "sha256": "5ec39449b101c6500aa4b04c019b988c99506e5d89a738dc909c6cacb71f7f30"
       }
     },
     {
@@ -11760,7 +11760,7 @@
       "ref_text": "Greetings, traveler. I am Zoltan. What brings you to these lands today?",
       "instruct": "male, moderate pitch, American accent",
       "source": "omnivoice_design",
-      "status": "generated",
+      "status": "missing",
       "audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_zoltan_5aadd2f1_en_ref.ogg",
       "filename": "u6_zoltan_5aadd2f1_en_ref.ogg",
       "metadata": {
@@ -11801,7 +11801,7 @@
         "lang": "zh",
         "text": "旅人，你好。我是Zoltan。今天你为何来到这片土地？",
         "tts_text": "旅人，你好。我是Zoltan。今天你为何来到这片土地？",
-        "override_revision": "u6-omnivoice-overrides-v1",
+        "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
         "rendered_text": "旅人，你好。我是Zoltan。今天你为何来到这片土地？",
         "fallback_used": false,
         "npc": "Zoltan",
@@ -11809,11 +11809,11 @@
         "instruct": "男, 中音调",
         "ref_text": "旅人，你好。我是Zoltan。今天你为何来到这片土地？",
         "model": "k2-fsa/OmniVoice",
-        "gpu": 1,
-        "seed": 3023995636,
+        "gpu": 0,
+        "seed": 701966436,
         "sample_rate": 24000,
-        "duration_seconds": 4.36,
-        "sha256": "265753adbec01ea9d06c4cafb82da11a0db03f02ad778a70f6ca7b1adb50524e"
+        "duration_seconds": 3.97,
+        "sha256": "cca1af98573dddb6945221237e6666eae574fa00d522532c562c0b6f5bfa765c"
       }
     }
   ]

@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_marta_c14d56be",
+  "lang": "zh",
+  "text": "你好。。",
+  "tts_text": "你好。。",
+  "override_revision": null,
+  "rendered_text": "你好。\n。",
+  "fallback_used": false,
+  "npc": "Marta",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_marta_c14d56be_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Marta。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:2cc5808681e07e43f10f582c609834eb2d803794b48d19aa2369eca71e7d4e61",
+  "reference_sha256": "34cef764ba8c1e321720362d63c01de72392218199821d8128d9df14c376c29c",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "你好。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_marta_c14d56be_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Marta。今天你为何来到这片土地？",
+      "reference_id": "u6_marta_c14d56be",
+      "reference_sha256": "34cef764ba8c1e321720362d63c01de72392218199821d8128d9df14c376c29c",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1748795417,
+  "sample_rate": 24000,
+  "duration_seconds": 1.71,
+  "sha256": "332905e4c14fd7bce91ca7bce3ee57d3c5ab625e995a4fb8174ae9244c85a814",
+  "func_id": "0490",
+  "offset_key": "1d",
+  "segment": 0,
+  "rendered_parts": [
+    "你好。",
+    "。"
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_dunbar_d41e3d0c",
+  "lang": "zh",
+  "text": "Dunbar 看著你。 你的背囊沒有空間了。",
+  "tts_text": "Dunbar 看著你。 你的背囊沒有空間了。",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
+  "rendered_text": "Dunbar 看著你。\n你的背囊沒有空間了。",
+  "fallback_used": false,
+  "npc": "Dunbar",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:ff6f4afefcc921ba73dfe628054a47825ccd3c4f785c69c3e137813522334eba",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "Dunbar 看著你。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "你的背囊沒有空間了。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_dunbar_d41e3d0c_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Dunbar。今天你为何来到这片土地？",
+      "reference_id": "u6_dunbar_d41e3d0c",
+      "reference_sha256": "d7facee477b3b3ec3d97602d77dfeaebbfd555a253f5aea4efb087d1abc55e8f",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3707150015,
+  "sample_rate": 24000,
+  "duration_seconds": 3.26,
+  "sha256": "81480cf3a2fb167cda46db7c955b332624e3ff54caf870e39da7f9286a0d9b59",
+  "func_id": "0482",
+  "offset_key": "a3",
+  "segment": 0,
+  "rendered_parts": [
+    "Dunbar 看著你。",
+    "你的背囊沒有空間了。"
+  ]
+}

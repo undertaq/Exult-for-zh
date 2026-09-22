@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_ariana_94227eed",
+  "lang": "zh",
+  "text": "她暫時別過臉去，然後轉過身來，臉微紅。如果我長大後，你能回來聽我唱歌嗎？",
+  "tts_text": "她暫時別過臉去，然後轉過身來，臉微紅。如果我長大後，你能回來聽我唱歌嗎？",
+  "override_revision": null,
+  "rendered_text": "她暫時別過臉去，然後轉過身來，臉微紅。\n如果我長大後，你能回來聽我唱歌嗎？",
+  "fallback_used": false,
+  "npc": "Ariana",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:b4606b6b4fe67d29e555296212f0c37aaef30c8ee401aff331651171be50ce77",
+  "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "她暫時別過臉去，然後轉過身來，臉微紅。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "如果我長大後，你能回來聽我唱歌嗎？",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_ariana_94227eed_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Ariana。今天你为何来到这片土地？",
+      "reference_id": "u6_ariana_94227eed",
+      "reference_sha256": "8199b5452bf642479430daf804e9ef1522fd435de283ba9c87c0fc967e47b2af",
+      "instruct": "女, 青年, 高音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 775721552,
+  "sample_rate": 24000,
+  "duration_seconds": 8.08,
+  "sha256": "ed68b6629e663eb47de346fe432f63992c587b367034a5173fffd1bd935eb174",
+  "func_id": "0418",
+  "offset_key": "3b4",
+  "segment": 0,
+  "rendered_parts": [
+    "她暫時別過臉去，然後轉過身來，臉微紅。",
+    "如果我長大後，你能回來聽我唱歌嗎？"
+  ]
+}

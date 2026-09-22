@@ -1,5 +1,5 @@
 {
-  "revision": "u6-omnivoice-overrides-v1",
+  "revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "voice_design": {
     "u6_aaron_324a17d2": {
       "en": "male, moderate pitch, American accent",
@@ -65,17 +65,1319 @@
   "pronunciation": [
     {
       "lang": "zh",
-      "source": "馴蛇者",
-      "tts": "XUN4蛇者",
-      "expected_pinyin": "xùn shé zhě",
-      "reason": "Taiwan Mandarin reading in this phrase"
+      "source": "馴蛇",
+      "tts": "XUN4蛇",
+      "expected_pinyin": "xùn shé",
+      "reason": "The snake-trainer profession uses xùn for training, not xún for taming"
+    },
+    {
+      "lang": "zh",
+      "source": "偽裝",
+      "tts": "WEI4裝",
+      "expected_pinyin": "wèi zhuāng",
+      "reason": "Taiwan Mandarin reading of 偽裝"
     },
     {
       "lang": "zh",
       "source": "偽先知",
       "tts": "WEI4先知",
       "expected_pinyin": "wèi xiān zhī",
-      "reason": "Taiwan Mandarin reading in this phrase"
+      "reason": "Taiwan Mandarin reading of 偽先知"
+    },
+    {
+      "lang": "zh",
+      "source": "偽預言者",
+      "tts": "WEI4預言者",
+      "expected_pinyin": "wèi yù yán zhě",
+      "reason": "Taiwan Mandarin reading of 偽預言者"
+    },
+    {
+      "lang": "zh",
+      "source": "偽造",
+      "tts": "WEI4造",
+      "expected_pinyin": "wèi zào",
+      "reason": "Taiwan Mandarin reading of 偽造"
+    },
+    {
+      "lang": "zh",
+      "source": "虛偽",
+      "tts": "虛WEI4",
+      "expected_pinyin": "xū wèi",
+      "reason": "Taiwan Mandarin reading of 虛偽"
+    },
+    {
+      "lang": "zh",
+      "source": "銀髮",
+      "tts": "銀FA4",
+      "expected_pinyin": "yín fà",
+      "reason": "髮 is fà in hair and fur compounds"
+    },
+    {
+      "lang": "zh",
+      "source": "白髮",
+      "tts": "白FA4",
+      "expected_pinyin": "bái fà",
+      "reason": "髮 is fà in hair and fur compounds"
+    },
+    {
+      "lang": "zh",
+      "source": "頭髮",
+      "tts": "頭FA4",
+      "expected_pinyin": "tóu fà",
+      "reason": "髮 is fà in hair and fur compounds"
+    },
+    {
+      "lang": "zh",
+      "source": "金髮",
+      "tts": "金FA4",
+      "expected_pinyin": "jīn fà",
+      "reason": "髮 is fà in hair and fur compounds"
+    },
+    {
+      "lang": "zh",
+      "source": "棕髮",
+      "tts": "棕FA4",
+      "expected_pinyin": "zōng fà",
+      "reason": "髮 is fà in hair and fur compounds"
+    },
+    {
+      "lang": "zh",
+      "source": "黑髮",
+      "tts": "黑FA4",
+      "expected_pinyin": "hēi fà",
+      "reason": "髮 is fà in hair and fur compounds"
+    },
+    {
+      "lang": "zh",
+      "source": "短髮",
+      "tts": "短FA4",
+      "expected_pinyin": "duǎn fà",
+      "reason": "髮 is fà in hair and fur compounds"
+    },
+    {
+      "lang": "zh",
+      "source": "長髮",
+      "tts": "CHANG2 FA4",
+      "expected_pinyin": "cháng fà",
+      "reason": "Long hair uses cháng fà"
+    },
+    {
+      "lang": "zh",
+      "source": "毛髮",
+      "tts": "毛FA4",
+      "expected_pinyin": "máo fà",
+      "reason": "髮 is fà in hair and fur compounds"
+    },
+    {
+      "lang": "zh",
+      "source": "乾草",
+      "tts": "GAN1草",
+      "expected_pinyin": "gān cǎo",
+      "reason": "乾 means dry in this food and material context"
+    },
+    {
+      "lang": "zh",
+      "source": "餅乾",
+      "tts": "餅GAN1",
+      "expected_pinyin": "bǐng gān",
+      "reason": "乾 means dry in this food context"
+    },
+    {
+      "lang": "zh",
+      "source": "乾淨",
+      "tts": "GAN1淨",
+      "expected_pinyin": "gān jìng",
+      "reason": "乾 means clean in this fixed expression"
+    },
+    {
+      "lang": "zh",
+      "source": "乾旱",
+      "tts": "GAN1旱",
+      "expected_pinyin": "gān hàn",
+      "reason": "乾 means dry in this climate context"
+    },
+    {
+      "lang": "zh",
+      "source": "乾爽",
+      "tts": "GAN1爽",
+      "expected_pinyin": "gān shuǎng",
+      "reason": "乾 means dry in this fixed expression"
+    },
+    {
+      "lang": "zh",
+      "source": "乾渴",
+      "tts": "GAN1渴",
+      "expected_pinyin": "gān kě",
+      "reason": "乾 means dry in this fixed expression"
+    },
+    {
+      "lang": "zh",
+      "source": "乾杯",
+      "tts": "GAN1杯",
+      "expected_pinyin": "gān bēi",
+      "reason": "乾 means empty or finish the drink in this toast"
+    },
+    {
+      "lang": "zh",
+      "source": "乾糧",
+      "tts": "GAN1糧",
+      "expected_pinyin": "gān liáng",
+      "reason": "乾 means dry in this food context"
+    },
+    {
+      "lang": "zh",
+      "source": "彷彿",
+      "tts": "FANG3彿",
+      "expected_pinyin": "fǎng fú",
+      "reason": "Taiwan Mandarin reading of 彷彿"
+    },
+    {
+      "lang": "zh",
+      "source": "長久",
+      "tts": "CHANG2久",
+      "expected_pinyin": "cháng jiǔ",
+      "reason": "長 means lasting in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "長度",
+      "tts": "CHANG2度",
+      "expected_pinyin": "cháng dù",
+      "reason": "長 means length in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "長眠",
+      "tts": "CHANG2眠",
+      "expected_pinyin": "cháng mián",
+      "reason": "長 means eternal in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "長矛",
+      "tts": "CHANG2矛",
+      "expected_pinyin": "cháng máo",
+      "reason": "長 means long in this weapon name"
+    },
+    {
+      "lang": "zh",
+      "source": "細長",
+      "tts": "細CHANG2",
+      "expected_pinyin": "xì cháng",
+      "reason": "長 means elongated in this adjective"
+    },
+    {
+      "lang": "zh",
+      "source": "修長",
+      "tts": "修CHANG2",
+      "expected_pinyin": "xiū cháng",
+      "reason": "長 means slender and long in this adjective"
+    },
+    {
+      "lang": "zh",
+      "source": "漫長",
+      "tts": "漫CHANG2",
+      "expected_pinyin": "màn cháng",
+      "reason": "長 means lengthy in this adjective"
+    },
+    {
+      "lang": "zh",
+      "source": "長袍",
+      "tts": "CHANG2袍",
+      "expected_pinyin": "cháng páo",
+      "reason": "長 means long in this garment name"
+    },
+    {
+      "lang": "zh",
+      "source": "長褲",
+      "tts": "CHANG2褲",
+      "expected_pinyin": "cháng kù",
+      "reason": "長 means long in this garment name"
+    },
+    {
+      "lang": "zh",
+      "source": "長劍",
+      "tts": "CHANG2劍",
+      "expected_pinyin": "cháng jiàn",
+      "reason": "長 means long in this weapon name"
+    },
+    {
+      "lang": "zh",
+      "source": "長靴",
+      "tts": "CHANG2靴",
+      "expected_pinyin": "cháng xuē",
+      "reason": "長 means long in this footwear name"
+    },
+    {
+      "lang": "zh",
+      "source": "長壽",
+      "tts": "CHANG2壽",
+      "expected_pinyin": "cháng shòu",
+      "reason": "長 means longevity in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "長舌",
+      "tts": "CHANG2舌",
+      "expected_pinyin": "cháng shé",
+      "reason": "長 means long-winded in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "長話",
+      "tts": "CHANG2話",
+      "expected_pinyin": "cháng huà",
+      "reason": "長 means lengthy in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "長相",
+      "tts": "CHANG2相",
+      "expected_pinyin": "cháng xiàng",
+      "reason": "長 means appearance in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "長存",
+      "tts": "CHANG2存",
+      "expected_pinyin": "cháng cún",
+      "reason": "長 means lasting in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "調整",
+      "tts": "TIAO2整",
+      "expected_pinyin": "tiáo zhěng",
+      "reason": "調 means adjust in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "調和",
+      "tts": "TIAO2和",
+      "expected_pinyin": "tiáo hé",
+      "reason": "調 means harmonize in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "調皮",
+      "tts": "TIAO2皮",
+      "expected_pinyin": "tiáo pí",
+      "reason": "Taiwan Mandarin reading of 調皮"
+    },
+    {
+      "lang": "zh",
+      "source": "調解",
+      "tts": "TIAO2解",
+      "expected_pinyin": "tiáo jiě",
+      "reason": "調 means mediate in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "調製",
+      "tts": "TIAO2製",
+      "expected_pinyin": "tiáo zhì",
+      "reason": "調 means mix or prepare in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "調侃",
+      "tts": "TIAO2侃",
+      "expected_pinyin": "tiáo kǎn",
+      "reason": "Taiwan Mandarin reading of 調侃"
+    },
+    {
+      "lang": "zh",
+      "source": "調校",
+      "tts": "TIAO2校",
+      "expected_pinyin": "tiáo jiào",
+      "reason": "調 means calibrate in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "音樂",
+      "tts": "音YUE4",
+      "expected_pinyin": "yīn yuè",
+      "reason": "樂 means music in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "樂器",
+      "tts": "YUE4器",
+      "expected_pinyin": "yuè qì",
+      "reason": "樂 means music in this instrument name"
+    },
+    {
+      "lang": "zh",
+      "source": "樂隊",
+      "tts": "YUE4隊",
+      "expected_pinyin": "yuè duì",
+      "reason": "樂 means music in this ensemble name"
+    },
+    {
+      "lang": "zh",
+      "source": "樂句",
+      "tts": "YUE4句",
+      "expected_pinyin": "yuè jù",
+      "reason": "樂 means music in this musical term"
+    },
+    {
+      "lang": "zh",
+      "source": "處理",
+      "tts": "CHU3理",
+      "expected_pinyin": "chǔ lǐ",
+      "reason": "處 means handle in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "處於",
+      "tts": "CHU3於",
+      "expected_pinyin": "chǔ yú",
+      "reason": "處 means be situated in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "處境",
+      "tts": "CHU3境",
+      "expected_pinyin": "chǔ jìng",
+      "reason": "處 means situation in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "相處",
+      "tts": "相CHU3",
+      "expected_pinyin": "xiāng chǔ",
+      "reason": "處 means get along in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "獨處",
+      "tts": "獨CHU3",
+      "expected_pinyin": "dú chǔ",
+      "reason": "處 means stay alone in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "幾乎",
+      "tts": "JI1乎",
+      "expected_pinyin": "jī hū",
+      "reason": "幾 means nearly in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "災難",
+      "tts": "災NAN4",
+      "expected_pinyin": "zāi nàn",
+      "reason": "難 means calamity in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "苦難",
+      "tts": "苦NAN4",
+      "expected_pinyin": "kǔ nàn",
+      "reason": "難 means suffering in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "受難",
+      "tts": "受NAN4",
+      "expected_pinyin": "shòu nàn",
+      "reason": "難 means suffer in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "落難",
+      "tts": "落NAN4",
+      "expected_pinyin": "luò nàn",
+      "reason": "難 means be in distress in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "船難",
+      "tts": "船NAN4",
+      "expected_pinyin": "chuán nàn",
+      "reason": "難 means disaster in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "答應",
+      "tts": "答YING4",
+      "expected_pinyin": "dā yìng",
+      "reason": "應 means agree in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "供應",
+      "tts": "供YING4",
+      "expected_pinyin": "gōng yìng",
+      "reason": "應 means supply in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "回應",
+      "tts": "回YING4",
+      "expected_pinyin": "huí yìng",
+      "reason": "應 means respond in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "應用",
+      "tts": "YING4用",
+      "expected_pinyin": "yìng yòng",
+      "reason": "應 means apply in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "對應",
+      "tts": "對YING4",
+      "expected_pinyin": "duì yìng",
+      "reason": "應 means correspond in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "報應",
+      "tts": "報YING4",
+      "expected_pinyin": "bào yìng",
+      "reason": "應 means retribution in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "適應",
+      "tts": "適YING4",
+      "expected_pinyin": "shì yìng",
+      "reason": "應 means adapt in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "應戰",
+      "tts": "YING4戰",
+      "expected_pinyin": "yìng zhàn",
+      "reason": "應 means meet or accept a challenge in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "還給",
+      "tts": "HUAN2給",
+      "expected_pinyin": "huán gěi",
+      "reason": "還 means return in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "交還",
+      "tts": "交HUAN2",
+      "expected_pinyin": "jiāo huán",
+      "reason": "還 means return in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "還錢",
+      "tts": "HUAN2錢",
+      "expected_pinyin": "huán qián",
+      "reason": "還 means repay in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "償還",
+      "tts": "償HUAN2",
+      "expected_pinyin": "cháng huán",
+      "reason": "還 means repay in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "歸還",
+      "tts": "歸HUAN2",
+      "expected_pinyin": "guī huán",
+      "reason": "還 means return in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "耕種",
+      "tts": "耕ZHONG4",
+      "expected_pinyin": "gēng zhòng",
+      "reason": "種 means cultivate in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "種植",
+      "tts": "ZHONG4植",
+      "expected_pinyin": "zhòng zhí",
+      "reason": "種 means plant in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "種下",
+      "tts": "ZHONG4下",
+      "expected_pinyin": "zhòng xià",
+      "reason": "種 means plant in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "結實",
+      "tts": "JIE1實",
+      "expected_pinyin": "jiē shi",
+      "reason": "結 means become solid in this adjective"
+    },
+    {
+      "lang": "zh",
+      "source": "結結",
+      "tts": "JIE1 JIE1",
+      "expected_pinyin": "jiē jiē",
+      "reason": "結 means stammer in this reduplicated expression"
+    },
+    {
+      "lang": "zh",
+      "source": "運轉",
+      "tts": "運ZHUAN4",
+      "expected_pinyin": "yùn zhuàn",
+      "reason": "轉 means rotate or operate in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "打轉",
+      "tts": "打ZHUAN4",
+      "expected_pinyin": "dǎ zhuàn",
+      "reason": "轉 means spin in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "轉圈",
+      "tts": "ZHUAN4圈",
+      "expected_pinyin": "zhuàn quān",
+      "reason": "轉 means spin in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "轉動",
+      "tts": "ZHUAN4動",
+      "expected_pinyin": "zhuàn dòng",
+      "reason": "轉 means rotate in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "睡覺",
+      "tts": "睡JIAO4",
+      "expected_pinyin": "shuì jiào",
+      "reason": "Modern Taiwan Mandarin reading of 睡覺"
+    },
+    {
+      "lang": "zh",
+      "source": "午覺",
+      "tts": "午JIAO4",
+      "expected_pinyin": "wǔ jiào",
+      "reason": "Modern Taiwan Mandarin reading of 午覺"
+    },
+    {
+      "lang": "zh",
+      "source": "繃帶",
+      "tts": "BENG1帶",
+      "expected_pinyin": "bēng dài",
+      "reason": "Taiwan Mandarin reading of 繃帶"
+    },
+    {
+      "lang": "zh",
+      "source": "繃緊",
+      "tts": "BENG1緊",
+      "expected_pinyin": "bēng jǐn",
+      "reason": "Taiwan Mandarin reading of 繃緊"
+    },
+    {
+      "lang": "zh",
+      "source": "強迫",
+      "tts": "QIANG3迫",
+      "expected_pinyin": "qiǎng pò",
+      "reason": "強 means force in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "勉強",
+      "tts": "勉QIANG3",
+      "expected_pinyin": "miǎn qiǎng",
+      "reason": "強 means reluctantly or barely in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "強求",
+      "tts": "QIANG3求",
+      "expected_pinyin": "qiǎng qiú",
+      "reason": "強 means force in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "強勁",
+      "tts": "QIANG2 JING4",
+      "expected_pinyin": "qiáng jìng",
+      "reason": "Taiwan Mandarin reading of 強勁"
+    },
+    {
+      "lang": "zh",
+      "source": "裁縫",
+      "tts": "裁FENG2",
+      "expected_pinyin": "cái féng",
+      "reason": "縫 means sew in this occupation name"
+    },
+    {
+      "lang": "zh",
+      "source": "縫製",
+      "tts": "FENG2製",
+      "expected_pinyin": "féng zhì",
+      "reason": "縫 means sew in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "縫補",
+      "tts": "FENG2補",
+      "expected_pinyin": "féng bǔ",
+      "reason": "縫 means mend in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "縫啊縫",
+      "tts": "FENG2啊FENG2",
+      "expected_pinyin": "féng a féng",
+      "reason": "縫 means sew in this repeated action"
+    },
+    {
+      "lang": "zh",
+      "source": "憑藉",
+      "tts": "憑JIE4",
+      "expected_pinyin": "píng jiè",
+      "reason": "藉 means rely on in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "藉此",
+      "tts": "JIE4此",
+      "expected_pinyin": "jiè cǐ",
+      "reason": "藉 means use or take advantage of in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "慰藉",
+      "tts": "慰JIE4",
+      "expected_pinyin": "wèi jiè",
+      "reason": "Taiwan Mandarin reading of 慰藉"
+    },
+    {
+      "lang": "zh",
+      "source": "藉口",
+      "tts": "JIE4口",
+      "expected_pinyin": "jiè kǒu",
+      "reason": "Taiwan Mandarin reading of 藉口"
+    },
+    {
+      "lang": "zh",
+      "source": "記載",
+      "tts": "記ZAI3",
+      "expected_pinyin": "jì zǎi",
+      "reason": "載 means record in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "彈琴",
+      "tts": "TAN2琴",
+      "expected_pinyin": "tán qín",
+      "reason": "彈 means play an instrument in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "彈奏",
+      "tts": "TAN2奏",
+      "expected_pinyin": "tán zòu",
+      "reason": "彈 means play music in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "彈唱",
+      "tts": "TAN2唱",
+      "expected_pinyin": "tán chàng",
+      "reason": "彈 means play and sing in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "彈性",
+      "tts": "TAN2性",
+      "expected_pinyin": "tán xìng",
+      "reason": "彈 means elastic in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "籠罩",
+      "tts": "LONG3罩",
+      "expected_pinyin": "lǒng zhào",
+      "reason": "籠 means cover or envelop in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "數不清",
+      "tts": "SHU3不清",
+      "expected_pinyin": "shǔ bù qīng",
+      "reason": "數 means count in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "數道",
+      "tts": "SHU3道",
+      "expected_pinyin": "shǔ dào",
+      "reason": "數 means count in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "數人數",
+      "tts": "SHU3人SHU4",
+      "expected_pinyin": "shǔ rén shù",
+      "reason": "The first 數 is count and the second is number"
+    },
+    {
+      "lang": "zh",
+      "source": "可惡",
+      "tts": "可WU4",
+      "expected_pinyin": "kě wù",
+      "reason": "惡 means hateful in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "憎惡",
+      "tts": "憎WU4",
+      "expected_pinyin": "zēng wù",
+      "reason": "惡 means hate in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "厭惡",
+      "tts": "厭WU4",
+      "expected_pinyin": "yàn wù",
+      "reason": "惡 means detest in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "成為",
+      "tts": "成WEI2",
+      "expected_pinyin": "chéng wéi",
+      "reason": "為 means become in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "認為",
+      "tts": "認WEI2",
+      "expected_pinyin": "rèn wéi",
+      "reason": "為 means think in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "以為",
+      "tts": "以WEI2",
+      "expected_pinyin": "yǐ wéi",
+      "reason": "為 means believe in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "作為",
+      "tts": "作WEI2",
+      "expected_pinyin": "zuò wéi",
+      "reason": "為 means serve as in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "稱為",
+      "tts": "稱WEI2",
+      "expected_pinyin": "chēng wéi",
+      "reason": "為 means be called in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "譽為",
+      "tts": "譽WEI2",
+      "expected_pinyin": "yù wéi",
+      "reason": "為 means be praised as in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "轉為",
+      "tts": "轉WEI2",
+      "expected_pinyin": "zhuǎn wéi",
+      "reason": "為 means become in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "為止",
+      "tts": "WEI2止",
+      "expected_pinyin": "wéi zhǐ",
+      "reason": "為 means until in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "代為",
+      "tts": "代WEI2",
+      "expected_pinyin": "dài wéi",
+      "reason": "為 means on behalf of in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "為力",
+      "tts": "WEI2力",
+      "expected_pinyin": "wéi lì",
+      "reason": "為 means do in the expression 無能為力"
+    },
+    {
+      "lang": "zh",
+      "source": "為非",
+      "tts": "WEI2非",
+      "expected_pinyin": "wéi fēi",
+      "reason": "為 means act in 為非作歹"
+    },
+    {
+      "lang": "zh",
+      "source": "極為",
+      "tts": "極WEI2",
+      "expected_pinyin": "jí wéi",
+      "reason": "為 means extremely in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "至為",
+      "tts": "至WEI2",
+      "expected_pinyin": "zhì wéi",
+      "reason": "為 means extremely in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "行為",
+      "tts": "行WEI2",
+      "expected_pinyin": "xíng wéi",
+      "reason": "為 means conduct in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "盡力",
+      "tts": "JIN4力",
+      "expected_pinyin": "jìn lì",
+      "reason": "盡 means do one's utmost in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "盡責",
+      "tts": "JIN4責",
+      "expected_pinyin": "jìn zé",
+      "reason": "盡 means fulfill in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "耗盡",
+      "tts": "耗JIN4",
+      "expected_pinyin": "hào jìn",
+      "reason": "盡 means exhaust in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "盡頭",
+      "tts": "JIN4頭",
+      "expected_pinyin": "jìn tóu",
+      "reason": "盡 means end in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "盡興",
+      "tts": "JIN4興",
+      "expected_pinyin": "jìn xìng",
+      "reason": "盡 means enjoy oneself fully in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "盡快",
+      "tts": "JIN3快",
+      "expected_pinyin": "jǐn kuài",
+      "reason": "盡 means as soon as possible in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "盡量",
+      "tts": "JIN3量",
+      "expected_pinyin": "jǐn liàng",
+      "reason": "盡 means as much as possible in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "盡可能",
+      "tts": "JIN3可能",
+      "expected_pinyin": "jǐn kě néng",
+      "reason": "盡 means as much as possible in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "盡我所能",
+      "tts": "JIN4我所能",
+      "expected_pinyin": "jìn wǒ suǒ néng",
+      "reason": "盡 means do one's utmost in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "使盡",
+      "tts": "使JIN4",
+      "expected_pinyin": "shǐ jìn",
+      "reason": "盡 means use up in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "重啟",
+      "tts": "CHONG2啟",
+      "expected_pinyin": "chóng qǐ",
+      "reason": "重 means again in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "重複",
+      "tts": "CHONG2複",
+      "expected_pinyin": "chóng fù",
+      "reason": "重 means again in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "重新",
+      "tts": "CHONG2新",
+      "expected_pinyin": "chóng xīn",
+      "reason": "重 means again in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "重聚",
+      "tts": "CHONG2聚",
+      "expected_pinyin": "chóng jù",
+      "reason": "重 means again in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "重返",
+      "tts": "CHONG2返",
+      "expected_pinyin": "chóng fǎn",
+      "reason": "重 means again in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "冠軍",
+      "tts": "GUAN4軍",
+      "expected_pinyin": "guàn jūn",
+      "reason": "Taiwan Mandarin reading of 冠軍"
+    },
+    {
+      "lang": "zh",
+      "source": "銀行",
+      "tts": "銀HANG2",
+      "expected_pinyin": "yín háng",
+      "reason": "行 means bank in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "行業",
+      "tts": "HANG2業",
+      "expected_pinyin": "háng yè",
+      "reason": "行 means industry in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "行會",
+      "tts": "HANG2會",
+      "expected_pinyin": "háng huì",
+      "reason": "行 means guild in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "恰當",
+      "tts": "恰DANG4",
+      "expected_pinyin": "qià dàng",
+      "reason": "當 means appropriate in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "當作",
+      "tts": "DANG4作",
+      "expected_pinyin": "dàng zuò",
+      "reason": "當 means regard as in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "當做",
+      "tts": "DANG4做",
+      "expected_pinyin": "dàng zuò",
+      "reason": "當 means regard as in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "當成",
+      "tts": "DANG4成",
+      "expected_pinyin": "dàng chéng",
+      "reason": "當 means regard as in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "寶藏",
+      "tts": "寶ZANG4",
+      "expected_pinyin": "bǎo zàng",
+      "reason": "藏 means treasure in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "藏身",
+      "tts": "CANG2身",
+      "expected_pinyin": "cáng shēn",
+      "reason": "藏 means hide in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "藏在",
+      "tts": "CANG2在",
+      "expected_pinyin": "cáng zài",
+      "reason": "藏 means hide in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "藏起",
+      "tts": "CANG2起",
+      "expected_pinyin": "cáng qǐ",
+      "reason": "藏 means hide in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "藏著",
+      "tts": "CANG2著",
+      "expected_pinyin": "cáng zhe",
+      "reason": "藏 means hide in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "隱藏",
+      "tts": "隱CANG2",
+      "expected_pinyin": "yǐn cáng",
+      "reason": "藏 means hide in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "埋藏",
+      "tts": "埋CANG2",
+      "expected_pinyin": "mái cáng",
+      "reason": "藏 means hide in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "收藏",
+      "tts": "收CANG2",
+      "expected_pinyin": "shōu cáng",
+      "reason": "藏 means collect in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "角色",
+      "tts": "JUE2色",
+      "expected_pinyin": "jué sè",
+      "reason": "角 means role in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "率領",
+      "tts": "SHUAI4領",
+      "expected_pinyin": "shuài lǐng",
+      "reason": "率 means lead in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "長睫毛",
+      "tts": "CHANG2睫毛",
+      "expected_pinyin": "cháng jié máo",
+      "reason": "長 means long in this physical-description phrase"
+    },
+    {
+      "lang": "zh",
+      "source": "長凳",
+      "tts": "CHANG2凳",
+      "expected_pinyin": "cháng dèng",
+      "reason": "長 means long in this object name"
+    },
+    {
+      "lang": "zh",
+      "source": "長長",
+      "tts": "CHANG2 CHANG2",
+      "expected_pinyin": "cháng cháng",
+      "reason": "Both instances of 長 mean long in this reduplicated description"
+    },
+    {
+      "lang": "zh",
+      "source": "長兩倍",
+      "tts": "CHANG2兩倍",
+      "expected_pinyin": "cháng liǎng bèi",
+      "reason": "長 means long when comparing physical length"
+    },
+    {
+      "lang": "zh",
+      "source": "太長",
+      "tts": "太CHANG2",
+      "expected_pinyin": "tài cháng",
+      "reason": "長 means long in this duration or length comparison"
+    },
+    {
+      "lang": "zh",
+      "source": "售價為",
+      "tts": "售價WEI2",
+      "expected_pinyin": "shòu jià wéi",
+      "reason": "為 is the copula in a price statement"
+    },
+    {
+      "lang": "zh",
+      "source": "價格為",
+      "tts": "價格WEI2",
+      "expected_pinyin": "jià gé wéi",
+      "reason": "為 is the copula in a price statement"
+    },
+    {
+      "lang": "zh",
+      "source": "發音為",
+      "tts": "發音WEI2",
+      "expected_pinyin": "fā yīn wéi",
+      "reason": "為 is the copula in a pronunciation statement"
+    },
+    {
+      "lang": "zh",
+      "source": "設定為",
+      "tts": "設定WEI2",
+      "expected_pinyin": "shè dìng wéi",
+      "reason": "為 is the copula in a configuration statement"
+    },
+    {
+      "lang": "zh",
+      "source": "設置為",
+      "tts": "設置WEI2",
+      "expected_pinyin": "shè zhì wéi",
+      "reason": "為 is the copula in a configuration statement"
+    },
+    {
+      "lang": "zh",
+      "source": "替換為",
+      "tts": "替換WEI2",
+      "expected_pinyin": "tì huàn wéi",
+      "reason": "為 is the copula after a replacement operation"
+    },
+    {
+      "lang": "zh",
+      "source": "轉化為",
+      "tts": "轉化WEI2",
+      "expected_pinyin": "zhuǎn huà wéi",
+      "reason": "為 is the copula after a transformation"
+    },
+    {
+      "lang": "zh",
+      "source": "轉變為",
+      "tts": "轉變WEI2",
+      "expected_pinyin": "zhuǎn biàn wéi",
+      "reason": "為 is the copula after a transformation"
+    },
+    {
+      "lang": "zh",
+      "source": "名為",
+      "tts": "名WEI2",
+      "expected_pinyin": "míng wéi",
+      "reason": "為 is the copula in a naming phrase"
+    },
+    {
+      "lang": "zh",
+      "source": "稱我為",
+      "tts": "稱我WEI2",
+      "expected_pinyin": "chēng wǒ wéi",
+      "reason": "為 is the copula in a title or naming phrase"
+    },
+    {
+      "lang": "zh",
+      "source": "被列為",
+      "tts": "被列WEI2",
+      "expected_pinyin": "bèi liè wéi",
+      "reason": "為 is the copula in a classification phrase"
+    },
+    {
+      "lang": "zh",
+      "source": "身為",
+      "tts": "身WEI2",
+      "expected_pinyin": "shēn wéi",
+      "reason": "為 means as or in the capacity of in this phrase"
+    },
+    {
+      "lang": "zh",
+      "source": "廣為",
+      "tts": "廣WEI2",
+      "expected_pinyin": "guǎng wéi",
+      "reason": "為 is the verb in this fixed phrase"
+    },
+    {
+      "lang": "zh",
+      "source": "更為",
+      "tts": "更WEI2",
+      "expected_pinyin": "gèng wéi",
+      "reason": "為 is the copula in this comparative phrase"
+    },
+    {
+      "lang": "zh",
+      "source": "最為",
+      "tts": "最WEI2",
+      "expected_pinyin": "zuì wéi",
+      "reason": "為 is the copula in this superlative phrase"
+    },
+    {
+      "lang": "zh",
+      "source": "譯為",
+      "tts": "譯WEI2",
+      "expected_pinyin": "yì wéi",
+      "reason": "為 is the copula after a translation description"
+    },
+    {
+      "lang": "zh",
+      "source": "為證",
+      "tts": "WEI2證",
+      "expected_pinyin": "wéi zhèng",
+      "reason": "為 means as evidence in this fixed phrase"
+    },
+    {
+      "lang": "zh",
+      "source": "為所欲為",
+      "tts": "WEI2所欲WEI2",
+      "expected_pinyin": "wéi suǒ yù wéi",
+      "reason": "Both instances of 為 are wéi in this fixed idiom"
+    },
+    {
+      "lang": "zh",
+      "source": "故事為",
+      "tts": "故事WEI2",
+      "expected_pinyin": "gù shì wéi",
+      "reason": "為 is the copula when naming or describing a story"
+    },
+    {
+      "lang": "zh",
+      "source": "盡了責",
+      "tts": "JIN4了責",
+      "expected_pinyin": "jìn le zé",
+      "reason": "盡 means fulfill in this separated form of 盡責"
+    },
+    {
+      "lang": "zh",
+      "source": "受盡",
+      "tts": "受JIN4",
+      "expected_pinyin": "shòu jìn",
+      "reason": "盡 means completely or to exhaustion after 受"
+    },
+    {
+      "lang": "zh",
+      "source": "盡你所能",
+      "tts": "JIN4你所能",
+      "expected_pinyin": "jìn nǐ suǒ néng",
+      "reason": "盡 means do one's utmost in this expression"
+    },
+    {
+      "lang": "zh",
+      "source": "懂行",
+      "tts": "懂HANG2",
+      "expected_pinyin": "dǒng háng",
+      "reason": "行 means trade or professional expertise in this phrase"
+    },
+    {
+      "lang": "zh",
+      "source": "「..對對對..」",
+      "tts": "DUI4 DUI4 DUI4",
+      "expected_pinyin": "duì duì duì",
+      "reason": "Strip punctuation-only padding so OmniVoice renders this short repeated phrase"
     }
   ]
 }

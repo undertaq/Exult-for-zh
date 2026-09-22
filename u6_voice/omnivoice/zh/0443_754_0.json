@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_stelnar_ce28ec03",
+  "lang": "zh",
+  "text": "再見..。",
+  "tts_text": "再見..。",
+  "override_revision": null,
+  "rendered_text": "再見..\n。",
+  "fallback_used": false,
+  "npc": "Stelnar",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_stelnar_ce28ec03_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Stelnar。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:8aa59de741412884b1b21946e04369e2be133a793876f749656dc3cfa2bea096",
+  "reference_sha256": "c39709e9f07d88e2394f951756e84973ff2d472b6bedfa68182a1b0442ad85a2",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "再見..",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_stelnar_ce28ec03_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Stelnar。今天你为何来到这片土地？",
+      "reference_id": "u6_stelnar_ce28ec03",
+      "reference_sha256": "c39709e9f07d88e2394f951756e84973ff2d472b6bedfa68182a1b0442ad85a2",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 308849378,
+  "sample_rate": 24000,
+  "duration_seconds": 1.6,
+  "sha256": "bd0f1bc4f7fdd51764ca3438152d5a7b700fdc7eb85ad4287ee350549e50036f",
+  "func_id": "0443",
+  "offset_key": "754",
+  "segment": 0,
+  "rendered_parts": [
+    "再見..",
+    "。"
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_wanda_950fada6",
+  "lang": "zh",
+  "text": ", 你是在影射什麼嗎？ 她 burst 出一陣嬌笑。",
+  "tts_text": ", 你是在影射什麼嗎？ 她 burst 出一陣嬌笑。",
+  "override_revision": null,
+  "rendered_text": ", 你是在影射什麼嗎？\n她 burst 出一陣嬌笑。",
+  "fallback_used": false,
+  "npc": "Wanda",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_wanda_950fada6_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Wanda。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:2502d37e960d157c887cdbb4cb426a4371a49b09baa83ac83eb2b525de04ea4f",
+  "reference_sha256": "7534fc6b7a39005e865399141cf1f25fbac09ce8f22507dee592565ee9f5d338",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": ", 你是在影射什麼嗎？",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_wanda_950fada6_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Wanda。今天你为何来到这片土地？",
+      "reference_id": "u6_wanda_950fada6",
+      "reference_sha256": "7534fc6b7a39005e865399141cf1f25fbac09ce8f22507dee592565ee9f5d338",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "她 burst 出一陣嬌笑。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2194034820,
+  "sample_rate": 24000,
+  "duration_seconds": 4.3,
+  "sha256": "23baea4051e908c62f9a7f33d70ee1888cd7b7c8744373419ed5e43335cbd63a",
+  "func_id": "0431",
+  "offset_key": "24b",
+  "segment": 0,
+  "rendered_parts": [
+    ", 你是在影射什麼嗎？",
+    "她 burst 出一陣嬌笑。"
+  ]
+}

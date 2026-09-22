@@ -1,0 +1,69 @@
+{
+  "status": "generated",
+  "design_id": "npc_avatar_male",
+  "lang": "zh",
+  "text": "「Drudgeworth 向你致意...」，你平靜地說道，同時將彎刀刺入 Chuckles 的腹部。他的眼中滿是恐懼，咳出鮮血，倒在你面前。",
+  "tts_text": "「Drudgeworth 向你致意...」，你平靜地說道，同時將彎刀刺入 Chuckles 的腹部。他的眼中滿是恐懼，咳出鮮血，倒在你面前。",
+  "override_revision": null,
+  "rendered_text": "「\nDrudgeworth 向你致意...\n」，你平靜地說道，同時將彎刀刺入 Chuckles 的腹部。他的眼中滿是恐懼，咳出鮮血，倒在你面前。",
+  "fallback_used": false,
+  "npc": "Avatar",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:31e30c9b8e438ef15ca019270611123ebccdff529245193c5ac07d9e9895eb50",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "「",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "Drudgeworth 向你致意...",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_avatar_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_avatar_male",
+      "reference_sha256": "1999d8a701333e11ec525056bdfb23b87dcdc991957160eb677267f8f29e9197",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "」，你平靜地說道，同時將彎刀刺入 Chuckles 的腹部。他的眼中滿是恐懼，咳出鮮血，倒在你面前。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": "male",
+  "variant": "avatar_male",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2836991400,
+  "sample_rate": 24000,
+  "duration_seconds": 14.0,
+  "sha256": "676aae85064d8f778567eee5a1c50331e3eff0d8683b23e69ab3b96cdfd3487c",
+  "func_id": "0437",
+  "offset_key": "39c",
+  "segment": 0,
+  "rendered_parts": [
+    "「",
+    "Drudgeworth 向你致意...",
+    "」，你平靜地說道，同時將彎刀刺入 Chuckles 的腹部。他的眼中滿是恐懼，咳出鮮血，倒在你面前。"
+  ]
+}

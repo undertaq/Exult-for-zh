@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_lynn_eca236cd",
+  "lang": "zh",
+  "text": "遞給了你。感謝你的惠顧。",
+  "tts_text": "遞給了你。感謝你的惠顧。",
+  "override_revision": null,
+  "rendered_text": "遞給了你。\n感謝你的惠顧。",
+  "fallback_used": false,
+  "npc": "Lynn",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:aef28f2f64f8eee1fa7d21674807b8bfb8e8e2587ca5c27653ab101869e42ad5",
+  "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "遞給了你。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "感謝你的惠顧。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_lynn_eca236cd_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Lynn。今天你为何来到这片土地？",
+      "reference_id": "u6_lynn_eca236cd",
+      "reference_sha256": "89e6a8452353204efd1c6a55a57198367dfd2e7040738b73deeae7cbb498f27f",
+      "instruct": "女, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3101326445,
+  "sample_rate": 24000,
+  "duration_seconds": 3.32,
+  "sha256": "36c5870751b3ee5c8acca030a21ff395dd184158b1ff6447db2d2221f35ba0ce",
+  "func_id": "0421",
+  "offset_key": "138",
+  "segment": 0,
+  "rendered_parts": [
+    "遞給了你。",
+    "感謝你的惠顧。"
+  ]
+}

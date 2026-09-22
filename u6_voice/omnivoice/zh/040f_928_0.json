@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_andrea_253387e8",
+  "lang": "zh",
+  "text": "她把你上上下下打量了一番，然後摸了摸你的手臂。想來一場嗎？",
+  "tts_text": "她把你上上下下打量了一番，然後摸了摸你的手臂。想來一場嗎？",
+  "override_revision": null,
+  "rendered_text": "她把你上上下下打量了一番，然後摸了摸你的手臂。\n想來一場嗎？",
+  "fallback_used": false,
+  "npc": "Andrea",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:0d52809d4c3db43f6ff4985112665c2dcebd50e477484f90cc640ffdb5c54f56",
+  "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "她把你上上下下打量了一番，然後摸了摸你的手臂。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "想來一場嗎？",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_andrea_253387e8_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Andrea。今天你为何来到这片土地？",
+      "reference_id": "u6_andrea_253387e8",
+      "reference_sha256": "e42dcbc877d4a6e15c9f9497567f80a9320aafc30418311c557c9acadf9d9b3f",
+      "instruct": "女, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1182462218,
+  "sample_rate": 24000,
+  "duration_seconds": 6.68,
+  "sha256": "fa5614cdd849e97e4cb9b7c85acf683d7f156a4fdad8963525ab1d53235520d3",
+  "func_id": "040f",
+  "offset_key": "928",
+  "segment": 0,
+  "rendered_parts": [
+    "她把你上上下下打量了一番，然後摸了摸你的手臂。",
+    "想來一場嗎？"
+  ]
+}

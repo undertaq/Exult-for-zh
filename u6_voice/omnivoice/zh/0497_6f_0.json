@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_ephemerides_fcd41c9b",
+  "lang": "zh",
+  "text": "Ephemerides 看著你。 這需要的金幣比你擁有的多。",
+  "tts_text": "Ephemerides 看著你。 這需要的金幣比你擁有的多。",
+  "override_revision": null,
+  "rendered_text": "Ephemerides 看著你。\n這需要的金幣比你擁有的多。",
+  "fallback_used": false,
+  "npc": "Ephemerides",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:4b0a25fff6464ef6f5c405263bc6beb04ea9c38ed2fa424e4e16707c99e2c7fe",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "Ephemerides 看著你。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "這需要的金幣比你擁有的多。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_ephemerides_fcd41c9b_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Ephemerides。今天你为何来到这片土地？",
+      "reference_id": "u6_ephemerides_fcd41c9b",
+      "reference_sha256": "fe5f491769aa6cde1322e8ff833a09cad4692b04274f2472355123e0fe132a44",
+      "instruct": "男, 老年, 低音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2239004745,
+  "sample_rate": 24000,
+  "duration_seconds": 5.04,
+  "sha256": "54263905a60239be3717e64327a6f8190c70af1d9d6b8f75e51a0e52cdc59ec3",
+  "func_id": "0497",
+  "offset_key": "6f",
+  "segment": 0,
+  "rendered_parts": [
+    "Ephemerides 看著你。",
+    "這需要的金幣比你擁有的多。"
+  ]
+}

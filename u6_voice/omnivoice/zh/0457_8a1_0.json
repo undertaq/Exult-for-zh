@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_gwenno_a33727fa",
+  "lang": "zh",
+  "text": "噢，是 Selganor 派你來的嗎？我猜你是想學『Stones.",
+  "tts_text": "噢，是 Selganor 派你來的嗎？我猜你是想學『Stones.",
+  "override_revision": null,
+  "rendered_text": "噢，是 Selganor 派你來的嗎？我猜你是想學『\nStones.",
+  "fallback_used": false,
+  "npc": "Gwenno",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_gwenno_a33727fa_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Gwenno。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:e67314d47f2e693b34820bee02491e32ab66d9fd239f95533e5fa1dd12770fc9",
+  "reference_sha256": "b8fd7b3838c7e9f1dd5b636174e00f3f7f441c5c5bb2ae7fd0af0c9a9df207d5",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "噢，是 Selganor 派你來的嗎？我猜你是想學『",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_gwenno_a33727fa_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Gwenno。今天你为何来到这片土地？",
+      "reference_id": "u6_gwenno_a33727fa",
+      "reference_sha256": "b8fd7b3838c7e9f1dd5b636174e00f3f7f441c5c5bb2ae7fd0af0c9a9df207d5",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "Stones.",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 859320709,
+  "sample_rate": 24000,
+  "duration_seconds": 4.97,
+  "sha256": "70c0c7370e0d4ec8f1bbd58dbe8522f4af6c74ab7a6e991a9898ebf208c60275",
+  "func_id": "0457",
+  "offset_key": "8a1",
+  "segment": 0,
+  "rendered_parts": [
+    "噢，是 Selganor 派你來的嗎？我猜你是想學『",
+    "Stones."
+  ]
+}

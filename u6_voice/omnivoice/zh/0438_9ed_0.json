@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_taynith_badd5ae4",
+  "lang": "zh",
+  "text": "Taynith 皺起眉頭。我無法解讀這個圖案。恐怕你必須自己去尋找其中的意義。",
+  "tts_text": "Taynith 皺起眉頭。我無法解讀這個圖案。恐怕你必須自己去尋找其中的意義。",
+  "override_revision": null,
+  "rendered_text": "Taynith 皺起眉頭。\n我無法解讀這個圖案。恐怕你必須自己去尋找其中的意義。",
+  "fallback_used": false,
+  "npc": "Taynith",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:41b74f22e4786b8cad0eefd338ee2c1abe26f9a85b437a41abd6364a5d3fff68",
+  "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "Taynith 皺起眉頭。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "我無法解讀這個圖案。恐怕你必須自己去尋找其中的意義。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_taynith_badd5ae4_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Taynith。今天你为何来到这片土地？",
+      "reference_id": "u6_taynith_badd5ae4",
+      "reference_sha256": "bdcedd83fdb538755cfb40a150ad225098888c1b61274398ce812a32ac109081",
+      "instruct": "女, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2097854760,
+  "sample_rate": 24000,
+  "duration_seconds": 6.85,
+  "sha256": "2b0a1fe38448e46194d3ae3ba69e112c409cdd601a999a723826c3217b898f4e",
+  "func_id": "0438",
+  "offset_key": "9ed",
+  "segment": 0,
+  "rendered_parts": [
+    "Taynith 皺起眉頭。",
+    "我無法解讀這個圖案。恐怕你必須自己去尋找其中的意義。"
+  ]
+}

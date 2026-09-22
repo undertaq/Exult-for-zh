@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_ariana_94227eed",
+  "lang": "zh",
+  "text": "小女孩臉上綻放出足以照亮整個房間的笑容。真的嗎？我非常喜歡。",
+  "tts_text": "小女孩臉上綻放出足以照亮整個房間的笑容。真的嗎？我非常喜歡。",
+  "override_revision": null,
+  "rendered_text": "小女孩臉上綻放出足以照亮整個房間的笑容。\n真的嗎？我非常喜歡。",
+  "fallback_used": false,
+  "npc": "Ariana",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:b4606b6b4fe67d29e555296212f0c37aaef30c8ee401aff331651171be50ce77",
+  "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "小女孩臉上綻放出足以照亮整個房間的笑容。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "真的嗎？我非常喜歡。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_ariana_94227eed_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Ariana。今天你为何来到这片土地？",
+      "reference_id": "u6_ariana_94227eed",
+      "reference_sha256": "8199b5452bf642479430daf804e9ef1522fd435de283ba9c87c0fc967e47b2af",
+      "instruct": "女, 青年, 高音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3069986592,
+  "sample_rate": 24000,
+  "duration_seconds": 7.12,
+  "sha256": "93b4c7488e13e47226c47040f65e3fb16c00d8f05088174b64d8714037396a9a",
+  "func_id": "0418",
+  "offset_key": "43f",
+  "segment": 0,
+  "rendered_parts": [
+    "小女孩臉上綻放出足以照亮整個房間的笑容。",
+    "真的嗎？我非常喜歡。"
+  ]
+}

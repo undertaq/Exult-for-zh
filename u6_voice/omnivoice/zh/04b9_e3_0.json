@@ -1,0 +1,69 @@
+{
+  "status": "generated",
+  "design_id": "u6_foodmaker_6c91c088",
+  "lang": "zh",
+  "text": "An-bal-sil-fer! 石像鬼大喊。Gres por! Gres por!",
+  "tts_text": "An-bal-sil-fer! 石像鬼大喊。Gres por! Gres por!",
+  "override_revision": null,
+  "rendered_text": "An-bal-sil-fer!\n石像鬼大喊。\nGres por! Gres por!",
+  "fallback_used": false,
+  "npc": "Foodmaker",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_foodmaker_6c91c088_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Foodmaker。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:5a68cb7b23ade0ddb1794a737c6f0f8bbb894483b683ff47b1d29f874a3d36e8",
+  "reference_sha256": "2a5ef184b24b21b1c47f2604ddac52b48a93e89924eef118ba926a0280c2a412",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "An-bal-sil-fer!",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_foodmaker_6c91c088_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Foodmaker。今天你为何来到这片土地？",
+      "reference_id": "u6_foodmaker_6c91c088",
+      "reference_sha256": "2a5ef184b24b21b1c47f2604ddac52b48a93e89924eef118ba926a0280c2a412",
+      "instruct": "极低音调"
+    },
+    {
+      "role": "narrator",
+      "text": "石像鬼大喊。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "Gres por! Gres por!",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_foodmaker_6c91c088_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Foodmaker。今天你为何来到这片土地？",
+      "reference_id": "u6_foodmaker_6c91c088",
+      "reference_sha256": "2a5ef184b24b21b1c47f2604ddac52b48a93e89924eef118ba926a0280c2a412",
+      "instruct": "极低音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3491204683,
+  "sample_rate": 24000,
+  "duration_seconds": 4.98,
+  "sha256": "7bd99d3ded39192d677a169c1116bfd8045e5b8a662aca9a2bf4f06feb82bfe4",
+  "func_id": "04b9",
+  "offset_key": "e3",
+  "segment": 0,
+  "rendered_parts": [
+    "An-bal-sil-fer!",
+    "石像鬼大喊。",
+    "Gres por! Gres por!"
+  ]
+}

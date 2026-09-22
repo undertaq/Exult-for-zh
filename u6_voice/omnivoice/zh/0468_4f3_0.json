@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_mandrake_9b853e86",
+  "lang": "zh",
+  "text": "它在海盜巢穴 - 膽小鬼不適合去那裡。",
+  "tts_text": "它在海盜巢穴 - 膽小鬼不適合去那裡。",
+  "override_revision": null,
+  "rendered_text": "它在\n海盜巢穴 - 膽小鬼不適合去那裡。",
+  "fallback_used": false,
+  "npc": "Mandrake",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_mandrake_9b853e86_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Mandrake。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:68608067bb50fe8cd3c221374960a972648ced4353c236e759d45f348a72fc67",
+  "reference_sha256": "10212c02c601c9907a016447189b9b239ae4286f5e1d85afd7470b066bd44fd3",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "它在",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_mandrake_9b853e86_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Mandrake。今天你为何来到这片土地？",
+      "reference_id": "u6_mandrake_9b853e86",
+      "reference_sha256": "10212c02c601c9907a016447189b9b239ae4286f5e1d85afd7470b066bd44fd3",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "海盜巢穴 - 膽小鬼不適合去那裡。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2063096254,
+  "sample_rate": 24000,
+  "duration_seconds": 6.04,
+  "sha256": "c0b03e25da3aa458b25e238d513bc5af1f744718cad20037327f4f1db5530a5b",
+  "func_id": "0468",
+  "offset_key": "4f3",
+  "segment": 0,
+  "rendered_parts": [
+    "它在",
+    "海盜巢穴 - 膽小鬼不適合去那裡。"
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_papa_4959de6e",
+  "lang": "zh",
+  "text": "沒有魚？ 獨眼巨人看起來很難過。",
+  "tts_text": "沒有魚？ 獨眼巨人看起來很難過。",
+  "override_revision": null,
+  "rendered_text": "沒有魚？\n獨眼巨人看起來很難過。",
+  "fallback_used": false,
+  "npc": "Papa",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/voice/refs/npc_papa_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:4cd88d09a5c629fe7a07bbbf19eefd5478f7048c36db2b776c328e7962ee65f9",
+  "reference_sha256": "90dc12be2629090792cccc4b6ea783a7190127a33aba7d561bbf8703fcf2d3a5",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "沒有魚？",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_papa_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_papa",
+      "reference_sha256": "90dc12be2629090792cccc4b6ea783a7190127a33aba7d561bbf8703fcf2d3a5",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "獨眼巨人看起來很難過。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2463169543,
+  "sample_rate": 24000,
+  "duration_seconds": 4.7,
+  "sha256": "5c951fa9ffdfbaa487735cc76b1513d17b427cac59fcb3e393990d88bc6a8930",
+  "func_id": "046b",
+  "offset_key": "135",
+  "segment": 0,
+  "rendered_parts": [
+    "沒有魚？",
+    "獨眼巨人看起來很難過。"
+  ]
+}

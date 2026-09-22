@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_gideon_1741fe3b",
+  "lang": "zh",
+  "text": "Gwen 低下了頭，看著船隻啟程。 他心不在焉地看著地板，試圖清清喉嚨。",
+  "tts_text": "Gwen 低下了頭，看著船隻啟程。 他心不在焉地看著地板，試圖清清喉嚨。",
+  "override_revision": null,
+  "rendered_text": "Gwen 低下了頭，看著船隻啟程。\n他心不在焉地看著地板，試圖清清喉嚨。",
+  "fallback_used": false,
+  "npc": "Gideon",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_gideon_1741fe3b_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Gideon。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:2ca32596fcda5d54fa77d5d82c300b7dd14072d41bdf1d22f555594c23a64d2e",
+  "reference_sha256": "516bd7c5d381b6b9d96ad3046a6d7c6f131b250b562ac68c04db69fcbdde9a83",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "Gwen 低下了頭，看著船隻啟程。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_gideon_1741fe3b_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Gideon。今天你为何来到这片土地？",
+      "reference_id": "u6_gideon_1741fe3b",
+      "reference_sha256": "516bd7c5d381b6b9d96ad3046a6d7c6f131b250b562ac68c04db69fcbdde9a83",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他心不在焉地看著地板，試圖清清喉嚨。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3212050221,
+  "sample_rate": 24000,
+  "duration_seconds": 8.19,
+  "sha256": "6033a642bc8ae8ce82ac3722c09cc521a0c5b33dda556e69b615eecbe3d75615",
+  "func_id": "048c",
+  "offset_key": "16a6",
+  "segment": 0,
+  "rendered_parts": [
+    "Gwen 低下了頭，看著船隻啟程。",
+    "他心不在焉地看著地板，試圖清清喉嚨。"
+  ]
+}

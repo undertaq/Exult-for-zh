@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_peyton_3783cd9e",
+  "lang": "zh",
+  "text": "我是Peyton，這裡是我的地方。 他揮了揮手。",
+  "tts_text": "我是Peyton，這裡是我的地方。 他揮了揮手。",
+  "override_revision": null,
+  "rendered_text": "我是Peyton，這裡是我的地方。\n他揮了揮手。",
+  "fallback_used": false,
+  "npc": "Peyton",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_peyton_3783cd9e_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Peyton。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:a50f99293433846f91e9b829cbac7b8d2d832c932b11638bacef795de2436a18",
+  "reference_sha256": "e3acf34da24f5a433f700a6e54e6390c7a45713242e83eecd31f28a849e208d6",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "我是Peyton，這裡是我的地方。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_peyton_3783cd9e_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Peyton。今天你为何来到这片土地？",
+      "reference_id": "u6_peyton_3783cd9e",
+      "reference_sha256": "e3acf34da24f5a433f700a6e54e6390c7a45713242e83eecd31f28a849e208d6",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他揮了揮手。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1901422468,
+  "sample_rate": 24000,
+  "duration_seconds": 3.51,
+  "sha256": "62fa828cac1890bc246c115da4e112703e12f28f0a5e9c63b1a95ede7b9a5d4d",
+  "func_id": "0419",
+  "offset_key": "22b",
+  "segment": 0,
+  "rendered_parts": [
+    "我是Peyton，這裡是我的地方。",
+    "他揮了揮手。"
+  ]
+}

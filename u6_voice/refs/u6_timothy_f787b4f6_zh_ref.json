@@ -4,7 +4,7 @@
   "lang": "zh",
   "text": "旅人，你好。我是Timothy。今天你为何来到这片土地？",
   "tts_text": "旅人，你好。我是Timothy。今天你为何来到这片土地？",
-  "override_revision": "u6-omnivoice-overrides-v1",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "旅人，你好。我是Timothy。今天你为何来到这片土地？",
   "fallback_used": false,
   "npc": "Timothy",
@@ -12,9 +12,9 @@
   "instruct": "男, 中音调",
   "ref_text": "旅人，你好。我是Timothy。今天你为何来到这片土地？",
   "model": "k2-fsa/OmniVoice",
-  "gpu": 1,
-  "seed": 3293381370,
+  "gpu": 0,
+  "seed": 175131938,
   "sample_rate": 24000,
-  "duration_seconds": 4.18,
-  "sha256": "035e7e188e0fab98221c98b92bf0a583885e7f60902b1a2f1cd784c820827782"
+  "duration_seconds": 4.26,
+  "sha256": "9aabe5658e52f314f038482d1fe3a1e253b04c75e81b9c42211495c34d7a3e29"
 }

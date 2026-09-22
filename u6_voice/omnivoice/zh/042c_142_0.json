@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_zoltan_5aadd2f1",
+  "lang": "zh",
+  "text": "Zoltan 把錢放進口袋。謝謝。",
+  "tts_text": "Zoltan 把錢放進口袋。謝謝。",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
+  "rendered_text": "Zoltan 把錢放進口袋。\n謝謝。",
+  "fallback_used": false,
+  "npc": "Zoltan",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:9cd91423d830f024622233c973fd0cd998d64440646ae24f8ef1e263cc1f4880",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "Zoltan 把錢放進口袋。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "謝謝。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_zoltan_5aadd2f1_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Zoltan。今天你为何来到这片土地？",
+      "reference_id": "u6_zoltan_5aadd2f1",
+      "reference_sha256": "cca1af98573dddb6945221237e6666eae574fa00d522532c562c0b6f5bfa765c",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 4000386442,
+  "sample_rate": 24000,
+  "duration_seconds": 3.06,
+  "sha256": "93b60382120c3e4bb85e7a7925e02b8ea12ed9a81a38f63391bf009c64fda601",
+  "func_id": "042c",
+  "offset_key": "142",
+  "segment": 0,
+  "rendered_parts": [
+    "Zoltan 把錢放進口袋。",
+    "謝謝。"
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "status": "generated",
+  "design_id": "u6_arbeth_ddee2cdd",
+  "lang": "zh",
+  "text": "「Arbeth，」他輕聲重複道。",
+  "tts_text": "「Arbeth，」他輕聲CHONG2複道。",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
+  "rendered_text": "「\nArbeth\n，」他輕聲重複道。",
+  "fallback_used": false,
+  "npc": "Arbeth",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:6d4601eb9f1c41042248f1aa5f3483a7065ad135466b3401a7d244578fabba05",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "「",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "Arbeth",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_arbeth_ddee2cdd_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Arbeth。今天你为何来到这片土地？",
+      "reference_id": "u6_arbeth_ddee2cdd",
+      "reference_sha256": "397bad9f03291a2d975a2e791361c637f56f52410c78b650dc369040da4b7ba3",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "，」他輕聲重複道。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 800196948,
+  "sample_rate": 24000,
+  "duration_seconds": 2.91,
+  "sha256": "bd45d5888044040c82a0988943a8a5a91533e1ec75fe349ac6945001b6f5fac6",
+  "func_id": "0478",
+  "offset_key": "26e",
+  "segment": 0,
+  "rendered_parts": [
+    "「",
+    "Arbeth",
+    "，」他輕聲重複道。"
+  ]
+}

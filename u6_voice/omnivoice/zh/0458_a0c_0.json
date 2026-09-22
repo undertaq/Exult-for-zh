@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_selganor_2ee1c624",
+  "lang": "zh",
+  "text": "精彩！ 他在魯特琴上撥了一個和弦，然後輕輕地用琴身在你每個肩膀上各敲了一下。",
+  "tts_text": "精彩！ 他在魯特琴上撥了一個和弦，然後輕輕地用琴身在你每個肩膀上各敲了一下。",
+  "override_revision": null,
+  "rendered_text": "精彩！\n他在魯特琴上撥了一個和弦，然後輕輕地用琴身在你每個肩膀上各敲了一下。",
+  "fallback_used": false,
+  "npc": "Selganor",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_selganor_2ee1c624_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Selganor。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:5e72a4a7e3ad6672086ee619dfe1761c1f893d2d6953a8dc210f4409b9422c66",
+  "reference_sha256": "6ce03bed4fb727444fc27f1ed42423b7433b100a0a68658aac82997cf4815ff0",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "精彩！",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_selganor_2ee1c624_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Selganor。今天你为何来到这片土地？",
+      "reference_id": "u6_selganor_2ee1c624",
+      "reference_sha256": "6ce03bed4fb727444fc27f1ed42423b7433b100a0a68658aac82997cf4815ff0",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他在魯特琴上撥了一個和弦，然後輕輕地用琴身在你每個肩膀上各敲了一下。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 3329334868,
+  "sample_rate": 24000,
+  "duration_seconds": 10.42,
+  "sha256": "7a0863cea552c0f855eed3b1e988a5920f7bc0c438a7a24cc4ff61ee1a55016d",
+  "func_id": "0458",
+  "offset_key": "a0c",
+  "segment": 0,
+  "rendered_parts": [
+    "精彩！",
+    "他在魯特琴上撥了一個和弦，然後輕輕地用琴身在你每個肩膀上各敲了一下。"
+  ]
+}

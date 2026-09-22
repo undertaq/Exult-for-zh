@@ -1,0 +1,69 @@
+{
+  "status": "generated",
+  "design_id": "u6_ariana_94227eed",
+  "lang": "zh",
+  "text": "這裡，給你。 她將符文遞給你。祝你旅途平安。",
+  "tts_text": "這裡，給你。 她將符文遞給你。祝你旅途平安。",
+  "override_revision": null,
+  "rendered_text": "這裡，給你。\n她將符文遞給你。\n祝你旅途平安。",
+  "fallback_used": false,
+  "npc": "Ariana",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_ariana_94227eed_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Ariana。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:53263b6f99e5b28cae574ade779dfaba4094ab6dd584f83ef2bb653ff54c128a",
+  "reference_sha256": "8199b5452bf642479430daf804e9ef1522fd435de283ba9c87c0fc967e47b2af",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "這裡，給你。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_ariana_94227eed_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Ariana。今天你为何来到这片土地？",
+      "reference_id": "u6_ariana_94227eed",
+      "reference_sha256": "8199b5452bf642479430daf804e9ef1522fd435de283ba9c87c0fc967e47b2af",
+      "instruct": "女, 青年, 高音调"
+    },
+    {
+      "role": "narrator",
+      "text": "她將符文遞給你。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "祝你旅途平安。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_ariana_94227eed_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Ariana。今天你为何来到这片土地？",
+      "reference_id": "u6_ariana_94227eed",
+      "reference_sha256": "8199b5452bf642479430daf804e9ef1522fd435de283ba9c87c0fc967e47b2af",
+      "instruct": "女, 青年, 高音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2286879098,
+  "sample_rate": 24000,
+  "duration_seconds": 5.09,
+  "sha256": "84c70211de4d231bdfbcf16d8644a813c56d8a4db458cf0b01df23696c77b909",
+  "func_id": "0418",
+  "offset_key": "13c",
+  "segment": 0,
+  "rendered_parts": [
+    "這裡，給你。",
+    "她將符文遞給你。",
+    "祝你旅途平安。"
+  ]
+}

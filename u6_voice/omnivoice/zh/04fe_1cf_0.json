@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_thug1_09dec9e2",
+  "lang": "zh",
+  "text": "注意到那名不法衛兵的手下正在緩緩包圍過來，Shamino湊近你低聲說道。小心",
+  "tts_text": "注意到那名不法衛兵的手下正在緩緩包圍過來，Shamino湊近你低聲說道。小心",
+  "override_revision": null,
+  "rendered_text": "注意到那名不法衛兵的手下正在緩緩包圍過來，Shamino湊近你低聲說道。\n小心",
+  "fallback_used": false,
+  "npc": "thug1",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:98a2c5768a551896544984104bf4011bd71f0bc71c241363c6a58f87f2f8e134",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "注意到那名不法衛兵的手下正在緩緩包圍過來，Shamino湊近你低聲說道。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "小心",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_thug1_09dec9e2_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是thug1。今天你为何来到这片土地？",
+      "reference_id": "u6_thug1_09dec9e2",
+      "reference_sha256": "3317c427f76d7cb0fb5820212234eb26507a847780b8091ef0a303cc79b3da84",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 838696209,
+  "sample_rate": 24000,
+  "duration_seconds": 11.35,
+  "sha256": "0e704967abb313c0eb56750d449ed4db29fef8f186891bfc2d230df3e35632de",
+  "func_id": "04fe",
+  "offset_key": "1cf",
+  "segment": 0,
+  "rendered_parts": [
+    "注意到那名不法衛兵的手下正在緩緩包圍過來，Shamino湊近你低聲說道。",
+    "小心"
+  ]
+}

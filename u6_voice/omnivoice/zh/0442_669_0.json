@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_van_kellian_0ff1b256",
+  "lang": "zh",
+  "text": "Stelnar 說： 我告訴你，Van。如果你放過一隻石像鬼，接下來你也會放過巨魔，然後甚至是獨眼巨人。到那時，你會遺忘勇氣，很快就會被怪物席捲！",
+  "tts_text": "Stelnar 說： 我告訴你，Van。如果你放過一隻石像鬼，接下來你也會放過巨魔，然後甚至是獨眼巨人。到那時，你會遺忘勇氣，很快就會被怪物席捲！",
+  "override_revision": null,
+  "rendered_text": "Stelnar 說：\n我告訴你，Van。如果你放過一隻石像鬼，接下來你也會放過巨魔，然後甚至是獨眼巨人。到那時，你會遺忘勇氣，很快就會被怪物席捲！",
+  "fallback_used": false,
+  "npc": "Van Kellian",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:f27921c569138df89516b9f1984ca27bbba7421df51ebabba5645d1ac225f140",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "Stelnar 說：",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "我告訴你，Van。如果你放過一隻石像鬼，接下來你也會放過巨魔，然後甚至是獨眼巨人。到那時，你會遺忘勇氣，很快就會被怪物席捲！",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_van_kellian_0ff1b256_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Van Kellian。今天你为何来到这片土地？",
+      "reference_id": "u6_van_kellian_0ff1b256",
+      "reference_sha256": "959d82869a8bb6ab028db67c92f8af286990b844ed7388d4a486fe3526232263",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1420306301,
+  "sample_rate": 24000,
+  "duration_seconds": 11.15,
+  "sha256": "e485af79105f79ab51989402a8655ec8bca104e0d4d3014ffa18f7d4d1882c6c",
+  "func_id": "0442",
+  "offset_key": "669",
+  "segment": 0,
+  "rendered_parts": [
+    "Stelnar 說：",
+    "我告訴你，Van。如果你放過一隻石像鬼，接下來你也會放過巨魔，然後甚至是獨眼巨人。到那時，你會遺忘勇氣，很快就會被怪物席捲！"
+  ]
+}

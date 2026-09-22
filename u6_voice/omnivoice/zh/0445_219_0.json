@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_zellivan_0ed5532f",
+  "lang": "zh",
+  "text": "你可以說，沒有贏家... 他笑了。",
+  "tts_text": "你可以說，沒有贏家... 他笑了。",
+  "override_revision": null,
+  "rendered_text": "你可以說，沒有贏家...\n他笑了。",
+  "fallback_used": false,
+  "npc": "Zellivan",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_zellivan_0ed5532f_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Zellivan。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:effeedb2ab2f409cd44a85f47c166c540fded455464d3be5356400f6fed0c46c",
+  "reference_sha256": "f74b95e1018a79ed8525b09737d602d016770df9f745ecfbf24e9f4f33e66981",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "你可以說，沒有贏家...",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_zellivan_0ed5532f_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Zellivan。今天你为何来到这片土地？",
+      "reference_id": "u6_zellivan_0ed5532f",
+      "reference_sha256": "f74b95e1018a79ed8525b09737d602d016770df9f745ecfbf24e9f4f33e66981",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他笑了。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2341362345,
+  "sample_rate": 24000,
+  "duration_seconds": 2.95,
+  "sha256": "63e2d23989cf14049bf2a09f3da98fc4c4b973a0668d6693c87201333e1360f8",
+  "func_id": "0445",
+  "offset_key": "219",
+  "segment": 0,
+  "rendered_parts": [
+    "你可以說，沒有贏家...",
+    "他笑了。"
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_hendle_91d9c1fa",
+  "lang": "zh",
+  "text": "我宰殺牛和豬。這讓我在這家酒吧裡有點不受歡迎！他大笑。",
+  "tts_text": "我宰殺牛和豬。這讓我在這家酒吧裡有點不受歡迎！他大笑。",
+  "override_revision": null,
+  "rendered_text": "我宰殺牛和豬。這讓我在這家酒吧裡有點不受歡迎！\n他大笑。",
+  "fallback_used": false,
+  "npc": "Hendle",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_hendle_91d9c1fa_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Hendle。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:f8622c5f321ba14fa16c7ac663a653e9d22a28a3f3bcf861b27e0160479e26a9",
+  "reference_sha256": "5bb42e67e48f9487a8e7213eb910ddf99308ada3238c736362f9dd44a1109e29",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "我宰殺牛和豬。這讓我在這家酒吧裡有點不受歡迎！",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_hendle_91d9c1fa_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Hendle。今天你为何来到这片土地？",
+      "reference_id": "u6_hendle_91d9c1fa",
+      "reference_sha256": "5bb42e67e48f9487a8e7213eb910ddf99308ada3238c736362f9dd44a1109e29",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他大笑。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1472129118,
+  "sample_rate": 24000,
+  "duration_seconds": 6.29,
+  "sha256": "ac679e5fccb102a80d58c53bf3f482f8b87ca6c0f7787c4c51e1d4697e1dd388",
+  "func_id": "047c",
+  "offset_key": "294",
+  "segment": 0,
+  "rendered_parts": [
+    "我宰殺牛和豬。這讓我在這家酒吧裡有點不受歡迎！",
+    "他大笑。"
+  ]
+}

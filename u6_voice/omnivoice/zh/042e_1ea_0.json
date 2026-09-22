@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_daros_425af6a2",
+  "lang": "zh",
+  "text": "嗯，親愛的，我負責讓下水道按正常方式運作。當工作清閒時，我偶爾會跟朋友開一兩個玩笑，以維持氣氛活躍。 他朝你眨了眨眼。",
+  "tts_text": "嗯，親愛的，我負責讓下水道按正常方式運作。當工作清閒時，我偶爾會跟朋友開一兩個玩笑，以維持氣氛活躍。 他朝你眨了眨眼。",
+  "override_revision": null,
+  "rendered_text": "嗯，親愛的，我負責讓下水道按正常方式運作。當工作清閒時，我偶爾會跟朋友開一兩個玩笑，以維持氣氛活躍。\n他朝你眨了眨眼。",
+  "fallback_used": false,
+  "npc": "Daros",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_daros_425af6a2_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Daros。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:34105693a271d61ac9669dc51841a0d9a53a4d5e396dd7210e2dd1983593745f",
+  "reference_sha256": "e73ec7da872c124342498ab4c0d7ec6e5fd1a9390b915343604169b0c4604cd0",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "嗯，親愛的，我負責讓下水道按正常方式運作。當工作清閒時，我偶爾會跟朋友開一兩個玩笑，以維持氣氛活躍。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_daros_425af6a2_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Daros。今天你为何来到这片土地？",
+      "reference_id": "u6_daros_425af6a2",
+      "reference_sha256": "e73ec7da872c124342498ab4c0d7ec6e5fd1a9390b915343604169b0c4604cd0",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他朝你眨了眨眼。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 4271990332,
+  "sample_rate": 24000,
+  "duration_seconds": 11.9,
+  "sha256": "b01ef6e015abc120e289b582fc2fc879d11a5ec3caf00c6ec98e24157a11c57b",
+  "func_id": "042e",
+  "offset_key": "1ea",
+  "segment": 0,
+  "rendered_parts": [
+    "嗯，親愛的，我負責讓下水道按正常方式運作。當工作清閒時，我偶爾會跟朋友開一兩個玩笑，以維持氣氛活躍。",
+    "他朝你眨了眨眼。"
+  ]
+}

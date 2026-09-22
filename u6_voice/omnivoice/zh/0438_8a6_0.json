@@ -1,0 +1,69 @@
+{
+  "status": "generated",
+  "design_id": "u6_taynith_badd5ae4",
+  "lang": "zh",
+  "text": "'War' 骨牌尤其引人注目。它描繪了一條龍和一隻老虎，即將各自咬住對方的尾巴。 Taynith 說：Britannia 正走向全面戰爭，這再明白不過了。'Rogue' 是那些違背其領主意願，尋找另一條道路的人。",
+  "tts_text": "'War' 骨牌尤其引人注目。它描繪了一條龍和一隻老虎，即將各自咬住對方的尾巴。 Taynith 說：Britannia 正走向全面戰爭，這再明白不過了。'Rogue' 是那些違背其領主意願，尋找另一條道路的人。",
+  "override_revision": null,
+  "rendered_text": "'War' 骨牌尤其引人注目。它描繪了一條龍和一隻老虎，即將各自咬住對方的尾巴。\nTaynith 說：\nBritannia 正走向全面戰爭，這再明白不過了。'Rogue' 是那些違背其領主意願，尋找另一條道路的人。",
+  "fallback_used": false,
+  "npc": "Taynith",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_taynith_badd5ae4_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Taynith。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:af8b9911f0802d0d819fb8b604c0e9da4e0cb751370b7d3ec80a7e22101467bf",
+  "reference_sha256": "bdcedd83fdb538755cfb40a150ad225098888c1b61274398ce812a32ac109081",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "'War' 骨牌尤其引人注目。它描繪了一條龍和一隻老虎，即將各自咬住對方的尾巴。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_taynith_badd5ae4_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Taynith。今天你为何来到这片土地？",
+      "reference_id": "u6_taynith_badd5ae4",
+      "reference_sha256": "bdcedd83fdb538755cfb40a150ad225098888c1b61274398ce812a32ac109081",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "Taynith 說：",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "Britannia 正走向全面戰爭，這再明白不過了。'Rogue' 是那些違背其領主意願，尋找另一條道路的人。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_taynith_badd5ae4_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Taynith。今天你为何来到这片土地？",
+      "reference_id": "u6_taynith_badd5ae4",
+      "reference_sha256": "bdcedd83fdb538755cfb40a150ad225098888c1b61274398ce812a32ac109081",
+      "instruct": "女, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1524871992,
+  "sample_rate": 24000,
+  "duration_seconds": 15.51,
+  "sha256": "4a400a57ddc7e1521c77f3b323fc9a9704cbdbc2d80a5cbedda260ea1781b0a3",
+  "func_id": "0438",
+  "offset_key": "8a6",
+  "segment": 0,
+  "rendered_parts": [
+    "'War' 骨牌尤其引人注目。它描繪了一條龍和一隻老虎，即將各自咬住對方的尾巴。",
+    "Taynith 說：",
+    "Britannia 正走向全面戰爭，這再明白不過了。'Rogue' 是那些違背其領主意願，尋找另一條道路的人。"
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_beh_lem_f8a0c8cb",
+  "lang": "zh",
+  "text": ",Beh Lem問道。",
+  "tts_text": ",Beh Lem問道。",
+  "override_revision": null,
+  "rendered_text": ",\nBeh Lem問道。",
+  "fallback_used": false,
+  "npc": "Beh Lem",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:b27ff34c15dc0ade73ac1ea755d9bd07ffbd213ea32b1788032352e16f26bf28",
+  "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": ",",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "Beh Lem問道。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_beh_lem_f8a0c8cb_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Beh Lem。今天你为何来到这片土地？",
+      "reference_id": "u6_beh_lem_f8a0c8cb",
+      "reference_sha256": "0706334354d6c41d15fda4101937e26c5723227e55b5379d5daac7337656a1b6",
+      "instruct": "极低音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2394654056,
+  "sample_rate": 24000,
+  "duration_seconds": 2.43,
+  "sha256": "f77c6f02cd5dc3e42d41947aa54b7c1fa83ec1cb73b236644b7ce3f8f219080b",
+  "func_id": "04bf",
+  "offset_key": "28a",
+  "segment": 0,
+  "rendered_parts": [
+    ",",
+    "Beh Lem問道。"
+  ]
+}

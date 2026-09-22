@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_andrea_253387e8",
+  "lang": "zh",
+  "text": "我很高興認識你，她輕聲說道。",
+  "tts_text": "我很高興認識你，她輕聲說道。",
+  "override_revision": null,
+  "rendered_text": "我很高興認識你，\n她輕聲說道。",
+  "fallback_used": false,
+  "npc": "Andrea",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_andrea_253387e8_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Andrea。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:edcab6aebcbeae95e653a9d01bad7b45a80cfa5836db6499f4a042a66bcbe826",
+  "reference_sha256": "e42dcbc877d4a6e15c9f9497567f80a9320aafc30418311c557c9acadf9d9b3f",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "我很高興認識你，",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_andrea_253387e8_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Andrea。今天你为何来到这片土地？",
+      "reference_id": "u6_andrea_253387e8",
+      "reference_sha256": "e42dcbc877d4a6e15c9f9497567f80a9320aafc30418311c557c9acadf9d9b3f",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "她輕聲說道。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2885611728,
+  "sample_rate": 24000,
+  "duration_seconds": 3.64,
+  "sha256": "db61ee4ac68931cc673427cc1c9f31382aeab6343beb0bf2459abf65595895dd",
+  "func_id": "040f",
+  "offset_key": "2d8",
+  "segment": 0,
+  "rendered_parts": [
+    "我很高興認識你，",
+    "她輕聲說道。"
+  ]
+}

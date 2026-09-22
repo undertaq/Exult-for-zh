@@ -1,0 +1,79 @@
+{
+  "status": "generated",
+  "design_id": "u6_mandrake_9b853e86",
+  "lang": "zh",
+  "text": "Derydlus，願主保佑他，有點醉了，從我的背包裡拿出一塊石頭，問那是做什麼用的。也許是用來傳送的，我說著，便把它放回背包裡。",
+  "tts_text": "Derydlus，願主保佑他，有點醉了，從我的背包裡拿出一塊石頭，問那是做什麼用的。也許是用來傳送的，我說著，便把它放回背包裡。",
+  "override_revision": null,
+  "rendered_text": "Derydlus，願主保佑他，有點醉了，從我的背包裡拿出一塊石頭，問那是做什麼用的。\n也許是用來傳送的\n，我說著，\n便把它放回背包裡。",
+  "fallback_used": false,
+  "npc": "Mandrake",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_mandrake_9b853e86_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Mandrake。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:35fd9728f6ea27cb3b5761000c6895c6972f222f79eca5a532ccea169aebeda0",
+  "reference_sha256": "10212c02c601c9907a016447189b9b239ae4286f5e1d85afd7470b066bd44fd3",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "Derydlus，願主保佑他，有點醉了，從我的背包裡拿出一塊石頭，問那是做什麼用的。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_mandrake_9b853e86_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Mandrake。今天你为何来到这片土地？",
+      "reference_id": "u6_mandrake_9b853e86",
+      "reference_sha256": "10212c02c601c9907a016447189b9b239ae4286f5e1d85afd7470b066bd44fd3",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "也許是用來傳送的",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "，我說著，",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_mandrake_9b853e86_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Mandrake。今天你为何来到这片土地？",
+      "reference_id": "u6_mandrake_9b853e86",
+      "reference_sha256": "10212c02c601c9907a016447189b9b239ae4286f5e1d85afd7470b066bd44fd3",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "便把它放回背包裡。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3389697168,
+  "sample_rate": 24000,
+  "duration_seconds": 13.52,
+  "sha256": "e29e8b04eddc4d1b0cdc34e8c1e2df44c5bd08482df5addf1b3838d736c4b795",
+  "func_id": "0468",
+  "offset_key": "168a",
+  "segment": 0,
+  "rendered_parts": [
+    "Derydlus，願主保佑他，有點醉了，從我的背包裡拿出一塊石頭，問那是做什麼用的。",
+    "也許是用來傳送的",
+    "，我說著，",
+    "便把它放回背包裡。"
+  ]
+}

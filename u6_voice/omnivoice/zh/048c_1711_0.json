@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_gideon_1741fe3b",
+  "lang": "zh",
+  "text": "他再次開口，聲音輕如耳語。他們在南方海岸發現了她的遺體。",
+  "tts_text": "他再次開口，聲音輕如耳語。他們在南方海岸發現了她的遺體。",
+  "override_revision": null,
+  "rendered_text": "他再次開口，聲音輕如耳語。\n他們在南方海岸發現了她的遺體。",
+  "fallback_used": false,
+  "npc": "Gideon",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:6774a179bdf98c2268bed8c307faf3c97c45573b586438e79b02743b3edabdd6",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "他再次開口，聲音輕如耳語。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "他們在南方海岸發現了她的遺體。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_gideon_1741fe3b_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Gideon。今天你为何来到这片土地？",
+      "reference_id": "u6_gideon_1741fe3b",
+      "reference_sha256": "516bd7c5d381b6b9d96ad3046a6d7c6f131b250b562ac68c04db69fcbdde9a83",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 399870067,
+  "sample_rate": 24000,
+  "duration_seconds": 6.89,
+  "sha256": "63bcac60c81cf4a0d812041b1f52462162c3e2db304bbbff9faa09948e27d831",
+  "func_id": "048c",
+  "offset_key": "1711",
+  "segment": 0,
+  "rendered_parts": [
+    "他再次開口，聲音輕如耳語。",
+    "他們在南方海岸發現了她的遺體。"
+  ]
+}

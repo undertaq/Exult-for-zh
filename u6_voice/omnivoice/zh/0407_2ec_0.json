@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_sentri_ccc35556",
+  "lang": "zh",
+  "text": "是我，Sentri。 他發音為 'Sahn-tray'。",
+  "tts_text": "是我，Sentri。 他發音WEI2 'Sahn-tray'。",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
+  "rendered_text": "是我，Sentri。\n他發音為 'Sahn-tray'。",
+  "fallback_used": false,
+  "npc": "Sentri",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/voice/refs/npc_sentri_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:8085c8ec279bb6b75c898c5a291b52954a5108eda98d1457ffd282d47f112d49",
+  "reference_sha256": "92a8eb9931ba62d1219a0ed8fac9ca3dff947e8b34c78211ca8b4cbda934327a",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "是我，Sentri。",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_sentri_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_sentri",
+      "reference_sha256": "92a8eb9931ba62d1219a0ed8fac9ca3dff947e8b34c78211ca8b4cbda934327a",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他發音為 'Sahn-tray'。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1509949304,
+  "sample_rate": 24000,
+  "duration_seconds": 4.19,
+  "sha256": "29d13a0b8c6f162252c0c4aba6deb8c22399a9f6e77bee867a7aa20a0ef269fe",
+  "func_id": "0407",
+  "offset_key": "2ec",
+  "segment": 0,
+  "rendered_parts": [
+    "是我，Sentri。",
+    "他發音為 'Sahn-tray'。"
+  ]
+}

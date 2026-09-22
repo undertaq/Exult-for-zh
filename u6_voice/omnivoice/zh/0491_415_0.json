@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_yorl_d76a5c27",
+  "lang": "zh",
+  "text": "是的，我有一個。 他再次大喊，這次拍了一下你的背部。",
+  "tts_text": "是的，我有一個。 他再次大喊，這次拍了一下你的背部。",
+  "override_revision": null,
+  "rendered_text": "是的，我有一個。\n他再次大喊，這次拍了一下你的背部。",
+  "fallback_used": false,
+  "npc": "Yorl",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_yorl_d76a5c27_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Yorl。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:45c4cec9a9e3d9a2dc19d245cfa3d65f4f3d5a97a181c19b3997ec84cdca9337",
+  "reference_sha256": "f390db21022bfd87e4d8f7e3c17d72d107ffe1c8456343ed0befb15d9493bcad",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "是的，我有一個。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_yorl_d76a5c27_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Yorl。今天你为何来到这片土地？",
+      "reference_id": "u6_yorl_d76a5c27",
+      "reference_sha256": "f390db21022bfd87e4d8f7e3c17d72d107ffe1c8456343ed0befb15d9493bcad",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他再次大喊，這次拍了一下你的背部。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 985542971,
+  "sample_rate": 24000,
+  "duration_seconds": 6.29,
+  "sha256": "27f1fb552c650d411ff697d0a857089d5b1f7ab8a27163333d3f0499f2173623",
+  "func_id": "0491",
+  "offset_key": "415",
+  "segment": 0,
+  "rendered_parts": [
+    "是的，我有一個。",
+    "他再次大喊，這次拍了一下你的背部。"
+  ]
+}

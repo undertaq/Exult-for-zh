@@ -1,0 +1,69 @@
+{
+  "status": "generated",
+  "design_id": "u6_arbeth_ddee2cdd",
+  "lang": "zh",
+  "text": "「一卷線賣你 3 金幣，如何？」",
+  "tts_text": "「一卷線賣你 3 金幣，如何？」",
+  "override_revision": null,
+  "rendered_text": "「\n一卷線賣你 3 金幣，如何？\n」",
+  "fallback_used": false,
+  "npc": "Arbeth",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:6d4601eb9f1c41042248f1aa5f3483a7065ad135466b3401a7d244578fabba05",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "「",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "一卷線賣你 3 金幣，如何？",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_arbeth_ddee2cdd_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Arbeth。今天你为何来到这片土地？",
+      "reference_id": "u6_arbeth_ddee2cdd",
+      "reference_sha256": "397bad9f03291a2d975a2e791361c637f56f52410c78b650dc369040da4b7ba3",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "」",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2716993199,
+  "sample_rate": 24000,
+  "duration_seconds": 3.43,
+  "sha256": "32bb1f49f1007d861576014cefe45fd9e990f9262e0817dafa8d251931410c75",
+  "func_id": "0478",
+  "offset_key": "2b9",
+  "segment": 0,
+  "rendered_parts": [
+    "「",
+    "一卷線賣你 3 金幣，如何？",
+    "」"
+  ]
+}

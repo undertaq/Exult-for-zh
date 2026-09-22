@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_doris_cafd9289",
+  "lang": "zh",
+  "text": "真典型，她咕噥著。",
+  "tts_text": "真典型，她咕噥著。",
+  "override_revision": null,
+  "rendered_text": "真典型，\n她咕噥著。",
+  "fallback_used": false,
+  "npc": "Doris",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_doris_cafd9289_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Doris。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:61b5987830aa4a211c3703ab950f45bad3d84a6cdf7a4470d8f739d2e0ee058b",
+  "reference_sha256": "2dbb5cb5354682c6dfc491df15c259142a64ef3e7a8295ae4988ab4664df6d1b",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "真典型，",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_doris_cafd9289_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Doris。今天你为何来到这片土地？",
+      "reference_id": "u6_doris_cafd9289",
+      "reference_sha256": "2dbb5cb5354682c6dfc491df15c259142a64ef3e7a8295ae4988ab4664df6d1b",
+      "instruct": "女, 青年, 高音调"
+    },
+    {
+      "role": "narrator",
+      "text": "她咕噥著。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3743345306,
+  "sample_rate": 24000,
+  "duration_seconds": 3.04,
+  "sha256": "72ba99fc37bbad5eb9c4cfad5f2611f00cea9cf3c58266867e1751db83d9cae4",
+  "func_id": "0460",
+  "offset_key": "399",
+  "segment": 0,
+  "rendered_parts": [
+    "真典型，",
+    "她咕噥著。"
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_pridgarm_6de8b131",
+  "lang": "zh",
+  "text": "好了，等你辦完了就拿回來給我。 典獄長沒再說一句話，便繼續回去刻木頭了。",
+  "tts_text": "好了，等你辦完了就拿回來給我。 典獄長沒再說一句話，便繼續回去刻木頭了。",
+  "override_revision": null,
+  "rendered_text": "好了，等你辦完了就拿回來給我。\n典獄長沒再說一句話，便繼續回去刻木頭了。",
+  "fallback_used": false,
+  "npc": "Pridgarm",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_pridgarm_6de8b131_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Pridgarm。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:5da540a1fb240289f965ad1f32c6e18fcb7469d44059c3eac4a6f901c6bf0ded",
+  "reference_sha256": "443e745da2a148e026afb97be1b61eca62bdff45f28c1c59247a83253066b0d4",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "好了，等你辦完了就拿回來給我。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_pridgarm_6de8b131_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Pridgarm。今天你为何来到这片土地？",
+      "reference_id": "u6_pridgarm_6de8b131",
+      "reference_sha256": "443e745da2a148e026afb97be1b61eca62bdff45f28c1c59247a83253066b0d4",
+      "instruct": "男, 老年, 低音调"
+    },
+    {
+      "role": "narrator",
+      "text": "典獄長沒再說一句話，便繼續回去刻木頭了。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1539152017,
+  "sample_rate": 24000,
+  "duration_seconds": 8.42,
+  "sha256": "f6326ef6720919b291a49238b79f8a2158ea754043843b6f51f1be924bcd181b",
+  "func_id": "0413",
+  "offset_key": "2e0",
+  "segment": 0,
+  "rendered_parts": [
+    "好了，等你辦完了就拿回來給我。",
+    "典獄長沒再說一句話，便繼續回去刻木頭了。"
+  ]
+}

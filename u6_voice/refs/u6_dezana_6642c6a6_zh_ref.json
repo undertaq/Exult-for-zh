@@ -4,7 +4,7 @@
   "lang": "zh",
   "text": "旅人，你好。我是Dezana。今天你为何来到这片土地？",
   "tts_text": "旅人，你好。我是Dezana。今天你为何来到这片土地？",
-  "override_revision": "u6-omnivoice-overrides-v1",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "旅人，你好。我是Dezana。今天你为何来到这片土地？",
   "fallback_used": false,
   "npc": "Dezana",
@@ -12,9 +12,9 @@
   "instruct": "女, 中音调",
   "ref_text": "旅人，你好。我是Dezana。今天你为何来到这片土地？",
   "model": "k2-fsa/OmniVoice",
-  "gpu": 1,
-  "seed": 3203287034,
+  "gpu": 0,
+  "seed": 3404960921,
   "sample_rate": 24000,
-  "duration_seconds": 4.36,
-  "sha256": "259aa19d76428c941a666d6c32a44108fca40ae1e4a2e2e03f1aa326b8b9af5a"
+  "duration_seconds": 4.35,
+  "sha256": "004475ffc355a444e5273c5dd2dc6292efcec85763c60b9a428376e0b03a7382"
 }

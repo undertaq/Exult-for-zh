@@ -4,7 +4,7 @@
   "lang": "zh",
   "text": "旅人，你好。我是Aaron。今天你为何来到这片土地？",
   "tts_text": "旅人，你好。我是Aaron。今天你为何来到这片土地？",
-  "override_revision": "u6-omnivoice-overrides-v1",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "旅人，你好。我是Aaron。今天你为何来到这片土地？",
   "fallback_used": false,
   "npc": "Aaron",
@@ -12,9 +12,9 @@
   "instruct": "男, 中音调",
   "ref_text": "旅人，你好。我是Aaron。今天你为何来到这片土地？",
   "model": "k2-fsa/OmniVoice",
-  "gpu": 1,
-  "seed": 779638347,
+  "gpu": 0,
+  "seed": 3869527906,
   "sample_rate": 24000,
-  "duration_seconds": 3.53,
-  "sha256": "8422e648d7772502cb95b98a318e6db6a0f88c06efe8bcac3bb03bcf3ee9eb45"
+  "duration_seconds": 3.76,
+  "sha256": "96a9c776c4d7fd24d645bf00d53101482a0e687d8ba5e7aecf484f0ad00f2958"
 }

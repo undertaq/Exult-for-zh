@@ -1,0 +1,69 @@
+{
+  "status": "generated",
+  "design_id": "u6_yorl_d76a5c27",
+  "lang": "zh",
+  "text": "他和我是好友。我仍記得他們告訴我他去世的那一刻。 他用力吞了一口，眼神變得空洞。我想念老 Quen。",
+  "tts_text": "他和我是好友。我仍記得他們告訴我他去世的那一刻。 他用力吞了一口，眼神變得空洞。我想念老 Quen。",
+  "override_revision": null,
+  "rendered_text": "他和我是好友。我仍記得他們告訴我他去世的那一刻。\n他用力吞了一口，眼神變得空洞。\n我想念老 Quen。",
+  "fallback_used": false,
+  "npc": "Yorl",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_yorl_d76a5c27_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Yorl。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:1f1f099718eb736ee92e61cef8c539020b4a23b64494cb9590038fa4d2f17d55",
+  "reference_sha256": "f390db21022bfd87e4d8f7e3c17d72d107ffe1c8456343ed0befb15d9493bcad",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "他和我是好友。我仍記得他們告訴我他去世的那一刻。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_yorl_d76a5c27_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Yorl。今天你为何来到这片土地？",
+      "reference_id": "u6_yorl_d76a5c27",
+      "reference_sha256": "f390db21022bfd87e4d8f7e3c17d72d107ffe1c8456343ed0befb15d9493bcad",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他用力吞了一口，眼神變得空洞。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "我想念老 Quen。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_yorl_d76a5c27_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Yorl。今天你为何来到这片土地？",
+      "reference_id": "u6_yorl_d76a5c27",
+      "reference_sha256": "f390db21022bfd87e4d8f7e3c17d72d107ffe1c8456343ed0befb15d9493bcad",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1972428551,
+  "sample_rate": 24000,
+  "duration_seconds": 8.94,
+  "sha256": "887bf550610d03ebe29c9d663b39f680a4d534aa3f6710c006062281352bacac",
+  "func_id": "0491",
+  "offset_key": "add",
+  "segment": 0,
+  "rendered_parts": [
+    "他和我是好友。我仍記得他們告訴我他去世的那一刻。",
+    "他用力吞了一口，眼神變得空洞。",
+    "我想念老 Quen。"
+  ]
+}

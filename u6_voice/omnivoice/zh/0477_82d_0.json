@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_marissa_df4b16b6",
+  "lang": "zh",
+  "text": "是的，好，再來找我。她打了個大哈欠。",
+  "tts_text": "是的，好，再來找我。她打了個大哈欠。",
+  "override_revision": null,
+  "rendered_text": "是的，好，再來找我。\n她打了個大哈欠。",
+  "fallback_used": false,
+  "npc": "Marissa",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_marissa_df4b16b6_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Marissa。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:f6514ef82dbc2eacf759c3e26227988c68e4801930acfe2ed81377b7d6417526",
+  "reference_sha256": "79d8d7bd067cf8e74caa87d54b35206dec4b9abd360724a763a8944c21019c8d",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "是的，好，再來找我。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_marissa_df4b16b6_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Marissa。今天你为何来到这片土地？",
+      "reference_id": "u6_marissa_df4b16b6",
+      "reference_sha256": "79d8d7bd067cf8e74caa87d54b35206dec4b9abd360724a763a8944c21019c8d",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "她打了個大哈欠。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 258399263,
+  "sample_rate": 24000,
+  "duration_seconds": 4.29,
+  "sha256": "f0fe5906146e0ad4dff2458ea9c1f87a9e684820d4f87cbcace0ab4ff9664f95",
+  "func_id": "0477",
+  "offset_key": "82d",
+  "segment": 0,
+  "rendered_parts": [
+    "是的，好，再來找我。",
+    "她打了個大哈欠。"
+  ]
+}

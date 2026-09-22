@@ -1,0 +1,69 @@
+{
+  "status": "generated",
+  "design_id": "u6_ybarra_640a0e74",
+  "lang": "zh",
+  "text": "他最後一絲希望被奪走，那枯瘦的男人撲向你，大喊著 食物！ 食物！",
+  "tts_text": "他最後一絲希望被奪走，那枯瘦的男人撲向你，大喊著 食物！ 食物！",
+  "override_revision": null,
+  "rendered_text": "他最後一絲希望被奪走，那枯瘦的男人撲向你，大喊著\n食物！\n食物！",
+  "fallback_used": false,
+  "npc": "Ybarra",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:eb434e4ffea2d993e438966a857f06ada263ebeeaf891ef5a57fbec6c537e1c9",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "他最後一絲希望被奪走，那枯瘦的男人撲向你，大喊著",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "食物！",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_ybarra_640a0e74_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Ybarra。今天你为何来到这片土地？",
+      "reference_id": "u6_ybarra_640a0e74",
+      "reference_sha256": "98fd552cc21503adf8465b654c764622dbb42045d326a2c0642e8e1c8c7dd9bc",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "食物！",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3504510153,
+  "sample_rate": 24000,
+  "duration_seconds": 9.43,
+  "sha256": "f528c86f2e18ee0626ca3919e70498b519b4e6378e2809c9d61a867cf6f4b4ca",
+  "func_id": "0467",
+  "offset_key": "58d",
+  "segment": 0,
+  "rendered_parts": [
+    "他最後一絲希望被奪走，那枯瘦的男人撲向你，大喊著",
+    "食物！",
+    "食物！"
+  ]
+}

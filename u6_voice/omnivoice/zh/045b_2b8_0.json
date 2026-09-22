@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_aaron_324a17d2",
+  "lang": "zh",
+  "text": "好了！ 他把成品遞給你。",
+  "tts_text": "好了！ 他把成品遞給你。",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
+  "rendered_text": "好了！\n他把成品遞給你。",
+  "fallback_used": false,
+  "npc": "Aaron",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_aaron_324a17d2_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Aaron。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:4a2e9bf2e1dad399ce9b678d067fe701aeb57dee84c8d2cb6714715b079277ea",
+  "reference_sha256": "96a9c776c4d7fd24d645bf00d53101482a0e687d8ba5e7aecf484f0ad00f2958",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "好了！",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_aaron_324a17d2_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Aaron。今天你为何来到这片土地？",
+      "reference_id": "u6_aaron_324a17d2",
+      "reference_sha256": "96a9c776c4d7fd24d645bf00d53101482a0e687d8ba5e7aecf484f0ad00f2958",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他把成品遞給你。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2031568054,
+  "sample_rate": 24000,
+  "duration_seconds": 3.18,
+  "sha256": "f2f74d0d3f6e0252e69f7731d86c9c4e119a6a434a1c578b6b4b49bc1381d402",
+  "func_id": "045b",
+  "offset_key": "2b8",
+  "segment": 0,
+  "rendered_parts": [
+    "好了！",
+    "他把成品遞給你。"
+  ]
+}

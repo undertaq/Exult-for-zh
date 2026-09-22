@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_captain_elad_6898ad51",
+  "lang": "zh",
+  "text": "Leonna 揚起眉毛。是嗎？我可以講一個不同的故事...",
+  "tts_text": "Leonna 揚起眉毛。是嗎？我可以講一個不同的故事...",
+  "override_revision": null,
+  "rendered_text": "Leonna 揚起眉毛。\n是嗎？我可以講一個不同的故事...",
+  "fallback_used": false,
+  "npc": "Captain Elad",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:34b665693e948ddf4280964b1b687565553890039ad0f872dd9896ab912937be",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "Leonna 揚起眉毛。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "是嗎？我可以講一個不同的故事...",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_captain_elad_6898ad51_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Captain Elad。今天你为何来到这片土地？",
+      "reference_id": "u6_captain_elad_6898ad51",
+      "reference_sha256": "d655236c744b7eca9ab9f33608a0c7ba167242b16b1def0c823d074a8bde8bb8",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2886346853,
+  "sample_rate": 24000,
+  "duration_seconds": 4.61,
+  "sha256": "265b9312667e851f51a820ba07d5d4ad3528b87984f67828df2c7dd6918145ce",
+  "func_id": "04e2",
+  "offset_key": "447",
+  "segment": 0,
+  "rendered_parts": [
+    "Leonna 揚起眉毛。",
+    "是嗎？我可以講一個不同的故事..."
+  ]
+}

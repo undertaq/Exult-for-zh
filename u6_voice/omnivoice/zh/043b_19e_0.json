@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_jerris_1e07a44b",
+  "lang": "zh",
+  "text": "不喝蜜酒啊，我猜也是。他聳了聳肩。",
+  "tts_text": "不喝蜜酒啊，我猜也是。他聳了聳肩。",
+  "override_revision": null,
+  "rendered_text": "不喝蜜酒啊，我猜也是。\n他聳了聳肩。",
+  "fallback_used": false,
+  "npc": "Jerris",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_jerris_1e07a44b_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Jerris。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:88f85fdb68b3beaa4287c04a1031e6912ea5cd02e6528607ae19f31f6052276d",
+  "reference_sha256": "b2dc64cdedef69db8e6d7bf94d9bc09c290040d91744dd635695942a192da4e7",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "不喝蜜酒啊，我猜也是。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_jerris_1e07a44b_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Jerris。今天你为何来到这片土地？",
+      "reference_id": "u6_jerris_1e07a44b",
+      "reference_sha256": "b2dc64cdedef69db8e6d7bf94d9bc09c290040d91744dd635695942a192da4e7",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他聳了聳肩。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1584230425,
+  "sample_rate": 24000,
+  "duration_seconds": 3.6,
+  "sha256": "2f99e32f269c82174a1b8b05645ac831e66aa76a4f2b1c601e95036651bdc74c",
+  "func_id": "043b",
+  "offset_key": "19e",
+  "segment": 0,
+  "rendered_parts": [
+    "不喝蜜酒啊，我猜也是。",
+    "他聳了聳肩。"
+  ]
+}

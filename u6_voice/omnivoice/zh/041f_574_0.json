@@ -1,0 +1,79 @@
+{
+  "status": "generated",
+  "design_id": "u6_daver_843b4ea6",
+  "lang": "zh",
+  "text": "讓我看看。 他掰著手指頭數道：Minoc、Trinsic、Jhelom、Yew、Skara Brae、Britain、Moonglow...。",
+  "tts_text": "讓我看看。 他掰著手指頭SHU3道：Minoc、Trinsic、Jhelom、Yew、Skara Brae、Britain、Moonglow...。",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
+  "rendered_text": "讓我看看。\n他掰著手指頭數道：\nMinoc、Trinsic、Jhelom、Yew、Skara Brae、Britain、Moonglow...\n。",
+  "fallback_used": false,
+  "npc": "Daver",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_daver_843b4ea6_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Daver。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:2194cb90cf89ac9a833f73b6a25b9e3bc4027c3b22ec379c3599bc3a48bf8bb2",
+  "reference_sha256": "bdd7daa0ac048f38a97fd5fcf9a487011da4d48c2f6abd81378babce74f9eba0",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "讓我看看。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_daver_843b4ea6_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Daver。今天你为何来到这片土地？",
+      "reference_id": "u6_daver_843b4ea6",
+      "reference_sha256": "bdd7daa0ac048f38a97fd5fcf9a487011da4d48c2f6abd81378babce74f9eba0",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他掰著手指頭數道：",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "Minoc、Trinsic、Jhelom、Yew、Skara Brae、Britain、Moonglow...",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_daver_843b4ea6_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Daver。今天你为何来到这片土地？",
+      "reference_id": "u6_daver_843b4ea6",
+      "reference_sha256": "bdd7daa0ac048f38a97fd5fcf9a487011da4d48c2f6abd81378babce74f9eba0",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1369282097,
+  "sample_rate": 24000,
+  "duration_seconds": 7.81,
+  "sha256": "0bb7c6c52ebeb91c4b14e0a3a5dd46e99af09d3484c6eb078866d8db15620afd",
+  "func_id": "041f",
+  "offset_key": "574",
+  "segment": 0,
+  "rendered_parts": [
+    "讓我看看。",
+    "他掰著手指頭數道：",
+    "Minoc、Trinsic、Jhelom、Yew、Skara Brae、Britain、Moonglow...",
+    "。"
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_boskin_8551f1cc",
+  "lang": "zh",
+  "text": "他的臉亮了起來。我就知道可以靠你，聖者！我會信守承諾的。我把符文藏在「被屠殺的羔羊」旅館的一盆植物下面。",
+  "tts_text": "他的臉亮了起來。我就知道可以靠你，聖者！我會信守承諾的。我把符文CANG2在「被屠殺的羔羊」旅館的一盆植物下面。",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
+  "rendered_text": "他的臉亮了起來。\n我就知道可以靠你，聖者！我會信守承諾的。我把符文藏在「被屠殺的羔羊」旅館的一盆植物下面。",
+  "fallback_used": false,
+  "npc": "Boskin",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:457cbfa97017463cbe20dfa7d995572b3ba02a875183dab695bc949f822aa29d",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "他的臉亮了起來。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "我就知道可以靠你，聖者！我會信守承諾的。我把符文藏在「被屠殺的羔羊」旅館的一盆植物下面。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_boskin_8551f1cc_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Boskin。今天你为何来到这片土地？",
+      "reference_id": "u6_boskin_8551f1cc",
+      "reference_sha256": "9235c681fdcc60e169b15cd6caeef61d445fde82dafad569a27f4ca23642d0d1",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 488057442,
+  "sample_rate": 24000,
+  "duration_seconds": 10.96,
+  "sha256": "70e1b52c6a31fc7d2af6562c800fbf806fbef722f834c2fb4bde3f5137b58cac",
+  "func_id": "0415",
+  "offset_key": "770",
+  "segment": 0,
+  "rendered_parts": [
+    "他的臉亮了起來。",
+    "我就知道可以靠你，聖者！我會信守承諾的。我把符文藏在「被屠殺的羔羊」旅館的一盆植物下面。"
+  ]
+}

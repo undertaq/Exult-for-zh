@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_trenton_bell_50adc94b",
+  "lang": "zh",
+  "text": "他聞著空氣，好像聞到了什麼不好的東西。 當然，我是市鎮長 Trenton Bell。你可以稱我為「閣下」。",
+  "tts_text": "他聞著空氣，好像聞到了什麼不好的東西。 當然，我是市鎮長 Trenton Bell。你可以稱我WEI2「閣下」。",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
+  "rendered_text": "他聞著空氣，好像聞到了什麼不好的東西。\n當然，我是市鎮長 Trenton Bell。你可以稱我為「閣下」。",
+  "fallback_used": false,
+  "npc": "Trenton Bell",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_trenton_bell_50adc94b_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Trenton Bell。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:b6dc3e38f0df1e1f0769ac0c95a16ae10cb69660523b3e3cf6ce5086821d3ff0",
+  "reference_sha256": "f68010714c7bb08cef4fa2b9a6d9ba697de7206cf1a4718e7271ee72b6f1b333",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "他聞著空氣，好像聞到了什麼不好的東西。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_trenton_bell_50adc94b_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Trenton Bell。今天你为何来到这片土地？",
+      "reference_id": "u6_trenton_bell_50adc94b",
+      "reference_sha256": "f68010714c7bb08cef4fa2b9a6d9ba697de7206cf1a4718e7271ee72b6f1b333",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "當然，我是市鎮長 Trenton Bell。你可以稱我為「閣下」。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 2595145511,
+  "sample_rate": 24000,
+  "duration_seconds": 9.94,
+  "sha256": "06c0b211e250dfbf46268538a664fc6e358943593ec0e51242489c88eb5a6104",
+  "func_id": "048e",
+  "offset_key": "16a",
+  "segment": 0,
+  "rendered_parts": [
+    "他聞著空氣，好像聞到了什麼不好的東西。",
+    "當然，我是市鎮長 Trenton Bell。你可以稱我為「閣下」。"
+  ]
+}

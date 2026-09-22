@@ -512,8 +512,8 @@ def test_non_arty_generated_design_jobs_receive_current_revision():
         "male, moderate pitch, American accent",
         "男, 中音调",
     }
-    assert aaron_refs and all(job.override_revision == "u6-omnivoice-overrides-v1" for job in aaron_refs)
-    assert aaron_clones and all(job.override_revision == "u6-omnivoice-overrides-v1" for job in aaron_clones)
+    assert aaron_refs and all(job.override_revision == overrides.revision for job in aaron_refs)
+    assert aaron_clones and all(job.override_revision == overrides.revision for job in aaron_clones)
 
 
 @pytest.mark.parametrize("design_id", ["u6_amanda_161b5245", "u6_budo_4b6e65fd"])
@@ -543,7 +543,12 @@ def test_u7_owned_design_jobs_are_not_affected_by_manifest_design_entry(design_i
     owned_refs = [job for job in refs if job.design_id == design_id]
     owned_clones = [job for job in clones if job.design_id == design_id]
     assert owned_refs and all(job.source == "u7" and job.override_revision is None for job in owned_refs)
-    assert owned_clones and all(job.override_revision is None for job in owned_clones)
+    assert owned_clones and all(
+        job.override_revision == overrides.revision
+        if job.tts_text != job.text
+        else job.override_revision is None
+        for job in owned_clones
+    )
 
 
 def test_affected_job_metadata_and_completion_require_current_revision(tmp_path, monkeypatch):

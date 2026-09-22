@@ -1,0 +1,69 @@
+{
+  "status": "generated",
+  "design_id": "u6_glen_d_arc_5a686815",
+  "lang": "zh",
+  "text": "是的，那些負擔不起復活費用的窮人，知道良好、誠實的泥土帶來的涼爽與舒適。 他懷念地嘆了一口氣。 我多麼羨慕他們，因爲只有死者才知道真正的安寧..",
+  "tts_text": "是的，那些負擔不起復活費用的窮人，知道良好、誠實的泥土帶來的涼爽與舒適。 他懷念地嘆了一口氣。 我多麼羨慕他們，因爲只有死者才知道真正的安寧..",
+  "override_revision": null,
+  "rendered_text": "是的，那些負擔不起復活費用的窮人，知道良好、誠實的泥土帶來的涼爽與舒適。\n他懷念地嘆了一口氣。\n我多麼羨慕他們，因爲只有死者才知道真正的安寧..",
+  "fallback_used": false,
+  "npc": "Glen D'Arc",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_glen_d_arc_5a686815_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Glen D'Arc。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:fcec4bc8eae94e70f66624f64a57ca69d6a100292253c0ab2808dcf724d4eec5",
+  "reference_sha256": "16c51bcd594c1aed6802e6e1e10bf6fa3443e43d3239e15e59b3fb87534b4547",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "是的，那些負擔不起復活費用的窮人，知道良好、誠實的泥土帶來的涼爽與舒適。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_glen_d_arc_5a686815_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Glen D'Arc。今天你为何来到这片土地？",
+      "reference_id": "u6_glen_d_arc_5a686815",
+      "reference_sha256": "16c51bcd594c1aed6802e6e1e10bf6fa3443e43d3239e15e59b3fb87534b4547",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "他懷念地嘆了一口氣。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "我多麼羨慕他們，因爲只有死者才知道真正的安寧..",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_glen_d_arc_5a686815_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Glen D'Arc。今天你为何来到这片土地？",
+      "reference_id": "u6_glen_d_arc_5a686815",
+      "reference_sha256": "16c51bcd594c1aed6802e6e1e10bf6fa3443e43d3239e15e59b3fb87534b4547",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 4248162606,
+  "sample_rate": 24000,
+  "duration_seconds": 13.83,
+  "sha256": "cdcec465d9e58b9e8e578d7e8ed3411bc0edf530cc8636fc7260487d3809c814",
+  "func_id": "040e",
+  "offset_key": "966",
+  "segment": 0,
+  "rendered_parts": [
+    "是的，那些負擔不起復活費用的窮人，知道良好、誠實的泥土帶來的涼爽與舒適。",
+    "他懷念地嘆了一口氣。",
+    "我多麼羨慕他們，因爲只有死者才知道真正的安寧.."
+  ]
+}

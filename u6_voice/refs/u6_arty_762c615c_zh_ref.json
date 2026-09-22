@@ -4,7 +4,7 @@
   "lang": "zh",
   "text": "旅人，你好。我是Arty。今天你为何来到这片土地？",
   "tts_text": "旅人，你好。我是Arty。今天你为何来到这片土地？",
-  "override_revision": "u6-omnivoice-overrides-v1",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "旅人，你好。我是Arty。今天你为何来到这片土地？",
   "fallback_used": false,
   "npc": "Arty",
@@ -12,9 +12,9 @@
   "instruct": "男, 中音调",
   "ref_text": "旅人，你好。我是Arty。今天你为何来到这片土地？",
   "model": "k2-fsa/OmniVoice",
-  "gpu": 1,
-  "seed": 362055927,
+  "gpu": 0,
+  "seed": 1763136814,
   "sample_rate": 24000,
-  "duration_seconds": 3.42,
-  "sha256": "287e9d2b5230d1918dc830e1cfa96c584d3a0ac11c00113bb54429d4b5476cdb"
+  "duration_seconds": 4.22,
+  "sha256": "1f7c6b6b5f0905e516871341e9aa8ffd15ff0d4549ef3b11a6005c8e13b92286"
 }

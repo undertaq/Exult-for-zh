@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "design_id": "u6_ava_149f7514",
+  "lang": "zh",
+  "text": "很好！ 收下你的金幣後，她遞給你",
+  "tts_text": "很好！ 收下你的金幣後，她遞給你",
+  "override_revision": null,
+  "rendered_text": "很好！\n收下你的金幣後，她遞給你",
+  "fallback_used": false,
+  "npc": "Ava",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_ava_149f7514_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Ava。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:d9f08c20bf6a108346520be7c4dea8b88be1a02b0ff0e0ff2795df9d656af316",
+  "reference_sha256": "4aeaa922e26e7145ee39236f6cc20e686aa03a9ee56e373948d477aecbeb5128",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "很好！",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_ava_149f7514_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Ava。今天你为何来到这片土地？",
+      "reference_id": "u6_ava_149f7514",
+      "reference_sha256": "4aeaa922e26e7145ee39236f6cc20e686aa03a9ee56e373948d477aecbeb5128",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "收下你的金幣後，她遞給你",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": null,
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2112795865,
+  "sample_rate": 24000,
+  "duration_seconds": 4.46,
+  "sha256": "3aab5181bcff9bc21961a9aa436776d80733c1f3340ff94e3dd884302e717341",
+  "func_id": "0483",
+  "offset_key": "121",
+  "segment": 0,
+  "rendered_parts": [
+    "很好！",
+    "收下你的金幣後，她遞給你"
+  ]
+}
