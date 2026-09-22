@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "指引",
   "tts_text": "指引",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "指引",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 285329452,
   "sample_rate": 24000,
   "duration_seconds": 1.52,
-  "sha256": "3e6436b425441a1305224fb2a396d84b1acdd3ec998fa165bece6010a900aca2",
+  "sha256": "4256bf1269c788d6407e1c4bb0742ab854eb09eba14ced7292e9d21d0a08d4f3",
   "func_id": "04bb",
   "offset_key": "38a",
   "segment": 0

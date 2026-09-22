@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "掘墓人",
   "tts_text": "掘墓人",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "掘墓人",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2646906979,
   "sample_rate": 24000,
-  "duration_seconds": 1.06,
-  "sha256": "78a456e16b82340062a3c42ee220f027a6270ce7a2dee0e68dc83c11f8f5ccf9",
+  "duration_seconds": 1.72,
+  "sha256": "22a74efe61208cc49b907337ec3819f06115d50aab589875bacad4d2f58eeb52",
   "func_id": "0429",
   "offset_key": "25c",
   "segment": 0

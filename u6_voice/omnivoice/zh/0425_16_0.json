@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "羊肉",
   "tts_text": "羊肉",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "羊肉",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 671728029,
   "sample_rate": 24000,
-  "duration_seconds": 1.51,
-  "sha256": "62e431cc51a46896bf06e1dc8f249c7ea56c9279a99910d267806be4c6a127b6",
+  "duration_seconds": 1.52,
+  "sha256": "9da78c5436d21f424548eefd0ad1ff6085e3b29880500537b41579edfa7fd58b",
   "func_id": "0425",
   "offset_key": "16",
   "segment": 0

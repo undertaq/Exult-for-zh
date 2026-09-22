@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "偽先知...",
   "tts_text": "WEI4先知...",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "WEI4先知...",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3683209828,
   "sample_rate": 24000,
-  "duration_seconds": 1.72,
-  "sha256": "865dd285f1d50304a56af6f1d1cd2340ba97ac180f9a051a54b915b7fbbe2440",
+  "duration_seconds": 1.63,
+  "sha256": "00ac193b4527f385b499ed80174d0faf525b55706f7f7432241856d7a0a50912",
   "func_id": "04ba",
   "offset_key": "35",
   "segment": 0

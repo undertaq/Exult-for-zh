@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Gwen",
   "tts_text": "Gwen",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Gwen",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2020941760,
   "sample_rate": 24000,
-  "duration_seconds": 0.56,
-  "sha256": "d3a856b3dea57fb4e010faa3effa7be248aefe0c882d024e5388c2e5caf555f7",
+  "duration_seconds": 0.58,
+  "sha256": "5546031bfca6b65c73620505ee7cb6f697d8cc3caf85c50b4088fb58cb70ecb3",
   "func_id": "048c",
   "offset_key": "e8c",
   "segment": 0

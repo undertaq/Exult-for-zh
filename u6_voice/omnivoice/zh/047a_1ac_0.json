@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Arbeth",
   "tts_text": "Arbeth",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Arbeth",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 3791261803,
   "sample_rate": 24000,
-  "duration_seconds": 0.76,
-  "sha256": "a4322a7a72fe4b41f5b15c92698f97e4559a0acfd8fa1a3d9c81476de8fe844f",
+  "duration_seconds": 0.87,
+  "sha256": "b1681445450e91161d0ab974fdcda6d2a96c5af88ccd563e797b4fa2568e1b9b",
   "func_id": "047a",
   "offset_key": "1ac",
   "segment": 0

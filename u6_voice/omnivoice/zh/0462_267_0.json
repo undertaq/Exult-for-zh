@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "狗和你握了握手（爪）。",
   "tts_text": "狗和你握了握手（爪）。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "狗和你握了握手（爪）。",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2878329226,
   "sample_rate": 24000,
-  "duration_seconds": 2.75,
-  "sha256": "da31ede4c66cb32181202bd36e4b959c7f8e3050893ba0987723e4636fe9dcc0",
+  "duration_seconds": 3.0,
+  "sha256": "0e37032d76e3d7799314435daf34e06424c7182597871b0d003766b0126254ae",
   "func_id": "0462",
   "offset_key": "267",
   "segment": 0

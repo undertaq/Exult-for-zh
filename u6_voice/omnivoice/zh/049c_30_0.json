@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "你好，大人。",
   "tts_text": "你好，大人。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "你好，大人。",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2961559928,
   "sample_rate": 24000,
-  "duration_seconds": 0.37,
-  "sha256": "fbf1ff8bd3a6a66233b3a97b3bad3bd1aac29b8c59f8366fff0e6751a709fed5",
+  "duration_seconds": 1.71,
+  "sha256": "e8696363a9f68ec89dec8ce251fa580fc486edb65d1363b47735d6d987ff2b09",
   "func_id": "049c",
   "offset_key": "30",
   "segment": 0

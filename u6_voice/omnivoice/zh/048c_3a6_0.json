@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Gideon",
   "tts_text": "Gideon",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Gideon",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 3716552076,
   "sample_rate": 24000,
-  "duration_seconds": 0.88,
-  "sha256": "d1e096cf6c25f7dc15d5241f68097d56696189ba175fbeacc51466071c37fbf2",
+  "duration_seconds": 1.56,
+  "sha256": "c7d11efa4fd722931e961cbffd77dcf3e74a926eb333183eedcc70fe8c36ab08",
   "func_id": "048c",
   "offset_key": "3a6",
   "segment": 0

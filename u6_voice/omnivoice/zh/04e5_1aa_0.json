@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "兄弟",
   "tts_text": "兄弟",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "兄弟",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 4284107585,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "70be9e8ab1216aca1cf4a392e435162c80bc5d505caf365f67408a504945797d",
+  "sha256": "d59cda64c2f2304d56a89fc45c9ce2cc72f905adf7e6197002780ddd18c10dee",
   "func_id": "04e5",
   "offset_key": "1aa",
   "segment": 0

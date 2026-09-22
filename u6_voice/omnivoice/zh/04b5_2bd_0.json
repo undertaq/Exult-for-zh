@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "智力",
   "tts_text": "智力",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "智力",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 2628947891,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "1a0d71da070ff89a6c32d7d2b7d68e13f050f70b51d94b3961d610770bbd86a0",
+  "sha256": "007a1f960e258176d4e32b79d93f9f6dc134e207bc45f1e808ec7696925c67b5",
   "func_id": "04b5",
   "offset_key": "2bd",
   "segment": 0

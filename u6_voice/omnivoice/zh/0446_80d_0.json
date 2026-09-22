@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "旅途平安。",
   "tts_text": "旅途平安。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "旅途平安。",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3789378468,
   "sample_rate": 24000,
-  "duration_seconds": 1.14,
-  "sha256": "b813b3dbceba10ce6dd619d2d5c1a21bdd2597231a2b707171113af6958be6eb",
+  "duration_seconds": 1.22,
+  "sha256": "7cfe7e2325651cc3e2bcc41761d295dbb32326c46c9e3c51ca219300c5367b4f",
   "func_id": "0446",
   "offset_key": "80d",
   "segment": 0

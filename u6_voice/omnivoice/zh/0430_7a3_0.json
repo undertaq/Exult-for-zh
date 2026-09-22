@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "胡椒",
   "tts_text": "胡椒",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "胡椒",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2349279229,
   "sample_rate": 24000,
-  "duration_seconds": 1.56,
-  "sha256": "10db168cb10c337b97e866c43415fc6f43647dfbd1362288b820c7e43f35023d",
+  "duration_seconds": 0.83,
+  "sha256": "84721ef915134f6ae22ab2bff76756bf48d1f8633fce860ceb6e76ec72dcbf64",
   "func_id": "0430",
   "offset_key": "7a3",
   "segment": 0

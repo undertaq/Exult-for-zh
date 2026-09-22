@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "美德之石",
   "tts_text": "美德之石",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "美德之石",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 2016900711,
   "sample_rate": 24000,
   "duration_seconds": 1.92,
-  "sha256": "cb3da0c153de17309575ae9b6207d5e9a22d9b2a1febd9cd23de930bf7fed6a7",
+  "sha256": "b4307b7b63e20c5c9c55b738cdeec516eeb154900a99e84d679e66986ed4c820",
   "func_id": "0468",
   "offset_key": "268",
   "segment": 0

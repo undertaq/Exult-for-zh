@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "音樂家",
   "tts_text": "音YUE4家",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "音YUE4家",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2272338308,
   "sample_rate": 24000,
-  "duration_seconds": 1.88,
-  "sha256": "7f434b3339f071ca7df62d2d833c26eea191f83408119deb26bb1e063aa8db0c",
+  "duration_seconds": 0.93,
+  "sha256": "1b351d15ac1e40082b8a5c2b0b8f692ddd7b59231232e5221f35e30a94071793",
   "func_id": "0461",
   "offset_key": "4f0",
   "segment": 0

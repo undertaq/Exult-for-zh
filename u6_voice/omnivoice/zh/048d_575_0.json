@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "痛苦可以如此深邃",
   "tts_text": "痛苦可以如此深邃",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "痛苦可以如此深邃",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1072928770,
   "sample_rate": 24000,
-  "duration_seconds": 2.72,
-  "sha256": "eff7c7323021d0d2a1c571a27f6b5fd8fd3b648a2e0c7ca7207caa4a4c67bac3",
+  "duration_seconds": 2.71,
+  "sha256": "ecc85f96b6b8b7dce5c227fc40278486e6fa561cd0c3a83edc967d939b3ed140",
   "func_id": "048d",
   "offset_key": "575",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "我需要食物！！",
   "tts_text": "我需要食物！！",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "我需要食物！！",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1675063102,
   "sample_rate": 24000,
-  "duration_seconds": 1.26,
-  "sha256": "fd2f47b4610410a8dd918b6b0629d33c63dc41bb3d1e41fc70f1656981c71976",
+  "duration_seconds": 1.46,
+  "sha256": "b1033555cf3d5fd955a0ef3d481665b56fdc06d2e3892faa664c3b568f75826b",
   "func_id": "0481",
   "offset_key": "0",
   "segment": 0

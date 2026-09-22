@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "布料",
   "tts_text": "布料",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "布料",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 3290260664,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "4eaa7e4e8821916c1282bcbed2eb0b4523fd017aa4c6c9ec800348a5d97a4ad6",
+  "sha256": "be842cff93fefcf30e3510fcf952e029ace19267735e2c4f416043d25d6b51e1",
   "func_id": "0487",
   "offset_key": "1d3",
   "segment": 0

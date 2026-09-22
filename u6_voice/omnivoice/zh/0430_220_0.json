@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "嘿，我的老朋友",
   "tts_text": "嘿，我的老朋友",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "嘿，我的老朋友",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 3681605813,
   "sample_rate": 24000,
   "duration_seconds": 1.91,
-  "sha256": "f41fe317e906418d4a2e5b961490f7fdbddf7da958c23594a48216671eb46adf",
+  "sha256": "1eaa062726865b8377668302ef5b6ca70a12965fe70d437f570e69a38ac0f481",
   "func_id": "0430",
   "offset_key": "220",
   "segment": 0

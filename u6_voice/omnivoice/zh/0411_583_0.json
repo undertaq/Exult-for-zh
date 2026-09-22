@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Zog的骨骼",
   "tts_text": "Zog的骨骼",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Zog的骨骼",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 685018037,
   "sample_rate": 24000,
   "duration_seconds": 1.88,
-  "sha256": "d98dccd7f733504b16f82863d623bb3eaa08035b6d5a1470761a28c0d70391c3",
+  "sha256": "00071c631f196c31abf08ca7f3c07e79abf08ce5d1ef9a270a091388bd66f326",
   "func_id": "0411",
   "offset_key": "583",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Merideth",
   "tts_text": "Merideth",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Merideth",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1852741670,
   "sample_rate": 24000,
-  "duration_seconds": 1.64,
-  "sha256": "65a6bd78c3b44cb91a63513ff98db034b5ff17b8e568f2993b627be4b9e111e1",
+  "duration_seconds": 0.98,
+  "sha256": "ef64da95f26df8552c8342f321bf2e5a852f6f3194d25b9b121869a5076c0880",
   "func_id": "047a",
   "offset_key": "18d",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "小心石像鬼！",
   "tts_text": "小心石像鬼！",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "小心石像鬼！",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 2278514849,
   "sample_rate": 24000,
-  "duration_seconds": 1.63,
-  "sha256": "3b835de6924913f57f9a04eec563b1a62ad671bf8188ff693790d0f3aeced094",
+  "duration_seconds": 1.7,
+  "sha256": "48a98f17fd418fe3362878afe297bb2a558f2c43cf905d4ba09c892dbe0f0671",
   "func_id": "0433",
   "offset_key": "25",
   "segment": 0

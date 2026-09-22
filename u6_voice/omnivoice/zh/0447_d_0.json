@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "哦，好痛！",
   "tts_text": "哦，好痛！",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "哦，好痛！",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3300223021,
   "sample_rate": 24000,
-  "duration_seconds": 1.54,
-  "sha256": "18b5d949260c43ca5fed700f4e6b8acb29fcbfa95bffc010ef62285d2e5fb8d9",
+  "duration_seconds": 1.53,
+  "sha256": "166cf93aeaeb51aec18f0150cd861bdcb5e82686fe16292036fa4d6867ab843e",
   "func_id": "0447",
   "offset_key": "d",
   "segment": 0

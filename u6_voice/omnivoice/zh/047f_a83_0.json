@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "演奏",
   "tts_text": "演奏",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "演奏",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 2540374284,
   "sample_rate": 24000,
-  "duration_seconds": 1.56,
-  "sha256": "5632fddb83cd1ba41c3f1f96dd68844d7e4b1483a2a8461a014d5e76ab0afc2c",
+  "duration_seconds": 0.67,
+  "sha256": "e49d7960aae2ea0fbd899b535c03150312d91e0c474ae105604dafa126269e31",
   "func_id": "047f",
   "offset_key": "a83",
   "segment": 0

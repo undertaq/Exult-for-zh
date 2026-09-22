@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "老鼠",
   "tts_text": "老鼠",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "老鼠",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 2425318197,
   "sample_rate": 24000,
-  "duration_seconds": 1.5,
-  "sha256": "6e8d1ca84517c453fca63bb8d3c2ecc5a25cc3ecc6ddf2fb917c428c74ca7777",
+  "duration_seconds": 1.52,
+  "sha256": "d5fdd8f829808ec30bb33162ddf2b26042e8275614a0030b56b8069d4da5936a",
   "func_id": "0441",
   "offset_key": "2e2",
   "segment": 0

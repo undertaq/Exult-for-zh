@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Beh Lem",
   "tts_text": "Beh Lem",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Beh Lem",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 1970237529,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "a2aad1ffe9757a3fa491a6c48a85279953a907f0558e99d913531e2b1d13538d",
+  "sha256": "8046c3b1d3c72aa64e617eb60be468b451900360f15054cc2cd43f36e9aac1f2",
   "func_id": "046e",
   "offset_key": "ae2",
   "segment": 0

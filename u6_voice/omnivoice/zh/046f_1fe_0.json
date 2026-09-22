@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "黑色",
   "tts_text": "黑色",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "黑色",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 2727909005,
   "sample_rate": 24000,
   "duration_seconds": 1.51,
-  "sha256": "754947b8c7929c12daf3d9208b4d60a3db0f170a50769417666b62ddb7d5ff46",
+  "sha256": "d907657d8fdea673570e346c9f06ddb563b45c9c2f9305c72238cd850f423b88",
   "func_id": "046f",
   "offset_key": "1fe",
   "segment": 0

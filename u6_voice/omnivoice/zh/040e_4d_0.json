@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "晚安...",
   "tts_text": "晚安...",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "晚安...",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 698138155,
   "sample_rate": 24000,
-  "duration_seconds": 1.39,
-  "sha256": "52c7f53c9058a1370e2d12364d3f491b818408a0c720d64b20773b111bc8ac11",
+  "duration_seconds": 0.69,
+  "sha256": "f0aa89e429d4b429bcc5dfd00d1508a2d0871a9f266b4cad7ad53e5dcd8e616d",
   "func_id": "040e",
   "offset_key": "4d",
   "segment": 0

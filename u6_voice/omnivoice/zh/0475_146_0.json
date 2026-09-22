@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Thindle",
   "tts_text": "Thindle",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Thindle",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 3628284490,
   "sample_rate": 24000,
   "duration_seconds": 1.64,
-  "sha256": "46e24f72255dcd1699524e70c09a2eb69708eba4232735154110244f50ed2ab4",
+  "sha256": "15e0c8699ddf2273be01071c55c0c55fbda24c334335f21e7ccb73f8858b4f05",
   "func_id": "0475",
   "offset_key": "146",
   "segment": 0

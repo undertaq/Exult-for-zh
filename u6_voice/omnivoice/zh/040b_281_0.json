@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "我是鼓手也是歌手。",
   "tts_text": "我是鼓手也是歌手。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "我是鼓手也是歌手。",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1103426597,
   "sample_rate": 24000,
-  "duration_seconds": 1.83,
-  "sha256": "16648f7d73ec43aab7bbf98b931f2b2e101038f56d551f7980ed8fc7b618265a",
+  "duration_seconds": 1.82,
+  "sha256": "cec9515f5918e7adbf42800774b04abd8e20e8ddc153f3b26660f3388d94281d",
   "func_id": "040b",
   "offset_key": "281",
   "segment": 0

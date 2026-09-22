@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "花",
   "tts_text": "花",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "花",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3305889830,
   "sample_rate": 24000,
-  "duration_seconds": 1.28,
-  "sha256": "9bc64c90fce5007e174445131b755cff9e5e6a7119b78b73147d51017cd8a59c",
+  "duration_seconds": 0.75,
+  "sha256": "db9b6f45dba6aee9b20a1944fabd078d11e9abdc963bdeb95ef2e7f7e4efecc8",
   "func_id": "049d",
   "offset_key": "67b",
   "segment": 0

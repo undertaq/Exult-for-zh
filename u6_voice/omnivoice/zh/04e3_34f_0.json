@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Ybarra",
   "tts_text": "Ybarra",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Ybarra",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 644406572,
   "sample_rate": 24000,
-  "duration_seconds": 1.56,
-  "sha256": "07ecb926f661c6c1ffe192b187af00b54df699e8bb3f07b9631d9a71917e3b50",
+  "duration_seconds": 0.84,
+  "sha256": "cd7ebb0de16089fcf4066e9035a2e5a09eb5cf2d27ff0343617789ce168c6afc",
   "func_id": "04e3",
   "offset_key": "34f",
   "segment": 0

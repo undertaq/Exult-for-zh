@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "地下城",
   "tts_text": "地下城",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "地下城",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3272842064,
   "sample_rate": 24000,
-  "duration_seconds": 0.81,
-  "sha256": "8acad00c825435fee4e7c81295660340c44d176579b4c48a8ca32fcc4dfc6bc8",
+  "duration_seconds": 1.16,
+  "sha256": "f0148269ab10a25106c0dbdfdd80db48572eb79fdb779193056a6b7e08914fe8",
   "func_id": "0446",
   "offset_key": "52f",
   "segment": 0

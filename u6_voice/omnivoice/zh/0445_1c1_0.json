@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "勇者",
   "tts_text": "勇者",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "勇者",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1018579818,
   "sample_rate": 24000,
-  "duration_seconds": 0.98,
-  "sha256": "973fae0eb52273d1d8896d65f648353031a1c767dce7bbbb7cb64383e9aee414",
+  "duration_seconds": 0.7,
+  "sha256": "680d6271d01430a17dc613439baffe10a95684eb0929320b6798fbebd124853a",
   "func_id": "0445",
   "offset_key": "1c1",
   "segment": 0

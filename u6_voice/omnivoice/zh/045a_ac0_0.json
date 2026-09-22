@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "抱歉，我不明白。",
   "tts_text": "抱歉，我不明白。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "抱歉，我不明白。",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2582162791,
   "sample_rate": 24000,
-  "duration_seconds": 1.65,
-  "sha256": "fdc4bad034aa4fc3d7d0f4c5e49c683e630c3e4b7481687fa6109dc2f997cc63",
+  "duration_seconds": 1.72,
+  "sha256": "4d84a4f84adffd27dbb18e1e9c75315233b4009d97c42e5aaaee4864112592dd",
   "func_id": "045a",
   "offset_key": "ac0",
   "segment": 0

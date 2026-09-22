@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "女人",
   "tts_text": "女人",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "女人",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 3014025651,
   "sample_rate": 24000,
-  "duration_seconds": 0.7,
-  "sha256": "6c923813ef9ad6382483a56e530c2a6ef107fa8264be3364082c59dbf6ff063b",
+  "duration_seconds": 1.56,
+  "sha256": "8af5c29d986abeadb7e18e27f53d2e2f9a98d3b150569f4f8e395d885bbd8da8",
   "func_id": "043e",
   "offset_key": "0",
   "segment": 0

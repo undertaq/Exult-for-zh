@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "水晶",
   "tts_text": "水晶",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "水晶",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 1689220441,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "8b4197089bb60f86d004b9bffd8cce008b8ce782dc271541a8fd50ceaeda0e4b",
+  "sha256": "515bf0e1b6e4c1196fb74ab483cead31c33d9914f1d79f4af541fe284ccb7cec",
   "func_id": "0458",
   "offset_key": "2de",
   "segment": 0

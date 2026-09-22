@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "抱歉..",
   "tts_text": "抱歉..",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "抱歉..",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3638320572,
   "sample_rate": 24000,
-  "duration_seconds": 0.85,
-  "sha256": "419f51a098f6e1aed259b253ebd4534c7d1d02e2d6c016ea2fba1c0d888c0552",
+  "duration_seconds": 0.92,
+  "sha256": "537732aa5e9f46c5b12a2711b3ade3e6130adabbbbe395c07da4bfb330addb3e",
   "func_id": "0490",
   "offset_key": "f",
   "segment": 0

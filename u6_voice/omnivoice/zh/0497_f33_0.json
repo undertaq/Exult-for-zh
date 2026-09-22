@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "和你聊天很愉快。",
   "tts_text": "和你聊天很愉快。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "和你聊天很愉快。",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2919690103,
   "sample_rate": 24000,
-  "duration_seconds": 1.94,
-  "sha256": "50ffedd30b76c6957176dcb78fd565577cec0fec46342e606802476a191e951c",
+  "duration_seconds": 2.0,
+  "sha256": "d82d6fce473e665dc04a3526280a880a3c4c05b8fe31c6060a33cabe2a89bbc7",
   "func_id": "0497",
   "offset_key": "f33",
   "segment": 0

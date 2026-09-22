@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "向Kador道歉！",
   "tts_text": "向Kador道歉！",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "向Kador道歉！",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 4049127321,
   "sample_rate": 24000,
   "duration_seconds": 2.04,
-  "sha256": "b7a777967e7d5f6844360c4bff820e0ada25bdceb00961d220a3cc818a39a8a1",
+  "sha256": "d9f17c9e249c943968a899eb07f2c94c261801501ce76ed40605c6f006b33abd",
   "func_id": "041b",
   "offset_key": "33a",
   "segment": 0

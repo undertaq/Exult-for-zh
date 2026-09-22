@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "信仰",
   "tts_text": "信仰",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "信仰",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 120996214,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "4d5763ff6153225a3772d366afac1391bd7e99906756a733bc7b35679f69e7ed",
+  "sha256": "665a9de76a3dfe094ec930ae0dab0bcc390f0d321aa4d8086dde1b35c7276916",
   "func_id": "046e",
   "offset_key": "5e0",
   "segment": 0

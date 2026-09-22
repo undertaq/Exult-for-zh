@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "束腰外衣",
   "tts_text": "束腰外衣",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "束腰外衣",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2695201630,
   "sample_rate": 24000,
-  "duration_seconds": 1.92,
-  "sha256": "6eef860467d7679b2502dd98477f10c9e961847f4da3118fb4f5bca35d36163b",
+  "duration_seconds": 1.38,
+  "sha256": "b2fec157ce2c75bc4c2fae95c69cecb44da3999f4f08e7d576e5f0eadf66fa29",
   "func_id": "04f5",
   "offset_key": "1b",
   "segment": 0

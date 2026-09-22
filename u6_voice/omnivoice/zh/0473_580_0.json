@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "乾渴",
   "tts_text": "GAN1渴",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "GAN1渴",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2164527975,
   "sample_rate": 24000,
-  "duration_seconds": 1.03,
-  "sha256": "dbc60d3156b7f549bb162a83a5750ac402251038ae26e04e74bc66b14fdd53b6",
+  "duration_seconds": 0.77,
+  "sha256": "7e75994f14d57e9f32521d6fff6851f5e31a566005f663a27cb833ce25933a31",
   "func_id": "0473",
   "offset_key": "580",
   "segment": 0

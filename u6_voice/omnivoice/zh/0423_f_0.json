@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "稍等一下，朋友。",
   "tts_text": "稍等一下，朋友。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "稍等一下，朋友。",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 2966231537,
   "sample_rate": 24000,
   "duration_seconds": 1.92,
-  "sha256": "715fa320c06dee1b50ad77cc9547287dae7588667c26e1c2d788848a360d05a8",
+  "sha256": "f0de39f4bf28d028594a3727f1a5fbcee0ff504d2bc4d0256d0f3eac0023aa93",
   "func_id": "0423",
   "offset_key": "f",
   "segment": 0

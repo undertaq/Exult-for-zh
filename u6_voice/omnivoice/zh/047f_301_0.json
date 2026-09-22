@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Mandrake",
   "tts_text": "Mandrake",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Mandrake",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1127949769,
   "sample_rate": 24000,
-  "duration_seconds": 0.8,
-  "sha256": "3c2bdb0a2abb0ee3fd42e7ad09f49185ee6a93bcbf79a5691349df3cdf3f7c94",
+  "duration_seconds": 0.98,
+  "sha256": "c9e28774848fab19fec8a43b1ad72826fcb64398954a45437b0ab6f475478545",
   "func_id": "047f",
   "offset_key": "301",
   "segment": 0

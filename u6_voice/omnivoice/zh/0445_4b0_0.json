@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "地震",
   "tts_text": "地震",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "地震",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 2715904034,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "cbd843a485467909edc35aacd19cab1c84b2a12d194f313260ddc6db518d88f0",
+  "sha256": "e2d5fcc243ee7c4248d2893215c0e76a07422a2ff91fded6b6b729b5bb662a1d",
   "func_id": "0445",
   "offset_key": "4b0",
   "segment": 0

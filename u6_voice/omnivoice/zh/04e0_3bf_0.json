@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "喝酒",
   "tts_text": "喝酒",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "喝酒",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 870197809,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "cc0832f1880655a76415bb1cca52219942c89a6eede2cc2ff577708e21b22451",
+  "sha256": "3bcaeb27f0e85a1e0ccf359e9c7ee36eb8f437b1a2dbe4470397894d20d00fd1",
   "func_id": "04e0",
   "offset_key": "3bf",
   "segment": 0

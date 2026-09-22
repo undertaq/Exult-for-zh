@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "住手！",
   "tts_text": "住手！",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "住手！",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 4278664863,
   "sample_rate": 24000,
-  "duration_seconds": 0.86,
-  "sha256": "0789e8b5e296e7ea187317b1726ee54956e96b697fc8237c7ba89607c2029162",
+  "duration_seconds": 0.91,
+  "sha256": "6331fedc0fce2913b8c345683db94edb5df06561d89768bb22261f725970ae51",
   "func_id": "0465",
   "offset_key": "f",
   "segment": 0

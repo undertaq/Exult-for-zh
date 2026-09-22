@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "教",
   "tts_text": "教",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "教",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 347611459,
   "sample_rate": 24000,
-  "duration_seconds": 1.28,
-  "sha256": "1f9dac0dcc7840de7b482c86836e79dc84d55f74cb9d7612c888efb48161454f",
+  "duration_seconds": 0.6,
+  "sha256": "9de87748805d5e110bc5f92595fe7422e0abb1b8f1a895dbe17a97bd1eb702dd",
   "func_id": "0437",
   "offset_key": "a99",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Andreas",
   "tts_text": "Andreas",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Andreas",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3121712359,
   "sample_rate": 24000,
-  "duration_seconds": 0.89,
-  "sha256": "5aa7973f3f66698c7aff4f8606f6cf9dbe770d751c287432a5d758570237a89f",
+  "duration_seconds": 0.97,
+  "sha256": "5fa2cce07a01ae52615e35baef145441f56f22208a35a2576a8c5e7b09c8c020",
   "func_id": "0462",
   "offset_key": "1b8",
   "segment": 0

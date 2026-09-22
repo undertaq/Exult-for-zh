@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Koronada",
   "tts_text": "Koronada",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Koronada",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 4025519453,
   "sample_rate": 24000,
-  "duration_seconds": 1.72,
-  "sha256": "9d79a5d9251c5dc387940fcfdc218a82f750c34c8d4bf143e37822bb354416d5",
+  "duration_seconds": 1.1,
+  "sha256": "8bcc18107048643f45f5dfc3d64e087317d281e4820195f6bceeacab003d0419",
   "func_id": "04ed",
   "offset_key": "4dc",
   "segment": 0

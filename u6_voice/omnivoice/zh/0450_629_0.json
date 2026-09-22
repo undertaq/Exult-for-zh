@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "蛋",
   "tts_text": "蛋",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "蛋",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2228371871,
   "sample_rate": 24000,
-  "duration_seconds": 1.28,
-  "sha256": "c3ead669c79ee3f9f56a9540c6008923f4ce9eef3c8992da0793b5304d3097ff",
+  "duration_seconds": 0.43,
+  "sha256": "26cdc77e0aae49cbad6adfc05873caf30876542356d06a694c3d7b659ffced10",
   "func_id": "0450",
   "offset_key": "629",
   "segment": 0

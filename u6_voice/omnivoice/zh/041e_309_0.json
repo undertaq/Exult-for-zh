@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "手套",
   "tts_text": "手套",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "手套",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 3639942508,
   "sample_rate": 24000,
-  "duration_seconds": 1.52,
-  "sha256": "5f9a817c99a47f5c6242229589b03104e4347fc994af0eaf843139f001fe2861",
+  "duration_seconds": 1.51,
+  "sha256": "e7c9063b4c2039571260266592859342fdd537236ba16ce88194657f916c3b0e",
   "func_id": "041e",
   "offset_key": "309",
   "segment": 0

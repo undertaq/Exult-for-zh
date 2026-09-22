@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Jerris",
   "tts_text": "Jerris",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Jerris",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 368906995,
   "sample_rate": 24000,
-  "duration_seconds": 0.71,
-  "sha256": "6c01baedd85c4e3416ea73a77ed3c332f8364e9430ad057f7d508c1afd8d9554",
+  "duration_seconds": 0.94,
+  "sha256": "4bc14653633c111eca121e10caea590be4c2010b9d87795d3a25b197f5a32cc7",
   "func_id": "0441",
   "offset_key": "561",
   "segment": 0

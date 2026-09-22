@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "我叫Shubin，",
   "tts_text": "我叫Shubin，",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "我叫Shubin，",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 2262168910,
   "sample_rate": 24000,
   "duration_seconds": 1.22,
-  "sha256": "3a41fb2b58aa8e1aa5a2a4c42fed00a91940f14e2570724ff4200da6225c5f54",
+  "sha256": "7bbf0d64b442b49b8ad27b686d771cf904c57952d2706b3a2ffcea08fdb79dd5",
   "func_id": "04f1",
   "offset_key": "197",
   "segment": 0

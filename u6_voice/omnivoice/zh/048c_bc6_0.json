@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "故事",
   "tts_text": "故事",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "故事",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 19306960,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "551341589ee94ab0363ec0f949f7d5306eff83db24515d709f357f15450091fa",
+  "sha256": "a8b52452fed7136bb7408f41f0b6afc9a081911cc594ea2a2df491cbd6ecc6c0",
   "func_id": "048c",
   "offset_key": "bc6",
   "segment": 0

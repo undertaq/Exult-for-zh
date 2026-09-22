@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Mr. Nose",
   "tts_text": "Mr. Nose",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Mr. Nose",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1035505116,
   "sample_rate": 24000,
-  "duration_seconds": 1.26,
-  "sha256": "f86f550aecc42783f080e13ee7954da5fec1a2a0bf0b781d641184df7841be1c",
+  "duration_seconds": 0.96,
+  "sha256": "f75bf7a3d2da6617842c7579273579eac84e8975e0ea968ccb2321d4830f06eb",
   "func_id": "0494",
   "offset_key": "64d",
   "segment": 0

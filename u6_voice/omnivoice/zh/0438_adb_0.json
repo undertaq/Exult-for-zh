@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "骨牌是：",
   "tts_text": "骨牌是：",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "骨牌是：",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 152810045,
   "sample_rate": 24000,
-  "duration_seconds": 1.71,
-  "sha256": "90264d66f59acbc5307f1252701a8d4e99499157951c4d4173d7b8e506619cd7",
+  "duration_seconds": 1.7,
+  "sha256": "1d1bb2d40299bb1eeb6be76dc31badd39830d9efa65c0191f0b664b70f4b22a8",
   "func_id": "0438",
   "offset_key": "adb",
   "segment": 0

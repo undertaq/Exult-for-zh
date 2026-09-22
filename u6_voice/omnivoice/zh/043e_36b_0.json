@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Chuckles",
   "tts_text": "Chuckles",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Chuckles",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1219338443,
   "sample_rate": 24000,
-  "duration_seconds": 0.97,
-  "sha256": "86d7470cd203489bc5c0dd1735025848df403b9ce245752e8143f3ae7856afab",
+  "duration_seconds": 0.91,
+  "sha256": "cad7cfedcb857270231bad6ebae0c69a9f511081fca039273e9659f252981b66",
   "func_id": "043e",
   "offset_key": "36b",
   "segment": 0

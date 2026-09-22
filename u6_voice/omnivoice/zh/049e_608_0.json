@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "抱歉，你只有",
   "tts_text": "抱歉，你只有",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "抱歉，你只有",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1441525170,
   "sample_rate": 24000,
-  "duration_seconds": 1.66,
-  "sha256": "568d5caa124d69418cb80d8099cf1ddd53343db8ce08b97734d71adb14ab010a",
+  "duration_seconds": 1.51,
+  "sha256": "8da286902f00f81b0f78a29176c762846a4aad2725e447322744e23ed058639b",
   "func_id": "049e",
   "offset_key": "608",
   "segment": 0

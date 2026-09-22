@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "＠好好享受吧。＠",
   "tts_text": "＠好好享受吧。＠",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "＠好好享受吧。＠",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2177475894,
   "sample_rate": 24000,
-  "duration_seconds": 1.61,
-  "sha256": "945977065bfaf7b7e4de124fb97709167ecb9fb0a697be2d5523bf45aa018190",
+  "duration_seconds": 1.81,
+  "sha256": "f8c08f765502c3ada36378929fb28bbf25abdd7d879efe0db0c049fb8694b0e3",
   "func_id": "0452",
   "offset_key": "f8",
   "segment": 0

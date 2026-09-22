@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "工作",
   "tts_text": "工作",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "工作",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 3433778567,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "c1d17b9749fda6420e2645752357c20cd30ad78238d58603563c63858417474d",
+  "sha256": "0c5bd356ffff340b47027554b00332de63fed94c8a6eb561d0591898dd6ff877",
   "func_id": "0445",
   "offset_key": "140",
   "segment": 0

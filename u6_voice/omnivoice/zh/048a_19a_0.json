@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "旅行",
   "tts_text": "旅行",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "旅行",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1450869030,
   "sample_rate": 24000,
-  "duration_seconds": 0.78,
-  "sha256": "b459ce7410a2b8cdf107b9adb4d141ee825d209dc39be031e4d1610d9e37ad04",
+  "duration_seconds": 1.56,
+  "sha256": "de601d37faf6daa18a9dd9ec69d07e7ed7d444f3ae3adda696a6d0a8a2959137",
   "func_id": "048a",
   "offset_key": "19a",
   "segment": 0

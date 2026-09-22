@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "美德",
   "tts_text": "美德",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "美德",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1936368742,
   "sample_rate": 24000,
-  "duration_seconds": 1.56,
-  "sha256": "48dba5d9ce284803c0bf990725ac2c8e9468db5fad95baf1edd1ded03db6614e",
+  "duration_seconds": 1.07,
+  "sha256": "affcbe639e4c93d342d633b52abb3003effb98cdcdc2f37ff2683b7083c9c379",
   "func_id": "0473",
   "offset_key": "2e9",
   "segment": 0

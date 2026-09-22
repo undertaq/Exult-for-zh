@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "水手",
   "tts_text": "水手",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "水手",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1086588730,
   "sample_rate": 24000,
-  "duration_seconds": 1.56,
-  "sha256": "0e6b1fc4ce606ea99c3235356c17e8650d31a9139951b4de5c5970fe244ec4c4",
+  "duration_seconds": 0.98,
+  "sha256": "d6614d45338e368cbf534ed9469684496d9f1ab2441834c906981e876201dd52",
   "func_id": "043c",
   "offset_key": "1a4",
   "segment": 0

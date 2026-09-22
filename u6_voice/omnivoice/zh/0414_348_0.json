@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "那意思是\"朋友\"。",
   "tts_text": "那意思是\"朋友\"。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "那意思是\"朋友\"。",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 867992557,
   "sample_rate": 24000,
   "duration_seconds": 1.91,
-  "sha256": "574b48a884332b8ecf6103c9416c826ae9f228e4cfdf9a54534636a3465f3a59",
+  "sha256": "12ee2f28cb217d2b3b83cf61ac1041fb1fa8d578483ffb78cf68ed45b4f2255e",
   "func_id": "0414",
   "offset_key": "348",
   "segment": 0

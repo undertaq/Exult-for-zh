@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Gherick",
   "tts_text": "Gherick",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Gherick",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 2061941349,
   "sample_rate": 24000,
   "duration_seconds": 1.64,
-  "sha256": "16285930b3b104fac15c123cc252ea429049cc07c02add115419f5a34f905f3a",
+  "sha256": "34ac9f2f1e98b376180940dc110eaaeb5ec3a8839d4c4744b31d28b121cd6d25",
   "func_id": "04eb",
   "offset_key": "6c4",
   "segment": 0

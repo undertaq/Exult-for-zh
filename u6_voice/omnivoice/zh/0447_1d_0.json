@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "..太多..太多了..",
   "tts_text": "..太多..太多了..",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "..太多..太多了..",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 3048435391,
   "sample_rate": 24000,
   "duration_seconds": 1.88,
-  "sha256": "3f2e78d0f0a306d5666b2c19e4bcb1ce34f0c07978525e887c03213dd2cb9495",
+  "sha256": "ae00785f1907a192d6ab081dc72a279b9d5007018ee41bfba79ac5185c0a2ced",
   "func_id": "0447",
   "offset_key": "1d",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Shamino..",
   "tts_text": "Shamino..",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Shamino..",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 576313638,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "f71ccfb8958c8f7ddda07932d628f389ba6926eaf3ff04efe04bfeeb11e82113",
+  "sha256": "c0fcd6c9e6dcdf2785881e3d630e8dfa44a7d2bfd6b1fa5e2ad21b360659f119",
   "func_id": "0403",
   "offset_key": "f",
   "segment": 0

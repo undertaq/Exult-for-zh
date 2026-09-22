@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "妻子",
   "tts_text": "妻子",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "妻子",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 339880552,
   "sample_rate": 24000,
-  "duration_seconds": 0.72,
-  "sha256": "c40ffcff23ed28c71a446f8a7c9b9e45fcc00bb6a84a0d526ee4a5714f8cb3b3",
+  "duration_seconds": 1.56,
+  "sha256": "efd2e63f79efb98034640f223800954bd5f504c8bc1d720afd294bf3b3f0fbff",
   "func_id": "0491",
   "offset_key": "c37",
   "segment": 0

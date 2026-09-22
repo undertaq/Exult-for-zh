@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "海",
   "tts_text": "海",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "海",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 2671327800,
   "sample_rate": 24000,
-  "duration_seconds": 0.61,
-  "sha256": "af0361ba94a540d32102804863ee0c121092a773cd3686c2d2c916304c6c1483",
+  "duration_seconds": 1.28,
+  "sha256": "08d6252e5a840db7d4463e085e15784953724d3ccc64a84d49fc686ac5815944",
   "func_id": "0491",
   "offset_key": "3a1",
   "segment": 0

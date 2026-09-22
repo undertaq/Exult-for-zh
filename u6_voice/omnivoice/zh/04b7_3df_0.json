@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "目前的生命值是",
   "tts_text": "目前的生命值是",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "目前的生命值是",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 299163355,
   "sample_rate": 24000,
   "duration_seconds": 2.28,
-  "sha256": "52d5551b91c5b2a369118e78b9a9f99cff5e505eaf86da59a87598e301242674",
+  "sha256": "c037893f426a2784805af3ef6caa188c4bac67ca47994795d86d692e2419e9c9",
   "func_id": "04b7",
   "offset_key": "3df",
   "segment": 0

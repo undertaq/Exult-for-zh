@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "哦，嗨！",
   "tts_text": "哦，嗨！",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "哦，嗨！",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 3964200236,
   "sample_rate": 24000,
   "duration_seconds": 1.38,
-  "sha256": "a79370ba844d0857588b27c3507ab8dd018897c43692355ed5b77dec6b3eeeb7",
+  "sha256": "69d0535c0b20e897d2fd4438ce9843730abf3e33a81f0b293919262267ce9be4",
   "func_id": "0430",
   "offset_key": "46",
   "segment": 0

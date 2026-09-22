@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "他",
   "tts_text": "他",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "他",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1179303875,
   "sample_rate": 24000,
-  "duration_seconds": 0.57,
-  "sha256": "0ef24e51ba91c6cd8087dbbec72899f677b407c454b28c5f11c4b72fa4e00354",
+  "duration_seconds": 0.52,
+  "sha256": "cfe53a352034888035c11da2401c8104c04e15bb9648dd4feab3e1984abbc885",
   "func_id": "0408",
   "offset_key": "47",
   "segment": 0

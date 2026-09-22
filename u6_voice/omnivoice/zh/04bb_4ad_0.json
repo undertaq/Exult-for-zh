@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "研究",
   "tts_text": "研究",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "研究",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1837666256,
   "sample_rate": 24000,
-  "duration_seconds": 1.29,
-  "sha256": "6607fa41aa83de25357e9b5a7d43c3f72659102d86697abc6049788366f4b1d7",
+  "duration_seconds": 1.11,
+  "sha256": "5dc4a74a9bfc5739d934d2b85aeafd474e303c9487048ee1e6cfd51b7cdfda00",
   "func_id": "04bb",
   "offset_key": "4ad",
   "segment": 0

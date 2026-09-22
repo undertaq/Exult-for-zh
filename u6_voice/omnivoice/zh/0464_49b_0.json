@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "扮作夸口者",
   "tts_text": "扮作夸口者",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "扮作夸口者",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 3967256224,
   "sample_rate": 24000,
   "duration_seconds": 2.0,
-  "sha256": "bd3116d7012d364bce1e79b360120cede4fedcc3cce69abbe643d90b7c02a22f",
+  "sha256": "7bcb5c8cc654857c84bf0235aa2f4984180e840c1d8bfebf29cc046814b62fc1",
   "func_id": "0464",
   "offset_key": "49b",
   "segment": 0

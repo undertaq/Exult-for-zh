@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "想像",
   "tts_text": "想像",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "想像",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 3409702611,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "7bfccc61473548ed770cabd8b0d0e48ccddd5e6f949a1d61f1389489acd362c2",
+  "sha256": "15995b424156ce13743fcf2babf7f31a43a582f292b41617f62aa6b77d9d562c",
   "func_id": "0427",
   "offset_key": "2d2",
   "segment": 0

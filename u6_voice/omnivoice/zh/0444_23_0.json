@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "弓",
   "tts_text": "弓",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "弓",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1232519750,
   "sample_rate": 24000,
-  "duration_seconds": 1.28,
-  "sha256": "56964de32641c1347faf14b12ae3dd76f1e946f6d9468507d86eeb6eb7ae99b9",
+  "duration_seconds": 0.56,
+  "sha256": "bb311a9ed2680ae70c013f24d3cc698c76fb5ffe421246094deb10aac61d6de0",
   "func_id": "0444",
   "offset_key": "23",
   "segment": 0

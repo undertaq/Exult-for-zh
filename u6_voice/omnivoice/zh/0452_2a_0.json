@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "葡萄",
   "tts_text": "葡萄",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "葡萄",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 3621657671,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "427f99c446cba1ff68be3ec9e962fde2883546c3c2a22f9f5bf9d31523353909",
+  "sha256": "d3633ba114bf52e47705330a171192524c94003ae433a23265e9ac8d01446df6",
   "func_id": "0452",
   "offset_key": "2a",
   "segment": 0

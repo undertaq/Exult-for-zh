@@ -358,20 +358,23 @@ def test_chunked_preserves_order_and_covers_every_job():
 
 
 def test_short_chinese_clone_jobs_are_singleton_batches(tmp_path):
-    def job(npc, text, *, tts_text=None):
+    def job(npc, text, *, tts_text=None, voice_parts=()):
         reference = tmp_path / f"{npc}-ref.ogg"
         return CloneJob(
             design_id=f"u6_{npc.lower()}", npc=npc, lang="zh", text=text,
             tts_text=tts_text or text, ref_audio=reference,
             ref_text=f"{npc} reference", output=tmp_path / f"{npc}.ogg",
             func_id="0430", offset_key=npc, segment=0,
+            voice_parts=voice_parts,
         )
 
     short = job("Maldric", "是的，沒錯。", tts_text="是的，没错。")
     long = job("LongLine", "這是一段足夠長的中文台詞。")
+    mixed = job("Mixed", "是的，沒錯。", voice_parts=(object(),))
 
     assert generator._should_render_clone_individually(short)
     assert not generator._should_render_clone_individually(long)
+    assert not generator._should_rerender_short_zh(mixed)
     assert list(generator._voice_batches([long, short, long], 4)) == [
         [long], [short], [long],
     ]
@@ -1145,6 +1148,7 @@ def test_parse_args_accepts_repeatable_target_selectors(monkeypatch):
             "en/arty_1_0.ogg",
             "--stale-only",
             "--dry-run",
+            "--rerender-short-zh",
         ],
     )
 
@@ -1155,6 +1159,7 @@ def test_parse_args_accepts_repeatable_target_selectors(monkeypatch):
     assert args.target_output_keys == ["en/arty_1_0.ogg"]
     assert args.stale_only is True
     assert args.dry_run is True
+    assert args.rerender_short_zh is True
 
 
 def test_dry_run_reports_target_counts_without_loading_model(monkeypatch, capsys):

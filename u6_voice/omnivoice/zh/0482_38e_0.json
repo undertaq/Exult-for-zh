@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "你自己去看看。",
   "tts_text": "你自己去看看。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "你自己去看看。",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2548219780,
   "sample_rate": 24000,
-  "duration_seconds": 1.49,
-  "sha256": "402ab091ba17f2365634bdd73ae9726ad338377cc5355fba7b8bbda04f685642",
+  "duration_seconds": 1.28,
+  "sha256": "0c0f6ed75a6b37893000a60ca293718740ea875cfc793d6c6bff92358f773ca7",
   "func_id": "0482",
   "offset_key": "38e",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Kenneth",
   "tts_text": "Kenneth",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "Kenneth",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 2863878258,
   "sample_rate": 24000,
   "duration_seconds": 1.64,
-  "sha256": "d8bf96597b686f877f527f7aa3a24760ac431d45b1a9fdc0cc11dfa28031a12c",
+  "sha256": "d95cd71f1f6ae0194dd762c4764cef756b45b5dd4732b84be1d62e994e65b135",
   "func_id": "0427",
   "offset_key": "fc",
   "segment": 0

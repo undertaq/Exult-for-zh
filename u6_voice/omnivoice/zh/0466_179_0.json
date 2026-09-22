@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "魔法定本",
   "tts_text": "魔法定本",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "魔法定本",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 888116360,
   "sample_rate": 24000,
-  "duration_seconds": 1.6,
-  "sha256": "207e359e285c942bcec09354bd01454b6840d529a0a0b185ae1c659d865097b7",
+  "duration_seconds": 1.92,
+  "sha256": "cd279db528b11e62b78760a49247a0e5177e7f0e346af874df9b2fc76fa0298c",
   "func_id": "0466",
   "offset_key": "179",
   "segment": 0

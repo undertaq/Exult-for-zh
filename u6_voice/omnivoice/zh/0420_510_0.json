@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Kytyn",
   "tts_text": "Kytyn",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Kytyn",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1391910211,
   "sample_rate": 24000,
-  "duration_seconds": 0.67,
-  "sha256": "c21d911248e7f79530d22461d56b5edcedeef25488b0ee639c6f15e18f716c5d",
+  "duration_seconds": 1.44,
+  "sha256": "4c4064ce05559799b45a1dea6ea1af7e27263ac6d4ff61665427c0e27c19a565",
   "func_id": "0420",
   "offset_key": "510",
   "segment": 0

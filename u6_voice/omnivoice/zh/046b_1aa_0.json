@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "小家伙",
   "tts_text": "小家伙",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "小家伙",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 352523710,
   "sample_rate": 24000,
-  "duration_seconds": 0.9,
-  "sha256": "4354593d349e6d87fcc4271704828137737785ae39bf0bffa22900136aeaba50",
+  "duration_seconds": 1.05,
+  "sha256": "efbd329f287250f6a4e31edc8433164b71b5ca03f4b29065c875c7abd9c859c9",
   "func_id": "046b",
   "offset_key": "1aa",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Michael",
   "tts_text": "Michael",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Michael",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 1187915372,
   "sample_rate": 24000,
   "duration_seconds": 1.64,
-  "sha256": "095ddb2a8e4f9431fd59e95151871209acff5fede3d85a11752f043dc6a45d93",
+  "sha256": "358beec3e13a9989cf7b01967e3942c06cd5589056deaa27e2aea05b4e76dc8a",
   "func_id": "0465",
   "offset_key": "988",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "蛋糕",
   "tts_text": "蛋糕",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "蛋糕",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 540450362,
   "sample_rate": 24000,
-  "duration_seconds": 0.83,
-  "sha256": "6d31253c0256158d408569b4796157f72556684d433bc595576eb5964bc67e65",
+  "duration_seconds": 0.8,
+  "sha256": "b8a299132b99f9b09d52c70eb18eb3e2ef79a773e88f6b2c53bec70527c4783c",
   "func_id": "0417",
   "offset_key": "316",
   "segment": 0

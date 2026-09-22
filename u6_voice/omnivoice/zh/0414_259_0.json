@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "dono",
   "tts_text": "dono",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "dono",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3337887913,
   "sample_rate": 24000,
-  "duration_seconds": 0.52,
-  "sha256": "fef44ab9d12497f81bd5eadec30bfcd7e44f2024317b49c10ad021dbf39b2e1d",
+  "duration_seconds": 1.4,
+  "sha256": "76fceffd060e34b3d68fad868b55b2a4435b0a0666f68978fa8e66c68ff32708",
   "func_id": "0414",
   "offset_key": "259",
   "segment": 0

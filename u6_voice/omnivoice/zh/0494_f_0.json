@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "陛下..",
   "tts_text": "陛下..",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "陛下..",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3950532441,
   "sample_rate": 24000,
-  "duration_seconds": 1.68,
-  "sha256": "d6c64f737cd1b177e7fe8c9cc3157727143ccb617544ca08c7b3852f9b50dc33",
+  "duration_seconds": 1.5,
+  "sha256": "3c039f15d63a372e07ae829bf17e01b5dcdd4663d9c4e272e4b051b610a9eef5",
   "func_id": "0494",
   "offset_key": "f",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "在岸上找到他。",
   "tts_text": "在岸上找到他。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "在岸上找到他。",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 2570128477,
   "sample_rate": 24000,
-  "duration_seconds": 2.28,
-  "sha256": "593e5e22e53f7a2c1be0fd5cd69fb0d43e766eb0053aa4f1a088c38507d8bcef",
+  "duration_seconds": 2.24,
+  "sha256": "4359798b6c20d0ee49ca9f42668fbeb72cd8c990abc116850e7f300fc6108219",
   "func_id": "046b",
   "offset_key": "1cb",
   "segment": 0

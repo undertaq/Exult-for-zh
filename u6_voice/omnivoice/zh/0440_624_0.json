@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "其他人",
   "tts_text": "其他人",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "其他人",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1423781266,
   "sample_rate": 24000,
-  "duration_seconds": 0.92,
-  "sha256": "cd50d55b0c8b296dbe24ec71f6fdf633b1dfcde35aab91aeae4292fedc4f26e3",
+  "duration_seconds": 1.76,
+  "sha256": "b07ff814bf0d2ff736684c323048dd21405a318d5e6ec4a3654f672402584bfd",
   "func_id": "0440",
   "offset_key": "624",
   "segment": 0

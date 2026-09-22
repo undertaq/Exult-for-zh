@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Dezana",
   "tts_text": "Dezana",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Dezana",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 257456208,
   "sample_rate": 24000,
-  "duration_seconds": 0.95,
-  "sha256": "6e108f5ee4d7647f91f6c0279ae892e053231fe4729eb38961d42ca635410d79",
+  "duration_seconds": 1.56,
+  "sha256": "8c9faf9ec2c61acfd6270d6f4689a67b0328b00221b18482dd9e9cfa01dc908c",
   "func_id": "048c",
   "offset_key": "34a",
   "segment": 0

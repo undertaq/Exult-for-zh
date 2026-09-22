@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Penumbra",
   "tts_text": "Penumbra",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Penumbra",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 560468907,
   "sample_rate": 24000,
-  "duration_seconds": 0.98,
-  "sha256": "6411055e74698bc6090fde4e9e392657cc46189831825e63b05286435b0cd11f",
+  "duration_seconds": 0.95,
+  "sha256": "06fd020508e4a2d34b0dd6928d50a13c33bc7e080b854328138b3aea303cb248",
   "func_id": "049a",
   "offset_key": "1c2",
   "segment": 0

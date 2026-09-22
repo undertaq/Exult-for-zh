@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "年",
   "tts_text": "年",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "年",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 3156212010,
   "sample_rate": 24000,
   "duration_seconds": 1.28,
-  "sha256": "442655e294410d306c5738fafa11e0dbf435317e88d8a0cf5f4c085be2cbf925",
+  "sha256": "7f954b4a6d408d9580aef813cb03de68a96b6c1e3c0a119102450ea571c9b8c9",
   "func_id": "0488",
   "offset_key": "290",
   "segment": 0

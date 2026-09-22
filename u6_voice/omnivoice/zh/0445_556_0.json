@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "造船匠",
   "tts_text": "造船匠",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "造船匠",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2135493496,
   "sample_rate": 24000,
-  "duration_seconds": 1.76,
-  "sha256": "1115a5da6f70d90a4da2a5ce01d881d055289b50e96d9bed7d1bec2b26720c93",
+  "duration_seconds": 0.96,
+  "sha256": "0a1211848db36f5fd5b0fae0e38cd502f3bab52c124e594ab02d01b020d90244",
   "func_id": "0445",
   "offset_key": "556",
   "segment": 0

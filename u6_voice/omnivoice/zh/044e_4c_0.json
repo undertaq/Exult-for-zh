@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "你好（咳嗽），",
   "tts_text": "你好（咳嗽），",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "你好（咳嗽），",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1527687708,
   "sample_rate": 24000,
-  "duration_seconds": 1.63,
-  "sha256": "ae2e9078176af48e00464a836678862a7d6ae868195ab85c1c5d1980a4020459",
+  "duration_seconds": 1.48,
+  "sha256": "ba4d6af57bfc914203584ba99353e96e402a69696e0f55fdc5af217df1dcb1fa",
   "func_id": "044e",
   "offset_key": "4c",
   "segment": 0

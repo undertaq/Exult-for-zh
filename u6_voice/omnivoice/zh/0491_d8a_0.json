@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "巨蛇",
   "tts_text": "巨蛇",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "巨蛇",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 379460875,
   "sample_rate": 24000,
-  "duration_seconds": 1.56,
-  "sha256": "bc225d06f0bfb6356a5fffec9e471a33f26d1673948db6d119524556a6e2046c",
+  "duration_seconds": 0.89,
+  "sha256": "0e75a7d7960c0a1d9d745ca29a4061e01ad7c8cf108eb11f66faf0b9c0ffa914",
   "func_id": "0491",
   "offset_key": "d8a",
   "segment": 0

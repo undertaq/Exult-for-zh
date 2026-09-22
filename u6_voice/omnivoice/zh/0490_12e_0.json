@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Marta",
   "tts_text": "Marta",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Marta",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1822667917,
   "sample_rate": 24000,
-  "duration_seconds": 0.76,
-  "sha256": "ccd44624b7dc409dd7003c39788d48bcf8723a98e18cd5d75e91fc8edcf9f1f4",
+  "duration_seconds": 0.68,
+  "sha256": "1a022758183545bc1ebf75aff65f829a627498c2b8309270b80e3716c0f1afb0",
   "func_id": "0490",
   "offset_key": "12e",
   "segment": 0

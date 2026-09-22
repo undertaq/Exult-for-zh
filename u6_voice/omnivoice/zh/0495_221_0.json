@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Pullyu",
   "tts_text": "Pullyu",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Pullyu",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2288198003,
   "sample_rate": 24000,
-  "duration_seconds": 1.56,
-  "sha256": "9c524960c7c51b4d71cef22209a71f1fe04523268b5cfb1ac6bb5b4ecd08c4bd",
+  "duration_seconds": 0.94,
+  "sha256": "f02b569bc21beb8f6e257d37e2a9b37d5bb042826594eef4fb467ce5f32ac77b",
   "func_id": "0495",
   "offset_key": "221",
   "segment": 0

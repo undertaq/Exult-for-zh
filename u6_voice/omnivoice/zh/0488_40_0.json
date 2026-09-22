@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Conor..",
   "tts_text": "Conor..",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Conor..",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1846554073,
   "sample_rate": 24000,
-  "duration_seconds": 0.74,
-  "sha256": "3ef516a52e93f871288edc3b29da70836a4d1579e946299497e752acb109ef81",
+  "duration_seconds": 0.69,
+  "sha256": "8d20b540429b0285a43784713de9923d21cb00eeb386a8fff162b1bec57040aa",
   "func_id": "0488",
   "offset_key": "40",
   "segment": 0

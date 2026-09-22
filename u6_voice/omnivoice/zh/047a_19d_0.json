@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Hendle",
   "tts_text": "Hendle",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Hendle",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 3159286641,
   "sample_rate": 24000,
-  "duration_seconds": 0.85,
-  "sha256": "58937e4834ca417183812bbc78f2fcbe695ddc2181ec220f46c90da854ec2c27",
+  "duration_seconds": 1.52,
+  "sha256": "7b22b7dad656a9311917b065e63a59394e8936659a3ad1a5e2c45a497cec9a2a",
   "func_id": "047a",
   "offset_key": "19d",
   "segment": 0

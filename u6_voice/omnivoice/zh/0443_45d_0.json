@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "雕像",
   "tts_text": "雕像",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "雕像",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 4226944923,
   "sample_rate": 24000,
-  "duration_seconds": 1.56,
-  "sha256": "57aa2c8a3f2025eb997a252e0a3603b8f42ba7db2f05c229382a20b45d46aee6",
+  "duration_seconds": 0.72,
+  "sha256": "6a02630f26517e13f715485a37ae2c0397a4daa01cf7bc6e807e1ee77bbceff9",
   "func_id": "0443",
   "offset_key": "45d",
   "segment": 0

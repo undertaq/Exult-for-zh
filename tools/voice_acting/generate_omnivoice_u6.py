@@ -1433,6 +1433,11 @@ def _should_render_clone_individually(job: CloneJob) -> bool:
     return len(meaningful) <= SHORT_CLONE_BATCH_MAX_CHARS
 
 
+def _should_rerender_short_zh(job: CloneJob) -> bool:
+    """Select only the batch-rendered subset affected by short-line drift."""
+    return not job.voice_parts and _should_render_clone_individually(job)
+
+
 def _voice_batches(jobs: list[CloneJob], size: int):
     """Keep short Chinese clone jobs out of mixed-prompt model batches."""
     regular: list[CloneJob] = []
@@ -1656,8 +1661,10 @@ def process_voice(args: argparse.Namespace, all_jobs: list[CloneJob]) -> None:
     jobs = _worker_jobs(selected, args.worker_index, args.worker_count)
     print(f"Voice worker {args.worker_index}/{args.worker_count}: {len(jobs)} assigned", flush=True)
     pending = []
+    rerender_short_zh = getattr(args, "rerender_short_zh", False)
     for index, job in enumerate(jobs, 1):
-        if _complete(job.output, job):
+        force_rerender = rerender_short_zh and _should_rerender_short_zh(job)
+        if _complete(job.output, job) and not force_rerender:
             print(f"[voice {index}/{len(jobs)}] resume {job.npc} {job.lang} {job.output.name}", flush=True)
             continue
         if not job.ref_audio.is_file():
@@ -1812,6 +1819,11 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Report selected and stale job counts without loading the model or writing audio",
     )
+    parser.add_argument(
+        "--rerender-short-zh",
+        action="store_true",
+        help="Rerender all selected short Chinese clone jobs, even when complete",
+    )
     args = parser.parse_args()
     args.last_review = 0.0
     return args
@@ -1856,8 +1868,13 @@ def main() -> int:
         design_ids=args.target_design_ids,
         output_keys=args.target_output_keys,
         lang=args.lang,
-        stale_only=args.stale_only,
+        stale_only=args.stale_only and not args.rerender_short_zh,
     )
+    if args.rerender_short_zh:
+        selected_clones = [
+            job for job in selected_clones
+            if isinstance(job, CloneJob) and _should_rerender_short_zh(job)
+        ]
     _print_target_counts("references", selected_refs)
     _print_target_counts("clones", selected_clones)
     if args.dry_run:

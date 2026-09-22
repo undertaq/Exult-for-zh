@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Artagel？",
   "tts_text": "Artagel？",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Artagel？",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3623880985,
   "sample_rate": 24000,
-  "duration_seconds": 0.97,
-  "sha256": "4fb0038117c1a79a94926b9b4a1ac8548cf13f3bd61f7a1621138eb45ed67234",
+  "duration_seconds": 0.96,
+  "sha256": "435a9463cb041247665ddb774b927fffaa8ea428fa0cb58d4dc5ea9680a936a7",
   "func_id": "044e",
   "offset_key": "11e",
   "segment": 0

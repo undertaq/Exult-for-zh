@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Julia 在水上",
   "tts_text": "Julia 在水上",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Julia 在水上",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 710188930,
   "sample_rate": 24000,
-  "duration_seconds": 1.43,
-  "sha256": "ec607db6761457c4b98a91baada235609abfc0c61120dc8bf45ef4f55f7fc9de",
+  "duration_seconds": 1.51,
+  "sha256": "a4e0050f61752bc7cae3f2573438a19fab79def39fe432b6b140b7af2e9fab22",
   "func_id": "0408",
   "offset_key": "e",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "向",
   "tts_text": "向",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "向",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2275978993,
   "sample_rate": 24000,
-  "duration_seconds": 1.06,
-  "sha256": "bb52055736a3e112d0ec8c77984ab0ad67b9f84a817ac345bb89897dabe7f04f",
+  "duration_seconds": 1.12,
+  "sha256": "7d51f4dc2013d089f5ebc64f00c463741690b59bfda19a3453b1cb2a3bfd073b",
   "func_id": "04b6",
   "offset_key": "41a",
   "segment": 0

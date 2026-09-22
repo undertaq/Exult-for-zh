@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Aurendir",
   "tts_text": "Aurendir",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Aurendir",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 3359529989,
   "sample_rate": 24000,
   "duration_seconds": 1.72,
-  "sha256": "d6de34b336c1ca134551e50aad2fa5440d63551d5f1d3af9d346da4f2030851b",
+  "sha256": "7d8aee419ccec9c241d67b54aa3227ba31746f39e89dfb244a951f0d21a74559",
   "func_id": "0486",
   "offset_key": "148",
   "segment": 0

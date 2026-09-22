@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "袋子",
   "tts_text": "袋子",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "袋子",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1838523798,
   "sample_rate": 24000,
-  "duration_seconds": 1.51,
-  "sha256": "886cacab5d2074e2e0663a81fbee4db8c3495d1b0a91793adf4b50fb7280978c",
+  "duration_seconds": 0.67,
+  "sha256": "ae8dd7918a74599bd6e1a1f5c965b86e94678afc7b28f91553336c7759497fcc",
   "func_id": "04be",
   "offset_key": "745",
   "segment": 0

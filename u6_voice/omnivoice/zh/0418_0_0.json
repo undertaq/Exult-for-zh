@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "早晨",
   "tts_text": "早晨",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "早晨",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 606376499,
   "sample_rate": 24000,
   "duration_seconds": 1.52,
-  "sha256": "6a240489ce14dc9739d5d5fbae40bd919ef83381558f32a5203c45e71a9dfc0c",
+  "sha256": "8ab9d27d166569c62f70ab87f87c161433e942aaac65537c29c836d7f80a44fc",
   "func_id": "0418",
   "offset_key": "0",
   "segment": 0

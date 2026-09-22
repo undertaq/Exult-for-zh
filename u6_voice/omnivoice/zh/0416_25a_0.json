@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "?",
   "tts_text": "?",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "?",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 3182087650,
   "sample_rate": 24000,
   "duration_seconds": 0.37,
-  "sha256": "b9c71aa2bec57a70bd2bee53f92dcf65d1eea592ebe33e2f9056d268505728eb",
+  "sha256": "df1dc2f26e48fbad33592adb8ce2dc55fa57c5b035cc897a857f1c2d4b0cec83",
   "func_id": "0416",
   "offset_key": "25a",
   "segment": 0

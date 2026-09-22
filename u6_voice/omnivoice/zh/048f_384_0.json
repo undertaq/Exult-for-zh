@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Quenton",
   "tts_text": "Quenton",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "Quenton",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2952634782,
   "sample_rate": 24000,
-  "duration_seconds": 0.86,
-  "sha256": "437039b68f94e3d10722371961d7ce5d7b3e51b7b87c17d1a6455897929be687",
+  "duration_seconds": 0.87,
+  "sha256": "e08fcbb6048cf5c902158958b7da3d39606d4bcbc86b643e7c5b1cfc998ef8ca",
   "func_id": "048f",
   "offset_key": "384",
   "segment": 0

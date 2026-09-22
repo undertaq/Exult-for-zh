@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "工匠",
   "tts_text": "工匠",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "工匠",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 541149083,
   "sample_rate": 24000,
-  "duration_seconds": 0.76,
-  "sha256": "0c0edcd94689006ba45892a5975df78bca1b53822efffd944e39d56a51b640e9",
+  "duration_seconds": 0.88,
+  "sha256": "8c1d1737ff7f6f187661e9b6c4ae6fc9b30f8940803170990704e8f2e97981c8",
   "func_id": "0461",
   "offset_key": "271",
   "segment": 0

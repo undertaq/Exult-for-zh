@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Nick",
   "tts_text": "Nick",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Nick",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 875282818,
   "sample_rate": 24000,
-  "duration_seconds": 0.7,
-  "sha256": "368a06445f7bdf3d6d312006ebaee69d717a90072a4ce681edab07cbd5fc436e",
+  "duration_seconds": 1.4,
+  "sha256": "fea481283d1c53af1ecf7b7f89a19c658b0f6883a73b58252a8e4027eae9c808",
   "func_id": "04e5",
   "offset_key": "4b0",
   "segment": 0

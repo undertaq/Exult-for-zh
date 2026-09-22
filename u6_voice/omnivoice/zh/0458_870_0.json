@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Sutek",
   "tts_text": "Sutek",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Sutek",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 696682331,
   "sample_rate": 24000,
   "duration_seconds": 1.48,
-  "sha256": "ac0cff2221e930ef16f478cce23722fca9b656deaa2400f5b67096196e58f446",
+  "sha256": "6cfd373fae7c7e0b787e1f59c38127853b6ae6b645073b3e87ef8854a2ceed11",
   "func_id": "0458",
   "offset_key": "870",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Ariana",
   "tts_text": "Ariana",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Ariana",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2168382335,
   "sample_rate": 24000,
-  "duration_seconds": 0.95,
-  "sha256": "03793abce9af97835bc3c0f8a816895a3b212e1ddb4e7fd2fb30a536f99b40b5",
+  "duration_seconds": 1.02,
+  "sha256": "3e56242a3137072631ae0ed39cb3e067fb9d2e0499372e8fbc1ba989b89c9293",
   "func_id": "0425",
   "offset_key": "55f",
   "segment": 0

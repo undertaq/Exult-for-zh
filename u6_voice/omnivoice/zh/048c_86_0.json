@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Gideon招待",
   "tts_text": "Gideon招待",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Gideon招待",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3525076932,
   "sample_rate": 24000,
-  "duration_seconds": 1.92,
-  "sha256": "f1164233f97ae3eb3c5ef48726e271dc1b2f0e2f4f3af480db0c274786e74848",
+  "duration_seconds": 1.16,
+  "sha256": "1725ffcece0a34f1193acb222748558751e176d12afeeafa84d0744b254db9d6",
   "func_id": "048c",
   "offset_key": "86",
   "segment": 0

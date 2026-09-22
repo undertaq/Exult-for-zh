@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "泥土",
   "tts_text": "泥土",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "泥土",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 399250255,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "becd2d49dff4575bda8ac4d987c121698c8df770690d72b8ed0952db67aad538",
+  "sha256": "50ff15da26e6a6d41cbc9b8d6a8e7b5aebc7e92c5b4fe2a7f39ad3737fe66f57",
   "func_id": "0487",
   "offset_key": "29f",
   "segment": 0

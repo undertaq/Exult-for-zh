@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "海",
   "tts_text": "海",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "海",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 948307622,
   "sample_rate": 24000,
   "duration_seconds": 1.24,
-  "sha256": "74f012ba1b0f0d46ca230434ceb719df255ef62cf5a14a22060582c7e0322e42",
+  "sha256": "f94f5203eccefb79762f9843b852ac55507c5093b7e79da3eb9173098a92a610",
   "func_id": "044b",
   "offset_key": "1561",
   "segment": 0

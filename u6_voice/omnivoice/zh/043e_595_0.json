@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "真言",
   "tts_text": "真言",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "真言",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 849340988,
   "sample_rate": 24000,
-  "duration_seconds": 0.89,
-  "sha256": "2325bb70b0b3572c900fa277ad863627291a9d71515d6f7d57c096f11672b2ec",
+  "duration_seconds": 1.56,
+  "sha256": "c39e151237250cf8e2804a133586192687f9e8b32d6c19f2063104248fb9fe69",
   "func_id": "043e",
   "offset_key": "595",
   "segment": 0

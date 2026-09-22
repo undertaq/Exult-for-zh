@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Hawkins",
   "tts_text": "Hawkins",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "Hawkins",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 915716546,
   "sample_rate": 24000,
-  "duration_seconds": 1.64,
-  "sha256": "309fe1c05e2ad797d07da86ca4f473ff091a778be8ed72b5c77b78bfbb06b142",
+  "duration_seconds": 0.99,
+  "sha256": "147e5b575e9c70dd83880f92fcbc0c88c4c64a075efa0599f06a397c48b6624e",
   "func_id": "042c",
   "offset_key": "a03",
   "segment": 0

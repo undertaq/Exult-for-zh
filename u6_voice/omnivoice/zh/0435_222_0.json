@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "算命",
   "tts_text": "算命",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "算命",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 2774444772,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "76f29c0cc80f3f7dfc81253f210b6caf7c0640d7605a896560e641eb088f4974",
+  "sha256": "b6f9a4fca3fca17ec34c715148fd574832081ff7e6b78877d72ba050da7dc920",
   "func_id": "0435",
   "offset_key": "222",
   "segment": 0

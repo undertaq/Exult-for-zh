@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Marney",
   "tts_text": "Marney",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "Marney",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3559101183,
   "sample_rate": 24000,
-  "duration_seconds": 0.7,
-  "sha256": "9beaf47aef683941d054136a18e32f38a9eabbbe6bce5115f66d953894fd1cef",
+  "duration_seconds": 0.6,
+  "sha256": "d2aac04433d43246fe2300a93d262dedc8043779a13d3dd46dbf8e22b29172e2",
   "func_id": "048f",
   "offset_key": "148",
   "segment": 0

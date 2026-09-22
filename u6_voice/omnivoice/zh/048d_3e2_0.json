@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "如果他能大喊，",
   "tts_text": "如果他能大喊，",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "如果他能大喊，",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 163794744,
   "sample_rate": 24000,
-  "duration_seconds": 1.99,
-  "sha256": "74b152f8e9ce44babd628e45234ce04835e84b0c9d6fd0bf8e7779576a86d324",
+  "duration_seconds": 2.1,
+  "sha256": "3fddb7156ac8d57ddd0fe6bdc5308ec92b6a521c2a52fe9c1653a6160448b30c",
   "func_id": "048d",
   "offset_key": "3e2",
   "segment": 0

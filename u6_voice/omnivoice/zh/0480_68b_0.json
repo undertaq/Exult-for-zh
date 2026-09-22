@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "退休",
   "tts_text": "退休",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "退休",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 257825208,
   "sample_rate": 24000,
-  "duration_seconds": 1.52,
-  "sha256": "95378d3c4ad6a9c00edca200e57f362874b7c5fb97954d333bef845c04bcfa15",
+  "duration_seconds": 1.5,
+  "sha256": "13bad5e1335c89c3062c2577ed454d0573e49fb22cd9d2de5f9d139d15ba7522",
   "func_id": "0480",
   "offset_key": "68b",
   "segment": 0

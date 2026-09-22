@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "我想我要吐了...",
   "tts_text": "我想我要吐了...",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "我想我要吐了...",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2913921302,
   "sample_rate": 24000,
-  "duration_seconds": 1.95,
-  "sha256": "e3b2af444a0ed3baeaa4e48645f9c1d4468f425dc2ad3a904fa398442fad2597",
+  "duration_seconds": 1.91,
+  "sha256": "5d62e681f97a83295b8922c3198ce877061dc265e3cd014fbdc1f0d3440b2da3",
   "func_id": "04b9",
   "offset_key": "611",
   "segment": 0

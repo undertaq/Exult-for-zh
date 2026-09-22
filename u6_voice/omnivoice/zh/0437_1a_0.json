@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "告密者！",
   "tts_text": "告密者！",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "告密者！",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 1544487341,
   "sample_rate": 24000,
   "duration_seconds": 1.72,
-  "sha256": "c177e660ef74775b79aa47c003748c040b85286ec5cb7164d2525abda3a66bd2",
+  "sha256": "2ecbf54f26c55eb69e3ed8f7040953638ac11abaccf096c7c68222d0329dff10",
   "func_id": "0437",
   "offset_key": "1a",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "我是 Xiao。",
   "tts_text": "我是 Xiao。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "我是 Xiao。",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 2422966437,
   "sample_rate": 24000,
-  "duration_seconds": 1.19,
-  "sha256": "a4236dcff75a8acb8c4cba49e542aa750ccf1f93804fa43e64698465e87a516b",
+  "duration_seconds": 1.14,
+  "sha256": "e27bda57bf95343ed053b50957a70f1a83fba96f6feb175c3d1019505e8eadc6",
   "func_id": "049f",
   "offset_key": "cb",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "我如何能助你？",
   "tts_text": "我如何能助你？",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "我如何能助你？",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 99884779,
   "sample_rate": 24000,
   "duration_seconds": 1.88,
-  "sha256": "1a874de0b3000bca4e0e04efbd9de974645e5a963b50ec4294a964cdfc09010f",
+  "sha256": "54b662bbfbb94b2a3ac0a064dc3bd9d555c13b964d0c3476970d0d206dabe1ac",
   "func_id": "0423",
   "offset_key": "51",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "多保重！",
   "tts_text": "多保重！",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "多保重！",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 3160829595,
   "sample_rate": 24000,
-  "duration_seconds": 0.96,
-  "sha256": "b735c344d9e86c2ea8a0b6e3a317542605afed37f283a0e2a8cc8a2a7cff9395",
+  "duration_seconds": 1.1,
+  "sha256": "9f398ab5796d70100f983dedbca859de742bbbb2098d90ea957036956cf42288",
   "func_id": "047a",
   "offset_key": "6d4",
   "segment": 0

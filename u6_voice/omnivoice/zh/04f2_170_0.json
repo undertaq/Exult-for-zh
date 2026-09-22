@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "位。",
   "tts_text": "位。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "位。",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 1770311025,
   "sample_rate": 24000,
   "duration_seconds": 1.32,
-  "sha256": "10943f325e8f95a8ce47e978918603eb8dcae703ec587815912feeec16568911",
+  "sha256": "2c7fd1e99610a79fe93d43176226523e7f44bad0d494dd081c84e9087400d20e",
   "func_id": "04f2",
   "offset_key": "170",
   "segment": 0

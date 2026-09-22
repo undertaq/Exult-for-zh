@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "出售",
   "tts_text": "出售",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "出售",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1063527213,
   "sample_rate": 24000,
-  "duration_seconds": 1.56,
-  "sha256": "8a16afc4d4ff366778162d569ed4d9fbf7fcfb508c010de4115196f0665fee25",
+  "duration_seconds": 0.88,
+  "sha256": "3af01ddcf58f14851df28913af9b73dc2d50a22318856e027d030b090bde2168",
   "func_id": "0453",
   "offset_key": "2ce",
   "segment": 0

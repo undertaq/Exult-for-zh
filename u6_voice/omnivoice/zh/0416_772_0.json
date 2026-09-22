@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Lynn",
   "tts_text": "Lynn",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Lynn",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 834128561,
   "sample_rate": 24000,
-  "duration_seconds": 0.51,
-  "sha256": "46eedcb97a161118b522b3f5290fe2c09edb47df052fd0fed368a72bc951635e",
+  "duration_seconds": 0.67,
+  "sha256": "7075181905df5b849055fdcf36a5363b507b2044c255aa65115d451865a08506",
   "func_id": "0416",
   "offset_key": "772",
   "segment": 0

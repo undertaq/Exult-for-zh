@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "牛肉",
   "tts_text": "牛肉",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "牛肉",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 4135444729,
   "sample_rate": 24000,
-  "duration_seconds": 0.75,
-  "sha256": "7393be87c3b67161f60839131b60a43952a19d2254d49e6f643f5e573642afa4",
+  "duration_seconds": 1.56,
+  "sha256": "2cf9eeef0750ad6629e9f2cb73eb9b4ae5901ca51a3616eeeb302689a7c60c8b",
   "func_id": "0482",
   "offset_key": "16",
   "segment": 0

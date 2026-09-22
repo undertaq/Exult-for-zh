@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "生意",
   "tts_text": "生意",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "生意",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3651996914,
   "sample_rate": 24000,
-  "duration_seconds": 1.52,
-  "sha256": "acd8b872b8bde5d35e0efcb69a3039ef437a97f3b469d78605a44269f9022b40",
+  "duration_seconds": 0.85,
+  "sha256": "024f8968b80d42af8041cf3f043df4e5db146349b5101257faa07be9cbd78e0c",
   "func_id": "0425",
   "offset_key": "309",
   "segment": 0

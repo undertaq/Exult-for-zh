@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "是的。好的。是的。",
   "tts_text": "是的。好的。是的。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "是的。好的。是的。",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 93649919,
   "sample_rate": 24000,
-  "duration_seconds": 1.55,
-  "sha256": "aa108b569d7b87e05d2676843cc6996228fbe9c475d3e7f0a537c572879ba98b",
+  "duration_seconds": 1.81,
+  "sha256": "3e04ddcc063741c035f8c6aee30ae05c111cfc9066cfec5c799c0bc851bf077b",
   "func_id": "0493",
   "offset_key": "d8",
   "segment": 0

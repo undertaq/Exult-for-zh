@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "她住在 Paws。",
   "tts_text": "她住在 Paws。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "她住在 Paws。",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 658503736,
   "sample_rate": 24000,
-  "duration_seconds": 1.44,
-  "sha256": "6e399d9060d39e35ea3e808dee6c15b56a574e2f97e064a868a0e4ce140f1531",
+  "duration_seconds": 1.34,
+  "sha256": "d6b55d9cb4d44be707378e46ba865d8b90e8c03ac391dfd392cbf7dff90b87dc",
   "func_id": "0485",
   "offset_key": "5d1",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "吱吱？",
   "tts_text": "吱吱？",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "吱吱？",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 4185713853,
   "sample_rate": 24000,
-  "duration_seconds": 1.45,
-  "sha256": "0d1e33c5ab035728a557b7ac2ca1bd5c255ea660f10dc6a30654a6aa07d72473",
+  "duration_seconds": 1.44,
+  "sha256": "1e97f8f5535241310da8da6fe0508053463a5c680fb28634b2cce169e557a0fe",
   "func_id": "0406",
   "offset_key": "1e3",
   "segment": 0

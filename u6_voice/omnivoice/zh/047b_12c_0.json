@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Grison",
   "tts_text": "Grison",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Grison",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 3064315777,
   "sample_rate": 24000,
-  "duration_seconds": 1.52,
-  "sha256": "e1a9a366bfe502ace59e72ac8b02dcced071e3b1de61160f87069de1fd415fdc",
+  "duration_seconds": 0.85,
+  "sha256": "8b690552c677bab5eb4460d3947d642e9b248b047c3584823dd7e172cdd00da8",
   "func_id": "047b",
   "offset_key": "12c",
   "segment": 0

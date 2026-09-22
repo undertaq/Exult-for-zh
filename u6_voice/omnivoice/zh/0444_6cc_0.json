@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "好的",
   "tts_text": "好的",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "好的",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 895072668,
   "sample_rate": 24000,
   "duration_seconds": 1.36,
-  "sha256": "d818291de558bfbc131a6917a22ba391efdc02da53c4f830b13fda801e331dd2",
+  "sha256": "cbbb5643387bbf60fb0af1f21ec034c3f9f57073f0178384627941d3fa4878eb",
   "func_id": "0444",
   "offset_key": "6cc",
   "segment": 0

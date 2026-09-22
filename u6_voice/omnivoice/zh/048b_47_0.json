@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Nystul..",
   "tts_text": "Nystul..",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Nystul..",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1836796904,
   "sample_rate": 24000,
-  "duration_seconds": 1.72,
-  "sha256": "95125d569b0b5a2a64af2bb7d293af81b9a68d6965adf1495f954621fefd1a2b",
+  "duration_seconds": 1.02,
+  "sha256": "a0929fab783e085f667ac5855e1e4f299d5f395080913fef780fbaf1e38440f8",
   "func_id": "048b",
   "offset_key": "47",
   "segment": 0

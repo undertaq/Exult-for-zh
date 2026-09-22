@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Horance",
   "tts_text": "Horance",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Horance",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 1279795510,
   "sample_rate": 24000,
   "duration_seconds": 1.64,
-  "sha256": "7ecba85e15197276cf5686d546b1e44666432d51cc710ce6e95106136f1842e4",
+  "sha256": "65abac8f7aa7a8443f7bc2e8aee8282c35102d24b79472455db06108498740ea",
   "func_id": "048c",
   "offset_key": "1bcd",
   "segment": 0

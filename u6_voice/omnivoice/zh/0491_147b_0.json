@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "玻璃",
   "tts_text": "玻璃",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "玻璃",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3690607329,
   "sample_rate": 24000,
-  "duration_seconds": 0.81,
-  "sha256": "c39198ad1624b13a4b8341795d8406d3dff56ed236d1ea15c95ff0e636fc4d52",
+  "duration_seconds": 1.56,
+  "sha256": "a60fb13e12cefcc1223c77ec6a332d48688c4df29fbc7487625612fb92e5a1b6",
   "func_id": "0491",
   "offset_key": "147b",
   "segment": 0

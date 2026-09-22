@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "要不要",
   "tts_text": "要不要",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "要不要",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1232115799,
   "sample_rate": 24000,
-  "duration_seconds": 0.96,
-  "sha256": "83c2d13026a9ddf4a4e990a91d518bd4a082e467b40540208ca41f440ff7cc71",
+  "duration_seconds": 0.91,
+  "sha256": "90a75d9d9c0789f54ada648b26a28ccb6eb21d0fd0153a0a3af0a319e8cdaea6",
   "func_id": "04b7",
   "offset_key": "39a",
   "segment": 0

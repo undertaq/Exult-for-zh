@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "住手，石像鬼！",
   "tts_text": "住手，石像鬼！",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "住手，石像鬼！",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 2062989576,
   "sample_rate": 24000,
   "duration_seconds": 1.84,
-  "sha256": "4d579811ca794e07910977719a4210f204043839a0c6bbdbeba684f2ca029d4c",
+  "sha256": "dfa4ac08561ab5f802bce7ec53d707b852095648f628b9e1de8a6e8f0fabc7e2",
   "func_id": "04bd",
   "offset_key": "0",
   "segment": 0

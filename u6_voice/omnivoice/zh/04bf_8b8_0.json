@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "熔岩坑",
   "tts_text": "熔岩坑",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "熔岩坑",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 2769122995,
   "sample_rate": 24000,
-  "duration_seconds": 1.72,
-  "sha256": "5c0f3d2cfe4689fb4a71b57716fef6ba362799621c0bc79def4ba5303d7c223f",
+  "duration_seconds": 0.93,
+  "sha256": "095b0a502696e8b0b71a70202ed47330cf2db85d8fa7bdd783b711330a91ee6f",
   "func_id": "04bf",
   "offset_key": "8b8",
   "segment": 0

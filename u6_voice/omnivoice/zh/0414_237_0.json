@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "sano",
   "tts_text": "sano",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "sano",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1061545143,
   "sample_rate": 24000,
-  "duration_seconds": 1.4,
-  "sha256": "fb014de1afd919f21d0ea49fb99ef7b370f30e3ea3a65803421068439df3f98a",
+  "duration_seconds": 0.86,
+  "sha256": "d325d5cfb51eef56bbfc5c2f1bc7d26a87a27201493469e31ad725dbcd3df6c7",
   "func_id": "0414",
   "offset_key": "237",
   "segment": 0

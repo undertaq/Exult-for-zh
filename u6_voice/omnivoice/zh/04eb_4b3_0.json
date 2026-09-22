@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "巨蛇盾",
   "tts_text": "巨蛇盾",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "巨蛇盾",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 495473335,
   "sample_rate": 24000,
-  "duration_seconds": 1.09,
-  "sha256": "1fe56085da1f14c938c142ab1e9671ce2fea4e5f200047e826edb290d2e76fc6",
+  "duration_seconds": 1.76,
+  "sha256": "17cd7e91dbcb05efd99a77f9d720acb715fe1538ef9f1e11e9bef62ae344d221",
   "func_id": "04eb",
   "offset_key": "4b3",
   "segment": 0

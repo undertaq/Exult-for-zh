@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "我叫Blaine。",
   "tts_text": "我叫Blaine。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "我叫Blaine。",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3710082415,
   "sample_rate": 24000,
-  "duration_seconds": 1.02,
-  "sha256": "17a1d62e0ef953657952ad286b5aec9b9ff3c7848cad69f24e613ce825cc4c22",
+  "duration_seconds": 0.87,
+  "sha256": "6e02656e5c87eca66b34c8816c2e4081a5073897607b43f4d9a6dc7081ccfecf",
   "func_id": "041b",
   "offset_key": "35b",
   "segment": 0

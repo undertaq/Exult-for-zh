@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Marissa",
   "tts_text": "Marissa",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Marissa",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1909310530,
   "sample_rate": 24000,
-  "duration_seconds": 1.08,
-  "sha256": "4bb8367e3425cefe0fb0ba17adbd3934e749c483ec46bbe107a52cd0e7f1390b",
+  "duration_seconds": 0.9,
+  "sha256": "39c49ca4dbb96210ccd3171cc6203d8e041a918b7091e02006f747b86da8e206",
   "func_id": "0485",
   "offset_key": "515",
   "segment": 0

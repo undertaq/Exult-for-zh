@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "地窖",
   "tts_text": "地窖",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "地窖",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1721295007,
   "sample_rate": 24000,
-  "duration_seconds": 0.81,
-  "sha256": "300e2a0a48a8fe807c72071d3494a6ce6eccc70e0b0028804fd2a590d71c1b0c",
+  "duration_seconds": 1.56,
+  "sha256": "e171d7773272dad2948f6417e2c0251ecaf603cbd51a436e17c8a50090f0adc7",
   "func_id": "046d",
   "offset_key": "415",
   "segment": 0

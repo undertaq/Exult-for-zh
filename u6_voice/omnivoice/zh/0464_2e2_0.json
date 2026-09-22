@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "精神",
   "tts_text": "精神",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "精神",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1369925044,
   "sample_rate": 24000,
-  "duration_seconds": 0.89,
-  "sha256": "f9040c516431d520288fe8c75e6db235c3ce03795b917adae7cba8d999201c30",
+  "duration_seconds": 0.81,
+  "sha256": "1e8b6b3f6360af3a6844c8ce166d91d82f1e0dd6c6fce9dc6f402d20991bd6fa",
   "func_id": "0464",
   "offset_key": "2e2",
   "segment": 0

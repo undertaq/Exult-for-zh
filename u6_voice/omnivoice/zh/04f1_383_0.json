@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "食材",
   "tts_text": "食材",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "食材",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3201113048,
   "sample_rate": 24000,
-  "duration_seconds": 0.85,
-  "sha256": "171b1ee5e08e1d4a2ce10b2498bdfe6f6b15b1d294a0ac0d06e26bfd34a3b915",
+  "duration_seconds": 1.52,
+  "sha256": "ce4a7977aa14bf9507152b3e959bd52890fda23bd1f79b33b642f4f0b6c20fdd",
   "func_id": "04f1",
   "offset_key": "383",
   "segment": 0

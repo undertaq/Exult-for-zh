@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "蜘蛛",
   "tts_text": "蜘蛛",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "蜘蛛",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1899865891,
   "sample_rate": 24000,
-  "duration_seconds": 1.52,
-  "sha256": "7dd91c71d5149670d3208fee667e70ed78496b77f7ad833e0fed0745ca255922",
+  "duration_seconds": 1.56,
+  "sha256": "4fb88a4747e90dee1e87586f3a6558c87775612bf53f97417c5009a6ef39a2be",
   "func_id": "0427",
   "offset_key": "257",
   "segment": 0

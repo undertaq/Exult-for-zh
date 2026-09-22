@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "真可惜。",
   "tts_text": "真可惜。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "真可惜。",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1850314517,
   "sample_rate": 24000,
-  "duration_seconds": 1.07,
-  "sha256": "17056e78b955f80806c38823ae1b2ef8a918782d5c9b6752b4324d83b5d1ea8a",
+  "duration_seconds": 1.27,
+  "sha256": "88170c224e9440b5c5a2341cde97964013de7ccc880537bd520982c71a3c4898",
   "func_id": "040e",
   "offset_key": "367",
   "segment": 0

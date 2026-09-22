@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "食物！食物！",
   "tts_text": "食物！食物！",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "食物！食物！",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 812915184,
   "sample_rate": 24000,
-  "duration_seconds": 1.68,
-  "sha256": "03c1bd6798ad0b846fdcc00d9c31c9bd9a2ebe27f441a3e599a61155aa6ac717",
+  "duration_seconds": 0.6,
+  "sha256": "b3fadf45e704530bc7d6543313fd8e3760671cdae32072ad88e54c407c899a56",
   "func_id": "0467",
   "offset_key": "77",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "缺席",
   "tts_text": "缺席",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "缺席",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1473530594,
   "sample_rate": 24000,
-  "duration_seconds": 0.94,
-  "sha256": "edeecebd29f8460ce05a086adb20cec02adc4ffb8ee61f93a892e1aec1adc1ae",
+  "duration_seconds": 0.86,
+  "sha256": "a84348a7cdfc70275060eec62007356392c9a764fc7b52612588763b000bcf52",
   "func_id": "0432",
   "offset_key": "9b6",
   "segment": 0

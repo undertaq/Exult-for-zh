@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "King's Way",
   "tts_text": "King's Way",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "King's Way",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1948688621,
   "sample_rate": 24000,
-  "duration_seconds": 1.13,
-  "sha256": "6d88a5bec75fa6b3bcd092194e80957a02cc237d19e44485e65028a5f815bf60",
+  "duration_seconds": 0.95,
+  "sha256": "7eb427c830d80cf621c9495aa6cc370ea383669b348fb7fbe855648b52eae2d8",
   "func_id": "0425",
   "offset_key": "4f4",
   "segment": 0

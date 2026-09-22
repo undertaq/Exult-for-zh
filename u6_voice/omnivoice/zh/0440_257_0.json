@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Bonn",
   "tts_text": "Bonn",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Bonn",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1471650723,
   "sample_rate": 24000,
-  "duration_seconds": 0.58,
-  "sha256": "c1231f77763480c32e5adfc0d721b0fcb5431aa9109c02a688e4a4899de4ddb9",
+  "duration_seconds": 1.4,
+  "sha256": "44abfc89569a0f58644c5c8adbeb981a8bae418c0f8e055c31ecc9bacd2149f3",
   "func_id": "0440",
   "offset_key": "257",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "拜拜。",
   "tts_text": "拜拜。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "拜拜。",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 273281426,
   "sample_rate": 24000,
-  "duration_seconds": 0.75,
-  "sha256": "9bc697be0961170a02574de7c1799c4040d5c0e0563dc181ebebd176e93ca8f9",
+  "duration_seconds": 0.77,
+  "sha256": "23ed15f3f89f49a6114d832bc4790fc867c5dba25fe1ec6c38d955553b34cca2",
   "func_id": "040c",
   "offset_key": "967",
   "segment": 0

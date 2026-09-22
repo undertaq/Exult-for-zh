@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "真相",
   "tts_text": "真相",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "真相",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2899318242,
   "sample_rate": 24000,
-  "duration_seconds": 1.56,
-  "sha256": "a35ac1cc3cb75ae63232c0a622e639ea3e9e4e4d11a6f0c519500310aa9c126f",
+  "duration_seconds": 0.99,
+  "sha256": "dfd447285c490499da9bff0264eb2215091519d41db90574ab427d967674afc6",
   "func_id": "0415",
   "offset_key": "3f4",
   "segment": 0

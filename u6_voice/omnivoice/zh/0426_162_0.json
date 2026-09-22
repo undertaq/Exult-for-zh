@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "他把手中的",
   "tts_text": "他把手中的",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "他把手中的",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3483654450,
   "sample_rate": 24000,
-  "duration_seconds": 1.78,
-  "sha256": "455d50d5c31dff973efc5b7852be155e75f859355706dadf97d8cfdf150cedec",
+  "duration_seconds": 1.25,
+  "sha256": "75a9d03d81fb1ffc9cc7e94701b67de0f445bb90bb30ffb3fd6cbebf6ba04ed3",
   "func_id": "0426",
   "offset_key": "162",
   "segment": 0

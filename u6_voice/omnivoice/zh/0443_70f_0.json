@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "沙漠",
   "tts_text": "沙漠",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "沙漠",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 42269163,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "add7019646a9bb570d1d5df58fddf8ae2e22ec8e29ac134e4ac8c1bf1272abda",
+  "sha256": "bd0de9ba0745785d79c216d19db1a04e90043c5a18470087882a3ac9e2ab87f4",
   "func_id": "0443",
   "offset_key": "70f",
   "segment": 0

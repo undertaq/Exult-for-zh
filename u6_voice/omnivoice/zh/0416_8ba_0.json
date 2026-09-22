@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "“那",
   "tts_text": "“那",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "“那",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1259409024,
   "sample_rate": 24000,
-  "duration_seconds": 0.41,
-  "sha256": "790dd42d2886591337a2a1189f9144b4636796fa489edaa8ff7eaf25539531d4",
+  "duration_seconds": 0.42,
+  "sha256": "60011cbe50465afa97f4d66601230445a1a2e9353c2e91b55bf7e7038dfea417",
   "func_id": "0416",
   "offset_key": "8ba",
   "segment": 0

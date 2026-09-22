@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "慈悲",
   "tts_text": "慈悲",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "慈悲",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 4247579860,
   "sample_rate": 24000,
   "duration_seconds": 1.52,
-  "sha256": "abdae1c7588e8b97be7028dc269431e2ce56a4fd0302700904c66cdafe84f238",
+  "sha256": "85bf56c4540f0b54268cc055eabaf80a92a0d5016a3ad0c6ae0aa6e9e631addc",
   "func_id": "0483",
   "offset_key": "491",
   "segment": 0

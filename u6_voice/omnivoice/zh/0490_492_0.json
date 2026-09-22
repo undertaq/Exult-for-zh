@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "保重，Marta。",
   "tts_text": "保重，Marta。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "保重，Marta。",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 4013075450,
   "sample_rate": 24000,
-  "duration_seconds": 1.25,
-  "sha256": "9dd4cdfbe7c9754ba174c9005abffc410252f5dfee8fb0ddc3da7c047bfd01a1",
+  "duration_seconds": 1.28,
+  "sha256": "9d298459d14f80515c47e570d444c365dc4140b780cb287a679fb88a606d5c9d",
   "func_id": "0490",
   "offset_key": "492",
   "segment": 0

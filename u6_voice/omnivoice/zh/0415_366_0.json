@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "家庭",
   "tts_text": "家庭",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "家庭",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1696757329,
   "sample_rate": 24000,
-  "duration_seconds": 0.81,
-  "sha256": "89ee26cb5d43671dd8cab92d118d90998579e3f7b17c888525f94674f90cf7e1",
+  "duration_seconds": 0.65,
+  "sha256": "ecdf3419a97c3b6421ec7b453400765e8e1125e4099fc3fa14cbfa9be38dfa7f",
   "func_id": "0415",
   "offset_key": "366",
   "segment": 0

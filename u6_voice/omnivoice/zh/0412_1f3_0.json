@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "信件",
   "tts_text": "信件",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "信件",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 450784194,
   "sample_rate": 24000,
-  "duration_seconds": 1.52,
-  "sha256": "7fac0ac32741e1f1e41864d7cc14cbf394eff1c75d2f9e3ae80c8b023244345c",
+  "duration_seconds": 0.79,
+  "sha256": "b2a0df85b2aa2f122257b73a931d79cc2f93fe0543158c14de2f831b4844b69d",
   "func_id": "0412",
   "offset_key": "1f3",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "歌手",
   "tts_text": "歌手",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "歌手",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 927586030,
   "sample_rate": 24000,
-  "duration_seconds": 1.52,
-  "sha256": "2958aa0462c422f69b226941472363e184574d7faa041b66780dd4574157b822",
+  "duration_seconds": 0.8,
+  "sha256": "279f72176469d8d61f71c2a4352453441a52795fa5de68ed440a2d71dd8c59b3",
   "func_id": "040b",
   "offset_key": "2a7",
   "segment": 0

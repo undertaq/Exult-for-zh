@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "材料",
   "tts_text": "材料",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "材料",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 4187478800,
   "sample_rate": 24000,
-  "duration_seconds": 0.72,
-  "sha256": "3b3f7422e8e54bf237524274f4eb75e9194fa48b1a1609939abb7002d751f289",
+  "duration_seconds": 0.84,
+  "sha256": "1256ad81c8424136b7b43cf64c96a7df7dafadb01647e76e9243d52e97b6d86f",
   "func_id": "044a",
   "offset_key": "13a",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "羊毛",
   "tts_text": "羊毛",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "羊毛",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 482183386,
   "sample_rate": 24000,
-  "duration_seconds": 1.04,
-  "sha256": "e4d89d6a8f46ca2d14cf591154c6bf1ac41bf946eeb936b2a76d937e55f04da1",
+  "duration_seconds": 1.56,
+  "sha256": "ea479b7643683080375ead54438607b7c7a55039526cabea8ab843041ea5d2d1",
   "func_id": "0478",
   "offset_key": "262",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "歌唱",
   "tts_text": "歌唱",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "歌唱",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 3626686574,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "d54099e3db6ed1b3d7ac96f45be549d37ea1db17b1da8bf293d2e44a6424ba43",
+  "sha256": "a22e4c99edebd11ff62a1bf878c62eea9602a0e51f5aa304a0d87d0069263043",
   "func_id": "043f",
   "offset_key": "3b4",
   "segment": 0

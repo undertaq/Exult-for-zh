@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "希望",
   "tts_text": "希望",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "希望",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2973740810,
   "sample_rate": 24000,
-  "duration_seconds": 1.52,
-  "sha256": "4de5542e2ee5d982298dd96b2bfa8c08f03e6ec03117881dbed8eb04220b91ef",
+  "duration_seconds": 0.92,
+  "sha256": "243425620ea17b57637b997358b52e2d150d52ad1ff9fcc0f9dba5afee1a40f3",
   "func_id": "0425",
   "offset_key": "640",
   "segment": 0

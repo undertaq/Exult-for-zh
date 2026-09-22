@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "混蛋",
   "tts_text": "混蛋",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "混蛋",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1691262086,
   "sample_rate": 24000,
-  "duration_seconds": 1.0,
-  "sha256": "fbfe2e146d8397cb0bd61bd753d69404ae6f8ba7ec49c25de3e47f5c9f80e53f",
+  "duration_seconds": 1.52,
+  "sha256": "efe700b72e4ac5cc6895d75ba03441a52c6890291a0083f698c9d0789594dc60",
   "func_id": "0431",
   "offset_key": "c",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "日程是",
   "tts_text": "日程是",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "日程是",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1365423710,
   "sample_rate": 24000,
-  "duration_seconds": 1.05,
-  "sha256": "3c09c301589d20ee91ccbbdcf5572e16ba8d31900826654f2fa7045a31584478",
+  "duration_seconds": 1.58,
+  "sha256": "4ee4e0e638588a480f9b1a30192f3f7073b7810169ae363ebb606f3bdfee7169",
   "func_id": "04f2",
   "offset_key": "305",
   "segment": 0

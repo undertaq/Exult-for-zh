@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "＠天哪！＠",
   "tts_text": "＠天哪！＠",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "＠天哪！＠",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 4069660520,
   "sample_rate": 24000,
   "duration_seconds": 1.4,
-  "sha256": "0c334f1e1be9a8f04644070b25bed30050aee4808d89f318473c6256ffa39f8b",
+  "sha256": "347fcc812c51b86c192ef3f1f121d23ebf09d3a18053520bc9cb0f3e5dce5b46",
   "func_id": "0453",
   "offset_key": "228",
   "segment": 0

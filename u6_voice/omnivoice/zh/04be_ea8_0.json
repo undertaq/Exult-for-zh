@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "地下墓穴",
   "tts_text": "地下墓穴",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "地下墓穴",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 687732969,
   "sample_rate": 24000,
-  "duration_seconds": 1.25,
-  "sha256": "fbc327fb940397ba049bf1fa87a23868fcbee064d40dffe4631d1967ce93b618",
+  "duration_seconds": 1.14,
+  "sha256": "b166c1bd7f18b35d8715bb7bddfea77f5e95ff5a26a4c4128d41dacfb4ceaa73",
   "func_id": "04be",
   "offset_key": "ea8",
   "segment": 0

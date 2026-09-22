@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "木材",
   "tts_text": "木材",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "木材",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 968969972,
   "sample_rate": 24000,
-  "duration_seconds": 0.57,
-  "sha256": "6f6a3df6b336f8fa5146fb37fd536bda41eb06ed65edb3dd9b13c26c2c5a5937",
+  "duration_seconds": 1.52,
+  "sha256": "bbd5a1dfa97495dfb1537d6685078fe55f85ef632979067cf52449a2b5538527",
   "func_id": "0412",
   "offset_key": "2d5",
   "segment": 0

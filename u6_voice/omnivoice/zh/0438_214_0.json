@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Taynith",
   "tts_text": "Taynith",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Taynith",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1229695248,
   "sample_rate": 24000,
-  "duration_seconds": 0.72,
-  "sha256": "e201966c18ac38420b3e49fa5372399534a271704fd25bde3bd4056bde4eb01a",
+  "duration_seconds": 0.91,
+  "sha256": "043788564abb2d38a9eebf5908b8173671f30d04bbf24dbc39991ddf8cb5b871",
   "func_id": "0438",
   "offset_key": "214",
   "segment": 0

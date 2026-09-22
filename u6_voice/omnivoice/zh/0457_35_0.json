@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Gwenno..",
   "tts_text": "Gwenno..",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Gwenno..",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 146070785,
   "sample_rate": 24000,
-  "duration_seconds": 0.98,
-  "sha256": "3e0f464149a9bdf6335d81a726a96902728958c53b098b93b679d2329611e56e",
+  "duration_seconds": 0.89,
+  "sha256": "98854d5a3dd6f1fe7c9b12b319c51e93376c8e89a64b17cc4274a52c4c6a7868",
   "func_id": "0457",
   "offset_key": "35",
   "segment": 0

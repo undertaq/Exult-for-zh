@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "法律",
   "tts_text": "法律",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "法律",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 84692289,
   "sample_rate": 24000,
-  "duration_seconds": 0.52,
-  "sha256": "7a86fd9ee48906eaa8d926b78ad8f7799fa3022e3c6077e04a949f068d6d6743",
+  "duration_seconds": 1.52,
+  "sha256": "ab790742d345aaae981a0517ed4a9517c8add70755661714fef3a43b81e1e288",
   "func_id": "0432",
   "offset_key": "1321",
   "segment": 0

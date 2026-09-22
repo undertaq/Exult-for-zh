@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Dr. Cat",
   "tts_text": "Dr. Cat",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Dr. Cat",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 4176546649,
   "sample_rate": 24000,
-  "duration_seconds": 1.56,
-  "sha256": "ebe3836bf347e7fa21f5a037a6bec9505be47d1ef19f78e602c412f860055720",
+  "duration_seconds": 0.9,
+  "sha256": "74d970f9f081b370bbadac45d85fe8f0062d594cc2f56861f1bf1ea7595693bd",
   "func_id": "0473",
   "offset_key": "47a",
   "segment": 0

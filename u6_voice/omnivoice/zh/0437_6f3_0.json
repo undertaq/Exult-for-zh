@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "玩笑",
   "tts_text": "玩笑",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "玩笑",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 3153864230,
   "sample_rate": 24000,
-  "duration_seconds": 1.56,
-  "sha256": "c9ed5f11373f934bd84a2a09923dec628f2d8cde3bd749876b65f9b9b1ccb64c",
+  "duration_seconds": 0.83,
+  "sha256": "3228eb766ba852c3c8dc9c769a58aa1b85e7170fa64e7ea22ad17cd3f90c7b42",
   "func_id": "0437",
   "offset_key": "6f3",
   "segment": 0

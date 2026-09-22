@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "我就知道！",
   "tts_text": "我就知道！",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "我就知道！",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 3807187686,
   "sample_rate": 24000,
-  "duration_seconds": 1.45,
-  "sha256": "5b37fcc9cb74395564535813d36d993867a2bc7038e584e47f522cc29f174de4",
+  "duration_seconds": 2.08,
+  "sha256": "a934db26a3cd193428cf88d76c7ec572b648811b082e264726d83c41ab24ce1f",
   "func_id": "0474",
   "offset_key": "52d",
   "segment": 0

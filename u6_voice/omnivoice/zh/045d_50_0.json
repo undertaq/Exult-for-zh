@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "翼盔",
   "tts_text": "翼盔",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "翼盔",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 4102110367,
   "sample_rate": 24000,
-  "duration_seconds": 0.99,
-  "sha256": "0dc51a26ccdc7af7bd6e7cf6ec767836623cc2bf8dd9ebfe560ec6582d14e511",
+  "duration_seconds": 0.66,
+  "sha256": "80c52151af2553db40aedd28b52c0fecb7e1feee31af62240259293ab196143d",
   "func_id": "045d",
   "offset_key": "50",
   "segment": 0

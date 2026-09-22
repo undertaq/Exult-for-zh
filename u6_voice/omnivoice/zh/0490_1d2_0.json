@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "玫瑰",
   "tts_text": "玫瑰",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "玫瑰",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3952396646,
   "sample_rate": 24000,
-  "duration_seconds": 0.68,
-  "sha256": "b0302ad6964ebd6715a32caeef6836f4b7a73d2f1357cb5ac075fdda9a244531",
+  "duration_seconds": 0.56,
+  "sha256": "c165f1ab4fec5328c92557c13441b2c52543bd80923af1485b729242321588c0",
   "func_id": "0490",
   "offset_key": "1d2",
   "segment": 0

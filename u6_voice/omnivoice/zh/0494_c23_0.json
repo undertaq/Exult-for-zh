@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "宰相",
   "tts_text": "宰相",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "宰相",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3392803476,
   "sample_rate": 24000,
-  "duration_seconds": 0.89,
-  "sha256": "34cf5702988ded36debcad8cb2cfab36f9dca59fa48e416b7dc9a5050693cf36",
+  "duration_seconds": 1.56,
+  "sha256": "1b7ceb08cb3d431f20423f50f65604a20e2657a416ab9b548444fc96be92ef65",
   "func_id": "0494",
   "offset_key": "c23",
   "segment": 0

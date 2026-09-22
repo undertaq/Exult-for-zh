@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "道路",
   "tts_text": "道路",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "道路",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 375170897,
   "sample_rate": 24000,
   "duration_seconds": 1.52,
-  "sha256": "1821d0649b1ea6a311c07ba1863b2bd768130f2cc444d9e3bd8c45cbc2f2d606",
+  "sha256": "bdc8afeec55b725732837b23a0e90831435a8e6f44b154178e5040cbcd2588fb",
   "func_id": "0411",
   "offset_key": "33f",
   "segment": 0

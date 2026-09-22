@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Lenora",
   "tts_text": "Lenora",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Lenora",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 3906733372,
   "sample_rate": 24000,
-  "duration_seconds": 0.83,
-  "sha256": "61e4c300b563188b15665222496f67a979e7ccbdc246b412deae3a9890d488e3",
+  "duration_seconds": 0.84,
+  "sha256": "3a2a10e9d9f34a72fec222132637f44e48636bd506cbd3b98c756ecd34e4b64d",
   "func_id": "040f",
   "offset_key": "275",
   "segment": 0

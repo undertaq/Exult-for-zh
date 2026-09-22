@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Culham",
   "tts_text": "Culham",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Culham",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 3581549209,
   "sample_rate": 24000,
-  "duration_seconds": 1.56,
-  "sha256": "e50207014193b06c1044fbd2f6245a4705067983f66cb92bb6554777b5959dd0",
+  "duration_seconds": 0.83,
+  "sha256": "a478b7bb1bcfadad5f1dfd23f5bc6824645a7a8111704316612a9589e79d8982",
   "func_id": "0443",
   "offset_key": "222",
   "segment": 0

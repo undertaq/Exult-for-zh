@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "午覺",
   "tts_text": "午JIAO4",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "午JIAO4",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3181956604,
   "sample_rate": 24000,
-  "duration_seconds": 1.78,
-  "sha256": "49e66395449c5ba0b211235f210ad625874f69ee85fec9d6f6281c93ce42c143",
+  "duration_seconds": 1.8,
+  "sha256": "edc5496ff98b9cb2ab8ef5931ac273f9015daa6ea7f657362f30c229f390db5d",
   "func_id": "042f",
   "offset_key": "1b4",
   "segment": 0

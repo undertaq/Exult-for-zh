@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "戟",
   "tts_text": "戟",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "戟",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2540350459,
   "sample_rate": 24000,
-  "duration_seconds": 0.44,
-  "sha256": "e2779f7eec3bc7c1d64c655ae405d5c83d06ec4ec94738f7c06077c44ab6c588",
+  "duration_seconds": 1.28,
+  "sha256": "ea0f11c4eca9f7be7c8533c5a2898ee16b70304aac7cf627d9970de68b83ec41",
   "func_id": "04f2",
   "offset_key": "4f",
   "segment": 0

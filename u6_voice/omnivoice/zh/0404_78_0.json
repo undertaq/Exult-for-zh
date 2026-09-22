@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "名字",
   "tts_text": "名字",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "名字",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 2439912006,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "64526f12d22625322ea67156b2d2652992f1c48c293ebb8b88c5f4d3634ef917",
+  "sha256": "dbc7fb03deac68b845754c5b1e57210cec4133616e7edc067ddc2befc1742bb7",
   "func_id": "0404",
   "offset_key": "78",
   "segment": 0

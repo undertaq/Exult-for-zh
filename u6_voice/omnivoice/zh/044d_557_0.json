@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "冥想",
   "tts_text": "冥想",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "冥想",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3896376761,
   "sample_rate": 24000,
-  "duration_seconds": 1.05,
-  "sha256": "b7715bf512c0181e2530fe0a9b1067d1528c50253b4b102efd1eba991b0203c2",
+  "duration_seconds": 1.56,
+  "sha256": "b8e623872f722de0d9092b5ba5d87672bb93f2fb2aba1d072a55567affb6da43",
   "func_id": "044d",
   "offset_key": "557",
   "segment": 0

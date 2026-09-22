@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Timothy",
   "tts_text": "Timothy",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Timothy",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 4193846731,
   "sample_rate": 24000,
-  "duration_seconds": 1.64,
-  "sha256": "56978cea1302c8725e3cd36409ad2421091815974a93ff94969eebbcea7f1160",
+  "duration_seconds": 0.85,
+  "sha256": "9549b05c95875fb82986a0b1f951663884413ef22ac755ed4bbf6c86492d1ac1",
   "func_id": "0479",
   "offset_key": "18c",
   "segment": 0

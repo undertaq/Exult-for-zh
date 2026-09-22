@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "干修道院酒",
   "tts_text": "干修道院酒",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "干修道院酒",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 872386432,
   "sample_rate": 24000,
   "duration_seconds": 2.04,
-  "sha256": "f0d5f6150499f2a7734f3ce16cfe77cabae17712e120cc97bd61724966ce6e90",
+  "sha256": "973a0583b989b7e957f53031b91041f0fdeee9478df54a65fbaaf2e47b7d70ba",
   "func_id": "046a",
   "offset_key": "28",
   "segment": 0

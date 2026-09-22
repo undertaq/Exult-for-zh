@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "在水上的是：",
   "tts_text": "在水上的是：",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "在水上的是：",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1256244178,
   "sample_rate": 24000,
-  "duration_seconds": 1.98,
-  "sha256": "9e737ef769bfc0fae2780f6d092228e522ae5fa32bd4968653e0e255bca1d0a6",
+  "duration_seconds": 2.0,
+  "sha256": "a9725265d2f13ccf6409e583834f31bde8d4ad2261021ff1f41f153722a93501",
   "func_id": "0408",
   "offset_key": "0",
   "segment": 0

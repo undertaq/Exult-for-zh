@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "神志清醒",
   "tts_text": "神志清醒",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "神志清醒",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 1528808130,
   "sample_rate": 24000,
   "duration_seconds": 1.92,
-  "sha256": "66da2e8cd94428c1da930698b698322ea5f450b9f0b4eccf95a713cd612dbebc",
+  "sha256": "f6edc8553807d668a9912373ed97a1b4029fae07990d0607e0595dbf86762a7a",
   "func_id": "0440",
   "offset_key": "704",
   "segment": 0

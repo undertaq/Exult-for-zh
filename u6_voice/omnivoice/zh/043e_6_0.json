@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "人",
   "tts_text": "人",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "人",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1546260119,
   "sample_rate": 24000,
-  "duration_seconds": 1.28,
-  "sha256": "be71ee729784999cb5650a3776bf370a6321c6885004634c22abe35ca3c20c26",
+  "duration_seconds": 0.66,
+  "sha256": "60c6f52e7649330718ac67efd4a006b4d699bbeb4daf8be8190c5992075a0f4f",
   "func_id": "043e",
   "offset_key": "6",
   "segment": 0

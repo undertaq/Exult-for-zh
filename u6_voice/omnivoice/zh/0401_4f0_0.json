@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "NPC",
   "tts_text": "NPC",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "NPC",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3139309191,
   "sample_rate": 24000,
-  "duration_seconds": 0.94,
-  "sha256": "e1460f63d41afa49e6a8848abe7ad6b951821deb9153792d523cf9fea5989514",
+  "duration_seconds": 1.28,
+  "sha256": "9e77e41995433e7118e5a457c3056f2757ded9c82cb84820f7cc7b1eeaac8da5",
   "func_id": "0401",
   "offset_key": "4f0",
   "segment": 0

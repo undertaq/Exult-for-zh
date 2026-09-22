@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "姑娘",
   "tts_text": "姑娘",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "姑娘",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 1483134681,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "6ee34e342a0d416e2f68ce058699dac443c58edee02d238504a89f9501be74bd",
+  "sha256": "df3303a3c324a4725a856bca3e8501086ebb6ae452ffb4050a3bc0c39e6569a0",
   "func_id": "0414",
   "offset_key": "6d1",
   "segment": 0

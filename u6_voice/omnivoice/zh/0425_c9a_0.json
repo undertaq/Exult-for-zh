@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "祝你有美好的",
   "tts_text": "祝你有美好的",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "祝你有美好的",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2987000021,
   "sample_rate": 24000,
-  "duration_seconds": 1.88,
-  "sha256": "f6b153d68a3899cd929899258786fe00bd6024b55ac1574787080c12284093fc",
+  "duration_seconds": 1.81,
+  "sha256": "8a65e8a24ecb2e8721932b808187aaec46aec5fa49d56948688ccb6a68fad388",
   "func_id": "0425",
   "offset_key": "c9a",
   "segment": 0

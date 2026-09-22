@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Moonglow",
   "tts_text": "Moonglow",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "Moonglow",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 913509926,
   "sample_rate": 24000,
-  "duration_seconds": 1.72,
-  "sha256": "c1aceb2a931266dbaa98fd8bbcd8e4783adbf794cec90efb467e26aaa3a8d991",
+  "duration_seconds": 1.71,
+  "sha256": "132612773ec49824bd03f2809c8b71860affddab46606372241e3627962fce90",
   "func_id": "042c",
   "offset_key": "e6b",
   "segment": 0

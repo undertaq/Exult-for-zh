@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "夫人",
   "tts_text": "夫人",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "夫人",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 330095690,
   "sample_rate": 24000,
-  "duration_seconds": 0.67,
-  "sha256": "fc97a1e222feb667dd1d9f4a39e80123ff54c246e658e05ef3412dfc91ee59f2",
+  "duration_seconds": 1.5,
+  "sha256": "e0b78608b3cbf5da5ae76760d94edf2e7c62af4a926ca14cce09baccf47386af",
   "func_id": "0408",
   "offset_key": "3a",
   "segment": 0

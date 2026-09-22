@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "我一直在等你。..",
   "tts_text": "我一直在等你。..",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "我一直在等你。..",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1992167715,
   "sample_rate": 24000,
-  "duration_seconds": 2.04,
-  "sha256": "903f7eb3a19d976b75462f193236aa254e38edbab48b0e1d3954ce32bff3f739",
+  "duration_seconds": 2.03,
+  "sha256": "8bfaf065c9c2a1b7722db49d52b4028bd4cd66d59d01902ecbf0f2711b482959",
   "func_id": "0496",
   "offset_key": "41",
   "segment": 0

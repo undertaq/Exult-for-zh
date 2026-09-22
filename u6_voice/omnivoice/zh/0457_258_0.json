@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "民歌",
   "tts_text": "民歌",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "民歌",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1664019447,
   "sample_rate": 24000,
-  "duration_seconds": 1.52,
-  "sha256": "edbbce6730e9f6f75e2c729c80edde538fb39eb6c3e2cbabb088bf2c1f4c3202",
+  "duration_seconds": 0.77,
+  "sha256": "a68f72b59c0ae1ca0b68cdd3ce60867d401df0923d32705b4a27ad16231f5f22",
   "func_id": "0457",
   "offset_key": "258",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "力量值是",
   "tts_text": "力量值是",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "力量值是",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2348353742,
   "sample_rate": 24000,
-  "duration_seconds": 1.46,
-  "sha256": "cda3edd8e4573cdc2bd5333953380eba19f0b71723ff48bf41dfd2050edf3412",
+  "duration_seconds": 1.47,
+  "sha256": "93ff2851fc3d64110d90e9ea8b95aa4199bbbdff8ab9280c17c01d788119ab31",
   "func_id": "04b7",
   "offset_key": "3cd",
   "segment": 0

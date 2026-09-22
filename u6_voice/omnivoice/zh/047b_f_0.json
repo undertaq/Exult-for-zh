@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "你好！",
   "tts_text": "你好！",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "你好！",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 179564813,
   "sample_rate": 24000,
-  "duration_seconds": 0.58,
-  "sha256": "6d78f91c640ac7d7e271a1bf554349b88ce55bacb88d378edb15d6686c8df8e6",
+  "duration_seconds": 0.93,
+  "sha256": "dce0c5e01bef38ba2dfdec0df7a1e98a2a24a9f059c3e71c55bc4bf937544d0a",
   "func_id": "047b",
   "offset_key": "f",
   "segment": 0

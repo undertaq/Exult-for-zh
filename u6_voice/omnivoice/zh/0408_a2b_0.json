@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "的口味！",
   "tts_text": "的口味！",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "的口味！",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3994539294,
   "sample_rate": 24000,
-  "duration_seconds": 0.7,
-  "sha256": "2e207ee33aa3e1e8d9be5396426ca0014ca040129640276b852fb8b9dc18ac3d",
+  "duration_seconds": 1.6,
+  "sha256": "856754264d06844ba3df35fcb4537a2f25f810a1744b56f288f20a0f22ab629f",
   "func_id": "0408",
   "offset_key": "a2b",
   "segment": 0

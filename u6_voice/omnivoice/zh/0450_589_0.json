@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "我不知道",
   "tts_text": "我不知道",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "我不知道",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1627520412,
   "sample_rate": 24000,
-  "duration_seconds": 1.22,
-  "sha256": "563f76e5a8ebf29b41fa3cd97189af8c3914731fdf6ba8b8157a9408439abe5b",
+  "duration_seconds": 1.92,
+  "sha256": "557fc7110ae0f6da981dcfd87c384a0b4b99b0ba5ebe0d8722f570d186de9b8a",
   "func_id": "0450",
   "offset_key": "589",
   "segment": 0

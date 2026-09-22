@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "他走了...",
   "tts_text": "他走了...",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "他走了...",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1513266529,
   "sample_rate": 24000,
-  "duration_seconds": 1.01,
-  "sha256": "8fb91a3cd8570381bb355ea940732aa5c0713233e9266f9b61efa7715c02892b",
+  "duration_seconds": 1.64,
+  "sha256": "676bf6e654259d3e3994a2973e42bad1c07b2f755c59e6188b3815c006f38713",
   "func_id": "044b",
   "offset_key": "b88",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "月亮",
   "tts_text": "月亮",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "月亮",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 2290342124,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "2016856c904092223a1fd75adddc167e8ed78dd9e7238d1c3aca1e16dcdae32f",
+  "sha256": "940588d0a9e472d99d523a0175eee0a769b731666e22c8cc37252fffb6ae0811",
   "func_id": "0497",
   "offset_key": "3d5",
   "segment": 0

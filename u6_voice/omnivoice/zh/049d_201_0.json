@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "向您致意，",
   "tts_text": "向您致意，",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "向您致意，",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3487156938,
   "sample_rate": 24000,
-  "duration_seconds": 1.08,
-  "sha256": "d872c71bdfa8f4101ad0057c1e90285ed55f289cee00038065ff896dcb6cff6a",
+  "duration_seconds": 1.15,
+  "sha256": "9845207fcf5e20a0e22f1e060425d2c80f971de95130cd0c504decc27bc8674f",
   "func_id": "049d",
   "offset_key": "201",
   "segment": 0

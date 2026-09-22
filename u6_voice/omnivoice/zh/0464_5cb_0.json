@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "赦免他",
   "tts_text": "赦免他",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "赦免他",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2634100229,
   "sample_rate": 24000,
-  "duration_seconds": 1.72,
-  "sha256": "ac4563c55497bd9cb6f62344e566d42e1f83466f9133e22dfd0ae79507619a70",
+  "duration_seconds": 1.15,
+  "sha256": "e94a9ac3f29a69fc88031ac809d8ab7dc7ba022cbfeee78fd7e93b5c620e5fd5",
   "func_id": "0464",
   "offset_key": "5cb",
   "segment": 0

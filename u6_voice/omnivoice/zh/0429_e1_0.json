@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "作物",
   "tts_text": "作物",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "作物",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2235717319,
   "sample_rate": 24000,
-  "duration_seconds": 0.81,
-  "sha256": "53f3509e8b9f1427b41b2e2c6a0c1b78ff6afe905d2d8d2a8121f09beab3aed0",
+  "duration_seconds": 0.6,
+  "sha256": "801064d057b63ce980cbafd1ad298cf0d7ba6370026d72a031c46ad9fccee4d7",
   "func_id": "0429",
   "offset_key": "e1",
   "segment": 0

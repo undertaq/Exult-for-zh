@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "蜜蜂",
   "tts_text": "蜜蜂",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "蜜蜂",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 242934012,
   "sample_rate": 24000,
-  "duration_seconds": 1.56,
-  "sha256": "c1e30e5f5cecc397833b2d7356dd679856bac051022c7aee403e05d832815f85",
+  "duration_seconds": 0.87,
+  "sha256": "b59d8de56ba46b2dc459e66257da3031ba6c72b959170fc8d2c9b58d939dd995",
   "func_id": "0440",
   "offset_key": "18c",
   "segment": 0

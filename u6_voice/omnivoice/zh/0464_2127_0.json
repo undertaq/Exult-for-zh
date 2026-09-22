@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "履行誓言",
   "tts_text": "履行誓言",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "履行誓言",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1572270286,
   "sample_rate": 24000,
-  "duration_seconds": 1.88,
-  "sha256": "975f1247cbb4dfc3dc114557fcc353e333c204181734d74408d99fd8905a3354",
+  "duration_seconds": 1.81,
+  "sha256": "ea0d4718783f7a326d0893fddaf7aa5eb9bbc7dd4ddbef42eeb06b59879fe866",
   "func_id": "0464",
   "offset_key": "2127",
   "segment": 0

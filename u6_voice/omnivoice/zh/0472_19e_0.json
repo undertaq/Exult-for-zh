@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "葡萄藤",
   "tts_text": "葡萄藤",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "葡萄藤",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 160924091,
   "sample_rate": 24000,
-  "duration_seconds": 1.04,
-  "sha256": "24ffb4b0c2ccf9f1bbc4d3a79b27a730ff50cbc6406a203150523839cc51f459",
+  "duration_seconds": 1.76,
+  "sha256": "b24c036dc20930092c0ec963ae6e7eebb457bf5ee45c58e618c34c671a194a9a",
   "func_id": "0472",
   "offset_key": "19e",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "乳酪",
   "tts_text": "乳酪",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "乳酪",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 596740675,
   "sample_rate": 24000,
-  "duration_seconds": 1.56,
-  "sha256": "a6d98876b3c77c2469f008b684d47aa856aac19e8057b4563b00f592aa6be4a7",
+  "duration_seconds": 0.92,
+  "sha256": "877232bc55e65208a0f7316b4157d69a08dc10b62fd527de944743608089f0bc",
   "func_id": "0406",
   "offset_key": "359",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "你好呀，小老鼠。..",
   "tts_text": "你好呀，小老鼠。..",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "你好呀，小老鼠。..",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1986208487,
   "sample_rate": 24000,
-  "duration_seconds": 2.06,
-  "sha256": "93e8cc60bfb1180316a33f2e9778ef202fe1304d93af4b3e10496ab4cea73732",
+  "duration_seconds": 2.08,
+  "sha256": "bd0f2f10eddf625ff37e2d9f561a721bd1941ce4127f0cf8787957093acee258",
   "func_id": "0406",
   "offset_key": "7a",
   "segment": 0

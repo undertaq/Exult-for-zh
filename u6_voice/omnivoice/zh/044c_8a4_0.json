@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Yorl",
   "tts_text": "Yorl",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Yorl",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 3525063904,
   "sample_rate": 24000,
   "duration_seconds": 1.4,
-  "sha256": "d0e79025e944cdb2d1583d15f3a8e5c893294a1112f6bebba6c2c43cd217061c",
+  "sha256": "f56d387301ff7efe6e5e0ff03a0b9d9d8c173bf22f77bdc78f270488ebaecbf9",
   "func_id": "044c",
   "offset_key": "8a4",
   "segment": 0

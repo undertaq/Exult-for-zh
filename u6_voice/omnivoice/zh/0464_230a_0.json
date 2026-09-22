@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "，增加到回合",
   "tts_text": "，增加到回合",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "，增加到回合",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1576040258,
   "sample_rate": 24000,
-  "duration_seconds": 1.96,
-  "sha256": "f09ae67aed904dfa9b2bf2f054bd6efcef179b3e230ef2d044e5cf7d6a791e09",
+  "duration_seconds": 1.98,
+  "sha256": "dc49f8f2dc251d214003bb6a83042ad0d6a30b6341549fc3110af6a8d53a25ee",
   "func_id": "0464",
   "offset_key": "230a",
   "segment": 0

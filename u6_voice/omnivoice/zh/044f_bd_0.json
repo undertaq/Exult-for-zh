@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "不要在此逗留..",
   "tts_text": "不要在此逗留..",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "不要在此逗留..",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3058290746,
   "sample_rate": 24000,
-  "duration_seconds": 1.89,
-  "sha256": "149222809d9c4c411145fc321668aa437e3133b91d6a574009609287cd273333",
+  "duration_seconds": 2.12,
+  "sha256": "c0bb567cf85c3ad6e2712310caf1c4d387b7ef345d7abd95145b64d4bbab0db4",
   "func_id": "044f",
   "offset_key": "bd",
   "segment": 0

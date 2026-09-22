@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Homer",
   "tts_text": "Homer",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Homer",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 3013417707,
   "sample_rate": 24000,
   "duration_seconds": 1.48,
-  "sha256": "d1448d69df088034c0417b4eab3bcfbd0adb08435e7e5418adf518eafd63c971",
+  "sha256": "77fa42f2d738de685621c7013bce83f8809531e65b0c9fdc239485d0364714d1",
   "func_id": "04de",
   "offset_key": "d58",
   "segment": 0

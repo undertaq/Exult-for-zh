@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "地位",
   "tts_text": "地位",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "地位",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 3702612075,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "e8d2abb02444cef082891065942239699e215ed49135e961ecc01e6d5ce484b6",
+  "sha256": "9e338e46531fbda66b9edaf13c260877d8bb30aeaeeca7ee5fdfa7e4befbc2dc",
   "func_id": "048e",
   "offset_key": "53d",
   "segment": 0

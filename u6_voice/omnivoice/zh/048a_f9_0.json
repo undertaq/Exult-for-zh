@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "我叫 Gorn，",
   "tts_text": "我叫 Gorn，",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "我叫 Gorn，",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 930374224,
   "sample_rate": 24000,
-  "duration_seconds": 1.84,
-  "sha256": "32b6b4700f2d39ed9d96dbb700a322faf30c94dba038ec7bccbc56e210e99de7",
+  "duration_seconds": 1.83,
+  "sha256": "29d0e304c7931b852352f212960a683234ce894c149f4f46ea5c3b3a1aef46b6",
   "func_id": "048a",
   "offset_key": "f9",
   "segment": 0

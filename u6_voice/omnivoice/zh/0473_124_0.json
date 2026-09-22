@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "故事",
   "tts_text": "故事",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "故事",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1108133067,
   "sample_rate": 24000,
-  "duration_seconds": 1.56,
-  "sha256": "02e5bf6095b8739dd545fba5e1840ed480b6c9c7893ff2307c434c7760feda4e",
+  "duration_seconds": 0.67,
+  "sha256": "7a3eedd89108827064a693decb8181fe93434c64241c9a99fae347c53a67e1f3",
   "func_id": "0473",
   "offset_key": "124",
   "segment": 0

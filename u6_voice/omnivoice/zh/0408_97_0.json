@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "你好，Julia。",
   "tts_text": "你好，Julia。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "你好，Julia。",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2623509430,
   "sample_rate": 24000,
-  "duration_seconds": 1.71,
-  "sha256": "054a8d2c9cbeeb3a6727328584a5dd2416cf727f3dc4a7aa4a0d4b1042cb81fb",
+  "duration_seconds": 1.64,
+  "sha256": "c5300c5f4cd3895078146ee69a093794dc29ba64df449b3bc1f3853a90769dc3",
   "func_id": "0408",
   "offset_key": "97",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Britain",
   "tts_text": "Britain",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Britain",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2508119560,
   "sample_rate": 24000,
-  "duration_seconds": 0.63,
-  "sha256": "6ba983f12a7c5395c8f2abeea659b0bfb2ee225a542452969e21ab1d4a21b81b",
+  "duration_seconds": 1.64,
+  "sha256": "8324339ab67cf30fa5169561b21d786b48dd76c4aa62b8f8d92be8e317cf45e4",
   "func_id": "0401",
   "offset_key": "6b6",
   "segment": 0

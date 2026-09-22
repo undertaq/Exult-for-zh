@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Amanda",
   "tts_text": "Amanda",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Amanda",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 398854375,
   "sample_rate": 24000,
-  "duration_seconds": 0.87,
-  "sha256": "b59e4b75cb49a00eeb41ec01ff5912d30e6a7ae56eba473d8116570b01deb94b",
+  "duration_seconds": 0.83,
+  "sha256": "0137bfc17fcb3b307d7a773cbc7d317b476f4c2a667c6b2d3c63d30d3584cabc",
   "func_id": "04f0",
   "offset_key": "2a1",
   "segment": 0

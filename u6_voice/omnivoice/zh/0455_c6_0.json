@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "我叫Harold。",
   "tts_text": "我叫Harold。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "我叫Harold。",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1624085428,
   "sample_rate": 24000,
-  "duration_seconds": 1.1,
-  "sha256": "7d5138edfd350361b9aed23fc45f5f6d8588a896922ea6f5f71d710c2da5a205",
+  "duration_seconds": 1.07,
+  "sha256": "35635000517419bdafd066e9cb20f443222af998f493f71753f1cd373c0bf7f7",
   "func_id": "0455",
   "offset_key": "c6",
   "segment": 0

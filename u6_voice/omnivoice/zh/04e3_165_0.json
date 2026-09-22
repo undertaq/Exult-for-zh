@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "搬走",
   "tts_text": "搬走",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "搬走",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 3020714328,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "c7ae912cdb6c20d951a9202363272dcd1fc42bb2d2ae3537d76bfb3ce99ec3e8",
+  "sha256": "64aea38abfaed416840921a7cdae292d1cfa699f8d7a57dbb52b7855f762f58f",
   "func_id": "04e3",
   "offset_key": "165",
   "segment": 0

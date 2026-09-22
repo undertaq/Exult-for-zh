@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "先生",
   "tts_text": "先生",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "先生",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 2337487764,
   "sample_rate": 24000,
-  "duration_seconds": 1.52,
-  "sha256": "f753e99e2cb3971a2508649f45cd9339081f226975f9e9f557bdcf34da68146e",
+  "duration_seconds": 0.8,
+  "sha256": "2089b028503f3aa4be82ddcd351bdec8a60bbf6803d7d2b4967a6d2941274094",
   "func_id": "0477",
   "offset_key": "15f",
   "segment": 0

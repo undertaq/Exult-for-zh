@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "武器",
   "tts_text": "武器",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "武器",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2400092764,
   "sample_rate": 24000,
-  "duration_seconds": 1.56,
-  "sha256": "1f2ae0ce612bb9700ea6d65389e05382b452d42cf355065083882e6d86b9b249",
+  "duration_seconds": 0.8,
+  "sha256": "b850210f6f781a93951d19125d03bc244132550cdaba11239dfbc21569d6dbfb",
   "func_id": "04f2",
   "offset_key": "373",
   "segment": 0

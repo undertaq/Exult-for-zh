@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "劫掠者",
   "tts_text": "劫掠者",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "劫掠者",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 2420546120,
   "sample_rate": 24000,
-  "duration_seconds": 1.25,
-  "sha256": "c7c2ef5c42cc90fb6120892111f4b62ff2c0835df6ec594a90a0e87be4fd1a75",
+  "duration_seconds": 1.0,
+  "sha256": "34dc4b0194d4b34a61f50eefd6bdc16372853f5e360e7422f42a5f80363db5c8",
   "func_id": "0491",
   "offset_key": "40e",
   "segment": 0

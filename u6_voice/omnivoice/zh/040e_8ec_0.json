@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "休息",
   "tts_text": "休息",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "休息",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 544993936,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "8a71cf689aa9763b81e960e40986589f41643597dbb3a75a2241e332ae2d51e3",
+  "sha256": "4045fdd418049a0dfb967a4788eab579bd068c8f36cff4f9e6bffe5fa3688a2b",
   "func_id": "040e",
   "offset_key": "8ec",
   "segment": 0

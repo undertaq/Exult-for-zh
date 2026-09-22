@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "真言",
   "tts_text": "真言",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "真言",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 141549124,
   "sample_rate": 24000,
   "duration_seconds": 1.52,
-  "sha256": "352900df238cd7867cf806d0bf90e5a2714ee5e456afaa9b8bda70c90e74ba1e",
+  "sha256": "537c727a8fca2130cff42971150a9297f77875806c4e03576c31f82fbf432b2d",
   "func_id": "0496",
   "offset_key": "857",
   "segment": 0

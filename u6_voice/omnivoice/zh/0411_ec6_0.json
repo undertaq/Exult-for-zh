@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "那是肯定的。",
   "tts_text": "那是肯定的。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "那是肯定的。",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 936008361,
   "sample_rate": 24000,
-  "duration_seconds": 1.22,
-  "sha256": "f774745b4d0e681ba371cfc2a3dfd4460847f269087dfce20e497bd357eb83d7",
+  "duration_seconds": 1.24,
+  "sha256": "465a2040ae295ab3a225ed9ba4a3dd9d2bbab75d84753cbdf4750df59b642d18",
   "func_id": "0411",
   "offset_key": "ec6",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "回家",
   "tts_text": "回家",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "回家",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2176988988,
   "sample_rate": 24000,
-  "duration_seconds": 1.52,
-  "sha256": "e87162bf56cbd28248a2961eedc0dabe32e536b7f4183a2fc161fa6d8733e851",
+  "duration_seconds": 1.2,
+  "sha256": "050d55e0037c152be055c1391bddbba7e54667d195bd7a21e3626e6a4ab721bb",
   "func_id": "0457",
   "offset_key": "47f",
   "segment": 0

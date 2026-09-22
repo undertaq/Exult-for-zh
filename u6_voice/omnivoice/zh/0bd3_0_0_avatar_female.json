@@ -3,67 +3,35 @@
   "design_id": "npc_avatar_female",
   "lang": "zh",
   "text": "“我動不了了？”",
-  "tts_text": "“我動不了了？”",
-  "override_revision": null,
-  "rendered_text": "“\n我動不了了？\n”",
+  "tts_text": "“我动不了了？”",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
+  "rendered_text": "“我动不了了？”",
   "fallback_used": false,
   "npc": "Avatar",
   "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
-  "instruct": null,
+  "instruct": "女, 中音调",
   "clone_generation": {
     "num_step": 32,
     "guidance_scale": 2.0,
     "speed": 1.0,
     "postprocess_output": true
   },
-  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_avatar_female_zh_ref.ogg",
   "ref_text": "旅人，你好。今天過得如何？",
-  "reference_role": "mixed",
-  "reference_revision": "u6-omnivoice-role-routing-v1:35a440fbf9d6350879ef13a2abee8c4199f8b974e0b735466c22427151e9087f",
-  "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
-  "voice_parts": [
-    {
-      "role": "narrator",
-      "text": "“",
-      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
-      "reference_text": "旅人，你好。今天過得如何？",
-      "reference_id": "npc_unknown",
-      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
-      "instruct": "女, 中音调"
-    },
-    {
-      "role": "speaker",
-      "text": "我動不了了？",
-      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_avatar_female_zh_ref.ogg",
-      "reference_text": "旅人，你好。今天過得如何？",
-      "reference_id": "npc_avatar_female",
-      "reference_sha256": "5adb1d29e5e568a5207bf016707a9984b0b5349b1c202c4aefe62732d1b0f44a",
-      "instruct": "女, 中音调"
-    },
-    {
-      "role": "narrator",
-      "text": "”",
-      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
-      "reference_text": "旅人，你好。今天過得如何？",
-      "reference_id": "npc_unknown",
-      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
-      "instruct": "女, 中音调"
-    }
-  ],
+  "reference_role": "avatar_female",
+  "reference_revision": "u6-omnivoice-role-routing-v1:6685ef1e2a13d2312821d9bf7b8f1f20e99e1a1985369c90cf72ff6d7b96b621",
+  "reference_sha256": "5adb1d29e5e568a5207bf016707a9984b0b5349b1c202c4aefe62732d1b0f44a",
+  "voice_parts": [],
   "avatar_gender": "female",
   "variant": "avatar_female",
   "model": "k2-fsa/OmniVoice",
-  "gpu": 1,
-  "seed": 3284574387,
+  "gpu": 0,
+  "seed": 2502255952,
   "sample_rate": 24000,
-  "duration_seconds": 3.42,
-  "sha256": "7f452ff7ce312a14d4fc3720334febab166a6ce6c6c6733678b5d892e5d06e88",
+  "duration_seconds": 1.96,
+  "sha256": "cc0bc1e836bd35896d93645bc1e31e8639c3c5b27e8bec752befe4dbe9c030c2",
   "func_id": "0bd3",
   "offset_key": "0",
-  "segment": 0,
-  "rendered_parts": [
-    "“",
-    "我動不了了？",
-    "”"
-  ]
+  "segment": 0
 }

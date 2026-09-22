@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Hendle，屠夫。",
   "tts_text": "Hendle，屠夫。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Hendle，屠夫。",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1716305033,
   "sample_rate": 24000,
-  "duration_seconds": 1.21,
-  "sha256": "a9df07683ac636cfc012201a9a19fcb8e71a356c8bcba7e19adf0df5b164c508",
+  "duration_seconds": 1.41,
+  "sha256": "522df37ffb9750ad65d06fa4b0ff9b71431c84eeeb1af25c9e369145fe41eabd",
   "func_id": "047c",
   "offset_key": "224",
   "segment": 0

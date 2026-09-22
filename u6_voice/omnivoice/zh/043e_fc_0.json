@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "百姓",
   "tts_text": "百姓",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "百姓",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 2552155123,
   "sample_rate": 24000,
-  "duration_seconds": 1.56,
-  "sha256": "52763a42b53a73005090b8e63dd6fa9cfcb03acab5e164afcb337d08415f6ae8",
+  "duration_seconds": 0.86,
+  "sha256": "29ab99d769d8be7e3442266b5383823d59cce564becaa90a1ce1b271176edc31",
   "func_id": "043e",
   "offset_key": "fc",
   "segment": 0

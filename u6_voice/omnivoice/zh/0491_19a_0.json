@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "..她走了...",
   "tts_text": "..她走了...",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "..她走了...",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2369838202,
   "sample_rate": 24000,
-  "duration_seconds": 0.75,
-  "sha256": "bec0e92b5b2df15345bacbb7c8b28a7e0914ab2294697316ca8dcf3b018f1bc6",
+  "duration_seconds": 0.84,
+  "sha256": "cdd61513f1349e80042c9d87c258f9501bddc791b08326258b797cf05ba9a823",
   "func_id": "0491",
   "offset_key": "19a",
   "segment": 0

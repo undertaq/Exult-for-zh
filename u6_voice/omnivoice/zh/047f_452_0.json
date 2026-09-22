@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Paws",
   "tts_text": "Paws",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Paws",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1369299980,
   "sample_rate": 24000,
-  "duration_seconds": 1.4,
-  "sha256": "3c4ac8471ef7ea73db4c7873bb6d869f1d1692be6bfe014bada3c478e9a4f2a7",
+  "duration_seconds": 0.83,
+  "sha256": "e66eb136fbe8c8a3354b3716fa53cee66982b836ab4f4c1ad393bbf3ebe248b1",
   "func_id": "047f",
   "offset_key": "452",
   "segment": 0

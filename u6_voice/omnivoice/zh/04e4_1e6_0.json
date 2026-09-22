@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "嫉妒",
   "tts_text": "嫉妒",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "嫉妒",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 940676885,
   "sample_rate": 24000,
-  "duration_seconds": 1.52,
-  "sha256": "fd8b043085ccf9097778e0d25503318d4c3f8cb910e72923ff7e669dca7a1763",
+  "duration_seconds": 0.83,
+  "sha256": "aa838e039edfaf1c63dad10c75494a2e2c8d1cb2a37efff759e4fb9b8fe05e5a",
   "func_id": "04e4",
   "offset_key": "1e6",
   "segment": 0

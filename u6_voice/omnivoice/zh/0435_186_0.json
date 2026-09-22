@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "笨猴子",
   "tts_text": "笨猴子",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "笨猴子",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 2963835957,
   "sample_rate": 24000,
   "duration_seconds": 1.76,
-  "sha256": "a4023a246d350c6a854b15be4a6480849e1da3bdadd3ccf07ea2add166415754",
+  "sha256": "8ab91745740c40326b072f49b4a2e2c89c3615798bcb5775565dd73fb252f143",
   "func_id": "0435",
   "offset_key": "186",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "放我出去！",
   "tts_text": "放我出去！",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "放我出去！",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 4119657860,
   "sample_rate": 24000,
-  "duration_seconds": 1.69,
-  "sha256": "e6d918bfc33c07f5562ad07079b57428c20d5649d93d67736c5e7ebed4f1bd35",
+  "duration_seconds": 1.67,
+  "sha256": "c4cd540c95f5c69fe2f4250f6534e5fecaa64af433ed90d9f6bbdcc16778f153",
   "func_id": "0415",
   "offset_key": "f",
   "segment": 0

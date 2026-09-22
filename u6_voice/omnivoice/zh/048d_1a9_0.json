@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Renthar",
   "tts_text": "Renthar",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Renthar",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 2667935041,
   "sample_rate": 24000,
   "duration_seconds": 1.64,
-  "sha256": "ab5c930de6f59a1175630bd9e6377266f30b4f35296f1329b9c7a30c2bbffcce",
+  "sha256": "f4138f7c7cd10b6a526c59de026db89ced6ba377d24eeeaedeb35c55e4a6a401",
   "func_id": "048d",
   "offset_key": "1a9",
   "segment": 0

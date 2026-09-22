@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Karina",
   "tts_text": "Karina",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "Karina",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 889967843,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "3169ac1a3ee2848cd19eadb93a0de53db606f5a2124d7add11a2a868fd2f5484",
+  "sha256": "3f8de901dc379ecfdb7c475eef2b51b9efcaa7347f6c7e269b1de9e62367b2c7",
   "func_id": "042c",
   "offset_key": "1059",
   "segment": 0

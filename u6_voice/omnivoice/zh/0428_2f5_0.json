@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "船",
   "tts_text": "船",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "船",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 1315760623,
   "sample_rate": 24000,
   "duration_seconds": 1.28,
-  "sha256": "1c2892ef07b110a447d872f80c1452d4ecf05ae684231e1967a4618ed24c8f23",
+  "sha256": "56b0e64427626a15698e47e3d024145e2fdab615f4a3463071e05c71c99efc5c",
   "func_id": "0428",
   "offset_key": "2f5",
   "segment": 0

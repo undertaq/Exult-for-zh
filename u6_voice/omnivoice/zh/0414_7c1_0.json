@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "防具",
   "tts_text": "防具",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "防具",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3046000113,
   "sample_rate": 24000,
-  "duration_seconds": 1.56,
-  "sha256": "6b402b229d7908dc12554bf14520c83f0629ab8a8ae0aed7d40722ec53f7c105",
+  "duration_seconds": 0.93,
+  "sha256": "ce392eb1b00d88b9a8e1edb2ad3a6cb2f0cb3e56a818c6cfb4f0d703b3e296d0",
   "func_id": "0414",
   "offset_key": "7c1",
   "segment": 0

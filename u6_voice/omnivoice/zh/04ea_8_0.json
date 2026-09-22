@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "朋友",
   "tts_text": "朋友",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "朋友",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 1917261261,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "4ad195ac051ed8fab5bbed871a6cfca042410eea7365a5ae5362b7dda53f20f1",
+  "sha256": "be91432f0ab8283c25b7329d2e399746a512406f9bced8cdc7d257eda66800c6",
   "func_id": "04ea",
   "offset_key": "8",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "..抽泣..",
   "tts_text": "..抽泣..",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "..抽泣..",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 959773029,
   "sample_rate": 24000,
-  "duration_seconds": 1.02,
-  "sha256": "99667ee9277d6f674a32a49c7e2bb3619823f9fd80e3e0d4e6bec7ba35e2f3b3",
+  "duration_seconds": 1.11,
+  "sha256": "be8f7d96f757a56231d489a06e1f32973a1894e81d3815e5d34817adcf7aa5b9",
   "func_id": "0418",
   "offset_key": "561",
   "segment": 0

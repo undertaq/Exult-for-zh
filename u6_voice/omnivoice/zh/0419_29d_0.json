@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "客房",
   "tts_text": "客房",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "客房",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 3199846163,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "9d9a93cb19aa9c5a7f0734767319cebe4bf25cfc5220b94b3b411a46f865b205",
+  "sha256": "4a056bd4de1c496aa57eaf22178ec523068dc765c3e3297624b2b246aed7afa5",
   "func_id": "0419",
   "offset_key": "29d",
   "segment": 0

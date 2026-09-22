@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "一件好的",
   "tts_text": "一件好的",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "一件好的",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 2942187472,
   "sample_rate": 24000,
-  "duration_seconds": 1.43,
-  "sha256": "091914760d39c273d737172cf6681dcc68b67be1e638060c8e9ec9cf1b7b94af",
+  "duration_seconds": 1.52,
+  "sha256": "8cc0f14bc7028f228bbb03796b28596715e920165a350e152c44d7db48920ffd",
   "func_id": "04dd",
   "offset_key": "12f",
   "segment": 0

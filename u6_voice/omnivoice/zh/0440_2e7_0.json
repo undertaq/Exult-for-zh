@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "信任",
   "tts_text": "信任",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "信任",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 1830401552,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "f32010e5b639e810bbb43446334937a8b439f455b2a06c5a8d3b9c3d21550c77",
+  "sha256": "71703ed5cc6abbef91b931f619b1290b113612d7a60e813680c8094d5f92a2a2",
   "func_id": "0440",
   "offset_key": "2e7",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Leona",
   "tts_text": "Leona",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Leona",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 3473598034,
   "sample_rate": 24000,
-  "duration_seconds": 1.44,
-  "sha256": "341844c7a2f1982189d92015a866f4503c0a9bdfc363dea58a3e96011ebec17a",
+  "duration_seconds": 0.88,
+  "sha256": "56eafb0bddb45bab9577078c5d1260463f8d1400632534470d827225c93fd427",
   "func_id": "0483",
   "offset_key": "610",
   "segment": 0

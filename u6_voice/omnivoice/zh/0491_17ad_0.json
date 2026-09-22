@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "脖子",
   "tts_text": "脖子",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "脖子",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 940742047,
   "sample_rate": 24000,
-  "duration_seconds": 1.55,
-  "sha256": "75983d92560b38f7aef63ce789251c31604094dd3f0978a9bba6e664a2ff9102",
+  "duration_seconds": 1.56,
+  "sha256": "4f468023783b4709c5d28df7f0ab10df44be71e78ffdfd5c04200b46a533025b",
   "func_id": "0491",
   "offset_key": "17ad",
   "segment": 0

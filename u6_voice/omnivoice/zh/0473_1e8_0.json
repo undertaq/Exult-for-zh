@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Lazeena",
   "tts_text": "Lazeena",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Lazeena",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1819248969,
   "sample_rate": 24000,
-  "duration_seconds": 0.94,
-  "sha256": "e8a45dd3acadddd601976d57ea07bb9bd9fe49668bd7a150ce7d6fa07941635c",
+  "duration_seconds": 1.64,
+  "sha256": "2c7e8c39ad696aa0e9d14d9669eeef5e8483fcdc6ad93e29579fd7de5bc70556",
   "func_id": "0473",
   "offset_key": "1e8",
   "segment": 0

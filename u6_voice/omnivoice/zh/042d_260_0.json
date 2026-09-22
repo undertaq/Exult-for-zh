@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Kador",
   "tts_text": "Kador",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Kador",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3617632805,
   "sample_rate": 24000,
-  "duration_seconds": 0.78,
-  "sha256": "8587ba1c735e89b778a9e34731d51e9cb2c95d859634d33d774f92ec459c633d",
+  "duration_seconds": 0.83,
+  "sha256": "e64c4615167dcec701244db7ac7ea50f310a8ff99b3b7ac342ca64db55f4f9ca",
   "func_id": "042d",
   "offset_key": "260",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "光芒",
   "tts_text": "光芒",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "光芒",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 3259631841,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "121f93ee3cde05f2a57dff1250af6340e69d1d1d86e57aaf0ff65524ebb0fc01",
+  "sha256": "f9bb391c9f17cb70b56c0d6d56a9f882367010c36fefa257fa1d374ca15d7e09",
   "func_id": "0482",
   "offset_key": "389",
   "segment": 0

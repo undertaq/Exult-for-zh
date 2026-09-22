@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "一路平安，朋友。",
   "tts_text": "一路平安，朋友。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "一路平安，朋友。",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 3940742711,
   "sample_rate": 24000,
-  "duration_seconds": 1.28,
-  "sha256": "78ee62025d7834e3937b49ba00dd00ac4ee74010c445acb71025687e85de6bf0",
+  "duration_seconds": 1.73,
+  "sha256": "51974c6d0f6ade1cc21dd11cf90384078e5b03efa129d459327eb40db157061c",
   "func_id": "0488",
   "offset_key": "663",
   "segment": 0

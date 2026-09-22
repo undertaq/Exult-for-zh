@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Iolo",
   "tts_text": "Iolo",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Iolo",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3977828290,
   "sample_rate": 24000,
-  "duration_seconds": 1.33,
-  "sha256": "4dd89210da610bbc7a041aee0dc6c18916d7b547d9bdc244a179ff3d50db14e1",
+  "duration_seconds": 1.36,
+  "sha256": "1462ab4e54f370038f7862ed17c04b648f474f498fac1f1bbb14508779dfa3d1",
   "func_id": "0416",
   "offset_key": "463",
   "segment": 0

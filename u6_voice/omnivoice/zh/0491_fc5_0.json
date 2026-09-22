@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Mondain",
   "tts_text": "Mondain",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Mondain",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 4134786772,
   "sample_rate": 24000,
   "duration_seconds": 1.64,
-  "sha256": "9a61e51e7ceae4f4e55c6934530f0c73c60a5b0659eca999db2bfa5912b6ba9b",
+  "sha256": "2e311c13b234ca6fc37c8f75ec35d8ff72ca04a04684c6c8bff8c55d482534d1",
   "func_id": "0491",
   "offset_key": "fc5",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "哦，我明白了。",
   "tts_text": "哦，我明白了。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "哦，我明白了。",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2095707432,
   "sample_rate": 24000,
-  "duration_seconds": 1.52,
-  "sha256": "9b9ac69c97b5618d4d384b20b80dc13b113d699d763f687d689ac1262ee74d7a",
+  "duration_seconds": 1.8,
+  "sha256": "1a34e599722a3cc97a03d29ea04a813f54f868be309b9246089c9dcb920c42dd",
   "func_id": "045a",
   "offset_key": "9f0",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "信守誓言",
   "tts_text": "信守誓言",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "信守誓言",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 500650466,
   "sample_rate": 24000,
-  "duration_seconds": 1.26,
-  "sha256": "600fddd2cdf6595100b362808fc84f5a2977c772a89ecc5b1f5b740ca0113ff9",
+  "duration_seconds": 1.88,
+  "sha256": "5f8190f0ae4fc88f22276b6ad4b224ba03446d197b7fcffba7caa41b3b46f239",
   "func_id": "0464",
   "offset_key": "b37",
   "segment": 0

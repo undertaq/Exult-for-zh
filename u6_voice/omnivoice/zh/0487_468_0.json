@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "城堡",
   "tts_text": "城堡",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "城堡",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2833772587,
   "sample_rate": 24000,
-  "duration_seconds": 1.56,
-  "sha256": "117f4510c528834177ae1ea7ba1da6902d10689139c50fe55ab509d376bf4aeb",
+  "duration_seconds": 0.89,
+  "sha256": "f92884f22f9de957570474269159f58565f3a5df141825a94b434d876da2ec15",
   "func_id": "0487",
   "offset_key": "468",
   "segment": 0

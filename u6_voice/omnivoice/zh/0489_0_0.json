@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "陌生人",
   "tts_text": "陌生人",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "陌生人",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 2562483670,
   "sample_rate": 24000,
-  "duration_seconds": 1.04,
-  "sha256": "354ca2f4ab8e11038780d29a69dfa169e9dc397105c587ed4a160ed2549126ec",
+  "duration_seconds": 1.05,
+  "sha256": "03b4d9d061a8ca47a7f42236da4bff6c62c9ff3ec5012279dcd9ba20367c2562",
   "func_id": "0489",
   "offset_key": "0",
   "segment": 0

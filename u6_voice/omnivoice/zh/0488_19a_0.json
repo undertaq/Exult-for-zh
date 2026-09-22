@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "盾牌",
   "tts_text": "盾牌",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "盾牌",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 3151671117,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "eecc84b6bc420f25767a0c733e558c9e0ecefb29c89c9d414a286f8759d42881",
+  "sha256": "baae2f2c3e93bfa713d9e39046ae5b4256c8b4ab4da9432db46f922fb55268f8",
   "func_id": "0488",
   "offset_key": "19a",
   "segment": 0

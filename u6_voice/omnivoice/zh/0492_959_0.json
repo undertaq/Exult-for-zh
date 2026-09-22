@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "加入",
   "tts_text": "加入",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "加入",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 67225438,
   "sample_rate": 24000,
-  "duration_seconds": 0.88,
-  "sha256": "d915a8ba55f6820ead59995f02818acd64b4accdf3450f89a7e8aaace3370bca",
+  "duration_seconds": 1.56,
+  "sha256": "3e72807c35e4e7a734f7e5d5214aec9e7e6b9648de77f1511ba1af9687f7ae54",
   "func_id": "0492",
   "offset_key": "959",
   "segment": 0

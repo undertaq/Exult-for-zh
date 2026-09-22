@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "魔法",
   "tts_text": "魔法",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "魔法",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1473465690,
   "sample_rate": 24000,
-  "duration_seconds": 1.56,
-  "sha256": "c9227961a5d3f5ad371b61e3afadfa074589730e6eafd03b9169035fc4dc9f75",
+  "duration_seconds": 0.98,
+  "sha256": "708aaa181895e006fd82c9594794992965875435d7adbfa21cbe969715b57e60",
   "func_id": "044e",
   "offset_key": "367",
   "segment": 0

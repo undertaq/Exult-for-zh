@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "不好意思，夫人..",
   "tts_text": "不好意思，夫人..",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "不好意思，夫人..",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1815090642,
   "sample_rate": 24000,
-  "duration_seconds": 1.32,
-  "sha256": "cf532f1fd17cf9f2532cfa68654a5bae1e16246538dffa244a9357db47f82592",
+  "duration_seconds": 1.95,
+  "sha256": "ff463ccd724357bdeb2f20596db457af303caf2f20feda29fefdfa7667fcf3e9",
   "func_id": "0412",
   "offset_key": "3f",
   "segment": 0

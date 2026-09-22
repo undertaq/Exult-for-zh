@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "我得走了..",
   "tts_text": "我得走了..",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "我得走了..",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 3603727353,
   "sample_rate": 24000,
   "duration_seconds": 1.84,
-  "sha256": "343ce4a74aadb0f6fa5bb0da8ef3a736a3215eed221fbd1efdb6270ee0f5f4e2",
+  "sha256": "42c877d9b23dcb560058b43359b576b80d78161de71dd7e406f2693b185d526c",
   "func_id": "0499",
   "offset_key": "103b",
   "segment": 0

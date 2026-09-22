@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "祝您有",
   "tts_text": "祝您有",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "祝您有",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1403372105,
   "sample_rate": 24000,
-  "duration_seconds": 1.41,
-  "sha256": "1912c98a9d69590a084a4ff51cbef8958c28a56487d8a641cebe3292fb74e8c8",
+  "duration_seconds": 1.29,
+  "sha256": "db992ccf3ab59897e262d4cea931fe1c5db23a51fbd5472f4d7e4755ad10991c",
   "func_id": "046a",
   "offset_key": "51e",
   "segment": 0

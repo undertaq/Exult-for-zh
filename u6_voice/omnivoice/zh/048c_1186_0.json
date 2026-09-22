@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "登船",
   "tts_text": "登船",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "登船",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 899962717,
   "sample_rate": 24000,
-  "duration_seconds": 0.97,
-  "sha256": "36044da9e7b66fc679ca988207b505df4a465209cea2a6925a4995689d8078e0",
+  "duration_seconds": 0.81,
+  "sha256": "d0581b97c6b58b29b8c58aff7313847acdc1264d8c624ff5517378b622cd916d",
   "func_id": "048c",
   "offset_key": "1186",
   "segment": 0

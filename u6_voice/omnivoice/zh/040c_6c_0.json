@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "你好，小姐..",
   "tts_text": "你好，小姐..",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "你好，小姐..",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 816431947,
   "sample_rate": 24000,
-  "duration_seconds": 1.17,
-  "sha256": "ae9d85820d0d93cf4f204bfae1ed7f3151fe4a2b09f5de1d0e19f38a81f318d4",
+  "duration_seconds": 1.06,
+  "sha256": "a3fdb3984c695887c27b6d4af00c05763b45bf84442334e99f1df4065637e03b",
   "func_id": "040c",
   "offset_key": "6c",
   "segment": 0

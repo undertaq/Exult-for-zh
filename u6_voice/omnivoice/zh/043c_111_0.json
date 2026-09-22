@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Peer",
   "tts_text": "Peer",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Peer",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 546825219,
   "sample_rate": 24000,
-  "duration_seconds": 0.66,
-  "sha256": "8dbe84ed02e058ebea5160689998bf9f2230fb38ee067ff05bc4858ca825f441",
+  "duration_seconds": 0.48,
+  "sha256": "320fa0f01401f43700c0464096057e73eb31f0659e6f61f32c0815654080ad5e",
   "func_id": "043c",
   "offset_key": "111",
   "segment": 0

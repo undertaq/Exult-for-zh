@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "私密",
   "tts_text": "私密",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "私密",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 1244257419,
   "sample_rate": 24000,
   "duration_seconds": 1.26,
-  "sha256": "beae6cd2c6998daff70973374fafa86d10b6ebd274c71f4d8037a7cece8ef3ef",
+  "sha256": "61661e4c8f2ee6ead8559ca55b566f9253aae6ead34e80944d0986e71e1e68d8",
   "func_id": "0431",
   "offset_key": "20d",
   "segment": 0

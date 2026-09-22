@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "那不是我的菜。",
   "tts_text": "那不是我的菜。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "那不是我的菜。",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 604725119,
   "sample_rate": 24000,
-  "duration_seconds": 1.45,
-  "sha256": "6e5debae2d9dd29d7630d99e113504c940b27a1ede82beddce60ba0d94cff15c",
+  "duration_seconds": 1.54,
+  "sha256": "f809ff9ec1deae6279b9d52331aac32bdd6a362d7104b6be0b991a3c2c189191",
   "func_id": "0429",
   "offset_key": "2da",
   "segment": 0

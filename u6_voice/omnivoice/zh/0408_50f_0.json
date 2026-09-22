@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "木板",
   "tts_text": "木板",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "木板",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 2335796134,
   "sample_rate": 24000,
   "duration_seconds": 1.52,
-  "sha256": "047e91b3307b72040659267e1c4b694130f5b0bed5cc762d9733e0e71fa87aaf",
+  "sha256": "141cfb8f7819cb0446a7fb3c6a87684f31b94bbf4154317382eda82345cf5ffd",
   "func_id": "0408",
   "offset_key": "50f",
   "segment": 0

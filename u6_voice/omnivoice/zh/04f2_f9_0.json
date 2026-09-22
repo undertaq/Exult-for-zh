@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "。",
   "tts_text": "。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "。",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3623241875,
   "sample_rate": 24000,
-  "duration_seconds": 0.68,
-  "sha256": "e8de6a96aa38cd76436e5ec5a826038c3494b387114a1a7ab9107768e243910a",
+  "duration_seconds": 0.52,
+  "sha256": "b1f6139b1c102d8f6b48bfd948084663e7a1a9a171c144a2680f59d0e90f1fdc",
   "func_id": "04f2",
   "offset_key": "f9",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Magincia",
   "tts_text": "Magincia",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Magincia",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 3474665429,
   "sample_rate": 24000,
   "duration_seconds": 1.72,
-  "sha256": "c57feee5d64e3dc3217781fafe7c5c88b6045d55eccb0bbd5f03188822a4d7e1",
+  "sha256": "16b2c3e479aa52371bfe8ef6465aabf2085493a9baf0dce529b504efc3d088bd",
   "func_id": "043f",
   "offset_key": "2cf",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "旅人",
   "tts_text": "旅人",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "旅人",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3276746478,
   "sample_rate": 24000,
-  "duration_seconds": 1.56,
-  "sha256": "c36927b822b75578cef03de3f75ddeaa50998ed86ff6270a590f8774a33adbd4",
+  "duration_seconds": 0.86,
+  "sha256": "15815b9a30566b61a46d7224b01c7f714e65c07a847f5663d2fc2ed7c8898cd4",
   "func_id": "0422",
   "offset_key": "0",
   "segment": 0

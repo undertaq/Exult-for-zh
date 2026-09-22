@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "挖掘",
   "tts_text": "挖掘",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "挖掘",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 1534519347,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "51c01f98592238b187bf77a1ce5b330d98e06590d658c42bbdaa5c4d65d613fa",
+  "sha256": "0bb16ba57a2b3cb93d3885447c2ef9a3a409b6d42e5f90c8abf80e8eabb01306",
   "func_id": "040d",
   "offset_key": "3d9",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Nakar",
   "tts_text": "Nakar",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Nakar",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 2096304794,
   "sample_rate": 24000,
-  "duration_seconds": 1.48,
-  "sha256": "f922ffdca86cac17c27ef80e47e9326a0661bcf914566dcf5a43f5a7b61777c0",
+  "duration_seconds": 0.8,
+  "sha256": "4bc1a65ae317227c2b116d9bf06089708cd19d06bc22ad38dbdb61c7a82cb9dd",
   "func_id": "0492",
   "offset_key": "94d",
   "segment": 0

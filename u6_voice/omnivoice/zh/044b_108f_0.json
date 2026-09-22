@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Stivius",
   "tts_text": "Stivius",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "Stivius",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1147649519,
   "sample_rate": 24000,
-  "duration_seconds": 1.48,
-  "sha256": "d27f627235b35b6e95d04f83417129189529ba58655cc7a2ad5b66a16298234d",
+  "duration_seconds": 1.2,
+  "sha256": "c8ce7a6d13f7cda7b38f5a194366a0e807f3133f3b9e5528e47eb1208fd6cd26",
   "func_id": "044b",
   "offset_key": "108f",
   "segment": 0

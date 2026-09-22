@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "援助同志",
   "tts_text": "援助同志",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "援助同志",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2402557090,
   "sample_rate": 24000,
-  "duration_seconds": 1.16,
-  "sha256": "00550c736df4676db405fc6880345e597b5aeeaa8aedab2856f4f99ab4946f90",
+  "duration_seconds": 1.88,
+  "sha256": "e715a390a7858443bb70d7481226439f7334d9e67b3a0db086f4fe7c788576ee",
   "func_id": "0464",
   "offset_key": "80c",
   "segment": 0

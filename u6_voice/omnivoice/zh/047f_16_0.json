@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "牛奶",
   "tts_text": "牛奶",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "牛奶",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 1943795793,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "b3a9f2d3b8620100be197206d3d134407e367133a640bd4b4d2fd3fc36b8c096",
+  "sha256": "2701ee424c8bb1ba03926cdfc65ea3fde5d472eb710f244124fb244bcc28f930",
   "func_id": "047f",
   "offset_key": "16",
   "segment": 0

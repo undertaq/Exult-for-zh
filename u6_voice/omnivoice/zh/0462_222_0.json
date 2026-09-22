@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "握手",
   "tts_text": "握手",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "握手",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2542456579,
   "sample_rate": 24000,
-  "duration_seconds": 0.85,
-  "sha256": "e741ae1da5c464c1c4bcd8a23a14c9235e6fdf2e25fa616865c7217699a0a9cc",
+  "duration_seconds": 1.56,
+  "sha256": "79ee1a607c4db6d802197386299ef5159317e0e86ae0a70457cd9701642148e0",
   "func_id": "0462",
   "offset_key": "222",
   "segment": 0

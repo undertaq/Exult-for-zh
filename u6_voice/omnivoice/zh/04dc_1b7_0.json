@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "旅店",
   "tts_text": "旅店",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "旅店",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 2830575031,
   "sample_rate": 24000,
-  "duration_seconds": 0.73,
-  "sha256": "88362876fd22f67627373ae459259c0f5c903ba5c7082f795440677f13efe412",
+  "duration_seconds": 0.89,
+  "sha256": "f117f8ab43134445b0dee8f325ce57fbba2abad15c6bfc47083e8808d5b1f961",
   "func_id": "04dc",
   "offset_key": "1b7",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "你要多少？",
   "tts_text": "你要多少？",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "你要多少？",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 2668374247,
   "sample_rate": 24000,
-  "duration_seconds": 1.51,
-  "sha256": "342adba77d4cb19abb80d3eedcf10335b35f55bdb588e646afd0e325eae27c1c",
+  "duration_seconds": 1.09,
+  "sha256": "549922f65ba0057cb87b2348ec5e7e311af449cdf99359f79296ce5f9915806f",
   "func_id": "04e1",
   "offset_key": "65",
   "segment": 0

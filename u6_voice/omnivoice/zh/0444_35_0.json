@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "匕首",
   "tts_text": "匕首",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "匕首",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1181947391,
   "sample_rate": 24000,
-  "duration_seconds": 1.56,
-  "sha256": "9e7d7d72f693f11fc267667ecd82a42851d4cc1c55b4c2d9ecee55572fce9aa9",
+  "duration_seconds": 0.66,
+  "sha256": "eb325f56843034290c4338971d158380b1acf2804a90698f8cebcb8b63f93aab",
   "func_id": "0444",
   "offset_key": "35",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "蛋糕",
   "tts_text": "蛋糕",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "蛋糕",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 240346136,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "0f2bff8c7fc0378b6b975e8d452bf445c01b3b10fc35e8d536067e6523a1dd83",
+  "sha256": "b7dd5aaf007d9f6bd9639128a5fcbb64a5dd7d3d466d85cd001f8abbe0088faf",
   "func_id": "0434",
   "offset_key": "45e",
   "segment": 0

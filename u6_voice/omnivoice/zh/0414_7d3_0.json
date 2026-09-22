@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Omdu Yaf!",
   "tts_text": "Omdu Yaf!",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Omdu Yaf!",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 3143455228,
   "sample_rate": 24000,
-  "duration_seconds": 1.44,
-  "sha256": "561c5450ddaa4fccfaf10213fa835f108afaa79d086314f38e170c74be652308",
+  "duration_seconds": 1.43,
+  "sha256": "72fdb5f76b336e491c9c7fa534f9d34ec75b3e693b1331a0dd17620a41a86642",
   "func_id": "0414",
   "offset_key": "7d3",
   "segment": 0

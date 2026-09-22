@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "王子",
   "tts_text": "王子",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "王子",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 388845986,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "e4974187279e92eb297bf53fb5b00a6ee4165e6e6901c4dc0d61104e2da246cf",
+  "sha256": "756a53239fc3911cf3f02228627fe755e1acece589011505d9f88b7601378b8e",
   "func_id": "047f",
   "offset_key": "118",
   "segment": 0

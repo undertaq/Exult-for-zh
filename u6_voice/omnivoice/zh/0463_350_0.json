@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Geoffrey",
   "tts_text": "Geoffrey",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Geoffrey",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 3981306991,
   "sample_rate": 24000,
   "duration_seconds": 1.72,
-  "sha256": "b1b30c76cb79640999a463e3e0baa6462f8c7f89ac87b9bbec5b6006b3c0b7da",
+  "sha256": "c020cd60146b900b0b277000495ca6c972e92755bb9a7455b794c4d5b36ed6e4",
   "func_id": "0463",
   "offset_key": "350",
   "segment": 0

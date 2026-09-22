@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "石像鬼",
   "tts_text": "石像鬼",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "石像鬼",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1087265571,
   "sample_rate": 24000,
-  "duration_seconds": 1.76,
-  "sha256": "db231e8dc8e14c8e27f2af49b67fc793b4226559c09e6c0bda342af5fec81925",
+  "duration_seconds": 1.3,
+  "sha256": "72b9d568a3bf7eafb1e976dc4d0db5b41504fac9000425cbd64504a103db8bd9",
   "func_id": "048e",
   "offset_key": "463",
   "segment": 0

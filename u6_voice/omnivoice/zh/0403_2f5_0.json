@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "生物",
   "tts_text": "生物",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "生物",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2261224872,
   "sample_rate": 24000,
-  "duration_seconds": 1.56,
-  "sha256": "1d56b2cabd770c10e1a49ca988e0d56060f510615cd52d22170c8116f4f1880b",
+  "duration_seconds": 0.61,
+  "sha256": "57fd44af69670f8e078aba7b890e7613dc7eb07f43cfea4c90bf3fc4358acd33",
   "func_id": "0403",
   "offset_key": "2f5",
   "segment": 0

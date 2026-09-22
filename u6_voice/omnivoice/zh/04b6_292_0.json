@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "法典",
   "tts_text": "法典",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "法典",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 718963842,
   "sample_rate": 24000,
-  "duration_seconds": 0.67,
-  "sha256": "7b3c00ea9e07a4a278d0ed86686693fdd6b9280093c17d4b40eececb68892a2a",
+  "duration_seconds": 1.5,
+  "sha256": "159cf75087c9eb63c37b153f47699618b56a9fef91805f385b97dd508393068d",
   "func_id": "04b6",
   "offset_key": "292",
   "segment": 0

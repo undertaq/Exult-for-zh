@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Antonio",
   "tts_text": "Antonio",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Antonio",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 2278406867,
   "sample_rate": 24000,
-  "duration_seconds": 1.64,
-  "sha256": "a0321ab274ec1105e7549396777bfab05f44102eac126810f164703828941706",
+  "duration_seconds": 0.89,
+  "sha256": "167d02b1f15d4e2ab8012ad2c1ce6c2ee264b6f60c960c2bd416cadfbed1e6b8",
   "func_id": "0489",
   "offset_key": "ed",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "房子",
   "tts_text": "房子",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "房子",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 2719738146,
   "sample_rate": 24000,
-  "duration_seconds": 0.9,
-  "sha256": "2ffd79187390f60941e640e22b19f64bef2b370a723f32d6434181660764d13b",
+  "duration_seconds": 1.56,
+  "sha256": "b4b30eddd9477c96571ad225d4f7b6945294bce5ea095e7a041f0f3aadeaa53c",
   "func_id": "0440",
   "offset_key": "96c",
   "segment": 0

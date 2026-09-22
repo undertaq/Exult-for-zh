@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "長矛",
   "tts_text": "CHANG2矛",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "CHANG2矛",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 634599114,
   "sample_rate": 24000,
-  "duration_seconds": 1.23,
-  "sha256": "a8d0e91c6d054928174ca4e952a5e39bb2049ce5f2e6f30b037ca70427ff624d",
+  "duration_seconds": 0.9,
+  "sha256": "649b6564d12cd834194445c0ef710ce7ddb58bf9e9d0fa15bc8f483d7acd9215",
   "func_id": "0414",
   "offset_key": "42",
   "segment": 0

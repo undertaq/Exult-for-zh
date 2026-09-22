@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "歌",
   "tts_text": "歌",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "歌",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 3374091900,
   "sample_rate": 24000,
   "duration_seconds": 1.28,
-  "sha256": "29bef8863e591232df6e7279a28e9e62eb7f18750c0c29fb867601568de04934",
+  "sha256": "6206238fd22f78cf0f8a99b740ba7c4a1c5c454f11e7a86cc9bed5dcc676269a",
   "func_id": "0468",
   "offset_key": "256",
   "segment": 0

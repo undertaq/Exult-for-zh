@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "木匠",
   "tts_text": "木匠",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "木匠",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 4162670162,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "e0b4a19dad72fb7c11cbfb5f398598067582e5707e99419a796db78c2211e4a1",
+  "sha256": "293fa6bfaa3f2ae46f1f38cee20c71f3ab1d53534f43535f67f601a38f4c4141",
   "func_id": "049d",
   "offset_key": "295",
   "segment": 0

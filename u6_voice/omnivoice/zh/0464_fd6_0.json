@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "英勇",
   "tts_text": "英勇",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "英勇",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 984566247,
   "sample_rate": 24000,
-  "duration_seconds": 1.15,
-  "sha256": "c9489e6789f15da72ca1e2139f2ee0d3e4fbf0e47a6319b494ce0f6c58d4da8e",
+  "duration_seconds": 0.6,
+  "sha256": "3ef338208e5789a610f5cee8b523ba400b86713ff9352dd2b80942676ef4783e",
   "func_id": "0464",
   "offset_key": "fd6",
   "segment": 0

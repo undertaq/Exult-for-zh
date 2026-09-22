@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "酒",
   "tts_text": "酒",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
   "rendered_text": "酒",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 821831801,
   "sample_rate": 24000,
   "duration_seconds": 1.28,
-  "sha256": "4806b11e24744268f254b930604908186cd48ec3299bd7165bb2c770c2614e72",
+  "sha256": "268724073e70084fd35914b106ea3ff1a738d1c65ffec9d28b651503ebcc2b0f",
   "func_id": "04e1",
   "offset_key": "15",
   "segment": 0

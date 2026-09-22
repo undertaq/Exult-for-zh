@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Caradon",
   "tts_text": "Caradon",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Caradon",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 1568544259,
   "sample_rate": 24000,
-  "duration_seconds": 0.83,
-  "sha256": "733528b0d44f2b9240373f8e2220cdde37924938fb355af7370253274346bd96",
+  "duration_seconds": 0.79,
+  "sha256": "61bca00d8f878d2bcce0871df568caac8487c84c5fa4e51b6c1fc4e6dca0bfc6",
   "func_id": "04ee",
   "offset_key": "d5",
   "segment": 0

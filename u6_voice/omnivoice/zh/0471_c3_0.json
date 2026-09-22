@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "我是",
   "tts_text": "我是",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "我是",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 2328191538,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "2882a791f702e08cbb1c4a1d8967fb13ef5eae4dabce87c8d2f74eb38bfed296",
+  "sha256": "6d014bda43c0f6f23188ec6e802dfe4f323ea76a0e95724c5095a94749d271e0",
   "func_id": "0471",
   "offset_key": "c3",
   "segment": 0

@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "休息",
   "tts_text": "休息",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "休息",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2869121749,
   "sample_rate": 24000,
-  "duration_seconds": 0.79,
-  "sha256": "06224c6baa1e419d8d7beac99fefc707dd214406a7774388715505e5930a84b9",
+  "duration_seconds": 0.8,
+  "sha256": "ed98b587f2a2f5b0171c2e9f365efe022416ced7866f86459e228a0b4dac7b50",
   "func_id": "044f",
   "offset_key": "149",
   "segment": 0

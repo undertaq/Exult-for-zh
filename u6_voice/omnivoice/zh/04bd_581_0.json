@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "祝你有愉快的一天。",
   "tts_text": "祝你有愉快的一天。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "祝你有愉快的一天。",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2627226458,
   "sample_rate": 24000,
-  "duration_seconds": 2.03,
-  "sha256": "85f71cf79fda422813aba318e84950b62507880051e769b519908c1ef486dd43",
+  "duration_seconds": 2.08,
+  "sha256": "2a7e8cfc6a07366d485c7d0a52e26b4c4294614c3d18caebdccf5446c6a20623",
   "func_id": "04bd",
   "offset_key": "581",
   "segment": 0

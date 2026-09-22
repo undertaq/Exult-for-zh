@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Big Ben",
   "tts_text": "Big Ben",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Big Ben",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 418675627,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "0feaf9e2e5d06cc3c724d7b8e16742418212db9336359b369b8582f72b5bc0a1",
+  "sha256": "e49b791cdaf28e22d882d51a7ae535f09dc920ea6cc0ae79d8be73f863abfdf2",
   "func_id": "0474",
   "offset_key": "2b2",
   "segment": 0

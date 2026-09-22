@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "Lycaeum",
   "tts_text": "Lycaeum",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "Lycaeum",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 2392189400,
   "sample_rate": 24000,
-  "duration_seconds": 0.77,
-  "sha256": "23a76e04bfc14d70f43f326e8421b84ad301d09d9989836c2ad5de43b5859ef2",
+  "duration_seconds": 1.37,
+  "sha256": "feb8b7e13d29e3d5b8fccc10a3aa34d6849428a0502812ae6104f91c323daa23",
   "func_id": "049f",
   "offset_key": "39b",
   "segment": 0

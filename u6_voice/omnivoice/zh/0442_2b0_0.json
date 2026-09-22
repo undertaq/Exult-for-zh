@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "叫我 Van 就好了。",
   "tts_text": "叫我 Van 就好了。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "叫我 Van 就好了。",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 0,
   "seed": 28968898,
   "sample_rate": 24000,
-  "duration_seconds": 1.24,
-  "sha256": "b26d621ab2db8bfd31ce516fa4928a41a0eb30a4c5756bef83cd9820341662c7",
+  "duration_seconds": 1.29,
+  "sha256": "b4941fc3e5b951334ab428d177ae18bff5f62cfd56cc4956abb1d36d870b0e7e",
   "func_id": "0442",
   "offset_key": "2b0",
   "segment": 0

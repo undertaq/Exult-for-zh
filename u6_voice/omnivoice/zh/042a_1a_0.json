@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "孩子",
   "tts_text": "孩子",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "孩子",
   "fallback_used": false,
@@ -29,7 +30,7 @@
   "seed": 2829415352,
   "sample_rate": 24000,
   "duration_seconds": 1.56,
-  "sha256": "5af547613a60bd7bf62083ea62e2fef218e2963cca642e2c0c31eafd2c9cec3f",
+  "sha256": "3275c233bf306520bc005e60ab1539d7d6fb680e7117e9dd65418172534f24bf",
   "func_id": "042a",
   "offset_key": "1a",
   "segment": 0

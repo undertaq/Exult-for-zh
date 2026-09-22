@@ -4,6 +4,7 @@
   "lang": "zh",
   "text": "魔法靴子",
   "tts_text": "魔法靴子",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
   "override_revision": null,
   "rendered_text": "魔法靴子",
   "fallback_used": false,
@@ -28,8 +29,8 @@
   "gpu": 1,
   "seed": 1140408653,
   "sample_rate": 24000,
-  "duration_seconds": 1.92,
-  "sha256": "c82535eb91398a9935745e5a3da207b68a143e0f47d58e9c7d5c7a0266d73293",
+  "duration_seconds": 1.41,
+  "sha256": "2bede2cd94209ba6bf925d8a395ba920deefa9292424249e0777eed263c38aa5",
   "func_id": "0453",
   "offset_key": "7d",
   "segment": 0
