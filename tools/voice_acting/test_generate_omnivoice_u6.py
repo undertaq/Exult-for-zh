@@ -373,6 +373,10 @@ def test_fallback_texts_collapse_repeated_terminal_punctuation():
     assert "Excuse me" in variants
 
 
+def test_fallback_texts_adds_terminal_punctuation_to_short_zh_fragments():
+    assert "嗯。" in list(fallback_texts("嗯，", "zh"))
+
+
 def _override_manifest(tmp_path):
     path = tmp_path / "omnivoice_overrides.json"
     path.write_text(

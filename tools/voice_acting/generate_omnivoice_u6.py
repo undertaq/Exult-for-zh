@@ -1113,9 +1113,11 @@ def fallback_texts(text: str, lang: str):
     collapsed = re.sub(r"([.!?。！？])\1+$", r"\1", stripped)
     if collapsed and collapsed != stripped:
         yield collapsed
-    bare = collapsed.rstrip(".!?。！？…")
+    bare = collapsed.rstrip(".!?。！？…，、；：")
     if bare and bare != collapsed:
         yield bare
+    if lang == "zh" and bare and bare != original and f"{bare}。" != original:
+        yield f"{bare}。"
     if not stripped:
         if lang == "en":
             if "!" in original:
