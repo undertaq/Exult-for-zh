@@ -357,6 +357,26 @@ def test_chunked_preserves_order_and_covers_every_job():
     assert list(chunked(list(range(5)), 2)) == [[0, 1], [2, 3], [4]]
 
 
+def test_short_chinese_clone_jobs_are_singleton_batches(tmp_path):
+    def job(npc, text, *, tts_text=None):
+        reference = tmp_path / f"{npc}-ref.ogg"
+        return CloneJob(
+            design_id=f"u6_{npc.lower()}", npc=npc, lang="zh", text=text,
+            tts_text=tts_text or text, ref_audio=reference,
+            ref_text=f"{npc} reference", output=tmp_path / f"{npc}.ogg",
+            func_id="0430", offset_key=npc, segment=0,
+        )
+
+    short = job("Maldric", "是的，沒錯。", tts_text="是的，没错。")
+    long = job("LongLine", "這是一段足夠長的中文台詞。")
+
+    assert generator._should_render_clone_individually(short)
+    assert not generator._should_render_clone_individually(long)
+    assert list(generator._voice_batches([long, short, long], 4)) == [
+        [long], [short], [long],
+    ]
+
+
 def test_fallback_texts_handle_punctuation_without_changing_normal_text():
     assert list(fallback_texts("!", "en")) == ["!", "Ah!"]
     assert list(fallback_texts(". There ya go.", "en")) == [

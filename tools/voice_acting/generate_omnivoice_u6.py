@@ -20,6 +20,7 @@ import shutil
 import sys
 import tempfile
 import time
+import unicodedata
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -59,6 +60,11 @@ SPECIAL_REFERENCE_IDS = frozenset({
     "npc_narrator_male",
 })
 MIXED_BOUNDARY_FADE_SECONDS = 0.002
+# Very short Chinese clone targets are especially prone to timbre drift when
+# OmniVoice receives several unrelated clone prompts in one batch.  Keep them
+# on a singleton batch path so the reference voice has the whole generation
+# context.
+SHORT_CLONE_BATCH_MAX_CHARS = 8
 
 # Task 3 can replace or extend these values with a revisioned manifest at the
 # omnivoice_instruction() call boundary without changing pitch heuristics.
@@ -1417,6 +1423,32 @@ def chunked(items: list[Any], size: int):
         yield items[start:start + size]
 
 
+def _should_render_clone_individually(job: CloneJob) -> bool:
+    if job.lang != "zh":
+        return False
+    meaningful = "".join(
+        char for char in _job_tts_text(job)
+        if not char.isspace() and not unicodedata.category(char).startswith("P")
+    )
+    return len(meaningful) <= SHORT_CLONE_BATCH_MAX_CHARS
+
+
+def _voice_batches(jobs: list[CloneJob], size: int):
+    """Keep short Chinese clone jobs out of mixed-prompt model batches."""
+    regular: list[CloneJob] = []
+    for job in jobs:
+        if _should_render_clone_individually(job):
+            yield from chunked(regular, size)
+            regular = []
+            yield [job]
+            continue
+        regular.append(job)
+        if len(regular) == size:
+            yield regular
+            regular = []
+    yield from chunked(regular, size)
+
+
 def _worker_jobs[T](jobs: list[T], worker_index: int, worker_count: int) -> list[T]:
     if worker_count < 1 or not 0 <= worker_index < worker_count:
         raise ValueError("worker index/count must satisfy 0 <= index < count and count >= 1")
@@ -1646,7 +1678,7 @@ def process_voice(args: argparse.Namespace, all_jobs: list[CloneJob]) -> None:
             print(f"[voice] OK mixed {job.npc} {job.lang} {job.output.name}", flush=True)
         except Exception as error:
             print(f"[voice] ERROR mixed {job.npc} {job.lang} {job.output.name}: {error}", flush=True)
-    for batch_index, batch in enumerate(chunked(batchable_jobs, args.batch_size), 1):
+    for batch_index, batch in enumerate(_voice_batches(batchable_jobs, args.batch_size), 1):
         try:
             results = _audio_batch_from_model(model, batch, prompt_cache)
         except Exception as error:
