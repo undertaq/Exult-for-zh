@@ -124,6 +124,15 @@ def test_write_audit_emits_self_contained_html_and_jsonl_export(tmp_path):
         assert field in page
 
 
+def test_write_audit_escapes_jsonl_newlines_for_browser_javascript(tmp_path):
+    audit.write_audit(tmp_path, {"candidates": []})
+
+    page = (tmp_path / "index.html").read_text(encoding="utf-8")
+
+    assert "join('\\n')" in page
+    assert "join('\n')" not in page
+
+
 class FakeAudioBackend:
     def __init__(self):
         self.rendered = []
