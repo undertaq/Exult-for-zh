@@ -206,6 +206,8 @@ def _clean_voice_part(text: str) -> str:
     normalized = _normalize_role_text(text).replace("@", "")
     while normalized.endswith("*"):
         normalized = normalized[:-1].rstrip()
+    if re.fullmatch(r"[「」『』“”‘’\"'＂]+", normalized):
+        return ""
     return normalized
 
 

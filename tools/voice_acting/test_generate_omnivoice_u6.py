@@ -193,6 +193,14 @@ def test_parse_role_parts_uses_english_markers_as_role_authority(
     assert parse_role_parts(source_en, translated_text, lang) == expected
 
 
+def test_parse_role_parts_discards_quote_only_chinese_parts():
+    assert parse_role_parts(
+        "@Thou art mongbat dung!@",
+        "「@你是大笨蛋！@」",
+        "zh",
+    ) == [("speaker", "你是大笨蛋！")]
+
+
 def _designs():
     return json.loads(
         (PROJECT / "u6_voice" / "u6_npc_voice_designs.json").read_text(
