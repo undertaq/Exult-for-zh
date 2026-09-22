@@ -431,8 +431,61 @@ def test_clone_job_keeps_source_text_and_carries_tts_override(tmp_path):
     )
 
     assert jobs[0].text == "萬歲，馴蛇者！"
-    assert jobs[0].tts_text == "萬歲，XUN4蛇者！"
+    assert jobs[0].tts_text == "万岁，XUN4蛇者！"
     assert jobs[0].override_revision == "u6-omnivoice-overrides-v1"
+
+
+def test_routed_zh_clone_parts_use_simplified_target_text(tmp_path):
+    mapping = tmp_path / "mapping.json"
+    mapping.write_text(
+        json.dumps(
+            [{
+                "npc": "Ada",
+                "zh_text": "萬歲，馴蛇者！",
+                "zh_func_id": "0401",
+                "zh_offset_key": "0",
+                "zh_segment": 0,
+            }],
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    designs = {
+        "u6_ada": {
+            "npc": "Ada",
+            "ref_zh_text": "參考文字",
+            "casting_inference": {"gender": "female"},
+        }
+    }
+    roles = {
+        role_key("0401", "0", "0"): {
+            "source_en": "@Hello@ She waves. @Goodbye@",
+            "text_zh": "@萬歲，馴蛇者！@ 她揮手。 @再見！@",
+        }
+    }
+    narrator = {
+        "path": tmp_path / "narrator.ogg",
+        "ref_text": "Female narrator",
+        "reference_id": "npc_unknown",
+        "sha256": "narrator",
+    }
+
+    jobs = build_clone_jobs(
+        mapping,
+        designs,
+        tmp_path / "refs",
+        tmp_path / "output",
+        {},
+        role_sources=roles,
+        reference_routes={("npc_unknown", "zh"): narrator},
+    )
+
+    assert jobs[0].text == "萬歲，馴蛇者！"
+    assert [(part.role, part.text) for part in jobs[0].voice_parts] == [
+        ("speaker", "万岁，驯蛇者！"),
+        ("narrator", "她挥手。"),
+        ("speaker", "再见！"),
+    ]
 
 
 def test_voice_design_override_preserves_u7_reference_reuse(tmp_path):
@@ -578,6 +631,7 @@ def test_affected_job_metadata_and_completion_require_current_revision(tmp_path,
 
     assert metadata["text"] == "馴蛇者"
     assert metadata["tts_text"] == "XUN4蛇者"
+    assert metadata["tts_text_revision"] == generator.ZH_CLONE_TEXT_REVISION
     assert metadata["override_revision"] == "u6-omnivoice-overrides-v1"
     assert generator._complete(job.output, job)
 
@@ -715,6 +769,7 @@ def test_manifest_clone_status_uses_revision_aware_completion(
                 "lang": "zh",
                 "text": "馴蛇者",
                 "tts_text": "XUN4蛇者",
+                "tts_text_revision": generator.ZH_CLONE_TEXT_REVISION,
                 "override_revision": metadata_revision,
             },
             ensure_ascii=False,

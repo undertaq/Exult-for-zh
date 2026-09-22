@@ -44,6 +44,7 @@ DEFAULT_REFERENCE_REVIEW_DIR = PROJECT_DIR / "u6_voice" / "omnivoice_reference_r
 MODEL_ID = "k2-fsa/OmniVoice"
 LANGUAGE_NAMES = {"en": "English", "zh": "Chinese"}
 CLONE_GENERATION_REVISION = "u6-omnivoice-clone-instruction-v1"
+ZH_CLONE_TEXT_REVISION = "u6-omnivoice-zh-simplified-v1"
 OMNIVOICE_CLONE_GENERATION = {
     "num_step": 32,
     "guidance_scale": 2.0,
@@ -142,6 +143,20 @@ class CloneJob:
 
 def load_json(path: Path) -> Any:
     return json.loads(Path(path).read_text(encoding="utf-8"))
+
+
+def _clone_target_text(
+    text: str,
+    lang: str,
+    generation_overrides: OmniVoiceOverrides | None = None,
+) -> str:
+    """Return the exact text sent to OmniVoice for a clone target."""
+    result = generation_overrides.tts_text(text, lang) if generation_overrides else str(text)
+    if lang != "zh":
+        return result
+    from zhconv import convert
+
+    return convert(result, "zh-cn")
 
 
 def _normalize_role_text(value: str) -> str:
@@ -696,7 +711,7 @@ def build_clone_jobs(
                         overrides,
                     )
                 )
-                tts_text = generation_overrides.tts_text(text, lang) if generation_overrides else text
+                tts_text = _clone_target_text(text, lang, generation_overrides)
                 affected = bool(
                     generation_overrides
                     and (
@@ -715,9 +730,12 @@ def build_clone_jobs(
                 if routed:
                     source_text = str(route_source["source_en"])
                     translated_text = str(route_source.get("text_zh") or text)
+                    translated_text = _clone_target_text(
+                        translated_text, lang, generation_overrides
+                    )
                     parts = parse_role_parts(source_text, translated_text, lang)
                     if not parts:
-                        parts = [("narrator", text)]
+                        parts = [("narrator", translated_text)]
                     gender = avatar_gender or _design_gender(current_design)
                     routed_parts = []
                     for role, part_text in parts:
@@ -895,6 +913,8 @@ def _completion_expected(job: ReferenceJob | CloneJob) -> dict[str, Any]:
             "tts_text": _job_tts_text(job),
             "override_revision": job.override_revision,
         })
+    if isinstance(job, CloneJob) and job.lang == "zh":
+        expected["tts_text_revision"] = ZH_CLONE_TEXT_REVISION
     if isinstance(job, CloneJob) and job.reference_revision:
         expected.update({
             "reference_role": job.reference_role,
@@ -1486,6 +1506,7 @@ def _publish_clone(
         "lang": job.lang,
         "text": job.text,
         "tts_text": _job_tts_text(job),
+        "tts_text_revision": ZH_CLONE_TEXT_REVISION if job.lang == "zh" else None,
         "override_revision": job.override_revision,
         "rendered_text": rendered_text or _job_tts_text(job),
         "fallback_used": (rendered_text or _job_tts_text(job)) != _job_tts_text(job),
