@@ -1,0 +1,60 @@
+{
+  "status": "generated",
+  "design_id": "u6_dupre_5c9a4542",
+  "lang": "zh",
+  "text": "Dupre 插嘴說。Iolo！你答應過從來不告訴任何人那件事的！",
+  "tts_text": "Dupre 插嘴说。Iolo！你答YING4过从来不告诉任何人那件事的！",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
+  "rendered_text": "Dupre 插嘴说。\nIolo！你答YING4过从来不告诉任何人那件事的！",
+  "fallback_used": false,
+  "npc": "Dupre",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:c52f23563a220b9ac1342773f99275127661b0c9e7f7eb1503333dff586ca3a7",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "Dupre 插嘴说。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "Iolo！你答YING4过从来不告诉任何人那件事的！",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_dupre_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_dupre",
+      "reference_sha256": "c4c0e434d70e284fe32a8c51450dda6d1660b0fc39277d20d46a982b0004c46a",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_4",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 1,
+  "seed": 1843330455,
+  "sample_rate": 24000,
+  "duration_seconds": 6.87,
+  "sha256": "fce12fedf11f777734421f2af073719649454d99e5f2382507a8c8c7eb879492",
+  "func_id": "0401",
+  "offset_key": "9e0",
+  "segment": 0,
+  "rendered_parts": [
+    "Dupre 插嘴说。",
+    "Iolo！你答YING4过从来不告诉任何人那件事的！"
+  ]
+}

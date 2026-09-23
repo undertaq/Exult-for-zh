@@ -1,0 +1,24 @@
+{
+  "revision": "u6-runtime-speaker-variants-v1",
+  "description": "Additional archive keys for U6 lines observed with a runtime speaker different from the generic mapping NPC.",
+  "variants": [
+    {"lang": "en", "base_output": "0401_9e0_0.ogg", "speaker": "Dupre", "speaker_npc": 4},
+    {"lang": "en", "base_output": "0401_a25_0.ogg", "speaker": "Dupre", "speaker_npc": 4},
+    {"lang": "en", "base_output": "0401_e07_0.ogg", "speaker": "Dupre", "speaker_npc": 4},
+    {"lang": "en", "base_output": "0401_40d_0.ogg", "speaker": "Dupre", "speaker_npc": 4},
+    {"lang": "en", "base_output": "0401_5b9_0.ogg", "speaker": "Dupre", "speaker_npc": 4},
+    {"lang": "en", "base_output": "0437_1775_0.ogg", "speaker": "Dupre", "speaker_npc": 4},
+    {"lang": "en", "base_output": "0437_1606_0.ogg", "speaker": "Dupre", "speaker_npc": 4},
+    {"lang": "en", "base_output": "0437_1625_0.ogg", "speaker": "Dupre", "speaker_npc": 4},
+    {"lang": "en", "base_output": "0437_1641_0.ogg", "speaker": "Dupre", "speaker_npc": 4},
+    {"lang": "zh", "base_output": "0401_9e0_0.ogg", "speaker": "Dupre", "speaker_npc": 4},
+    {"lang": "zh", "base_output": "0401_a25_0.ogg", "speaker": "Dupre", "speaker_npc": 4},
+    {"lang": "zh", "base_output": "0401_e07_0.ogg", "speaker": "Dupre", "speaker_npc": 4},
+    {"lang": "zh", "base_output": "0401_40d_0.ogg", "speaker": "Dupre", "speaker_npc": 4},
+    {"lang": "zh", "base_output": "0401_5b9_0.ogg", "speaker": "Dupre", "speaker_npc": 4},
+    {"lang": "zh", "base_output": "0437_1775_0.ogg", "speaker": "Dupre", "speaker_npc": 4},
+    {"lang": "zh", "base_output": "0437_1606_0.ogg", "speaker": "Dupre", "speaker_npc": 4},
+    {"lang": "zh", "base_output": "0437_1625_0.ogg", "speaker": "Dupre", "speaker_npc": 4},
+    {"lang": "zh", "base_output": "0437_1641_0.ogg", "speaker": "Dupre", "speaker_npc": 4}
+  ]
+}

@@ -36,6 +36,7 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 DEFAULT_DESIGNS = PROJECT_DIR / "u6_voice" / "u6_npc_voice_designs.json"
 DEFAULT_MAPPING = PROJECT_DIR / "u6_voice" / "manifests" / "u6_qwen3_mapping.json"
 DEFAULT_ROLE_MANIFEST = PROJECT_DIR / "u6_voice" / "manifests" / "u6_voice_roles.jsonl"
+DEFAULT_RUNTIME_SPEAKER_OVERRIDES = PROJECT_DIR / "u6_voice" / "manifests" / "u6_runtime_speaker_overrides.json"
 DEFAULT_U7_MANIFEST = SCRIPT_DIR / "reference_import_manifest.json"
 DEFAULT_OVERRIDES = PROJECT_DIR / "u6_voice" / "manifests" / "omnivoice_overrides.json"
 DEFAULT_REFS_DIR = PROJECT_DIR / "u6_voice" / "refs"
@@ -395,6 +396,32 @@ def load_reference_overrides(manifest_path: Path) -> dict[tuple[str, str], dict[
     return result
 
 
+def load_runtime_speaker_overrides(
+    manifest_path: Path,
+) -> dict[tuple[str, str], list[dict[str, Any]]]:
+    """Load clips that need an additional archive key for another runtime speaker."""
+    payload = load_json(manifest_path)
+    items = payload if isinstance(payload, list) else payload.get("variants", [])
+    result: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    for item in items:
+        lang = str(item.get("lang") or "").strip().lower()
+        base_output = Path(str(item.get("base_output") or "").strip()).name
+        speaker = str(item.get("speaker") or "").strip()
+        try:
+            speaker_npc = int(item["speaker_npc"])
+        except (KeyError, TypeError, ValueError) as error:
+            raise ValueError(f"invalid runtime speaker NPC id: {item!r}") from error
+        if lang not in LANGUAGE_NAMES:
+            raise ValueError(f"invalid runtime speaker language: {lang!r}")
+        if not base_output.lower().endswith(".ogg") or not speaker or speaker_npc == 0:
+            raise ValueError(f"invalid runtime speaker override: {item!r}")
+        key = (lang, base_output)
+        variant = {"speaker": speaker, "speaker_npc": speaker_npc}
+        if variant not in result.setdefault(key, []):
+            result[key].append(variant)
+    return result
+
+
 def stage_u7_special_references(
     manifest_path: Path,
     source_refs_dir: Path,
@@ -638,6 +665,11 @@ def _mapping_filename(entry: dict[str, Any], lang: str) -> str:
     return f"{_runtime_output_stem(entry, lang)}_0.ogg"
 
 
+def _runtime_variant_filename(base_output: str, speaker_npc: int) -> str:
+    stem = base_output[:-4] if base_output.lower().endswith(".ogg") else base_output
+    return f"{stem}_npc{speaker_npc}.ogg"
+
+
 def _runtime_output_stem(entry: dict[str, Any], lang: str) -> str:
     fid = str(entry.get(f"{lang}_func_id") or "0000").lower().removeprefix("0x").zfill(4)
     offset = str(entry.get(f"{lang}_offset_key") or "0")
@@ -674,6 +706,7 @@ def build_clone_jobs(
     generation_overrides: OmniVoiceOverrides | None = None,
     role_sources: dict[tuple[str, str, str], dict[str, str]] | None = None,
     reference_routes: dict[tuple[str, str], dict[str, Any]] | None = None,
+    runtime_speaker_overrides: dict[tuple[str, str], list[dict[str, Any]]] | None = None,
 ) -> list[CloneJob]:
     by_npc = _designs_by_npc(designs)
     jobs: list[CloneJob] = []
@@ -699,131 +732,153 @@ def build_clone_jobs(
             routed = route_source is not None and reference_routes is not None
             variants = ("male", "female") if is_avatar and routed else (None,)
             for avatar_gender in variants:
-                current_design_id = f"npc_avatar_{avatar_gender}" if avatar_gender else design_id
-                current_design = design
-                if is_avatar:
-                    current_design = {"casting_inference": {"gender": avatar_gender}}
-                instruction_overrides = (
-                    generation_overrides.voice_design
-                    if generation_overrides else None
-                )
-                speaker = (
-                    reference_routes[(current_design_id, lang)]
-                    if is_avatar and reference_routes is not None
-                    else _speaker_reference(
-                        current_design_id,
-                        current_design,
-                        npc,
-                        lang,
-                        refs_dir,
-                        overrides,
-                    )
-                )
-                tts_text = _clone_target_text(text, lang, generation_overrides)
-                affected = bool(
-                    generation_overrides
-                    and (
-                        tts_text != text
-                        or (
-                            not overrides.get((npc.lower(), lang))
-                            and not is_avatar
-                            and generation_overrides.has_voice_design(current_design_id, lang)
-                        )
-                    )
-                )
-                voice_parts: tuple[VoicePart, ...] = ()
-                reference_role: str | None = None
-                reference_revision: str | None = None
-                ref = speaker
-                if routed:
-                    source_text = str(route_source["source_en"])
-                    translated_text = str(route_source.get("text_zh") or text)
-                    translated_text = _clone_target_text(
-                        translated_text, lang, generation_overrides
-                    )
-                    parts = parse_role_parts(source_text, translated_text, lang)
-                    if not parts:
-                        parts = [("narrator", translated_text)]
-                    gender = avatar_gender or _design_gender(current_design)
-                    routed_parts = []
-                    for role, part_text in parts:
-                        part_reference = speaker if role == "speaker" else _narrator_reference(
-                            gender, lang, reference_routes
-                        )
-                        part_instruct = (
-                            omnivoice_instruction(
-                                current_design,
-                                lang,
-                                current_design_id,
-                                instruction_overrides,
+                runtime_targets = [(npc, design_id, design, None)]
+                if not is_avatar and runtime_speaker_overrides:
+                    for override in runtime_speaker_overrides.get(
+                        (lang, _mapping_filename(entry, lang)), []
+                    ):
+                        target_npc = str(override["speaker"])
+                        target_design_id, target_design = by_npc.get(target_npc.lower(), (None, None))
+                        if target_design_id is None:
+                            raise ValueError(
+                                f"runtime speaker override references unknown NPC {target_npc!r}"
                             )
-                            if role == "speaker"
-                            else _reference_instruction(
-                                str(part_reference["reference_id"]),
-                                lang,
-                                designs,
-                                instruction_overrides,
-                            )
-                        )
-                        routed_parts.append(VoicePart(
-                            role=role,
-                            text=part_text,
-                            reference_path=Path(part_reference["path"]),
-                            reference_text=str(part_reference["ref_text"]),
-                            reference_id=str(part_reference["reference_id"]),
-                            reference_sha256=_reference_sha256(part_reference),
-                            instruct=part_instruct,
+                        runtime_targets.append((
+                            target_npc,
+                            target_design_id,
+                            target_design,
+                            f"npc_{int(override['speaker_npc'])}",
                         ))
-                    ref = {
-                        "path": routed_parts[0].reference_path,
-                        "ref_text": routed_parts[0].reference_text,
-                    }
-                    reference_revision = _reference_revision(routed_parts)
-                    reference_sha256 = routed_parts[0].reference_sha256
-                    if len(routed_parts) > 1:
-                        voice_parts = tuple(routed_parts)
-                        reference_role = "mixed"
-                    elif routed_parts[0].role == "speaker":
-                        reference_role = f"avatar_{gender}" if avatar_gender else "speaker"
-                    else:
-                        reference_role = f"narrator_{gender}"
-                jobs.append(CloneJob(
-                    design_id=current_design_id,
-                    npc=npc,
-                    lang=lang,
-                    text=text,
-                    ref_audio=Path(ref["path"]),
-                    ref_text=str(ref["ref_text"]),
-                    output=output_dir / lang / (
-                        _avatar_filename(entry, lang, avatar_gender)
-                        if avatar_gender else _mapping_filename(entry, lang)
-                    ),
-                    func_id=func_id,
-                    offset_key=offset_key,
-                    segment=segment,
-                    tts_text=tts_text,
-                    override_revision=generation_overrides.revision if affected else None,
-                    reference_role=reference_role,
-                    reference_revision=reference_revision,
-                    reference_sha256=reference_sha256 if routed else "",
-                    voice_parts=voice_parts,
-                    avatar_gender=avatar_gender,
-                    variant=f"avatar_{avatar_gender}" if avatar_gender else None,
-                    instruct=(
-                        None
-                        if len(voice_parts) > 1
-                        else (
-                            routed_parts[0].instruct
-                            if routed
-                            else omnivoice_instruction(
-                                current_design,
-                                lang,
-                                current_design_id,
-                                instruction_overrides,
+                for target_npc, target_design_id, target_design, runtime_variant in runtime_targets:
+                    current_design_id = f"npc_avatar_{avatar_gender}" if avatar_gender else target_design_id
+                    current_design = target_design
+                    if is_avatar:
+                        current_design = {"casting_inference": {"gender": avatar_gender}}
+                    instruction_overrides = (
+                        generation_overrides.voice_design
+                        if generation_overrides else None
+                    )
+                    speaker = (
+                        reference_routes[(current_design_id, lang)]
+                        if is_avatar and reference_routes is not None
+                        else _speaker_reference(
+                            current_design_id,
+                            current_design,
+                            target_npc,
+                            lang,
+                            refs_dir,
+                            overrides,
+                        )
+                    )
+                    tts_text = _clone_target_text(text, lang, generation_overrides)
+                    affected = bool(
+                        generation_overrides
+                        and (
+                            tts_text != text
+                            or (
+                                not overrides.get((target_npc.lower(), lang))
+                                and not is_avatar
+                                and generation_overrides.has_voice_design(current_design_id, lang)
                             )
                         )
-                    ),
-                ))
+                    )
+                    voice_parts: tuple[VoicePart, ...] = ()
+                    reference_role: str | None = None
+                    reference_revision: str | None = None
+                    ref = speaker
+                    if routed:
+                        source_text = str(route_source["source_en"])
+                        translated_text = str(route_source.get("text_zh") or text)
+                        translated_text = _clone_target_text(
+                            translated_text, lang, generation_overrides
+                        )
+                        parts = parse_role_parts(source_text, translated_text, lang)
+                        if not parts:
+                            parts = [("narrator", translated_text)]
+                        gender = avatar_gender or _design_gender(current_design)
+                        routed_parts = []
+                        for role, part_text in parts:
+                            part_reference = speaker if role == "speaker" else _narrator_reference(
+                                gender, lang, reference_routes
+                            )
+                            part_instruct = (
+                                omnivoice_instruction(
+                                    current_design,
+                                    lang,
+                                    current_design_id,
+                                    instruction_overrides,
+                                )
+                                if role == "speaker"
+                                else _reference_instruction(
+                                    str(part_reference["reference_id"]),
+                                    lang,
+                                    designs,
+                                    instruction_overrides,
+                                )
+                            )
+                            routed_parts.append(VoicePart(
+                                role=role,
+                                text=part_text,
+                                reference_path=Path(part_reference["path"]),
+                                reference_text=str(part_reference["ref_text"]),
+                                reference_id=str(part_reference["reference_id"]),
+                                reference_sha256=_reference_sha256(part_reference),
+                                instruct=part_instruct,
+                            ))
+                        ref = {
+                            "path": routed_parts[0].reference_path,
+                            "ref_text": routed_parts[0].reference_text,
+                        }
+                        reference_revision = _reference_revision(routed_parts)
+                        reference_sha256 = routed_parts[0].reference_sha256
+                        if len(routed_parts) > 1:
+                            voice_parts = tuple(routed_parts)
+                            reference_role = "mixed"
+                        elif routed_parts[0].role == "speaker":
+                            reference_role = f"avatar_{gender}" if avatar_gender else "speaker"
+                        else:
+                            reference_role = f"narrator_{gender}"
+                    jobs.append(CloneJob(
+                        design_id=current_design_id,
+                        npc=target_npc,
+                        lang=lang,
+                        text=text,
+                        ref_audio=Path(ref["path"]),
+                        ref_text=str(ref["ref_text"]),
+                        output=output_dir / lang / (
+                            _avatar_filename(entry, lang, avatar_gender)
+                            if avatar_gender
+                            else (
+                                _runtime_variant_filename(_mapping_filename(entry, lang), int(runtime_variant[4:]))
+                                if runtime_variant else _mapping_filename(entry, lang)
+                            )
+                        ),
+                        func_id=func_id,
+                        offset_key=offset_key,
+                        segment=segment,
+                        tts_text=tts_text,
+                        override_revision=generation_overrides.revision if affected else None,
+                        reference_role=reference_role,
+                        reference_revision=reference_revision,
+                        reference_sha256=reference_sha256 if routed else "",
+                        voice_parts=voice_parts,
+                        avatar_gender=avatar_gender,
+                        variant=(f"avatar_{avatar_gender}" if avatar_gender else runtime_variant),
+                        instruct=(
+                            None
+                            if len(voice_parts) > 1
+                            else (
+                                routed_parts[0].instruct
+                                if routed
+                                else omnivoice_instruction(
+                                    current_design,
+                                    lang,
+                                    current_design_id,
+                                    instruction_overrides,
+                                )
+                            )
+                        ),
+                    ))
     return jobs
 
 
@@ -1778,6 +1833,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--designs", type=Path, default=DEFAULT_DESIGNS)
     parser.add_argument("--mapping", type=Path, default=DEFAULT_MAPPING)
     parser.add_argument("--role-manifest", type=Path, default=DEFAULT_ROLE_MANIFEST)
+    parser.add_argument("--runtime-speaker-overrides", type=Path, default=DEFAULT_RUNTIME_SPEAKER_OVERRIDES)
     parser.add_argument("--u7-manifest", type=Path, default=DEFAULT_U7_MANIFEST)
     parser.add_argument("--overrides", type=Path, default=DEFAULT_OVERRIDES)
     parser.add_argument("--refs-dir", type=Path, default=DEFAULT_REFS_DIR)
@@ -1835,6 +1891,7 @@ def main() -> int:
     overrides = load_reference_overrides(args.u7_manifest)
     generation_overrides = load_omnivoice_overrides(args.overrides)
     role_sources = load_role_manifest(args.role_manifest)
+    runtime_speaker_overrides = load_runtime_speaker_overrides(args.runtime_speaker_overrides)
     reference_routes = stage_u7_special_references(
         args.u7_manifest,
         PROJECT_DIR / "voice" / "refs",
@@ -1850,6 +1907,7 @@ def main() -> int:
         generation_overrides,
         role_sources,
         reference_routes,
+        runtime_speaker_overrides,
     )
     print(f"U6 designs={len(designs)} refs={len(refs)} clones={len(clones)}", flush=True)
     _print_route_counts(clones)

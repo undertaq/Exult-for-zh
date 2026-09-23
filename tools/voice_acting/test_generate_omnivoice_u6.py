@@ -18,6 +18,7 @@ from tools.voice_acting.generate_omnivoice_u6 import (
     omnivoice_instruction,
     parse_role_parts,
     load_reference_overrides,
+    load_runtime_speaker_overrides,
     parse_args,
     role_key,
     select_target_jobs,
@@ -1341,6 +1342,74 @@ def test_build_clone_jobs_routes_parts_and_expands_avatar_variants(tmp_path):
             ("npc_narrator_male" if gender == "male" else "npc_unknown", "narrator"),
         ]
         assert job.reference_revision.startswith(generator.ROUTED_REFERENCE_REVISION + ":")
+
+
+def test_build_clone_jobs_adds_runtime_speaker_variants(tmp_path):
+    refs = tmp_path / "refs"
+    output = tmp_path / "output"
+    refs.mkdir()
+    mapping = tmp_path / "mapping.json"
+    mapping.write_text(
+        json.dumps([
+            {
+                "npc": "Chuckles",
+                "en_text": "Dupre, I think we should run.",
+                "en_func_id": "0437",
+                "en_offset_key": "1775",
+                "en_segment": 0,
+                "en_output_filename": "0437_1775_0.ogg",
+            }
+        ]),
+        encoding="utf-8",
+    )
+    overrides_path = tmp_path / "speaker-overrides.json"
+    overrides_path.write_text(
+        json.dumps({
+            "variants": [{
+                "lang": "en",
+                "base_output": "0437_1775_0.ogg",
+                "speaker": "Dupre",
+                "speaker_npc": 4,
+            }]
+        }),
+        encoding="utf-8",
+    )
+    designs = {
+        "u6_chuckles": {
+            "npc": "Chuckles",
+            "ref_en_text": "Chuckles reference",
+            "casting_inference": {"gender": "male"},
+        },
+        "u6_dupre": {
+            "npc": "Dupre",
+            "ref_en_text": "Dupre reference",
+            "casting_inference": {"gender": "male"},
+        },
+    }
+    refs_dir = {
+        ("chuckles", "en"): {
+            "path": refs / "chuckles.ogg", "ref_text": "Chuckles reference",
+        },
+        ("dupre", "en"): {
+            "path": refs / "dupre.ogg", "ref_text": "Dupre reference",
+        },
+    }
+    runtime_overrides = load_runtime_speaker_overrides(overrides_path)
+
+    jobs = build_clone_jobs(
+        mapping, designs, refs, output, refs_dir,
+        runtime_speaker_overrides=runtime_overrides,
+    )
+
+    generic, dupre = jobs
+    assert generic.output.name == "0437_1775_0.ogg"
+    assert generic.npc == "Chuckles"
+    assert generic.ref_audio == refs / "chuckles.ogg"
+    assert dupre.output.name == "0437_1775_0_npc4.ogg"
+    assert dupre.npc == "Dupre"
+    assert dupre.design_id == "u6_dupre"
+    assert dupre.variant == "npc_4"
+    assert dupre.ref_audio == refs / "dupre.ogg"
 
 
 def test_avatar_explicit_output_filename_keeps_its_authoritative_stem():
