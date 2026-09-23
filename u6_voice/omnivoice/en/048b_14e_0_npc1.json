@@ -1,0 +1,60 @@
+{
+  "status": "generated",
+  "design_id": "u6_iolo_61080470",
+  "lang": "en",
+  "text": "Certainly, milord. Perhaps thou canst make better sense of it than I. says Iolo.",
+  "tts_text": "Certainly, milord. Perhaps thou canst make better sense of it than I. says Iolo.",
+  "tts_text_revision": null,
+  "override_revision": null,
+  "rendered_text": "Certainly, milord. Perhaps thou canst make better sense of it than I.\nsays Iolo.",
+  "fallback_used": false,
+  "npc": "Iolo",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/voice/refs/npc_iolo_en_ref.ogg",
+  "ref_text": "Greetings, traveler. What brings you to these lands this day?",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:2f86f7b443519fbf0084da67c9b23a1fee06bdc533cba8acca449979d492ba4d",
+  "reference_sha256": "7f7b8c6f0bfe71f69b76b686bed292b8522e9a06435de7d37d3245e1cf84e3ac",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "Certainly, milord. Perhaps thou canst make better sense of it than I.",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_iolo_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_iolo",
+      "reference_sha256": "7f7b8c6f0bfe71f69b76b686bed292b8522e9a06435de7d37d3245e1cf84e3ac",
+      "instruct": "male, moderate pitch, American accent"
+    },
+    {
+      "role": "narrator",
+      "text": "says Iolo.",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "fb3ebb4d2ea42e8f7ee2fe51feac92d21ae160fb8c2bbab2f081acec26337caa",
+      "instruct": "male, moderate pitch, American accent"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_1",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 36888290,
+  "sample_rate": 24000,
+  "duration_seconds": 6.29,
+  "sha256": "55d58658b7e2f603f63e070c9227c17dee9bee9d1752dd5a8a312c1f5e6fae2b",
+  "func_id": "048b",
+  "offset_key": "14e",
+  "segment": 0,
+  "rendered_parts": [
+    "Certainly, milord. Perhaps thou canst make better sense of it than I.",
+    "says Iolo."
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "status": "generated",
+  "design_id": "u6_renthar_46dd7cee",
+  "lang": "en",
+  "text": "Renthar bounds Michael's hands with some rope. Avatar, I will transport this swine to the jail in Yew and Rinaldo will decide his fate.",
+  "tts_text": "Renthar bounds Michael's hands with some rope. Avatar, I will transport this swine to the jail in Yew and Rinaldo will decide his fate.",
+  "tts_text_revision": null,
+  "override_revision": null,
+  "rendered_text": "Renthar bounds Michael's hands with some rope.\nAvatar, I will transport this swine to the jail in Yew and Rinaldo will decide his fate.",
+  "fallback_used": false,
+  "npc": "Renthar",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_en_ref.ogg",
+  "ref_text": "Greetings, traveler. What brings you to these lands this day?",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:ab98c1a05c82081f7786f9b11442b34d215cc3c84f2586c6e55e32e0ad9f2b18",
+  "reference_sha256": "fb3ebb4d2ea42e8f7ee2fe51feac92d21ae160fb8c2bbab2f081acec26337caa",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "Renthar bounds Michael's hands with some rope.",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "fb3ebb4d2ea42e8f7ee2fe51feac92d21ae160fb8c2bbab2f081acec26337caa",
+      "instruct": "male, moderate pitch, American accent"
+    },
+    {
+      "role": "speaker",
+      "text": "Avatar, I will transport this swine to the jail in Yew and Rinaldo will decide his fate.",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_renthar_46dd7cee_en_ref.ogg",
+      "reference_text": "Greetings, traveler. I am Renthar. What brings you to these lands today?",
+      "reference_id": "u6_renthar_46dd7cee",
+      "reference_sha256": "532d4ce276c1c9e1d19a2cd4ca96b792c852c5797660d2062b471e005b901230",
+      "instruct": "male, moderate pitch, American accent"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_101",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3406000497,
+  "sample_rate": 24000,
+  "duration_seconds": 8.54,
+  "sha256": "9b55b0c4d2512f2b4db5dcdf418ecde885b310fd83051464d0b9adc6cfa7a2ac",
+  "func_id": "044c",
+  "offset_key": "29b",
+  "segment": 0,
+  "rendered_parts": [
+    "Renthar bounds Michael's hands with some rope.",
+    "Avatar, I will transport this swine to the jail in Yew and Rinaldo will decide his fate."
+  ]
+}

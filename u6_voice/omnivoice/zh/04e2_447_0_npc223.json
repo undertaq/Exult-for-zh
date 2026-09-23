@@ -1,0 +1,60 @@
+{
+  "status": "generated",
+  "design_id": "u6_leonna_c563a3bc",
+  "lang": "zh",
+  "text": "Leonna 揚起眉毛。是嗎？我可以講一個不同的故事...",
+  "tts_text": "Leonna 扬起眉毛。是吗？我可以讲一个不同的故事...",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
+  "rendered_text": "Leonna 扬起眉毛。\n是吗？我可以讲一个不同的故事...",
+  "fallback_used": false,
+  "npc": "Leonna",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:c448867529c92b7665a020af3084d6fd95242b05db9ce7b4d114532c0869a573",
+  "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "Leonna 扬起眉毛。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "是吗？我可以讲一个不同的故事...",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_leonna_c563a3bc_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Leonna。今天你为何来到这片土地？",
+      "reference_id": "u6_leonna_c563a3bc",
+      "reference_sha256": "b390f13bc6d8b0f5e57a49df79efba75af42cbae3470e9736f9fbe5d70a30bf5",
+      "instruct": "女, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_223",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3142741628,
+  "sample_rate": 24000,
+  "duration_seconds": 4.87,
+  "sha256": "1d644ad654473931bd4f43d02ae261ee58d088a0b8839830e587dff796fc8353",
+  "func_id": "04e2",
+  "offset_key": "447",
+  "segment": 0,
+  "rendered_parts": [
+    "Leonna 扬起眉毛。",
+    "是吗？我可以讲一个不同的故事..."
+  ]
+}

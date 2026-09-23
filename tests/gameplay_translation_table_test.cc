@@ -200,6 +200,35 @@ void assert_u6_shared_voice_lookup_contract() {
 			!= std::string::npos);
 }
 
+void assert_u6_nested_voice_speaker_restoration_contract() {
+	std::ifstream frame_source("usecode/stackframe.h");
+	const std::string frame(
+			(std::istreambuf_iterator<char>(frame_source)),
+			std::istreambuf_iterator<char>());
+	assert(!frame.empty());
+	// A helper usecode function may temporarily show another NPC's face.
+	// Its caller must regain its prior voice identity when the helper returns.
+	assert(frame.find("voice_face_npc_before") != std::string::npos);
+	// A single function can also hand the face to another NPC and remove it
+	// before continuing. That transition needs an intra-frame LIFO restore.
+	assert(frame.find("voice_face_npc_stack") != std::string::npos);
+
+	std::ifstream usecode_source("usecode/ucinternal.cc");
+	const std::string usecode(
+			(std::istreambuf_iterator<char>(usecode_source)),
+			std::istreambuf_iterator<char>());
+	assert(!usecode.empty());
+	assert(usecode.find("frame->voice_face_npc_before = voice_current_face_npc")
+			!= std::string::npos);
+	assert(usecode.find("voice_current_face_npc = frame->call_depth == 0")
+			!= std::string::npos);
+	assert(usecode.find(": frame->voice_face_npc_before")
+			!= std::string::npos);
+	assert(usecode.find("voice_face_npc_stack.push_back") != std::string::npos);
+	assert(usecode.find("voice_face_npc_stack.back()") != std::string::npos);
+	assert(usecode.find("voice_face_npc_stack.pop_back") != std::string::npos);
+}
+
 void assert_placeholder_translation_has_no_dynamic_registry_dependency() {
 	std::ifstream translation_source("gameplay_translation.cc");
 	const std::string implementation(
@@ -1716,6 +1745,7 @@ int main() {
 	assert_safe_catalog_paths();
 	assert_runtime_speaker_capture_source_policy();
 	assert_u6_shared_voice_lookup_contract();
+	assert_u6_nested_voice_speaker_restoration_contract();
 	assert_placeholder_translation_has_no_dynamic_registry_dependency();
 	assert_provenance_templates_use_source_stable_keys();
 	assert_runtime_provenance_is_value_scoped();

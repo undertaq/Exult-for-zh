@@ -1,0 +1,60 @@
+{
+  "status": "generated",
+  "design_id": "u6_captain_elad_6898ad51",
+  "lang": "en",
+  "text": "The tea-drinker interrupts. No, no, you've got it all wrong! I can tell you the truth about Captain Johne.",
+  "tts_text": "The tea-drinker interrupts. No, no, you've got it all wrong! I can tell you the truth about Captain Johne.",
+  "tts_text_revision": null,
+  "override_revision": null,
+  "rendered_text": "The tea-drinker interrupts.\nNo, no, you've got it all wrong! I can tell you the truth about Captain Johne.",
+  "fallback_used": false,
+  "npc": "Captain Elad",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_en_ref.ogg",
+  "ref_text": "Greetings, traveler. What brings you to these lands this day?",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:38b191ca1433af4e2871e3f17789f3a0c910e3aeedacb66e2a62ef8b82df300c",
+  "reference_sha256": "fb3ebb4d2ea42e8f7ee2fe51feac92d21ae160fb8c2bbab2f081acec26337caa",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "The tea-drinker interrupts.",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "fb3ebb4d2ea42e8f7ee2fe51feac92d21ae160fb8c2bbab2f081acec26337caa",
+      "instruct": "male, moderate pitch, American accent"
+    },
+    {
+      "role": "speaker",
+      "text": "No, no, you've got it all wrong! I can tell you the truth about Captain Johne.",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_captain_elad_6898ad51_en_ref.ogg",
+      "reference_text": "Greetings, traveler. I am Captain Elad. What brings you to these lands today?",
+      "reference_id": "u6_captain_elad_6898ad51",
+      "reference_sha256": "dca400f22625966e7b8a7ba959e09714ff35cc5734bb96e349c48910cbff236c",
+      "instruct": "male, moderate pitch, American accent"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_226",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 932822808,
+  "sample_rate": 24000,
+  "duration_seconds": 6.7,
+  "sha256": "859a615cf8763e4636f5c0cefb3ceecabe985491a446add489da56627fc1e5d5",
+  "func_id": "04dd",
+  "offset_key": "8be",
+  "segment": 0,
+  "rendered_parts": [
+    "The tea-drinker interrupts.",
+    "No, no, you've got it all wrong! I can tell you the truth about Captain Johne."
+  ]
+}

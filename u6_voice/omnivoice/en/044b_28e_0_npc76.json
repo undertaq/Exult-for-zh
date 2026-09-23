@@ -1,0 +1,60 @@
+{
+  "status": "generated",
+  "design_id": "u6_michael_f089eaef",
+  "lang": "en",
+  "text": "Michael steps forward, his expression rigid, though his anger is barely contained. This matter is none of your concern, Avatar. Marney has made her decision.",
+  "tts_text": "Michael steps forward, his expression rigid, though his anger is barely contained. This matter is none of your concern, Avatar. Marney has made her decision.",
+  "tts_text_revision": null,
+  "override_revision": null,
+  "rendered_text": "Michael steps forward, his expression rigid, though his anger is barely contained.\nThis matter is none of your concern, Avatar. Marney has made her decision.",
+  "fallback_used": false,
+  "npc": "Michael",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_en_ref.ogg",
+  "ref_text": "Greetings, traveler. What brings you to these lands this day?",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:cd944e49a6749b93ece2d59fb007b3dec81121a4c639a960597f6cf7514aab79",
+  "reference_sha256": "fb3ebb4d2ea42e8f7ee2fe51feac92d21ae160fb8c2bbab2f081acec26337caa",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "Michael steps forward, his expression rigid, though his anger is barely contained.",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "fb3ebb4d2ea42e8f7ee2fe51feac92d21ae160fb8c2bbab2f081acec26337caa",
+      "instruct": "male, moderate pitch, American accent"
+    },
+    {
+      "role": "speaker",
+      "text": "This matter is none of your concern, Avatar. Marney has made her decision.",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_michael_f089eaef_en_ref.ogg",
+      "reference_text": "Greetings, traveler. I am Michael. What brings you to these lands today?",
+      "reference_id": "u6_michael_f089eaef",
+      "reference_sha256": "5ef8abdc87eaacbf6ac9043e04ddc7194f63b49e7e1236ddb5dac8afdb8e77d4",
+      "instruct": "male, moderate pitch, American accent"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_76",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2420772735,
+  "sample_rate": 24000,
+  "duration_seconds": 10.78,
+  "sha256": "3f2aacf65072bb9d17fd3b0c396fb2aeaf52097e85583969a751c62a34f59572",
+  "func_id": "044b",
+  "offset_key": "28e",
+  "segment": 0,
+  "rendered_parts": [
+    "Michael steps forward, his expression rigid, though his anger is barely contained.",
+    "This matter is none of your concern, Avatar. Marney has made her decision."
+  ]
+}

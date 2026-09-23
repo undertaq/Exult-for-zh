@@ -1,0 +1,70 @@
+{
+  "status": "generated",
+  "design_id": "u6_dupre_5c9a4542",
+  "lang": "zh",
+  "text": "我們還在等什麼！ Dupre低聲說。她肯定已經睡著了，而你卻白白浪費了寶貴的錢財...",
+  "tts_text": "我们还在等什么！ Dupre低声说。她肯定已经睡着了，而你却白白浪费了宝贵的钱财...",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
+  "rendered_text": "我们还在等什么！\nDupre低声说。\n她肯定已经睡着了，而你却白白浪费了宝贵的钱财...",
+  "fallback_used": false,
+  "npc": "Dupre",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/voice/refs/npc_dupre_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:363220abebb7115b7808ebdfb7b50059d9bab74beb2036513534ed3654d66f6f",
+  "reference_sha256": "c4c0e434d70e284fe32a8c51450dda6d1660b0fc39277d20d46a982b0004c46a",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "我们还在等什么！",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_dupre_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_dupre",
+      "reference_sha256": "c4c0e434d70e284fe32a8c51450dda6d1660b0fc39277d20d46a982b0004c46a",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "Dupre低声说。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "她肯定已经睡着了，而你却白白浪费了宝贵的钱财...",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_dupre_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_dupre",
+      "reference_sha256": "c4c0e434d70e284fe32a8c51450dda6d1660b0fc39277d20d46a982b0004c46a",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_4",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 4037964439,
+  "sample_rate": 24000,
+  "duration_seconds": 10.31,
+  "sha256": "075be5e456ddac46e9e2b6ae96ce73eb71475626f65204bcdcae0cd26948989b",
+  "func_id": "0496",
+  "offset_key": "929",
+  "segment": 0,
+  "rendered_parts": [
+    "我们还在等什么！",
+    "Dupre低声说。",
+    "她肯定已经睡着了，而你却白白浪费了宝贵的钱财..."
+  ]
+}

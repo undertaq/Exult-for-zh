@@ -1,0 +1,60 @@
+{
+  "status": "generated",
+  "design_id": "u6_lenora_be790c13",
+  "lang": "en",
+  "text": "Lenora, looking flustered, says Then we shall arrest Michael, if that wouldst make thee happy. Tis enough evidence for me, Rinaldo. Mine intuitions have not failed me yet. The cells are full of prisoners who deserved their sentences...",
+  "tts_text": "Lenora, looking flustered, says Then we shall arrest Michael, if that wouldst make thee happy. Tis enough evidence for me, Rinaldo. Mine intuitions have not failed me yet. The cells are full of prisoners who deserved their sentences...",
+  "tts_text_revision": null,
+  "override_revision": null,
+  "rendered_text": "Lenora, looking flustered, says\nThen we shall arrest Michael, if that wouldst make thee happy. Tis enough evidence for me, Rinaldo. Mine intuitions have not failed me yet. The cells are full of prisoners who deserved their sentences...",
+  "fallback_used": false,
+  "npc": "Lenora",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_en_ref.ogg",
+  "ref_text": "Greetings, traveler. What brings you to these lands this day?",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:5fec9709123d7e504beec6bff722f7ef35a4e798270b44bb9116ca5b96a83ea5",
+  "reference_sha256": "2c4f04d7b14f3230ffe9ed5964cf8f3536fab50198f536465142eecb15027004",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "Lenora, looking flustered, says",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "2c4f04d7b14f3230ffe9ed5964cf8f3536fab50198f536465142eecb15027004",
+      "instruct": "female, moderate pitch, American accent"
+    },
+    {
+      "role": "speaker",
+      "text": "Then we shall arrest Michael, if that wouldst make thee happy. Tis enough evidence for me, Rinaldo. Mine intuitions have not failed me yet. The cells are full of prisoners who deserved their sentences...",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_lenora_be790c13_en_ref.ogg",
+      "reference_text": "Greetings, traveler. I am Lenora. What brings you to these lands today?",
+      "reference_id": "u6_lenora_be790c13",
+      "reference_sha256": "897f6c0f9d4fde2b2ad7f239c5f03ce02265a458cb2685cb36f0d10c707cad0e",
+      "instruct": "female, low pitch, American accent"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_18",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3007998702,
+  "sample_rate": 24000,
+  "duration_seconds": 14.93,
+  "sha256": "9cd44c2dd2c05dc54f4505e61b6364bf23e4e4a3cd00a10aa8c88f16939d6cdf",
+  "func_id": "0432",
+  "offset_key": "206",
+  "segment": 0,
+  "rendered_parts": [
+    "Lenora, looking flustered, says",
+    "Then we shall arrest Michael, if that wouldst make thee happy. Tis enough evidence for me, Rinaldo. Mine intuitions have not failed me yet. The cells are full of prisoners who deserved their sentences..."
+  ]
+}

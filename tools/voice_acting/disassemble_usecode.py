@@ -12,6 +12,7 @@ Usage:
 """
 
 import argparse
+import csv
 import re
 import struct
 import sys
@@ -34,6 +35,50 @@ try:
     from .npc_data import get_npc_name_by_func as get_npc_name
 except ImportError:  # pragma: no cover - direct script execution
     from npc_data import get_npc_name_by_func as get_npc_name
+
+_DEFAULT_GET_NPC_NAME = get_npc_name
+
+
+def load_npc_catalog(path):
+    """Install a function/face resolver from a game's NPC catalog TSV.
+
+    U6 reuses several numeric face IDs with different NPC names than the U7
+    catalog used by the legacy tools (notably function ``0x0437`` is Chuckles,
+    not Grayson). A usecode audit must resolve names in the target game's
+    namespace or it will generate the wrong runtime variants.
+    """
+    function_names = {}
+    face_names = {}
+    with open(path, newline="", encoding="utf-8") as stream:
+        for row in csv.DictReader(stream, delimiter="\t"):
+            name = str(row.get("name") or "").strip()
+            if not name:
+                continue
+            function_id = str(row.get("usecode_func_id") or "").strip()
+            if function_id:
+                try:
+                    function_names[int(function_id, 0)] = name
+                except ValueError:
+                    pass
+            face_id = str(row.get("face_id") or "").strip()
+            if face_id:
+                try:
+                    face_names[0x400 + int(face_id, 10)] = name
+                except ValueError:
+                    pass
+
+    # The U6 catalog represents the Avatar's face as "no one". Use the
+    # runtime speaker name expected by the voice manifests for that face.
+    for function_id, name in list(face_names.items()):
+        if name.lower() == "no one":
+            face_names[function_id] = "Avatar"
+
+    def resolve(function_id):
+        return function_names.get(function_id, face_names.get(
+            function_id, _DEFAULT_GET_NPC_NAME(function_id)))
+
+    global get_npc_name
+    get_npc_name = resolve
 
 # Curated speaker overrides applied after face/caller inference.
 # Needed where show_npc_face encoding cannot resolve a speaker:
@@ -837,6 +882,11 @@ def extract_say_lines(func):
         default_face_npc = func['id']
 
     current_face_npc = default_face_npc
+    # show_npc_face/remove_npc_face are a LIFO pair.  Keeping only one
+    # current value makes every line after a temporary guest face inherit the
+    # guest's voice, which is exactly the cross-conversation bug this report
+    # exposed.  The runtime uses the same nesting rule.
+    face_stack = []
     last_pushi_values = []
 
     # Analyze variables to label player name, pronouns, etc.
@@ -853,24 +903,18 @@ def extract_say_lines(func):
         elif name == 'calli' and params and params[0] == 0x03 and params[1] == 2:
             if len(last_pushi_values) >= 2:
                 npc_num = last_pushi_values[-1]
-                if npc_num < 0:
-                    current_face_npc = 0x400 + abs(npc_num)
-                else:
-                    current_face_npc = npc_num
+                next_face_npc = (0x400 + abs(npc_num)
+                                 if npc_num < 0 else npc_num)
+                if next_face_npc != current_face_npc:
+                    face_stack.append(current_face_npc)
+                    current_face_npc = next_face_npc
         elif name == 'calli' and params and params[0] == 0x04:
-            # remove_npc_face. Reset to default_face_npc only when that ID
-            # resolves to a known NPC - otherwise there is no useful owner
-            # to hand the mic to, and we prefer keeping the current face.
-            #
-            # - NPC function with guests (e.g. 0x40c = Finnigan hosting Iolo):
-            #   default_face_npc = func['id'] = 0x40c = "Finnigan". Reset
-            #   gives the line back to Finnigan. Correct.
-            # - General multi-face function (e.g. 0x9A, not an NPC face):
-            #   default_face_npc = func['id'] = 0x9A, no NPC mapping. Do not
-            #   reset; keep the current speaker.
-            # - Single-face function: default_face_npc is that NPC, reset is
-            #   a no-op.
-            if get_npc_name(default_face_npc):
+            # remove_npc_face restores the face active before the matching
+            # show_npc_face.  Preserve the old fallback for malformed or
+            # helper functions whose remove has no matching show.
+            if face_stack:
+                current_face_npc = face_stack.pop()
+            elif get_npc_name(default_face_npc):
                 current_face_npc = default_face_npc
         elif name == 'addsi' and params:
             offset = params[0]
@@ -1095,9 +1139,14 @@ def main():
                         help="Output format: 'voice' (compact), 'dis' (usecode.dis style), or 'csv'")
     parser.add_argument("--include-books", action="store_true",
                         help="Include book/scroll text in CSV output (excluded by default)")
+    parser.add_argument("--npc-catalog", type=str, default=None,
+                        help="U6-style NPC catalog TSV for target-game speaker names")
     parser.add_argument("--no-symbol-table", action="store_true",
                         help="Skip Exult symbol table even without detection (for raw offset)")
     args = parser.parse_args()
+
+    if args.npc_catalog:
+        load_npc_catalog(args.npc_catalog)
 
     with open(args.usecode_file, "rb") as f:
         data = f.read()

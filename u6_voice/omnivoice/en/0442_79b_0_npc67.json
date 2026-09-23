@@ -1,0 +1,60 @@
+{
+  "status": "generated",
+  "design_id": "u6_stelnar_ce28ec03",
+  "lang": "en",
+  "text": "Aha! That means monsters are not deserving of mercy! says Stelnar",
+  "tts_text": "Aha! That means monsters are not deserving of mercy! says Stelnar",
+  "tts_text_revision": null,
+  "override_revision": null,
+  "rendered_text": "Aha! That means monsters are not deserving of mercy!\nsays Stelnar",
+  "fallback_used": false,
+  "npc": "Stelnar",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_stelnar_ce28ec03_en_ref.ogg",
+  "ref_text": "Greetings, traveler. I am Stelnar. What brings you to these lands today?",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:dc381348563c2a141ba0d316e32add92cb7462bc26473bdc0d1cdbcd675a31c8",
+  "reference_sha256": "be707d1485ba6a87364f2fae65a9e546c4778638d16cc46db2ab9c66a35054bd",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "Aha! That means monsters are not deserving of mercy!",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_stelnar_ce28ec03_en_ref.ogg",
+      "reference_text": "Greetings, traveler. I am Stelnar. What brings you to these lands today?",
+      "reference_id": "u6_stelnar_ce28ec03",
+      "reference_sha256": "be707d1485ba6a87364f2fae65a9e546c4778638d16cc46db2ab9c66a35054bd",
+      "instruct": "male, moderate pitch, American accent"
+    },
+    {
+      "role": "narrator",
+      "text": "says Stelnar",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "fb3ebb4d2ea42e8f7ee2fe51feac92d21ae160fb8c2bbab2f081acec26337caa",
+      "instruct": "male, moderate pitch, American accent"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_67",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2134074525,
+  "sample_rate": 24000,
+  "duration_seconds": 4.83,
+  "sha256": "72ce6da7db62103151557412aa0d9546c2187e84063813832b043eef4e50fd2b",
+  "func_id": "0442",
+  "offset_key": "79b",
+  "segment": 0,
+  "rendered_parts": [
+    "Aha! That means monsters are not deserving of mercy!",
+    "says Stelnar"
+  ]
+}

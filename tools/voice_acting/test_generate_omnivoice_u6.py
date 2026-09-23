@@ -1412,6 +1412,26 @@ def test_build_clone_jobs_adds_runtime_speaker_variants(tmp_path):
     assert dupre.ref_audio == refs / "dupre.ogg"
 
 
+def test_runtime_speaker_loader_expands_usecode_tsv_for_both_languages(tmp_path):
+    tsv = tmp_path / "cross.tsv"
+    tsv.write_text(
+        "base_output\tspeaker\tspeaker_npc\n"
+        "0437_108b_0.ogg\tDupre\t4\n",
+        encoding="utf-8",
+    )
+    manifest = tmp_path / "speaker-overrides.json"
+    manifest.write_text(
+        json.dumps({"cross_speaker_tsv": tsv.name, "variants": []}),
+        encoding="utf-8",
+    )
+
+    overrides = load_runtime_speaker_overrides(manifest)
+
+    expected = {"speaker": "Dupre", "speaker_npc": 4}
+    assert overrides[("en", "0437_108b_0.ogg")] == [expected]
+    assert overrides[("zh", "0437_108b_0.ogg")] == [expected]
+
+
 def test_avatar_explicit_output_filename_keeps_its_authoritative_stem():
     assert generator._avatar_filename(
         {"en_output_filename": "0401_4_0_custom.ogg"}, "en", "male"

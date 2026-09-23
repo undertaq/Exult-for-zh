@@ -11,6 +11,7 @@ reference-import manifest.
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import html
 import json
@@ -419,6 +420,29 @@ def load_runtime_speaker_overrides(
         variant = {"speaker": speaker, "speaker_npc": speaker_npc}
         if variant not in result.setdefault(key, []):
             result[key].append(variant)
+
+    # Keep the large, usecode-derived cross-speaker audit in a reviewable TSV
+    # rather than duplicating one row per language in the JSON envelope.
+    cross_speaker_tsv = (
+        payload.get("cross_speaker_tsv") if isinstance(payload, dict) else None
+    )
+    if cross_speaker_tsv:
+        tsv_path = manifest_path.parent / str(cross_speaker_tsv)
+        with tsv_path.open(newline="", encoding="utf-8") as stream:
+            for row in csv.DictReader(stream, delimiter="\t"):
+                base_output = Path(str(row.get("base_output") or "").strip()).name
+                speaker = str(row.get("speaker") or "").strip()
+                try:
+                    speaker_npc = int(str(row.get("speaker_npc") or ""))
+                except ValueError as error:
+                    raise ValueError(f"invalid cross-speaker NPC id: {row!r}") from error
+                if not base_output.lower().endswith(".ogg") or not speaker or speaker_npc == 0:
+                    raise ValueError(f"invalid cross-speaker override: {row!r}")
+                variant = {"speaker": speaker, "speaker_npc": speaker_npc}
+                for lang in LANGUAGE_NAMES:
+                    key = (lang, base_output)
+                    if variant not in result.setdefault(key, []):
+                        result[key].append(variant)
     return result
 
 
@@ -740,9 +764,28 @@ def build_clone_jobs(
                         target_npc = str(override["speaker"])
                         target_design_id, target_design = by_npc.get(target_npc.lower(), (None, None))
                         if target_design_id is None:
-                            raise ValueError(
-                                f"runtime speaker override references unknown NPC {target_npc!r}"
+                            # Some U6 cross-conversation speakers are not
+                            # primary U6 dialogue owners, but do have an
+                            # approved U7 reference (for example Morfin).
+                            # Let the reference-import override supply the
+                            # clone source instead of silently routing them
+                            # through the mapping NPC.
+                            reference_override = overrides.get((target_npc.lower(), lang))
+                            if reference_override is None:
+                                raise ValueError(
+                                    f"runtime speaker override references unknown NPC {target_npc!r}"
+                                )
+                            target_design_id = str(
+                                reference_override.get("design_id")
+                                or reference_override.get("reference_id")
+                                or f"npc_{target_npc.lower().replace(' ', '_')}"
                             )
+                            target_design = {
+                                "npc": target_npc,
+                                "ref_en_text": str(reference_override.get("ref_text") or ""),
+                                "ref_zh_text": str(reference_override.get("ref_text") or ""),
+                                "casting_inference": {"gender": "male", "age": "adult"},
+                            }
                         runtime_targets.append((
                             target_npc,
                             target_design_id,

@@ -1,0 +1,60 @@
+{
+  "status": "generated",
+  "design_id": "u6_shamino_4d734991",
+  "lang": "en",
+  "text": "Shamino steps closer, his voice filled with disappointment. Avatar, why didst thou remain silent? Surely thou dost see this is a grave mistake. This is not the path she should take...",
+  "tts_text": "Shamino steps closer, his voice filled with disappointment. Avatar, why didst thou remain silent? Surely thou dost see this is a grave mistake. This is not the path she should take...",
+  "tts_text_revision": null,
+  "override_revision": null,
+  "rendered_text": "Shamino steps closer, his voice filled with disappointment.\nAvatar, why didst thou remain silent? Surely thou dost see this is a grave mistake. This is not the path she should take...",
+  "fallback_used": false,
+  "npc": "Shamino",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_en_ref.ogg",
+  "ref_text": "Greetings, traveler. What brings you to these lands this day?",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:9a41c03e244155c96606875aa410184f662d7c35c5593501e40cf1b3515d1ed5",
+  "reference_sha256": "fb3ebb4d2ea42e8f7ee2fe51feac92d21ae160fb8c2bbab2f081acec26337caa",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "Shamino steps closer, his voice filled with disappointment.",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "fb3ebb4d2ea42e8f7ee2fe51feac92d21ae160fb8c2bbab2f081acec26337caa",
+      "instruct": "male, moderate pitch, American accent"
+    },
+    {
+      "role": "speaker",
+      "text": "Avatar, why didst thou remain silent? Surely thou dost see this is a grave mistake. This is not the path she should take...",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_shamino_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_shamino",
+      "reference_sha256": "4f522f87600e669120f4fdb7fae9ab4180d7e1b460a334cfe19a02fb63d09bfe",
+      "instruct": "male, moderate pitch, American accent"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_3",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 4183077774,
+  "sample_rate": 24000,
+  "duration_seconds": 12.18,
+  "sha256": "655bee57af1b8e1d99721bdd272b8fc93afab7759f73d8a97e263d06265ff132",
+  "func_id": "044b",
+  "offset_key": "5f7",
+  "segment": 0,
+  "rendered_parts": [
+    "Shamino steps closer, his voice filled with disappointment.",
+    "Avatar, why didst thou remain silent? Surely thou dost see this is a grave mistake. This is not the path she should take..."
+  ]
+}

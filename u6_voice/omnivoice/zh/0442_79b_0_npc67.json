@@ -1,0 +1,60 @@
+{
+  "status": "generated",
+  "design_id": "u6_stelnar_ce28ec03",
+  "lang": "zh",
+  "text": "哈！這意味著怪物不配得到仁慈！ Stelnar 說道",
+  "tts_text": "哈！这意味着怪物不配得到仁慈！ Stelnar 说道",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
+  "rendered_text": "哈！这意味着怪物不配得到仁慈！\nStelnar 说道",
+  "fallback_used": false,
+  "npc": "Stelnar",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_stelnar_ce28ec03_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Stelnar。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:8aa59de741412884b1b21946e04369e2be133a793876f749656dc3cfa2bea096",
+  "reference_sha256": "c39709e9f07d88e2394f951756e84973ff2d472b6bedfa68182a1b0442ad85a2",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "哈！这意味着怪物不配得到仁慈！",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_stelnar_ce28ec03_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Stelnar。今天你为何来到这片土地？",
+      "reference_id": "u6_stelnar_ce28ec03",
+      "reference_sha256": "c39709e9f07d88e2394f951756e84973ff2d472b6bedfa68182a1b0442ad85a2",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "Stelnar 说道",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_67",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2196244265,
+  "sample_rate": 24000,
+  "duration_seconds": 4.34,
+  "sha256": "1521cb6d1d1e5dc96a2f7c2eda604afe042610cfecb6d23d76ce5bed795cace1",
+  "func_id": "0442",
+  "offset_key": "79b",
+  "segment": 0,
+  "rendered_parts": [
+    "哈！这意味着怪物不配得到仁慈！",
+    "Stelnar 说道"
+  ]
+}

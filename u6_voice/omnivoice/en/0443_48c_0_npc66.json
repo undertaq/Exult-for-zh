@@ -1,0 +1,60 @@
+{
+  "status": "generated",
+  "design_id": "u6_van_kellian_0ff1b256",
+  "lang": "en",
+  "text": "That's drivel, friend Starhelm! says Van Kellian.",
+  "tts_text": "That's drivel, friend Starhelm! says Van Kellian.",
+  "tts_text_revision": null,
+  "override_revision": null,
+  "rendered_text": "That's drivel, friend Starhelm!\nsays Van Kellian.",
+  "fallback_used": false,
+  "npc": "Van Kellian",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_van_kellian_0ff1b256_en_ref.ogg",
+  "ref_text": "Greetings, traveler. I am Van Kellian. What brings you to these lands today?",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:39f59ace3e7f1454858614c324fce301ba57ef79e9fd555d57953e80c3aa9344",
+  "reference_sha256": "5d0f93206ff0fc2942237151d52b6d76831e30b671706b0b703d984e08bae911",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "That's drivel, friend Starhelm!",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_van_kellian_0ff1b256_en_ref.ogg",
+      "reference_text": "Greetings, traveler. I am Van Kellian. What brings you to these lands today?",
+      "reference_id": "u6_van_kellian_0ff1b256",
+      "reference_sha256": "5d0f93206ff0fc2942237151d52b6d76831e30b671706b0b703d984e08bae911",
+      "instruct": "male, moderate pitch, American accent"
+    },
+    {
+      "role": "narrator",
+      "text": "says Van Kellian.",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "fb3ebb4d2ea42e8f7ee2fe51feac92d21ae160fb8c2bbab2f081acec26337caa",
+      "instruct": "male, moderate pitch, American accent"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_66",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3670545244,
+  "sample_rate": 24000,
+  "duration_seconds": 3.95,
+  "sha256": "e04c878a04afaee2559a6e9d88d76dff2b2b386e6f1f725f8c923e40a8a0ba29",
+  "func_id": "0443",
+  "offset_key": "48c",
+  "segment": 0,
+  "rendered_parts": [
+    "That's drivel, friend Starhelm!",
+    "says Van Kellian."
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "status": "generated",
+  "design_id": "u6_leonna_c563a3bc",
+  "lang": "en",
+  "text": "Leonna raises an eyebrow. Is that so? I could tell a different tale...",
+  "tts_text": "Leonna raises an eyebrow. Is that so? I could tell a different tale...",
+  "tts_text_revision": null,
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
+  "rendered_text": "Leonna raises an eyebrow.\nIs that so? I could tell a different tale...",
+  "fallback_used": false,
+  "npc": "Leonna",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_en_ref.ogg",
+  "ref_text": "Greetings, traveler. What brings you to these lands this day?",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:f0bf71b729fcc71e2f34acaaab593f0c0de1b0ddeae14adadfbcc0c0b326d356",
+  "reference_sha256": "2c4f04d7b14f3230ffe9ed5964cf8f3536fab50198f536465142eecb15027004",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "Leonna raises an eyebrow.",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "2c4f04d7b14f3230ffe9ed5964cf8f3536fab50198f536465142eecb15027004",
+      "instruct": "female, moderate pitch, American accent"
+    },
+    {
+      "role": "speaker",
+      "text": "Is that so? I could tell a different tale...",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_leonna_c563a3bc_en_ref.ogg",
+      "reference_text": "Greetings, traveler. I am Leonna. What brings you to these lands today?",
+      "reference_id": "u6_leonna_c563a3bc",
+      "reference_sha256": "d7db599d7116ce3c8677ff65e1e8922fc011044e0117c9068ab0bbf02ee04d47",
+      "instruct": "female, moderate pitch, American accent"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_223",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1553708244,
+  "sample_rate": 24000,
+  "duration_seconds": 4.77,
+  "sha256": "d8481b5f18e9e3c09c43dc1fc1c8b83235972cee1e87a602a50a074c9b8f58f5",
+  "func_id": "04e2",
+  "offset_key": "447",
+  "segment": 0,
+  "rendered_parts": [
+    "Leonna raises an eyebrow.",
+    "Is that so? I could tell a different tale..."
+  ]
+}

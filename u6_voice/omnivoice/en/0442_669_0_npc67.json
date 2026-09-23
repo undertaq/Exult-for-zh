@@ -1,0 +1,60 @@
+{
+  "status": "generated",
+  "design_id": "u6_stelnar_ce28ec03",
+  "lang": "en",
+  "text": "Stelnar says I'll tell ye, Van. If ye let one gargoyle live, then ye'll be tempted to spare trolls, and then even cyclopses. And then ye forget valor, and soon ye are overrun by monsters!",
+  "tts_text": "Stelnar says I'll tell ye, Van. If ye let one gargoyle live, then ye'll be tempted to spare trolls, and then even cyclopses. And then ye forget valor, and soon ye are overrun by monsters!",
+  "tts_text_revision": null,
+  "override_revision": null,
+  "rendered_text": "Stelnar says\nI'll tell ye, Van. If ye let one gargoyle live, then ye'll be tempted to spare trolls, and then even cyclopses. And then ye forget valor, and soon ye are overrun by monsters!",
+  "fallback_used": false,
+  "npc": "Stelnar",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_en_ref.ogg",
+  "ref_text": "Greetings, traveler. What brings you to these lands this day?",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:0e14ef150025efe6a519a6d8534a2cf76c00e3f5463f479df3eeb44538b9c3a7",
+  "reference_sha256": "fb3ebb4d2ea42e8f7ee2fe51feac92d21ae160fb8c2bbab2f081acec26337caa",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "Stelnar says",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "fb3ebb4d2ea42e8f7ee2fe51feac92d21ae160fb8c2bbab2f081acec26337caa",
+      "instruct": "male, moderate pitch, American accent"
+    },
+    {
+      "role": "speaker",
+      "text": "I'll tell ye, Van. If ye let one gargoyle live, then ye'll be tempted to spare trolls, and then even cyclopses. And then ye forget valor, and soon ye are overrun by monsters!",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_stelnar_ce28ec03_en_ref.ogg",
+      "reference_text": "Greetings, traveler. I am Stelnar. What brings you to these lands today?",
+      "reference_id": "u6_stelnar_ce28ec03",
+      "reference_sha256": "be707d1485ba6a87364f2fae65a9e546c4778638d16cc46db2ab9c66a35054bd",
+      "instruct": "male, moderate pitch, American accent"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_67",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1463107742,
+  "sample_rate": 24000,
+  "duration_seconds": 12.31,
+  "sha256": "9dd156a0ce5c65f69fc6b9f923ed9ad3df5cf2ce7b427ea10a5fecdeb231fc11",
+  "func_id": "0442",
+  "offset_key": "669",
+  "segment": 0,
+  "rendered_parts": [
+    "Stelnar says",
+    "I'll tell ye, Van. If ye let one gargoyle live, then ye'll be tempted to spare trolls, and then even cyclopses. And then ye forget valor, and soon ye are overrun by monsters!"
+  ]
+}

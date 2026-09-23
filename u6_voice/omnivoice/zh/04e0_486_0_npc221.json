@@ -1,0 +1,60 @@
+{
+  "status": "generated",
+  "design_id": "u6_leodon_3e6ac86d",
+  "lang": "zh",
+  "text": "「這跟我聽到的不一樣。」 Leodon 說道。",
+  "tts_text": "“这跟我听到的不一样。” Leodon 说道。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
+  "rendered_text": "这跟我听到的不一样。\n” Leodon 说道。",
+  "fallback_used": false,
+  "npc": "Leodon",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_leodon_3e6ac86d_zh_ref.ogg",
+  "ref_text": "旅人，你好。我是Leodon。今天你为何来到这片土地？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:02ea0ff3f4da8ae42d81ab9d5d855721a6a324b9a39a13d6af7825d95d710941",
+  "reference_sha256": "d002ef0df2d6b03623206fac2de0ebbb04b40ac69e96f0935f000ccb49c266c0",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "这跟我听到的不一样。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_leodon_3e6ac86d_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Leodon。今天你为何来到这片土地？",
+      "reference_id": "u6_leodon_3e6ac86d",
+      "reference_sha256": "d002ef0df2d6b03623206fac2de0ebbb04b40ac69e96f0935f000ccb49c266c0",
+      "instruct": "女, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "” Leodon 说道。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "21705f84ffc552c4390b4d8f144b45e1aaffe8b3d3e7f8a5a84f103f45360533",
+      "instruct": "女, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_221",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2512100914,
+  "sample_rate": 24000,
+  "duration_seconds": 3.03,
+  "sha256": "eb29e26a880a89d28f69db669eadda5ef4ad7a5157b42434aae285284a020ddf",
+  "func_id": "04e0",
+  "offset_key": "486",
+  "segment": 0,
+  "rendered_parts": [
+    "这跟我听到的不一样。",
+    "” Leodon 说道。"
+  ]
+}

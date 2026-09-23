@@ -26,6 +26,7 @@
 
 #include <iosfwd>
 #include <memory>
+#include <vector>
 
 class Game_object;
 class Usecode_function;
@@ -59,6 +60,13 @@ public:
 	Game_object_shared caller_item;
 
 	Usecode_value* save_sp;
+	// Voice face identity before this function was entered.  Nested usecode
+	// helpers can temporarily show another NPC and must restore their caller's
+	// speaker when they return.
+	int voice_face_npc_before = -999;
+	// Faces shown and removed within this function are also nested. Keep the
+	// previous identity so a cross-conversation line can return to its caller.
+	std::vector<int> voice_face_npc_stack;
 
 	Usecode_value& get_this() {
 		return locals[num_args - 1];

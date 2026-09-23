@@ -1,0 +1,60 @@
+{
+  "status": "generated",
+  "design_id": "u6_shamino_4d734991",
+  "lang": "en",
+  "text": "Noticing your attention, he says Perhaps there's a little of Lord British in us all.",
+  "tts_text": "Noticing your attention, he says Perhaps there's a little of Lord British in us all.",
+  "tts_text_revision": null,
+  "override_revision": null,
+  "rendered_text": "Noticing your attention, he says\nPerhaps there's a little of Lord British in us all.",
+  "fallback_used": false,
+  "npc": "Shamino",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_en_ref.ogg",
+  "ref_text": "Greetings, traveler. What brings you to these lands this day?",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:9a41c03e244155c96606875aa410184f662d7c35c5593501e40cf1b3515d1ed5",
+  "reference_sha256": "fb3ebb4d2ea42e8f7ee2fe51feac92d21ae160fb8c2bbab2f081acec26337caa",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "Noticing your attention, he says",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "fb3ebb4d2ea42e8f7ee2fe51feac92d21ae160fb8c2bbab2f081acec26337caa",
+      "instruct": "male, moderate pitch, American accent"
+    },
+    {
+      "role": "speaker",
+      "text": "Perhaps there's a little of Lord British in us all.",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_shamino_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_shamino",
+      "reference_sha256": "4f522f87600e669120f4fdb7fae9ab4180d7e1b460a334cfe19a02fb63d09bfe",
+      "instruct": "male, moderate pitch, American accent"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_3",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 43088420,
+  "sample_rate": 24000,
+  "duration_seconds": 5.47,
+  "sha256": "9ac4962a021bcc05635ab00ab8f30abac09a67a86e15bd6a9d6d388205f1ef8b",
+  "func_id": "043e",
+  "offset_key": "a35",
+  "segment": 0,
+  "rendered_parts": [
+    "Noticing your attention, he says",
+    "Perhaps there's a little of Lord British in us all."
+  ]
+}

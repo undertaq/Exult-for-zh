@@ -1,0 +1,60 @@
+{
+  "status": "generated",
+  "design_id": "u6_dupre_5c9a4542",
+  "lang": "zh",
+  "text": "他低聲對你說。我寧願去面對 Blackthorn 的刑訊室，也不想再聽 Chuckles 的笑話了！",
+  "tts_text": "他低声对你说。我宁愿去面对 Blackthorn 的刑讯室，也不想再听 Chuckles 的笑话了！",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
+  "rendered_text": "他低声对你说。\n我宁愿去面对 Blackthorn 的刑讯室，也不想再听 Chuckles 的笑话了！",
+  "fallback_used": false,
+  "npc": "Dupre",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:c52f23563a220b9ac1342773f99275127661b0c9e7f7eb1503333dff586ca3a7",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "他低声对你说。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "我宁愿去面对 Blackthorn 的刑讯室，也不想再听 Chuckles 的笑话了！",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_dupre_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_dupre",
+      "reference_sha256": "c4c0e434d70e284fe32a8c51450dda6d1660b0fc39277d20d46a982b0004c46a",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_4",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3469916318,
+  "sample_rate": 24000,
+  "duration_seconds": 8.19,
+  "sha256": "abe98d4a421b900cd322e7ae40f78a18daef70a5e9f0b3be2c5b1c15ed33a077",
+  "func_id": "0437",
+  "offset_key": "10b4",
+  "segment": 0,
+  "rendered_parts": [
+    "他低声对你说。",
+    "我宁愿去面对 Blackthorn 的刑讯室，也不想再听 Chuckles 的笑话了！"
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "status": "generated",
+  "design_id": "u6_iolo_61080470",
+  "lang": "zh",
+  "text": "Iolo生氣地搖頭。聖者，你看不出來嗎？Michael用謊言污染了她的思想！我們就只會站著看這發生嗎？！",
+  "tts_text": "Iolo生气地摇头。圣者，你看不出来吗？Michael用谎言污染了她的思想！我们就只会站着看这发生吗？！",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
+  "rendered_text": "Iolo生气地摇头。\n圣者，你看不出来吗？Michael用谎言污染了她的思想！我们就只会站着看这发生吗？！",
+  "fallback_used": false,
+  "npc": "Iolo",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:1111e532de27abf4a25a31b5432309606cf6887d942ef018985be1432acdbff2",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "Iolo生气地摇头。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "圣者，你看不出来吗？Michael用谎言污染了她的思想！我们就只会站着看这发生吗？！",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_iolo_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_iolo",
+      "reference_sha256": "703c4c1e9c07c410cf3802c98c4791f36b1ff79b49e8de7654f7712d8c595e69",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_1",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1624647365,
+  "sample_rate": 24000,
+  "duration_seconds": 10.88,
+  "sha256": "84d0eac2dd6e2fc13d57dbaddca210854352ff637e682526526bef8890410b20",
+  "func_id": "044b",
+  "offset_key": "554",
+  "segment": 0,
+  "rendered_parts": [
+    "Iolo生气地摇头。",
+    "圣者，你看不出来吗？Michael用谎言污染了她的思想！我们就只会站着看这发生吗？！"
+  ]
+}

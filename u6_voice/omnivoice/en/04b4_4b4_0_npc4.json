@@ -1,0 +1,60 @@
+{
+  "status": "generated",
+  "design_id": "u6_dupre_5c9a4542",
+  "lang": "en",
+  "text": "Trusted Dupre whispers frantically to you, You musn't! It's some sort of magical trap!",
+  "tts_text": "Trusted Dupre whispers frantically to you, You musn't! It's some sort of magical trap!",
+  "tts_text_revision": null,
+  "override_revision": null,
+  "rendered_text": "Trusted Dupre whispers frantically to you,\nYou musn't! It's some sort of magical trap!",
+  "fallback_used": false,
+  "npc": "Dupre",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_en_ref.ogg",
+  "ref_text": "Greetings, traveler. What brings you to these lands this day?",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:bd60786ec70357d43586692591549ea983877a3bdf48ccbc298d00963040735b",
+  "reference_sha256": "fb3ebb4d2ea42e8f7ee2fe51feac92d21ae160fb8c2bbab2f081acec26337caa",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "Trusted Dupre whispers frantically to you,",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "fb3ebb4d2ea42e8f7ee2fe51feac92d21ae160fb8c2bbab2f081acec26337caa",
+      "instruct": "male, moderate pitch, American accent"
+    },
+    {
+      "role": "speaker",
+      "text": "You musn't! It's some sort of magical trap!",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_dupre_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_dupre",
+      "reference_sha256": "3a75032bde839d509613b05609891e8d9434f4beaf362de2f4575f947bca0ef4",
+      "instruct": "male, moderate pitch, American accent"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_4",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 4247071224,
+  "sample_rate": 24000,
+  "duration_seconds": 6.29,
+  "sha256": "ff5e55ad83fa12e3ee3674b0520ca491d2bd9b89f47326cac37e44b0d485b6c2",
+  "func_id": "04b4",
+  "offset_key": "4b4",
+  "segment": 0,
+  "rendered_parts": [
+    "Trusted Dupre whispers frantically to you,",
+    "You musn't! It's some sort of magical trap!"
+  ]
+}

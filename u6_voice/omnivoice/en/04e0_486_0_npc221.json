@@ -1,0 +1,60 @@
+{
+  "status": "generated",
+  "design_id": "u6_leodon_3e6ac86d",
+  "lang": "en",
+  "text": "Well, that's not what I heard. says Leodon.",
+  "tts_text": "Well, that's not what I heard. says Leodon.",
+  "tts_text_revision": null,
+  "override_revision": null,
+  "rendered_text": "Well, that's not what I heard.\nsays Leodon.",
+  "fallback_used": false,
+  "npc": "Leodon",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_leodon_3e6ac86d_en_ref.ogg",
+  "ref_text": "Greetings, traveler. I am Leodon. What brings you to these lands today?",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:3758d8a56a8e78a4e5c799a35172a276074cc0db18bef0e08c2356be3035eeeb",
+  "reference_sha256": "67ff2b3f4dc8df836cac5f58711c1ec594c990275502f1ce2eecd49d1d6fcd50",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "Well, that's not what I heard.",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_leodon_3e6ac86d_en_ref.ogg",
+      "reference_text": "Greetings, traveler. I am Leodon. What brings you to these lands today?",
+      "reference_id": "u6_leodon_3e6ac86d",
+      "reference_sha256": "67ff2b3f4dc8df836cac5f58711c1ec594c990275502f1ce2eecd49d1d6fcd50",
+      "instruct": "female, moderate pitch, American accent"
+    },
+    {
+      "role": "narrator",
+      "text": "says Leodon.",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_unknown_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_unknown",
+      "reference_sha256": "2c4f04d7b14f3230ffe9ed5964cf8f3536fab50198f536465142eecb15027004",
+      "instruct": "female, moderate pitch, American accent"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_221",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1696436266,
+  "sample_rate": 24000,
+  "duration_seconds": 3.32,
+  "sha256": "940e318d3c5bea1c61b239a31f25d3ca63c2dd3c6e7d2e98cfe73d8f1a4a0197",
+  "func_id": "04e0",
+  "offset_key": "486",
+  "segment": 0,
+  "rendered_parts": [
+    "Well, that's not what I heard.",
+    "says Leodon."
+  ]
+}

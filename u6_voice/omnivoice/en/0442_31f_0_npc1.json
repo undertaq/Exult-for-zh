@@ -1,0 +1,60 @@
+{
+  "status": "generated",
+  "design_id": "u6_iolo_61080470",
+  "lang": "en",
+  "text": "Iolo rolls his eyes and whispers to you. He believes he does us a favor. This I must hear.",
+  "tts_text": "Iolo rolls his eyes and whispers to you. He believes he does us a favor. This I must hear.",
+  "tts_text_revision": null,
+  "override_revision": null,
+  "rendered_text": "Iolo rolls his eyes and whispers to you.\nHe believes he does us a favor. This I must hear.",
+  "fallback_used": false,
+  "npc": "Iolo",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_en_ref.ogg",
+  "ref_text": "Greetings, traveler. What brings you to these lands this day?",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:8fd3323052d081d28ce50b3eda5a6f6e5732c75034ae1d54d20378f8054d1106",
+  "reference_sha256": "fb3ebb4d2ea42e8f7ee2fe51feac92d21ae160fb8c2bbab2f081acec26337caa",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "Iolo rolls his eyes and whispers to you.",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "fb3ebb4d2ea42e8f7ee2fe51feac92d21ae160fb8c2bbab2f081acec26337caa",
+      "instruct": "male, moderate pitch, American accent"
+    },
+    {
+      "role": "speaker",
+      "text": "He believes he does us a favor. This I must hear.",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_iolo_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_iolo",
+      "reference_sha256": "7f7b8c6f0bfe71f69b76b686bed292b8522e9a06435de7d37d3245e1cf84e3ac",
+      "instruct": "male, moderate pitch, American accent"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_1",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3029787524,
+  "sample_rate": 24000,
+  "duration_seconds": 6.2,
+  "sha256": "857a90c8555802371a23e6fa551a4e85462911c41ff41286bdbd2e6cf5ab4dcb",
+  "func_id": "0442",
+  "offset_key": "31f",
+  "segment": 0,
+  "rendered_parts": [
+    "Iolo rolls his eyes and whispers to you.",
+    "He believes he does us a favor. This I must hear."
+  ]
+}

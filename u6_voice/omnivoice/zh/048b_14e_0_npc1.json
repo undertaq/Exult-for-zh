@@ -1,0 +1,60 @@
+{
+  "status": "generated",
+  "design_id": "u6_iolo_61080470",
+  "lang": "zh",
+  "text": "當然可以，大人。也許你能比我更理解它的意思。 Iolo 說道。",
+  "tts_text": "当然可以，大人。也许你能比我更理解它的意思。 Iolo 说道。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
+  "rendered_text": "当然可以，大人。也许你能比我更理解它的意思。\nIolo 说道。",
+  "fallback_used": false,
+  "npc": "Iolo",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/voice/refs/npc_iolo_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:69ded28abfd0980ee70d421c475c88b4a1bf397f151d00191fbf0cfce4e6d2d8",
+  "reference_sha256": "703c4c1e9c07c410cf3802c98c4791f36b1ff79b49e8de7654f7712d8c595e69",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "当然可以，大人。也许你能比我更理解它的意思。",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_iolo_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_iolo",
+      "reference_sha256": "703c4c1e9c07c410cf3802c98c4791f36b1ff79b49e8de7654f7712d8c595e69",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "narrator",
+      "text": "Iolo 说道。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_1",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3114263152,
+  "sample_rate": 24000,
+  "duration_seconds": 7.22,
+  "sha256": "519bd9654ee2c0b4f60a136f8d21092d48c86e15d6586d9a7d8ed1adca7bd381",
+  "func_id": "048b",
+  "offset_key": "14e",
+  "segment": 0,
+  "rendered_parts": [
+    "当然可以，大人。也许你能比我更理解它的意思。",
+    "Iolo 说道。"
+  ]
+}

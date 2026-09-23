@@ -1,0 +1,60 @@
+{
+  "status": "generated",
+  "design_id": "u6_dupre_5c9a4542",
+  "lang": "en",
+  "text": "Don't be ridiculous! This is the first time we've ever been in your shop! says Dupre.",
+  "tts_text": "Don't be ridiculous! This is the first time we've ever been in your shop! says Dupre.",
+  "tts_text_revision": null,
+  "override_revision": null,
+  "rendered_text": "Don't be ridiculous! This is the first time we've ever been in your shop!\nsays Dupre.",
+  "fallback_used": false,
+  "npc": "Dupre",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/voice/refs/npc_dupre_en_ref.ogg",
+  "ref_text": "Greetings, traveler. What brings you to these lands this day?",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:f07c71f3ac491a321361fa64892be6a36f9dbcb42d8f36bbe8ddac54af8f6bb1",
+  "reference_sha256": "3a75032bde839d509613b05609891e8d9434f4beaf362de2f4575f947bca0ef4",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "Don't be ridiculous! This is the first time we've ever been in your shop!",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_dupre_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_dupre",
+      "reference_sha256": "3a75032bde839d509613b05609891e8d9434f4beaf362de2f4575f947bca0ef4",
+      "instruct": "male, moderate pitch, American accent"
+    },
+    {
+      "role": "narrator",
+      "text": "says Dupre.",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "fb3ebb4d2ea42e8f7ee2fe51feac92d21ae160fb8c2bbab2f081acec26337caa",
+      "instruct": "male, moderate pitch, American accent"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_4",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2739491714,
+  "sample_rate": 24000,
+  "duration_seconds": 6.92,
+  "sha256": "0a19cec02d5ee08d179705df0097017ca82b491833e23276eee34d6573fa05db",
+  "func_id": "04e5",
+  "offset_key": "27a",
+  "segment": 0,
+  "rendered_parts": [
+    "Don't be ridiculous! This is the first time we've ever been in your shop!",
+    "says Dupre."
+  ]
+}

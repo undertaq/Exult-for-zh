@@ -1,0 +1,70 @@
+{
+  "status": "generated",
+  "design_id": "u6_captain_fox_10c70c5e",
+  "lang": "en",
+  "text": "That's not true! says Captain Fox. I can tell you what really happened.",
+  "tts_text": "That's not true! says Captain Fox. I can tell you what really happened.",
+  "tts_text_revision": null,
+  "override_revision": null,
+  "rendered_text": "That's not true!\nsays Captain Fox.\nI can tell you what really happened.",
+  "fallback_used": false,
+  "npc": "Captain Fox",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_captain_fox_10c70c5e_en_ref.ogg",
+  "ref_text": "Greetings, traveler. I am Captain Fox. What brings you to these lands today?",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:8b5965e3f9c8ac6b878481557057b6c889f8e5c91a38bf758db10c06c007eb9a",
+  "reference_sha256": "aec03e760e80058ffde9bd834cf9d2a4cddcad8e78c585ffd006adfed0c2e030",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "That's not true!",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_captain_fox_10c70c5e_en_ref.ogg",
+      "reference_text": "Greetings, traveler. I am Captain Fox. What brings you to these lands today?",
+      "reference_id": "u6_captain_fox_10c70c5e",
+      "reference_sha256": "aec03e760e80058ffde9bd834cf9d2a4cddcad8e78c585ffd006adfed0c2e030",
+      "instruct": "male, moderate pitch, American accent"
+    },
+    {
+      "role": "narrator",
+      "text": "says Captain Fox.",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "fb3ebb4d2ea42e8f7ee2fe51feac92d21ae160fb8c2bbab2f081acec26337caa",
+      "instruct": "male, moderate pitch, American accent"
+    },
+    {
+      "role": "speaker",
+      "text": "I can tell you what really happened.",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_captain_fox_10c70c5e_en_ref.ogg",
+      "reference_text": "Greetings, traveler. I am Captain Fox. What brings you to these lands today?",
+      "reference_id": "u6_captain_fox_10c70c5e",
+      "reference_sha256": "aec03e760e80058ffde9bd834cf9d2a4cddcad8e78c585ffd006adfed0c2e030",
+      "instruct": "male, moderate pitch, American accent"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_224",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 3329850731,
+  "sample_rate": 24000,
+  "duration_seconds": 5.94,
+  "sha256": "70adb28540b80c243a3127ee4e6e31ff75a724356aefee0e56ce8fc386197545",
+  "func_id": "04df",
+  "offset_key": "826",
+  "segment": 0,
+  "rendered_parts": [
+    "That's not true!",
+    "says Captain Fox.",
+    "I can tell you what really happened."
+  ]
+}

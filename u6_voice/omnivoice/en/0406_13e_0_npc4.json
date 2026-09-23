@@ -1,0 +1,70 @@
+{
+  "status": "generated",
+  "design_id": "u6_dupre_5c9a4542",
+  "lang": "en",
+  "text": "Talking to a mouse? says Dupre. Methinks you're starting to imagine things...",
+  "tts_text": "Talking to a mouse? says Dupre. Methinks you're starting to imagine things...",
+  "tts_text_revision": null,
+  "override_revision": null,
+  "rendered_text": "Talking to a mouse?\nsays Dupre.\nMethinks you're starting to imagine things...",
+  "fallback_used": false,
+  "npc": "Dupre",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/voice/refs/npc_dupre_en_ref.ogg",
+  "ref_text": "Greetings, traveler. What brings you to these lands this day?",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:5a1b373a2e1ac46f3e16fcd149c5b1c61af518b81076c93f30d324cfd146f7c7",
+  "reference_sha256": "3a75032bde839d509613b05609891e8d9434f4beaf362de2f4575f947bca0ef4",
+  "voice_parts": [
+    {
+      "role": "speaker",
+      "text": "Talking to a mouse?",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_dupre_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_dupre",
+      "reference_sha256": "3a75032bde839d509613b05609891e8d9434f4beaf362de2f4575f947bca0ef4",
+      "instruct": "male, moderate pitch, American accent"
+    },
+    {
+      "role": "narrator",
+      "text": "says Dupre.",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "fb3ebb4d2ea42e8f7ee2fe51feac92d21ae160fb8c2bbab2f081acec26337caa",
+      "instruct": "male, moderate pitch, American accent"
+    },
+    {
+      "role": "speaker",
+      "text": "Methinks you're starting to imagine things...",
+      "reference_path": "/home/joe/project/Exult-for-zh/voice/refs/npc_dupre_en_ref.ogg",
+      "reference_text": "Greetings, traveler. What brings you to these lands this day?",
+      "reference_id": "npc_dupre",
+      "reference_sha256": "3a75032bde839d509613b05609891e8d9434f4beaf362de2f4575f947bca0ef4",
+      "instruct": "male, moderate pitch, American accent"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_4",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 1427550073,
+  "sample_rate": 24000,
+  "duration_seconds": 6.06,
+  "sha256": "9da604f8d7388d0ab2bf62228070bbde7e6b54e0c897f1fde20d145ad8f99a51",
+  "func_id": "0406",
+  "offset_key": "13e",
+  "segment": 0,
+  "rendered_parts": [
+    "Talking to a mouse?",
+    "says Dupre.",
+    "Methinks you're starting to imagine things..."
+  ]
+}

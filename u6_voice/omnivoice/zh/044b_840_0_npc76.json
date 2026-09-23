@@ -1,0 +1,60 @@
+{
+  "status": "generated",
+  "design_id": "u6_michael_f089eaef",
+  "lang": "zh",
+  "text": "Michael 皺起眉頭，語氣尖銳。謊言！無稽之談！大家都知道是你父親被石像鬼所殺。",
+  "tts_text": "Michael 皱起眉头，语气尖锐。谎言！无稽之谈！大家都知道是你父亲被石像鬼所杀。",
+  "tts_text_revision": "u6-omnivoice-zh-simplified-v1",
+  "override_revision": "u6-omnivoice-overrides-v3-zh-pronunciation-audit",
+  "rendered_text": "Michael 皱起眉头，语气尖锐。\n谎言！无稽之谈！大家都知道是你父亲被石像鬼所杀。",
+  "fallback_used": false,
+  "npc": "Michael",
+  "clone_generation_revision": "u6-omnivoice-clone-instruction-v1",
+  "instruct": null,
+  "clone_generation": {
+    "num_step": 32,
+    "guidance_scale": 2.0,
+    "speed": 1.0,
+    "postprocess_output": true
+  },
+  "ref_audio": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+  "ref_text": "旅人，你好。今天過得如何？",
+  "reference_role": "mixed",
+  "reference_revision": "u6-omnivoice-role-routing-v1:9d20e9fb7cf00e7e4b42e1ed97e335101460ec6fa77e6f87199c25eadc05db57",
+  "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+  "voice_parts": [
+    {
+      "role": "narrator",
+      "text": "Michael 皱起眉头，语气尖锐。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/npc_narrator_male_zh_ref.ogg",
+      "reference_text": "旅人，你好。今天過得如何？",
+      "reference_id": "npc_narrator_male",
+      "reference_sha256": "89586631dd867639d0e9c1d5dc33984c8d3397b92235c6cfab36ac4a4c34bada",
+      "instruct": "男, 中音调"
+    },
+    {
+      "role": "speaker",
+      "text": "谎言！无稽之谈！大家都知道是你父亲被石像鬼所杀。",
+      "reference_path": "/home/joe/project/Exult-for-zh/u6_voice/refs/u6_michael_f089eaef_zh_ref.ogg",
+      "reference_text": "旅人，你好。我是Michael。今天你为何来到这片土地？",
+      "reference_id": "u6_michael_f089eaef",
+      "reference_sha256": "82dfd1dad8ec5d95653b1bd2925f93b4f494b6fddca6395c44f6fa6db8484a6f",
+      "instruct": "男, 中音调"
+    }
+  ],
+  "avatar_gender": null,
+  "variant": "npc_76",
+  "model": "k2-fsa/OmniVoice",
+  "gpu": 0,
+  "seed": 2440967901,
+  "sample_rate": 24000,
+  "duration_seconds": 7.17,
+  "sha256": "51731798f459c1c533a00e1f56141031ad3e9ba1e5e15c5f7238f05b5a702157",
+  "func_id": "044b",
+  "offset_key": "840",
+  "segment": 0,
+  "rendered_parts": [
+    "Michael 皱起眉头，语气尖锐。",
+    "谎言！无稽之谈！大家都知道是你父亲被石像鬼所杀。"
+  ]
+}

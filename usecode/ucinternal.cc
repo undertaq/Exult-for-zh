@@ -236,6 +236,7 @@ bool Usecode_internal::call_function(int funcid, int eventid, Game_object* calle
 	}
 
 	auto* frame = new Stack_frame(fun, eventid, caller, chain, depth);
+	frame->voice_face_npc_before = voice_current_face_npc;
 
 	int num_args = std::max(frame->num_args, givenargs);
 	// Many functions have 'itemref' as a 'phantom' arg.
@@ -307,6 +308,14 @@ void Usecode_internal::previous_stack_frame() {
 	// remove current frame from stack
 	Stack_frame* frame = call_stack.front();
 	call_stack.pop_front();
+
+	// A nested helper may have shown a different NPC's face.  Restore the
+	// caller's speaker identity so a Chuckles line after a Dupre cross-call is
+	// not routed to Dupre's voice.  The top-level conversation has no caller
+	// face to restore.
+	voice_current_face_npc = frame->call_depth == 0
+			? VOICE_NO_FACE
+			: frame->voice_face_npc_before;
 
 	// restore stack pointer
 	sp = frame->save_sp;
@@ -1003,15 +1012,26 @@ void Usecode_internal::show_npc_face(
 	int       frame = arg2.get_int_value();
 	const int shape = get_face_shape(arg1, npc, frame);
 
-	// Track the current face NPC for voice acting matching.
-	if (npc && npc->get_npc_num() > 0) {
-		voice_current_face_npc = npc->get_npc_num();
-	} else if (arg1.is_int()) {
-		voice_current_face_npc = arg1.get_int_value();
-	}
-
 	if (shape < 0) {
 		return;
+	}
+
+	// Track the current face NPC for voice acting matching. A usecode function
+	// may temporarily hand the conversation to another NPC and then remove that
+	// face before continuing its own dialogue (for example Iolo -> Dupre).
+	// Conversation::show_face reuses an existing slot when the same face is
+	// shown twice, so duplicate shows must not create duplicate voice frames.
+	int next_face_npc = voice_current_face_npc;
+	if (npc && npc->get_npc_num() > 0) {
+		next_face_npc = npc->get_npc_num();
+	} else if (arg1.is_int()) {
+		next_face_npc = arg1.get_int_value();
+	}
+	if (next_face_npc != voice_current_face_npc) {
+		if (this->frame) {
+			this->frame->voice_face_npc_stack.push_back(voice_current_face_npc);
+		}
+		voice_current_face_npc = next_face_npc;
 	}
 
 	if (Game::get_game_type() == BLACK_GATE && npc) {
@@ -1049,6 +1069,10 @@ void Usecode_internal::remove_npc_face(Usecode_value& arg1    // Shape (NPC #).
 		return;
 	}
 	conv->remove_face(shape);
+	if (frame && !frame->voice_face_npc_stack.empty()) {
+		voice_current_face_npc = frame->voice_face_npc_stack.back();
+		frame->voice_face_npc_stack.pop_back();
+	}
 }
 
 /*
