@@ -207,12 +207,29 @@ def route_metadata_for_audio(audio_path):
         metadata = load_json(sidecar)
     except (OSError, json.JSONDecodeError):
         metadata = {}
-    parts = metadata.get("voice_parts") if isinstance(metadata, dict) else []
+    # OmniVoice sidecars call this field ``voice_parts``; Breeze sidecars use
+    # the shorter ``parts`` name.  Normalize both so every engine uses the
+    # same review table and route summary.
+    parts = []
+    if isinstance(metadata, dict):
+        parts = metadata.get("voice_parts") or metadata.get("parts") or []
     parts = [part for part in parts if isinstance(part, dict)] if isinstance(parts, list) else []
+    normalized_parts = []
+    for part in parts:
+        normalized = dict(part)
+        if "reference_path" not in normalized:
+            normalized["reference_path"] = normalized.get("reference_audio", "")
+        if "reference_id" not in normalized:
+            normalized["reference_id"] = normalized.get("reference_role", "")
+        normalized_parts.append(normalized)
+    parts = normalized_parts
     roles = [part.get("role", "") for part in parts]
     reference_ids = [part.get("reference_id", "") for part in parts]
-    role = metadata.get("reference_role", "") if isinstance(metadata, dict) else ""
-    revision = metadata.get("reference_revision", "") if isinstance(metadata, dict) else ""
+    role = ""
+    revision = ""
+    if isinstance(metadata, dict):
+        role = metadata.get("reference_role", "") or metadata.get("route_mode", "")
+        revision = metadata.get("reference_revision", "") or metadata.get("route_revision", "")
     summary = []
     if role:
         summary.append(f"Route: {role}")
@@ -223,6 +240,11 @@ def route_metadata_for_audio(audio_path):
             f"{part_role}/{reference_id}"
             for part_role, reference_id in zip(roles, reference_ids)
         ))
+    if isinstance(metadata, dict):
+        if metadata.get("active_gender"):
+            summary.append(f"active_gender={metadata['active_gender']}")
+        if metadata.get("cross_speaker_target"):
+            summary.append(f"cross_speaker={metadata['cross_speaker_target']}")
     return {
         "reference_role": role,
         "reference_revision": revision,
@@ -351,13 +373,15 @@ def rows_from_full_voice(voice_dir, mapping_path, since_mtime=0, only_new=False)
     return rows
 
 
-def write_report(rows, out_dir, title, review_id=""):
+def write_report(rows, out_dir, title, review_id="", extra_payload=None):
     out_dir.mkdir(parents=True, exist_ok=True)
     data_path = out_dir / "voice_review_data.json"
     html_path = out_dir / "index.html"
     rows = normalize_audio_paths(rows, out_dir)
     rows = add_review_keys(rows)
     payload = {"title": title, "review_id": review_id, "rows": rows}
+    if extra_payload:
+        payload.update(extra_payload)
     data_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     html_path.write_text(build_html(title, payload), encoding="utf-8")
     return html_path, data_path

@@ -1,0 +1,21 @@
+{
+  "revision": "u6-voice-gender-overrides-v1",
+  "description": "Authoritative gender routing for U6 non-human NPCs whose catalog category describes species rather than sex.",
+  "genders": {
+    "Beh Lem": "male",
+    "Bolesh": "male",
+    "Caretaker": "male",
+    "Draxinusom": "male",
+    "Farmer Krill": "male",
+    "Farmer Nash": "male",
+    "Foodmaker": "male",
+    "Goodscrafter": "male",
+    "Healer": "male",
+    "Lensmaker": "male",
+    "Morfin": "male",
+    "Naxalitor": "male",
+    "Snakecharmer": "male",
+    "Valkadesh": "male",
+    "Weaponsmith": "male"
+  }
+}
