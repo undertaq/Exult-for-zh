@@ -29,6 +29,7 @@ class GenerateVoiceReviewHtmlTest(unittest.TestCase):
                         "kind": "generated",
                         "status": "new",
                         "character": "Iolo",
+                        "portrait": "../../u6_voice/breeze_tts2_reference_review/portraits_full/u6_iolo.gif",
                         "lang": "zh",
                         "filename": "0401_748_765_0_npc1.ogg",
                         "text": "測試台詞",
@@ -56,6 +57,7 @@ class GenerateVoiceReviewHtmlTest(unittest.TestCase):
                         "kind": "generated",
                         "status": "new",
                         "character": "Iolo",
+                        "portrait": str(module.PROJECT_DIR / "u6_voice/breeze_tts2_reference_review/portraits_full/u6_iolo.gif"),
                         "lang": "zh",
                         "filename": "0401_748_765_0_npc1.ogg",
                         "text": "測試台詞",
@@ -67,8 +69,11 @@ class GenerateVoiceReviewHtmlTest(unittest.TestCase):
             )
 
             data = data_path.read_text(encoding="utf-8")
+            html = (out_dir / "index.html").read_text(encoding="utf-8")
 
         self.assertIn('"review_key": "zh:0401_748_765_0_npc1.ogg"', data)
+        self.assertIn('<img class="portrait"', html)
+        self.assertIn("u6_iolo.gif", html)
 
     def test_build_mapping_index_excludes_voice_generation_skip_rows(self):
         module = load_script_module()

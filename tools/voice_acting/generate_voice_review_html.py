@@ -416,7 +416,7 @@ def normalize_audio_paths(rows, out_dir):
     normalized = []
     for row in rows:
         row = dict(row)
-        for key in ("audio", "ref_audio"):
+        for key in ("audio", "ref_audio", "portrait"):
             value = row.get(key, "")
             if not value:
                 continue
@@ -462,6 +462,8 @@ def build_html(title, payload):
   audio {{ width: 230px; max-width: 100%; }}
   .text {{ max-width: 540px; white-space: pre-wrap; }}
   .prompt {{ max-width: 520px; color: #52616f; font-size: 12px; white-space: pre-wrap; }}
+  .character-cell {{ display: flex; align-items: flex-start; gap: 8px; min-width: 110px; }}
+  .portrait {{ width: 56px; height: 56px; object-fit: contain; image-rendering: pixelated; border: 1px solid #d8dee6; background: #fff; }}
   .pager {{ display: flex; gap: 8px; align-items: center; margin: 12px 0; }}
   @media (max-width: 900px) {{
     .controls {{ grid-template-columns: 1fr 1fr; }}
@@ -592,7 +594,7 @@ function render() {{
     <tr class="review-state-${{esc(reviewState[getReviewKey(r)] || 'unreviewed')}}">
       <td class="review-cell" data-label="Review">${{reviewControls(r)}}</td>
       <td data-label="Status">${{esc(r.status || '')}}</td>
-      <td data-label="Character">${{esc(r.character || r.npc || '')}}</td>
+      <td data-label="Character"><div class="character-cell">${{r.portrait ? `<img class="portrait" loading="lazy" src="${{esc(r.portrait)}}" alt="${{esc(r.character || r.npc || 'NPC')}} portrait">` : ''}}<span>${{esc(r.character || r.npc || '')}}</span></div></td>
       <td data-label="Lang">${{esc(r.lang)}}</td>
       <td data-label="Mood">${{esc(r.mood || '')}}</td>
       <td data-label="Audio">${{r.audio ? `<audio controls preload="none" src="${{esc(r.audio)}}"></audio>` : ''}}</td>
