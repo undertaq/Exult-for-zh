@@ -1,0 +1,37 @@
+{
+  "record": {
+    "function_id": 1073,
+    "segment": 2,
+    "source_template_en": "Hello <VAR0>.",
+    "source_parts": [
+      {
+        "kind": "literal",
+        "source_func_id": 1073,
+        "source_offset": 16,
+        "string_offset": 1536,
+        "text": "Hello "
+      },
+      {
+        "kind": "dynamic",
+        "source_func_id": 1073,
+        "source_offset": 20,
+        "variable_index": 7,
+        "ordinal": 0,
+        "label": "<PLAYER_NAME>",
+        "semantic_type": "player_name"
+      },
+      {
+        "kind": "literal",
+        "source_func_id": 1073,
+        "source_offset": 24,
+        "string_offset": 1552,
+        "text": "."
+      }
+    ],
+    "role_spans": [
+      {"role": "speaker", "start_part": 0, "end_part": 3}
+    ]
+  },
+  "serialized_hex": "0000001375362d64796e616d69632d766f6963652d7631000000043034333100000001320000000d48656c6c6f203c564152303e2e0000000470617274000000076c69746572616c0000000430343331000000043030313000000004303630300000000648656c6c6f2000000004706172740000000764796e616d696300000004303433310000000430303134000000013700000001300000000b706c617965725f6e616d650000000470617274000000076c69746572616c000000043034333100000004303031380000000430363130000000012e00000004726f6c65000000013000000007737065616b657200000001300000000133",
+  "key": "dyn_4ed706fc7183f47a08e3aa9d7e25fb502610df9e52faa782db53101e1ac96c36"
+}

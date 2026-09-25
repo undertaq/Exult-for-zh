@@ -13,6 +13,7 @@ Usage:
 
 import argparse
 import csv
+import json
 import re
 import struct
 import sys
@@ -832,6 +833,78 @@ def build_var_indices_for_say(accum, var_sources):
     return var_info
 
 
+def _split_visible_segments_with_ranges(template):
+    """Return displayed dialogue pages with their source-template ranges."""
+    segments = []
+    start = 0
+    while start < len(template):
+        while start < len(template) and template[start] == '*':
+            start += 1
+        if start >= len(template):
+            break
+
+        separator = template.find('~', start)
+        end = len(template) if separator == -1 else separator
+        visible_end = end
+        while visible_end > start and template[visible_end - 1] == '*':
+            visible_end -= 1
+        if visible_end > start:
+            segments.append((template[start:visible_end], start, visible_end))
+
+        if separator == -1:
+            break
+        start = separator + 1
+        if start < len(template) and template[start] == '~':
+            start += 1
+    return segments
+
+
+def _semantic_type_for_voice_slot(label, variable_index, var_sources):
+    """Map labels and conservative data-flow facts to dynamic slot types."""
+    labeled_type = {
+        '<PLAYER_NAME>': 'player_name',
+        '<HONORIFIC>': 'honorific',
+        '<PRONOUN>': 'pronoun',
+        '<GENDER_FLAG>': 'gender_flag',
+        '<VAR>': 'unknown',
+    }.get(label, 'unknown')
+    if labeled_type != 'unknown':
+        return labeled_type
+
+    sources = var_sources.get(variable_index, [])
+    source_types = {source.get('type') for source in sources}
+    if 'number' in source_types and source_types <= {'number', 'empty'}:
+        return 'number'
+    if 'bool' in source_types and source_types <= {'bool', 'empty'}:
+        return 'gender_flag'
+
+    source_labels = {source.get('label') for source in sources
+                     if source.get('label')}
+    if len(source_labels) == 1:
+        source_label = source_labels.pop()
+        if source_label != label:
+            return _semantic_type_for_voice_slot(
+                source_label, variable_index, {})
+    return 'unknown'
+
+
+def _pronoun_form_for_sources(variable_index, var_sources):
+    """Infer a pronoun form only from an unambiguous gendered source pair."""
+    values = {
+        str(source.get('value') or '').strip().strip('@').lower()
+        for source in var_sources.get(variable_index, [])
+        if source.get('type') == 'string' and source.get('value')
+    }
+    forms = {
+        frozenset(('he', 'she')): 'subject',
+        frozenset(('him', 'her')): 'object',
+        frozenset(('his', 'her')): 'possessive_adjective',
+        frozenset(('his', 'hers')): 'possessive_pronoun',
+        frozenset(('himself', 'herself')): 'reflexive',
+    }
+    return forms.get(frozenset(values))
+
+
 def detect_book_mode(func):
     """Check if a function sets book mode (intrinsic 0x55) before any say opcode.
     Also detects book mode set within the function at any point.
@@ -858,6 +931,7 @@ def extract_say_lines(func):
     """
     lines = []
     accum = []
+    accum_origins = []
     is_book = detect_book_mode(func)
 
     # Determine the default face NPC for this function.
@@ -920,8 +994,33 @@ def extract_say_lines(func):
             offset = params[0]
             text = func['strings'].get(offset, "")
             accum.append(('addsi', offset, text))
+            accum_origins.append({
+                'kind': 'literal',
+                'source_func_id': func['id'],
+                'source_offset': addr,
+                'string_offset': offset,
+                'text': text,
+            })
         elif name == 'addsv' and params:
             accum.append(('addsv', params[0], None))
+            label = var_labels.get(params[0], '<VAR>')
+            semantic_type = _semantic_type_for_voice_slot(
+                label, params[0], var_sources)
+            origin = {
+                'kind': 'dynamic',
+                'source_func_id': func['id'],
+                'source_offset': addr,
+                'variable_index': params[0],
+                'label': label,
+                'semantic_type': semantic_type,
+            }
+            if semantic_type == 'pronoun':
+                pronoun_form = _pronoun_form_for_sources(params[0], var_sources)
+                if pronoun_form:
+                    origin['pronoun_form'] = pronoun_form
+            accum_origins.append({
+                **origin,
+            })
         elif name == 'say':
             if not accum:
                 continue
@@ -950,28 +1049,86 @@ def extract_say_lines(func):
             # Determine the speaker
             speaker_npc = get_npc_name(current_face_npc)
 
-            # Split at ~~ to get individual displayed segments
-            segments = []
-            current = full_template
-            while current:
-                current = current.lstrip('*')
-                if not current:
-                    break
-                tilde_pos = current.find('~')
-                if tilde_pos == -1:
-                    segments.append(current.rstrip('*'))
-                    break
-                segment = current[:tilde_pos].rstrip('*')
-                if segment:
-                    segments.append(segment)
-                current = current[tilde_pos + 1:]
-                if current.startswith('~'):
-                    current = current[1:]
+            # Preserve the source ranges as well as the legacy display pages,
+            # so slot ordinals can be local to each visible segment.
+            segments = _split_visible_segments_with_ranges(full_template)
+            if len(accum_origins) != len(accum):
+                # A malformed partial trace must not manufacture misleading
+                # dynamic identities. Keep the legacy output, but expose no
+                # provenance for this SAY.
+                segment_origins = [[] for _ in segments]
+            else:
+                display_parts = []
+                display_offset = 0
+                for origin in accum_origins:
+                    display_text = (origin['text'] if origin['kind'] == 'literal'
+                                    else origin['label'])
+                    display_parts.append((origin, display_offset,
+                                          display_offset + len(display_text)))
+                    display_offset += len(display_text)
 
-            for seg_idx, seg_text in enumerate(segments):
+                segment_origins = []
+                for _segment_text, segment_start, segment_end in segments:
+                    page_parts = []
+                    slot_ordinal = 0
+                    source_template_parts = []
+                    for origin, part_start, part_end in display_parts:
+                        overlap_start = max(segment_start, part_start)
+                        overlap_end = min(segment_end, part_end)
+                        if overlap_start >= overlap_end:
+                            continue
+                        if origin['kind'] == 'literal':
+                            text_start = overlap_start - part_start
+                            text_end = overlap_end - part_start
+                            visible_text = origin['text'][text_start:text_end]
+                            if not visible_text:
+                                continue
+                            page_parts.append({
+                                'kind': 'literal',
+                                'source_func_id': origin['source_func_id'],
+                                'source_offset': origin['source_offset'],
+                                'string_offset': origin['string_offset'],
+                                'text': visible_text,
+                            })
+                            source_template_parts.append(visible_text)
+                        else:
+                            # Variable labels are atomic in the display trace;
+                            # a partial overlap indicates malformed provenance.
+                            if (overlap_start != part_start
+                                    or overlap_end != part_end):
+                                page_parts = []
+                                source_template_parts = []
+                                break
+                            page_parts.append({
+                                'kind': 'dynamic',
+                                'source_func_id': origin['source_func_id'],
+                                'source_offset': origin['source_offset'],
+                                'variable_index': origin['variable_index'],
+                                'ordinal': slot_ordinal,
+                                'label': origin['label'],
+                                'semantic_type': origin['semantic_type'],
+                                **({'pronoun_form': origin['pronoun_form']}
+                                   if origin.get('pronoun_form') else {}),
+                            })
+                            source_template_parts.append(
+                                '<VAR' + str(slot_ordinal) + '>')
+                            slot_ordinal += 1
+                    page_parts.append({
+                        'kind': 'template',
+                        'source_template_en': ''.join(source_template_parts),
+                    })
+                    segment_origins.append(page_parts)
+
+            for seg_idx, (seg_text, _segment_start, _segment_end) in enumerate(segments):
                 seg_speaker = SPEAKER_OVERRIDES.get(
                     (func['id'], _norm_offset_key(offset_key), seg_idx),
                     speaker_npc,
+                )
+                page_parts = (segment_origins[seg_idx]
+                              if seg_idx < len(segment_origins) else [])
+                template_part = next(
+                    (part for part in page_parts if part['kind'] == 'template'),
+                    {'source_template_en': ''},
                 )
                 lines.append({
                     'func_id': func['id'],
@@ -987,11 +1144,16 @@ def extract_say_lines(func):
                     'speaker_func_id': current_face_npc,
                     'addsi_offsets': [e[1] for e in accum if e[0] == 'addsi'],
                     'code_addr': addr,
+                    'source_parts': [part for part in page_parts
+                                     if part['kind'] != 'template'],
+                    'source_template_en': template_part['source_template_en'],
                 })
 
             accum = []
+            accum_origins = []
         elif name in ('ret', 'abrt'):
             accum = []
+            accum_origins = []
 
     return lines
 
@@ -1096,6 +1258,26 @@ def write_csv(functions_data, outfile, callers_of=None, include_books=False):
             writer.writerow(row)
 
 
+def format_dynamic_json(functions_data, callers_of=None, include_books=False):
+    """Serialize extracted lines as JSONL, including source-part provenance."""
+    records = []
+    for func in functions_data:
+        npc = get_npc_name(func['id'])
+        caller_guess = ""
+        if callers_of and not npc:
+            caller_guess = infer_speaker_from_callers(func['id'], callers_of)
+
+        for line in extract_say_lines(func):
+            if line['is_book'] and not include_books:
+                continue
+            record = dict(line)
+            record['dynamic'] = bool(line['has_var'])
+            record['npc'] = npc
+            record['caller_guess'] = caller_guess
+            records.append(json.dumps(record, ensure_ascii=False, sort_keys=True))
+    return "\n".join(records)
+
+
 def skip_symbol_table(data, offset):
     """Skip the Exult symbol table if present at `offset`. Return offset after it."""
     if offset + 8 > len(data):
@@ -1135,8 +1317,8 @@ def main():
                         help="Function ID (hex, e.g., 0x401). Can repeat.")
     parser.add_argument("--all", action="store_true", help="All functions")
     parser.add_argument("--list", action="store_true", help="Just list function IDs")
-    parser.add_argument("--format", choices=["voice", "dis", "csv"], default="voice",
-                        help="Output format: 'voice' (compact), 'dis' (usecode.dis style), or 'csv'")
+    parser.add_argument("--format", choices=["voice", "dis", "csv", "dynamic-json"], default="voice",
+                        help="Output format: compact voice, usecode.dis, CSV, or provenance JSONL")
     parser.add_argument("--include-books", action="store_true",
                         help="Include book/scroll text in CSV output (excluded by default)")
     parser.add_argument("--npc-catalog", type=str, default=None,
@@ -1179,7 +1361,7 @@ def main():
     else:
         target_ids = {0x401, 0x40c, 0x885, 0x903}
 
-    if args.format == "csv":
+    if args.format in ("csv", "dynamic-json"):
         # Build caller map from ALL functions for speaker inference,
         # even if we're only extracting a subset.
         all_disassembled = {}
@@ -1196,10 +1378,16 @@ def main():
                 print(f"Function 0x{fid:04X} not found!", file=sys.stderr)
                 continue
             funcs_data.append(all_disassembled[fid])
-        # Prevent double \r\n on Windows by using binary mode stdout
-        sys.stdout.reconfigure(newline="")
-        write_csv(funcs_data, sys.stdout, callers_of,
-                  include_books=args.include_books)
+        if args.format == "csv":
+            # Prevent double \r\n on Windows by using binary mode stdout.
+            sys.stdout.reconfigure(newline="")
+            write_csv(funcs_data, sys.stdout, callers_of,
+                      include_books=args.include_books)
+        else:
+            output = format_dynamic_json(
+                funcs_data, callers_of, include_books=args.include_books)
+            if output:
+                print(output)
     else:
         for fid in sorted(target_ids):
             if fid not in functions:
