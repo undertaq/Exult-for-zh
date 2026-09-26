@@ -2034,6 +2034,30 @@ void assert_dynamic_voice_metadata_routes_roles_and_gender_independently() {
 	assert(plan.requires_player_gender_variant);
 	assert(dynamic_voice_template_key(plan)
 			== "dyn_403104f21a991892dca08cd131897bf3891a88d58716935d94339e9abb0584a3");
+	const std::string gender_variant_field =
+			"\"player_gender_variants\":[\"male\",\"female\"]";
+	std::string incomplete_gender_variants = manifest_line;
+	const std::size_t gender_variant_at =
+			incomplete_gender_variants.find(gender_variant_field);
+	assert(gender_variant_at != std::string::npos);
+	incomplete_gender_variants.replace(gender_variant_at,
+			gender_variant_field.size(),
+			"\"player_gender_variants\":[\"male\"]");
+	std::istringstream incomplete_gender_input(incomplete_gender_variants);
+	std::vector<U6VoiceRouting::DynamicVoiceMetadata> incomplete_gender_metadata;
+	assert(!U6VoiceRouting::parse_dynamic_voice_manifest(
+			incomplete_gender_input, incomplete_gender_metadata, error));
+	const std::string spoken_span_field =
+			"\"role\":\"narrator\",\"start_char\":0,\"end_char\":7,\"requires_audio\":true";
+	std::string muted_spoken_span = manifest_line;
+	const std::size_t spoken_span_at = muted_spoken_span.find(spoken_span_field);
+	assert(spoken_span_at != std::string::npos);
+	muted_spoken_span.replace(spoken_span_at, spoken_span_field.size(),
+			"\"role\":\"narrator\",\"start_char\":0,\"end_char\":7,\"requires_audio\":false");
+	std::istringstream muted_span_input(muted_spoken_span);
+	std::vector<U6VoiceRouting::DynamicVoiceMetadata> muted_span_metadata;
+	assert(!U6VoiceRouting::parse_dynamic_voice_manifest(
+			muted_span_input, muted_span_metadata, error));
 
 	U6VoiceRouting::VoiceRouteContext context;
 	context.speaker_npc = -17;

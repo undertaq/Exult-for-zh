@@ -934,6 +934,19 @@ void Usecode_internal::say_string() {
 				static_cast<std::size_t>(segment_index) < voice_plans.size()
 				? &voice_plans[segment_index]
 				: nullptr;
+		const std::string key = make_dialogue_translation_key(
+				voice_func_id, voice_offset_key, segment_index);
+		translations.record_runtime_source(
+				GameplayTranslationKind::Dialogue, key, english);
+		translations.record_runtime_speaker(key, speaker_id, speaker_name);
+		const std::string display = translated.empty()
+				? translations.translate(
+						GameplayTranslationKind::Dialogue, key, english)
+				: translated;
+		conv->show_npc_message(display.c_str());
+		// Composite decoding/stitching is synchronous. Put the dialogue on
+		// screen first so preparation latency never hides the line from the
+		// player while the audio sequence is assembled.
 		U6VoiceRouting::dispatch_voice_plan(
 				plan, has_composite_provenance,
 				[&]() {
@@ -945,16 +958,6 @@ void Usecode_internal::say_string() {
 					return VoiceActingManager::play_composite_for_conversation(
 							composite_plan, voice_offset_key, english, voice_route);
 				});
-		const std::string key = make_dialogue_translation_key(
-				voice_func_id, voice_offset_key, segment_index);
-		translations.record_runtime_source(
-				GameplayTranslationKind::Dialogue, key, english);
-		translations.record_runtime_speaker(key, speaker_id, speaker_name);
-		const std::string display = translated.empty()
-				? translations.translate(
-						GameplayTranslationKind::Dialogue, key, english)
-				: translated;
-		conv->show_npc_message(display.c_str());
 		click_to_continue();
 	};
 	char* str = String;

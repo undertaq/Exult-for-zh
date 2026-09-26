@@ -379,7 +379,97 @@ inline bool read_string(const JsonValue& object, const char* key,
 	return as_string(member(object, key), output);
 }
 
+inline bool decode_utf8_codepoint(std::string_view text, std::size_t& position,
+		std::uint32_t& codepoint) {
+	if (position >= text.size()) return false;
+	const unsigned char lead = static_cast<unsigned char>(text[position]);
+	std::size_t length;
+	std::uint32_t minimum;
+	if (lead <= 0x7fU) {
+		length = 1;
+		minimum = 0;
+		codepoint = lead;
+	} else if (lead >= 0xc2U && lead <= 0xdfU) {
+		length = 2;
+		minimum = 0x80U;
+		codepoint = lead & 0x1fU;
+	} else if (lead >= 0xe0U && lead <= 0xefU) {
+		length = 3;
+		minimum = 0x800U;
+		codepoint = lead & 0x0fU;
+	} else if (lead >= 0xf0U && lead <= 0xf4U) {
+		length = 4;
+		minimum = 0x10000U;
+		codepoint = lead & 0x07U;
+	} else {
+		return false;
+	}
+	if (text.size() - position < length) return false;
+	for (std::size_t index = 1; index < length; ++index) {
+		const unsigned char continuation =
+				static_cast<unsigned char>(text[position + index]);
+		if ((continuation & 0xc0U) != 0x80U) return false;
+		codepoint = (codepoint << 6) | (continuation & 0x3fU);
+	}
+	if (codepoint < minimum || codepoint > 0x10ffffU
+			|| (codepoint >= 0xd800U && codepoint <= 0xdfffU)) {
+		return false;
+	}
+	position += length;
+	return true;
+}
+
+inline bool is_nonspoken_unicode_punctuation(std::uint32_t codepoint) {
+	return (codepoint >= 0x2000U && codepoint <= 0x206fU)
+			|| (codepoint >= 0x2e00U && codepoint <= 0x2e7fU)
+			|| (codepoint >= 0x3000U && codepoint <= 0x303fU)
+			|| (codepoint >= 0xfe10U && codepoint <= 0xfe1fU)
+			|| (codepoint >= 0xfe30U && codepoint <= 0xfe4fU)
+			|| (codepoint >= 0xff01U && codepoint <= 0xff0fU)
+			|| (codepoint >= 0xff1aU && codepoint <= 0xff20U)
+			|| (codepoint >= 0xff3bU && codepoint <= 0xff40U)
+			|| (codepoint >= 0xff5bU && codepoint <= 0xff65U);
+}
+
+inline bool role_span_has_spoken_text(std::string_view source_template,
+		std::size_t start_char, std::size_t end_char,
+		bool& spoken, std::string& error) {
+	std::size_t position = 0;
+	std::size_t character = 0;
+	spoken = false;
+	while (position < source_template.size()) {
+		std::uint32_t codepoint;
+		if (!decode_utf8_codepoint(source_template, position, codepoint)) {
+			error = "dynamic source template contains invalid UTF-8";
+			return false;
+		}
+		if (character >= start_char && character < end_char) {
+			if (codepoint < 0x80U) {
+				const unsigned char ch = static_cast<unsigned char>(codepoint);
+				if (std::isalnum(ch) || ch == '_') spoken = true;
+			} else if (!is_nonspoken_unicode_punctuation(codepoint)
+					&& codepoint != 0x00a0U && codepoint != 0x1680U
+					&& !(codepoint >= 0x2000U && codepoint <= 0x200aU)
+					&& codepoint != 0x2028U && codepoint != 0x2029U
+					&& codepoint != 0x202fU && codepoint != 0x205fU
+					&& codepoint != 0x3000U) {
+				// Treat unfamiliar non-ASCII characters as audible content.  This
+				// is deliberately conservative: a bad false flag must never drop
+				// spoken words from an otherwise valid composite.
+				spoken = true;
+			}
+		}
+		++character;
+	}
+	if (end_char > character) {
+		error = "dynamic role span is outside the source template";
+		return false;
+	}
+	return true;
+}
+
 inline bool read_role_spans(const JsonValue& row,
+		std::string_view source_template,
 		std::vector<VoiceCompositeRoleSpan>& spans, std::string& error) {
 	const JsonValue* value = member(row, "role_spans");
 	if (!value || value->type != JsonValue::Type::Array || value->array.empty()) {
@@ -411,6 +501,15 @@ inline bool read_role_spans(const JsonValue& row,
 		span.start_char = static_cast<std::size_t>(start);
 		span.end_char = static_cast<std::size_t>(end);
 		span.requires_audio = requires_audio;
+		bool spoken_text = false;
+		if (!role_span_has_spoken_text(source_template, span.start_char,
+				span.end_char, spoken_text, error)
+				|| span.requires_audio != spoken_text) {
+			if (error.empty()) {
+				error = "dynamic role requires_audio flag disagrees with source text";
+			}
+			return false;
+		}
 		spans.push_back(std::move(span));
 	}
 	return true;
@@ -511,18 +610,48 @@ inline bool parse_manifest_row(const JsonValue& row,
 		error = "dynamic voice metadata has no player-gender variants";
 		return false;
 	}
-	metadata.player_gender_variant = false;
+	std::size_t null_variants = 0;
+	std::size_t male_variants = 0;
+	std::size_t female_variants = 0;
 	for (const JsonValue& variant : variants->array) {
-		if (variant.type == JsonValue::Type::Null) continue;
-		if (variant.type != JsonValue::Type::String
-				|| (variant.scalar != "male" && variant.scalar != "female")) {
+		if (variant.type == JsonValue::Type::Null) {
+			++null_variants;
+		} else if (variant.type == JsonValue::Type::String
+				&& variant.scalar == "male") {
+			++male_variants;
+		} else if (variant.type == JsonValue::Type::String
+				&& variant.scalar == "female") {
+			++female_variants;
+		} else {
 			error = "dynamic voice metadata has an invalid player-gender variant";
 			return false;
 		}
-		metadata.player_gender_variant = true;
 	}
-	return read_source_parts(row, metadata.source_parts, error)
-			&& read_role_spans(row, metadata.role_spans, error);
+	if (!read_source_parts(row, metadata.source_parts, error)) return false;
+	const bool gendered_slot = std::any_of(
+			metadata.source_parts.begin(), metadata.source_parts.end(),
+			[](const DynamicVoiceSourcePart& part) {
+				return part.kind == VoiceCompositeFragmentKind::Dynamic
+						&& (part.semantic_type == "pronoun"
+								|| part.semantic_type == "gender_flag");
+			});
+	if (gendered_slot) {
+		if (variants->array.size() != 2 || null_variants != 0
+				|| male_variants != 1 || female_variants != 1) {
+			error = "gender-dependent slots require exactly male and female variants";
+			return false;
+		}
+		metadata.player_gender_variant = true;
+	} else {
+		if (variants->array.size() != 1 || null_variants != 1
+				|| male_variants != 0 || female_variants != 0) {
+			error = "gender-neutral slots require exactly one default variant";
+			return false;
+		}
+		metadata.player_gender_variant = false;
+	}
+	return read_role_spans(row, metadata.source_template_en,
+			metadata.role_spans, error);
 }
 
 inline std::string format_hex(std::uint64_t value, unsigned width = 0) {
