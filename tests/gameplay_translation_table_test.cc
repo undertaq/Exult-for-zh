@@ -266,6 +266,247 @@ void assert_provenance_templates_use_source_stable_keys() {
 	assert(key.find("snaz") == std::string::npos);
 }
 
+std::string fixture_json_string(std::string_view json, std::string_view name) {
+	const std::string marker = "\"" + std::string(name) + "\": \"";
+	const std::size_t begin = json.find(marker);
+	assert(begin != std::string_view::npos);
+	const std::size_t value_start = begin + marker.size();
+	const std::size_t end = json.find('"', value_start);
+	assert(end != std::string_view::npos);
+	return std::string(json.substr(value_start, end - value_start));
+}
+
+std::string bytes_to_hex(std::string_view bytes) {
+	static constexpr char digits[] = "0123456789abcdef";
+	std::string result;
+	result.reserve(bytes.size() * 2);
+	for (const unsigned char byte : bytes) {
+		result.push_back(digits[byte >> 4]);
+		result.push_back(digits[byte & 0x0f]);
+	}
+	return result;
+}
+
+VoiceCompositePlan python_dynamic_identity_golden_plan() {
+	VoiceCompositeFragment greeting;
+	greeting.kind = VoiceCompositeFragmentKind::Literal;
+	greeting.source_function_id = 1073;
+	greeting.source_offset = 16;
+	greeting.string_offset = 1536;
+	greeting.source = "Hello ";
+
+	VoiceCompositeFragment player_name;
+	player_name.kind = VoiceCompositeFragmentKind::Dynamic;
+	player_name.source_function_id = 1073;
+	player_name.source_offset = 20;
+	player_name.variable_index = 7;
+	player_name.ordinal = 0;
+	player_name.semantic_type = "player_name";
+	player_name.runtime_value = "Joe";
+
+	VoiceCompositeFragment punctuation;
+	punctuation.kind = VoiceCompositeFragmentKind::Literal;
+	punctuation.source_function_id = 1073;
+	punctuation.source_offset = 24;
+	punctuation.string_offset = 1552;
+	punctuation.source = ".";
+
+	return make_voice_composite_plan(
+			1073, 2, "Hello <VAR0>.",
+			{greeting, player_name, punctuation},
+			{{"speaker", 0, 3}});
+}
+
+void assert_dynamic_voice_identity_matches_python_golden_vector() {
+	std::ifstream fixture_file(
+			"tools/voice_acting/fixtures/u6_dynamic_voice_identity_v1.json");
+	assert(fixture_file.good());
+	const std::string fixture(
+			(std::istreambuf_iterator<char>(fixture_file)),
+			std::istreambuf_iterator<char>());
+	const VoiceCompositePlan plan = python_dynamic_identity_golden_plan();
+	const std::string serialized = serialize_dynamic_voice_identity(plan);
+	assert(bytes_to_hex(serialized)
+			== fixture_json_string(fixture, "serialized_hex"));
+	assert(dynamic_voice_template_key(plan)
+			== fixture_json_string(fixture, "key"));
+
+	VoiceCompositePlan changed_runtime_value = plan;
+	changed_runtime_value.fragments[1].runtime_value = "Avery";
+	assert(dynamic_voice_template_key(changed_runtime_value)
+			== dynamic_voice_template_key(plan));
+
+	VoiceCompositePlan changed_origin = plan;
+	changed_origin.fragments[0].source_offset++;
+	assert(dynamic_voice_template_key(changed_origin)
+			!= dynamic_voice_template_key(plan));
+
+	VoiceCompositePlan changed_order = plan;
+	std::swap(changed_order.fragments[0], changed_order.fragments[1]);
+	assert(dynamic_voice_template_key(changed_order)
+			!= dynamic_voice_template_key(plan));
+
+	VoiceCompositePlan changed_role_boundary = plan;
+	changed_role_boundary.role_spans[0].end_char++;
+	assert(dynamic_voice_template_key(changed_role_boundary)
+			!= dynamic_voice_template_key(plan));
+}
+
+void assert_voice_composite_plan_kind_selection() {
+	const auto legacy = make_voice_composite_plan(
+			0x0431, 0, "Hello.", {});
+	assert(legacy.kind == VoiceCompositeKind::LegacySingle);
+
+	VoiceCompositeFragment first_literal;
+	first_literal.kind = VoiceCompositeFragmentKind::Literal;
+	first_literal.source = "Hello ";
+	VoiceCompositeFragment second_literal;
+	second_literal.kind = VoiceCompositeFragmentKind::Literal;
+	second_literal.source = "there.";
+	const auto static_sequence = make_voice_composite_plan(
+			0x0431, 0, "Hello there.", {first_literal, second_literal});
+	assert(static_sequence.kind == VoiceCompositeKind::StaticSequence);
+
+	VoiceCompositeFragment dynamic_slot;
+	dynamic_slot.kind = VoiceCompositeFragmentKind::Dynamic;
+	dynamic_slot.ordinal = 0;
+	const auto dynamic_template = make_voice_composite_plan(
+			0x0431, 0, "Hello <VAR0>.", {first_literal, dynamic_slot});
+	assert(dynamic_template.kind == VoiceCompositeKind::DynamicTemplate);
+}
+
+void assert_voice_composite_plans_preserve_segments_and_controls() {
+	const std::string runtime_text = "Hello Joe!~~*Welcome Joe*";
+	VoiceCompositeFragment greeting;
+	greeting.kind = VoiceCompositeFragmentKind::Literal;
+	greeting.source_start = 0;
+	greeting.source = "Hello ";
+	greeting.source_function_id = 0x0431;
+	greeting.source_offset = 0x10;
+	greeting.string_offset = 0x600;
+
+	VoiceCompositeFragment first_name;
+	first_name.kind = VoiceCompositeFragmentKind::Dynamic;
+	first_name.source_start = 6;
+	first_name.source = "Joe";
+	first_name.source_function_id = 0x0431;
+	first_name.source_offset = 0x14;
+	first_name.variable_index = 7;
+	first_name.semantic_type = "player_name";
+	first_name.runtime_value = "Joe";
+
+	VoiceCompositeFragment page_text;
+	page_text.kind = VoiceCompositeFragmentKind::Literal;
+	page_text.source_start = 9;
+	page_text.source = "!~~*Welcome ";
+	page_text.source_function_id = 0x0431;
+	page_text.source_offset = 0x18;
+	page_text.string_offset = 0x610;
+
+	VoiceCompositeFragment second_name = first_name;
+	second_name.source_start = 21;
+	second_name.source_offset = 0x20;
+	second_name.ordinal = 1;
+	const auto trailing_control = make_voice_composite_literal_fragment(
+			24, "*", 0x0431, 0x24, 0x620);
+
+	const std::vector<std::vector<VoiceCompositeRoleSpan>> roles{
+			{{"speaker", 0, 6}, {"narrator", 6, 13}},
+			{{"speaker", 0, 14}}};
+	const auto plans = make_voice_composite_plans(
+			0x0431, runtime_text,
+			{greeting, first_name, page_text, second_name, trailing_control}, roles);
+	assert(runtime_text == "Hello Joe!~~*Welcome Joe*");
+	assert(plans.size() == 2);
+	assert(plans[0].visible_segment == 0);
+	assert(plans[0].source_template_en == "Hello <VAR0>!");
+	assert(plans[0].kind == VoiceCompositeKind::DynamicTemplate);
+	assert(plans[0].fragments.size() == 3);
+	assert(plans[0].fragments[0].source == "Hello ");
+	assert(plans[0].fragments[0].source_start == 0);
+	assert(plans[0].fragments[1].source_function_id == 0x0431);
+	assert(plans[0].fragments[1].source_offset == 0x14);
+	assert(plans[0].fragments[1].source_start == 6);
+	assert(plans[0].fragments[1].ordinal == 0);
+	assert(plans[0].fragments[2].source == "!");
+	assert(plans[0].fragments[2].source_start == 12);
+	assert(plans[0].role_spans.size() == 2);
+	assert(plans[0].role_spans[1].role == "narrator");
+	assert(plans[1].visible_segment == 1);
+	assert(plans[1].source_template_en == "Welcome <VAR0>");
+	assert(plans[1].source_template_en.find('*') == std::string::npos);
+	assert(plans[1].source_template_en.find('~') == std::string::npos);
+	assert(plans[1].fragments.back().source_offset == 0x20);
+	assert(plans[1].fragments.back().source_start == 8);
+	assert(plans[1].fragments.back().ordinal == 0);
+	assert(plans[1].role_spans.size() == 1);
+}
+
+void assert_voice_composite_fragment_factories_keep_adsv_origins() {
+	const std::string runtime_text = "Hello Joe, Joe.";
+	const auto greeting = make_voice_composite_literal_fragment(
+			0, "Hello ", 1073, 16, 1536);
+	const auto first_name = make_voice_composite_dynamic_fragment(
+			6, "Joe", 1073, 20, 7, "player_name");
+	const auto separator = make_voice_composite_literal_fragment(
+			9, ", ", 1073, 24, 1552);
+	const auto second_name = make_voice_composite_dynamic_fragment(
+			11, "Joe", 1073, 28, 9, "player_name");
+	const auto punctuation = make_voice_composite_literal_fragment(
+			14, ".", 1073, 32, 1568);
+	const auto plans = make_voice_composite_plans(
+			1073, runtime_text,
+			{greeting, first_name, separator, second_name, punctuation});
+	assert(plans.size() == 1);
+	assert(plans[0].source_template_en == "Hello <VAR0>, <VAR1>.");
+	assert(plans[0].fragments.size() == 5);
+	assert(plans[0].fragments[1].source_offset == 20);
+	assert(plans[0].fragments[1].variable_index == 7);
+	assert(plans[0].fragments[1].semantic_type == "player_name");
+	assert(plans[0].fragments[1].ordinal == 0);
+	assert(plans[0].fragments[1].runtime_value == "Joe");
+	assert(plans[0].fragments[3].source_offset == 28);
+	assert(plans[0].fragments[3].variable_index == 9);
+	assert(plans[0].fragments[3].ordinal == 1);
+	assert(runtime_text == "Hello Joe, Joe.");
+}
+
+void assert_voice_composite_plans_reject_incomplete_provenance() {
+	const auto literal = make_voice_composite_literal_fragment(
+			0, "Hello ", 1073, 16, 1536);
+	const auto plans = make_voice_composite_plans(
+			1073, "Hello Joe", {literal});
+	assert(plans.empty());
+}
+
+void assert_voice_composite_plans_reject_slots_crossing_pages() {
+	const auto name = make_voice_composite_dynamic_fragment(
+			0, "Joe~now", 1073, 20, 7, "player_name");
+	const auto plans = make_voice_composite_plans(1073, "Joe~now", {name});
+	assert(plans.empty());
+}
+
+void assert_voice_composite_plans_keep_literal_asterisks() {
+	const auto literal = make_voice_composite_literal_fragment(
+			0, "A*B", 1073, 16, 1536);
+	const auto plans = make_voice_composite_plans(1073, "A*B", {literal});
+	assert(plans.size() == 1);
+	assert(plans[0].source_template_en == "A*B");
+}
+
+void assert_voice_composite_offsets_use_character_positions() {
+	const auto greeting = make_voice_composite_literal_fragment(
+			0, "你好", 1073, 16, 1536);
+	const auto name = make_voice_composite_dynamic_fragment(
+			6, "Joe", 1073, 20, 7, "player_name");
+	const auto plans = make_voice_composite_plans(
+			1073, "你好Joe", {greeting, name}, {{{"speaker", 0, 8}}});
+	assert(plans.size() == 1);
+	assert(plans[0].source_template_en == "你好<VAR0>");
+	assert(plans[0].fragments[1].source_start == 2);
+	assert(plans[0].role_spans[0].end_char == 8);
+}
+
 void assert_runtime_provenance_is_value_scoped() {
 	std::ifstream ucinternal_source("usecode/ucinternal.cc");
 	const std::string ucinternal(
@@ -1748,6 +1989,14 @@ int main() {
 	assert_u6_nested_voice_speaker_restoration_contract();
 	assert_placeholder_translation_has_no_dynamic_registry_dependency();
 	assert_provenance_templates_use_source_stable_keys();
+	assert_dynamic_voice_identity_matches_python_golden_vector();
+	assert_voice_composite_plan_kind_selection();
+	assert_voice_composite_plans_preserve_segments_and_controls();
+	assert_voice_composite_fragment_factories_keep_adsv_origins();
+	assert_voice_composite_plans_reject_incomplete_provenance();
+	assert_voice_composite_plans_reject_slots_crossing_pages();
+	assert_voice_composite_plans_keep_literal_asterisks();
+	assert_voice_composite_offsets_use_character_positions();
 	assert_runtime_provenance_is_value_scoped();
 	assert_gwenneth_static_anchor_template_is_translated();
 	assert_gwenneth_hello_again_static_anchor_template_is_translated();

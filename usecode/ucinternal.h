@@ -26,6 +26,7 @@
 #define UCINTERNAL_H
 
 #include "common_types.h"
+#include "gameplay_translation.h"
 #include "tiles.h"
 #include "ucdebugging.h"
 #include "ucmachine.h"
@@ -33,6 +34,7 @@
 
 #include <deque>
 #include <cstddef>
+#include <cstdint>
 #include <iosfwd>
 #include <map>
 #include <memory>
@@ -101,12 +103,21 @@ class Usecode_internal : public Usecode_machine {
 		std::string source;
 		std::string translation_key;    // Empty for dynamic values.
 		bool        dynamic = false;
+	int         source_function_id = -1;
+	std::uint32_t source_offset = 0;
+	std::uint32_t string_offset = 0;
+	int         variable_index = -1;
+	std::string semantic_type = "unknown";
 	};
 	using Voice_fragment_list = std::vector<Voice_string_part>;
 	struct Voice_value_provenance {
 		Voice_fragment_list fragments;
 	};
 	std::vector<Voice_string_part> voice_string_parts;
+	// Ordered String-register provenance used for full-line voice templates.
+	// Kept separate from translation anchors because one ADDSV can carry
+	// multiple source fragments but is one dynamic voice slot.
+	std::vector<VoiceCompositeFragment> voice_composite_parts;
 	// Provenance captured for the string argument of the item_say intrinsic.
 	// Overhead text bypasses SAY, so it must carry the same structural VM
 	// fragments into the translation manager before the value is rendered.

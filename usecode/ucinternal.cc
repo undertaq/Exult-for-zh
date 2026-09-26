@@ -709,6 +709,7 @@ void Usecode_internal::show_book() {
 	delete[] String;
 	String = nullptr;
 	voice_string_parts.clear();
+	voice_composite_parts.clear();
 }
 
 /*
@@ -943,6 +944,7 @@ void Usecode_internal::say_string() {
 	delete[] String;
 	String = nullptr;
 	voice_string_parts.clear();
+	voice_composite_parts.clear();
 }
 
 /*
@@ -2791,12 +2793,22 @@ int Usecode_internal::run() {
 				const std::size_t source_start = String ? strlen(String) : 0;
 				append_string(static_text);
 				voice_string_trace.push_back({frame->function->id, offset});
+				voice_composite_parts.push_back(
+						make_voice_composite_literal_fragment(
+								source_start, static_text, frame->function->id,
+								static_cast<std::uint32_t>(current_IP),
+								static_cast<std::uint32_t>(offset)));
 				char offset_hex[16];
 				std::snprintf(offset_hex, sizeof(offset_hex), "%x", offset);
 				voice_string_parts.push_back({
 						source_start, static_text,
 						make_dialogue_translation_key(
 								frame->function->id, offset_hex, 0)});
+				voice_string_parts.back().source_function_id = frame->function->id;
+				voice_string_parts.back().source_offset =
+						static_cast<std::uint32_t>(current_IP);
+				voice_string_parts.back().string_offset =
+						static_cast<std::uint32_t>(offset);
 				break;
 			}
 			case UC_PUSHS:      // PUSHS.
@@ -2817,11 +2829,15 @@ int Usecode_internal::run() {
 				pushs(frame->data + offset);
 				char offset_hex[16];
 				std::snprintf(offset_hex, sizeof(offset_hex), "%x", offset);
-				set_top_voice_fragments({Voice_string_part{
+				Voice_string_part part{
 						0, static_text,
 						make_dialogue_translation_key(
 								frame->function->id, offset_hex, 0),
-						false}});
+						false};
+				part.source_function_id = frame->function->id;
+				part.source_offset = static_cast<std::uint32_t>(current_IP);
+				part.string_offset = static_cast<std::uint32_t>(offset);
+				set_top_voice_fragments({std::move(part)});
 				break;
 			}
 			case UC_ARRC: {    // ARRC.
@@ -3161,6 +3177,17 @@ int Usecode_internal::run() {
 						str = numbuf;
 					}
 				}
+				const std::size_t composite_start = String ? strlen(String) : 0;
+				// One ADDSV instruction is one voice slot even when the local
+				// carries several translation anchors. The runtime local index is
+				// not a semantic label; reviewed template metadata resolves it by
+				// this source origin before computing the dynamic asset key.
+				voice_composite_parts.push_back(
+						make_voice_composite_dynamic_fragment(
+								composite_start, str ? std::string(str) : std::string(),
+								frame->function->id,
+								static_cast<std::uint32_t>(current_IP),
+								static_cast<std::uint32_t>(offset)));
 				if (!str) {
 					break;    // Negative int: nothing appended (as before).
 				}
@@ -3289,7 +3316,11 @@ int Usecode_internal::run() {
 					if (local_fragments.empty()) {
 						const std::size_t source_start = String ? strlen(String) : 0;
 						append_string(str);
-						voice_string_parts.push_back({source_start, str, {}, true});
+						Voice_string_part part{source_start, str, {}, true};
+						part.source_function_id = frame->function->id;
+						part.source_offset = static_cast<std::uint32_t>(current_IP);
+						part.variable_index = offset;
+						voice_string_parts.push_back(std::move(part));
 					} else {
 						for (Voice_string_part& part : local_fragments) {
 							const std::size_t source_start = String ? strlen(String) : 0;
@@ -3300,9 +3331,14 @@ int Usecode_internal::run() {
 							// This keeps generic placeholder handling independent of
 							// which helper produced values such as "afternoon".
 							part.dynamic = true;
-							voice_string_parts.push_back({
-									source_start, part.source, part.translation_key,
-									true});
+							part.source_start = source_start;
+							if (part.source_function_id < 0) {
+								part.source_function_id = frame->function->id;
+								part.source_offset =
+										static_cast<std::uint32_t>(current_IP);
+								part.variable_index = offset;
+							}
+							voice_string_parts.push_back(std::move(part));
 						}
 					}
 				}

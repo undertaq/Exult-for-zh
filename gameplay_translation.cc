@@ -28,6 +28,45 @@ constexpr char kSpeakerHeader[] =
 		"# kind\tkey\tspeaker_id\tspeaker\n";
 constexpr char kDefaultSpeakerPath[] = "u6_runtime_speakers.tsv";
 
+std::string voice_identity_hex(int value) {
+	if (value < 0) {
+		throw std::invalid_argument("voice identity source id must be non-negative");
+	}
+	std::ostringstream output;
+	output << std::hex << std::nouppercase << std::setfill('0')
+			<< std::setw(4) << value;
+	return output.str();
+}
+
+std::string voice_identity_hex(std::uint32_t value) {
+	std::ostringstream output;
+	output << std::hex << std::nouppercase << std::setfill('0')
+			<< std::setw(4) << value;
+	return output.str();
+}
+
+void append_voice_identity_field(std::string& serialized,
+		std::string_view field) {
+	if (field.size() > std::numeric_limits<std::uint32_t>::max()) {
+		throw std::length_error("voice identity field exceeds 4 GiB");
+	}
+	const auto length = static_cast<std::uint32_t>(field.size());
+	serialized.push_back(static_cast<char>((length >> 24) & 0xff));
+	serialized.push_back(static_cast<char>((length >> 16) & 0xff));
+	serialized.push_back(static_cast<char>((length >> 8) & 0xff));
+	serialized.push_back(static_cast<char>(length & 0xff));
+	if (!field.empty()) {
+		serialized.append(field.data(), field.size());
+	}
+}
+
+std::size_t utf8_character_count(std::string_view text) {
+	return static_cast<std::size_t>(std::count_if(
+			text.begin(), text.end(), [](unsigned char byte) {
+				return (byte & 0xc0) != 0x80;
+			}));
+}
+
 struct TemplateShape {
 	std::vector<std::string> literals;
 	std::vector<std::string> placeholders;
@@ -1126,6 +1165,253 @@ std::string make_dialogue_template_translation_key(
 			normalize_translation_source(source_template));
 	return make_dialogue_translation_key(
 				function_id, "fallback_" + digest.substr(0, 16), 0);
+}
+
+VoiceCompositeFragment make_voice_composite_literal_fragment(
+		std::size_t source_start, std::string source,
+		int source_function_id, std::uint32_t instruction_offset,
+		std::uint32_t string_offset) {
+	VoiceCompositeFragment fragment;
+	fragment.kind = VoiceCompositeFragmentKind::Literal;
+	fragment.source_start = source_start;
+	fragment.source = std::move(source);
+	fragment.source_function_id = source_function_id;
+	fragment.source_offset = instruction_offset;
+	fragment.string_offset = string_offset;
+	return fragment;
+}
+
+VoiceCompositeFragment make_voice_composite_dynamic_fragment(
+		std::size_t source_start, std::string runtime_value,
+		int source_function_id, std::uint32_t instruction_offset,
+		std::uint32_t variable_index, std::string semantic_type) {
+	VoiceCompositeFragment fragment;
+	fragment.kind = VoiceCompositeFragmentKind::Dynamic;
+	fragment.source_start = source_start;
+	fragment.source = runtime_value;
+	fragment.runtime_value = std::move(runtime_value);
+	fragment.source_function_id = source_function_id;
+	fragment.source_offset = instruction_offset;
+	fragment.variable_index = variable_index;
+	fragment.semantic_type = std::move(semantic_type);
+	return fragment;
+}
+
+VoiceCompositePlan make_voice_composite_plan(
+		int function_id, std::size_t visible_segment,
+		std::string source_template_en,
+		std::vector<VoiceCompositeFragment> fragments,
+		std::vector<VoiceCompositeRoleSpan> role_spans) {
+	VoiceCompositePlan plan;
+	plan.function_id = function_id;
+	plan.visible_segment = visible_segment;
+	plan.source_template_en = normalize_translation_source(source_template_en);
+	plan.fragments = std::move(fragments);
+	plan.role_spans = std::move(role_spans);
+
+	const bool has_dynamic = std::any_of(
+			plan.fragments.begin(), plan.fragments.end(),
+			[](const VoiceCompositeFragment& fragment) {
+				return fragment.kind == VoiceCompositeFragmentKind::Dynamic;
+			});
+	if (has_dynamic) {
+		plan.kind = VoiceCompositeKind::DynamicTemplate;
+	} else if (plan.fragments.size() > 1) {
+		plan.kind = VoiceCompositeKind::StaticSequence;
+	} else {
+		plan.kind = VoiceCompositeKind::LegacySingle;
+	}
+	return plan;
+}
+
+std::vector<VoiceCompositePlan> make_voice_composite_plans(
+		int function_id, std::string_view source_text,
+		const std::vector<VoiceCompositeFragment>& source_fragments,
+		const std::vector<std::vector<VoiceCompositeRoleSpan>>& role_spans) {
+	std::size_t source_pos = 0;
+	for (const VoiceCompositeFragment& source_fragment : source_fragments) {
+		if (source_fragment.source_start != source_pos
+				|| source_pos > source_text.size()
+				|| source_fragment.source.size() > source_text.size() - source_pos
+				|| source_text.substr(source_pos, source_fragment.source.size())
+						!= source_fragment.source) {
+			return {};
+		}
+		source_pos += source_fragment.source.size();
+	}
+	if (source_pos != source_text.size()) {
+		return {};
+	}
+
+	struct VisibleRange {
+		std::size_t begin;
+		std::size_t end;
+	};
+	std::vector<VisibleRange> visible_ranges;
+	std::size_t pos = 0;
+	while (pos < source_text.size()) {
+		while (pos < source_text.size() && source_text[pos] == '*') {
+			++pos;
+		}
+		if (pos >= source_text.size()) {
+			break;
+		}
+		const std::size_t end = source_text.find('~', pos);
+		std::size_t visible_end = end == std::string_view::npos
+				? source_text.size()
+				: end;
+		while (visible_end > pos && source_text[visible_end - 1] == '*') {
+			--visible_end;
+		}
+		if (visible_end > pos) {
+			visible_ranges.push_back({pos, visible_end});
+		}
+		if (end == std::string_view::npos) {
+			break;
+		}
+		pos = end + 1;
+		if (pos < source_text.size() && source_text[pos] == '~') {
+			++pos;
+		}
+	}
+	for (const VoiceCompositeFragment& source_fragment : source_fragments) {
+		if (source_fragment.kind != VoiceCompositeFragmentKind::Dynamic) {
+			continue;
+		}
+		const std::size_t start = source_fragment.source_start;
+		if (source_fragment.source.empty()) {
+			const bool belongs_to_page = std::any_of(
+					visible_ranges.begin(), visible_ranges.end(),
+					[start](const VisibleRange& range) {
+						return start >= range.begin && start <= range.end;
+					});
+			if (!belongs_to_page) {
+				return {};
+			}
+			continue;
+		}
+		const std::size_t end = start + source_fragment.source.size();
+		bool belongs_to_page = false;
+		for (const VisibleRange& range : visible_ranges) {
+			const bool overlaps = start < range.end && end > range.begin;
+			if (!overlaps) {
+				continue;
+			}
+			if (start < range.begin || end > range.end) {
+				return {};
+			}
+			belongs_to_page = true;
+		}
+		if (!belongs_to_page) {
+			return {};
+		}
+	}
+
+	std::vector<VoiceCompositePlan> plans;
+	plans.reserve(visible_ranges.size());
+	for (std::size_t segment = 0; segment < visible_ranges.size(); ++segment) {
+		const VisibleRange range = visible_ranges[segment];
+		std::vector<VoiceCompositeFragment> fragments;
+		std::string source_template;
+		std::uint32_t ordinal = 0;
+		for (const VoiceCompositeFragment& source_fragment : source_fragments) {
+			if (source_fragment.kind == VoiceCompositeFragmentKind::Dynamic) {
+				const std::size_t start = source_fragment.source_start;
+				const bool empty_slot = source_fragment.source.empty();
+				if (start < range.begin || start > range.end
+						|| (start == range.end && !empty_slot)) {
+					continue;
+				}
+				VoiceCompositeFragment fragment = source_fragment;
+				fragment.source_start = utf8_character_count(source_template);
+				fragment.ordinal = ordinal++;
+			const std::string placeholder =
+					"<VAR" + std::to_string(fragment.ordinal) + ">";
+				source_template += placeholder;
+				fragments.push_back(std::move(fragment));
+				continue;
+			}
+
+			const std::size_t part_begin = source_fragment.source_start;
+			const std::size_t part_end = part_begin + source_fragment.source.size();
+			const std::size_t overlap_begin = std::max(part_begin, range.begin);
+			const std::size_t overlap_end = std::min(part_end, range.end);
+			if (overlap_begin >= overlap_end) {
+				continue;
+			}
+			const std::size_t text_begin = overlap_begin - part_begin;
+			std::string text = source_fragment.source.substr(
+					text_begin, overlap_end - overlap_begin);
+			if (text.empty()) {
+				continue;
+			}
+			VoiceCompositeFragment fragment = source_fragment;
+			fragment.source_start = utf8_character_count(source_template);
+			fragment.source = text;
+			source_template += normalize_translation_source(text);
+			fragments.push_back(std::move(fragment));
+		}
+
+		std::vector<VoiceCompositeRoleSpan> segment_roles;
+		if (segment < role_spans.size()) {
+			segment_roles = role_spans[segment];
+		}
+		plans.push_back(make_voice_composite_plan(
+				function_id, segment, std::move(source_template),
+				std::move(fragments), std::move(segment_roles)));
+	}
+	return plans;
+}
+
+std::string serialize_dynamic_voice_identity(const VoiceCompositePlan& plan) {
+	if (plan.kind != VoiceCompositeKind::DynamicTemplate) {
+		throw std::invalid_argument(
+				"dynamic voice identity requires a dynamic-template plan");
+	}
+	std::string serialized;
+	auto append = [&](std::string_view field) {
+		append_voice_identity_field(serialized, field);
+	};
+	append("u6-dynamic-voice-v1");
+	append(voice_identity_hex(plan.function_id));
+	append(std::to_string(plan.visible_segment));
+	append(normalize_translation_source(plan.source_template_en));
+
+	for (const VoiceCompositeFragment& fragment : plan.fragments) {
+		append("part");
+		if (fragment.kind == VoiceCompositeFragmentKind::Literal) {
+			append("literal");
+			append(voice_identity_hex(fragment.source_function_id));
+			append(voice_identity_hex(fragment.source_offset));
+			append(voice_identity_hex(fragment.string_offset));
+			append(normalize_translation_source(fragment.source));
+			continue;
+		}
+		append("dynamic");
+		append(voice_identity_hex(fragment.source_function_id));
+		append(voice_identity_hex(fragment.source_offset));
+		append(std::to_string(fragment.variable_index));
+		append(std::to_string(fragment.ordinal));
+		append(fragment.semantic_type);
+		if (!fragment.pronoun_form.empty()) {
+			append("pronoun-form");
+			append(fragment.pronoun_form);
+		}
+	}
+
+	for (std::size_t index = 0; index < plan.role_spans.size(); ++index) {
+		const VoiceCompositeRoleSpan& span = plan.role_spans[index];
+		append("role");
+		append(std::to_string(index));
+		append(span.role);
+		append(std::to_string(span.start_char));
+		append(std::to_string(span.end_char));
+	}
+	return serialized;
+}
+
+std::string dynamic_voice_template_key(const VoiceCompositePlan& plan) {
+	return "dyn_" + sha256_hex(serialize_dynamic_voice_identity(plan));
 }
 
 std::string make_choice_translation_key(

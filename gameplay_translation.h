@@ -5,6 +5,7 @@
 #include "gameplay_translation_table.h"
 
 #include <cstddef>
+#include <cstdint>
 #include <iosfwd>
 #include <memory>
 #include <optional>
@@ -34,6 +35,68 @@ struct DialogueTranslationPart {
 	std::string translation_key;
 	bool        dynamic = false;
 };
+
+enum class VoiceCompositeKind {
+	LegacySingle,
+	StaticSequence,
+	DynamicTemplate
+};
+
+enum class VoiceCompositeFragmentKind {
+	Literal,
+	Dynamic
+};
+
+struct VoiceCompositeFragment {
+	VoiceCompositeFragmentKind kind = VoiceCompositeFragmentKind::Literal;
+	std::size_t source_start = 0;
+	std::string source;
+	std::string translation_key;
+	int         source_function_id = -1;
+	std::uint32_t source_offset = 0;
+	std::uint32_t string_offset = 0;
+	std::uint32_t variable_index = 0;
+	std::uint32_t ordinal = 0;
+	std::string semantic_type = "unknown";
+	std::string pronoun_form;
+	std::string runtime_value;
+};
+
+struct VoiceCompositeRoleSpan {
+	std::string role;
+	std::size_t start_char = 0;
+	std::size_t end_char = 0;
+};
+
+struct VoiceCompositePlan {
+	VoiceCompositeKind kind = VoiceCompositeKind::LegacySingle;
+	int function_id = -1;
+	std::size_t visible_segment = 0;
+	std::string source_template_en;
+	std::vector<VoiceCompositeFragment> fragments;
+	std::vector<VoiceCompositeRoleSpan> role_spans;
+};
+
+VoiceCompositeFragment make_voice_composite_literal_fragment(
+		std::size_t source_start, std::string source,
+		int source_function_id, std::uint32_t instruction_offset,
+		std::uint32_t string_offset);
+VoiceCompositeFragment make_voice_composite_dynamic_fragment(
+		std::size_t source_start, std::string runtime_value,
+		int source_function_id, std::uint32_t instruction_offset,
+		std::uint32_t variable_index,
+		std::string semantic_type = "unknown");
+VoiceCompositePlan make_voice_composite_plan(
+		int function_id, std::size_t visible_segment,
+		std::string source_template_en,
+		std::vector<VoiceCompositeFragment> fragments,
+		std::vector<VoiceCompositeRoleSpan> role_spans = {});
+std::vector<VoiceCompositePlan> make_voice_composite_plans(
+		int function_id, std::string_view source_text,
+		const std::vector<VoiceCompositeFragment>& source_fragments,
+		const std::vector<std::vector<VoiceCompositeRoleSpan>>& role_spans = {});
+std::string serialize_dynamic_voice_identity(const VoiceCompositePlan& plan);
+std::string dynamic_voice_template_key(const VoiceCompositePlan& plan);
 
 class GameplayTranslationManager {
 public:
