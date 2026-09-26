@@ -20,7 +20,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "AudioSample.h"
 
+#include <cstdint>
 #include <memory>
+#include <string>
+#include <vector>
 
 #ifdef __GNUC__
 #	pragma GCC diagnostic push
@@ -54,6 +57,9 @@ namespace Pentagram {
 		uint32              decompressFrame(void* DecompData, void* samples) const override;
 		void                freeDecompressor(void* DecompData) const override;
 		void                rewind(void* DecompData) const override;
+		bool decode_pcm16(
+				uint32& rate, bool& is_stereo, std::vector<std::int16_t>& pcm,
+				std::string& error) const;
 		static ov_callbacks callbacks;
 
 		static size_t read_func(void* ptr, size_t size, size_t nmemb, void* datasource);
@@ -64,12 +70,14 @@ namespace Pentagram {
 
 	protected:
 		struct OggDecompData {
-			OggVorbis_File ov;
-			int            bitstream;
-			int            last_rate;
-			bool           last_stereo;
-			IDataSource*   datasource;
-			bool           freed;
+			OggVorbis_File ov{};
+			int            bitstream = 0;
+			uint32         last_rate = 0;
+			bool           last_stereo = false;
+			IDataSource*   datasource = nullptr;
+			int            last_error = 0;
+			bool           opened = false;
+			bool           freed = true;
 		};
 
 		std::unique_ptr<IDataSource> oggdata;

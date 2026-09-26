@@ -24,6 +24,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "headers/exceptions.h"
 
 #include <new>
+#include <array>
+#include <limits>
+#include <exception>
 
 #ifdef __GNUC__
 #	pragma GCC diagnostic push
@@ -65,12 +68,15 @@ namespace Pentagram {
 
 	size_t OggAudioSample::read_func(void* ptr, size_t size, size_t nmemb, void* datasource) {
 		auto* ids = static_cast<IDataSource*>(datasource);
-		// if (ids->eof()) return 0;
-		const size_t limit = ids->getAvail();
-		if (limit == 0) {
+		if (size == 0 || nmemb == 0 || nmemb > std::numeric_limits<size_t>::max() / size) {
 			return 0;
-		} else if (limit < size * nmemb) {
+		}
+		const size_t limit = ids->getAvail();
+		if (limit < size * nmemb) {
 			nmemb = limit / size;
+		}
+		if (nmemb == 0) {
+			return 0;
 		}
 		ids->read(ptr, size * nmemb);
 		return nmemb;
@@ -78,69 +84,116 @@ namespace Pentagram {
 
 	int OggAudioSample::seek_func(void* datasource, ogg_int64_t offset, int whence) {
 		auto* ids = static_cast<IDataSource*>(datasource);
+		size_t base = 0;
 		switch (whence) {
 		case SEEK_SET:
-			ids->seek(static_cast<size_t>(offset));
-			return 0;
+			base = 0;
+			break;
 		case SEEK_END:
-			ids->seek(ids->getSize() - static_cast<size_t>(offset));
-			return 0;
+			base = ids->getSize();
+			break;
 		case SEEK_CUR:
-			ids->skip(static_cast<size_t>(offset));
-			return 0;
+			base = ids->getPos();
+			break;
+		default:
+			return -1;
 		}
-		return -1;
+
+		size_t target = 0;
+		if (base > ids->getSize()) {
+			return -1;
+		}
+		if (offset < 0) {
+			const auto distance = static_cast<uint64>(-(offset + 1)) + 1;
+			if (distance > base) {
+				return -1;
+			}
+			target = base - static_cast<size_t>(distance);
+		} else {
+			const auto distance = static_cast<uint64>(offset);
+			if (distance > ids->getSize() - base) {
+				return -1;
+			}
+			target = base + static_cast<size_t>(distance);
+		}
+		ids->seek(target);
+		return ids->fail() ? -1 : 0;
 	}
 
 	long OggAudioSample::tell_func(void* datasource) {
 		auto* ids = static_cast<IDataSource*>(datasource);
-		return ids->getPos();
+		const size_t position = ids->getPos();
+		if (static_cast<uint64>(position) > static_cast<uint64>(std::numeric_limits<long>::max())) {
+			return -1;
+		}
+		return static_cast<long>(position);
 	}
 
 	bool OggAudioSample::isThis(IDataSource* oggdata) {
 		OggVorbis_File vf;
 		oggdata->seek(0);
 		const int res = ov_test_callbacks(oggdata, &vf, nullptr, 0, callbacks);
-		ov_clear(&vf);
+		if (res == 0) {
+			ov_clear(&vf);
+		}
 
 		return res == 0;
 	}
 
 	void OggAudioSample::initDecompressor(void* DecompData) const {
-		auto* decomp = new (DecompData) OggDecompData;
-
-		if (locked) {
+		if (oggdata && locked) {
 			throw exult_exception("Attempted to play OggAudioSample on more "
-								  "than one channel at the same time.");
+							  "than one channel at the same time.");
 		}
+		auto* decomp = new (DecompData) OggDecompData{};
 
-		if (this->oggdata) {
-			locked             = true;
-			decomp->datasource = this->oggdata.get();
-		} else {
-			decomp->datasource = new IBufferDataView(buffer, buffer_limit);
+		try {
+			if (oggdata) {
+				locked = true;
+				decomp->datasource = oggdata.get();
+			} else {
+				decomp->datasource = new IBufferDataView(buffer, buffer_limit);
+			}
+
+			decomp->datasource->seek(0);
+			const int open_result = ov_open_callbacks(decomp->datasource, &decomp->ov, nullptr, 0, callbacks);
+			if (open_result != 0) {
+				throw exult_exception("Could not open Ogg/Vorbis voice fragment.");
+			}
+			decomp->opened = true;
+
+			vorbis_info* info = ov_info(&decomp->ov, -1);
+			if (!info || info->rate <= 0
+					|| static_cast<uint64>(info->rate) > std::numeric_limits<uint32>::max()
+					|| (info->channels != 1 && info->channels != 2)) {
+				throw exult_exception("Ogg/Vorbis voice fragment has unsupported audio metadata.");
+			}
+			sample_rate = decomp->last_rate = static_cast<uint32>(info->rate);
+			stereo = decomp->last_stereo = info->channels == 2;
+
+			// Keep the mixer length bounded to the public sample-length type.
+			const ogg_int64_t frames = ov_pcm_total(&decomp->ov, -1);
+			if (frames >= 0 && static_cast<uint64>(frames) <= std::numeric_limits<uint32>::max()) {
+				length = static_cast<uint32>(frames);
+			}
+			if (ov_raw_seek(&decomp->ov, 0) != 0) {
+				throw exult_exception("Could not rewind Ogg/Vorbis voice fragment.");
+			}
+			decomp->freed = false;
+		} catch (...) {
+			if (decomp->opened) {
+				ov_clear(&decomp->ov);
+				decomp->opened = false;
+			}
+			if (oggdata) {
+				locked = false;
+			} else {
+				delete decomp->datasource;
+			}
+			decomp->datasource = nullptr;
+			decomp->~OggDecompData();
+			throw;
 		}
-
-		decomp->datasource->seek(0);
-		ov_open_callbacks(decomp->datasource, &decomp->ov, nullptr, 0, callbacks);
-		decomp->bitstream = 0;
-
-		vorbis_info* info = ov_info(&decomp->ov, -1);
-		sample_rate = decomp->last_rate = info->rate;
-		stereo = decomp->last_stereo = info->channels == 2;
-
-		// Set the sample length if needed
-		if (!length) {
-			// seek to beginning as there seems to be a bug that sometimes
-			// ov_pcm_total can report the wrong value if the state is not
-			// reset to 0 see https://stackoverflow.com/a/72482773
-			ov_raw_seek(&decomp->ov, 0);
-			length = ov_pcm_total(&decomp->ov, -1);
-		}
-		// seek to 0 for good measure here
-		ov_raw_seek(&decomp->ov, 0);
-
-		decomp->freed = false;
 	}
 
 	void OggAudioSample::freeDecompressor(void* DecompData) const {
@@ -149,7 +202,10 @@ namespace Pentagram {
 			return;
 		}
 		decomp->freed = true;
-		ov_clear(&decomp->ov);
+		if (decomp->opened) {
+			ov_clear(&decomp->ov);
+			decomp->opened = false;
+		}
 
 		if (this->oggdata) {
 			locked = false;
@@ -181,7 +237,7 @@ namespace Pentagram {
 
 		sample_rate         = decomp->last_rate;
 		stereo              = decomp->last_stereo;
-		decomp->last_rate   = info->rate;
+		decomp->last_rate   = info->rate > 0 ? static_cast<uint32>(info->rate) : 0;
 		decomp->last_stereo = info->channels == 2;
 
 #if SDL_BYTEORDER == SDL_LIL_ENDIAN
@@ -192,16 +248,74 @@ namespace Pentagram {
 
 		const long count = ov_read(&decomp->ov, static_cast<char*>(samples), frame_size, bigendianp, 2, 1, &decomp->bitstream);
 
-		// if (count == OV_EINVAL || count == 0) {
-		if (count <= 0) {
+		if (count < 0) {
+			decomp->last_error = static_cast<int>(count);
 			return 0;
 		}
-		// else if (count < 0) {
-		//	*(uint32*)samples = 0;
-		//	return 1;
-		// }
-
+		if (count == 0) {
+			return 0;
+		}
 		return count;
+	}
+
+	bool OggAudioSample::decode_pcm16(
+			uint32& rate, bool& is_stereo, std::vector<std::int16_t>& pcm,
+			std::string& error) const {
+		alignas(OggDecompData) unsigned char storage[sizeof(OggDecompData)]{};
+		void* const state = storage;
+		bool initialized = false;
+		std::vector<std::int16_t> decoded;
+		try {
+			initDecompressor(state);
+			initialized = true;
+			const uint32 decoded_rate = sample_rate;
+			const bool decoded_stereo = stereo;
+			const uint32 channels = decoded_stereo ? 2 : 1;
+			std::array<std::int16_t, 2048> frame{};
+			while (true) {
+				const uint32 byte_count = decompressFrame(state, frame.data());
+				auto* decomp = static_cast<OggDecompData*>(state);
+				if (byte_count == 0) {
+					if (decomp->last_error != 0) {
+						throw exult_exception("Error while decoding Ogg/Vorbis voice fragment.");
+					}
+					break;
+				}
+				if (byte_count % (channels * sizeof(std::int16_t)) != 0) {
+					throw exult_exception("Decoded Ogg/Vorbis voice fragment is not frame-aligned.");
+				}
+				vorbis_info* info = ov_info(&decomp->ov, decomp->bitstream);
+				if (!info || info->rate != static_cast<long>(decoded_rate)
+						|| info->channels != static_cast<int>(channels)) {
+					throw exult_exception("Ogg/Vorbis voice fragment changes format mid-stream.");
+				}
+				const std::size_t sample_count = byte_count / sizeof(std::int16_t);
+				decoded.insert(decoded.end(), frame.begin(), frame.begin() + sample_count);
+			}
+			freeDecompressor(state);
+			initialized = false;
+		} catch (const std::exception& exception) {
+			if (initialized) {
+				freeDecompressor(state);
+			}
+			error = exception.what();
+			return false;
+		} catch (...) {
+			if (initialized) {
+				freeDecompressor(state);
+			}
+			error = "Unknown Ogg/Vorbis decode error.";
+			return false;
+		}
+		if (decoded.empty()) {
+			error = "Ogg/Vorbis voice fragment decoded to no PCM samples.";
+			return false;
+		}
+		error.clear();
+		rate = sample_rate;
+		is_stereo = stereo;
+		pcm.swap(decoded);
+		return true;
 	}
 
 }    // namespace Pentagram

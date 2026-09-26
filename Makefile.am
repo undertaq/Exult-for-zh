@@ -179,7 +179,7 @@ endif
 endif
 
 if BUILD_EXULT
-check_PROGRAMS = gameplay_translation_table_test
+check_PROGRAMS = gameplay_translation_table_test voice_composite_test
 gameplay_translation_table_test_SOURCES = \
 	tests/gameplay_translation_table_test.cc
 gameplay_translation_table_test_LDADD = \
@@ -191,10 +191,22 @@ gameplay_translation_table_test_core.o: gameplay_translation_table.cc \
 gameplay_translation_test_manager.o: gameplay_translation.cc \
 	gameplay_translation.h gameplay_translation_table.h bilingual_manager.h
 	$(CXXCOMPILE) -DGAMEPLAY_TRANSLATION_TABLE_TEST -o $@ -c $(srcdir)/gameplay_translation.cc
+voice_composite_test_SOURCES = \
+	tests/voice_composite_test.cc \
+	audio/voice_composite.h \
+	audio/AudioSample.cc \
+	audio/OggAudioSample.cc \
+	audio/RawAudioSample.cc \
+	audio/VocAudioSample.cc \
+	audio/WavAudioSample.cc
+voice_composite_test_CPPFLAGS = $(AM_CPPFLAGS) \
+	-DVOICE_COMPOSITE_TEST_OGG=\"$(abs_srcdir)/tests/fixtures/u6_voice_tone.ogg\"
+voice_composite_test_LDADD = $(OGG_LIBS)
 TESTS = $(check_PROGRAMS) tests/alsa_underrun_output_test.sh
 endif
 
 EXTRA_DIST = 	\
+	tests/fixtures/u6_voice_tone.ogg \
 	README \
 	FAQ \
 	README.md \

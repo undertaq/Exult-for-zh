@@ -23,11 +23,13 @@
 #include "AudioMixer.h"
 #include "VoiceActingManager.h"
 #include "AudioSample.h"
+#include "databuf.h"
+#include "OggAudioSample.h"
+#include "voice_composite.h"
 #include "Configuration.h"
 #include "Flex.h"
 #include "actors.h"
 #include "conv.h"
-#include "databuf.h"
 #include "exult.h"
 #include "fnames.h"
 #include "game.h"
@@ -41,11 +43,13 @@
 #include <unistd.h>
 
 #include <climits>
+#include <algorithm>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <fstream>
 #include <iostream>
+#include <limits>
 #include <set>
 
 // #include <crtdbg.h>
@@ -597,6 +601,55 @@ bool Audio::play_voice_file(const std::string& path) {
 	speech_id = play(std::move(buf), len, false, (speech_volume * 255) / 100);
 	cerr << "play_voice_file: play() returned speech_id=" << speech_id << endl;
 	return speech_id != -1;
+}
+
+bool Audio::play_voice_sequence(const std::vector<std::string>& paths, uint32 gap_ms) {
+	if (!audio_enabled || !speech_enabled) {
+		return false;
+	}
+	return submit_voice_sequence_atomic(
+			paths, gap_ms,
+			[this](const std::string& path, VoicePcmChunk& chunk) {
+				std::ifstream file(path, std::ios::binary | std::ios::ate);
+				if (!file.is_open()) {
+					cerr << "play_voice_sequence: failed to open " << path << endl;
+					return false;
+				}
+				const std::streamoff end = static_cast<std::streamoff>(file.tellg());
+				if (end <= 0
+						|| static_cast<std::uint64_t>(end) > std::numeric_limits<uint32>::max()
+						|| end > std::numeric_limits<std::streamsize>::max()) {
+					cerr << "play_voice_sequence: invalid fragment size for " << path << endl;
+					return false;
+				}
+				const uint32 length = static_cast<uint32>(end);
+				file.seekg(0, std::ios::beg);
+				auto buffer = std::make_unique<uint8[]>(length);
+				if (!file.read(reinterpret_cast<char*>(buffer.get()), length)) {
+					cerr << "play_voice_sequence: failed to read " << path << endl;
+					return false;
+				}
+				OggAudioSample sample(std::move(buffer), length);
+				std::string error;
+				if (!sample.decode_pcm16(chunk.sample_rate, chunk.stereo, chunk.pcm16, error)) {
+					cerr << "play_voice_sequence: could not decode " << path << ": " << error << endl;
+					return false;
+				}
+				return true;
+			},
+			[this](const VoicePcmResult& pcm) {
+				std::vector<uint8_t> wav;
+				std::string error;
+				if (!encode_voice_pcm_wav(pcm, wav, error)
+						|| wav.size() > std::numeric_limits<uint32>::max()) {
+					cerr << "play_voice_sequence: could not encode stitched sample: " << error << endl;
+					return false;
+				}
+				auto buffer = std::make_unique<uint8[]>(wav.size());
+				std::copy(wav.begin(), wav.end(), buffer.get());
+				speech_id = play(std::move(buffer), static_cast<uint32>(wav.size()), false, (speech_volume * 255) / 100);
+				return speech_id != -1;
+			});
 }
 
 void Audio::stop_speech() {

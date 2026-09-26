@@ -41,6 +41,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <string>
 #include <vector>
 
 namespace Pentagram {
@@ -170,6 +171,7 @@ public:
 	void stop_sound_effects();
 	bool start_speech(int num, bool wait = false);
 	bool play_voice_file(const std::string& path);
+	bool play_voice_sequence(const std::vector<std::string>& paths, uint32 gap_ms = 80);
 	void stop_speech();
 	bool is_speech_playing();
 
