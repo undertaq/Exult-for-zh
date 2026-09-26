@@ -26,6 +26,7 @@
 
 #include "Audio.h"
 #include "VoiceActingManager.h"
+#include "audio/voice_composite_routing.h"
 #include "bilingual_manager.h"
 #include "Face_stats.h"
 #include "Gump.h"
@@ -879,13 +880,71 @@ void Usecode_internal::say_string() {
 		return std::string();
 	};
 	const std::string translated_dialogue = translate_dialogue_fragment();
+	const bool u6_composite_voice_enabled =
+			VoiceActingManager::is_u6_composite_voice_enabled();
+	const bool has_composite_provenance = u6_composite_voice_enabled
+			&& !voice_composite_parts.empty();
+	const std::vector<VoiceCompositePlan> voice_plans = has_composite_provenance
+			? make_voice_composite_plans(
+					voice_func_id, String, voice_composite_parts)
+			: std::vector<VoiceCompositePlan>();
+	U6VoiceRouting::VoiceRouteContext voice_route;
+	if (has_composite_provenance) {
+		voice_route.speaker_npc = voice_speaker_npc;
+		voice_route.caller_npc = voice_caller_npc;
+		voice_route.speaker_name = speaker_name;
+		Actor* route_speaker_actor = nullptr;
+		if (U6VoiceRouting::is_avatar_speaker(voice_route)) {
+			route_speaker_actor = gwin ? gwin->get_main_actor() : nullptr;
+			voice_route.speaker_name = "Avatar";
+		} else if (voice_current_face_npc != VOICE_NO_FACE && gwin) {
+			route_speaker_actor = gwin->get_npc(std::abs(voice_current_face_npc));
+		} else if (voice_speaker_npc != 0 && gwin) {
+			route_speaker_actor = gwin->get_npc(std::abs(voice_speaker_npc));
+		}
+		if (!route_speaker_actor && caller_item) {
+			Actor* caller_actor = caller_item->as_actor();
+			if (caller_actor && caller_actor->get_npc_num()
+					== std::abs(voice_speaker_npc)) {
+				route_speaker_actor = caller_actor;
+			}
+		}
+		voice_route.speaker_gender_known = route_speaker_actor != nullptr;
+		if (route_speaker_actor) {
+			if (!U6VoiceRouting::is_avatar_speaker(voice_route)) {
+				voice_route.speaker_name = route_speaker_actor->get_npc_name();
+			}
+			voice_route.speaker_gender = route_speaker_actor->get_type_flag(Actor::tf_sex)
+					? U6VoiceRouting::VoiceGender::Female
+				: U6VoiceRouting::VoiceGender::Male;
+		}
+		Actor* player_actor = gwin ? gwin->get_main_actor() : nullptr;
+		voice_route.player_gender_known = player_actor != nullptr;
+		if (player_actor) {
+			voice_route.player_gender = player_actor->get_type_flag(Actor::tf_sex)
+					? U6VoiceRouting::VoiceGender::Female
+				: U6VoiceRouting::VoiceGender::Male;
+		}
+	}
 
 	int segment = 0;
 	auto show_dialogue_segment = [&](char* english, const std::string& translated) {
 		const int segment_index = segment++;
-		VoiceActingManager::play_for_conversation(
-				voice_func_id, voice_offset_key, segment_index, english,
-				voice_speaker_npc, voice_caller_npc);
+		const VoiceCompositePlan* plan =
+				static_cast<std::size_t>(segment_index) < voice_plans.size()
+				? &voice_plans[segment_index]
+				: nullptr;
+		U6VoiceRouting::dispatch_voice_plan(
+				plan, has_composite_provenance,
+				[&]() {
+					return VoiceActingManager::play_for_conversation(
+							voice_func_id, voice_offset_key, segment_index, english,
+							voice_speaker_npc, voice_caller_npc);
+				},
+				[&](const VoiceCompositePlan& composite_plan) {
+					return VoiceActingManager::play_composite_for_conversation(
+							composite_plan, voice_offset_key, english, voice_route);
+				});
 		const std::string key = make_dialogue_translation_key(
 				voice_func_id, voice_offset_key, segment_index);
 		translations.record_runtime_source(

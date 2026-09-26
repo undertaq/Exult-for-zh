@@ -3,11 +3,13 @@
 #define private public
 #include "gameplay_translation.h"
 #undef private
+#include "audio/voice_composite_routing.h"
 
 #include <cassert>
 #include <cstdlib>
 #include <fstream>
 #include <iterator>
+#include <map>
 #include <sstream>
 #include <string>
 #include <string_view>
@@ -1977,6 +1979,250 @@ void assert_conversation_choice_hit_rect_includes_visible_spacing() {
 			!= std::string::npos);
 }
 
+void assert_static_voice_candidates_preserve_source_order_and_speaker_route() {
+	const std::vector<VoiceCompositeFragment> fragments = {
+			make_voice_composite_literal_fragment(0, "First ", 0x0401,
+					0x0100, 0x10),
+			make_voice_composite_literal_fragment(6, "second", 0x0404,
+					0x0108, 0x20)};
+	const VoiceCompositePlan plan = make_voice_composite_plan(
+			0x0401, 2, "First second", fragments);
+	U6VoiceRouting::VoiceRouteContext context;
+	context.speaker_npc = -17;
+	context.caller_npc = -22;
+	context.speaker_name = "Dupre";
+	context.speaker_gender = U6VoiceRouting::VoiceGender::Male;
+	context.player_gender = U6VoiceRouting::VoiceGender::Female;
+
+	U6VoiceRouting::ClipCandidateGroups candidates;
+	std::string error;
+	assert(U6VoiceRouting::make_clip_candidates(
+			plan, "10_20", context, candidates, error));
+	assert(candidates.size() == 2);
+	assert((candidates[0] == std::vector<std::string>{
+			"0401_10_2_npc17", "0401_10_2"}));
+	assert((candidates[1] == std::vector<std::string>{
+			"0404_20_2_npc17", "0404_20_2"}));
+}
+
+void assert_dynamic_voice_metadata_routes_roles_and_gender_independently() {
+	const std::string source_template =
+			"Before @he told me <VAR0>.@ After.";
+	VoiceCompositePlan plan = make_voice_composite_plan(
+			0x0401, 0, source_template,
+			{
+				make_voice_composite_literal_fragment(0, "Before @he told me ",
+						0x0401, 0x0100, 0x10),
+				make_voice_composite_dynamic_fragment(19, "she", 0x0401,
+						0x0110, 3),
+				make_voice_composite_literal_fragment(25, ".@ After.",
+						0x0401, 0x0120, 0x20)});
+	assert(plan.kind == VoiceCompositeKind::DynamicTemplate);
+
+	const std::string manifest_line = R"json({"schema":"u6-dynamic-voice-template-v1","key":"dyn_403104f21a991892dca08cd131897bf3891a88d58716935d94339e9abb0584a3","function_id":1025,"offset_key":"10_20","segment":0,"source_template_en":"Before @he told me <VAR0>.@ After.","source_parts":[{"kind":"literal","source_func_id":1025,"source_offset":256,"string_offset":16,"text":"Before @he told me "},{"kind":"dynamic","source_func_id":1025,"source_offset":272,"variable_index":3,"ordinal":0,"semantic_type":"pronoun","pronoun_form":"subject"},{"kind":"literal","source_func_id":1025,"source_offset":288,"string_offset":32,"text":".@ After."}],"player_gender_variants":["male","female"],"role_spans":[{"index":0,"role":"narrator","start_char":0,"end_char":7,"requires_audio":true},{"index":1,"role":"speaker","start_char":8,"end_char":26,"requires_audio":true},{"index":2,"role":"narrator","start_char":27,"end_char":34,"requires_audio":true}]})json";
+	std::istringstream manifest_input(manifest_line);
+	std::vector<U6VoiceRouting::DynamicVoiceMetadata> metadata;
+	std::string error;
+	assert(U6VoiceRouting::parse_dynamic_voice_manifest(
+			manifest_input, metadata, error));
+	assert(metadata.size() == 1);
+	assert(U6VoiceRouting::enrich_dynamic_voice_plan(
+			plan, "10_20", metadata, error));
+	assert(plan.role_spans.size() == 3);
+	assert(plan.fragments[1].semantic_type == "pronoun");
+	assert(plan.fragments[1].pronoun_form == "subject");
+	assert(plan.requires_player_gender_variant);
+	assert(dynamic_voice_template_key(plan)
+			== "dyn_403104f21a991892dca08cd131897bf3891a88d58716935d94339e9abb0584a3");
+
+	U6VoiceRouting::VoiceRouteContext context;
+	context.speaker_npc = -17;
+	context.caller_npc = -22;
+	context.speaker_name = "Dupre";
+	context.speaker_gender = U6VoiceRouting::VoiceGender::Male;
+	context.player_gender = U6VoiceRouting::VoiceGender::Female;
+	U6VoiceRouting::ClipCandidateGroups candidates;
+	assert(U6VoiceRouting::make_clip_candidates(
+			plan, "10_20", context, candidates, error));
+	assert(candidates.size() == 3);
+	assert(candidates[0][0] ==
+			"0401_10_20_s0_dyn_403104f21a991892dca08cd131897bf3891a88d58716935d94339e9abb0584a3_r0_narrator_tdupre_pfemale_vmale");
+	assert(candidates[1][0] ==
+			"0401_10_20_s0_dyn_403104f21a991892dca08cd131897bf3891a88d58716935d94339e9abb0584a3_r1_speaker_tdupre_pfemale_vmale");
+	assert(candidates[2][0] ==
+			"0401_10_20_s0_dyn_403104f21a991892dca08cd131897bf3891a88d58716935d94339e9abb0584a3_r2_narrator_tdupre_pfemale_vmale");
+
+	context.player_gender = U6VoiceRouting::VoiceGender::Male;
+	assert(U6VoiceRouting::make_clip_candidates(
+			plan, "10_20", context, candidates, error));
+	assert(candidates[1][0].find("_pmale_vmale") != std::string::npos);
+	assert(candidates[1][0].find("tdupre") != std::string::npos);
+	assert(candidates[1][0].find("tchuckles") == std::string::npos);
+	context.player_gender_known = false;
+	assert(!U6VoiceRouting::make_clip_candidates(
+			plan, "10_20", context, candidates, error));
+	assert(candidates.empty());
+	context.player_gender_known = true;
+	context.speaker_gender_known = false;
+	assert(!U6VoiceRouting::make_clip_candidates(
+			plan, "10_20", context, candidates, error));
+	assert(candidates.empty());
+}
+
+void assert_avatar_and_stone_guardian_voice_routing() {
+	const std::string source_template = "Hello <VAR0>.";
+	VoiceCompositePlan plan = make_voice_composite_plan(
+			0x0401, 0, source_template,
+			{make_voice_composite_dynamic_fragment(
+					6, "Joe", 0x0401, 0x0110, 3, "player_name")},
+			{{"speaker", 0, source_template.size(), true}});
+	U6VoiceRouting::VoiceRouteContext context;
+	context.speaker_npc = 356;
+	context.caller_npc = 0;
+	context.speaker_name = "Avatar";
+	context.speaker_gender = U6VoiceRouting::VoiceGender::Female;
+	context.player_gender = U6VoiceRouting::VoiceGender::Female;
+	U6VoiceRouting::ClipCandidateGroups candidates;
+	std::string error;
+	assert(U6VoiceRouting::make_clip_candidates(
+			plan, "10", context, candidates, error));
+	assert(candidates.size() == 1);
+	assert(candidates[0][0].find("_tavatar_pany_vfemale")
+			!= std::string::npos);
+	context.speaker_gender = U6VoiceRouting::VoiceGender::Male;
+	context.player_gender = U6VoiceRouting::VoiceGender::Male;
+	assert(U6VoiceRouting::make_clip_candidates(
+			plan, "10", context, candidates, error));
+	assert(candidates[0][0].find("_tavatar_pany_vmale")
+			!= std::string::npos);
+	context.speaker_gender_known = false;
+	assert(!U6VoiceRouting::make_clip_candidates(
+			plan, "10", context, candidates, error));
+	assert(candidates.empty());
+
+	context.speaker_npc = -277;
+	context.caller_npc = -22;
+	assert(!U6VoiceRouting::make_clip_candidates(
+			plan, "10", context, candidates, error));
+	assert(candidates.empty());
+}
+
+void assert_composite_voice_language_fallback_keeps_a_whole_language() {
+	assert((U6VoiceRouting::voice_language_order("zh")
+			== std::vector<std::string>{"zh", "en"}));
+	assert((U6VoiceRouting::voice_language_order("en")
+			== std::vector<std::string>{"en", "zh"}));
+}
+
+void assert_voice_plan_dispatch_preserves_legacy_and_fails_closed() {
+	const VoiceCompositePlan legacy_plan = make_voice_composite_plan(
+			0x0401, 0, "one", {make_voice_composite_literal_fragment(
+					0, "one", 0x0401, 0x10, 0x20)});
+	const VoiceCompositePlan static_plan = make_voice_composite_plan(
+			0x0401, 0, "one two",
+			{make_voice_composite_literal_fragment(0, "one ", 0x0401, 0x10, 0x20),
+			 make_voice_composite_literal_fragment(4, "two", 0x0401, 0x20, 0x30)});
+	const VoiceCompositePlan dynamic_plan = make_voice_composite_plan(
+			0x0401, 0, "one <VAR0>",
+			{make_voice_composite_literal_fragment(0, "one ", 0x0401, 0x10, 0x20),
+			 make_voice_composite_dynamic_fragment(4, "Joe", 0x0401, 0x20, 3)});
+	int legacy_calls = 0;
+	int composite_calls = 0;
+	auto legacy = [&]() { ++legacy_calls; return true; };
+	auto composite = [&](const VoiceCompositePlan& plan) {
+		++composite_calls;
+		return plan.kind == VoiceCompositeKind::DynamicTemplate
+				|| plan.kind == VoiceCompositeKind::StaticSequence;
+	};
+
+	assert(U6VoiceRouting::dispatch_voice_plan(
+			&legacy_plan, true, legacy, composite));
+	assert(legacy_calls == 1 && composite_calls == 0);
+	assert(U6VoiceRouting::dispatch_voice_plan(
+			&static_plan, true, legacy, composite));
+	assert(legacy_calls == 1 && composite_calls == 1);
+	assert(U6VoiceRouting::dispatch_voice_plan(
+			&dynamic_plan, true, legacy, composite));
+	assert(legacy_calls == 1 && composite_calls == 2);
+	assert(!U6VoiceRouting::dispatch_voice_plan(
+			nullptr, true, legacy, composite));
+	assert(legacy_calls == 1 && composite_calls == 2);
+	assert(U6VoiceRouting::dispatch_voice_plan(
+			nullptr, false, legacy, composite));
+	assert(legacy_calls == 2 && composite_calls == 2);
+}
+
+void assert_composite_resolution_is_atomic_and_packed_first() {
+	U6VoiceRouting::ClipCandidateGroups candidates = {
+			{"0401_10_2_npc17", "0401_10_2"},
+			{"0404_20_2_npc17", "0404_20_2"}};
+	std::map<std::string, std::vector<char>> packed = {
+			{"0401_10_2", {'p', '1'}}, {"0404_20_2", {'p', '2'}}};
+	std::map<std::string, std::string> loose = {
+			{"0401_10_2_npc17", "/voices/first.ogg"},
+			{"0404_20_2_npc17", "/voices/second.ogg"}};
+	std::vector<U6VoiceRouting::ResolvedVoiceClip> resolved;
+	bool used_packed = false;
+	assert(U6VoiceRouting::resolve_voice_clips(
+			candidates,
+			[&](const std::string& name, std::vector<char>& data) {
+				auto found = packed.find(name);
+				if (found == packed.end()) return false;
+				data = found->second;
+				return true;
+			},
+			[&](const std::string& name, std::string& path) {
+				auto found = loose.find(name);
+				if (found == loose.end()) return false;
+				path = found->second;
+				return true;
+			}, resolved, used_packed));
+	assert(used_packed);
+	assert(resolved.size() == 2);
+	assert(resolved[0].name == "0401_10_2");
+	assert(resolved[1].name == "0404_20_2");
+	assert(resolved[0].packed_data == std::vector<char>({'p', '1'}));
+
+	packed.erase("0404_20_2");
+	assert(U6VoiceRouting::resolve_voice_clips(
+			candidates,
+			[&](const std::string& name, std::vector<char>& data) {
+				auto found = packed.find(name);
+				if (found == packed.end()) return false;
+				data = found->second;
+				return true;
+			},
+			[&](const std::string& name, std::string& path) {
+				auto found = loose.find(name);
+				if (found == loose.end()) return false;
+				path = found->second;
+				return true;
+			}, resolved, used_packed));
+	assert(!used_packed);
+	assert(resolved.size() == 2);
+	assert(resolved[0].path == "/voices/first.ogg");
+	assert(resolved[1].path == "/voices/second.ogg");
+
+	loose.erase("0404_20_2_npc17");
+	std::size_t missing_index = 99;
+	assert(!U6VoiceRouting::resolve_voice_clips(
+			candidates,
+			[&](const std::string& name, std::vector<char>& data) {
+				auto found = packed.find(name);
+				if (found == packed.end()) return false;
+				data = found->second;
+				return true;
+			},
+			[&](const std::string& name, std::string& path) {
+				auto found = loose.find(name);
+				if (found == loose.end()) return false;
+				path = found->second;
+				return true;
+			}, resolved, used_packed, &missing_index));
+	assert(resolved.empty());
+	assert(missing_index == 1);
+}
+
 } // namespace
 
 int main() {
@@ -1997,6 +2243,12 @@ int main() {
 	assert_voice_composite_plans_reject_slots_crossing_pages();
 	assert_voice_composite_plans_keep_literal_asterisks();
 	assert_voice_composite_offsets_use_character_positions();
+	assert_static_voice_candidates_preserve_source_order_and_speaker_route();
+	assert_dynamic_voice_metadata_routes_roles_and_gender_independently();
+	assert_avatar_and_stone_guardian_voice_routing();
+	assert_composite_voice_language_fallback_keeps_a_whole_language();
+	assert_voice_plan_dispatch_preserves_legacy_and_fails_closed();
+	assert_composite_resolution_is_atomic_and_packed_first();
 	assert_runtime_provenance_is_value_scoped();
 	assert_gwenneth_static_anchor_template_is_translated();
 	assert_gwenneth_hello_again_static_anchor_template_is_translated();

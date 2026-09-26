@@ -66,12 +66,14 @@ struct VoiceCompositeRoleSpan {
 	std::string role;
 	std::size_t start_char = 0;
 	std::size_t end_char = 0;
+	bool requires_audio = true;
 };
 
 struct VoiceCompositePlan {
 	VoiceCompositeKind kind = VoiceCompositeKind::LegacySingle;
 	int function_id = -1;
 	std::size_t visible_segment = 0;
+	bool requires_player_gender_variant = false;
 	std::string source_template_en;
 	std::vector<VoiceCompositeFragment> fragments;
 	std::vector<VoiceCompositeRoleSpan> role_spans;

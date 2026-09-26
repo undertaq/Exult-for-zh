@@ -24,6 +24,11 @@
 #include <string>
 #include <vector>
 
+struct VoiceCompositePlan;
+namespace U6VoiceRouting {
+struct VoiceRouteContext;
+}
+
 /*
  *  Manages AI-generated voice acting audio for dialog text.
  *
@@ -53,6 +58,18 @@ public:
 			int segment, const char* text = nullptr,
 			int speaker_npc = -1, int caller_npc = -1);
 
+	// Composite plans are U6-patch behavior.  Exult's engine game enum does
+	// not distinguish the Ultima VI mod from the Black Gate engine it runs on,
+	// so use the U6-specific translation table as the runtime marker.
+	static bool is_u6_composite_voice_enabled();
+
+	// Play a validated U6 source composite as one stoppable sample.  Composite
+	// lookup deliberately uses U6 shared function/offset keys and never maps
+	// through the U7 bilingual offset table.
+	static bool play_composite_for_conversation(
+			const VoiceCompositePlan& plan, const std::string& offset_key,
+			const char* text, const U6VoiceRouting::VoiceRouteContext& context);
+
 	// Stop any currently playing voice line.
 	static void stop();
 
@@ -79,8 +96,9 @@ private:
 	static std::vector<VoicePackedEntry> index;
 	static std::ifstream pak_stream;
 
-	static void load_packed_index();
+	static void load_packed_index(const std::string& language);
 	static void ensure_packed_loaded();
+	static void ensure_packed_loaded(const std::string& language);
 	static bool find_in_pak(const std::string& name, std::vector<char>& out_data);
 	static bool try_play_packed(const std::string& name, const std::vector<char>& data);
 

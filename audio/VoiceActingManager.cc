@@ -27,11 +27,15 @@
 #include "Configuration.h"
 #include "bilingual_manager.h"
 #include "gamewin.h"
+#include "gameplay_translation.h"
 #include "pent_include.h"
 #include "utils.h"
+#include "voice_composite_routing.h"
 
+#include <algorithm>
 #include <chrono>
 #include <cstdio>
+#include <cstdint>
 #include <ctime>
 #include <iomanip>
 #include <sstream>
@@ -56,8 +60,7 @@ std::string   VoiceActingManager::voice_language  = "zh";
  *  Load the packed voice archive index for the configured language.
  *  On success, sets use_packed = true.
  */
-void VoiceActingManager::load_packed_index() {
-	const std::string& lang = get_voice_language();
+void VoiceActingManager::load_packed_index(const std::string& lang) {
 	pak_path = get_system_path("<PATCH>/voice_acting/" + lang + "_voices.pak");
 	idx_path = get_system_path("<PATCH>/voice_acting/" + lang + "_voices.idx");
 
@@ -152,17 +155,21 @@ void VoiceActingManager::init() {
 }
 
 void VoiceActingManager::ensure_packed_loaded() {
-	const std::string& lang = get_voice_language();
+	ensure_packed_loaded(get_voice_language());
+}
+
+void VoiceActingManager::ensure_packed_loaded(const std::string& lang) {
 	if (use_packed && packed_lang == lang) {
 		return;  // Already loaded for this language.
 	}
-	if (use_packed && packed_lang != lang) {
+	if (use_packed || pak_stream.is_open()) {
 		// Language changed — close old index and reload.
 		pak_stream.close();
 		index.clear();
 		use_packed = false;
+		packed_lang.clear();
 	}
-	load_packed_index();
+	load_packed_index(lang);
 	if (use_packed) {
 		packed_lang = lang;
 		pout << "[VoiceActing] Loaded packed archive: " << pak_path
@@ -421,6 +428,55 @@ static bool find_voice_file(const string& base_filename, string& out_path) {
 	return false;
 }
 
+/* Composite playback only consumes Ogg clips: Audio decodes every piece
+ * before submitting one stitched sample, so a WAV fallback is not valid. */
+static bool find_composite_voice_file(
+		const string& language, const string& base_filename, string& out_path) {
+	const string primary = "<PATCH>/voice_acting/" + language + "/";
+	const string second = primary + "second_source/";
+	for (const string& directory : {primary, second}) {
+		const string candidate = get_system_path(directory + base_filename + ".ogg");
+		if (U7exists(candidate)) {
+			out_path = candidate;
+			return true;
+		}
+	}
+	return false;
+}
+
+static bool get_dynamic_voice_metadata(
+		const std::vector<U6VoiceRouting::DynamicVoiceMetadata>*& metadata,
+		string& error) {
+	static string cached_path;
+	static bool attempted = false;
+	static bool loaded = false;
+	static string cached_error;
+	static std::vector<U6VoiceRouting::DynamicVoiceMetadata> cached_metadata;
+	const string path = get_system_path(
+			"<PATCH>/voice_acting/u6_dynamic_voice_templates.jsonl");
+	if (attempted && cached_path == path) {
+		metadata = &cached_metadata;
+		error = cached_error;
+		return loaded;
+	}
+	attempted = true;
+	cached_path = path;
+	cached_metadata.clear();
+	std::ifstream input(path);
+	if (!input.is_open()) {
+		loaded = false;
+		cached_error = "U6 dynamic voice manifest is unavailable";
+		metadata = &cached_metadata;
+		error = cached_error;
+		return false;
+	}
+	loaded = U6VoiceRouting::parse_dynamic_voice_manifest(
+			input, cached_metadata, cached_error);
+	metadata = &cached_metadata;
+	error = cached_error;
+	return loaded;
+}
+
 /*
  *  Avatar can be male or female depending on the new-game selection.
  *  Return the selected gender suffix for Avatar-specific voice variants.
@@ -604,6 +660,144 @@ bool VoiceActingManager::play_for_conversation(
 	log_entry(filename, path, function_id, offset_key, segment, text, status,
 			  speaker_npc, caller_npc);
 
+	return played;
+}
+
+bool VoiceActingManager::is_u6_composite_voice_enabled() {
+	return is_system_path_defined("<PATCH>")
+			&& U7exists("<PATCH>/zh_translation.tsv");
+}
+
+bool VoiceActingManager::play_composite_for_conversation(
+		const VoiceCompositePlan& plan, const std::string& offset_key,
+		const char* text, const U6VoiceRouting::VoiceRouteContext& context) {
+	if (!voice_enabled) return false;
+	ensure_log_open();
+	if (U6VoiceRouting::is_stone_guardian_speaker(context)) {
+		log_entry("", "", plan.function_id, offset_key,
+				static_cast<int>(plan.visible_segment), text, "original",
+				context.speaker_npc, context.caller_npc);
+		return false;
+	}
+	Audio* audio = Audio::get_ptr();
+	if (!audio || !audio->is_speech_enabled()) {
+		log_entry("composite_disabled", "", plan.function_id, offset_key,
+				static_cast<int>(plan.visible_segment), text, "disabled",
+				context.speaker_npc, context.caller_npc);
+		return false;
+	}
+
+	VoiceCompositePlan resolved_plan = plan;
+	if (resolved_plan.kind == VoiceCompositeKind::DynamicTemplate) {
+		const std::vector<U6VoiceRouting::DynamicVoiceMetadata>* metadata = nullptr;
+		string error;
+		if (!get_dynamic_voice_metadata(metadata, error)
+				|| !metadata
+				|| !U6VoiceRouting::enrich_dynamic_voice_plan(
+						resolved_plan, offset_key, *metadata, error)) {
+			pout << "[VoiceActing] Dynamic composite unavailable: " << error << std::endl;
+			log_entry("dynamic_manifest", "", plan.function_id, offset_key,
+					static_cast<int>(plan.visible_segment), text, "missing",
+					context.speaker_npc, context.caller_npc);
+			return false;
+		}
+	}
+
+	U6VoiceRouting::ClipCandidateGroups candidates;
+	string error;
+	if (!U6VoiceRouting::make_clip_candidates(
+			resolved_plan, offset_key, context, candidates, error)) {
+		pout << "[VoiceActing] Composite routing rejected: " << error << std::endl;
+		log_entry("composite_unresolved", "", plan.function_id, offset_key,
+				static_cast<int>(plan.visible_segment), text, "error",
+				context.speaker_npc, context.caller_npc);
+		return false;
+	}
+
+	std::vector<U6VoiceRouting::ResolvedVoiceClip> resolved;
+	bool used_packed = false;
+	std::size_t missing_group = 0;
+	string selected_language;
+	for (const string& language :
+			U6VoiceRouting::voice_language_order(get_voice_language())) {
+		ensure_packed_loaded(language);
+		if (U6VoiceRouting::resolve_voice_clips(
+				candidates,
+				[](const string& name, std::vector<char>& data) {
+					return use_packed && find_in_pak(name, data);
+				},
+				[&language](const string& name, string& path) {
+					return find_composite_voice_file(language, name, path);
+				},
+				resolved, used_packed, &missing_group)) {
+			selected_language = language;
+			break;
+		}
+	}
+	if (resolved.empty()) {
+		const std::size_t failed = std::min(
+				missing_group, candidates.empty() ? std::size_t(0) : candidates.size() - 1);
+		const string filename = candidates.empty() || candidates[failed].empty()
+				? "composite_fragment.ogg"
+				: candidates[failed].front() + ".ogg";
+		log_entry(filename, "", plan.function_id, offset_key,
+				static_cast<int>(plan.visible_segment), text, "missing",
+				context.speaker_npc, context.caller_npc);
+		return false;
+	}
+
+	static std::uint64_t sequence_serial = 0;
+	const std::uint64_t sequence_id = ++sequence_serial;
+	std::vector<string> sequence_paths;
+	std::vector<string> temporary_paths;
+	sequence_paths.reserve(resolved.size());
+	temporary_paths.reserve(resolved.size());
+	for (std::size_t index = 0; index < resolved.size(); ++index) {
+		const U6VoiceRouting::ResolvedVoiceClip& clip = resolved[index];
+		if (!clip.packed) {
+			sequence_paths.push_back(clip.path);
+			continue;
+		}
+		const string relative = "<PATCH>/voice_acting/" + selected_language
+				+ "/.voice-sequence-" + std::to_string(sequence_id) + "-"
+				+ std::to_string(index) + ".ogg";
+		const string path = get_system_path(relative);
+		const std::size_t separator = path.find_last_of("/\\");
+		if (separator != string::npos) {
+			const string directory = path.substr(0, separator);
+			U7mkdir(directory.c_str(), 0755);
+		}
+		std::ofstream output(path, std::ios::binary | std::ios::trunc);
+		if (!output.is_open()) {
+			for (const string& temporary : temporary_paths) std::remove(temporary.c_str());
+			log_entry(clip.name + ".ogg", pak_path, plan.function_id,
+					offset_key, static_cast<int>(plan.visible_segment), text,
+					"error", context.speaker_npc, context.caller_npc);
+			return false;
+		}
+		output.write(clip.packed_data.data(),
+				static_cast<std::streamsize>(clip.packed_data.size()));
+		output.close();
+		if (!output) {
+			std::remove(path.c_str());
+			for (const string& temporary : temporary_paths) std::remove(temporary.c_str());
+			log_entry(clip.name + ".ogg", pak_path, plan.function_id,
+					offset_key, static_cast<int>(plan.visible_segment), text,
+					"error", context.speaker_npc, context.caller_npc);
+			return false;
+		}
+		temporary_paths.push_back(path);
+		sequence_paths.push_back(path);
+	}
+
+	const bool played = audio->play_voice_sequence(sequence_paths, 80);
+	for (const string& temporary : temporary_paths) std::remove(temporary.c_str());
+	for (const U6VoiceRouting::ResolvedVoiceClip& clip : resolved) {
+		log_entry(clip.name + ".ogg", clip.packed ? pak_path : clip.path,
+				plan.function_id, offset_key,
+				static_cast<int>(plan.visible_segment), text,
+				played ? "played" : "error", context.speaker_npc, context.caller_npc);
+	}
 	return played;
 }
 
