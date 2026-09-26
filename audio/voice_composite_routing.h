@@ -431,8 +431,21 @@ inline bool is_nonspoken_unicode_punctuation(std::uint32_t codepoint) {
 			|| (codepoint >= 0xff5bU && codepoint <= 0xff65U);
 }
 
+inline bool is_spoken_codepoint(std::uint32_t codepoint) {
+	if (codepoint < 0x80U) {
+		const unsigned char ch = static_cast<unsigned char>(codepoint);
+		return std::isalnum(ch) || ch == '_';
+	}
+	return !is_nonspoken_unicode_punctuation(codepoint)
+			&& codepoint != 0x00a0U && codepoint != 0x1680U
+			&& !(codepoint >= 0x2000U && codepoint <= 0x200aU)
+			&& codepoint != 0x2028U && codepoint != 0x2029U
+			&& codepoint != 0x202fU && codepoint != 0x205fU
+			&& codepoint != 0x3000U;
+}
+
 inline bool role_span_has_spoken_text(std::string_view source_template,
-		std::size_t start_char, std::size_t end_char,
+		std::uint64_t start_char, std::uint64_t end_char,
 		bool& spoken, std::string& error) {
 	std::size_t position = 0;
 	std::size_t character = 0;
@@ -444,15 +457,7 @@ inline bool role_span_has_spoken_text(std::string_view source_template,
 			return false;
 		}
 		if (character >= start_char && character < end_char) {
-			if (codepoint < 0x80U) {
-				const unsigned char ch = static_cast<unsigned char>(codepoint);
-				if (std::isalnum(ch) || ch == '_') spoken = true;
-			} else if (!is_nonspoken_unicode_punctuation(codepoint)
-					&& codepoint != 0x00a0U && codepoint != 0x1680U
-					&& !(codepoint >= 0x2000U && codepoint <= 0x200aU)
-					&& codepoint != 0x2028U && codepoint != 0x2029U
-					&& codepoint != 0x202fU && codepoint != 0x205fU
-					&& codepoint != 0x3000U) {
+			if (is_spoken_codepoint(codepoint)) {
 				// Treat unfamiliar non-ASCII characters as audible content.  This
 				// is deliberately conservative: a bad false flag must never drop
 				// spoken words from an otherwise valid composite.
@@ -464,6 +469,56 @@ inline bool role_span_has_spoken_text(std::string_view source_template,
 	if (end_char > character) {
 		error = "dynamic role span is outside the source template";
 		return false;
+	}
+	return true;
+}
+
+inline bool validate_role_span_coverage(std::string_view source_template,
+		const std::vector<VoiceCompositeRoleSpan>& spans, std::string& error) {
+	std::vector<unsigned char> spoken;
+	std::size_t position = 0;
+	while (position < source_template.size()) {
+		std::uint32_t codepoint;
+		if (!decode_utf8_codepoint(source_template, position, codepoint)) {
+			error = "dynamic source template contains invalid UTF-8";
+			return false;
+		}
+		spoken.push_back(is_spoken_codepoint(codepoint) ? 1U : 0U);
+	}
+	std::vector<unsigned char> coverage(spoken.size(), 0U);
+	std::size_t previous_start = 0;
+	std::size_t previous_end = 0;
+	bool have_previous = false;
+	for (const VoiceCompositeRoleSpan& span : spans) {
+		if (span.end_char > spoken.size()) {
+			error = "dynamic role span is outside the source template";
+			return false;
+		}
+		if (have_previous && span.start_char < previous_start) {
+			error = "dynamic role spans are not in source order";
+			return false;
+		}
+		if (have_previous && span.start_char < previous_end) {
+			error = "dynamic role spans overlap";
+			return false;
+		}
+		for (std::size_t character = span.start_char;
+				character < span.end_char; ++character) {
+			if (coverage[character] != 0U) {
+				error = "dynamic role spans overlap";
+				return false;
+			}
+			coverage[character] = 1U;
+		}
+		previous_start = span.start_char;
+		previous_end = span.end_char;
+		have_previous = true;
+	}
+	for (std::size_t character = 0; character < spoken.size(); ++character) {
+		if (spoken[character] != 0U && coverage[character] == 0U) {
+			error = "dynamic role spans omit spoken source text";
+			return false;
+		}
 	}
 	return true;
 }
@@ -492,8 +547,17 @@ inline bool read_role_spans(const JsonValue& row,
 				|| !read_uint(item, "index", manifest_index)
 				|| manifest_index != index
 				|| !read_uint(item, "start_char", start)
-				|| !read_uint(item, "end_char", end) || end < start) {
+				|| !read_uint(item, "end_char", end) || end <= start) {
 			error = "dynamic voice metadata has an invalid role span";
+			return false;
+		}
+		bool spoken_text = false;
+		if (!role_span_has_spoken_text(source_template, start, end,
+				spoken_text, error)
+				|| requires_audio != spoken_text) {
+			if (error.empty()) {
+				error = "dynamic role requires_audio flag disagrees with source text";
+			}
 			return false;
 		}
 		VoiceCompositeRoleSpan span;
@@ -501,15 +565,6 @@ inline bool read_role_spans(const JsonValue& row,
 		span.start_char = static_cast<std::size_t>(start);
 		span.end_char = static_cast<std::size_t>(end);
 		span.requires_audio = requires_audio;
-		bool spoken_text = false;
-		if (!role_span_has_spoken_text(source_template, span.start_char,
-				span.end_char, spoken_text, error)
-				|| span.requires_audio != spoken_text) {
-			if (error.empty()) {
-				error = "dynamic role requires_audio flag disagrees with source text";
-			}
-			return false;
-		}
 		spans.push_back(std::move(span));
 	}
 	return true;
@@ -651,7 +706,9 @@ inline bool parse_manifest_row(const JsonValue& row,
 		metadata.player_gender_variant = false;
 	}
 	return read_role_spans(row, metadata.source_template_en,
-			metadata.role_spans, error);
+			metadata.role_spans, error)
+			&& validate_role_span_coverage(metadata.source_template_en,
+					metadata.role_spans, error);
 }
 
 inline std::string format_hex(std::uint64_t value, unsigned width = 0) {

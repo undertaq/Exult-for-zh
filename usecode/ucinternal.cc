@@ -943,11 +943,13 @@ void Usecode_internal::say_string() {
 				? translations.translate(
 						GameplayTranslationKind::Dialogue, key, english)
 				: translated;
-		conv->show_npc_message(display.c_str());
-		// Composite decoding/stitching is synchronous. Put the dialogue on
-		// screen first so preparation latency never hides the line from the
-		// player while the audio sequence is assembled.
-		U6VoiceRouting::dispatch_voice_plan(
+		bool voice_dispatched = false;
+		auto start_voice = [&]() {
+			if (voice_dispatched) {
+				return;
+			}
+			voice_dispatched = true;
+			U6VoiceRouting::dispatch_voice_plan(
 				plan, has_composite_provenance,
 				[&]() {
 					return VoiceActingManager::play_for_conversation(
@@ -958,6 +960,11 @@ void Usecode_internal::say_string() {
 					return VoiceActingManager::play_composite_for_conversation(
 							composite_plan, voice_offset_key, english, voice_route);
 				});
+		};
+		conv->show_npc_message(display.c_str(), start_voice);
+		// Preserve voice for the unusual no-face path, where the conversation
+		// renderer returns before it can present a page or invoke the callback.
+		start_voice();
 		click_to_continue();
 	};
 	char* str = String;

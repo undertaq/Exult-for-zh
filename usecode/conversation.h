@@ -25,6 +25,7 @@
 
 #include <array>
 #include <deque>
+#include <functional>
 #include <string>
 #include <vector>
 
@@ -64,6 +65,8 @@ public:
 	void remove_slot_face(int slot);    // SI.
 	void remove_last_face();            // SI.
 	void show_npc_message(const char* msg);
+	void show_npc_message(const char* msg,
+			std::function<void()> first_page_ready);
 	bool is_npc_text_pending();
 	void clear_text_pending();
 	void show_avatar_choices();

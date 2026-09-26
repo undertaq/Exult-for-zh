@@ -762,6 +762,40 @@ void assert_conversation_display_changes_only_copy_get_answer_stays_byte_for_byt
 			(std::istreambuf_iterator<char>(conversation_source)),
 			std::istreambuf_iterator<char>());
 	assert(!conversation.empty());
+	assert(header.find("void show_npc_message(const char* msg);")
+			!= std::string::npos);
+	assert(header.find("void show_npc_message(const char* msg,")
+			!= std::string::npos);
+	assert(header.find("std::function<void()> first_page_ready")
+			!= std::string::npos);
+	const size_t message_method = conversation.find(
+			"void Conversation::show_npc_message(");
+	const size_t present_first_page = conversation.find(
+			"auto present_first_page = [&]()", message_method);
+	const size_t first_page_blit = conversation.find(
+			"gwin->show(true);", present_first_page);
+	const size_t first_page_callback = conversation.find(
+			"callback();", first_page_blit);
+	assert(message_method != std::string::npos);
+	assert(present_first_page != std::string::npos);
+	assert(first_page_blit != std::string::npos);
+	assert(first_page_callback != std::string::npos);
+	assert(present_first_page < first_page_blit);
+	assert(first_page_blit < first_page_callback);
+	const size_t overflow_page_ready = conversation.find(
+			"present_first_page();", first_page_callback);
+	const size_t overflow_page_click = conversation.find(
+			"Get_click(", overflow_page_ready);
+	assert(overflow_page_ready != std::string::npos);
+	assert(overflow_page_click != std::string::npos);
+	assert(overflow_page_ready < overflow_page_click);
+	const size_t final_page_text = conversation.find(
+			"info->cur_text         = display;", overflow_page_click);
+	const size_t final_page_ready = conversation.find(
+			"present_first_page();", final_page_text);
+	assert(final_page_text != std::string::npos);
+	assert(final_page_ready != std::string::npos);
+	assert(final_page_text < final_page_ready);
 	assert(conversation.find("GameplayTranslationKind::Choice")
 			!= std::string::npos);
 	assert(conversation.find(
@@ -792,13 +826,21 @@ void assert_conversation_display_changes_only_copy_get_answer_stays_byte_for_byt
 			"translations.translate(",
 			dialogue_record);
 	const size_t dialogue_display = ucinternal.find(
-			"conv->show_npc_message(display.c_str());", dialogue_translate);
+			"conv->show_npc_message(display.c_str(), start_voice);", dialogue_translate);
 	assert(dialogue_record != std::string::npos);
 	assert(dialogue_record_english != std::string::npos);
 	assert(dialogue_translate != std::string::npos);
 	assert(dialogue_display != std::string::npos);
 	assert(dialogue_record < dialogue_translate);
 	assert(dialogue_translate < dialogue_display);
+	const size_t voice_fallback = ucinternal.find(
+			"start_voice();", dialogue_display);
+	const size_t dialogue_continue = ucinternal.find(
+			"click_to_continue();", voice_fallback);
+	assert(voice_fallback != std::string::npos);
+	assert(dialogue_continue != std::string::npos);
+	assert(dialogue_display < voice_fallback);
+	assert(voice_fallback < dialogue_continue);
 	assert(ucinternal.find("conv->set_choice_context(")
 			!= std::string::npos);
 	assert(ucinternal.find("const char* ans = conv->get_answer(choice_num);")
@@ -2058,6 +2100,63 @@ void assert_dynamic_voice_metadata_routes_roles_and_gender_independently() {
 	std::vector<U6VoiceRouting::DynamicVoiceMetadata> muted_span_metadata;
 	assert(!U6VoiceRouting::parse_dynamic_voice_manifest(
 			muted_span_input, muted_span_metadata, error));
+	std::string omitted_spoken_text = manifest_line;
+	const std::string final_span_start =
+			"\"index\":2,\"role\":\"narrator\",\"start_char\":27";
+	const std::size_t final_span_at = omitted_spoken_text.find(final_span_start);
+	assert(final_span_at != std::string::npos);
+	assert(omitted_spoken_text.find(final_span_start, final_span_at + 1)
+			== std::string::npos);
+	omitted_spoken_text.replace(final_span_at, final_span_start.size(),
+			"\"index\":2,\"role\":\"narrator\",\"start_char\":32");
+	std::istringstream omitted_span_input(omitted_spoken_text);
+	std::vector<U6VoiceRouting::DynamicVoiceMetadata> omitted_span_metadata;
+	assert(!U6VoiceRouting::parse_dynamic_voice_manifest(
+			omitted_span_input, omitted_span_metadata, error));
+	std::string overlapping_spans = manifest_line;
+	const std::string speaker_span =
+			"\"index\":1,\"role\":\"speaker\",\"start_char\":8,\"end_char\":26";
+	const std::size_t speaker_span_at = overlapping_spans.find(speaker_span);
+	assert(speaker_span_at != std::string::npos);
+	overlapping_spans.replace(speaker_span_at, speaker_span.size(),
+			"\"index\":1,\"role\":\"speaker\",\"start_char\":8,\"end_char\":29");
+	std::istringstream overlapping_span_input(overlapping_spans);
+	std::vector<U6VoiceRouting::DynamicVoiceMetadata> overlapping_span_metadata;
+	assert(!U6VoiceRouting::parse_dynamic_voice_manifest(
+			overlapping_span_input, overlapping_span_metadata, error));
+	std::string wrapped_span_offsets = manifest_line;
+	const std::string first_span_bounds =
+			"\"index\":0,\"role\":\"narrator\",\"start_char\":0,\"end_char\":7";
+	const std::size_t first_span_bounds_at =
+			wrapped_span_offsets.find(first_span_bounds);
+	assert(first_span_bounds_at != std::string::npos);
+	wrapped_span_offsets.replace(first_span_bounds_at, first_span_bounds.size(),
+			"\"index\":0,\"role\":\"narrator\",\"start_char\":4294967296,"
+			"\"end_char\":4294967303");
+	std::istringstream wrapped_offset_input(wrapped_span_offsets);
+	std::vector<U6VoiceRouting::DynamicVoiceMetadata> wrapped_offset_metadata;
+	assert(!U6VoiceRouting::parse_dynamic_voice_manifest(
+			wrapped_offset_input, wrapped_offset_metadata, error));
+	std::string reversed_spans = manifest_line;
+	const std::string first_reordered_bounds =
+			"\"index\":1,\"role\":\"speaker\",\"start_char\":8,\"end_char\":26";
+	const std::string second_reordered_bounds =
+			"\"index\":2,\"role\":\"narrator\",\"start_char\":27,\"end_char\":34";
+	const std::size_t first_reordered_at = reversed_spans.find(first_reordered_bounds);
+	const std::size_t second_reordered_at = reversed_spans.find(second_reordered_bounds);
+	assert(first_reordered_at != std::string::npos);
+	assert(second_reordered_at != std::string::npos);
+	assert(first_reordered_at < second_reordered_at);
+	reversed_spans.replace(second_reordered_at, second_reordered_bounds.size(),
+			"\"index\":2,\"role\":\"narrator\",\"start_char\":8,\"end_char\":26");
+	reversed_spans.replace(first_reordered_at, first_reordered_bounds.size(),
+			"\"index\":1,\"role\":\"speaker\",\"start_char\":27,\"end_char\":34");
+	std::istringstream reversed_span_input(reversed_spans);
+	std::vector<U6VoiceRouting::DynamicVoiceMetadata> reversed_span_metadata;
+	assert(!U6VoiceRouting::parse_dynamic_voice_manifest(
+			reversed_span_input, reversed_span_metadata, error));
+	assert(error.find("dynamic role spans are not in source order")
+			!= std::string::npos);
 
 	U6VoiceRouting::VoiceRouteContext context;
 	context.speaker_npc = -17;

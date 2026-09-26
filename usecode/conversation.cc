@@ -41,6 +41,7 @@
 #include "useval.h"
 #include <algorithm>
 #include <cstring>
+#include <utility>
 
 using std::size_t;
 using std::string;
@@ -492,6 +493,11 @@ std::string resolve_dialogue_tokens(std::string text) {
 }    // namespace
 
 void Conversation::show_npc_message(const char* msg) {
+	show_npc_message(msg, {});
+}
+
+void Conversation::show_npc_message(
+		const char* msg, std::function<void()> first_page_ready) {
 	if (last_face_shown == -1) {
 		return;
 	}
@@ -647,11 +653,24 @@ void Conversation::show_npc_message(const char* msg) {
 	// page-2 tail that is pure English doesn't switch to the (larger) pixel
 	// font metrics.
 	info->cjk_mode = has_chinese;
+	auto present_first_page = [&]() {
+		if (!first_page_ready) {
+			return;
+		}
+		gwin->paint();
+		paint();
+		gwin->show(true);
+		std::function<void()> callback = std::move(first_page_ready);
+		callback();
+	};
 	/* NOTE:  The original centers text for Guardian, snake.    */
 	while ((height = sman->paint_text_box(font, display, box.x, box.y, box.w, render_box_h, -1, true, info->large_face, shading, nullptr, has_chinese))
 		   < 0) {
 		// More to do?
 		info->cur_text = string(display, -height);
+		// Present the first partial page and start voice before waiting for
+		// the player's click to reveal any overflow pages.
+		present_first_page();
 		int  x;
 		int  y;
 		char c;
@@ -665,6 +684,9 @@ void Conversation::show_npc_message(const char* msg) {
 	info->cur_text         = display;
 	info->text_pending     = true;
 	gwin->set_painted();
+	// Single-page dialogue has no Get_click() inside this function to paint
+	// the buffer. Make the first page visible before synchronous voice decode.
+	present_first_page();
 	//	gwin->show();
 }
 
