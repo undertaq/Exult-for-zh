@@ -1921,6 +1921,7 @@ dialogue	dialogue:0x0408:b63:0	9a7c2e04d0063a48462548ecdf432bca02ea8eb1edb7810b7
 dialogue	dialogue:0x0408:b76:0	a056ff7200830aa3aee4604528ab3515f58a1b982627caef0605717ef647e660	願幸運隨你同行！
 dialogue	dialogue:0x0408:d7:0	9d8d0d352595c4a0e8a5acec63606557badca61ecd019b61a19aa07848f1b3ac	我想我幫不上忙！
 dialogue	dialogue:0x0408:e:0	63953b26f710a435fccc0cd73520f25e0e1d8bef64e7a7bf528283de68a97559	Julia 在水上
+dialogue	dialogue:0x0408:fallback_73faab98ffeef45b:0	73faab98ffeef45ba62c473a473f15949c2fdb2ddced7658882a4320d616c42e	@幸會，聖者！在這樣的<VAR0>，我能為你做些什麼？@
 dialogue	dialogue:0x0409:0:0	354cbfc814262a7a81d343f7d6ebc4adfb4266e5081a78f6a19ff16802dce8b2	她
 dialogue	dialogue:0x0409:102:0	58393216032be6257784ac0c6a73efb2a084e27b4cfff1e6acee7b7e6ab93b10	加入
 dialogue	dialogue:0x0409:107:0	2b6ea1da4a7b2d51039138d56e4407f9d73658340f24eaec8e8a375b640d4bcf	隨你心意，
@@ -2666,6 +2667,7 @@ dialogue	dialogue:0x0416:d:0	1785cfc3bc6ac7738e8b38cdccd1af12563c2b9070e07af336a
 dialogue	dialogue:0x0416:e5:0	821688b06da6164e11c9740fb2086080afe2d3e92b3b4d6a67a8046e8ff8cc5f	Iolo！
 dialogue	dialogue:0x0416:ed:0	4d68d6ce733cd06e75ca8bc18dbac51c55b0210c37bc4f3c5ecdb0d4ab4594dd	還有你的同伴們！
 dialogue	dialogue:0x0416:fallback_6696824924c6caa4:0	6696824924c6caa4e95571f44010e2379316fcef61cd5f4e67b66e2c6e3d2731	@再次見面了。在這美好的<VAR0>，我能為你做些什麼？@
+dialogue	dialogue:0x0416:fallback_0d88ccf038bb344f:0	0d88ccf038bb344fb55edeadd4e1dc915cd959fd295c22da45f7236227371d71	@在這美好的<VAR0>，我能為你做些什麼？@
 dialogue	dialogue:0x0416:fallback_93fc9f7add1e08d7:0	93fc9f7add1e08d7616e7c54e4a8d30f70fdc4a75cdecc06cfd0459e58ccafc0	轉過身對著你，Gwenneth 說，@在這美好的<VAR0>，我能為 Iolo 的朋友做些什麼？@
 dialogue	dialogue:0x0417:0:0	2e4b9cc2428beb7bff6a56c14d7304e472a23e890e91ef0a6b0b0380e89f9734	朋友
 dialogue	dialogue:0x0417:136:0	799af252b82bb086f2a2967f6590231aa6c9e932e841f65cf100fd0b78ee4537	Dupre 把手放在你的肩上，低聲說：「Matt 小時候發生了不幸的意外，導致他失聰且啞口。我建議你問問他的妻子，
@@ -3182,6 +3184,7 @@ dialogue	dialogue:0x0421:ba:0	4aead15804555ed49424c72157f9ef772268853471488b8c62
 dialogue	dialogue:0x0421:d:0	1785cfc3bc6ac7738e8b38cdccd1af12563c2b9070e07af336a1bf8c0f772b6a	無
 dialogue	dialogue:0x0421:da:0	ac163d939bc96e1a070db0544cb823e8d3c5adccc4a6117f8262b29c301acbb2	「哪件物品？」
 dialogue	dialogue:0x0421:e8:0	e71bf307bc5107f4a76bb340cf4f516557be52e8b513dcc1539c903e61e0f1f6	@還有其他你要購買的東西嗎？@
+dialogue	dialogue:0x0421:fallback_55f9d7a9a6b28dd1:0	55f9d7a9a6b28dd1c2cf42eb09730d77b6a2f1ffb8d4525514ce96c75aa8e461	@在這麼好的<VAR0>，我能幫你什麼忙？@
 dialogue	dialogue:0x0422:0:0	bc8a00f7f6fb535fa036a97b51ade4f07a01ec4ec2665ba746e206fde245bdf6	旅人
 dialogue	dialogue:0x0422:10c:0	2d41366ee651fe95bf92ed923a298bbd11128dc06528e648fe51c5dfb080dbbf	@你好，歡迎光臨！@
 dialogue	dialogue:0x0422:121:0	1da004986ffafde0c2decb698621ee53c693cfe8bdfed105cac17662bd4ef15a	@你好，又見面了..@
@@ -3220,6 +3223,8 @@ dialogue	dialogue:0x0422:a:0	cd50fc998e7e535b8908c8efc8233cfc25ffa79ed9067abf1eb
 dialogue	dialogue:0x0422:bf:0	619be06df6bb68c3bfb63e3f23619b57346d8a2d92bcc35b16a2e06584e1a9f3	@只是我的幻想..罷了..@
 dialogue	dialogue:0x0422:e3:0	13108f2544df1699da96999177b944d1ab976ec6ceeb5f568b41a213be5be9d4	沒有可互動的馬匹。
 dialogue	dialogue:0x0422:fe:0	d1b045f932fa57a6a15cba5002e03b0333d29159b9c2d48002ac68f4c48a54ae	@抱歉..@
+dialogue	dialogue:0x0422:fallback_0237ce43fa87a683:0	0237ce43fa87a68324f2cc124fe4e533bd1cda1bf9631a61845d1bb8b06eb526	@你好，旅人們！在這麼好的<VAR0>，我能為你們做些什麼？@
+dialogue	dialogue:0x0422:fallback_8b31f53add6e4fa6:0	8b31f53add6e4fa6ef7fa58c3bf9a94150a45ad37076b41a29ab0e3c13dc6c1d	@你好，旅人！在這麼好的<VAR0>，我能為你做些什麼？@
 dialogue	dialogue:0x0423:0:0	2e4b9cc2428beb7bff6a56c14d7304e472a23e890e91ef0a6b0b0380e89f9734	朋友
 dialogue	dialogue:0x0423:108:0	c6626832597f1fe477eb6cc2c64535ae33922a2b15f122b92b896cfde3f91b0c	. 也許你能夠做到他人所無法做到的事。我派了十個人去奪回被石像鬼佔領的憐憫神殿。不幸的是，他們徹底失敗了。@@ Shrine of Compassion
 dialogue	dialogue:0x0423:1aa:0	48350a64e2b5a24b76502043f3229d09f835ecc9c2bf025e31021066ce35ebc5	@倖存者們正在 Cove 鎮休養。你最好先去找他們談談。也許他們得知了一些對你有用的情報。@
@@ -4615,6 +4620,7 @@ dialogue	dialogue:0x043d:90:0	cfe37010e331b6f1088b702409110019262f77768f0e8d6f67
 dialogue	dialogue:0x043d:bc:0	7000692ba671ea88e0781e1d358b661c514eae7038dd7186a4a69eee78bff90f	「良好的早餐是一天良好的開始！」他喊道。
 dialogue	dialogue:0x043d:f9:0	6511b323f66548f6c9d2163b053f6e758212f3bb3a36d706221ee81c74aba634	你把房卡還給了 Martin。
 dialogue	dialogue:0x043d:f:0	037c4fc161ca90fcde98d2423f6a8934df50775413c6f6f72c3590ebb5a63ab6	見禮了，大人..
+dialogue	dialogue:0x043d:fallback_985e5549dd12f5c5:0	985e5549dd12f5c5dcc5bdea3c4caa0df83036d7caadd69d5ff915b45747ccc5	@在這樣的<VAR0>，我能為你做些什麼？@
 dialogue	dialogue:0x043e:0:0	cf2e5bff1ef03dcd20d1a0b18ef7d89fc80a3554434165753672f6f40fde1d25	女人
 dialogue	dialogue:0x043e:106:0	d791f51d4025eda72dfde137061cebff620b4257d9c55cbe99a993bd6c3b8723	我在裝扮成乞丐。這樣沒人會懷疑我真正的身份。給，給我幾個錢，免得別人起疑。
 dialogue	dialogue:0x043e:197:0	65c21ee35aa3ad225fe4ee56aec09c1ff0ba617c098fff91194834eb8a3f2506	你要給他一些錢嗎？
@@ -5471,6 +5477,7 @@ dialogue	dialogue:0x044d:db:0	6b161a4056ace4511def9dd155dde47a5456e27eb2fa9d7261
 dialogue	dialogue:0x044d:de:0	135c6d1eaa9bb4a377b6cd99ea4ad476177952f9ef516b80b652fe64eeda0f1b	@啊，
 dialogue	dialogue:0x044d:e4:0	94d73a01d269ef192a253f11f53548e7058946df739524d276d20983f7819c6b	，你回來加深了解了！@
 dialogue	dialogue:0x044d:f:0	99cd0dcc10707dfdd746834829d568c380c17a3c7d18c927561359f9fe6ed880	@見禮了，先生。@
+dialogue	dialogue:0x044d:fallback_105e567410fdf0df:0	105e567410fdf0df47fd9c07730284ece24829a656cd8bda681f5b72c71d1617	@在這麼好的<VAR0>，我能為你效勞嗎？@
 dialogue	dialogue:0x044e:0:0	ac0029638f2bdd9bc3a8ab0d7aaa8163e36ae07a0ca4702c9214a62e3798cccc	你看到一個魁梧的男人，看起來比其他病人健康一點。*
 dialogue	dialogue:0x044e:106:0	425730a2bc03632b7c76601d5b581621c0a477fb651a6a313d30fa47e53eaee0	。
 dialogue	dialogue:0x044e:109:0	82a3537ff0dbce7eec35d69edc3a189ee6f17d82f353a553f9aa96cb0be3ce89	名字
@@ -5783,6 +5790,14 @@ dialogue	dialogue:0x0454:e7:0	82a3537ff0dbce7eec35d69edc3a189ee6f17d82f353a553f9
 dialogue	dialogue:0x0454:ec:0	5e8c9902207afaeb7120430c585a445f21e92932081d64bc99f80e4925bcb002	工作
 dialogue	dialogue:0x0454:f0:0	b49f425a7e1f9cff3856329ada223f2f9d368f15a00cf48df16ca95986137fe8	再見
 dialogue	dialogue:0x0454:f4:0	60a508b00499336906dfded98712ee946c77975ff1f30223f476356fe9427e29	Arturosis
+dialogue	dialogue:0x0454:fallback_00a10b5cce699f9d:0	00a10b5cce699f9d2a46149c8f3bacbc24042ad4dc21282b3e770e0d2d830e2f	@朋友，你好。在這樣的<VAR0>，我能為你做些什麼？@
+dialogue	dialogue:0x0454:fallback_12d4e509cbee2e2a:0	12d4e509cbee2e2a340855bc69b1dbbb928cd5758b1b213304ce71cdc5a6949f	@各位陌生人，你們好。在這樣的<VAR0>，我能為你們做些什麼？@
+dialogue	dialogue:0x0454:fallback_406a6d6e1e0bcba4:0	406a6d6e1e0bcba415bd863d0b14f41045afb80c290cc6993b287364c2c702b1	@又見面了，陌生人。在這樣的<VAR0>，我能為你做些什麼？@
+dialogue	dialogue:0x0454:fallback_515e710a1af249a3:0	515e710a1af249a307cee2b28fd0007781375b57fa45c02093a0bed8be4ee564	@陌生人，你好。在這樣的<VAR0>，我能為你做些什麼？@
+dialogue	dialogue:0x0454:fallback_806871209a9f8c30:0	806871209a9f8c30e7be23eacebf217ef38b97fd7b486c5d31d1d305b6aac75a	@各位朋友，你們好。在這樣的<VAR0>，我能為你們做些什麼？@
+dialogue	dialogue:0x0454:fallback_84c5f9d0436c7d49:0	84c5f9d0436c7d49a1897014c8849c927c9e71b3cac0df49277397529d46822a	@又見面了，各位朋友。在這樣的<VAR0>，我能為你們做些什麼？@
+dialogue	dialogue:0x0454:fallback_8acc0ad19c2dc144:0	8acc0ad19c2dc144a72cedf2f0d101e6112ddf2ead5aacbeb5ae13331bab1e23	@又見面了，各位陌生人。在這樣的<VAR0>，我能為你們做些什麼？@
+dialogue	dialogue:0x0454:fallback_da5d5745b637ae39:0	da5d5745b637ae39562d920b2206c29a223ad34eda04c2ce17f2a34e3662da7b	@又見面了，朋友。在這樣的<VAR0>，我能為你做些什麼？@
 dialogue	dialogue:0x0455:0:0	728634cb3bc407ebf0e48b41177cf2562f9c090aeb204facdbc9a1db291281fa	商店營業中
 dialogue	dialogue:0x0455:11c:0	e0817ad7da5f0f931153e88a00ab7743bf1b3f6a19f0ed7a7cae907014377054	馬蹄鐵
 dialogue	dialogue:0x0455:127:0	3e7200432835d6765af0178e64ce0cf910e950f4fec8d566a118d36ebb6ac0b5	炮彈
@@ -6104,6 +6119,7 @@ dialogue	dialogue:0x045b:ba:0	769055508be29f136a5da446e3704fb9095957b2a6d59599ff
 dialogue	dialogue:0x045b:cd:0	b597e3c1e77663b02667d6c4af95dd5b044c75c87d48d9ad0e5fe24e92b9a04a	@真有趣。我記得你的名字！@
 dialogue	dialogue:0x045b:f3:0	0cd38b72203959b8af0d8183ce35b3180278a245a8a6df6f42d644fc34cefda9	我經營這家鋸木廠！有什麼我可以幫忙的嗎？
 dialogue	dialogue:0x045b:f:0	d1b045f932fa57a6a15cba5002e03b0333d29159b9c2d48002ac68f4c48a54ae	@抱歉..@
+dialogue	dialogue:0x045b:fallback_3e89d5138653ac61:0	3e89d5138653ac618dc17f605ebb869fbe0d8455588f566a9260ee363ef9b723	@在這樣的<VAR0>，我能為你做些什麼？@
 dialogue	dialogue:0x045c:0:0	1785cfc3bc6ac7738e8b38cdccd1af12563c2b9070e07af336a1bf8c0f772b6a	無
 dialogue	dialogue:0x045c:10c:0	728634cb3bc407ebf0e48b41177cf2562f9c090aeb204facdbc9a1db291281fa	商店營業中
 dialogue	dialogue:0x045c:119:0	2e4b9cc2428beb7bff6a56c14d7304e472a23e890e91ef0a6b0b0380e89f9734	朋友
@@ -7995,6 +8011,7 @@ dialogue	dialogue:0x047e:ca:0	b49f425a7e1f9cff3856329ada223f2f9d368f15a00cf48df1
 dialogue	dialogue:0x047e:ce:0	c1fb4bfa832512c2ad8e3eb546960e4fa799b1bfaf4143d6cbad8485395cce79	住宿
 dialogue	dialogue:0x047e:d6:0	662cccdb7ff504004e1575989298acd141b1d97563c3a791c68af7ce2813b110	@Timothy。@ 他露出友好的微笑並點了點頭。@
 dialogue	dialogue:0x047e:d:0	2e4b9cc2428beb7bff6a56c14d7304e472a23e890e91ef0a6b0b0380e89f9734	朋友
+dialogue	dialogue:0x047e:fallback_d8a4a1daf715e81e:0	d8a4a1daf715e81e0f6fc17e1e5c12c04f09b0ca358c56f865244e739e7fd663	@在這麼好的<VAR0>，想找地方投宿嗎？@
 dialogue	dialogue:0x047f:0:0	1785cfc3bc6ac7738e8b38cdccd1af12563c2b9070e07af336a1bf8c0f772b6a	無
 dialogue	dialogue:0x047f:1039:0	af6b2a9e1d3c28ee46c7342ce65494674aaf2900f14100d39ddb9e5a662ef3e0	替換為聖者的道別語
 dialogue	dialogue:0x047f:105e:0	64c61e4b4a298c6581e0935db0bcb00d24cebc5f20578af93e0f747a01cc6f74	替換為 NPC 的道別語
@@ -8528,6 +8545,7 @@ dialogue	dialogue:0x048a:ef:0	b49f425a7e1f9cff3856329ada223f2f9d368f15a00cf48df1
 dialogue	dialogue:0x048a:f3:0	bb2ab49f0e68863d29eb96b3ab802ca64a1f73487b514a4c367eda5aa77dd11e	Sutek
 dialogue	dialogue:0x048a:f9:0	ec2e215e9e1b87d48e0128f506108430a9b3a03df316f4b596d914d626cf99a9	我叫 Gorn，
 dialogue	dialogue:0x048a:f:0	e8a1c0254026ebe9a829c53ec79ee49739757fd585a9a599436a374fd8521c0b	致敬，戰士。@ 
+dialogue	dialogue:0x048a:fallback_f300d7e6f2ffb854:0	f300d7e6f2ffb8548783e59e0cfff215aca2aad1f2e7fba20aa0f4af24040ab6	@你好，<VAR0>！在這麼好的<VAR1>，你怎麼會來到這裡？@
 dialogue	dialogue:0x048b:0:0	728634cb3bc407ebf0e48b41177cf2562f9c090aeb204facdbc9a1db291281fa	商店營業中
 dialogue	dialogue:0x048b:10f:0	1f2968f12172e8e774d2946eda6a9ba7e78f8b3436f0296b9ed221b7c83d5aa1	Iolo，我看到你找到了一本書。我可以檢查一下嗎？
 dialogue	dialogue:0x048b:14e:0	1c6203c50e92f6eef262f2391723a8889b048cef53e007bc079ea8a1fbef9d03	@當然可以，大人。也許你能比我更理解它的意思。@ Iolo 說道。
@@ -9097,6 +9115,7 @@ dialogue	dialogue:0x0491:f17:0	03fc7b41c0e37e4b52bbb4c57adc07a7250dc65c8b442064e
 dialogue	dialogue:0x0491:f:0	d218db17e327bc1c974e0d7b7bb5ae942bbd9b174ce812c30994e65b85c51fb8	@你好，漁夫！@
 dialogue	dialogue:0x0491:fc5:0	d37f23c815bbb8e0f34bf993f9dac8a0df638dd04aaf66e53d739e58e18da154	Mondain
 dialogue	dialogue:0x0491:fcd:0	382eb0bc126aa76a78be1d469aabe76a0f81a5ff508cd1794cc373e89a508414	他停下點煙斗的動作，看著你。 @你從哪裡冒出來的？故事太長了，沒空跟你說，
+dialogue	dialogue:0x0491:fallback_d23859d144a6c9ca:0	d23859d144a6c9ca2a1746a911c192785590de27d6173e69a0e29f31aaa948ad	他停下重新點燃煙斗的動作，看向你。 @你到底去哪裡了？在這樣的<VAR0>，這故事太長，沒時間細說。@
 dialogue	dialogue:0x0492:0:0	2e4b9cc2428beb7bff6a56c14d7304e472a23e890e91ef0a6b0b0380e89f9734	朋友
 dialogue	dialogue:0x0492:145:0	5de115c663707efc65ea35ef5ea5fb78c64f50464a87a61f94a2d2fbcff429da	你發現他的嘴型並不完全合拍，那聲音似乎來自你腦海的深處。靈魂的眼睛變得更大、更專注，彷彿他在更努力地傳達訊息。聲音開始更貼合那些模糊但漸趨清晰的詞語。*
 dialogue	dialogue:0x0492:1c:0	0661015d759778eaa21026ab4bbd9a757b6478283d87403303e06e4020dfdbee	@...Quenton？@
@@ -14205,6 +14224,48 @@ dialogue	dialogue:0x0d07:a2:0	b6573c41192a51737751be4022e9fca32091e8e22476a2bd32
 dialogue	dialogue:0x0d07:c8:0	88faaf8509eef0d949280d183c9507ab4e195b12bcf63f49e6e07a4597682fa1	混沌劍感覺非常燙且不穩定！
 dialogue	dialogue:0x0d07:f5:0	35a4ead92ec4095944694b64b5fff160ffc21619609d5a80f23d3ec2fc761cf4	混沌劍在我手中爆炸了！
 dialogue	dialogue:0x0d09:0:0	88c8a11e69c628106231f1ae17a1ed9887666940595e5917fa793d4e82f593d1	一張羊皮紙！
+dialogue	dialogue:0x0405:fallback_289dfa53c51071c0:0	289dfa53c51071c06d0008f7e17157b444889689fce67d02a1bf3d21394f8c97	@也許我可以幫忙。請邀請我加入你的隊伍，<VAR0>，我很樂意！@
+dialogue	dialogue:0x0409:fallback_1b17d7f56c4a7a02:0	1b17d7f56c4a7a02bbb93549bfa1fb1c06defce246ce5be0c6f2d7401ce11add	@石像鬼對這片土地構成重大威脅，<VAR0>。許多英勇的士兵都在抵禦入侵者、保護我們時犧牲了！@
+dialogue	dialogue:0x041a:fallback_3ec36ef9dd18995b:0	3ec36ef9dd18995bfef0ffe44dcba7527e0f50e0227e1813639512cf89b918dc	@嘿，<VAR0>。@
+dialogue	dialogue:0x0424:fallback_e90d6cd37f10e488:0	e90d6cd37f10e48809e8834355f0694318cfedd64576451b4dc31fd2799d2fa8	@是啊，<VAR0>，朋友們。@
+dialogue	dialogue:0x0424:fallback_2b906cabbd9d0f6e:0	2b906cabbd9d0f6eba52ace527b0b1d81c81af3f2eeefa71fb2f0475db6190cc	@是啊，<VAR0>，我的朋友。@
+dialogue	dialogue:0x0442:fallback_c665bc8c3ca506fd:0	c665bc8c3ca506fd02e6f15a7b36e89ea367ed78902481ff18745d6c2e87fc30	@<VAR0>，我的朋友。@
+dialogue	dialogue:0x045a:fallback_36901f9b10bea551:0	36901f9b10bea5514ec9e0884ff68ef511c12e47a74fbc3162ecf20ff724fe63	@你不必告訴我你的名字，<VAR0>。聖者早已名揚四方！@
+dialogue	dialogue:0x045c:fallback_35f8d84658c34482:0	35f8d84658c34482810f05c6c2aeae75afe262c5537927c878aa0857a4f074a0	@<VAR0>，聖者。@
+dialogue	dialogue:0x045d:fallback_c67a3a66da1475cc:0	c67a3a66da1475cc5cebb0a4d59b7f0eb8104fe13419c03252dae300f76bbda5	@<VAR0>，<VAR1>。@
+dialogue	dialogue:0x04dd:fallback_39010f348980334a:0	39010f348980334ab4db718839dc44f32e8190a764ea7f709cd9b8db61d24d3d	@<VAR0>，<VAR1>。來，請坐下來和我們聊聊。@
+dialogue	dialogue:0x04df:fallback_bffb646c22cb0f49:0	bffb646c22cb0f499372cc272413df22f09f30b70060ec124c9593af6d8fc379	@噢，你一定是<VAR0>，那位大名鼎鼎的聖者！能見到你真是我的榮幸。@
+dialogue	dialogue:0x04f1:fallback_d6430e9fc250d19f:0	d6430e9fc250d19fd527096d5becce6cb18960d0a385b97ddc447a5c6d8e21bc	@Sandy說，吃東西的口訣是「真好吃」，<VAR0>。嘻嘻！@
+dialogue	dialogue:0x04b6:fallback_4caac0bc8e82b27f:0	4caac0bc8e82b27f4e01c483d27f12dab5e942102e5b5f03bbb869528e071e9f	@向冥界的聖者<VAR0>致意。@
+dialogue	dialogue:0x04de:fallback_351ac2b4e8d893c2:0	351ac2b4e8d893c2851043811263725464818e8a1a4b3ea1e1aeb80cfd549903	@好吧，『<VAR0>』——如果那真是你的名字...你可以叫我Homer。@
+dialogue	dialogue:0x0c68:fallback_af5eab9e63db3a30:0	af5eab9e63db3a30ddb0c1768162e2ff7f545402397ad8c8afb07c78f425dcb1	@年輕人，你還算不錯。好吧，我來替你解毒。@Tobatha把手放在<VAR0>身上，清除了毒素。@
+dialogue	dialogue:0x0c68:fallback_a8d4adc482c153ec:0	a8d4adc482c153ec89fa0f642f715e8a097f9d02192444cc6fae7691c2666976	@你雖然貧困，但你的訴求正當。我會免費替你治療。@Tara拿起藥瓶，將藥水餵給<VAR0>。@
+dialogue	dialogue:0x0c69:fallback_b58d1882eff7816b:0	b58d1882eff7816ba01ecd9cd242c2431c0c3a32e61e2835f9542643dc31e8b5	@錢不夠。你還差<VAR0>金幣。去找掘墓人吧，我想他的收費會比較低。@
+dialogue	dialogue:0x0c78:fallback_d33cdf4c47da719b:0	d33cdf4c47da719bfac7be7895c88ad812bf9ae5e1b97e965ff8c40f345cab14	@有些人說，我做的遠行者麵餅是這一帶最好吃的。只要<VAR0>金幣。你想試試嗎？@
+dialogue	dialogue:0x0c78:fallback_425f2988131c6008:0	425f2988131c60089ede348b2d56245dc86182430bea3df1e2d896e60ac4454d	@我的魚都是向 Conor 買來的新鮮魚貨。每份<VAR0>金幣。你想試試嗎？@
+dialogue	dialogue:0x0c78:fallback_f61df0c6f3f182f2:0	f61df0c6f3f182f2ab4e5909337ddabe8334ee49794cfadd95192414db5b4606	@那要花<VAR0>金幣。你想試試嗎？@
+dialogue	dialogue:0x0c78:fallback_711301c62392707a:0	711301c62392707ace683a51396d463741f1752bce59d593c8d7ce40e2682610	@有些人說，我做的遠行者麵餅是這一帶最好吃的。每份只要<VAR0>金幣。要來一份嗎？@
+dialogue	dialogue:0x0c78:fallback_1b589b02c8dc0872:0	1b589b02c8dc0872459b3a379767da136b8c48464056c7990bcb4b8a28c5a552	@我賣的魚都是向 Conor 買來的新鮮魚貨。每份<VAR0>金幣。想買一份嗎？@
+dialogue	dialogue:0x0c78:fallback_fe97fd9276ea42f2:0	fe97fd9276ea42f2a6946540759f200a64991961118b67036f54abc105c1986a	@這份要花<VAR0>金幣。你要來一份嗎？@
+dialogue	dialogue:0x0c78:fallback_9965e591c650ba62:0	9965e591c650ba62f00087851f102abb342ceba3f9ba816a05f8dbaaa84f6abc	@有些人說，我做的遠行者麵餅是這一帶最好吃的。每份只要<VAR0>金幣。想來一份嗎？@
+dialogue	dialogue:0x0c78:fallback_0cca8409a50b5799:0	0cca8409a50b579921994478ad2515a8e2d2caf9ef0ebfbd5e457c2a28a53059	@我賣的魚都是向 Conor 買來的新鮮魚貨。每份<VAR0>金幣。想來一份嗎？@
+dialogue	dialogue:0x0c78:fallback_4b3f8231aa2d457c:0	4b3f8231aa2d457cb5c0b0719604c3bf597d3b64f1ebcb92f4804fd8aca43a2d	@每份要花<VAR0>金幣。你想來一份嗎？@
+dialogue	dialogue:0x0c7e:fallback_883213289abc392e:0	883213289abc392ed1d8b7ce95de82817c50f324b9b06799890d9a33d8e84aaf	@所有隊員現在都很健康！我們用了<VAR0>黃色藥水和<VAR1>繃帶。@
+dialogue	dialogue:0x0c7e:fallback_05d7d2cbd024202e:0	05d7d2cbd024202eabe724b57fde3a147048903065444c9cda1321e8487cf41d	@所有隊員現在的健康狀況都很好，但仍有人中毒。我們用了<VAR0>黃色藥水、<VAR1>紅色藥水和<VAR2>繃帶。@
+dialogue	dialogue:0x0cc8:fallback_33c0bf6ea0b9a481:0	33c0bf6ea0b9a48161a3bc74d23bc55ee91e125fb74259fa26b9f45b3d72441d	艾歐低聲對<VAR0>說：「我懇求你別考慮這個瘋狂的提議。現在我明白，為什麼當初我們把他留在地牢裡任其腐爛！就算海盜擁有數不盡的財寶，讓王國徹底擺脫Chuckles也絕非正義之舉！」@
+dialogue	dialogue:0x0435:fallback_aad0b2433515aa3c:0	aad0b2433515aa3c722bc1d36696e92e5f4fcff47fe1e8dbf53d45710fb4d0d7	@好，<VAR0>張額外卡片，每張售價5枚金幣，共計<VAR1>枚金幣。@
+dialogue	dialogue:0x045a:fallback_551d4fabf00c2377:0	551d4fabf00c2377394df87216eb49cfc2a19d52f678117ed5c2f8fd4f5d71f9	@這些籃子結實又好看。以這個價錢，你在整個Britannia都找不到更好的了，只要<VAR0>金幣。要幾個？@
+dialogue	dialogue:0x047e:fallback_b0b395d4d2f9010c:0	b0b395d4d2f9010c1afc7c84a6f16ebfb0f180efdab1c26ca13507e9f41cf926	@住宿加一餐共要<VAR0>金幣，這樣可以嗎？@
+dialogue	dialogue:0x048c:fallback_f14dbb4ba536ce5d:0	f14dbb4ba536ce5d99f83dc36c4eb68ebec18fc004d0c66db243d1a4c9c665a4	@住宿加一餐要<VAR0>金幣。有興趣嗎？@
+dialogue	dialogue:0x04dc:fallback_96252bdbf1a6684a:0	96252bdbf1a6684a2dbac0d6a92a21098ab0cef3d20d103dcfaee24e6a29e1e9	@每人住宿加一餐要<VAR0>金幣，如何？@
+dialogue	dialogue:0x0c57:fallback_cf9280a2729b493b:0	cf9280a2729b493b08bfef2cb184a982d793da8396c9858543c1ebb2804f5a19	@我的報價是<VAR0>金幣。你覺得可以嗎？@
+dialogue	dialogue:0x0c68:fallback_44ee8771e63844fc:0	44ee8771e63844fc404909d0f73ef99193bc9cb371392ec1fa1c138eb899dcbf	@是的，<VAR0>，我看得出你中毒了。你願意奉獻<VAR1>金幣嗎？@
+dialogue	dialogue:0x0c68:fallback_6ccb4b8759231fe5:0	6ccb4b8759231fe58c46c6a44a753fbd39a39d1fa82bdd1ecef98e044ec5d874	@真有意思，<VAR0>！我只在古書中讀過這種毒。治療費是<VAR1>金幣，有興趣嗎？@
+dialogue	dialogue:0x0c71:fallback_31c56d577a45264c:0	31c56d577a45264cfaa2be10bbb3a00d5cea43289965528c194192e6cacd60c4	@每份售價<VAR0>金幣。你要幾份？@
+dialogue	dialogue:0x0c71:fallback_67ae621be851ab85:0	67ae621be851ab85e3687a603de53013fa25df6abf99073da8998dfd9e90a41e	@<VAR0>每份售價<VAR1>金幣。你要幾份？@
+dialogue	dialogue:0x0c72:fallback_e63ffc76021f9741:0	e63ffc76021f9741a8953c4d85a43783b171602b25ba651306b84ca1fecabea1	@一本魔法書要付<VAR0>金幣。有興趣嗎？@
+dialogue	dialogue:0x0c74:fallback_8b0f62e2d4bc753e:0	8b0f62e2d4bc753e7e060ea58361adf79e90d21611fa13f419805a229ee18531	@我願以每件<VAR1>金幣收購<VAR0>件。@
+dialogue	dialogue:0x0c74:fallback_3b33d34a832e66f3:0	3b33d34a832e66f3adfbd7ec42620873be31d1ea2466ca2d644c938b4297ac42	@你賣出了<VAR0><VAR1>，共收<VAR2>金幣。@我還能為你做些什麼？@
 item	item:0x0000:0:0	8c59ba38922292b97661ebe3e61c8af913fa087a5bf535b0a032f5a373473c5c	地毯
 item	item:0x0001:0:0	b6dce9d1302b80abcb3ed5982cb899d60f69e11e3a2bdbcd5648a991eee287df	人行步道
 item	item:0x0003:0:0	01db71ab8048f74a4b92c26ba77285ade0687ac192758e8185ad52701f649ef2	閃電

@@ -1,0 +1,215 @@
+{
+  "0x0bce:22e:0:adsv_0bce_c1_2": {
+    "speaker_route": {
+      "targets": ["Michael"],
+      "source_sha256": "47ea3124ba6798d052e0b2fad2f3d1f9ea9a0463ef4a73b5cfd587477d26e902",
+      "evidence": "Compiled 0x0bce is Michael's dialogue path; immediately before this dynamic say it sets the active face from itemref, the Michael conversation actor."
+    }
+  },
+  "0x0c4b:166:0:adsv_0c4b_355_19": {
+    "speaker_route": {
+      "targets": ["Avatar"],
+      "source_sha256": "f2a3b46ef667ac1c1913f664d28a00ccea0b2f6c165876c90574ce274f05923c",
+      "evidence": "The shrine reward path sets the active face to NPC -356 (Avatar) before this result line."
+    }
+  },
+  "0x0c4b:4a1:0:adsv_0c4b_331_18": {
+    "speaker_route": {
+      "targets": ["Avatar"],
+      "source_sha256": "088fb89076ca035eb6529602902488d91298cf1ec5d558d75a318206e5a79234",
+      "evidence": "The selected-Avatar branch in 0x0c4c passes NPC -356 (Avatar) into the 0x0c4b reward path before this line."
+    }
+  },
+  "0x0c4c:77:0:adsv_0c4c_273_8": {
+    "speaker_route": {
+      "targets": ["Avatar"],
+      "source_sha256": "d7e364cd58a944c5b934456c3a017dd8c338418d2af88b160d758314de71f193",
+      "evidence": "Menu function 0x0cf9 sets the active face to NPC -356 (Avatar), then invokes 0x0c4c for the selected virtue; the line resets to the caller itemref."
+    }
+  },
+  "0x0c57:69:0:adsv_0c57_22_2": {
+    "speaker_route": {
+      "targets": ["Tiberius", "Sasha", "Stephanie", "Dezana"],
+      "source_sha256": "cf9280a2729b493b08bfef2cb184a982d793da8396c9858543c1ebb2804f5a19",
+      "evidence": "The shared resurrection helper sets its face from itemref and has no static caller edge; fan out to the four U6 healers whose dialogue identifies them as resurrection providers."
+    }
+  },
+  "0x04e2:12a:0:adsv_04e2_138_27": {
+    "source_template_zh": "@現在沒空談。我——呃！@ 他被一拳打中腹部，踉蹌了一下。 @我正忙著呢，<VAR0>。@",
+    "review_note": "The source string contains three role spans, while the existing Hant line omits the narrator action and final spoken clause. Restore complete voice-only Hant wording without changing the game translation."
+  },
+  "0x04e2:ba6:0:adsv_04e2_502_30": {
+    "whole_span": {
+      "en": "You recite a word of power. The pirate frowns.",
+      "zh": "你說出一句充滿力量的口訣。海盜皺起眉頭。"
+    },
+    "review_note": "The runtime mantra is arbitrary player input; replace the whole narration with a generic, grammatical voice-only sentence."
+  },
+  "0x0c4c:77:0:adsv_0c4c_e7_6": {
+    "slots": {
+      "0": {
+        "semantic_type": "topic_name"
+      }
+    },
+    "source_template_zh": "@關於<VAR0>，你還有很多需要學習。@",
+    "review_note": "The slot names an opaque subject. Use a generic subject label and restore the omitted predicate in the voice transcript.",
+    "speaker_route": {
+      "targets": ["Avatar"],
+      "source_sha256": "a55f59888d20a3aec145def7fe466678c3d7101c07bc600fa7574716085d9764",
+      "evidence": "Menu function 0x0cf9 sets the active face to NPC -356 (Avatar), then invokes 0x0c4c for the selected virtue; the line resets to the caller itemref."
+    }
+  },
+  "0x0c4c:77:0:adsv_0c4c_116_7": {
+    "whole_span": {
+      "en": "Your actions show admirable character.",
+      "zh": "你的行為展現出令人欽佩的品格。"
+    },
+    "review_note": "The dynamic value is an opaque virtue/quality name; rewrite the whole sentence without speaking the runtime value.",
+    "speaker_route": {
+      "targets": ["Avatar"],
+      "source_sha256": "3d3700e91377fef4f52d9266d0880e984e96a46dfd639d0ad55d2372ef053b43",
+      "evidence": "Menu function 0x0cf9 sets the active face to NPC -356 (Avatar), then invokes 0x0c4c for the selected virtue; the line resets to the caller itemref."
+    }
+  },
+  "0x0c67:360:0:adsv_0c67_233_11:v3": {
+    "whole_span": {
+      "en": "I can see your wound, friend. Would you offer 30 gold for a cure?",
+      "zh": "我看見你受了傷，朋友。你願意奉獻 30 枚金幣接受治療嗎？"
+    },
+    "review_note": "The dynamic vocative is omitted in favor of a natural generic address; retain the healer's offer and price."
+  },
+  "0x0c67:665:0:adsv_0c67_29e_18_0c67_29e_18": {
+    "whole_span": {
+      "en": "The healer closes her eyes, rests a delicate hand on the patient's brow, and chants softly. The patient feels much better.",
+      "zh": "治療者閉上眼睛，將纖細的手輕放在病患額上，低聲吟唱。病患頓時感覺好多了。"
+    },
+    "review_note": "Both runtime names identify participants in a healing action; replace them with the patient role, preserving the complete narration."
+  },
+  "0x0c67:6cf:0:adsv_0c67_2e3_19": {
+    "whole_span": {
+      "en": "@Thou art not too bad for a youngster. All right, I'll heal ye.@ The healer lays hands on the patient and mends the wounds.",
+      "zh": "@年輕人，你表現得還不錯。好吧，我來替你治療。@治療者將手放在病患身上，治好了傷口。"
+    },
+    "review_note": "Keep the healer's spoken offer and narrator action in their source roles; replace the patient name and healer proper name with generic roles."
+  },
+  "0x0c68:10b:0:adsv_0c68_23a_7:v1": {
+    "whole_span": {
+      "en": "@You look poisoned to me.@ She nods to you. The cure will cost 10 gold. Are you interested?",
+      "zh": "@我看你中毒了。@她朝你點點頭。治療費是 10 枚金幣。你有興趣嗎？"
+    },
+    "review_note": "Replace the player's name with direct second-person wording and retain the source's speaker/narrator split."
+  },
+  "0x0c68:77d:0:adsv_0c68_29b_22": {
+    "whole_span": {
+      "en": "The fever breaks, and the patient feels better.",
+      "zh": "高燒退了，病患也感覺好多了。"
+    },
+    "review_note": "The patient identity is runtime-dependent; use a generic patient reference for the healing narration."
+  },
+  "0x0c68:7dc:0:adsv_0c68_2cc_23": {
+    "whole_span": {
+      "en": "@Thou art not too bad for a youngster. All right, I'll cure ye.@ The healer lays hands on the patient and removes the poison.",
+      "zh": "@年輕人，你表現得還不錯。好吧，我來替你解毒。@治療者將手放在病患身上，解除了毒素。"
+    },
+    "review_note": "Keep the cure offer in the speaker voice and the healing action in narrator voice; replace the runtime patient and healer names generically."
+  },
+  "0x0c68:89c:0:adsv_0c68_302_24": {
+    "whole_span": {
+      "en": "@Thou art poor, but thy cause is just. I will heal thee without payment.@ The healer gives the patient a potion, and the patient recovers.",
+      "zh": "@你雖然貧困，但理由正當。我會免費替你治療。@治療者讓病患服下藥水，病情好轉。"
+    },
+    "review_note": "Preserve the no-payment offer and narrator action while replacing the runtime patient name."
+  },
+  "0x0cb6:cb:0:adsv_0cb6_1c9_33": {
+    "whole_span": {
+      "en": "@Speak the sacred mantra.@",
+      "zh": "@說出神聖的口訣。@"
+    },
+    "review_note": "The runtime mantra is arbitrary; rewrite the complete spoken instruction with a generic phrase.",
+    "speaker_route": {
+      "targets": ["HolderGuy", "Rowan", "Kallibrus", "karma4", "karma3", "thug1", "Genericshrine", "Doug"],
+      "source_sha256": "a0383ad8b3b5b89fdeacd206f5e69173d9715bb4d2f21335e532de75157d68e6",
+      "evidence": "Compiled 0x0cb6 maps the virtue to one of eight NPC IDs (250, 251, 252, 249, 248, 254, 255, 253), then sets that ID as the face before this spoken line."
+    }
+  },
+  "0x04b6:42a:0:adsv_04b6_273_27": {
+    "whole_span": {
+      "en": "Greetings, Avatar of the Underworld.",
+      "zh": "向冥界的聖者致意。",
+      "source_sha256": "4caac0bc8e82b27f4e01c483d27f12dab5e942102e5b5f03bbb869528e071e9f"
+    },
+    "review_note": "The generic player-name substitution duplicated the fixed Avatar of the Underworld title. Use one concise, hash-pinned greeting in each language."
+  },
+  "0x0435:fad:0:adsv_0435_4c1_35_0435_4c1_35": {
+    "whole_span": {
+      "en": "The extra cards cost five gold each; the total depends on how many you take.",
+      "zh": "額外卡片每張五枚金幣，總額依你購買的數量而定。",
+      "source_sha256": "aad0b2433515aa3c722bc1d36696e92e5f4fcff47fe1e8dbf53d45710fb4d0d7"
+    },
+    "review_note": "The repeated numeric placeholders produce ungrammatical generic counts; retain the per-card price and express the quantity generically."
+  },
+  "0x0435:fad:0:adsv_0435_50d_38_0435_50d_38": {
+    "whole_span": {
+      "en": "The extra cards cost five gold each; the total depends on how many you take.",
+      "zh": "額外卡片每張五枚金幣，總額依你購買的數量而定。",
+      "source_sha256": "aad0b2433515aa3c722bc1d36696e92e5f4fcff47fe1e8dbf53d45710fb4d0d7"
+    },
+    "review_note": "The repeated numeric placeholders produce ungrammatical generic counts; retain the per-card price and express the quantity generically."
+  },
+  "0x0435:fad:0:adsv_0435_561_41_0435_561_41": {
+    "whole_span": {
+      "en": "The extra cards cost five gold each; the total depends on how many you take.",
+      "zh": "額外卡片每張五枚金幣，總額依你購買的數量而定。",
+      "source_sha256": "aad0b2433515aa3c722bc1d36696e92e5f4fcff47fe1e8dbf53d45710fb4d0d7"
+    },
+    "review_note": "The repeated numeric placeholders produce ungrammatical generic counts; retain the per-card price and express the quantity generically."
+  },
+  "0x0435:fad:0:adsv_0435_5b5_44_0435_5b5_44": {
+    "whole_span": {
+      "en": "The extra cards cost five gold each; the total depends on how many you take.",
+      "zh": "額外卡片每張五枚金幣，總額依你購買的數量而定。",
+      "source_sha256": "aad0b2433515aa3c722bc1d36696e92e5f4fcff47fe1e8dbf53d45710fb4d0d7"
+    },
+    "review_note": "The repeated numeric placeholders produce ungrammatical generic counts; retain the per-card price and express the quantity generically."
+  },
+  "0x0435:fad:0:adsv_0435_609_47_0435_609_47": {
+    "whole_span": {
+      "en": "The extra cards cost five gold each; the total depends on how many you take.",
+      "zh": "額外卡片每張五枚金幣，總額依你購買的數量而定。",
+      "source_sha256": "aad0b2433515aa3c722bc1d36696e92e5f4fcff47fe1e8dbf53d45710fb4d0d7"
+    },
+    "review_note": "The repeated numeric placeholders produce ungrammatical generic counts; retain the per-card price and express the quantity generically."
+  },
+  "0x0c71:7c:0:adsv_0c71_2d5_15:v1": {
+    "whole_span": {
+      "en": "Each portion costs a certain amount of gold. How many portions do you want?",
+      "zh": "每份要付一定數量的金幣。你要幾份？",
+      "source_sha256": "31c56d577a45264cfaa2be10bbb3a00d5cea43289965528c194192e6cacd60c4"
+    },
+    "review_note": "The source's literal empty-item label and dynamic price make a poor generic utterance; preserve the price and requested quantity without speaking the empty label."
+  },
+  "0x0c71:7c:0:adsv_0c71_2d5_15_0c71_2d5_15": {
+    "whole_span": {
+      "en": "The item costs a certain amount of gold per portion. How many portions do you want?",
+      "zh": "這項商品每份要付一定數量的金幣。你要幾份？",
+      "source_sha256": "67ae621be851ab85e3687a603de53013fa25df6abf99073da8998dfd9e90a41e"
+    },
+    "review_note": "Both dynamic number substitutions collapse to the same generic value; replace them with a clear price-and-quantity sentence."
+  },
+  "0x0c74:20d:0:adsv_0c74_20d_24_0c74_20d_24": {
+    "whole_span": {
+      "en": "I'll buy those goods at a fair price.",
+      "zh": "我願意以合理價格收購這批貨品。",
+      "source_sha256": "8b0f62e2d4bc753e7e060ea58361adf79e90d21611fa13f419805a229ee18531"
+    },
+    "review_note": "The quantity and unit-price slots both canonicalize to 'some'; use a generic but natural offer that preserves the buying intent."
+  },
+  "0x0c74:270:0:adsv_0c74_285_27_0c74_285_27_0c74_285_27": {
+    "whole_span": {
+      "en": "The sale is complete, and you've received payment. What else can I do for you?",
+      "zh": "貨品已售出，款項也已收到。我還能為你做些什麼？",
+      "source_sha256": "3b33d34a832e66f3adfbd7ec42620873be31d1ea2466ca2d644c938b4297ac42"
+    },
+    "review_note": "The three opaque runtime values collapse to repeated generic numbers; state the completed sale and payment naturally."
+  }
+}
