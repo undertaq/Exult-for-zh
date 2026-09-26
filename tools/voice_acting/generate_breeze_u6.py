@@ -99,6 +99,10 @@ class BreezeCloneJob:
     source_parts: tuple[dict[str, Any], ...] = ()
     role_span_start_char: int | None = None
     role_span_end_char: int | None = None
+    line_id: str = ""
+    speaker_route_source: str = ""
+    speaker_route_evidence: str = ""
+    reference_source: str = ""
 
     @property
     def route_mode(self) -> str:
@@ -129,16 +133,27 @@ def role_key(function_id: str, offset_key: str, segment: str) -> tuple[str, str,
     return f"{number:04x}", offset, str(int(str(segment).strip() or "0"))
 
 
-def load_role_manifest(path: Path) -> dict[tuple[str, str, str], dict[str, str]]:
+def load_role_manifest(path: Path) -> dict[tuple[str, str, str], dict[str, Any]]:
     result = {}
     for line in path.read_text(encoding="utf-8").splitlines():
         if not line.strip():
             continue
         row = json.loads(line)
-        result[role_key(row["function_id"], row["offset_key"], row["segment"])] = {
+        normalized = {
             "source_en": _normalize_role_text(row["source_en"]),
             "text_zh": _normalize_role_text(row["text_zh"]),
         }
+        role = str(row.get("role") or "").strip().lower()
+        if path.resolve() == ROLE_MANIFEST.resolve() and not role:
+            raise ValueError(
+                "role metadata missing on default manifest; "
+                "run generate_u6_role_manifest.py"
+            )
+        if row.get("role"):
+            normalized["role"] = role
+        if row.get("role_source"):
+            normalized["role_source"] = str(row["role_source"])
+        result[role_key(row["function_id"], row["offset_key"], row["segment"])] = normalized
     return result
 
 
@@ -216,7 +231,16 @@ def _unbalanced_marker_role_parts(text: str) -> list[tuple[str, str]]:
     return parts
 
 
-def parse_role_parts(source_en: str, translated_text: str, lang: str) -> list[tuple[str, str]]:
+def parse_role_parts(
+    source_en: str,
+    translated_text: str,
+    lang: str,
+    role: str | None = None,
+) -> list[tuple[str, str]]:
+    explicit_role = str(role or "").strip().lower()
+    if explicit_role in {"speaker", "narrator"}:
+        value = _clean_voice_part(source_en if lang == "en" else translated_text)
+        return [(explicit_role, value)] if value else []
     has_marker = "@" in source_en
     has_pair = bool(re.search(r"@[^@]*@", source_en))
     if lang == "en":
@@ -263,8 +287,13 @@ def avatar_genders_for_route(npc: str, routed: bool) -> tuple[str | None, ...]:
     return (None,)
 
 
-def route_voice_parts(source_en: str, text_zh: str, lang: str) -> list[tuple[str, str]]:
-    return parse_role_parts(source_en, text_zh, lang)
+def route_voice_parts(
+    source_en: str,
+    text_zh: str,
+    lang: str,
+    role: str | None = None,
+) -> list[tuple[str, str]]:
+    return parse_role_parts(source_en, text_zh, lang, role)
 
 
 def _catalog_gender(description: str, fallback: str = "female") -> str:
@@ -375,10 +404,10 @@ def _reference_for_npc(
         ref = u7_design_refs.get((f"npc_avatar_{avatar_gender}", lang))
         if ref:
             return ref
-    ref = breeze_refs.get((npc.casefold(), lang))
+    ref = u7_npc_refs.get((npc.casefold(), lang))
     if ref:
         return ref
-    ref = u7_npc_refs.get((npc.casefold(), lang))
+    ref = breeze_refs.get((npc.casefold(), lang))
     if ref:
         return ref
     fallback = REFS / f"npc_{_slug(npc)}_{lang}_ref.ogg"
@@ -449,7 +478,16 @@ def build_breeze_jobs(
                         active_gender = genders[target_npc.casefold()]
                     except KeyError as error:
                         raise KeyError(f"missing authoritative gender for NPC {target_npc!r}") from error
-                parts = route_voice_parts(source_en, source_zh, lang) if routed else [("speaker", text)]
+                parts = (
+                    route_voice_parts(
+                        source_en,
+                        source_zh,
+                        lang,
+                        str(role_source.get("role") or ""),
+                    )
+                    if routed
+                    else [("speaker", text)]
+                )
                 if not parts:
                     parts = [("narrator", text)]
                 voice_parts: list[VoicePart] = []
@@ -517,39 +555,95 @@ def _dynamic_output_name(record: dict[str, Any], span: dict[str, Any],
     )
 
 
-def build_dynamic_breeze_jobs(
+def _reference_source_for_route(
+    npc: str,
+    lang: str,
+    role: str,
+    reference: Reference,
+    breeze_refs: dict[tuple[str, str], Reference],
+    u7_design_refs: dict[tuple[str, str], Reference],
+    u7_npc_refs: dict[tuple[str, str], Reference],
+) -> str:
+    if role == "narrator":
+        return f"U7 gender-matched narrator ({reference.reference_id})"
+    if npc.casefold() == "avatar":
+        return f"U7 gender-specific Avatar ({reference.reference_id})"
+    if u7_npc_refs.get((npc.casefold(), lang)) == reference:
+        return f"U7 exact-NPC reference ({reference.reference_id})"
+    if breeze_refs.get((npc.casefold(), lang)) == reference:
+        return f"U6 Breeze clone reference ({reference.reference_id})"
+    if any(candidate == reference for candidate in u7_design_refs.values()):
+        return f"U7 design reference ({reference.reference_id})"
+    return f"legacy NPC reference ({reference.reference_id})"
+
+
+def resolve_dynamic_breeze_jobs(
     manifest_path: Path = DYNAMIC_MANIFEST,
     output_dir: Path = DYNAMIC_OUTPUT,
-) -> list[BreezeCloneJob]:
-    """Create one full canonical role-span job per language/gender route."""
+) -> tuple[list[BreezeCloneJob], list[dict[str, Any]]]:
+    """Build all resolvable jobs and aggregate every route preflight error."""
     breeze_refs, genders = _load_reference_catalog()
     u7_design_refs, u7_npc_refs = _load_u7_references()
     jobs: dict[str, BreezeCloneJob] = {}
+    error_groups: dict[tuple[str, str], dict[str, Any]] = {}
+
+    def add_error(
+        record: dict[str, Any], candidate: str, role: str, lang: str,
+        required_gender: str, reference_source: str, message: str,
+    ) -> None:
+        line_id = str(record.get("line_id") or record.get("key") or "unknown")
+        group_key = (line_id, candidate)
+        error = error_groups.setdefault(group_key, {
+            "line_id": line_id,
+            "template_key": str(record.get("key") or ""),
+            "candidate": candidate,
+            "routes": [],
+        })
+        route = {
+            "role": role,
+            "language": lang,
+            "required_gender": required_gender,
+            "reference_source": reference_source,
+            "error": message,
+        }
+        if route not in error["routes"]:
+            error["routes"].append(route)
+
     for record in load_dynamic_voice_manifest(Path(manifest_path)):
         npc = str(record.get("npc") or "").strip()
         speaker_source = str(
-            record.get("speaker") or npc or record.get("caller_guess") or "").strip()
+            record.get("speaker") or record.get("caller_guess") or npc or "").strip()
         target_npcs = list(dict.fromkeys(
             candidate.strip()
             for candidate in speaker_source.split("|")
             if candidate.strip()
         ))
         if not target_npcs:
-            raise ValueError(f"{record.get('line_id', record.get('key'))}: missing active speaker")
+            add_error(
+                record, "<unresolved>", "speaker", "en/zh", "unknown",
+                str(record.get("speaker_route_source") or "speaker-route metadata"),
+                "missing active speaker identity",
+            )
+            continue
         variants = record.get("player_gender_variants") or [None]
         for target_npc in target_npcs:
-            if target_npc.casefold() != "avatar" and target_npc.casefold() not in genders:
-                raise KeyError(
-                    f"missing authoritative gender for dynamic speaker {target_npc!r} "
-                    f"at {record.get('line_id', record.get('key'))}")
+            candidate_has_gender = (
+                target_npc.casefold() == "avatar" or target_npc.casefold() in genders)
             for player_gender in variants:
                 if player_gender not in (None, "male", "female"):
-                    raise ValueError(f"invalid player-gender variant: {player_gender!r}")
+                    for lang in ("en", "zh"):
+                        add_error(
+                            record, target_npc, "speaker", lang, "unknown",
+                            "player-gender route metadata",
+                            f"invalid player-gender variant {player_gender!r}",
+                        )
+                    continue
                 transcript_key = player_gender or "default"
                 active_genders = (
                     [player_gender] if target_npc.casefold() == "avatar" and player_gender
                     else ["male", "female"] if target_npc.casefold() == "avatar"
-                    else [genders[target_npc.casefold()]]
+                    else [genders[target_npc.casefold()]] if candidate_has_gender
+                    else [None]
                 )
                 for lang in ("en", "zh"):
                     for span in record.get("role_spans") or []:
@@ -557,29 +651,62 @@ def build_dynamic_breeze_jobs(
                             continue
                         role = str(span.get("role") or "").strip().lower()
                         if role not in {"speaker", "narrator"}:
-                            raise ValueError(
-                                f"{record.get('line_id', record.get('key'))}: "
-                                f"ambiguous role span {span.get('index')}: {role!r}")
+                            add_error(
+                                record, target_npc, role or "<missing-role>", lang,
+                                "unknown", "role-span metadata",
+                                f"ambiguous role span {span.get('index')}: {role!r}",
+                            )
+                            continue
                         transcript = (span.get("transcripts") or {}).get(transcript_key)
                         if not isinstance(transcript, dict) or not transcript.get(lang):
-                            raise ValueError(
-                                f"{record.get('line_id', record.get('key'))}: missing "
-                                f"{lang}/{transcript_key} transcript for role span {span.get('index')}")
+                            add_error(
+                                record, target_npc, role, lang,
+                                ",".join(active_genders) if active_genders[0] else "unknown",
+                                "canonical transcript manifest",
+                                f"missing {lang}/{transcript_key} transcript for role span {span.get('index')}",
+                            )
+                            continue
                         text = str(transcript[lang]).strip()
                         if not text or re.search(r"<VAR[^>]*>|<(?:PLAYER_NAME|HONORIFIC|PRONOUN|GENDER_FLAG)>", text):
-                            raise ValueError(
-                                f"{record.get('line_id', record.get('key'))}: invalid canonical "
-                                f"transcript for {lang}/{transcript_key}/span {span.get('index')}")
+                            add_error(
+                                record, target_npc, role, lang,
+                                ",".join(active_genders) if active_genders[0] else "unknown",
+                                "canonical transcript manifest",
+                                f"invalid canonical transcript for {lang}/{transcript_key}/span {span.get('index')}",
+                            )
+                            continue
 
                         for active_gender in active_genders:
+                            if active_gender is None:
+                                add_error(
+                                    record, target_npc, role, lang, "unknown",
+                                    "gender catalog",
+                                    "missing authoritative gender for active speaker",
+                                )
+                                continue
                             avatar_gender = active_gender if target_npc.casefold() == "avatar" else None
-                            if role == "narrator":
-                                reference = _narrator_reference(
-                                    active_gender, lang, u7_design_refs)
-                            else:
-                                reference = _reference_for_npc(
-                                    target_npc, lang, avatar_gender, breeze_refs,
-                                    u7_design_refs, u7_npc_refs)
+                            try:
+                                if role == "narrator":
+                                    reference = _narrator_reference(
+                                        active_gender, lang, u7_design_refs)
+                                else:
+                                    reference = _reference_for_npc(
+                                        target_npc, lang, avatar_gender, breeze_refs,
+                                        u7_design_refs, u7_npc_refs)
+                                if not reference.audio.is_file():
+                                    raise FileNotFoundError(
+                                        f"reference audio file does not exist: {reference.audio}")
+                            except (FileNotFoundError, OSError) as error:
+                                source = (
+                                    f"U7 gender-matched narrator ({narrator_reference_id(active_gender)})"
+                                    if role == "narrator"
+                                    else "U7 exact-NPC reference -> U6 Breeze clone reference"
+                                )
+                                add_error(
+                                    record, target_npc, role, lang, active_gender,
+                                    source, str(error),
+                                )
+                                continue
                             filename = _dynamic_output_name(
                                 record, span, target_npc, role, player_gender, active_gender)
                             output = Path(output_dir) / lang / filename
@@ -617,12 +744,47 @@ def build_dynamic_breeze_jobs(
                                 source_parts=tuple(dict(part) for part in record.get("source_parts", [])),
                                 role_span_start_char=int(span["start_char"]),
                                 role_span_end_char=int(span["end_char"]),
+                                line_id=str(record.get("line_id") or ""),
+                                speaker_route_source=str(
+                                    record.get("speaker_route_source") or "npc catalog fallback"),
+                                speaker_route_evidence=str(record.get("speaker_route_evidence") or ""),
+                                reference_source=_reference_source_for_route(
+                                    target_npc, lang, role, reference, breeze_refs,
+                                    u7_design_refs, u7_npc_refs),
                             )
                             previous = jobs.get(job_key)
                             if previous is not None and previous != job:
-                                raise ValueError(f"conflicting dynamic jobs target {output}")
+                                add_error(
+                                    record, target_npc, role, lang, active_gender,
+                                    "dynamic output path",
+                                    f"conflicting dynamic jobs target {output}",
+                                )
+                                continue
                             jobs[job_key] = job
-    return list(jobs.values())
+    return list(jobs.values()), list(error_groups.values())
+
+
+def build_dynamic_breeze_jobs(
+    manifest_path: Path = DYNAMIC_MANIFEST,
+    output_dir: Path = DYNAMIC_OUTPUT,
+) -> list[BreezeCloneJob]:
+    """Build jobs or fail once with the complete dynamic route error list."""
+    jobs, errors = resolve_dynamic_breeze_jobs(manifest_path, output_dir)
+    if errors:
+        descriptions = []
+        for item in errors:
+            routes = ", ".join(
+                f"{route['role']}/{route['language']}"
+                f" gender={route['required_gender']}"
+                f" source={route['reference_source']}: {route['error']}"
+                for route in item["routes"]
+            )
+            descriptions.append(
+                f"{item['line_id']} template={item['template_key']} "
+                f"candidate={item['candidate']}: {routes}"
+            )
+        raise ValueError("dynamic voice route preflight failed:\n" + "\n".join(descriptions))
+    return jobs
 
 
 def validate_dynamic_output_paths(output_dir: Path, review_dir: Path) -> bool:
@@ -641,7 +803,6 @@ def validate_dynamic_output_paths(output_dir: Path, review_dir: Path) -> bool:
         OUTPUT,
         REFS,
         REVIEW,
-        DYNAMIC_REVIEW,
         REFERENCE_REVIEW,
         voice_root / "omnivoice",
         voice_root / "omnivoice_trial",
@@ -653,11 +814,16 @@ def validate_dynamic_output_paths(output_dir: Path, review_dir: Path) -> bool:
         voice_root / "review",
         voice_root / "review_lines",
     ]
+    dedicated_review = DYNAMIC_REVIEW.resolve()
+    protected_outputs = protected_existing + [DYNAMIC_REVIEW]
     protected_reviews = protected_existing + [DYNAMIC_OUTPUT]
-    for protected in protected_existing:
+    for protected in protected_outputs:
         if overlaps(output, protected.resolve()):
             raise ValueError(
                 f"dynamic output overlaps protected existing voice/review path: {protected}")
+    if review != dedicated_review and overlaps(review, dedicated_review):
+        raise ValueError(
+            f"dynamic review overlaps protected existing voice/review path: {DYNAMIC_REVIEW}")
     for protected in protected_reviews:
         if overlaps(review, protected.resolve()):
             raise ValueError(
@@ -668,6 +834,7 @@ def validate_dynamic_output_paths(output_dir: Path, review_dir: Path) -> bool:
 def audit_breeze_jobs(jobs: list[BreezeCloneJob]) -> dict[str, Any]:
     counts = {"speaker": 0, "narrator": 0, "mixed": 0, "cross_speaker": 0, "avatar_male": 0, "avatar_female": 0}
     mismatches = []
+    route_evidence = []
     for job in jobs:
         counts[job.route_mode] += 1
         if job.cross_speaker_target:
@@ -678,7 +845,44 @@ def audit_breeze_jobs(jobs: list[BreezeCloneJob]) -> dict[str, Any]:
         for part in job.parts:
             if part.role == "narrator" and part.reference.reference_id != expected:
                 mismatches.append({"key": job.key, "expected": expected, "actual": part.reference.reference_id})
-    return {"counts": counts, "narrator_gender_mismatches": mismatches, "total": len(jobs)}
+            if job.is_dynamic:
+                route_evidence.append({
+                    "line_id": job.line_id,
+                    "template_key": job.dynamic_template_key,
+                    "function_id": job.func_id,
+                    "offset_key": job.offset_key,
+                    "role_span": job.role_span_identity,
+                    "candidate": job.target_npc,
+                    "role": part.role,
+                    "language": job.lang,
+                    "required_gender": job.active_gender,
+                    "reference_source": job.reference_source,
+                    "reference_id": part.reference.reference_id,
+                    "reference_audio": str(part.reference.audio),
+                    "speaker_route_source": job.speaker_route_source,
+                    "speaker_route_evidence": job.speaker_route_evidence,
+                })
+    return {
+        "counts": counts,
+        "narrator_gender_mismatches": mismatches,
+        "total": len(jobs),
+        "route_evidence": route_evidence,
+    }
+
+
+def dynamic_route_resolution_report(
+    jobs: list[BreezeCloneJob], errors: list[dict[str, Any]],
+) -> dict[str, Any]:
+    audit = audit_breeze_jobs(jobs)
+    return {
+        "schema": "u6-dynamic-voice-route-resolution-v1",
+        "resolved_job_count": len(jobs),
+        "unresolved_candidate_count": len(errors),
+        "counts": audit["counts"],
+        "narrator_gender_mismatches": audit["narrator_gender_mismatches"],
+        "routes": audit["route_evidence"],
+        "errors": errors,
+    }
 
 
 def _usable_output(path: Path, metadata_path: Path) -> bool:
@@ -1077,6 +1281,8 @@ def main() -> int:
     parser.add_argument("--dynamic-only", action="store_true",
                         help="generate reviewed dynamic full-line spans only")
     parser.add_argument("--dynamic-manifest", type=Path, default=DYNAMIC_MANIFEST)
+    parser.add_argument("--route-report", type=Path,
+                        help="write the complete dynamic route preflight report here")
     parser.add_argument("--output-dir", type=Path,
                         help="override output root (dynamic default is isolated)")
     parser.add_argument("--review-dir", type=Path,
@@ -1095,7 +1301,22 @@ def main() -> int:
             validate_dynamic_output_paths(output_dir, review_dir)
         except ValueError as error:
             parser.error(str(error))
-        jobs = build_dynamic_breeze_jobs(args.dynamic_manifest, output_dir)
+        jobs, route_errors = resolve_dynamic_breeze_jobs(args.dynamic_manifest, output_dir)
+        route_report_path = args.route_report or (review_dir / "route_resolution_report.json")
+        try:
+            if output_dir.resolve() in route_report_path.resolve().parents:
+                raise ValueError("route report cannot be written inside the dynamic audio output")
+            route_report_path.parent.mkdir(parents=True, exist_ok=True)
+            _write_json_atomic(
+                route_report_path,
+                dynamic_route_resolution_report(jobs, route_errors),
+            )
+        except (OSError, ValueError) as error:
+            parser.error(f"could not write dynamic route report: {error}")
+        if route_errors:
+            parser.error(
+                f"dynamic voice route preflight found {len(route_errors)} unresolved "
+                f"candidate(s); see {route_report_path}")
     else:
         output_dir = args.output_dir or OUTPUT
         review_dir = args.review_dir or REVIEW
