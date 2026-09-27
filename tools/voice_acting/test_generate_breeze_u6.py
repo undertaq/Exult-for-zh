@@ -647,7 +647,8 @@ def test_dynamic_cli_writes_route_report_and_stops_before_inference_on_route_err
 
 
 def _run_dynamic_cli_with_fake_workers(
-    tmp_path, monkeypatch, manifest, jobs, max_jobs=None, failed_keys=frozenset()
+    tmp_path, monkeypatch, manifest, jobs, max_jobs=None, failed_keys=frozenset(),
+    timeout_once=False,
 ):
     monkeypatch.setattr(module, "resolve_dynamic_breeze_jobs", lambda *_args: (jobs, []))
     monkeypatch.setattr(module, "_usable_output_for_job", lambda _job: False)
@@ -659,6 +660,15 @@ def _run_dynamic_cli_with_fake_workers(
         snapshots.append((list(review_jobs), completed, snapshot_status))
 
     monkeypatch.setattr(module, "write_dynamic_review", capture_review)
+    class FakeClock:
+        now = 0.0
+
+        def monotonic(self):
+            return self.now
+
+    clock = FakeClock()
+    if timeout_once:
+        monkeypatch.setattr(module, "time", clock)
     argv = [
         "generate_breeze_u6.py", "--dynamic-only", "--dynamic-manifest", str(manifest),
         "--output-dir", str(tmp_path / "audio"), "--review-dir", str(tmp_path / "review"),
@@ -670,11 +680,16 @@ def _run_dynamic_cli_with_fake_workers(
     class FakeQueue:
         def __init__(self):
             self.items = []
+            self.did_timeout = False
 
         def put(self, item):
             self.items.append(item)
 
         def get(self, timeout=None):
+            if timeout_once and not self.did_timeout:
+                self.did_timeout = True
+                clock.now += 61
+                raise module.queue.Empty
             if not self.items:
                 raise module.queue.Empty
             return self.items.pop(0)
@@ -698,6 +713,12 @@ def _run_dynamic_cli_with_fake_workers(
             self.events.put({"kind": "worker_done", "gpu": self.gpu})
 
         def join(self):
+            pass
+
+        def is_alive(self):
+            return False
+
+        def terminate(self):
             pass
 
     class FakeContext:
@@ -743,6 +764,23 @@ def test_dynamic_cli_persists_worker_failures_in_full_review(tmp_path, monkeypat
     assert sum(state["status"] == "pending" for state in snapshots[-1][2].values()) == 0
     rows = module.dynamic_review_rows(snapshots[-1][0], snapshots[-1][2])
     assert "CUDA out of memory" in next(row["note"] for row in rows if row["status"] == "failed")
+
+
+def test_dynamic_cli_refreshes_full_review_after_worker_wait_timeout(tmp_path, monkeypatch) -> None:
+    manifest = tmp_path / "dynamic.jsonl"
+    manifest.write_text(json.dumps(_dynamic_row("Wanda", "Wanda", [None])) + "\n", encoding="utf-8")
+    expected_jobs = _build_dynamic_jobs(monkeypatch, manifest, tmp_path / "audio", {"Wanda": "female"})
+
+    result, snapshots, rendered = _run_dynamic_cli_with_fake_workers(
+        tmp_path, monkeypatch, manifest, expected_jobs, max_jobs=1, timeout_once=True,
+    )
+
+    assert result == 0
+    assert rendered == [expected_jobs[0].key]
+    assert len(snapshots[1][0]) == len(expected_jobs)
+    assert snapshots[1][1] == 0
+    assert set(snapshots[1][2]) == {job.key for job in expected_jobs}
+    assert all(state == {"status": "pending"} for state in snapshots[1][2].values())
 
 
 def test_dynamic_paths_reject_existing_voice_and_review_trees(tmp_path) -> None:

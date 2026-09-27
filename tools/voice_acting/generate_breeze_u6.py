@@ -1458,9 +1458,9 @@ def main() -> int:
                 print("waiting for Breeze workers...", flush=True)
                 if time.monotonic() - last_review >= args.review_interval:
                     if args.dynamic_only:
-                        write_dynamic_review(jobs, completed, review_dir)
+                        write_dynamic_review(expected_jobs, completed, review_dir, job_status)
                     else:
-                        write_review(jobs, completed, review_dir, output_dir)
+                        write_review(expected_jobs, completed, review_dir, output_dir)
                     last_review = time.monotonic()
                 continue
             if event["kind"] in {"done", "error"}:
