@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import sys
 import tempfile
-from types import SimpleNamespace
+from types import ModuleType, SimpleNamespace
 
 import numpy as np
 import pytest
@@ -19,6 +20,78 @@ from generate_breeze_u6 import (
     route_voice_parts,
     role_key,
 )
+
+
+def test_fast_streaming_requires_high_free_memory_on_gpu_zero() -> None:
+    assert module.fast_streaming_mode_for_gpu(0, 15 * 1024**3) is True
+    assert module.fast_streaming_mode_for_gpu(0, 12 * 1024**3) is False
+    assert module.fast_streaming_mode_for_gpu(1, 16 * 1024**3) is False
+
+
+@pytest.mark.parametrize(
+    ("free_memory", "query_fails", "expected_fast_all"),
+    [(15 * 1024**3, False, True), (0, True, False)],
+)
+def test_runtime_queries_memory_before_loading_model_and_falls_back_to_eager(
+    monkeypatch, capsys, free_memory, query_fails, expected_fast_all
+) -> None:
+    calls = []
+    configs = []
+    torch_module = ModuleType("torch")
+
+    def mem_get_info():
+        calls.append("memory")
+        if query_fails:
+            raise RuntimeError("CUDA query unavailable")
+        return free_memory, 24 * 1024**3
+
+    torch_module.cuda = SimpleNamespace(is_available=lambda: True, mem_get_info=mem_get_info)
+    monkeypatch.setitem(sys.modules, "torch", torch_module)
+    monkeypatch.setenv("CUDA_VISIBLE_DEVICES", "unchanged")
+
+    breeze = ModuleType("breeze_infer")
+    breeze.__path__ = []
+    runtime_module = ModuleType("breeze_infer.runtime")
+
+    def load_runtime(*_args, **_kwargs):
+        calls.append("model")
+        return "tokenizer", "model", "audio_tokenizer"
+
+    runtime_module.load_runtime = load_runtime
+    runtime_module.set_all_seeds = lambda _seed: None
+    runtime_module.update_generation_config_for_breeze = lambda _model: None
+    templates = ModuleType("breeze_infer.templates")
+    templates.get_template = lambda _name: "template"
+    templates.prepare_inputs = lambda *_args, **_kwargs: None
+    models = ModuleType("models")
+    models.__path__ = []
+    fast_streaming = ModuleType("models.fast_streaming")
+
+    def make_config(**kwargs):
+        calls.append("config")
+        return SimpleNamespace(**kwargs)
+
+    fast_streaming.FastStreamingConfig = make_config
+
+    class Runtime:
+        def __init__(self, _model, _audio_tokenizer, config, tokenizer=None):
+            configs.append(config)
+
+    fast_streaming.FastBreezeStreamingRuntime = Runtime
+    for name, fake in {
+        "breeze_infer": breeze,
+        "breeze_infer.runtime": runtime_module,
+        "breeze_infer.templates": templates,
+        "models": models,
+        "models.fast_streaming": fast_streaming,
+    }.items():
+        monkeypatch.setitem(sys.modules, name, fake)
+
+    module._load_runtime(0)
+
+    assert calls == ["memory", "config", "model"]
+    assert configs[0].fast_all is expected_fast_all
+    assert "GPU 0: fast_all=" in capsys.readouterr().out
 
 
 def test_narrator_reference_matches_active_speaker_gender() -> None:
@@ -247,6 +320,28 @@ def _build_dynamic_jobs(monkeypatch, manifest_path: Path, output_dir: Path, gend
     return module.build_dynamic_breeze_jobs(manifest_path, output_dir)
 
 
+def test_worker_records_every_route_failed_by_model_initialization(tmp_path, monkeypatch) -> None:
+    manifest = tmp_path / "dynamic.jsonl"
+    manifest.write_text(json.dumps(_dynamic_row("Wanda", "Wanda", [None])) + "\n", encoding="utf-8")
+    jobs = _build_dynamic_jobs(monkeypatch, manifest, tmp_path / "out", {"Wanda": "female"})[:2]
+    monkeypatch.setattr(module, "_load_runtime", lambda _gpu: (_ for _ in ()).throw(RuntimeError("CUDA out of memory")))
+
+    class Events:
+        def __init__(self):
+            self.items = []
+
+        def put(self, event):
+            self.items.append(event)
+
+    events = Events()
+    module._worker(jobs, gpu=1, events=events, resume=False)
+
+    failures = [event for event in events.items if event["kind"] == "error"]
+    assert [event["key"] for event in failures] == [job.key for job in jobs]
+    assert all(event["error"] == "CUDA out of memory" for event in failures)
+    assert events.items[-1] == {"kind": "worker_done", "gpu": 1}
+
+
 def test_exact_same_named_u7_reference_precedes_u6_breeze_reference(tmp_path) -> None:
     u6_reference = module.Reference(
         "npc_kallibrus", tmp_path / "u6_kallibrus.ogg", "U6 clone", "male")
@@ -454,6 +549,45 @@ def test_dynamic_review_rows_include_portrait_slots_roles_and_bilingual_text(tmp
     assert "dynamic_only" in data
 
 
+def test_dynamic_review_rows_show_failed_and_pending_statuses(tmp_path, monkeypatch) -> None:
+    manifest = tmp_path / "dynamic.jsonl"
+    manifest.write_text(json.dumps(_dynamic_row("Wanda", "Wanda", [None])) + "\n", encoding="utf-8")
+    jobs = _build_dynamic_jobs(monkeypatch, manifest, tmp_path / "out", {"Wanda": "female"})
+    failed_key = jobs[0].key
+
+    rows = module.dynamic_review_rows(jobs, {
+        failed_key: {"status": "failed", "error": "CUDA out of memory"},
+    })
+    failed = next(row for row in rows if row["status"] == "failed")
+
+    assert {row["status"] for row in rows} == {"failed", "pending"}
+    assert "CUDA out of memory" in failed["note"]
+
+
+def test_breeze_render_boundary_submits_exactly_one_request(tmp_path, monkeypatch) -> None:
+    manifest = tmp_path / "dynamic.jsonl"
+    manifest.write_text(json.dumps(_dynamic_row("Wanda", "Wanda", [None])) + "\n", encoding="utf-8")
+    jobs = _build_dynamic_jobs(monkeypatch, manifest, tmp_path / "out", {"Wanda": "female"})
+    requests = []
+
+    def prepare_inputs(_tokenizer, _audio_tokenizer, _model, batch, _template, **_kwargs):
+        requests.append(batch)
+        return "prepared"
+
+    class Runtime:
+        def iter_audio_chunks(self, inputs, request_id, seed):
+            assert inputs == "prepared"
+            yield SimpleNamespace(audio=np.array([0.25, -0.25], dtype=np.float32))
+
+    runtime_bundle = (None, None, None, Runtime(), None, prepare_inputs, lambda _seed: None)
+    audio = module._render_part(jobs[0].parts[0], jobs[0], 0, runtime_bundle)
+
+    assert len(requests) == 1
+    assert len(requests[0]) == 1
+    assert requests[0][0]["text"] == jobs[0].parts[0].text
+    np.testing.assert_array_equal(audio, np.array([0.25, -0.25], dtype=np.float32))
+
+
 def test_dynamic_route_audit_contains_usecode_reference_and_gender_evidence(
     tmp_path, monkeypatch
 ) -> None:
@@ -512,6 +646,105 @@ def test_dynamic_cli_writes_route_report_and_stops_before_inference_on_route_err
     assert {item["candidate"] for item in report["errors"]} == {"HolderGuy", "Moryn"}
 
 
+def _run_dynamic_cli_with_fake_workers(
+    tmp_path, monkeypatch, manifest, jobs, max_jobs=None, failed_keys=frozenset()
+):
+    monkeypatch.setattr(module, "resolve_dynamic_breeze_jobs", lambda *_args: (jobs, []))
+    monkeypatch.setattr(module, "_usable_output_for_job", lambda _job: False)
+    snapshots = []
+    rendered = []
+
+    def capture_review(review_jobs, completed, review_dir, job_status=None):
+        snapshot_status = {key: dict(value) for key, value in (job_status or {}).items()}
+        snapshots.append((list(review_jobs), completed, snapshot_status))
+
+    monkeypatch.setattr(module, "write_dynamic_review", capture_review)
+    argv = [
+        "generate_breeze_u6.py", "--dynamic-only", "--dynamic-manifest", str(manifest),
+        "--output-dir", str(tmp_path / "audio"), "--review-dir", str(tmp_path / "review"),
+    ]
+    if max_jobs is not None:
+        argv.extend(["--max-jobs", str(max_jobs)])
+    monkeypatch.setattr(module.sys, "argv", argv)
+
+    class FakeQueue:
+        def __init__(self):
+            self.items = []
+
+        def put(self, item):
+            self.items.append(item)
+
+        def get(self, timeout=None):
+            if not self.items:
+                raise module.queue.Empty
+            return self.items.pop(0)
+
+    class FakeProcess:
+        def __init__(self, target, args, daemon):
+            self.shard, self.gpu, self.events, _resume = args
+
+        def start(self):
+            for job in self.shard:
+                rendered.append(job.key)
+                if job.key in failed_keys:
+                    self.events.put({
+                        "kind": "error", "key": job.key,
+                        "error": "CUDA out of memory", "gpu": self.gpu,
+                    })
+                else:
+                    self.events.put({
+                        "kind": "done", "key": job.key, "status": "saved", "gpu": self.gpu,
+                    })
+            self.events.put({"kind": "worker_done", "gpu": self.gpu})
+
+        def join(self):
+            pass
+
+    class FakeContext:
+        def Queue(self):
+            return FakeQueue()
+
+        def Process(self, target, args, daemon):
+            return FakeProcess(target, args, daemon)
+
+    monkeypatch.setattr(module.mp, "get_context", lambda _method: FakeContext())
+    return module.main(), snapshots, rendered
+
+
+def test_dynamic_cli_keeps_full_review_when_max_jobs_limits_render(tmp_path, monkeypatch) -> None:
+    manifest = tmp_path / "dynamic.jsonl"
+    manifest.write_text(json.dumps(_dynamic_row("Wanda", "Wanda", [None])) + "\n", encoding="utf-8")
+    expected_jobs = _build_dynamic_jobs(monkeypatch, manifest, tmp_path / "audio", {"Wanda": "female"})
+
+    result, snapshots, rendered = _run_dynamic_cli_with_fake_workers(
+        tmp_path, monkeypatch, manifest, expected_jobs, max_jobs=1,
+    )
+
+    assert result == 0
+    assert rendered == [expected_jobs[0].key]
+    assert len(snapshots[0][0]) == len(expected_jobs)
+    assert len(snapshots[-1][0]) == len(expected_jobs)
+
+
+def test_dynamic_cli_persists_worker_failures_in_full_review(tmp_path, monkeypatch) -> None:
+    manifest = tmp_path / "dynamic.jsonl"
+    manifest.write_text(json.dumps(_dynamic_row("Wanda", "Wanda", [None])) + "\n", encoding="utf-8")
+    expected_jobs = _build_dynamic_jobs(monkeypatch, manifest, tmp_path / "audio", {"Wanda": "female"})
+    failed_key = expected_jobs[0].key
+
+    result, snapshots, rendered = _run_dynamic_cli_with_fake_workers(
+        tmp_path, monkeypatch, manifest, expected_jobs, failed_keys={failed_key},
+    )
+
+    assert result == 1
+    assert set(rendered) == {job.key for job in expected_jobs}
+    assert len(snapshots[-1][0]) == len(expected_jobs)
+    assert snapshots[-1][2][failed_key] == {"status": "failed", "error": "CUDA out of memory"}
+    assert sum(state["status"] == "pending" for state in snapshots[-1][2].values()) == 0
+    rows = module.dynamic_review_rows(snapshots[-1][0], snapshots[-1][2])
+    assert "CUDA out of memory" in next(row["note"] for row in rows if row["status"] == "failed")
+
+
 def test_dynamic_paths_reject_existing_voice_and_review_trees(tmp_path) -> None:
     assert module.validate_dynamic_output_paths(
         tmp_path / "dynamic_audio", tmp_path / "dynamic_review")
@@ -538,6 +771,21 @@ def test_dynamic_cli_rejects_negative_job_limit(monkeypatch) -> None:
     with pytest.raises(SystemExit) as error:
         module.main()
     assert error.value.code == 2
+
+
+def test_dynamic_review_refresh_default_is_one_minute(tmp_path, monkeypatch) -> None:
+    manifest = tmp_path / "dynamic.jsonl"
+    manifest.write_text(json.dumps(_dynamic_row("Wanda", "Wanda", [None])) + "\n", encoding="utf-8")
+    expected_jobs = _build_dynamic_jobs(monkeypatch, manifest, tmp_path / "audio", {"Wanda": "female"})
+    ticks = iter([0.0, 61.0, 61.0, 61.0, 61.0, 61.0])
+    monkeypatch.setattr(module, "time", SimpleNamespace(monotonic=lambda: next(ticks, 61.0)))
+
+    result, snapshots, _rendered = _run_dynamic_cli_with_fake_workers(
+        tmp_path, monkeypatch, manifest, expected_jobs,
+    )
+
+    assert result == 0
+    assert len(snapshots) == 3  # Initial page, one-minute refresh, final page.
 
 
 @pytest.mark.parametrize(

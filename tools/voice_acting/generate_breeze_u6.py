@@ -55,6 +55,12 @@ SAMPLE_RATE = 24000
 MIX_CROSSFADE_SECONDS = 0.02
 MIX_GAP_SECONDS = 0.03
 PROVISIONAL_NPCS: set[str] = set()
+MIN_FAST_ALL_FREE_BYTES = int(14.4 * 1024**3)
+
+
+def fast_streaming_mode_for_gpu(gpu_index: int, free_memory_bytes: int) -> bool:
+    """Use Breeze fast-all only on GPU 0 when at least 14.4 GiB is free."""
+    return gpu_index == 0 and free_memory_bytes >= MIN_FAST_ALL_FREE_BYTES
 
 
 @dataclass(frozen=True)
@@ -1026,23 +1032,39 @@ def _load_runtime(gpu: int):
     from breeze_infer.templates import get_template, prepare_inputs
     from models.fast_streaming import FastBreezeStreamingRuntime, FastStreamingConfig
 
-    device = "cuda:0" if torch.cuda.is_available() else "cpu"
+    free_memory_bytes = 0
+    device = "cpu"
+    if torch.cuda.is_available():
+        device = "cuda:0"
+        try:
+            free_memory_bytes, _total_memory_bytes = torch.cuda.mem_get_info()
+            free_memory_bytes = int(free_memory_bytes)
+        except Exception as error:
+            print(
+                f"GPU {gpu}: free-memory query failed ({error}); selecting eager mode",
+                flush=True,
+            )
+            free_memory_bytes = 0
+    fast_all = fast_streaming_mode_for_gpu(gpu, free_memory_bytes)
+    print(
+        f"GPU {gpu}: fast_all={fast_all}; free_memory_bytes={free_memory_bytes}",
+        flush=True,
+    )
+    # Build the selected runtime configuration before loading Breeze weights.
+    # CUDA-graph stages are safe for one request at a time; native multi-request
+    # generation remains intentionally disabled because the codec is unbatched.
+    streaming_config = FastStreamingConfig(
+        max_new_tokens=1500,
+        max_seq_len=2048,
+        fast_all=fast_all,
+        repetition_penalty=1.1,
+    )
     tokenizer, model, audio_tokenizer = load_runtime(MODEL, device=device, attn_implementation="eager")
     update_generation_config_for_breeze(model)
     runtime = FastBreezeStreamingRuntime(
         model,
         audio_tokenizer,
-        # Breeze's CUDA-graph stages are safe for one request at a time and
-        # substantially faster than the eager path.  Native multi-request
-        # generation is intentionally not used: its stochastic codec path
-        # currently asserts for batched inputs and its codec decoder is still
-        # documented as unbatched.
-        FastStreamingConfig(
-            max_new_tokens=1500,
-            max_seq_len=2048,
-            fast_all=True,
-            repetition_penalty=1.1,
-        ),
+        streaming_config,
         tokenizer=tokenizer,
     )
     return tokenizer, model, audio_tokenizer, runtime, get_template("ref_clone_tata"), prepare_inputs, set_all_seeds
@@ -1138,20 +1160,46 @@ def _publish(job: BreezeCloneJob, audio: np.ndarray, runtime_bundle: tuple[Any, 
 
 
 def _worker(jobs: list[BreezeCloneJob], gpu: int, events: mp.Queue, resume: bool) -> None:
+    reported: set[str] = set()
     try:
-        pending = [job for job in jobs if not (resume and _usable_output_for_job(job))]
-        runtime_bundle = _load_runtime(gpu) if pending else None
-        for index, job in enumerate(jobs):
+        pending = []
+        for job in jobs:
             if resume and _usable_output_for_job(job):
                 events.put({"kind": "done", "key": job.key, "status": "exists", "gpu": gpu})
+                reported.add(job.key)
                 continue
-            assert runtime_bundle is not None
-            audio_parts = [_render_part(part, job, part_index, runtime_bundle) for part_index, part in enumerate(job.parts)]
-            _publish(job, _join_audio(audio_parts, SAMPLE_RATE), runtime_bundle, gpu)
-            events.put({"kind": "done", "key": job.key, "status": "saved", "gpu": gpu})
-        events.put({"kind": "worker_done", "gpu": gpu})
+            pending.append(job)
+        runtime_bundle = None
+        if pending:
+            try:
+                runtime_bundle = _load_runtime(gpu)
+            except Exception as error:
+                message = (str(error).strip().splitlines() or [type(error).__name__])[-1][:300]
+                for job in pending:
+                    events.put({"kind": "error", "key": job.key, "error": message, "gpu": gpu})
+                    reported.add(job.key)
+                return
+        for job in pending:
+            try:
+                assert runtime_bundle is not None
+                audio_parts = [
+                    _render_part(part, job, part_index, runtime_bundle)
+                    for part_index, part in enumerate(job.parts)
+                ]
+                _publish(job, _join_audio(audio_parts, SAMPLE_RATE), runtime_bundle, gpu)
+                events.put({"kind": "done", "key": job.key, "status": "saved", "gpu": gpu})
+            except Exception as error:
+                message = (str(error).strip().splitlines() or [type(error).__name__])[-1][:300]
+                events.put({"kind": "error", "key": job.key, "error": message, "gpu": gpu})
+            reported.add(job.key)
     except BaseException:
-        events.put({"kind": "error", "gpu": gpu, "error": traceback.format_exc()})
+        message = (traceback.format_exc().strip().splitlines() or ["worker failed"])[-1][:300]
+        for job in jobs:
+            if job.key not in reported:
+                events.put({"kind": "error", "key": job.key, "error": message, "gpu": gpu})
+                reported.add(job.key)
+    finally:
+        events.put({"kind": "worker_done", "gpu": gpu})
 
 
 def _job_record(job: BreezeCloneJob) -> dict[str, Any]:
@@ -1228,10 +1276,18 @@ def _portrait_for_npc(npc: str, portrait_map: Path = PORTRAIT_MAP) -> str:
     return ""
 
 
-def dynamic_review_rows(jobs: list[BreezeCloneJob]) -> list[dict[str, Any]]:
+def dynamic_review_rows(
+    jobs: list[BreezeCloneJob],
+    job_status: dict[str, dict[str, str]] | None = None,
+) -> list[dict[str, Any]]:
+    job_status = job_status or {}
     rows = []
     for job in jobs:
         reference = job.parts[0].reference if job.parts else None
+        outcome = job_status.get(job.key, {})
+        status = outcome.get("status")
+        if status not in {"pending", "generated", "failed"}:
+            status = "generated" if _usable_output_for_job(job) else "pending"
         slot_lines = [
             f"VAR{slot.get('ordinal')}: {slot.get('semantic_type')}"
             + (f" ({slot.get('pronoun_form')})" if slot.get("pronoun_form") else "")
@@ -1249,9 +1305,12 @@ def dynamic_review_rows(jobs: list[BreezeCloneJob]) -> list[dict[str, Any]]:
             f"Canonical zh-Hant: {job.canonical_zh}",
             f"Source provenance parts: {len(job.source_parts)}",
         ))
+        error = str(outcome.get("error") or "").strip()
+        if status == "failed":
+            note += f"\nGeneration failed: {error or 'Unknown generation error'}"
         rows.append({
             "kind": "dynamic-generated",
-            "status": "generated" if _usable_output_for_job(job) else "missing",
+            "status": status,
             "character": job.npc,
             "npc": job.npc,
             "speaker": job.target_npc,
@@ -1259,7 +1318,7 @@ def dynamic_review_rows(jobs: list[BreezeCloneJob]) -> list[dict[str, Any]]:
             "lang": job.lang,
             "mood": job.route_mode,
             "text": job.text,
-            "audio": str(job.output) if job.output.is_file() else "",
+            "audio": str(job.output) if status == "generated" and job.output.is_file() else "",
             "ref_audio": str(reference.audio) if reference else "",
             "ref_text": reference.text if reference else "",
             "filename": job.output.name,
@@ -1283,13 +1342,14 @@ def write_dynamic_review(
     jobs: list[BreezeCloneJob],
     completed: int,
     review_dir: Path = DYNAMIC_REVIEW,
+    job_status: dict[str, dict[str, str]] | None = None,
 ) -> None:
     review_dir.mkdir(parents=True, exist_ok=True)
     sys.path.insert(0, str(SCRIPT_DIR))
     from generate_voice_review_html import write_report
 
     write_report(
-        dynamic_review_rows(jobs),
+        dynamic_review_rows(jobs, job_status),
         review_dir,
         "U6 Dynamic Breeze TTS 2 Review",
         review_id=f"u6-dynamic-breeze:{time.time_ns()}",
@@ -1309,7 +1369,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--gpu-count", type=int, default=2)
     parser.add_argument("--resume", action="store_true")
-    parser.add_argument("--review-interval", type=float, default=120.0)
+    parser.add_argument("--review-interval", type=float, default=60.0)
     parser.add_argument("--max-jobs", type=int)
     parser.add_argument("--dynamic-only", action="store_true",
                         help="generate reviewed dynamic full-line spans only")
@@ -1334,7 +1394,7 @@ def main() -> int:
             validate_dynamic_output_paths(output_dir, review_dir)
         except ValueError as error:
             parser.error(str(error))
-        jobs, route_errors = resolve_dynamic_breeze_jobs(args.dynamic_manifest, output_dir)
+        expected_jobs, route_errors = resolve_dynamic_breeze_jobs(args.dynamic_manifest, output_dir)
         route_report_path = args.route_report or (review_dir / "route_resolution_report.json")
         try:
             if output_dir.resolve() in route_report_path.resolve().parents:
@@ -1342,7 +1402,7 @@ def main() -> int:
             route_report_path.parent.mkdir(parents=True, exist_ok=True)
             _write_json_atomic(
                 route_report_path,
-                dynamic_route_resolution_report(jobs, route_errors),
+                dynamic_route_resolution_report(expected_jobs, route_errors),
             )
         except (OSError, ValueError) as error:
             parser.error(f"could not write dynamic route report: {error}")
@@ -1353,23 +1413,29 @@ def main() -> int:
     else:
         output_dir = args.output_dir or OUTPUT
         review_dir = args.review_dir or REVIEW
-        jobs = build_breeze_jobs(output_dir=output_dir)
+        expected_jobs = build_breeze_jobs(output_dir=output_dir)
     if args.max_jobs is not None:
-        jobs = jobs[:args.max_jobs]
-    audit = audit_breeze_jobs(jobs)
-    print(json.dumps(audit, ensure_ascii=False), flush=True)
-    completed = (
-        sum(_usable_output_for_job(job) for job in jobs)
-        if args.resume
-        else 0
-    )
-    if args.dynamic_only:
-        write_dynamic_review(jobs, completed, review_dir)
+        render_jobs = expected_jobs[:args.max_jobs]
     else:
-        write_review(jobs, completed, review_dir, output_dir)
+        render_jobs = expected_jobs
+    job_status = {
+        job.key: {"status": "generated" if _usable_output_for_job(job) else "pending"}
+        for job in expected_jobs
+    }
+    completed = sum(outcome["status"] == "generated" for outcome in job_status.values())
+    audit = audit_breeze_jobs(expected_jobs)
+    print(json.dumps({
+        "total": audit["total"],
+        "counts": audit["counts"],
+        "narrator_gender_mismatches": audit["narrator_gender_mismatches"],
+    }, ensure_ascii=False), flush=True)
+    if args.dynamic_only:
+        write_dynamic_review(expected_jobs, completed, review_dir, job_status)
+    else:
+        write_review(expected_jobs, completed, review_dir, output_dir)
     ctx = mp.get_context("spawn")
     events = ctx.Queue()
-    shards = [jobs[index::args.gpu_count] for index in range(args.gpu_count)]
+    shards = [render_jobs[index::args.gpu_count] for index in range(args.gpu_count)]
     workers = [ctx.Process(target=_worker, args=(shard, index, events, args.resume), daemon=False) for index, shard in enumerate(shards)]
     for worker in workers:
         worker.start()
@@ -1389,22 +1455,27 @@ def main() -> int:
                         write_review(jobs, completed, review_dir, output_dir)
                     last_review = time.monotonic()
                 continue
-            if event["kind"] == "done":
+            if event["kind"] in {"done", "error"}:
                 processed += 1
-                if event["status"] == "saved":
-                    completed += 1
-                print(f"[{processed}/{len(jobs)}] gpu={event['gpu']} {event['status']} {event['key']}", flush=True)
+                if event["kind"] == "error":
+                    key = event["key"]
+                    error = str(event.get("error") or "Unknown generation error").strip()
+                    error = (error.splitlines() or ["Unknown generation error"])[-1][:300]
+                    job_status[key] = {"status": "failed", "error": error}
+                    print(f"[{processed}/{len(render_jobs)}] gpu={event['gpu']} failed {key}: {error}", flush=True)
+                else:
+                    job_status[event["key"]] = {"status": "generated"}
+                    print(f"[{processed}/{len(render_jobs)}] gpu={event['gpu']} {event['status']} {event['key']}", flush=True)
+                completed = sum(outcome["status"] == "generated" for outcome in job_status.values())
                 if time.monotonic() - last_review >= args.review_interval:
                     if args.dynamic_only:
-                        write_dynamic_review(jobs, completed, review_dir)
+                        write_dynamic_review(expected_jobs, completed, review_dir, job_status)
                     else:
-                        write_review(jobs, completed, review_dir, output_dir)
+                        write_review(expected_jobs, completed, review_dir, output_dir)
                     last_review = time.monotonic()
             elif event["kind"] == "worker_done":
                 finished += 1
                 print(f"GPU {event['gpu']} worker complete", flush=True)
-            elif event["kind"] == "error":
-                raise RuntimeError(f"Breeze GPU {event['gpu']} worker failed:\n{event['error']}")
     except BaseException:
         for worker in workers:
             if worker.is_alive():
@@ -1413,12 +1484,19 @@ def main() -> int:
     finally:
         for worker in workers:
             worker.join()
+    completed = sum(outcome["status"] == "generated" for outcome in job_status.values())
+    failed = sum(outcome["status"] == "failed" for outcome in job_status.values())
+    pending = len(expected_jobs) - completed - failed
     if args.dynamic_only:
-        write_dynamic_review(jobs, completed, review_dir)
+        write_dynamic_review(expected_jobs, completed, review_dir, job_status)
     else:
-        write_review(jobs, completed, review_dir, output_dir)
-    print(f"complete: {completed}/{len(jobs)}; review: {review_dir / 'index.html'}", flush=True)
-    return 0
+        write_review(expected_jobs, completed, review_dir, output_dir)
+    print(
+        f"run complete: generated={completed}/{len(expected_jobs)}, failed={failed}, "
+        f"pending={pending}; review: {review_dir / 'index.html'}",
+        flush=True,
+    )
+    return 1 if failed else 0
 
 
 if __name__ == "__main__":
