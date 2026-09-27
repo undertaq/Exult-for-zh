@@ -814,7 +814,8 @@ def build_dynamic_breeze_jobs(
 def validate_dynamic_output_paths(output_dir: Path, review_dir: Path) -> bool:
     """Prevent dynamic-only runs from overlapping existing U6 voice assets."""
     output = Path(output_dir).resolve()
-    review = Path(review_dir).resolve()
+    review_input = Path(review_dir)
+    review = review_input.resolve()
 
     def overlaps(left: Path, right: Path) -> bool:
         return left == right or left in right.parents or right in left.parents
@@ -839,13 +840,20 @@ def validate_dynamic_output_paths(output_dir: Path, review_dir: Path) -> bool:
         voice_root / "review_lines",
     ]
     dedicated_review = DYNAMIC_REVIEW.resolve()
+    dedicated_catalog_review = dedicated_review / "full_catalog"
+    catalog_review_input = DYNAMIC_REVIEW / "full_catalog"
+    requested_catalog_review = (
+        review_input.absolute() == catalog_review_input.absolute())
+    if requested_catalog_review and (
+            catalog_review_input.is_symlink() or review != dedicated_catalog_review):
+        raise ValueError("dynamic review full_catalog must be a real dedicated subdirectory")
     protected_outputs = protected_existing + [DYNAMIC_REVIEW]
     protected_reviews = protected_existing + [DYNAMIC_OUTPUT]
     for protected in protected_outputs:
         if overlaps(output, protected.resolve()):
             raise ValueError(
                 f"dynamic output overlaps protected existing voice/review path: {protected}")
-    if review != dedicated_review and overlaps(review, dedicated_review):
+    if review not in {dedicated_review, dedicated_catalog_review} and overlaps(review, dedicated_review):
         raise ValueError(
             f"dynamic review overlaps protected existing voice/review path: {DYNAMIC_REVIEW}")
     for protected in protected_reviews:

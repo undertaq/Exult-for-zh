@@ -750,6 +750,8 @@ def test_dynamic_paths_reject_existing_voice_and_review_trees(tmp_path) -> None:
         tmp_path / "dynamic_audio", tmp_path / "dynamic_review")
     assert module.validate_dynamic_output_paths(
         tmp_path / "dynamic_audio", module.DYNAMIC_REVIEW)
+    assert module.validate_dynamic_output_paths(
+        tmp_path / "dynamic_audio", module.DYNAMIC_REVIEW / "full_catalog")
 
     with pytest.raises(ValueError, match="protected existing"):
         module.validate_dynamic_output_paths(
@@ -761,6 +763,19 @@ def test_dynamic_paths_reject_existing_voice_and_review_trees(tmp_path) -> None:
     with pytest.raises(ValueError, match="overlap"):
         module.validate_dynamic_output_paths(
             tmp_path / "same", tmp_path / "same" / "review")
+
+
+def test_dynamic_paths_reject_symlinked_full_catalog_review(tmp_path, monkeypatch) -> None:
+    review_root = tmp_path / "dynamic_review"
+    review_root.mkdir()
+    external_target = tmp_path / "external_review"
+    external_target.mkdir()
+    (review_root / "full_catalog").symlink_to(external_target, target_is_directory=True)
+    monkeypatch.setattr(module, "DYNAMIC_REVIEW", review_root)
+
+    with pytest.raises(ValueError, match="full_catalog"):
+        module.validate_dynamic_output_paths(
+            tmp_path / "dynamic_audio", review_root / "full_catalog")
 
 
 def test_dynamic_cli_rejects_negative_job_limit(monkeypatch) -> None:
