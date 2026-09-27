@@ -77,6 +77,84 @@ def test_usecode_confirmed_dynamic_speakers_have_gender_routes() -> None:
     assert genders["moryn"] == "male"
 
 
+def test_provisional_design_references_are_not_clone_eligible(monkeypatch, tmp_path: Path) -> None:
+    metadata_path = tmp_path / "metadata.json"
+    catalog_path = tmp_path / "catalog.json"
+    metadata_path.write_text(json.dumps({"rows": [
+        {
+            "npc": "Moryn", "lang": "en", "voice_id": "u6_moryn_prov",
+            "category": "male, guard", "breeze_audio": str(tmp_path / "moryn.wav"),
+            "text": "I am Moryn.", "casting_status": "provisional",
+        },
+        {
+            "npc": "Known NPC", "lang": "en", "voice_id": "u7_known",
+            "category": "male, townsperson", "breeze_audio": str(tmp_path / "known.wav"),
+            "text": "Greetings.", "casting_status": "approved",
+        },
+    ]}), encoding="utf-8")
+    catalog_path.write_text(json.dumps({"designs": {
+        "moryn": {
+            "npc": "Moryn", "npcs": ["Moryn"], "casting_status": "provisional",
+            "casting_inference": {"gender": "male"},
+        },
+        "known": {
+            "npc": "Known NPC", "npcs": ["Known NPC"],
+            "casting_inference": {"gender": "male"},
+        },
+    }}), encoding="utf-8")
+    monkeypatch.setattr(module, "REFERENCE_METADATA", metadata_path)
+    monkeypatch.setattr(module, "CATALOG", catalog_path)
+    monkeypatch.setattr(module, "_load_gender_overrides", lambda: {})
+
+    references, genders = module._load_reference_catalog()
+
+    assert ("moryn", "en") not in references
+    assert "moryn" not in genders
+    assert references[("known npc", "en")].reference_id == "u7_known"
+    assert genders["known npc"] == "male"
+
+
+def test_provisional_profile_cannot_use_legacy_filename_fallback(monkeypatch, tmp_path: Path) -> None:
+    catalog_path = tmp_path / "catalog.json"
+    metadata_path = tmp_path / "metadata.json"
+    refs_dir = tmp_path / "refs"
+    refs_dir.mkdir()
+    (refs_dir / "npc_moryn_en_ref.ogg").write_bytes(b"old unreviewed reference")
+    catalog_path.write_text(json.dumps({"designs": {
+        "moryn": {
+            "npc": "Moryn", "npcs": ["Moryn"], "casting_status": "provisional",
+            "casting_inference": {"gender": "male"},
+        },
+    }}), encoding="utf-8")
+    metadata_path.write_text(json.dumps({"rows": []}), encoding="utf-8")
+    monkeypatch.setattr(module, "REFERENCE_METADATA", metadata_path)
+    monkeypatch.setattr(module, "CATALOG", catalog_path)
+    monkeypatch.setattr(module, "REFS", refs_dir)
+    monkeypatch.setattr(module, "_load_gender_overrides", lambda: {})
+    breeze_refs, _ = module._load_reference_catalog()
+
+    with pytest.raises(FileNotFoundError, match="provisional"):
+        _reference_for_npc("Moryn", "en", None, breeze_refs, {}, {})
+
+
+def test_user_approved_reference_profiles_are_clone_eligible() -> None:
+    expected = {
+        "genericshrine": ("u6_genericshrine_provisional_cb6", "female"),
+        "holderguy": ("u6_holderguy_provisional_cb6", "male"),
+        "karma3": ("u6_karma3_provisional_cb6", "male"),
+        "karma4": ("u6_karma4_provisional_cb6", "female"),
+        "rowan": ("u6_rowan_provisional_cb6", "female"),
+        "moryn": ("u6_moryn_provisional_cb7", "male"),
+    }
+    references, genders = _load_reference_catalog()
+
+    for npc, (reference_id, gender) in expected.items():
+        assert references[(npc, "en")].reference_id == reference_id
+        assert references[(npc, "zh")].reference_id == reference_id
+        assert genders[npc] == gender
+        assert npc not in module.PROVISIONAL_NPCS
+
+
 def test_beh_lem_english_output_is_peak_normalized() -> None:
     job = SimpleNamespace(target_npc="Beh Lem", lang="en")
     assert hasattr(module, "normalize_audio_for_job")
@@ -396,6 +474,16 @@ def test_dynamic_route_audit_contains_usecode_reference_and_gender_evidence(
     assert speaker_route["reference_source"] == "U6 Breeze clone reference (npc_wanda)"
     assert speaker_route["speaker_route_source"] == "reviewed-usecode-override"
     assert speaker_route["speaker_route_evidence"] == "Compiled function sets the active face to Wanda."
+    assert report["counts_by_dimension"] == {
+        "language": {"en": 2, "zh": 2},
+        "role": {"narrator": 2, "speaker": 2},
+        "speaker": {"Wanda": 4},
+        "gender": {"female": 4},
+        "reference_source": {
+            "U6 Breeze clone reference (npc_wanda)": 2,
+            "U7 gender-matched narrator (npc_unknown)": 2,
+        },
+    }
 
 
 def test_dynamic_cli_writes_route_report_and_stops_before_inference_on_route_errors(

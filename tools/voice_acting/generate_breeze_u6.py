@@ -20,6 +20,7 @@ import re
 import sys
 import time
 import traceback
+from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -53,6 +54,7 @@ ROUTE_REVISION = "u6-breeze-role-routing-v2-gender-volume"
 SAMPLE_RATE = 24000
 MIX_CROSSFADE_SECONDS = 0.02
 MIX_GAP_SECONDS = 0.03
+PROVISIONAL_NPCS: set[str] = set()
 
 
 @dataclass(frozen=True)
@@ -317,11 +319,22 @@ def _load_gender_overrides(path: Path = GENDER_OVERRIDES) -> dict[str, str]:
 
 def _load_reference_catalog() -> tuple[dict[tuple[str, str], Reference], dict[str, str]]:
     data = load_json(REFERENCE_METADATA)
+    designs = load_json(CATALOG).get("designs", {})
+    global PROVISIONAL_NPCS
+    PROVISIONAL_NPCS = {
+        str(npc).casefold()
+        for design in designs.values()
+        if design.get("casting_status") == "provisional"
+        for npc in (design.get("npcs") or [design.get("npc")])
+        if npc
+    }
     refs: dict[tuple[str, str], Reference] = {}
     genders: dict[str, str] = {}
     metadata_genders: dict[str, str] = {}
     for row in data.get("rows", []):
         npc = str(row["npc"])
+        if row.get("casting_status") == "provisional" or npc.casefold() in PROVISIONAL_NPCS:
+            continue
         lang = str(row["lang"])
         category = str(row.get("category") or "")
         gender = category.split(",", 1)[0].strip().lower()
@@ -333,9 +346,10 @@ def _load_reference_catalog() -> tuple[dict[tuple[str, str], Reference], dict[st
             text=str(row["text"]),
             gender=gender,
         )
-    designs = load_json(CATALOG).get("designs", {})
     overrides = _load_gender_overrides()
     for design in designs.values():
+        if design.get("casting_status") == "provisional":
+            continue
         description = str(design.get("u6_description") or "")
         casting_gender = str((design.get("casting_inference") or {}).get("gender") or "").strip().lower()
         for npc in design.get("npcs") or [design.get("npc")]:
@@ -410,6 +424,10 @@ def _reference_for_npc(
     ref = breeze_refs.get((npc.casefold(), lang))
     if ref:
         return ref
+    if npc.casefold() in PROVISIONAL_NPCS:
+        raise FileNotFoundError(
+            f"reference for provisional voice {npc} is blocked pending review"
+        )
     fallback = REFS / f"npc_{_slug(npc)}_{lang}_ref.ogg"
     if fallback.is_file():
         return Reference(f"npc_{_slug(npc)}", fallback, "", "female")
@@ -874,11 +892,26 @@ def dynamic_route_resolution_report(
     jobs: list[BreezeCloneJob], errors: list[dict[str, Any]],
 ) -> dict[str, Any]:
     audit = audit_breeze_jobs(jobs)
+    dimensions = {
+        "language": "language",
+        "role": "role",
+        "speaker": "candidate",
+        "gender": "required_gender",
+        "reference_source": "reference_source",
+    }
+    counts_by_dimension = {
+        dimension: dict(sorted(
+            Counter(str(route.get(field) or "unknown") for route in audit["route_evidence"]).items(),
+            key=lambda item: item[0].casefold(),
+        ))
+        for dimension, field in dimensions.items()
+    }
     return {
         "schema": "u6-dynamic-voice-route-resolution-v1",
         "resolved_job_count": len(jobs),
         "unresolved_candidate_count": len(errors),
         "counts": audit["counts"],
+        "counts_by_dimension": counts_by_dimension,
         "narrator_gender_mismatches": audit["narrator_gender_mismatches"],
         "routes": audit["route_evidence"],
         "errors": errors,
